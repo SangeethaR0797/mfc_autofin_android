@@ -1,0 +1,5 @@
+
+[
+java:S1128"9Remove this unused import 'android.os.PersistableBundle'.(Ñƒ¨’øÿÿÿÿ8‘ïïÕ.
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ß’’
+]	java:S110	"<This class has 9 parents which is greater than 5 authorized.(õ™¬Çøÿÿÿÿ8ÁïÕ.

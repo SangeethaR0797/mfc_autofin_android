@@ -1,0 +1,3 @@
+include ':autofin'
+include ':app'
+rootProject.name = "mfc_autofin_android"
