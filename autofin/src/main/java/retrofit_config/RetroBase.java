@@ -19,10 +19,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit_services.RetrofitInterface;
 
-public class RetroBase
-{
+public class RetroBase {
 
-    public static final String BASE_URL="https://15.207.148.230:3007/api/customer/";
+    public static final String BASE_URL = "https://15.207.148.230:3007/api/customer/";
 
     private static HttpLoggingInterceptor logging = new HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -38,7 +37,6 @@ public class RetroBase
             .build();
 
 
-
     protected static Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
             .create();
@@ -51,6 +49,7 @@ public class RetroBase
 
 
     public static RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
+
     private static class TokenInterceptor implements Interceptor {
         private TokenInterceptor() {
 
@@ -77,12 +76,11 @@ public class RetroBase
 
         @Override
         public boolean verify(String hostname, SSLSession session) {
-            HostnameVerifier hv =
-                    HttpsURLConnection.getDefaultHostnameVerifier();
-            return hv.verify("15.207.148.230:3007", session);
+
+            return true;
         }
     }
 
 
-  }
+}
 
