@@ -5,6 +5,10 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
+
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -29,7 +33,11 @@ public class RetroBase
             .connectTimeout(1, TimeUnit.MINUTES)
             .readTimeout(180, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
+            .hostnameVerifier(new HotVerifier())
             .build();
+
+
+
     protected static Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
             .create();
@@ -61,6 +69,16 @@ public class RetroBase
 
             Response response = chain.proceed(initialRequest);
             return response;
+        }
+    }
+
+    public static class HotVerifier implements HostnameVerifier {
+
+        @Override
+        public boolean verify(String hostname, SSLSession session) {
+            HostnameVerifier hv =
+                    HttpsURLConnection.getDefaultHostnameVerifier();
+            return hv.verify("15.207.148.230:3007", session);
         }
     }
 
