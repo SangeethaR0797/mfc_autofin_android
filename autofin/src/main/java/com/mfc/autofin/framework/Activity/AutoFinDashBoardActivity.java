@@ -22,18 +22,18 @@ import retrofit_services.RetrofitInterface;
 
 import static retrofit_config.RetroBase.retrofitInterface;
 
-public class AutoFinDashBoardActivity extends AppCompatActivity  {
+public class AutoFinDashBoardActivity extends AppCompatActivity implements Callback<Object> {
 
     private static String TAG=AutoFinDashBoardActivity.class.getSimpleName();
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_autofin_dashboard);
-        getDashBoardInfo(AutoFinDashBoardActivity.this);
-        //retrofitInterface.getFromWeb(getCustomerDetailsReq(),"employee-type").enqueue(AutoFinDashBoardActivity.this);
+        //getDashBoardInfo(AutoFinDashBoardActivity.this);
+        retrofitInterface.getFromWeb(getCustomerDetailsReq(),"customer-listing").enqueue(this);
     }
 
-    private void getDashBoardInfo(final Context mContext) {
+    /*private void getDashBoardInfo(final Context mContext) {
         DashboardService.fetchDashBoardInfo(mContext, new RetrofitInterface() {
             @Override
             public void OnSuccess(Object obj) {
@@ -51,7 +51,7 @@ public class AutoFinDashBoardActivity extends AppCompatActivity  {
             }
         });
     }
-
+*/
 
     private CustomerDetailsReq getCustomerDetailsReq()
     {
@@ -62,11 +62,11 @@ public class AutoFinDashBoardActivity extends AppCompatActivity  {
         dealerData.setType("Dealer");
         dealerData.setId("242");
         dealerData.setTabName("");
-
+        customerDetailsReq.setData(dealerData);
         return customerDetailsReq;
     }
 
-   /* @Override
+    @Override
     public void onResponse(Call<Object> call, Response<Object> response)
     {
         String strRes = new Gson().toJson(response.body());
@@ -85,5 +85,5 @@ public class AutoFinDashBoardActivity extends AppCompatActivity  {
     @Override
     public void onFailure(Call<Object> call, Throwable t) {
 
-    }*/
+    }
 }

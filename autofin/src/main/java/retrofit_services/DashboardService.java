@@ -18,7 +18,7 @@ import static retrofit_config.RetroBase.retrofit;
 public class DashboardService extends RetroBase
 {
 
-    public static void fetchDashBoardInfo(Context mContext, final RetrofitInterface mHttpCallResponse) {
+    /*public static void fetchDashBoardInfo(Context mContext, final RetrofitInterface mHttpCallResponse) {
         DashBoardInterface mInterface = retrofit.create(DashBoardInterface.class);
 
         Call<CustomerDetailsRes> mCall = mInterface.getDashBoardInfo();
@@ -44,5 +44,5 @@ public class DashboardService extends RetroBase
         @Headers("Content-Type: application/json; charset=utf-8")
         @GET("/employee-type")
         Call<CustomerDetailsRes> getDashBoardInfo();
-    }
+    }*/
 }
