@@ -7,7 +7,11 @@ import java.util.concurrent.TimeUnit;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
+
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -20,23 +24,18 @@ public class RetroBase
 
     private static HttpLoggingInterceptor logging = new HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY);
-    /*protected static TokenInterceptor tokenInterceptor = new TokenInterceptor();*/
+    protected static TokenInterceptor tokenInterceptor = new TokenInterceptor();
     protected static OkHttpClient client = new OkHttpClient
             .Builder()
             .addInterceptor(logging)
+            .addInterceptor(tokenInterceptor)
             .connectTimeout(1, TimeUnit.MINUTES)
             .readTimeout(180, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
+            .hostnameVerifier(new HotVerifier())
             .build();
 
-    HostnameVerifier hostnameVerifier = new HostnameVerifier() {
-        @Override
-        public boolean verify(String hostname, SSLSession session) {
-            HostnameVerifier hv =
-                    HttpsURLConnection.getDefaultHostnameVerifier();
-            return hv.verify("15.207.148.230", session);
-        }
-    };
+
 
     protected static Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
@@ -50,8 +49,7 @@ public class RetroBase
 
 
     public static RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
-
-  /*  private static class TokenInterceptor implements Interceptor {
+    private static class TokenInterceptor implements Interceptor {
         private TokenInterceptor() {
 
         }
@@ -72,7 +70,17 @@ public class RetroBase
             return response;
         }
     }
-*/
+
+    public static class HotVerifier implements HostnameVerifier {
+
+        @Override
+        public boolean verify(String hostname, SSLSession session) {
+            HostnameVerifier hv =
+                    HttpsURLConnection.getDefaultHostnameVerifier();
+            return hv.verify("15.207.148.230:3007", session);
+        }
+    }
+
 
   }
 
