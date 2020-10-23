@@ -2,6 +2,8 @@ package retrofit_config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
@@ -62,7 +64,7 @@ public class RetroBase
             if (sToken != null) {
                 initialRequest = initialRequest.newBuilder()
                         // .addHeader("Accept", "application/json; charset=utf-8")
-                        .addHeader("token", "token")
+                        //.addHeader("token", "token")
                         .build();
             }
 
