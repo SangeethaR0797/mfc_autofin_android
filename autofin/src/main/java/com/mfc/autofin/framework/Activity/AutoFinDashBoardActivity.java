@@ -3,13 +3,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.mfc.autofin.framework.R;
 
@@ -22,23 +25,27 @@ import model.DealerData;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import utility.CustomFonts;
 
 import static retrofit_config.RetroBase.retrofitInterface;
 
-public class AutoFinDashBoardActivity extends AppCompatActivity implements Callback<Object> {
+public class AutoFinDashBoardActivity extends AppCompatActivity implements View.OnClickListener,Callback<Object> {
 
     private TextView tvTotalLeadsCount,tvTotalLeadsLabel,tvOpenLeadsCount,tvOpenLeadsLabel,tvBankLeadsCount,tvBankLeadsLabel,tvClosedLeadsCount,tvClosedLeadsLabel,tvLeadTypeLabel;
     RecyclerView leads_recyclerview;
+    LinearLayout llTotalLeads,llOpenLeads,llBankLeads,llClosedLeads;
+    FloatingActionButton fab_add_lead;
     private static String TAG=AutoFinDashBoardActivity.class.getSimpleName();
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_autofin_dashboard);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
         initViews();
-        retrofitInterface.getFromWeb(getCustomerDetailsReq(),"customer-listing").enqueue(this);
+        retrofitInterface.getFromWeb(getCustomerDetailsReq(""),"customer-listing").enqueue(this);
     }
 
     private void initViews()
@@ -53,11 +60,25 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements Callb
         tvClosedLeadsLabel=findViewById(R.id.tvClosedLeadsLabel);
         tvLeadTypeLabel=findViewById(R.id.tvLeadTypeLabel);
         leads_recyclerview=findViewById(R.id.leads_recyclerview);
+        llTotalLeads=findViewById(R.id.llTotalLeads);
+        llOpenLeads=findViewById(R.id.llOpenLeads);
+        llClosedLeads=findViewById(R.id.llClosedLeads);
+        llBankLeads=findViewById(R.id.llBankLeads);
+        fab_add_lead=findViewById(R.id.fab_add_lead);
+
+        llBankLeads.setOnClickListener(this);
+        llTotalLeads.setOnClickListener(this);
+        llClosedLeads.setOnClickListener(this);
+        llOpenLeads.setOnClickListener(this);
+        fab_add_lead.setOnClickListener(this);
+
+        tvLeadTypeLabel.setText(R.string.lbl_all_leads);
+        tvLeadTypeLabel.setTypeface(CustomFonts.getRobotoRegularTF(AutoFinDashBoardActivity.this));
 
     }
 
 
-    private CustomerDetailsReq getCustomerDetailsReq()
+    private CustomerDetailsReq getCustomerDetailsReq(String tabName)
     {
         CustomerDetailsReq customerDetailsReq=new CustomerDetailsReq();
         DealerData dealerData=new DealerData();
@@ -65,7 +86,7 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements Callb
         customerDetailsReq.setUserType("Dealer");
         dealerData.setType("Dealer");
         dealerData.setId("242");
-        dealerData.setTabName("");
+        dealerData.setTabName(tabName);
         customerDetailsReq.setData(dealerData);
         return customerDetailsReq;
     }
@@ -96,6 +117,8 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements Callb
     {
         try {
             DashboardAdapter rdmDealerListAdapter = new DashboardAdapter(AutoFinDashBoardActivity.this, data);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            leads_recyclerview.setLayoutManager(layoutManager);
             leads_recyclerview.setAdapter(rdmDealerListAdapter);
         } catch (NullPointerException nullPointerExc) {
             nullPointerExc.printStackTrace();
@@ -103,6 +126,35 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements Callb
             exception.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void onClick(View v) {
+
+       if(v.getId()==R.id.llOpenLeads)
+       {
+           retrofitInterface.getFromWeb(getCustomerDetailsReq("Open"),"customer-listing").enqueue(this);
+           tvLeadTypeLabel.setText(R.string.lbl_open_leads);
+       }
+       else if(v.getId()==R.id.llClosedLeads)
+       {
+           retrofitInterface.getFromWeb(getCustomerDetailsReq("RTO"),"customer-listing").enqueue(this);
+           tvLeadTypeLabel.setText(R.string.lbl_closed_leads);
+       }
+       else if(v.getId()==R.id.llBankLeads)
+       {
+           retrofitInterface.getFromWeb(getCustomerDetailsReq("Bank"),"customer-listing").enqueue(this);
+           tvLeadTypeLabel.setText(R.string.lbl_bank_leads);
+       }
+       else if(v.getId()==R.id.llTotalLeads)
+       {
+           retrofitInterface.getFromWeb(getCustomerDetailsReq(""),"customer-listing").enqueue(this);
+           tvLeadTypeLabel.setText(R.string.lbl_all_leads);
+       }
+       else if(v.getId()==R.id.fab_add_lead)
+       {
+           Toast.makeText(AutoFinDashBoardActivity.this,"Yet to implement",Toast.LENGTH_LONG).show();
+       }
     }
 
 }
