@@ -1,4 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="ai_timestamp_text_size">9.8sp</dimen>
+    <dimen name="text_size_30dp">30sp</dimen>
+    <dimen name="text_size_16sp">16sp</dimen>
+    <dimen name="text_size10dp">10dp</dimen>
+    <dimen name="text_size_20dp">20dp</dimen>
+    <dimen name="text_size10_5dp">10</dimen>
+    <dimen name="text_size_26dp">26dp</dimen>
+    <dimen name="text_size11dp">11dp</dimen>
+    <dimen name="text_size_27dp">27dp</dimen>
+    <dimen name="text_size_14dp">14dp</dimen>
+    <dimen name="text_size25dp">25dp</dimen>
+    <dimen name="text_size_4dp">4dp</dimen>
+    <dimen name="text_size_18dp">18dp</dimen>
+    <dimen name="view_height_1dp">1dp</dimen>
+    <dimen name="text_size_12dp">12dp</dimen>
+    <dimen name="text_size_5dp">5dp</dimen>
+    <dimen name="text_size40dp">40dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
+
 </resources>

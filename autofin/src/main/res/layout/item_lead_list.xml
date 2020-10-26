@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/text_size11dp"
+            android:layout_marginRight="@dimen/text_size11dp"
+            android:layout_marginTop="@dimen/text_size25dp">
+            <TextView
+                android:id="@+id/tvCaseID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="@string/lbl_case_id"
+                android:textColor="@color/grey_color"
+                android:textSize="@dimen/text_size_14dp" />
+            <TextView
+                android:id="@+id/tvCaseIDVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="@string/testing_string"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_14dp" />
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:layout_weight="1"
+                android:text="@string/testing_string"
+                android:textColor="@color/torch_red"
+                android:textSize="@dimen/text_size_16sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/text_size11dp"
+            android:layout_marginRight="@dimen/text_size11dp"
+            android:layout_marginBottom="@dimen/text_size_18dp">
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="@string/testing_string"
+                android:textColor="@color/grey_color"
+                android:textStyle="italic"
+                android:textSize="@dimen/text_size_14dp" />
+
+            <TextView
+                android:id="@+id/tvKYCStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:layout_weight="1"
+                android:layout_marginTop="@dimen/text_size25dp"
+                android:text="@string/testing_string"
+                android:textColor="@color/grey_color"
+                android:textStyle="italic"
+                android:textSize="@dimen/text_size_14dp" />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/view_height_1dp"
+            android:background="@color/grey_color"
+            android:layout_marginLeft="@dimen/text_size11dp"
+            android:layout_marginRight="@dimen/text_size11dp"
+            android:layout_marginBottom="@dimen/text_size_18dp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_size11dp"
+            android:layout_marginRight="@dimen/text_size_12dp">
+            <TextView
+                android:id="@+id/tvCName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_16sp"
+                android:textColor="@color/very_dark_blue"
+                android:text="@string/testing_string"/>
+            <TextView
+                android:id="@+id/tvCMobileNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvCName"
+                android:textSize="@dimen/text_size_14dp"
+                android:textColor="@color/grey_color"
+                android:layout_marginTop="@dimen/text_size_5dp"
+                android:text="@string/testing_string"/>
+            <TextView
+                android:id="@+id/tvCEmailId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvCMobileNum"
+                android:textSize="@dimen/text_size_14dp"
+                android:textColor="@color/grey_color"
+                android:text="@string/testing_string"/>
+
+            <Button
+                android:id="@+id/btnCallCustomer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:paddingLeft="@dimen/text_size_12dp"
+                android:background="@drawable/grey_box_1dp"
+                android:text="@string/lbl_call"
+                android:textColor="@color/navy_blue"
+                android:drawableLeft="@drawable/ic_call_24px"/>
+
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/view_height_1dp"
+            android:background="@color/grey_color"
+            android:layout_marginLeft="@dimen/text_size11dp"
+            android:layout_marginRight="@dimen/text_size11dp"
+            android:layout_marginTop="@dimen/text_size_18dp"
+            android:layout_marginBottom="@dimen/text_size_16sp"/>
+
+        <TextView
+            android:id="@+id/tvLeadComplete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:text="@string/btn_lbl_complete"
+            android:textColor="@color/navy_blue"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/text_size_16sp" />
+
+    </LinearLayout>
+</LinearLayout>
