@@ -1,5 +1,42 @@
 
-[
-java:S1128"9Remove this unused import 'android.os.PersistableBundle'.(Ñƒ¨’øÿÿÿÿ8‘ïïÕ.
 o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ß’’
-]	java:S110	"<This class has 9 parents which is greater than 5 authorized.(õ™¬Çøÿÿÿÿ8ÁïÕ.
+]	java:S110"<This class has 9 parents which is greater than 5 authorized.(¸×†¨ıÿÿÿÿ8·±½™Ö.
+
+java:S1450"_Remove the "tvBankLeadsCount" field and declare it as a local variable in the relevant methods.(Ï¹â¨şÿÿÿÿ8·±½™Ö.
+
+java:S1450"_Remove the "tvBankLeadsLabel" field and declare it as a local variable in the relevant methods.(Ï¹â¨şÿÿÿÿ8·±½™Ö.
+ƒ
+java:S1450"aRemove the "tvClosedLeadsCount" field and declare it as a local variable in the relevant methods.(Ï¹â¨şÿÿÿÿ8·±½™Ö.
+ƒ
+java:S1450"aRemove the "tvClosedLeadsLabel" field and declare it as a local variable in the relevant methods.(Ï¹â¨şÿÿÿÿ8·±½™Ö.
+€
+java:S1450"^Remove the "tvLeadTypeLabel" field and declare it as a local variable in the relevant methods.(Ï¹â¨şÿÿÿÿ8·±½™Ö.
+
+java:S1450"_Remove the "tvOpenLeadsCount" field and declare it as a local variable in the relevant methods.(Ï¹â¨şÿÿÿÿ8·±½™Ö.
+
+java:S1450"_Remove the "tvOpenLeadsLabel" field and declare it as a local variable in the relevant methods.(Ï¹â¨şÿÿÿÿ8·±½™Ö.
+‚
+java:S1450"`Remove the "tvTotalLeadsCount" field and declare it as a local variable in the relevant methods.(Ï¹â¨şÿÿÿÿ8·±½™Ö.
+‚
+java:S1450"`Remove the "tvTotalLeadsLabel" field and declare it as a local variable in the relevant methods.(Ï¹â¨şÿÿÿÿ8·±½™Ö.
+
+java:S1186["€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ï‚àÏ8·±½™Ö.
+j
+java:S3008 "NRename this field "TAG" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ã¸ÿ\8·±½™Ö.
+Q
+java:S1659"/Declare "tvTotalLeadsLabel" on a separate line.(Ï¹â¨şÿÿÿÿ8·±½™Ö.
+P
+java:S1659".Declare "tvOpenLeadsCount" on a separate line.(Ï¹â¨şÿÿÿÿ8·±½™Ö.
+P
+java:S1659".Declare "tvOpenLeadsLabel" on a separate line.(Ï¹â¨şÿÿÿÿ8·±½™Ö.
+P
+java:S1659".Declare "tvBankLeadsCount" on a separate line.(Ï¹â¨şÿÿÿÿ8·±½™Ö.
+P
+java:S1659".Declare "tvBankLeadsLabel" on a separate line.(Ï¹â¨şÿÿÿÿ8·±½™Ö.
+R
+java:S1659"0Declare "tvClosedLeadsCount" on a separate line.(Ï¹â¨şÿÿÿÿ8·±½™Ö.
+R
+java:S1659"0Declare "tvClosedLeadsLabel" on a separate line.(Ï¹â¨şÿÿÿÿ8·±½™Ö.
+O
+java:S1659"-Declare "tvLeadTypeLabel" on a separate line.(Ï¹â¨şÿÿÿÿ8·±½™Ö.
+y	java:S116"]Rename this field "leads_recyclerview" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Îâ¼Ì8·±½™Ö.

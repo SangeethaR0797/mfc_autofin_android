@@ -33,7 +33,7 @@ public class RetroBase {
             .connectTimeout(1, TimeUnit.MINUTES)
             .readTimeout(180, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
-            .hostnameVerifier(new HotVerifier())
+            .hostnameVerifier(new HostVerifier())
             .build();
 
 
@@ -72,7 +72,7 @@ public class RetroBase {
         }
     }
 
-    public static class HotVerifier implements HostnameVerifier {
+    public static class HostVerifier implements HostnameVerifier {
 
         @Override
         public boolean verify(String hostname, SSLSession session) {
