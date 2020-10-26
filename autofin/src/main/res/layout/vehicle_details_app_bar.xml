@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/lLayoutAppBar"
@@ -31,7 +31,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/autofin_title"
+                android:text="@string/vehicle_details_title"
                 android:layout_marginTop="14dp"
                 android:textColor="@color/very_dark_blue"
                 android:textSize="18dp"/>
@@ -44,22 +44,6 @@
                 android:layout_marginBottom="13dp"
                 android:textSize="12dp"/>
         </LinearLayout>
-        <ImageView
-            android:id="@+id/iv_app_bar_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="13dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="19dp"
-            app:srcCompat="@drawable/ic_autofin_search_24px"/>
     </LinearLayout>
-    <SearchView
-        android:id="@+id/searchView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:queryHint="Search Here"
-        android:iconifiedByDefault="false"
-        android:visibility="gone"
-        android:layout_alignParentTop="true"/>
 
 </LinearLayout>

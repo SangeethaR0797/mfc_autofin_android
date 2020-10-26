@@ -33,5 +33,13 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="lbl_all_leads">All Leads</string>
+    <string name="vehicle_category">PLEASE SELECT YOUR VEHICLE CATEGORY</string>
+    <string name="new_car">New Car</string>
+    <string name="old_car">Old Car</string>
+    <string name="new_bike">New Bike</string>
+    <string name="vehicle_details_title">VEHICLE DETAILS</string>
+    <string name="vehicle_reg_num_qn">DO YOU HAVE VEHICLE REGISTRATION NO?</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
 
 </resources>

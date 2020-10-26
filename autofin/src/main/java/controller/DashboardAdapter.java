@@ -18,10 +18,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.R;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import model.CustomerData;
 import utility.CustomFonts;
@@ -30,11 +31,14 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
 
     private String TAG = DashboardAdapter.class.getSimpleName();
     private Activity activity;
-    List<CustomerData> customerDataList;
+    ArrayList<CustomerData> customerDataList=new ArrayList<>();
+    ArrayList<CustomerData> customerDataListRes = new ArrayList<>();
+
 
     public DashboardAdapter(Activity activity, List<CustomerData> customerDataList) {
         this.activity = activity;
-        this.customerDataList = customerDataList;
+        this.customerDataList.addAll(customerDataList);
+        this.customerDataListRes.addAll(customerDataList);
     }
 
     @NonNull
@@ -142,6 +146,26 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
             tvCEmailId.setTypeface(CustomFonts.getRobotoRegularTF(activity));
             tvLeadComplete.setTypeface(CustomFonts.getRobotoRegularTF(activity));
         }
+    }
+
+    public void filter(String charText) {
+
+        charText = charText.toLowerCase(Locale.getDefault());
+        customerDataList.clear();
+        if (charText.length() == 0) {
+            customerDataList.addAll(customerDataListRes);
+        } else {
+            for (CustomerData it : customerDataListRes) {
+                if(it.getCustomerName()!=null)
+                {
+
+                    if (it.getCustomerName().toLowerCase(Locale.getDefault()).contains(charText)) {
+                        customerDataList.add(it);
+                    }
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
 }
