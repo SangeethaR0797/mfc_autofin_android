@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/g_white"
+    tools:context=".Activity.VehicleDetailsActivities.InsuranceTypeActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <include layout="@layout/vehicle_details_app_bar" />
+
+
+    <androidx.cardview.widget.CardView
+        style="@style/veh_details_card_view_1style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/text_size10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.8"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvGivenInsValidity"
+                        style="@style/VehDetails_PreviousData_Style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/text_size_19dp"
+                        android:text="@string/vehicle_insurance_validity" />
+
+                    <utility.RobotoMedium
+                        android:id="@+id/tvGivenInsValidityVal"
+                        style="@style/veh_details_previous_data_val_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/testing_string" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_green_tick"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_size25dp"
+                    android:layout_marginRight="@dimen/text_size_21dp"
+                    android:layout_weight="0.2"
+                    app:srcCompat="@drawable/ic_baseline_ac_unit_24" />
+
+            </LinearLayout>
+
+            <View
+                style="@style/view_style"
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <utility.RobotoMedium
+                android:id="@+id/tvGivenInsValidityEdit"
+                style="@style/edit_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_size10dp"
+            android:layout_marginTop="@dimen/text_size_8dp"
+            android:layout_marginRight="@dimen/text_size10dp"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <utility.RobotoMedium
+                    android:id="@+id/tvVehTypeQn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_22dp"
+                    android:layout_marginTop="@dimen/text_size_34dp"
+                    android:layout_marginRight="@dimen/text_size_19dp"
+                    android:text="@string/vehicle_type"
+                    android:textColor="@color/very_dark_blue"
+                    android:textSize="@dimen/text_size_16sp" />
+
+                <RadioGroup
+                    android:id="@+id/rgVehType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_19dp"
+                    android:layout_marginTop="@dimen/text_size_33dp">
+
+                    <RadioButton
+                        android:id="@+id/radioBtnComprehensive"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="@dimen/text_size_19dp"
+                        android:paddingLeft="@dimen/text_size_12dp"
+                        android:checked="false"
+                        android:text="@string/comprehensive"
+                        android:textColor="@color/very_dark_blue"
+                        android:textSize="@dimen/text_size_16sp" />
+
+                    <RadioButton
+                        android:id="@+id/radioBtnOldCar"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="@dimen/text_size_45dp"
+                        android:checked="false"
+                        android:paddingLeft="@dimen/text_size_12dp"
+                        android:text="@string/third_party"
+                        android:textColor="@color/very_dark_blue"
+                        android:textSize="@dimen/text_size_16sp" />
+                </RadioGroup>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</RelativeLayout>

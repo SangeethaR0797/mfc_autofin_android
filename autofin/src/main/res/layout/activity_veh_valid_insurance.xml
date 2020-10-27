@@ -4,14 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/g_white"
-    tools:context=".Activity.VehicleDetailsActivities.VehPostInspectionActivity">
+    tools:context=".Activity.VehicleDetailsActivities.VehValidInsuranceActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
     <include layout="@layout/vehicle_details_app_bar" />
+
 
     <androidx.cardview.widget.CardView
         style="@style/veh_details_card_view_1style"
@@ -38,15 +41,15 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tvGivenVehLoan"
+                        android:id="@+id/tvGivenVehPostInspection"
                         style="@style/VehDetails_PreviousData_Style"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/text_size_19dp"
-                        android:text="@string/vehicle_have_loan_qn" />
+                        android:text="@string/vehicle_valuation_post_inspection" />
 
                     <utility.RobotoMedium
-                        android:id="@+id/tvGivenVehLoanVal"
+                        android:id="@+id/tvGivenVehPostInspectionVal"
                         style="@style/veh_details_previous_data_val_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -70,7 +73,7 @@
                 android:layout_height="1dp" />
 
             <utility.RobotoMedium
-                android:id="@+id/tvGivenVehLoanEdit"
+                android:id="@+id/tvGivenVehPostInspectionEdit"
                 style="@style/edit_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -91,13 +94,13 @@
             android:orientation="vertical">
 
             <utility.RobotoMedium
-                android:id="@+id/tvVehValuationPostInspLbl"
+                android:id="@+id/tvValidInsuranceLbl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/text_size_20dp"
                 android:layout_marginTop="@dimen/text_size_30dp"
                 android:layout_marginBottom="@dimen/text_size_28dp"
-                android:text="@string/vehicle_valuation_post_inspection"
+                android:text="@string/vehicle_have_loan_qn"
                 android:textColor="@color/very_dark_blue"
                 android:textSize="@dimen/text_size_16sp" />
 
@@ -111,7 +114,7 @@
                 android:weightSum="2">
 
                 <Button
-                    android:id="@+id/btnVehPostInspectionYes"
+                    android:id="@+id/btnValidInsurance"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -121,7 +124,7 @@
                     android:textSize="@dimen/text_size_16sp" />
 
                 <Button
-                    android:id="@+id/btnVehPostInspectionNo"
+                    android:id="@+id/btnValidInsuranceNo"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/text_size10dp"
@@ -131,22 +134,21 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_16sp" />
             </LinearLayout>
-
-            <LinearLayout
+             <LinearLayout
                 android:id="@+id/llVehPostInspection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/text_size10dp"
                 android:layout_marginRight="@dimen/text_size10dp"
-                android:layout_marginBottom="@dimen/text_size_17dp"
+                android:layout_marginBottom="@dimen/text_size_34dp"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvPostInspectionAmountLbl"
+                    android:id="@+id/tvInsuranceAmountLbl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/text_size_5dp"
-                    android:text="@string/lbl_enter_amount"
+                    android:text="@string/lbl_enter_insurance_amount"
                     android:textColor="@color/grey_color"
                     android:textSize="@dimen/text_size_16sp" />
 
@@ -155,8 +157,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/testing_string"
-                    android:inputType="number"
                     android:textColor="@color/very_dark_blue"
+                    android:inputType="number"
                     android:textSize="@dimen/text_size_16sp" />
 
                 <View
@@ -173,7 +175,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
-<include layout="@layout/autofin_next_btn" />
+        <include layout="@layout/autofin_next_btn" />
     </LinearLayout>
 </RelativeLayout>
-

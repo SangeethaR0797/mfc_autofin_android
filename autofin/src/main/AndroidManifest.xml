@@ -14,7 +14,10 @@
         android:hardwareAccelerated="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.VehicleDetailsActivities.VehPostInspectionActivity"></activity>
+        <activity android:name=".Activity.VehicleDetailsActivities.InsuranceTypeActivity"></activity>
+        <activity android:name=".Activity.VehicleDetailsActivities.VehInsuranceValidityActivity" />
+        <activity android:name=".Activity.VehicleDetailsActivities.VehValidInsuranceActivity" />
+        <activity android:name=".Activity.VehicleDetailsActivities.VehPostInspectionActivity" />
         <activity android:name=".Activity.VehicleDetailsActivities.CarHaveLoanCurrentlyActivity" />
         <activity android:name=".Activity.VehicleDetailsActivities.VehicleOwnerActivity" />
         <activity android:name=".Activity.VehicleDetailsActivities.VehicleVariantActivity" />

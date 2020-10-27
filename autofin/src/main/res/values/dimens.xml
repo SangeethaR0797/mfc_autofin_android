@@ -45,5 +45,8 @@
     <dimen name="text_size_28dp">28dp</dimen>
     <dimen name="text_size_31dp">31dp</dimen>
     <dimen name="text_size_17dp">17dp</dimen>
+    <dimen name="text_size_19sp">19sp</dimen>
+    <dimen name="text_size_77dp">77dp</dimen>
+    <dimen name="text_size_45dp">45dp</dimen>
 
 </resources>

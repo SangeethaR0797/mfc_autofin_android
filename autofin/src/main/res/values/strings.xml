@@ -63,5 +63,12 @@
     <string name="vehicle_have_loan_qn">DOES THE CAR HAVE LOAN CURRENTLY?</string>
     <string name="vehicle_valuation_post_inspection">VEHICLE VALUATION POST INSPECTION</string>
     <string name="lbl_enter_amount">Enter Amount</string>
+    <string name="lbl_enter_insurance_amount">Insurance Amount</string>
+    <string name="next_btn_text">NEXT</string>
+    <string name="vehicle_insurance_validity">INSURANCE VALIDITY</string>
+    <string name="date_format_hint">dd mm yyyy</string>
+    <string name="vehicle_type">INSURANCE TYPE FOR YOUR VEHICLE?</string>
+    <string name="comprehensive">Comprehensive</string>
+    <string name="third_party">Third party</string>
 
 </resources>
