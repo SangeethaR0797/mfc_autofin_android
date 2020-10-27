@@ -14,8 +14,24 @@
         android:hardwareAccelerated="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.VehRegNumActivity"></activity>
-        <activity android:name=".Activity.VehicleCategory" />
+        <activity android:name=".Activity.VehicleDetailsActivities.VehPostInspectionActivity"></activity>
+        <activity android:name=".Activity.VehicleDetailsActivities.CarHaveLoanCurrentlyActivity" />
+        <activity android:name=".Activity.VehicleDetailsActivities.VehicleOwnerActivity" />
+        <activity android:name=".Activity.VehicleDetailsActivities.VehicleVariantActivity" />
+        <activity android:name=".Activity.VehicleDetailsActivities.VehicleModelActivity" />
+        <activity android:name=".Activity.VehicleDetailsActivities.VehicleMakeActivity" />
+        <activity android:name=".Activity.VehicleDetailsActivities.VehRegistrationYear" />
+        <activity android:name=".Activity.VehicleDetailsActivities.VehRegNumAns" />
+        <activity
+            android:name=".Activity.VehicleDetailsActivities.VehRegNumActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".Activity.VehicleDetailsActivities.VehicleCategory"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
             android:name=".Activity.AutoFinDashBoardActivity"
             android:configChanges="keyboardHidden|orientation"

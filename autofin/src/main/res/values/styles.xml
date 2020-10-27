@@ -43,5 +43,83 @@
         <item name="android:paddingBottom">26dp</item>
     </style>
 
+    <style name="VehDetails_PreviousData_Style">
+        <item name="android:layout_marginLeft">@dimen/text_size_21dp</item>
+        <item name="android:layout_marginTop">@dimen/text_size25dp</item>
+        <item name="android:textColor">@color/grey_color</item>
+        <item name="android:textSize">@dimen/text_size_14dp</item>
+    </style>
+
+    <style name="view_style">
+        <item name="android:background">@color/g_white</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">@dimen/text_size_19dp</item>
+        <item name="android:layout_marginLeft">@dimen/text_size_21dp</item>
+        <item name="android:layout_marginRight">@dimen/text_size_21dp</item>
+        <item name="android:layout_marginBottom">@dimen/text_size_12dp</item>
+    </style>
+
+    <style name="edit_style">
+        <item name="android:background">@color/white</item>
+        <item name="android:text">@string/edit_btn_lbl</item>
+        <item name="android:textSize">@dimen/text_size_14dp</item>
+        <item name="android:textColor">@color/navy_blue</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:drawableRight">@drawable/ic_edit</item>
+    </style>
+
+    <style name="veh_details_card_view_2">
+        <item name="android:layout_marginLeft">@dimen/text_size10dp</item>
+        <item name="android:layout_marginRight">@dimen/text_size10dp</item>
+        <item name="android:layout_marginBottom">@dimen/text_size_95px</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="select_lbl_style">
+        <item name="android:layout_marginLeft">@dimen/text_size_20dp</item>
+        <item name="android:layout_marginTop">@dimen/text_size_29dp</item>
+        <item name="android:textColor">@color/very_dark_blue</item>
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+    </style>
+
+    <style name="select_veh_details_ll_style">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:weightSum">2</item>
+        <item name="android:layout_marginTop">@dimen/text_size_33dp</item>
+        <item name="android:layout_marginLeft">@dimen/text_size11dp</item>
+        <item name="android:layout_marginRight">@dimen/text_size_21dp</item>
+    </style>
+
+    <style name="veh_details_selected_style">
+        <item name="android:textColorHint">@color/grey_color</item>
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+        <item name="android:layout_gravity">center_vertical|left</item>
+        <item name="android:gravity">left|center_vertical</item>
+    </style>
+
+    <style name="c2_view_2_style">
+        <item name="android:background">@color/g_white</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginLeft">@dimen/text_size11dp</item>
+        <item name="android:layout_marginRight">@dimen/text_size11dp</item>
+        <item name="android:layout_marginBottom">@dimen/text_size_64dp</item>
+    </style>
+
+    <style name="veh_details_card_view_1style">
+        <item name="android:layout_marginLeft">@dimen/text_size10dp</item>
+        <item name="android:layout_marginTop">@dimen/text_size_22dp</item>
+        <item name="android:layout_marginRight">@dimen/text_size10dp</item>
+        <item name="android:layout_marginBottom">@dimen/text_size10dp</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="veh_details_previous_data_val_style">
+        <item name="android:textColor">@color/very_dark_blue</item>
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+        <item name="android:layout_marginLeft">@dimen/text_size_21dp</item>
+        <item name="android:layout_marginTop">@dimen/text_size_4dp</item>
+    </style>
+
 
 </resources>

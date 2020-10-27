@@ -24,6 +24,6 @@ public class RobotoMedium extends AppCompatTextView {
 
     public void init() {
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "roboto_medium.ttf");
-        setTypeface(tf ,Typeface.NORMAL);
+        setTypeface(tf, Typeface.NORMAL);
     }
 }

@@ -2,184 +2,184 @@ package model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-public class CustomerData
-{
 
-        @SerializedName("customerId")
-        @Expose
-        private Integer customerId;
-        @SerializedName("caseId")
-        @Expose
-        private String caseId;
-        @SerializedName("creationDate")
-        @Expose
-        private String creationDate;
-        @SerializedName("customerName")
-        @Expose
-        private String customerName;
-        @SerializedName("make")
-        @Expose
-        private String make;
-        @SerializedName("model")
-        @Expose
-        private String model;
-        @SerializedName("variant")
-        @Expose
-        private String variant;
-        @SerializedName("year")
-        @Expose
-        private String year;
-        @SerializedName("email")
-        @Expose
-        private String email;
-        @SerializedName("mobile")
-        @Expose
-        private String mobile;
-        @SerializedName("status")
-        @Expose
-        private String status;
-        @SerializedName("mainStatus")
-        @Expose
-        private String mainStatus;
-        @SerializedName("bankStatus")
-        @Expose
-        private String bankStatus;
-        @SerializedName("rtoStatus")
-        @Expose
-        private String rtoStatus;
-        @SerializedName("rtoComment")
-        @Expose
-        private Object rtoComment;
-        @SerializedName("assignedBank")
-        @Expose
-        private Object assignedBank;
+public class CustomerData {
 
-        public Integer getCustomerId() {
-            return customerId;
-        }
+    @SerializedName("customerId")
+    @Expose
+    private Integer customerId;
+    @SerializedName("caseId")
+    @Expose
+    private String caseId;
+    @SerializedName("creationDate")
+    @Expose
+    private String creationDate;
+    @SerializedName("customerName")
+    @Expose
+    private String customerName;
+    @SerializedName("make")
+    @Expose
+    private String make;
+    @SerializedName("model")
+    @Expose
+    private String model;
+    @SerializedName("variant")
+    @Expose
+    private String variant;
+    @SerializedName("year")
+    @Expose
+    private String year;
+    @SerializedName("email")
+    @Expose
+    private String email;
+    @SerializedName("mobile")
+    @Expose
+    private String mobile;
+    @SerializedName("status")
+    @Expose
+    private String status;
+    @SerializedName("mainStatus")
+    @Expose
+    private String mainStatus;
+    @SerializedName("bankStatus")
+    @Expose
+    private String bankStatus;
+    @SerializedName("rtoStatus")
+    @Expose
+    private String rtoStatus;
+    @SerializedName("rtoComment")
+    @Expose
+    private Object rtoComment;
+    @SerializedName("assignedBank")
+    @Expose
+    private Object assignedBank;
 
-        public void setCustomerId(Integer customerId) {
-            this.customerId = customerId;
-        }
+    public Integer getCustomerId() {
+        return customerId;
+    }
 
-        public String getCaseId() {
-            return caseId;
-        }
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
+    }
 
-        public void setCaseId(String caseId) {
-            this.caseId = caseId;
-        }
+    public String getCaseId() {
+        return caseId;
+    }
 
-        public String getCreationDate() {
-            return creationDate;
-        }
+    public void setCaseId(String caseId) {
+        this.caseId = caseId;
+    }
 
-        public void setCreationDate(String creationDate) {
-            this.creationDate = creationDate;
-        }
+    public String getCreationDate() {
+        return creationDate;
+    }
 
-        public String getCustomerName() {
-            return customerName;
-        }
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
+    }
 
-        public void setCustomerName(String customerName) {
-            this.customerName = customerName;
-        }
+    public String getCustomerName() {
+        return customerName;
+    }
 
-        public String getMake() {
-            return make;
-        }
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
 
-        public void setMake(String make) {
-            this.make = make;
-        }
+    public String getMake() {
+        return make;
+    }
 
-        public String getModel() {
-            return model;
-        }
+    public void setMake(String make) {
+        this.make = make;
+    }
 
-        public void setModel(String model) {
-            this.model = model;
-        }
+    public String getModel() {
+        return model;
+    }
 
-        public String getVariant() {
-            return variant;
-        }
+    public void setModel(String model) {
+        this.model = model;
+    }
 
-        public void setVariant(String variant) {
-            this.variant = variant;
-        }
+    public String getVariant() {
+        return variant;
+    }
 
-        public String getYear() {
-            return year;
-        }
+    public void setVariant(String variant) {
+        this.variant = variant;
+    }
 
-        public void setYear(String year) {
-            this.year = year;
-        }
+    public String getYear() {
+        return year;
+    }
 
-        public String getEmail() {
-            return email;
-        }
+    public void setYear(String year) {
+        this.year = year;
+    }
 
-        public void setEmail(String email) {
-            this.email = email;
-        }
+    public String getEmail() {
+        return email;
+    }
 
-        public String getMobile() {
-            return mobile;
-        }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-        public void setMobile(String mobile) {
-            this.mobile = mobile;
-        }
+    public String getMobile() {
+        return mobile;
+    }
 
-        public String getStatus() {
-            return status;
-        }
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
-        public void setStatus(String status) {
-            this.status = status;
-        }
+    public String getStatus() {
+        return status;
+    }
 
-        public String getMainStatus() {
-            return mainStatus;
-        }
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-        public void setMainStatus(String mainStatus) {
-            this.mainStatus = mainStatus;
-        }
+    public String getMainStatus() {
+        return mainStatus;
+    }
 
-        public String getBankStatus() {
-            return bankStatus;
-        }
+    public void setMainStatus(String mainStatus) {
+        this.mainStatus = mainStatus;
+    }
 
-        public void setBankStatus(String bankStatus) {
-            this.bankStatus = bankStatus;
-        }
+    public String getBankStatus() {
+        return bankStatus;
+    }
 
-        public String getRtoStatus() {
-            return rtoStatus;
-        }
+    public void setBankStatus(String bankStatus) {
+        this.bankStatus = bankStatus;
+    }
 
-        public void setRtoStatus(String rtoStatus) {
-            this.rtoStatus = rtoStatus;
-        }
+    public String getRtoStatus() {
+        return rtoStatus;
+    }
 
-        public Object getRtoComment() {
-            return rtoComment;
-        }
+    public void setRtoStatus(String rtoStatus) {
+        this.rtoStatus = rtoStatus;
+    }
 
-        public void setRtoComment(Object rtoComment) {
-            this.rtoComment = rtoComment;
-        }
+    public Object getRtoComment() {
+        return rtoComment;
+    }
 
-        public Object getAssignedBank() {
-            return assignedBank;
-        }
+    public void setRtoComment(Object rtoComment) {
+        this.rtoComment = rtoComment;
+    }
 
-        public void setAssignedBank(Object assignedBank) {
-            this.assignedBank = assignedBank;
-        }
+    public Object getAssignedBank() {
+        return assignedBank;
+    }
+
+    public void setAssignedBank(Object assignedBank) {
+        this.assignedBank = assignedBank;
+    }
 
 }

@@ -1,215 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/g_white">
+    android:background="@color/g_white"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-    <LinearLayout
-        android:id="@+id/llAppBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <include layout="@layout/autofin_action_bar"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="2"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/text_size10dp"
-        android:layout_marginLeft="@dimen/text_size10dp"
-        android:layout_marginRight="@dimen/text_size10dp">
-    <LinearLayout
-        android:id="@+id/llTotalLeads"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/autofin_tab_shadow"
-        android:orientation="horizontal"
-        android:layout_weight="1"
-        android:weightSum="2"
-        >
-        <utility.RobotoMedium
-            android:id="@+id/tvTotalLeadsCount"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="@dimen/text_size_30dp"
-            android:textColor="@color/very_dark_blue"
-            android:text="@string/testing_number"
-            android:gravity="center_vertical|end"
-            android:paddingTop="@dimen/text_size_20dp"
-            android:paddingBottom="@dimen/text_size_20dp"
-            tools:ignore="NestedWeights" />
-        <utility.RobotoMedium
-            android:id="@+id/tvTotalLeadsLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/lbl_total_leads"
-            android:textSize="@dimen/text_size_16sp"
-            android:textColor="@color/very_dark_blue"
-            android:gravity="start|center_vertical"
-            android:paddingTop="@dimen/text_size_30dp"
-            android:paddingBottom="@dimen/text_size_26dp"
-            android:paddingLeft="@dimen/text_size10dp"
-         />
-    </LinearLayout>
+
         <LinearLayout
-            android:id="@+id/llOpenLeads"
-            android:layout_width="0dp"
+            android:id="@+id/llAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/autofin_action_bar" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/autofin_tab_shadow"
-            android:layout_weight="1"
-            android:weightSum="2"
             android:layout_marginLeft="@dimen/text_size10dp"
-            >
-            <utility.RobotoMedium
-                android:id="@+id/tvOpenLeadsCount"
+            android:layout_marginTop="@dimen/text_size10dp"
+            android:layout_marginRight="@dimen/text_size10dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:id="@+id/llTotalLeads"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="@dimen/text_size_30dp"
-                android:textColor="@color/very_dark_blue"
-                android:gravity="center_vertical|end"
-                android:text="@string/testing_number"
-                android:paddingTop="@dimen/text_size_20dp"
-                android:paddingBottom="@dimen/text_size_20dp"
-                android:paddingLeft="@dimen/text_size11dp"
-                />
-            <utility.RobotoMedium
-                android:id="@+id/tvOpenLeadsLabel"
+                android:background="@drawable/autofin_tab_shadow"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <utility.RobotoMedium
+                    android:id="@+id/tvTotalLeadsCount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|end"
+                    android:paddingTop="@dimen/text_size_20dp"
+                    android:paddingBottom="@dimen/text_size_20dp"
+                    android:text="@string/testing_number"
+                    android:textColor="@color/very_dark_blue"
+                    android:textSize="@dimen/text_size_30dp"
+                    tools:ignore="NestedWeights" />
+
+                <utility.RobotoMedium
+                    android:id="@+id/tvTotalLeadsLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start|center_vertical"
+                    android:paddingLeft="@dimen/text_size10dp"
+                    android:paddingTop="@dimen/text_size_30dp"
+                    android:paddingBottom="@dimen/text_size_26dp"
+                    android:text="@string/lbl_total_leads"
+                    android:textColor="@color/very_dark_blue"
+                    android:textSize="@dimen/text_size_16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llOpenLeads"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size10dp"
                 android:layout_weight="1"
-                android:textSize="@dimen/text_size_16sp"
-                android:textColor="@color/very_dark_blue"
-                android:text="@string/lbl_open_leads"
-                android:paddingLeft="@dimen/text_size10dp"
-                android:paddingTop="@dimen/text_size_30dp"
-                android:paddingBottom="@dimen/text_size_26dp"
-                android:gravity="start|center_vertical"
-                />
+                android:background="@drawable/autofin_tab_shadow"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <utility.RobotoMedium
+                    android:id="@+id/tvOpenLeadsCount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|end"
+                    android:paddingLeft="@dimen/text_size11dp"
+                    android:paddingTop="@dimen/text_size_20dp"
+                    android:paddingBottom="@dimen/text_size_20dp"
+                    android:text="@string/testing_number"
+                    android:textColor="@color/very_dark_blue"
+                    android:textSize="@dimen/text_size_30dp" />
+
+                <utility.RobotoMedium
+                    android:id="@+id/tvOpenLeadsLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start|center_vertical"
+                    android:paddingLeft="@dimen/text_size10dp"
+                    android:paddingTop="@dimen/text_size_30dp"
+                    android:paddingBottom="@dimen/text_size_26dp"
+                    android:text="@string/lbl_open_leads"
+                    android:textColor="@color/very_dark_blue"
+                    android:textSize="@dimen/text_size_16sp" />
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="2"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/text_size11dp"
-        android:layout_marginLeft="@dimen/text_size10dp"
-        android:layout_marginRight="@dimen/text_size10dp">
         <LinearLayout
-            android:id="@+id/llBankLeads"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/autofin_tab_shadow"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:weightSum="2"
-            >
-            <utility.RobotoMedium
-                android:id="@+id/tvBankLeadsCount"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_size_30dp"
-                android:textColor="@color/very_dark_blue"
-                android:text="@string/testing_number"
-                android:gravity="center_vertical|end"
-                android:paddingTop="@dimen/text_size_20dp"
-                android:paddingBottom="@dimen/text_size_20dp"
-                tools:ignore="NestedWeights" />
-            <utility.RobotoMedium
-                android:id="@+id/tvBankLeadsLabel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/lbl_bank_leads"
-                android:textSize="@dimen/text_size_16sp"
-                android:textColor="@color/very_dark_blue"
-                android:gravity="start|center_vertical"
-                android:paddingTop="@dimen/text_size_30dp"
-                android:paddingBottom="@dimen/text_size_26dp"
-                android:paddingLeft="@dimen/text_size10dp" />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/llClosedLeads"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/autofin_tab_shadow"
-            android:layout_weight="1"
-            android:weightSum="2"
             android:layout_marginLeft="@dimen/text_size10dp"
-            >
-            <utility.RobotoMedium
-                android:id="@+id/tvClosedLeadsCount"
+            android:layout_marginTop="@dimen/text_size11dp"
+            android:layout_marginRight="@dimen/text_size10dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:id="@+id/llBankLeads"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="@dimen/text_size_30dp"
-                android:textColor="@color/very_dark_blue"
-                android:gravity="center_vertical|end"
-                android:text="@string/testing_number"
-                android:paddingTop="@dimen/text_size_20dp"
-                android:paddingBottom="@dimen/text_size_20dp"
-                android:paddingLeft="@dimen/text_size11dp"
-                />
-            <utility.RobotoMedium
-                android:id="@+id/tvClosedLeadsLabel"
+                android:background="@drawable/autofin_tab_shadow"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <utility.RobotoMedium
+                    android:id="@+id/tvBankLeadsCount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|end"
+                    android:paddingTop="@dimen/text_size_20dp"
+                    android:paddingBottom="@dimen/text_size_20dp"
+                    android:text="@string/testing_number"
+                    android:textColor="@color/very_dark_blue"
+                    android:textSize="@dimen/text_size_30dp"
+                    tools:ignore="NestedWeights" />
+
+                <utility.RobotoMedium
+                    android:id="@+id/tvBankLeadsLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start|center_vertical"
+                    android:paddingLeft="@dimen/text_size10dp"
+                    android:paddingTop="@dimen/text_size_30dp"
+                    android:paddingBottom="@dimen/text_size_26dp"
+                    android:text="@string/lbl_bank_leads"
+                    android:textColor="@color/very_dark_blue"
+                    android:textSize="@dimen/text_size_16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llClosedLeads"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size10dp"
                 android:layout_weight="1"
-                android:textSize="@dimen/text_size_16sp"
-                android:textColor="@color/very_dark_blue"
-                android:text="@string/lbl_closed_leads"
-                android:paddingLeft="@dimen/text_size10dp"
-                android:paddingTop="@dimen/text_size_30dp"
-                android:paddingBottom="@dimen/text_size_26dp"
-                android:gravity="start|center_vertical"
-                />
+                android:background="@drawable/autofin_tab_shadow"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <utility.RobotoMedium
+                    android:id="@+id/tvClosedLeadsCount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|end"
+                    android:paddingLeft="@dimen/text_size11dp"
+                    android:paddingTop="@dimen/text_size_20dp"
+                    android:paddingBottom="@dimen/text_size_20dp"
+                    android:text="@string/testing_number"
+                    android:textColor="@color/very_dark_blue"
+                    android:textSize="@dimen/text_size_30dp" />
+
+                <utility.RobotoMedium
+                    android:id="@+id/tvClosedLeadsLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start|center_vertical"
+                    android:paddingLeft="@dimen/text_size10dp"
+                    android:paddingTop="@dimen/text_size_30dp"
+                    android:paddingBottom="@dimen/text_size_26dp"
+                    android:text="@string/lbl_closed_leads"
+                    android:textColor="@color/very_dark_blue"
+                    android:textSize="@dimen/text_size_16sp" />
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tvLeadTypeLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/text_size_27dp"
-        android:layout_marginLeft="@dimen/text_size_14dp"
-        android:layout_marginBottom="@dimen/text_size10dp"
-        android:text="@string/testing_string"
-        android:textColor="@color/grey_color"
-        android:textSize="@dimen/text_size_14dp" />
+        <TextView
+            android:id="@+id/tvLeadTypeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_size_14dp"
+            android:layout_marginTop="@dimen/text_size_27dp"
+            android:layout_marginBottom="@dimen/text_size10dp"
+            android:text="@string/testing_string"
+            android:textColor="@color/grey_color"
+            android:textSize="@dimen/text_size_14dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/leads_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/text_size10dp"
             android:layout_marginLeft="@dimen/text_size10dp"
-            android:scrollbars="none"/>
-</LinearLayout>
+            android:layout_marginRight="@dimen/text_size10dp"
+            android:scrollbars="none" />
+    </LinearLayout>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_lead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:backgroundTint="@color/navy_blue"
-        app:srcCompat="@drawable/ic_baseline_add_24"
         android:layout_marginRight="@dimen/text_size40dp"
         android:layout_marginBottom="@dimen/text_size40dp"
+        android:backgroundTint="@color/navy_blue"
+        app:srcCompat="@drawable/ic_baseline_add_24"
         tools:ignore="ContentDescription" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

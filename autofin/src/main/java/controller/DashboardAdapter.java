@@ -31,7 +31,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
 
     private String TAG = DashboardAdapter.class.getSimpleName();
     private Activity activity;
-    ArrayList<CustomerData> customerDataList=new ArrayList<>();
+    ArrayList<CustomerData> customerDataList = new ArrayList<>();
     ArrayList<CustomerData> customerDataListRes = new ArrayList<>();
 
 
@@ -108,12 +108,10 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
         holder.btnCallCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent callIntent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:" + holder.tvCMobileNum.getText().toString()));
+                Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + holder.tvCMobileNum.getText().toString()));
                 if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CALL_PHONE},1);
-                }
-                else
-                {
+                    ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CALL_PHONE}, 1);
+                } else {
                     activity.startActivity(callIntent);
                 }
             }
@@ -128,20 +126,20 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvCaseIDVal,tvStatus,tvDate,tvKYCStatus,tvCName,tvCMobileNum,tvCEmailId,tvLeadComplete;
+        TextView tvCaseIDVal, tvStatus, tvDate, tvKYCStatus, tvCName, tvCMobileNum, tvCEmailId, tvLeadComplete;
         Button btnCallCustomer;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tvCaseIDVal = itemView.findViewById(R.id.tvCaseIDVal);
-            tvStatus= itemView.findViewById(R.id.tvStatus);
-            tvDate= itemView.findViewById(R.id.tvDate);
-            tvKYCStatus= itemView.findViewById(R.id.tvKYCStatus);
-            tvCName= itemView.findViewById(R.id.tvCName);
-            tvCMobileNum= itemView.findViewById(R.id.tvCMobileNum);
-            tvCEmailId= itemView.findViewById(R.id.tvCEmailId);
-            tvLeadComplete= itemView.findViewById(R.id.tvLeadComplete);
-            btnCallCustomer=itemView.findViewById(R.id.btnCallCustomer);
+            tvStatus = itemView.findViewById(R.id.tvStatus);
+            tvDate = itemView.findViewById(R.id.tvDate);
+            tvKYCStatus = itemView.findViewById(R.id.tvKYCStatus);
+            tvCName = itemView.findViewById(R.id.tvCName);
+            tvCMobileNum = itemView.findViewById(R.id.tvCMobileNum);
+            tvCEmailId = itemView.findViewById(R.id.tvCEmailId);
+            tvLeadComplete = itemView.findViewById(R.id.tvLeadComplete);
+            btnCallCustomer = itemView.findViewById(R.id.btnCallCustomer);
             tvCMobileNum.setTypeface(CustomFonts.getRobotoRegularTF(activity));
             tvCEmailId.setTypeface(CustomFonts.getRobotoRegularTF(activity));
             tvLeadComplete.setTypeface(CustomFonts.getRobotoRegularTF(activity));
@@ -156,8 +154,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
             customerDataList.addAll(customerDataListRes);
         } else {
             for (CustomerData it : customerDataListRes) {
-                if(it.getCustomerName()!=null)
-                {
+                if (it.getCustomerName() != null) {
 
                     if (it.getCustomerName().toLowerCase(Locale.getDefault()).contains(charText)) {
                         customerDataList.add(it);

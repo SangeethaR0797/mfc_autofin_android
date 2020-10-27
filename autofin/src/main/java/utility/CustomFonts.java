@@ -3,10 +3,8 @@ package utility;
 import android.content.Context;
 import android.graphics.Typeface;
 
-public class CustomFonts
-{
-    public static Typeface getRobotoMedium(Context context)
-    {
+public class CustomFonts {
+    public static Typeface getRobotoMedium(Context context) {
         Typeface robotoMediumTF = Typeface.createFromAsset(context.getAssets(), "roboto_medium.ttf");
         return robotoMediumTF;
     }

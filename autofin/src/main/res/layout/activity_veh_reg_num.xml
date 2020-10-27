@@ -6,52 +6,64 @@
     android:layout_height="match_parent"
     android:background="@color/g_white"
     android:orientation="vertical"
-    tools:context=".Activity.VehRegNumActivity">
+    tools:context=".Activity.VehicleDetailsActivities.VehRegNumActivity">
+
     <include layout="@layout/vehicle_details_app_bar" />
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/text_size_8dp"
         android:layout_marginLeft="@dimen/text_size10dp"
+        android:layout_marginTop="@dimen/text_size_8dp"
         android:layout_marginRight="@dimen/text_size10dp"
         android:background="@color/white">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <utility.RobotoMedium
+                android:id="@+id/tvUserHaveVehNumQn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/text_size40dp"
                 android:layout_marginLeft="@dimen/text_size11dp"
+                android:layout_marginTop="@dimen/text_size40dp"
                 android:layout_marginRight="@dimen/text_size_27dp"
                 android:text="@string/vehicle_reg_num_qn"
                 android:textColor="@color/very_dark_blue"
-                android:textSize="@dimen/text_size_16sp"/>
+                android:textSize="@dimen/text_size_16sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginLeft="@dimen/text_size11dp"
                 android:layout_marginTop="@dimen/text_size27dp"
                 android:layout_marginRight="@dimen/text_size10dp"
+                android:layout_marginBottom="@dimen/text_size_225dp"
+                android:orientation="horizontal"
                 android:weightSum="2">
+
                 <Button
+                    android:id="@+id/btnVehNumYes"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/grey_box_1dp"
                     android:text="@string/yes"
-                    android:textColor="@color/navy_blue"
-                    android:textSize="@dimen/text_size_16sp"/>
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_16sp" />
+
                 <Button
+                    android:id="@+id/btnVehNumNo"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size10dp"
                     android:layout_weight="1"
                     android:background="@drawable/grey_box_1dp"
                     android:text="@string/no"
-                    android:textColor="@color/navy_blue"
-                    android:layout_marginLeft="@dimen/text_size10dp"
-                    android:textSize="@dimen/text_size_16sp"/>
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_16sp" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

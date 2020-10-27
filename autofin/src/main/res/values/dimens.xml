@@ -9,7 +9,7 @@
     <dimen name="text_size_26dp">26dp</dimen>
     <dimen name="text_size11dp">11dp</dimen>
     <dimen name="text_size_27dp">27dp</dimen>
-    <dimen name="text_size_14dp">14dp</dimen>
+    <dimen name="text_size_14dp">14sp</dimen>
     <dimen name="text_size25dp">25dp</dimen>
     <dimen name="text_size_4dp">4dp</dimen>
     <dimen name="text_size_18dp">18dp</dimen>
@@ -30,5 +30,20 @@
     <dimen name="text_size_33dp">33dp</dimen>
     <dimen name="text_size_24dp">24dp</dimen>
     <dimen name="text_size27dp">27dp</dimen>
+    <dimen name="text_size_225dp">225dp</dimen>
+    <dimen name="text_size_42dp">42dp</dimen>
+    <dimen name="text_size_49dp">49dp</dimen>
+    <dimen name="text_size_21dp">21dp</dimen>
+    <dimen name="text_size_57dp">57dp</dimen>
+    <dimen name="text_size_3dp">3dp</dimen>
+    <dimen name="text_size_48dp">48dp</dimen>
+    <dimen name="text_size_95px">95px</dimen>
+    <dimen name="text_size_29dp">29dp</dimen>
+    <dimen name="text_size_64dp">64dp</dimen>
+    <dimen name="text_size_44dp">44dp</dimen>
+    <dimen name="text_size_41dp">41dp</dimen>
+    <dimen name="text_size_28dp">28dp</dimen>
+    <dimen name="text_size_31dp">31dp</dimen>
+    <dimen name="text_size_17dp">17dp</dimen>
 
 </resources>

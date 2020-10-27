@@ -10,8 +10,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 
-public interface RetrofitInterface
-{
+public interface RetrofitInterface {
     /*void OnSuccess(Object obj);
 
     void OnFailure(Throwable mThrowable);

@@ -41,5 +41,27 @@
     <string name="vehicle_reg_num_qn">DO YOU HAVE VEHICLE REGISTRATION NO?</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
+    <string name="enter_vehicle_reg_no">PLEASE ENTER YOUR VEHICLE REGISTRATION NO</string>
+    <string name="lbl_reg_no">Resgistration No</string>
+    <string name="edit_btn_lbl">EDIT   </string>
+    <string name="lbl_select_veh_reg_year">SELECT VEHICLE REGISTRATION YEAR</string>
+    <string name="hint_select_year">Select Year...</string>
+    <string name="lbl_select_veh_reg_make">SELECT MAKE</string>
+    <string name="hint_select_make">SELECT MAKE...</string>
+    <string name="lbl_veh_make">MAKE</string>
+    <string name="lbl_select_veh_model">SELECT MODEL</string>
+    <string name="hint_select_model">Search Model</string>
+    <string name="lbl_select_veh_variant">SELECT VARIANT</string>
+    <string name="hint_search_variant">Search Variant...</string>
+    <string name="lbl_veh_variant">VARIANT</string>
+    <string name="lbl_veh_ownership">OWNERSHIP</string>
+    <string name="ownership_01">01</string>
+    <string name="ownership_02">02</string>
+    <string name="ownership_03">03</string>
+    <string name="ownership_04">04</string>
+    <string name="ownership_05">05</string>
+    <string name="vehicle_have_loan_qn">DOES THE CAR HAVE LOAN CURRENTLY?</string>
+    <string name="vehicle_valuation_post_inspection">VEHICLE VALUATION POST INSPECTION</string>
+    <string name="lbl_enter_amount">Enter Amount</string>
 
 </resources>
