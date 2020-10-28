@@ -14,17 +14,39 @@
         android:hardwareAccelerated="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.VehicleDetailsActivities.InsuranceTypeActivity"></activity>
-        <activity android:name=".Activity.VehicleDetailsActivities.VehInsuranceValidityActivity" />
-        <activity android:name=".Activity.VehicleDetailsActivities.VehValidInsuranceActivity" />
-        <activity android:name=".Activity.VehicleDetailsActivities.VehPostInspectionActivity" />
-        <activity android:name=".Activity.VehicleDetailsActivities.CarHaveLoanCurrentlyActivity" />
-        <activity android:name=".Activity.VehicleDetailsActivities.VehicleOwnerActivity" />
-        <activity android:name=".Activity.VehicleDetailsActivities.VehicleVariantActivity" />
-        <activity android:name=".Activity.VehicleDetailsActivities.VehicleModelActivity" />
-        <activity android:name=".Activity.VehicleDetailsActivities.VehicleMakeActivity" />
-        <activity android:name=".Activity.VehicleDetailsActivities.VehRegistrationYear" />
-        <activity android:name=".Activity.VehicleDetailsActivities.VehRegNumAns" />
+        <activity
+            android:name=".Activity.VehicleDetailsActivities.InsuranceTypeActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"></activity>
+        <activity
+            android:name=".Activity.VehicleDetailsActivities.VehInsuranceValidityActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".Activity.VehicleDetailsActivities.VehValidInsuranceActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".Activity.VehicleDetailsActivities.VehPostInspectionActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".Activity.VehicleDetailsActivities.CarHaveLoanCurrentlyActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".Activity.VehicleDetailsActivities.VehicleOwnerActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".Activity.VehicleDetailsActivities.VehicleVariantActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".Activity.VehicleDetailsActivities.VehicleModelActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".Activity.VehicleDetailsActivities.VehicleMakeActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".Activity.VehicleDetailsActivities.VehRegistrationYear"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".Activity.VehicleDetailsActivities.VehRegNumAns"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
             android:name=".Activity.VehicleDetailsActivities.VehRegNumActivity"
             android:configChanges="keyboardHidden|orientation"

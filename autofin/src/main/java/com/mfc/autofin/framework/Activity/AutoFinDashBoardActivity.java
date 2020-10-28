@@ -201,9 +201,9 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
             }
 
         }
-        tvTotalLeadsCount.setText(data.size());
-        tvBankLeadsCount.setText(bankLeadSize);
-        tvClosedLeadsCount.setText(closedLeadSize);
-        tvOpenLeadsCount.setText(openLeadsSize);
+        tvTotalLeadsCount.setText(""+data.size());
+        tvBankLeadsCount.setText(""+bankLeadSize);
+        tvClosedLeadsCount.setText(""+closedLeadSize);
+        tvOpenLeadsCount.setText(""+openLeadsSize);
     }
 }
