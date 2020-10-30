@@ -38,7 +38,7 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
     private static final String TAG = VehicleModelActivity.class.getSimpleName();
     TextView tvGivenRegMake, tvGivenVehMakeVal, tvGivenVehMakeEdit, tvSelectedVehModel;
     ImageView iv_app_model_search, svCloseButton;
-    String strVehMake = "";
+    String strVehMake = "", strModel;
     ListView lvVehListView;
     SearchView svVehModelDetails;
     VehicleDetailsAdapter vehicleDetailsAdapter;
@@ -49,6 +49,13 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_model);
         strVehMake = CommonMethods.getStringValueFromKey(VehicleModelActivity.this, "veh_reg_make");
+        if (CommonStrings.stockResData != null) {
+            if (CommonStrings.stockResData.getMake() != null) {
+                strModel = CommonStrings.stockResData.getModel();
+            }
+        } else {
+            strModel = "";
+        }
         initView();
     }
 
@@ -62,6 +69,9 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
         tvGivenVehMakeVal.setText(strVehMake);
         svVehModelDetails = findViewById(R.id.svVehModelDetails);
         lvVehListView.setDivider(null);
+
+        tvSelectedVehModel.setText(strModel);
+
         int searchCloseButtonId = svVehModelDetails.getContext().getResources()
                 .getIdentifier("android:id/search_close_btn", null, null);
 

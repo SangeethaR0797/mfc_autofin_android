@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.mfc.autofin.framework.R;
 
 import utility.CommonMethods;
+import utility.CommonStrings;
 
 public class VehValidInsuranceActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -26,12 +27,25 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
     Button btnValidInsurance, btnValidInsuranceNo, btnNext;
     ImageView iv_vehDetails_backBtn;
     LinearLayout llVehInsuranceAmount;
+    String strInsurance="";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_veh_valid_insurance);
         Log.i(TAG, "onCreate: ");
+        if(CommonStrings.stockResData!=null)
+        {
+            if(CommonStrings.stockResData.getInsurance()!=null)
+            {
+                strInsurance=CommonStrings.stockResData.getInsurance();
+            }
+        }else
+        {
+            strInsurance="";
+        }
+
         initView();
     }
 
@@ -47,12 +61,36 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
         btnValidInsuranceNo = findViewById(R.id.btnValidInsuranceNo);
         llVehInsuranceAmount = findViewById(R.id.llVehInsuranceAmount);
         btnNext = findViewById(R.id.btnNext);
+        if(strInsurance.equalsIgnoreCase("Yes"))
+        {
+            highLightSelectedButton(btnValidInsurance);
+            dehighlightButton(btnValidInsuranceNo);
+            llVehInsuranceAmount.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            highLightSelectedButton(btnValidInsuranceNo);
+            dehighlightButton(btnValidInsurance);
+        }
+
+
         iv_vehDetails_backBtn.setOnClickListener(this);
         tvGivenVehPostInspectionEdit.setOnClickListener(this);
         etPostInspectionAmount.setOnClickListener(this);
         btnValidInsurance.setOnClickListener(this);
         btnValidInsuranceNo.setOnClickListener(this);
         btnNext.setOnClickListener(this);
+    }
+
+    private void dehighlightButton(Button button)
+    {
+        button.setBackground(getResources().getDrawable(R.drawable.grey_box_1dp));
+
+    }
+
+    private void highLightSelectedButton(Button button)
+    {
+        button.setBackground(getResources().getDrawable(R.drawable.navy_blue_outline));
     }
 
     @Override

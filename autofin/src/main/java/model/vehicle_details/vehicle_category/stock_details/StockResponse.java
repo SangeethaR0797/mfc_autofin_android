@@ -16,7 +16,7 @@ public class StockResponse {
     private String statusCode;
     @SerializedName("data")
     @Expose
-    private StockResponse data;
+    private StockResponseData data;
 
     public Boolean getStatus() {
         return status;
@@ -42,11 +42,11 @@ public class StockResponse {
         this.statusCode = statusCode;
     }
 
-    public StockResponse getData() {
+    public StockResponseData getData() {
         return data;
     }
 
-    public void setData(StockResponse data) {
+    public void setData(StockResponseData data) {
         this.data = data;
     }
 

@@ -7,21 +7,38 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.mfc.autofin.framework.R;
 
+import java.time.YearMonth;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import model.CustomerDetailsRes;
+import model.vehicle_details.vehicle_category.stock_details.StockData;
+import model.vehicle_details.vehicle_category.stock_details.StockDetailsReq;
+import model.vehicle_details.vehicle_category.stock_details.StockResponse;
+import model.vehicle_details.vehicle_category.stock_details.StockResponseData;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import utility.AutoFinConstants;
 import utility.CommonMethods;
+import utility.CommonStrings;
+import utility.Global_URLs;
 
-public class VehRegNumAns extends AppCompatActivity implements View.OnClickListener {
+import static retrofit_config.RetroBase.retrofitInterface;
 
+public class VehRegNumAns extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
+
+    private static final String TAG = VehRegNumAns.class.getSimpleName();
     ImageView iv_vehDetails_backBtn;
     TextView tvVehCategoryQn, tvRegNoLbl;
     EditText etVehRegNo;
@@ -48,10 +65,6 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
                 if (etVehRegNo.getText().toString().length() >= 10 && etVehRegNo.getText().toString().length() <= 15) {
                     if (System.currentTimeMillis() > (last_text_edit + delay - 1000)) {
                         validateRegNo(etVehRegNo.getText().toString());
-                    }
-                } else {
-                    if (System.currentTimeMillis() > (last_text_edit + delay - 500)) {
-                        Toast.makeText(VehRegNumAns.this, "Please enter valid Vehicle Registration number", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -95,15 +108,50 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
     }
 
     private void validateRegNo(String finalString) {
-        Pattern p = Pattern.compile("^[A-Z]{2}[ -][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$");
-        Matcher m = p.matcher(finalString);
-        if (m.find()) {
-            Toast.makeText(this, "Vehicle Registration number updated", Toast.LENGTH_SHORT).show();
-            CommonMethods.setValueAgainstKey(VehRegNumAns.this, "vehicle_reg_no", finalString);
+        StockDetailsReq stockDetailsReq = new StockDetailsReq();
+        stockDetailsReq.setUserId("242");
+        stockDetailsReq.setUserType("Dealer");
+        StockData stockData = new StockData();
+        stockData.setVehicleNumber(finalString);
+        stockDetailsReq.setData(stockData);
+
+        retrofitInterface.getFromWeb(stockDetailsReq, Global_URLs.STOCK_DETAILS_BASE_URL + CommonStrings.STOCK_DETAILS_URL_END).enqueue(this);
+
+            /*   CommonMethods.setValueAgainstKey(VehRegNumAns.this, "vehicle_reg_no", finalString);
             Intent intent = new Intent(VehRegNumAns.this, VehRegistrationYear.class);
-            startActivity(intent);
-        } else {
-            Toast.makeText(this, "Please enter valid Vehicle Registration number", Toast.LENGTH_SHORT).show();
+            startActivity(intent);*/
+
+    }
+
+    @Override
+    public void onResponse(Call<Object> call, Response<Object> response) {
+        String strRes = new Gson().toJson(response.body());
+        Log.i(TAG, "onResponse: " + strRes);
+
+        StockResponse stockResponse = new Gson().fromJson(strRes, StockResponse.class);
+        try {
+            if (stockResponse != null && stockResponse.getStatus().toString().equals("true")) {
+
+                if (stockResponse.getData() != null) {
+                    CommonMethods.setValueAgainstKey(this, CommonStrings.VEH_REG_NO, etVehRegNo.getText().toString());
+                    StockResponseData stockResponseData = stockResponse.getData();
+                    CommonStrings.stockResData = stockResponseData;
+                    Intent intent = new Intent(VehRegNumAns.this, VehRegistrationYear.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, "No Stock available", Toast.LENGTH_LONG).show();
+                }
+            }
+        } catch (NullPointerException exception) {
+            exception.printStackTrace();
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
+
+    }
+
+    @Override
+    public void onFailure(Call<Object> call, Throwable t) {
+
     }
 }

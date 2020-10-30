@@ -51,8 +51,15 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_veh_registration_year);
-        regNoVal = CommonMethods.getStringValueFromKey(VehRegistrationYear.this, "vehicle_reg_no");
+        regNoVal = CommonMethods.getStringValueFromKey(VehRegistrationYear.this, CommonStrings.VEH_REG_NO);
+        if (CommonStrings.stockResData != null) {
+            if (CommonStrings.stockResData.getYear() != null)
+                strYear = String.valueOf(CommonStrings.stockResData.getYear());
+            else
+                strYear = "";
+        }
         initView();
+
     }
 
     private void initView() {
@@ -66,6 +73,9 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
         svVehDetails = findViewById(R.id.svVehDetails);
         tvGivenRegNoVal.setText(regNoVal);
         lvVehListView.setDivider(null);
+        tvRegYear.setText(strYear);
+
+
         int searchCloseButtonId = svVehDetails.getContext().getResources()
                 .getIdentifier("android:id/search_close_btn", null, null);
 

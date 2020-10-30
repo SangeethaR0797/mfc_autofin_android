@@ -24,11 +24,20 @@ public class InsuranceTypeActivity extends AppCompatActivity implements View.OnC
     RadioGroup rgVehType;
     RadioButton radioBtnComprehensive, radioBtnThirdParty;
     ImageView iv_vehDetails_backBtn;
+    String strInsuranceType = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insurance_type);
+        if (CommonStrings.stockResData != null) {
+            if (CommonStrings.stockResData.getInsuranceValidity() != null) {
+                strInsuranceType = CommonStrings.stockResData.getInsuranceType();
+            }
+        } else {
+            strInsuranceType = "";
+        }
+
         iniView();
     }
 
@@ -41,11 +50,16 @@ public class InsuranceTypeActivity extends AppCompatActivity implements View.OnC
         radioBtnComprehensive = findViewById(R.id.radioBtnComprehensive);
         radioBtnThirdParty = findViewById(R.id.radioBtnThirdParty);
         iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+
+        if (strInsuranceType.equalsIgnoreCase(radioBtnComprehensive.getText().toString())) {
+            radioBtnComprehensive.setChecked(true);
+        } else if (strInsuranceType.equalsIgnoreCase(radioBtnThirdParty.getText().toString())) {
+            radioBtnThirdParty.setChecked(true);
+        }
         iv_vehDetails_backBtn.setOnClickListener(this);
         tvGivenInsValidityEdit.setOnClickListener(this);
         radioBtnComprehensive.setOnClickListener(this);
         radioBtnThirdParty.setOnClickListener(this);
-
 
     }
 

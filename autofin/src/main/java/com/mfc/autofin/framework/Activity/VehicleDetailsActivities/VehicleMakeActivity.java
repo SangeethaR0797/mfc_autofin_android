@@ -31,6 +31,8 @@ import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
 import static utility.CommonStrings.IBB_VEH_DETAILS_END_POINT;
+import static utility.CommonStrings.VEH_MFG_MAKE;
+import static utility.CommonStrings.VEH_MFG_YEAR;
 
 public class VehicleMakeActivity extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
 
@@ -40,12 +42,20 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
     ListView lvVehListView;
     SearchView svVehMakeDetails;
     VehicleDetailsAdapter vehicleDetailsAdapter;
+    String strYear = "", strMake = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_make);
-
+        strYear = CommonMethods.getStringValueFromKey(this, VEH_MFG_YEAR);
+        if (CommonStrings.stockResData != null) {
+            if (CommonStrings.stockResData.getMake() != null) {
+                strMake = CommonStrings.stockResData.getMake();
+            }
+        } else {
+            strMake = "";
+        }
         initView();
     }
 
@@ -57,7 +67,11 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
         iv_app_make_search = findViewById(R.id.iv_app_make_search);
         lvVehListView = findViewById(R.id.lvVehListView);
         svVehMakeDetails = findViewById(R.id.svVehMakeDetails);
+        tvSelectedVehMake.setText(CommonStrings.stockResData.getMake());
         lvVehListView.setDivider(null);
+
+        tvSelectedVehMake.setText(strMake);
+
         int searchCloseButtonId = svVehMakeDetails.getContext().getResources()
                 .getIdentifier("android:id/search_close_btn", null, null);
 

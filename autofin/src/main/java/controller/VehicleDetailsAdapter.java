@@ -1,7 +1,6 @@
 package controller;
 
 import android.app.Activity;
-import android.content.ClipData;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +17,9 @@ import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehicleVarian
 import com.mfc.autofin.framework.R;
 
 import java.util.List;
-import java.util.Locale;
 
-import model.CustomerData;
 import utility.CommonMethods;
+import utility.CommonStrings;
 
 public class VehicleDetailsAdapter extends ArrayAdapter<String> {
 
@@ -85,16 +83,19 @@ public class VehicleDetailsAdapter extends ArrayAdapter<String> {
 
     private void moveToNextPage() {
         if (activityTag == 1) {
+            CommonMethods.setValueAgainstKey(activity, CommonStrings.VEH_MFG_YEAR, textView.getText().toString());
             Intent intent = new Intent(activity, VehicleMakeActivity.class);
             activity.startActivity(intent);
         } else if (activityTag == 2) {
+            CommonMethods.setValueAgainstKey(activity, CommonStrings.VEH_MFG_MAKE, textView.getText().toString());
             Intent intent = new Intent(activity, VehicleModelActivity.class);
             activity.startActivity(intent);
         } else if (activityTag == 3) {
+            CommonMethods.setValueAgainstKey(activity, CommonStrings.VEH_MFG_MODEL, textView.getText().toString());
             Intent intent = new Intent(activity, VehicleVariantActivity.class);
             activity.startActivity(intent);
         } else if (activityTag == 4) {
-            CommonMethods.setValueAgainstKey(activity, "veh_variant", textView.getText().toString());
+            CommonMethods.setValueAgainstKey(activity, CommonStrings.VEH_VARIANT, textView.getText().toString());
             Intent intent = new Intent(activity, VehicleOwnerActivity.class);
             activity.startActivity(intent);
         }

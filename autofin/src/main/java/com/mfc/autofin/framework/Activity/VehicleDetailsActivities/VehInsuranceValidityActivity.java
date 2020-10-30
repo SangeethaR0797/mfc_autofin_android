@@ -10,16 +10,27 @@ import android.widget.TextView;
 
 import com.mfc.autofin.framework.R;
 
+import utility.CommonStrings;
+
 public class VehInsuranceValidityActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     TextView tvGivenInsurance, tvGivenVehPostInspectionVal, tvGivenInsuranceAmountEdit, tvInsuranceValidityLbl, tvInsuranceValidityDate;
     ImageView iv_vehDetails_backBtn;
+    String strInsuranceValidity = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_insurance);
+        if (CommonStrings.stockResData != null) {
+            if (CommonStrings.stockResData.getInsuranceValidity() != null) {
+                strInsuranceValidity = CommonStrings.stockResData.getInsurance();
+            }
+        } else {
+            strInsuranceValidity = "";
+        }
+
         initView();
     }
 
@@ -33,6 +44,7 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
         iv_vehDetails_backBtn.setOnClickListener(this);
         tvGivenInsuranceAmountEdit.setOnClickListener(this);
         tvInsuranceValidityLbl.setOnClickListener(this);
+        tvInsuranceValidityDate.setText(strInsuranceValidity);
     }
 
     @Override

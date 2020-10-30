@@ -37,7 +37,7 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
     private static String TAG = VehicleVariantActivity.class.getSimpleName();
     TextView tvGivenVehModelVal, tvGivenVehModelEdit, tvSelectedVehVariant;
     ImageView iv_app_variant_search, svCloseButton;
-    String strVehMake = "", strVehModel = "";
+    String strVehMake = "", strVehModel = "", strVariant;
     ListView lvVehListView;
     VehicleDetailsAdapter vehicleDetailsAdapter;
     SearchView svVehVariantDetails;
@@ -48,6 +48,15 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_vehicle_variant);
         strVehMake = CommonMethods.getStringValueFromKey(VehicleVariantActivity.this, "veh_reg_make");
         strVehModel = CommonMethods.getStringValueFromKey(VehicleVariantActivity.this, "veh_reg_model");
+        if (CommonStrings.stockResData != null) {
+            if (CommonStrings.stockResData.getMake() != null) {
+                strVariant = CommonStrings.stockResData.getModel();
+            }
+        } else {
+            strVariant = "";
+        }
+
+
         initView();
 
     }
@@ -59,6 +68,7 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
         tvGivenVehModelVal.setText(strVehModel);
         lvVehListView = findViewById(R.id.lvVehListView);
         svVehVariantDetails = findViewById(R.id.svVehVariantDetails);
+        tvSelectedVehVariant.setText(strVariant);
         tvGivenVehModelEdit.setOnClickListener(this);
         tvSelectedVehVariant.setOnClickListener(this);
         iv_app_variant_search = findViewById(R.id.iv_app_variant_search);
