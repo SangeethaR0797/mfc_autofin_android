@@ -127,11 +127,15 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="@dimen/text_size_8dp" />
 
-            <ListView
-                android:id="@+id/lvVehListView"
+            <SearchView
+                android:id="@+id/svVehMakeDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"/>
+                android:iconifiedByDefault="false"
+                android:queryHint="Search Here"
+                android:visibility="gone" />
+
+            <include layout="@layout/layout_common_listview" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

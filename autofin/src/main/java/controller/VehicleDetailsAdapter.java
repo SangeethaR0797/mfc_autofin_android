@@ -12,10 +12,15 @@ import android.widget.TextView;
 
 import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehRegistrationYear;
 import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehicleMakeActivity;
+import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehicleModelActivity;
+import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehicleOwnerActivity;
+import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehicleVariantActivity;
 import com.mfc.autofin.framework.R;
 
 import java.util.List;
+import java.util.Locale;
 
+import model.CustomerData;
 import utility.CommonMethods;
 
 public class VehicleDetailsAdapter extends ArrayAdapter<String> {
@@ -24,14 +29,27 @@ public class VehicleDetailsAdapter extends ArrayAdapter<String> {
     private Activity activity;
     TextView textView;
     ListView lvVehListView;
+    private int activityTag = 0;
 
-    public VehicleDetailsAdapter(Activity activity, int resource, List<String> items, TextView textview, ListView lvVehListView)
-    {
+    public VehicleDetailsAdapter(Activity activity, int resource, List<String> items, TextView textview, ListView lvVehListView) {
         super(activity, resource, items);
         this.resourceLayout = resource;
         this.activity = activity;
-        this.textView=textview;
-        this.lvVehListView=lvVehListView;
+        this.textView = textview;
+        this.lvVehListView = lvVehListView;
+        setActivityTag();
+    }
+
+    private void setActivityTag() {
+        if (activity instanceof VehRegistrationYear) {
+            activityTag = 1;
+        } else if (activity instanceof VehicleMakeActivity) {
+            activityTag = 2;
+        } else if (activity instanceof VehicleModelActivity) {
+            activityTag = 3;
+        } else if (activity instanceof VehicleVariantActivity) {
+            activityTag = 4;
+        }
     }
 
     @Override
@@ -46,20 +64,39 @@ public class VehicleDetailsAdapter extends ArrayAdapter<String> {
         }
 
         String p = getItem(position);
-        TextView tvCustomLV=v.findViewById(R.id.tvCustomLV);
+        TextView tvCustomLV = v.findViewById(R.id.tvCustomLV);
         if (p != null) {
-            tvCustomLV.setText(p); }
+            tvCustomLV.setText(p);
+        }
 
         tvCustomLV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 tvCustomLV.setBackground(activity.getResources().getDrawable(R.drawable.navy_blue_outline));
                 tvCustomLV.setTextColor(activity.getResources().getColor(R.color.navy_blue));
-                /*textView.setText(tvCustomLV.getText().toString());
-                lvVehListView.setVisibility(View.GONE);*/
+                textView.setText(tvCustomLV.getText().toString());
+                lvVehListView.setVisibility(View.GONE);
+                moveToNextPage();
             }
         });
 
         return v;
     }
+
+    private void moveToNextPage() {
+        if (activityTag == 1) {
+            Intent intent = new Intent(activity, VehicleMakeActivity.class);
+            activity.startActivity(intent);
+        } else if (activityTag == 2) {
+            Intent intent = new Intent(activity, VehicleModelActivity.class);
+            activity.startActivity(intent);
+        } else if (activityTag == 3) {
+            Intent intent = new Intent(activity, VehicleVariantActivity.class);
+            activity.startActivity(intent);
+        } else if (activityTag == 4) {
+            Intent intent = new Intent(activity, VehicleOwnerActivity.class);
+            activity.startActivity(intent);
+        }
+    }
+
 }

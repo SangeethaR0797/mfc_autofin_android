@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -16,6 +18,7 @@ import com.mfc.autofin.framework.R;
 
 import java.util.List;
 
+import controller.VehicleDetailsAdapter;
 import model.ibb_models.IBBVehDetailsReq;
 import model.ibb_models.VehMakeRes;
 import model.ibb_models.VehModelRes;
@@ -34,8 +37,12 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
 
     private static final String TAG = VehicleModelActivity.class.getSimpleName();
     TextView tvGivenRegMake, tvGivenVehMakeVal, tvGivenVehMakeEdit, tvSelectedVehModel;
-    ImageView iv_app_model_search;
+    ImageView iv_app_model_search, svCloseButton;
     String strVehMake = "";
+    ListView lvVehListView;
+    SearchView svVehModelDetails;
+    VehicleDetailsAdapter vehicleDetailsAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +58,39 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
         tvGivenVehMakeEdit = findViewById(R.id.tvGivenVehMakeEdit);
         tvSelectedVehModel = findViewById(R.id.tvSelectedVehModel);
         iv_app_model_search = findViewById(R.id.iv_app_model_search);
+        lvVehListView = findViewById(R.id.lvVehListView);
         tvGivenVehMakeVal.setText(strVehMake);
+        svVehModelDetails = findViewById(R.id.svVehModelDetails);
+        int searchCloseButtonId = svVehModelDetails.getContext().getResources()
+                .getIdentifier("android:id/search_close_btn", null, null);
+
+        svCloseButton = this.svVehModelDetails.findViewById(searchCloseButtonId);
+        svCloseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                svVehModelDetails.setQuery("", false);
+                svVehModelDetails.clearFocus();
+                svVehModelDetails.setVisibility(View.GONE);
+            }
+        });
+
+        svVehModelDetails.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                vehicleDetailsAdapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                vehicleDetailsAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+
         tvGivenVehMakeEdit.setOnClickListener(this);
         tvSelectedVehModel.setOnClickListener(this);
     }
@@ -96,9 +135,9 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void generateListView(List<String> year) {
-        CommonMethods.setValueAgainstKey(this, "veh_reg_model", "A3 CABRIOLET(2014-2020)");
-        Intent intent = new Intent(VehicleModelActivity.this, VehicleVariantActivity.class);
-        startActivity(intent);
+        lvVehListView.setVisibility(View.VISIBLE);
+        vehicleDetailsAdapter = new VehicleDetailsAdapter(this, R.layout.custom_list_item_row, year, tvSelectedVehModel, lvVehListView);
+        lvVehListView.setAdapter(vehicleDetailsAdapter);
     }
 
     @Override
