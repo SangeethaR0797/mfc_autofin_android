@@ -22,6 +22,6 @@ public interface RetrofitInterface {
 
     @Headers("Content-Type: application/json; charset=utf-8")
     @GET
-    Call<Object> getFromWeb(@Url String url, @Query("event_start_date_time") String eventStartDate, @Query("event_end_date_time") String eventEndDate);
+    Call<Object> getFromWeb(@Url String url);
 
 }

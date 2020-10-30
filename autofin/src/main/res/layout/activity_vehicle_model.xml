@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/tvSelectedVehMake"
+                    android:id="@+id/tvSelectedVehModel"
                     style="@style/veh_details_selected_style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

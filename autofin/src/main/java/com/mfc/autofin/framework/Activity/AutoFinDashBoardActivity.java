@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,16 +28,26 @@ import model.CustomerData;
 import model.CustomerDetailsReq;
 import model.CustomerDetailsRes;
 import model.DealerData;
+import model.ibb_models.AccessTokenRequest;
+import model.ibb_models.AccessTokenRes;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import utility.CommonMethods;
+import utility.CommonStrings;
 import utility.CustomFonts;
+import utility.Global_URLs;
+import utility.RobotoMedium;
+import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
 
 public class AutoFinDashBoardActivity extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
 
-    private TextView tvTotalLeadsCount, tvTotalLeadsLabel, tvOpenLeadsCount, tvOpenLeadsLabel, tvBankLeadsCount, tvBankLeadsLabel, tvClosedLeadsCount, tvClosedLeadsLabel, tvLeadTypeLabel;
+    public static boolean progress = true;
+
+    private TextView tvLeadTypeLabel;
+    private RobotoMedium tvTotalLeadsCount, tvTotalLeadsLabel, tvOpenLeadsCount, tvOpenLeadsLabel, tvBankLeadsCount, tvBankLeadsLabel, tvClosedLeadsCount, tvClosedLeadsLabel;
     RecyclerView leads_recyclerview;
     LinearLayout llTotalLeads, llOpenLeads, llBankLeads, llClosedLeads, llAppBar;
     FloatingActionButton fab_add_lead;
@@ -53,18 +64,36 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
         initViews();
-        retrofitInterface.getFromWeb(getCustomerDetailsReq(""), "customer-listing").enqueue(this);
+        if(CommonMethods.isInternetWorking(this))
+        {
+            SpinnerManager.showSpinner(this);
+            retrofitInterface.getFromWeb(getCustomerDetailsReq(""), CommonStrings.CUSTOMER_DETAILS_URL_END).enqueue(this);
+            retrofitInterface.getFromWeb(getIBBAccessTokenReq(), Global_URLs.IBB_BASE_URL+CommonStrings.IBB_ACCESS_TOKEN_URL_END).enqueue(this);
+
+        }
+        else
+        {
+            Toast.makeText(this,"Please check your Internet Connection",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private AccessTokenRequest getIBBAccessTokenReq()
+    {
+        AccessTokenRequest accessTokenRequest=new AccessTokenRequest();
+        accessTokenRequest.setUsername(CommonStrings.IBB_USERNAME);
+        accessTokenRequest.setPassword(CommonStrings.IBB_PASSWORD);
+        return accessTokenRequest;
     }
 
     private void initViews() {
-        tvTotalLeadsCount = findViewById(R.id.tvTotalLeadsCount);
-        tvTotalLeadsLabel = findViewById(R.id.tvTotalLeadsLabel);
-        tvOpenLeadsCount = findViewById(R.id.tvOpenLeadsCount);
-        tvOpenLeadsLabel = findViewById(R.id.tvOpenLeadsLabel);
-        tvBankLeadsCount = findViewById(R.id.tvBankLeadsCount);
-        tvBankLeadsLabel = findViewById(R.id.tvBankLeadsLabel);
-        tvClosedLeadsCount = findViewById(R.id.tvClosedLeadsCount);
-        tvClosedLeadsLabel = findViewById(R.id.tvClosedLeadsLabel);
+        tvTotalLeadsCount = (RobotoMedium) findViewById(R.id.tvTotalLeadsCount);
+        tvTotalLeadsLabel = (RobotoMedium) findViewById(R.id.tvTotalLeadsLabel);
+        tvOpenLeadsCount = (RobotoMedium) findViewById(R.id.tvOpenLeadsCount);
+        tvOpenLeadsLabel = (RobotoMedium) findViewById(R.id.tvOpenLeadsLabel);
+        tvBankLeadsCount = (RobotoMedium) findViewById(R.id.tvBankLeadsCount);
+        tvBankLeadsLabel = (RobotoMedium) findViewById(R.id.tvBankLeadsLabel);
+        tvClosedLeadsCount = (RobotoMedium) findViewById(R.id.tvClosedLeadsCount);
+        tvClosedLeadsLabel = (RobotoMedium) findViewById(R.id.tvClosedLeadsLabel);
         tvLeadTypeLabel = findViewById(R.id.tvLeadTypeLabel);
         leads_recyclerview = findViewById(R.id.leads_recyclerview);
         llAppBar = findViewById(R.id.llAppBar);
@@ -118,6 +147,7 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
 
 
     private CustomerDetailsReq getCustomerDetailsReq(String tabName) {
+
         CustomerDetailsReq customerDetailsReq = new CustomerDetailsReq();
         DealerData dealerData = new DealerData();
         customerDetailsReq.setUserId("242");
@@ -156,19 +186,79 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
 
     @Override
     public void onResponse(Call<Object> call, Response<Object> response) {
+        SpinnerManager.hideSpinner(this);
+        String url = response.raw().request().url().toString();
+        Log.i(TAG, "onResponse: URL "+url);
         String strRes = new Gson().toJson(response.body());
         Log.i(TAG, "onResponse: " + strRes);
-        CustomerDetailsRes createEventResponse = new Gson().fromJson(strRes, CustomerDetailsRes.class);
-        try {
-            if (createEventResponse.getStatus().toString().equals("true")) {
-                setLeadTabCount(createEventResponse.getData());
-                attachAdapter(createEventResponse.getData());
+       if(url.contains(CommonStrings.CUSTOMER_DETAILS_URL_END))
+        {
+            CustomerDetailsRes customerDetailsRes = new Gson().fromJson(strRes, CustomerDetailsRes.class);
+            try {
+                if (customerDetailsRes!=null && customerDetailsRes.getStatus().toString().equals("true")) {
+
+                    if(customerDetailsRes.getData().getCount()!=null)
+                    {
+                        tvTotalLeadsCount.setText(customerDetailsRes.getData().getCount().getAll()+"");
+                        tvOpenLeadsCount.setText(customerDetailsRes.getData().getCount().getOpen()+"");
+                        tvBankLeadsCount.setText(customerDetailsRes.getData().getCount().getBank()+"");
+                        tvClosedLeadsCount.setText(customerDetailsRes.getData().getCount().getClosed()+"");
+                    }
+                    else
+                    {
+                        Toast.makeText(this,"No Count Data available",Toast.LENGTH_LONG).show();
+
+                    }
+
+                    if(customerDetailsRes.getData().getCustomers()!=null)
+                    {
+                        attachAdapter(customerDetailsRes.getData().getCustomers());
+                    }
+                    else
+                    {
+                        Toast.makeText(this,"No Customer Data available",Toast.LENGTH_LONG).show();
+                    }
+
+                }
             }
-        } catch (Exception exception) {
-            exception.printStackTrace();
+            catch(NullPointerException exception)
+            {
+                exception.printStackTrace();
+            }
+            catch (Exception exception) {
+                exception.printStackTrace();
+            }
+
+        }
+        else if(url.contains(CommonStrings.IBB_ACCESS_TOKEN_URL_END))
+        {
+            AccessTokenRes accessTokenRes=new Gson().fromJson(strRes,AccessTokenRes.class);
+            try
+            {
+                if(accessTokenRes!=null && accessTokenRes.getStatus().equalsIgnoreCase("success"))
+                {
+                    if(accessTokenRes.getAccessToken()!=null)
+                    {
+                        CommonMethods.setValueAgainstKey(AutoFinDashBoardActivity.this,"ibb_access_token",accessTokenRes.getAccessToken());
+                        Log.i(TAG, "onResponse: "+accessTokenRes.getAccessToken());
+                    }
+                    else
+                    {
+                        Toast.makeText(this,"No access token available",Toast.LENGTH_LONG).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(this,"Error occurred",Toast.LENGTH_LONG).show();
+                }
+            }
+            catch(Exception exception)
+            {exception.printStackTrace();}
+
         }
 
     }
+
 
     @Override
     public void onFailure(Call<Object> call, Throwable t) {
@@ -176,6 +266,7 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
     }
 
     private void attachAdapter(List<CustomerData> data) {
+
         try {
             dashboardAdapter = new DashboardAdapter(AutoFinDashBoardActivity.this, data);
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -189,21 +280,4 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
 
     }
 
-    private void setLeadTabCount(List<CustomerData> data) {
-        int openLeadsSize = 0, totalLeadsSize = 0, bankLeadSize = 0, closedLeadSize = 0;
-        for (int i = 0; i < data.size(); i++) {
-            if (data.get(i).getMainStatus().equalsIgnoreCase("open")) {
-                openLeadsSize++;
-            } else if (data.get(i).getMainStatus().equalsIgnoreCase("RTO")) {
-                closedLeadSize++;
-            } else if (data.get(i).getMainStatus().equalsIgnoreCase("Bank")) {
-                bankLeadSize++;
-            }
-
-        }
-        tvTotalLeadsCount.setText(""+data.size());
-        tvBankLeadsCount.setText(""+bankLeadSize);
-        tvClosedLeadsCount.setText(""+closedLeadSize);
-        tvOpenLeadsCount.setText(""+openLeadsSize);
-    }
 }

@@ -14,10 +14,10 @@ public class CustomerDetailsRes {
     private Object message;
     @SerializedName("statusCode")
     @Expose
-    private Object statusCode;
+    private String statusCode;
     @SerializedName("data")
     @Expose
-    private List<CustomerData> data = null;
+    private CountAndCustData data;
 
     public Boolean getStatus() {
         return status;
@@ -35,21 +35,22 @@ public class CustomerDetailsRes {
         this.message = message;
     }
 
-    public Object getStatusCode() {
+    public String getStatusCode() {
         return statusCode;
     }
 
-    public void setStatusCode(Object statusCode) {
+    public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
     }
 
-    public List<CustomerData> getData() {
+    public CountAndCustData getData() {
         return data;
     }
 
-    public void setData(List<CustomerData> data) {
+    public void setData(CountAndCustData data) {
         this.data = data;
     }
 
 }
+
 

@@ -41,35 +41,14 @@
                 android:layout_marginTop="@dimen/text_size_33dp">
 
                 <RadioButton
-                    android:id="@+id/radioBtnNewCar"
+                    android:id="@+id/rbVehCategory"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="@dimen/text_size_24dp"
-                    android:checked="false"
+                    android:paddingLeft="12dp" android:checked="false"
                     android:text="@string/new_car"
-                    android:textColor="@color/very_dark_blue"
-                    android:textSize="@dimen/text_size_16sp" />
-
-                <RadioButton
-                    android:id="@+id/radioBtnOldCar"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="@dimen/text_size_24dp"
-                    android:checked="false"
-                    android:text="@string/old_car"
-                    android:textColor="@color/very_dark_blue"
-                    android:textSize="@dimen/text_size_16sp" />
-
-                <RadioButton
-                    android:id="@+id/radioBtnNewBike"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="@dimen/text_size_42dp"
-                    android:checked="false"
-                    android:text="@string/new_bike"
+                    android:buttonTint="@color/very_dark_blue"
                     android:textColor="@color/very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
             </RadioGroup>
