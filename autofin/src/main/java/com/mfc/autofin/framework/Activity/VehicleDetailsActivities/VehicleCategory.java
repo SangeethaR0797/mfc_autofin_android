@@ -37,7 +37,7 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
     ImageView iv_vehDetails_backBtn;
     private List<Category> vehicleCategoryList;
 
-    private String TAG=VehicleCategory.class.getSimpleName();
+    private String TAG = VehicleCategory.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +66,7 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_vehDetails_backBtn) {
-            Intent intent = new Intent(VehicleCategory.this, AutoFinDashBoardActivity.class);
-            startActivity(intent);
+            finish();
         }
         if (v.getId() == R.id.rbVehCategory) {
             if (rbVehCategory.isChecked()) {
@@ -80,33 +79,27 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onResponse(Call<Object> call, Response<Object> response) {
-        String res=new Gson().toJson(response.body());
-        Log.i(TAG, "onResponse: "+res);
+        String res = new Gson().toJson(response.body());
+        Log.i(TAG, "onResponse: " + res);
         VehicleCategoryRes vehicleCategoryRes = new Gson().fromJson(res, VehicleCategoryRes.class);
         try {
-          if(vehicleCategoryRes!=null)
-          {
-              if(vehicleCategoryRes.getData()!=null)
-              {
-                  VehData vehData=vehicleCategoryRes.getData();
-                  vehicleCategoryList.addAll(vehData.getCategories());
-                  setVehicleCategoryList();
-              }
-          }
-        }
-        catch(Exception exception)
-        {
+            if (vehicleCategoryRes != null) {
+                if (vehicleCategoryRes.getData() != null) {
+                    VehData vehData = vehicleCategoryRes.getData();
+                    vehicleCategoryList.addAll(vehData.getCategories());
+                    setVehicleCategoryList();
+                }
+            }
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
 
 
     }
 
-    private void setVehicleCategoryList()
-    {
-        for(int i=0;i<vehicleCategoryList.size();i++)
-        {
-            RadioButton radioButton=new RadioButton(VehicleCategory.this,null,R.style.auto_fin_tab_label_style);
+    private void setVehicleCategoryList() {
+        for (int i = 0; i < vehicleCategoryList.size(); i++) {
+            RadioButton radioButton = new RadioButton(VehicleCategory.this, null, R.style.auto_fin_tab_label_style);
             rbVehCategory.setText(vehicleCategoryList.get(i).getDisplayLabel());
             final RadioButton[] rb = new RadioButton[5];
             RadioGroup rg = new RadioGroup(this); //create the RadioGroup
