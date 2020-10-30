@@ -96,7 +96,9 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.tvGivenRegYearEdit) {
+        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+            finish();
+        } else if (v.getId() == R.id.tvGivenRegYearEdit) {
             Intent intent = new Intent(VehicleMakeActivity.this, VehRegistrationYear.class);
             startActivity(intent);
         } else if (v.getId() == R.id.tvSelectedVehMake) {

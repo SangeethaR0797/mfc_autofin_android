@@ -98,7 +98,9 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.tvGivenVehModelEdit) {
+        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+            finish();
+        } else if (v.getId() == R.id.tvGivenVehModelEdit) {
             Intent intent = new Intent(VehicleVariantActivity.this, VehicleModelActivity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.tvSelectedVehVariant) {

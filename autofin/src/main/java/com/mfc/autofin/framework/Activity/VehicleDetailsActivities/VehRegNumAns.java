@@ -45,16 +45,13 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
         iv_vehDetails_backBtn.setOnClickListener(this);
         Runnable input_finish_checker = new Runnable() {
             public void run() {
-                if(etVehRegNo.getText().toString().length()>=10 && etVehRegNo.getText().toString().length()<=15)
-                {
+                if (etVehRegNo.getText().toString().length() >= 10 && etVehRegNo.getText().toString().length() <= 15) {
                     if (System.currentTimeMillis() > (last_text_edit + delay - 1000)) {
                         validateRegNo(etVehRegNo.getText().toString());
                     }
-                }
-                else
-                {
+                } else {
                     if (System.currentTimeMillis() > (last_text_edit + delay - 500)) {
-                        Toast.makeText(VehRegNumAns.this,"Please enter valid Vehicle Registration number",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(VehRegNumAns.this, "Please enter valid Vehicle Registration number", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -88,28 +85,25 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
 
 
     }
+
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_vehDetails_backBtn) {
-            Intent intent = new Intent(VehRegNumAns.this, VehRegNumActivity.class);
-            startActivity(intent);
+            finish();
         }
 
     }
-    private void validateRegNo(String finalString)
-    {
+
+    private void validateRegNo(String finalString) {
         Pattern p = Pattern.compile("^[A-Z]{2}[ -][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$");
         Matcher m = p.matcher(finalString);
-        if(m.find())
-        {
-            Toast.makeText(this,"Vehicle Registration number updated",Toast.LENGTH_SHORT).show();
-            CommonMethods.setValueAgainstKey(VehRegNumAns.this,"vehicle_reg_no",finalString);
+        if (m.find()) {
+            Toast.makeText(this, "Vehicle Registration number updated", Toast.LENGTH_SHORT).show();
+            CommonMethods.setValueAgainstKey(VehRegNumAns.this, "vehicle_reg_no", finalString);
             Intent intent = new Intent(VehRegNumAns.this, VehRegistrationYear.class);
             startActivity(intent);
-        }
-        else
-        {
-            Toast.makeText(this,"Please enter valid Vehicle Registration number",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Please enter valid Vehicle Registration number", Toast.LENGTH_SHORT).show();
         }
     }
-    }
+}

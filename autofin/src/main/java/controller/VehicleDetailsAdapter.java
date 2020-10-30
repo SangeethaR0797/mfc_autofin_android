@@ -94,6 +94,7 @@ public class VehicleDetailsAdapter extends ArrayAdapter<String> {
             Intent intent = new Intent(activity, VehicleVariantActivity.class);
             activity.startActivity(intent);
         } else if (activityTag == 4) {
+            CommonMethods.setValueAgainstKey(activity, "veh_variant", textView.getText().toString());
             Intent intent = new Intent(activity, VehicleOwnerActivity.class);
             activity.startActivity(intent);
         }

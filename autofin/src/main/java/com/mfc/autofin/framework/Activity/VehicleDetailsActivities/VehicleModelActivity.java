@@ -98,7 +98,9 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.tvGivenVehMakeEdit) {
+        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+            finish();
+        } else if (v.getId() == R.id.tvGivenVehMakeEdit) {
             Intent intent = new Intent(VehicleModelActivity.this, VehicleMakeActivity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.tvSelectedVehModel) {
@@ -106,7 +108,7 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
             IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_MODEL, CommonMethods.getStringValueFromKey(VehicleModelActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, CommonMethods.getStringValueFromKey(VehicleModelActivity.this, "veh_reg_year"), "0", strVehMake);
             retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
         } else if (v.getId() == R.id.iv_app_make_search) {
-
+            svVehModelDetails.setVisibility(View.VISIBLE);
         }
 
     }

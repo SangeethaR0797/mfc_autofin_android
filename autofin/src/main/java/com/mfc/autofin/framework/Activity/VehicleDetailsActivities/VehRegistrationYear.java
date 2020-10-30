@@ -103,7 +103,9 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.tvVehRegNumEdit) {
+        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+            finish();
+        } else if (v.getId() == R.id.tvVehRegNumEdit) {
             Intent intent = new Intent(VehRegistrationYear.this, VehRegNumAns.class);
             startActivity(intent);
         } else if (v.getId() == R.id.tvRegYear) {

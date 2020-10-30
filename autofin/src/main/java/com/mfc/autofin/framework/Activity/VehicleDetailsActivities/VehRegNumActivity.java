@@ -41,8 +41,7 @@ public class VehRegNumActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_vehDetails_backBtn) {
-            Intent intent = new Intent(VehRegNumActivity.this, VehicleCategory.class);
-            startActivity(intent);
+            finish();
         } else if (v.getId() == R.id.btnVehNumYes) {
             btnVehNumYes.setBackgroundResource(R.drawable.navy_blue_outline);
             btnVehNumNo.setBackgroundResource(R.drawable.grey_box_1dp);
