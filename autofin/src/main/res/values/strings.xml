@@ -71,5 +71,6 @@
     <string name="comprehensive">Comprehensive</string>
     <string name="third_party">Third party</string>
     <string name="sample_reg_no">Eg: KA 01 BR 1234</string>
+    <string name="loading">Loading...</string>
 
 </resources>

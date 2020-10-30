@@ -28,6 +28,7 @@ public class SpinnerManager {
     private static Map<Context, ProgressDialog> spinnerMap = Collections.synchronizedMap(new HashMap<Context, ProgressDialog>());
 
     public static void showSpinner(Context ctx) {
+
         try {
             if (!map.containsKey(ctx)) {
                 map.put(ctx, 1);
@@ -51,16 +52,16 @@ public class SpinnerManager {
                 return;
             }
 
-            if (AutoFinDashBoardActivity.progress &&spinnerMap!=null) {
-            Integer spinnerCount = map.get(ctx);
-            if (spinnerCount == 1) {
+            if (AutoFinDashBoardActivity.progress && spinnerMap != null) {
+                Integer spinnerCount = map.get(ctx);
+                if (spinnerCount == 1) {
 
-                spinnerMap.get(ctx).dismiss();
-                map.remove(ctx);
-                spinnerMap.remove(ctx);
-            } else if (spinnerCount > 1) {
-                map.put(ctx, spinnerCount - 1);
-            }
+                    spinnerMap.get(ctx).dismiss();
+                    map.remove(ctx);
+                    spinnerMap.remove(ctx);
+                } else if (spinnerCount > 1) {
+                    map.put(ctx, spinnerCount - 1);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
