@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +20,7 @@ import com.mfc.autofin.framework.R;
 
 import java.util.List;
 
+import controller.VehicleDetailsAdapter;
 import model.ibb_models.IBBVehDetailsReq;
 import model.ibb_models.VehRegYearRes;
 import retrofit2.Call;
@@ -37,7 +41,8 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
     private static final String TAG = VehRegistrationYear.class.getSimpleName();
     private TextView tvGivenRegNumLbl,tvGivenRegNoVal,tvVehRegNumEdit,tvRegYearLbl,tvRegYear;
     private ImageView iv_year_search;
-    String regNoVal="";
+    ListView lvVehListView;
+    String regNoVal="",strYear="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +60,7 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
         tvRegYearLbl=findViewById(R.id.tvRegYearLbl);
         tvRegYear=findViewById(R.id.tvRegYear);
         iv_year_search=findViewById(R.id.iv_year_search);
-
+        lvVehListView=findViewById(R.id.lvVehListView);
         tvGivenRegNoVal.setText(regNoVal);
         tvVehRegNumEdit.setOnClickListener(this);
         tvRegYear.setOnClickListener(this);
@@ -122,9 +127,17 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
 
     private void generateListView(List<String> year)
     {
-        CommonMethods.setValueAgainstKey(this,"veh_reg_year","2017");
-        Intent intent=new Intent(VehRegistrationYear.this, VehicleMakeActivity.class);
-        startActivity(intent);
+        lvVehListView.setVisibility(View.VISIBLE);
+        VehicleDetailsAdapter vehicleDetailsAdapter=new VehicleDetailsAdapter(this, R.layout.custom_list_item_row,year,tvRegYear,lvVehListView);
+        lvVehListView.setAdapter(vehicleDetailsAdapter);
     }
 
+    /*void onItemClick(AdapterView<?> adapterView, View view, int i, long l)     {
+
+        String Exercise = String.valueOf(adapterView.getItemAtPosition(i));
+        result = (textView3.getText().toString() + "\n" + Exercise;
+        textView3.setText(result);
+
+    }
+*/
 }

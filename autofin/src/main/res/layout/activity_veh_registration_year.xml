@@ -118,9 +118,7 @@
                     android:layout_marginRight="@dimen/text_size25dp"
                     android:layout_weight="0.3"
                     app:srcCompat="@drawable/ic_autofin_search_24px" />
-
             </LinearLayout>
-
             <View
                 style="@style/c2_view_2_style"
                 android:layout_width="match_parent"
@@ -138,7 +136,8 @@
                 <ListView
                     android:id="@+id/lvVehListView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"/>
             </LinearLayout>
 
         </LinearLayout>

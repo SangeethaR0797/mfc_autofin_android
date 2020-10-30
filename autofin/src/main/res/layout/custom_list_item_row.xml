@@ -2,13 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/text_size_15dp">
+    android:background="@color/white">
 
     <TextView
+        android:id="@+id/tvCustomLV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/grey_box_1dp"
         android:layout_marginLeft="@dimen/text_size10dp"
         android:layout_marginRight="@dimen/text_size10dp"
+        android:layout_marginBottom="@dimen/text_size_15dp"
         android:gravity="center"
         android:paddingTop="@dimen/text_size11dp"
         android:paddingBottom="@dimen/text_size10dp"

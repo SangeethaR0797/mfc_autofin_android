@@ -4,13 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.R;
 
+import java.util.List;
+
 import model.ibb_models.IBBVehDetailsReq;
+import model.ibb_models.VehRegYearRes;
+import model.ibb_models.VehVariantRes;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -67,6 +74,35 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onResponse(Call<Object> call, Response<Object> response) {
+
+        SpinnerManager.hideSpinner(VehicleVariantActivity.this);
+        String strVariantRes=new Gson().toJson(response.body());
+        Log.i(TAG, "onResponse: "+strVariantRes);
+        try {
+            {
+                VehVariantRes variantRes=new Gson().fromJson(strVariantRes,VehVariantRes.class);
+                if(variantRes.getStatus()==200)
+                {
+                    if(variantRes.getVariant()!=null)
+                    {
+                        generateListView(variantRes.getVariant());
+                    }
+                    else
+                    {
+                        Log.i(TAG, "onResponse: No Years found");
+                    }
+                }}
+        }catch(Exception exception)
+        {
+            exception.printStackTrace();
+            Intent intent=new Intent(VehicleVariantActivity.this, AutoFinDashBoardActivity.class);
+            startActivity(intent);
+        }
+
+    }
+
+    private void generateListView(List<String> year)
+    {
 
     }
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -35,6 +36,7 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
     private static final String TAG =VehicleMakeActivity.class.getSimpleName() ;
     private TextView tvGivenRegYear,tvGivenRegYearVal,tvGivenRegYearEdit,tvSelectedVehMake;
     private ImageView iv_app_make_search;
+    ListView lvVehListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
