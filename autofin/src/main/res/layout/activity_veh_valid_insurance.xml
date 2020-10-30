@@ -100,7 +100,7 @@
                 android:layout_marginLeft="@dimen/text_size_20dp"
                 android:layout_marginTop="@dimen/text_size_30dp"
                 android:layout_marginBottom="@dimen/text_size_28dp"
-                android:text="@string/vehicle_have_loan_qn"
+                android:text="@string/lbl_insurance_on_vehicle"
                 android:textColor="@color/very_dark_blue"
                 android:textSize="@dimen/text_size_16sp" />
 
@@ -135,12 +135,13 @@
                     android:textSize="@dimen/text_size_16sp" />
             </LinearLayout>
              <LinearLayout
-                android:id="@+id/llVehPostInspection"
+                android:id="@+id/llVehInsuranceAmount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/text_size10dp"
                 android:layout_marginRight="@dimen/text_size10dp"
                 android:layout_marginBottom="@dimen/text_size_34dp"
+                 android:visibility="gone"
                 android:orientation="vertical">
 
                 <TextView
@@ -157,6 +158,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/testing_string"
+                    android:background="@android:color/transparent"
                     android:textColor="@color/very_dark_blue"
                     android:inputType="number"
                     android:textSize="@dimen/text_size_16sp" />
