@@ -6,14 +6,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mfc.autofin.framework.R;
+
+import utility.CommonMethods;
+import utility.CommonStrings;
 
 public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView tvGivenVehOwnership, tvGivenVehOwnershipVal, tvGivenVehOwnershipEdit;
     Button btnCarHaveLoan, btnCarHaveNoLoan;
+    ImageView iv_vehDetails_backBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +33,12 @@ public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements V
         tvGivenVehOwnershipEdit = findViewById(R.id.tvGivenVehOwnershipEdit);
         btnCarHaveLoan = findViewById(R.id.btnCarHaveLoan);
         btnCarHaveNoLoan = findViewById(R.id.btnCarHaveNoLoan);
+        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+        tvGivenVehOwnershipVal.setText(CommonMethods.getStringValueFromKey(this, CommonStrings.VEH_OWNER_STRING));
+        iv_vehDetails_backBtn.setOnClickListener(this);
+        tvGivenVehOwnershipEdit.setOnClickListener(this);
+        btnCarHaveLoan.setOnClickListener(this);
+        btnCarHaveNoLoan.setOnClickListener(this);
     }
 
     @Override
