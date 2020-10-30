@@ -61,6 +61,7 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
         lvVehListView = findViewById(R.id.lvVehListView);
         tvGivenVehMakeVal.setText(strVehMake);
         svVehModelDetails = findViewById(R.id.svVehModelDetails);
+        lvVehListView.setDivider(null);
         int searchCloseButtonId = svVehModelDetails.getContext().getResources()
                 .getIdentifier("android:id/search_close_btn", null, null);
 

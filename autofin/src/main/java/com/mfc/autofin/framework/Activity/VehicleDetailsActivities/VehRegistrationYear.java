@@ -65,6 +65,7 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
         lvVehListView = findViewById(R.id.lvVehListView);
         svVehDetails = findViewById(R.id.svVehDetails);
         tvGivenRegNoVal.setText(regNoVal);
+        lvVehListView.setDivider(null);
         int searchCloseButtonId = svVehDetails.getContext().getResources()
                 .getIdentifier("android:id/search_close_btn", null, null);
 

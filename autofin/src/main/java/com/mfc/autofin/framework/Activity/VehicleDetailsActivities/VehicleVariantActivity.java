@@ -63,7 +63,7 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
         tvSelectedVehVariant.setOnClickListener(this);
         iv_app_variant_search = findViewById(R.id.iv_app_variant_search);
         iv_app_variant_search.setOnClickListener(this);
-
+        lvVehListView.setDivider(null);
         int searchCloseButtonId = svVehVariantDetails.getContext().getResources()
                 .getIdentifier("android:id/search_close_btn", null, null);
 
