@@ -111,17 +111,6 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
             final RadioButton[] rb = new RadioButton[5];
             RadioGroup rg = new RadioGroup(this); //create the RadioGroup
             rg.setOrientation(RadioGroup.HORIZONTAL);//or RadioGroup.VERTICAL
-         /*   for(int i=0; i<5; i++){
-                rb[i]  = new RadioButton(this);
-                rb[i].setText(" " + ContactsActivity.phonetype.get(i)
-                        + "    " + ContactsActivity.phone.get(i));
-                //rb should be a list
-                rb[i].setId(i + 100);
-                rg.addView(rb[i]);
-            }
-            ll.addView(rg);//you add the whole RadioGroup to the layout
-
-        }*/
         }
     }
 
