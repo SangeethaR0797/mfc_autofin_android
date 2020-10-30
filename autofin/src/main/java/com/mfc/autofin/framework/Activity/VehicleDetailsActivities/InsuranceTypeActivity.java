@@ -5,13 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mfc.autofin.framework.Activity.BasicDetailsActivities.BasicDetailsActivity;
 import com.mfc.autofin.framework.R;
+
+import utility.CommonMethods;
+import utility.CommonStrings;
 
 public class InsuranceTypeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -38,7 +43,9 @@ public class InsuranceTypeActivity extends AppCompatActivity implements View.OnC
         iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
         iv_vehDetails_backBtn.setOnClickListener(this);
         tvGivenInsValidityEdit.setOnClickListener(this);
-        rgVehType.setOnClickListener(this);
+        radioBtnComprehensive.setOnClickListener(this);
+        radioBtnThirdParty.setOnClickListener(this);
+
 
     }
 
@@ -48,7 +55,12 @@ public class InsuranceTypeActivity extends AppCompatActivity implements View.OnC
             finish();
         } else if (v.getId() == R.id.tvGivenInsValidityEdit) {
             finish();
+        } else if (v.getId() == R.id.radioBtnComprehensive) {
+            CommonMethods.setValueAgainstKey(InsuranceTypeActivity.this, CommonStrings.VEH_INSURANCE_TYPE, radioBtnComprehensive.getText().toString());
+            Intent intent = new Intent(InsuranceTypeActivity.this, BasicDetailsActivity.class);
+            startActivity(intent);
         } else if (v.getId() == R.id.radioBtnThirdParty) {
+            CommonMethods.setValueAgainstKey(InsuranceTypeActivity.this, CommonStrings.VEH_INSURANCE_TYPE, radioBtnThirdParty.getText().toString());
             Intent intent = new Intent(InsuranceTypeActivity.this, BasicDetailsActivity.class);
             startActivity(intent);
         }
