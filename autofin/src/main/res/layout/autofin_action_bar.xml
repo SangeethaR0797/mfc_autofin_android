@@ -15,9 +15,10 @@
         android:weightSum="10">
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="14dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="19dp"
+            android:id="@+id/exitAutofin"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="19dp"
             android:foregroundGravity="left"
