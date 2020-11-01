@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -37,22 +38,22 @@ import static utility.CommonStrings.IBB_VEH_DETAILS_END_POINT;
 import static utility.CommonStrings.IBB_YEAR;
 import static utility.CommonStrings.VEH_CATEGORY_URL;
 
-public class VehRegistrationYear extends AppCompatActivity implements View.OnClickListener, Callback<Object>
-{
+public class VehRegistrationYear extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
 
     private static final String TAG = VehRegistrationYear.class.getSimpleName();
     private TextView tvGivenRegNumLbl, tvGivenRegNoVal, tvVehRegNumEdit, tvRegYearLbl, tvRegYear;
     private ImageView iv_year_search, svCloseButton;
     ListView lvVehListView;
     String regNoVal = "", strYear = "";
-    SearchView svVehDetails;
+    //SearchView svVehDetails;
     VehicleDetailsAdapter vehicleDetailsAdapter;
+    private Button btnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_veh_registration_year);
-        regNoVal = CommonMethods.getStringValueFromKey(VehRegistrationYear.this, CommonStrings.VEH_REG_NO);
+        regNoVal = CommonStrings.customVehDetails.getVehRegNum();
         if (CommonStrings.stockResData != null) {
             if (CommonStrings.stockResData.getYear() != null)
                 strYear = String.valueOf(CommonStrings.stockResData.getYear());
@@ -70,15 +71,14 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
         tvVehRegNumEdit = findViewById(R.id.tvVehRegNumEdit);
         tvRegYearLbl = findViewById(R.id.tvRegYearLbl);
         tvRegYear = findViewById(R.id.tvRegYear);
-        iv_year_search = findViewById(R.id.iv_year_search);
         lvVehListView = findViewById(R.id.lvVehListView);
-        svVehDetails = findViewById(R.id.svVehDetails);
+        //svVehDetails = findViewById(R.id.svVehDetails);
         tvGivenRegNoVal.setText(regNoVal);
         lvVehListView.setDivider(null);
         tvRegYear.setText(strYear);
+        btnNext = findViewById(R.id.btnNext);
 
-
-        int searchCloseButtonId = svVehDetails.getContext().getResources()
+        /*int searchCloseButtonId = svVehDetails.getContext().getResources()
                 .getIdentifier("android:id/search_close_btn", null, null);
 
         svCloseButton = this.svVehDetails.findViewById(searchCloseButtonId);
@@ -106,11 +106,11 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
                 return false;
             }
         });
-
+*/
         tvVehRegNumEdit.setOnClickListener(this);
         tvRegYear.setOnClickListener(this);
-        iv_year_search.setOnClickListener(this);
-
+        // iv_year_search.setOnClickListener(this);
+        btnNext.setOnClickListener(this);
     }
 
     @Override
@@ -118,7 +118,7 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
         if (v.getId() == R.id.iv_vehDetails_backBtn) {
             finish();
         } else if (v.getId() == R.id.tvVehRegNumEdit) {
-           finish();
+            finish();
         } else if (v.getId() == R.id.tvRegYear) {
             if (CommonMethods.isInternetWorking(VehRegistrationYear.this)) {
                 SpinnerManager.showSpinner(VehRegistrationYear.this);
@@ -127,9 +127,15 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
             } else {
                 Toast.makeText(VehRegistrationYear.this, "PLease check your Internet Connection", Toast.LENGTH_LONG).show();
             }
+        } else if (v.getId() == R.id.btnNext) {
+            if (!tvRegYear.getText().toString().isEmpty()) {
+                CommonStrings.customVehDetails.setRegistrationYear(tvRegYear.getText().toString());
+                Intent intent = new Intent(this, VehicleMakeActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Please select Manufactured Year", Toast.LENGTH_LONG).show();
+            }
 
-        } else if (v.getId() == R.id.iv_year_search) {
-            svVehDetails.setVisibility(View.VISIBLE);
         }
     }
 

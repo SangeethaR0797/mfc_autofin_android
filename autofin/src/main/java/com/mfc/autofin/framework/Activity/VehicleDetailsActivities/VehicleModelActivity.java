@@ -7,6 +7,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -38,7 +39,8 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
     private static final String TAG = VehicleModelActivity.class.getSimpleName();
     TextView tvGivenRegMake, tvGivenVehMakeVal, tvGivenVehMakeEdit, tvSelectedVehModel;
     ImageView iv_app_model_search, svCloseButton;
-    String strVehMake = "", strModel;
+    private Button btnNext;
+    String strYear = "", strVehMake = "", strModel;
     ListView lvVehListView;
     SearchView svVehModelDetails;
     VehicleDetailsAdapter vehicleDetailsAdapter;
@@ -48,9 +50,11 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_model);
-        strVehMake = CommonMethods.getStringValueFromKey(VehicleModelActivity.this, "veh_reg_make");
+        strYear = CommonStrings.customVehDetails.getRegistrationYear();
+        strVehMake = CommonStrings.customVehDetails.getMake();
+
         if (CommonStrings.stockResData != null) {
-            if (CommonStrings.stockResData.getMake() != null) {
+            if (CommonStrings.stockResData.getModel() != null) {
                 strModel = CommonStrings.stockResData.getModel();
             }
         } else {
@@ -68,6 +72,7 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
         lvVehListView = findViewById(R.id.lvVehListView);
         tvGivenVehMakeVal.setText(strVehMake);
         svVehModelDetails = findViewById(R.id.svVehModelDetails);
+        btnNext = findViewById(R.id.btnNext);
         lvVehListView.setDivider(null);
 
         tvSelectedVehModel.setText(strModel);
@@ -115,10 +120,14 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
             startActivity(intent);
         } else if (v.getId() == R.id.tvSelectedVehModel) {
             SpinnerManager.showSpinner(this);
-            IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_MODEL, CommonMethods.getStringValueFromKey(VehicleModelActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, CommonMethods.getStringValueFromKey(VehicleModelActivity.this, "veh_reg_year"), "0", strVehMake);
+            IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_MODEL, CommonMethods.getStringValueFromKey(VehicleModelActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, strYear, "0", strVehMake);
             retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
         } else if (v.getId() == R.id.iv_app_make_search) {
             svVehModelDetails.setVisibility(View.VISIBLE);
+        } else if (v.getId() == R.id.btnNext) {
+            CommonStrings.customVehDetails.setModel(tvGivenVehMakeEdit.getText().toString());
+            Intent intent = new Intent(this, VehicleVariantActivity.class);
+            startActivity(intent);
         }
 
     }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -37,7 +38,8 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
     private static String TAG = VehicleVariantActivity.class.getSimpleName();
     TextView tvGivenVehModelVal, tvGivenVehModelEdit, tvSelectedVehVariant;
     ImageView iv_app_variant_search, svCloseButton;
-    String strVehMake = "", strVehModel = "", strVariant;
+    private Button btnNext;
+    String strYear = "", strVehMake = "", strVehModel = "", strVariant;
     ListView lvVehListView;
     VehicleDetailsAdapter vehicleDetailsAdapter;
     SearchView svVehVariantDetails;
@@ -46,10 +48,12 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_variant);
-        strVehMake = CommonMethods.getStringValueFromKey(VehicleVariantActivity.this, "veh_reg_make");
-        strVehModel = CommonMethods.getStringValueFromKey(VehicleVariantActivity.this, "veh_reg_model");
+        Log.i(TAG, "onCreate: ");
+        strYear = CommonStrings.customVehDetails.getRegistrationYear();
+        strVehMake = CommonStrings.customVehDetails.getMake();
+        strVehModel = CommonStrings.customVehDetails.getModel();
         if (CommonStrings.stockResData != null) {
-            if (CommonStrings.stockResData.getMake() != null) {
+            if (CommonStrings.stockResData.getVariant() != null) {
                 strVariant = CommonStrings.stockResData.getModel();
             }
         } else {
@@ -65,6 +69,7 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
         tvGivenVehModelVal = findViewById(R.id.tvGivenVehModelVal);
         tvGivenVehModelEdit = findViewById(R.id.tvGivenVehModelEdit);
         tvSelectedVehVariant = findViewById(R.id.tvSelectedVehVariant);
+        btnNext = findViewById(R.id.btnNext);
         tvGivenVehModelVal.setText(strVehModel);
         lvVehListView = findViewById(R.id.lvVehListView);
         svVehVariantDetails = findViewById(R.id.svVehVariantDetails);
@@ -119,6 +124,12 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
             retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
         } else if (v.getId() == R.id.iv_app_variant_search) {
             svVehVariantDetails.setVisibility(View.VISIBLE);
+        } else if (v.getId() == R.id.btnNext) {
+            if (!tvSelectedVehVariant.getText().toString().isEmpty()) {
+                CommonStrings.customVehDetails.setVariant(tvSelectedVehVariant.getText().toString());
+                Intent intent = new Intent(this, VehicleOwnerActivity.class);
+                this.startActivity(intent);
+            }
         }
     }
 

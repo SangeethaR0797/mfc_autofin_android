@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
@@ -39,6 +41,7 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
     private static final String TAG = VehicleMakeActivity.class.getSimpleName();
     private TextView tvGivenRegYear, tvGivenRegYearVal, tvGivenRegYearEdit, tvSelectedVehMake;
     private ImageView iv_app_make_search, svCloseButton;
+    private Button btnNext;
     ListView lvVehListView;
     SearchView svVehMakeDetails;
     VehicleDetailsAdapter vehicleDetailsAdapter;
@@ -48,7 +51,7 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_make);
-        strYear = CommonMethods.getStringValueFromKey(this, VEH_MFG_YEAR);
+        strYear = CommonStrings.customVehDetails.getRegistrationYear();
         if (CommonStrings.stockResData != null) {
             if (CommonStrings.stockResData.getMake() != null) {
                 strMake = CommonStrings.stockResData.getMake();
@@ -67,7 +70,7 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
         iv_app_make_search = findViewById(R.id.iv_app_make_search);
         lvVehListView = findViewById(R.id.lvVehListView);
         svVehMakeDetails = findViewById(R.id.svVehMakeDetails);
-        tvSelectedVehMake.setText(CommonStrings.stockResData.getMake());
+        btnNext = findViewById(R.id.btnNext);
         lvVehListView.setDivider(null);
 
         tvSelectedVehMake.setText(strMake);
@@ -101,7 +104,6 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
             }
         });
 
-
         tvGivenRegYearEdit.setOnClickListener(this);
         tvSelectedVehMake.setOnClickListener(this);
         iv_app_make_search.setOnClickListener(this);
@@ -113,14 +115,23 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
         if (v.getId() == R.id.iv_vehDetails_backBtn) {
             finish();
         } else if (v.getId() == R.id.tvGivenRegYearEdit) {
-            Intent intent = new Intent(VehicleMakeActivity.this, VehRegistrationYear.class);
-            startActivity(intent);
+            finish();
         } else if (v.getId() == R.id.tvSelectedVehMake) {
             SpinnerManager.showSpinner(this);
-            IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_MAKE, CommonMethods.getStringValueFromKey(VehicleMakeActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, CommonMethods.getStringValueFromKey(VehicleMakeActivity.this, "veh_reg_year"), "0");
+            IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_MAKE, CommonMethods.getStringValueFromKey(VehicleMakeActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, strYear, "0");
             retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
         } else if (v.getId() == R.id.iv_app_make_search) {
             svVehMakeDetails.setVisibility(View.VISIBLE);
+        } else if (v.getId() == R.id.btnNext) {
+            if (!tvSelectedVehMake.getText().toString().isEmpty()) {
+                CommonStrings.customVehDetails.setMake(tvSelectedVehMake.getText().toString());
+                Intent intent = new Intent(this, VehicleModelActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(VehicleMakeActivity.this, "Please select Vehicle Make", Toast.LENGTH_LONG).show();
+
+            }
+
         }
     }
 
