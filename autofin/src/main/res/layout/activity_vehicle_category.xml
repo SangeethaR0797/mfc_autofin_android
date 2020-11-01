@@ -41,25 +41,28 @@
                 android:layout_marginTop="@dimen/text_size_33dp">
 
                 <RadioButton
-                    android:id="@+id/rbVehNewCar"
+                    android:id="@+id/rbNewCar"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="@dimen/text_size_24dp"
-                    android:paddingLeft="12dp" android:checked="false"
-                    android:text="@string/new_car"
                     android:buttonTint="@color/very_dark_blue"
+                    android:checked="false"
+                    android:paddingLeft="12dp"
+                    android:text="@string/new_car"
                     android:textColor="@color/very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
+
                 <RadioButton
-                    android:id="@+id/rbVehCategory"
+                    android:id="@+id/rbOldCar"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="@dimen/text_size_24dp"
-                    android:paddingLeft="12dp" android:checked="false"
-                    android:text="@string/old_car"
                     android:buttonTint="@color/very_dark_blue"
+                    android:checked="false"
+                    android:paddingLeft="12dp"
+                    android:text="@string/old_car"
                     android:textColor="@color/very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 
@@ -69,9 +72,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="@dimen/text_size_24dp"
-                    android:paddingLeft="12dp" android:checked="false"
-                    android:text="@string/new_bike"
                     android:buttonTint="@color/very_dark_blue"
+                    android:checked="false"
+                    android:paddingLeft="12dp"
+                    android:text="@string/new_bike"
                     android:textColor="@color/very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 

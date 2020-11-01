@@ -24,12 +24,15 @@ public class InsuranceTypeActivity extends AppCompatActivity implements View.OnC
     RadioGroup rgVehType;
     RadioButton radioBtnComprehensive, radioBtnThirdParty;
     ImageView iv_vehDetails_backBtn;
-    String strInsuranceType = "";
+    String strInsuranceValidity = "", strInsuranceType = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insurance_type);
+        strInsuranceValidity = CommonMethods.getStringValueFromKey(InsuranceTypeActivity.this, CommonStrings.VEH_INSURANCE_VALIDITY);
+        strInsuranceValidity.replaceAll("/", " ");
+
         if (CommonStrings.stockResData != null) {
             if (CommonStrings.stockResData.getInsuranceValidity() != null) {
                 strInsuranceType = CommonStrings.stockResData.getInsuranceType();
@@ -50,7 +53,7 @@ public class InsuranceTypeActivity extends AppCompatActivity implements View.OnC
         radioBtnComprehensive = findViewById(R.id.radioBtnComprehensive);
         radioBtnThirdParty = findViewById(R.id.radioBtnThirdParty);
         iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
-
+        tvGivenInsValidityVal.setText(strInsuranceValidity);
         if (strInsuranceType.equalsIgnoreCase(radioBtnComprehensive.getText().toString())) {
             radioBtnComprehensive.setChecked(true);
         } else if (strInsuranceType.equalsIgnoreCase(radioBtnThirdParty.getText().toString())) {

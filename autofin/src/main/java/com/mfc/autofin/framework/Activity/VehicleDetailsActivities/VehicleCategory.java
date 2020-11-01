@@ -33,7 +33,7 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
 
     TextView tvVehCategoryQn;
     RadioGroup rgVehCategory;
-    RadioButton rbVehCategory;
+    RadioButton rbNewCar, rbOldCar;
     ImageView iv_vehDetails_backBtn;
     private List<Category> vehicleCategoryList;
 
@@ -53,11 +53,12 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
 
         tvVehCategoryQn = findViewById(R.id.tvVehCategoryQn);
         rgVehCategory = findViewById(R.id.rgVehCategory);
-        rbVehCategory = findViewById(R.id.rbVehCategory);
+        rbOldCar = findViewById(R.id.rbOldCar);
         iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
-
         iv_vehDetails_backBtn.setOnClickListener(this);
-        rbVehCategory.setOnClickListener(this);
+        rbNewCar = findViewById(R.id.rbNewCar);
+        rbOldCar.setOnClickListener(this);
+        rbNewCar.setOnClickListener(this);
         iv_vehDetails_backBtn.setOnClickListener(this);
 
     }
@@ -67,9 +68,13 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         if (v.getId() == R.id.iv_vehDetails_backBtn) {
             finish();
-        }
-        if (v.getId() == R.id.rbVehCategory) {
-            if (rbVehCategory.isChecked()) {
+        } else if (v.getId() == R.id.rbNewCar) {
+            if (rbNewCar.isChecked()) {
+                Intent intent = new Intent(VehicleCategory.this, VehRegNumActivity.class);
+                startActivity(intent);
+            }
+        } else if (v.getId() == R.id.rbOldCar) {
+            if (rbOldCar.isChecked()) {
                 Intent intent = new Intent(VehicleCategory.this, VehRegNumActivity.class);
                 startActivity(intent);
             }
@@ -100,7 +105,7 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
     private void setVehicleCategoryList() {
         for (int i = 0; i < vehicleCategoryList.size(); i++) {
             RadioButton radioButton = new RadioButton(VehicleCategory.this, null, R.style.auto_fin_tab_label_style);
-            rbVehCategory.setText(vehicleCategoryList.get(i).getDisplayLabel());
+            rbOldCar.setText(vehicleCategoryList.get(i).getDisplayLabel());
             final RadioButton[] rb = new RadioButton[5];
             RadioGroup rg = new RadioGroup(this); //create the RadioGroup
             rg.setOrientation(RadioGroup.HORIZONTAL);//or RadioGroup.VERTICAL

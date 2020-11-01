@@ -52,7 +52,7 @@
                             style="@style/veh_details_previous_data_val_style"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/testing_string" />
+                            android:text="@string/yes" />
                     </LinearLayout>
 
                     <ImageView
@@ -98,6 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/text_size_20dp"
                     android:layout_marginTop="@dimen/text_size_30dp"
+                    android:clickable="true"
                     android:drawableRight="@drawable/ic_baseline_calendar_today_24"
                     android:paddingRight="20dp"
                     android:paddingBottom="@dimen/text_size_30dp"
@@ -127,10 +128,19 @@
 
                 </LinearLayout>
 
-                <TextView
+                <LinearLayout
+                    android:id="@+id/llCalendarView"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:visibility="invisible" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_size_20dp"
+                    android:visibility="invisible">
+
+                    <CalendarView
+                        android:id="@+id/cvInsuranceValidity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusedMonthDateColor="@color/grey_color" />
+                </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>

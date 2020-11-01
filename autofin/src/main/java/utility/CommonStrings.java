@@ -13,6 +13,7 @@ public class CommonStrings {
     public static final String VEH_MFG_MAKE = "veh_mfg_make";
     public static final String VEH_MFG_MODEL = "veh_mfg_model";
     public static final String VEH_VARIANT = "veh_variant";
+    public static final String VEH_INSURANCE_VALIDITY = "veh_insurance_validity_dt";
     public static String VEH_CATEGORY_URL = "https://15.207.148.230:3004/api/masters/vehicle-category";
     public static String IBB_PASSWORD = "dHk69ffu7ebP";
     public static String IBB_USERNAME = "mfc@ibb.com";
