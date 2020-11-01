@@ -45,6 +45,7 @@
     <string name="lbl_reg_no">Resgistration No</string>
     <string name="edit_btn_lbl">EDIT   </string>
     <string name="lbl_select_veh_reg_year">SELECT VEHICLE REGISTRATION YEAR</string>
+    <string name="lbl_veh_reg_year">VEHICLE registration year</string>
     <string name="hint_select_year">Select Year...</string>
     <string name="lbl_select_veh_reg_make">SELECT MAKE</string>
     <string name="hint_select_make">SELECT MAKE...</string>
@@ -73,5 +74,10 @@
     <string name="sample_reg_no">Eg: KA 01 BR 1234</string>
     <string name="loading">Loading...</string>
     <string name="lbl_insurance_on_vehicle">VALID INSURANCE ON VEHICLE</string>
+    <string name="incorrect_reg_no">Please enter valid registration number!</string>
+    <string name="reg_no_empty_message">Please enter your vehicle registration number</string>
+    <string name="no_stock_available">No stock available ! Please check entered registration number.</string>
+    <string name="please_try_again">Please try again. Something went wrong!</string>
+    <string name="please_check_internet_connection">Please check your internet connection</string>
 
 </resources>

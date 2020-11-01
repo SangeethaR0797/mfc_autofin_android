@@ -5,10 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,11 +16,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.mfc.autofin.framework.R;
 
-import java.time.YearMonth;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import model.CustomerDetailsRes;
 import model.vehicle_details.vehicle_category.stock_details.StockData;
 import model.vehicle_details.vehicle_category.stock_details.StockDetailsReq;
 import model.vehicle_details.vehicle_category.stock_details.StockResponse;
@@ -29,7 +23,6 @@ import model.vehicle_details.vehicle_category.stock_details.StockResponseData;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import utility.AutoFinConstants;
 import utility.CommonMethods;
 import utility.CommonStrings;
 import utility.Global_URLs;
@@ -42,10 +35,7 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
     ImageView iv_vehDetails_backBtn;
     TextView tvVehCategoryQn, tvRegNoLbl;
     EditText etVehRegNo;
-
-    long delay = 2000; // 2 seconds after user stops typing
-    long last_text_edit = 0;
-    Handler handler = new Handler();
+    Button btnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,43 +49,9 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
         tvVehCategoryQn = findViewById(R.id.tvVehCategoryQn);
         tvRegNoLbl = findViewById(R.id.tvRegNoLbl);
         etVehRegNo = findViewById(R.id.etVehRegNo);
+        btnNext=findViewById(R.id.btnNext);
         iv_vehDetails_backBtn.setOnClickListener(this);
-        Runnable input_finish_checker = new Runnable() {
-            public void run() {
-                if (etVehRegNo.getText().toString().length() >= 10 && etVehRegNo.getText().toString().length() <= 15) {
-                    if (System.currentTimeMillis() > (last_text_edit + delay - 1000)) {
-                        validateRegNo(etVehRegNo.getText().toString());
-                    }
-                }
-            }
-        };
-
-        etVehRegNo.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-            }
-
-            @Override
-            public void onTextChanged(final CharSequence s, int start, int before,
-                                      int count) {
-                //You need to remove this to run only once
-                handler.removeCallbacks(input_finish_checker);
-
-            }
-
-            @Override
-            public void afterTextChanged(final Editable s) {
-                //avoid triggering event when text is empty
-                if (s.length() > 0) {
-                    last_text_edit = System.currentTimeMillis();
-                    handler.postDelayed(input_finish_checker, delay);
-                } else {
-
-                }
-            }
-        });
-
+        btnNext.setOnClickListener(this);
 
     }
 
@@ -104,23 +60,49 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
         if (v.getId() == R.id.iv_vehDetails_backBtn) {
             finish();
         }
+        else if(v.getId()==R.id.btnNext)
+        {
+            validate();
+        }
 
     }
 
-    private void validateRegNo(String finalString) {
+    private void validate()
+    {
+        String regNo=etVehRegNo.getText().toString();
+        if(!regNo.isEmpty())
+        {
+            if(regNo.length()>=10 && regNo.length()<15)
+            {
+                callStockAPI(regNo);
+            }
+            else
+            {
+                Toast.makeText(this, getString(R.string.incorrect_reg_no), Toast.LENGTH_SHORT).show();
+            }
+        }
+        else
+        {
+            Toast.makeText(this, getString(R.string.reg_no_empty_message), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void callStockAPI(String strRegNo) {
         StockDetailsReq stockDetailsReq = new StockDetailsReq();
-        stockDetailsReq.setUserId("242");
-        stockDetailsReq.setUserType("Dealer");
+        stockDetailsReq.setUserId(CommonMethods.getStringValueFromKey(this,CommonStrings.DEALER_ID_VAL));
+        stockDetailsReq.setUserType(CommonMethods.getStringValueFromKey(this,CommonStrings.USER_TYPE_VAL));
         StockData stockData = new StockData();
-        stockData.setVehicleNumber(finalString);
+        stockData.setVehicleNumber(strRegNo);
         stockDetailsReq.setData(stockData);
 
-        retrofitInterface.getFromWeb(stockDetailsReq, Global_URLs.STOCK_DETAILS_BASE_URL + CommonStrings.STOCK_DETAILS_URL_END).enqueue(this);
-
-            /*   CommonMethods.setValueAgainstKey(VehRegNumAns.this, "vehicle_reg_no", finalString);
-            Intent intent = new Intent(VehRegNumAns.this, VehRegistrationYear.class);
-            startActivity(intent);*/
-
+        if(CommonMethods.isInternetWorking(this))
+        {
+            retrofitInterface.getFromWeb(stockDetailsReq, Global_URLs.STOCK_DETAILS_BASE_URL + CommonStrings.STOCK_DETAILS_URL_END).enqueue(this);
+        }
+        else
+        {
+            Toast.makeText(this, getString(R.string.please_check_internet_connection), Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -139,8 +121,11 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
                     Intent intent = new Intent(VehRegNumAns.this, VehRegistrationYear.class);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(this, "No Stock available", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getString(R.string.no_stock_available), Toast.LENGTH_LONG).show();
                 }
+            }
+            else {
+                Toast.makeText(this, getString(R.string.no_stock_available), Toast.LENGTH_LONG).show();
             }
         } catch (NullPointerException exception) {
             exception.printStackTrace();
@@ -152,6 +137,7 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onFailure(Call<Object> call, Throwable t) {
+        Toast.makeText(this, getString(R.string.please_try_again), Toast.LENGTH_LONG).show();
 
     }
 }

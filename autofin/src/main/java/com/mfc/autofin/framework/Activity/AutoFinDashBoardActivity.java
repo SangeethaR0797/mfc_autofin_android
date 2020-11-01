@@ -88,6 +88,11 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
             mUserId = data.getString(AutoFinConstants.DEALER_ID);
             mUserType = data.getString(AutoFinConstants.USER_TYPE);
             mAppName = data.getString(AutoFinConstants.APP_NAME);
+
+            // Added by Sangeetha
+            CommonMethods.setValueAgainstKey(this, CommonStrings.DEALER_ID_VAL, mUserId);
+            CommonMethods.setValueAgainstKey(this, CommonStrings.USER_TYPE_VAL, mUserType);
+            CommonMethods.setValueAgainstKey(this, CommonStrings.APP_NAME_VAL, mAppName);
         }
     }
 

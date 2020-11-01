@@ -46,7 +46,7 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_vehicle_category);
         Log.i(TAG, "onCreate: ");
         initView();
-        retrofitInterface.getFromWeb(VEH_CATEGORY_URL).enqueue(this);
+        // retrofitInterface.getFromWeb(VEH_CATEGORY_URL).enqueue(this);
 
     }
 
@@ -87,7 +87,7 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onResponse(Call<Object> call, Response<Object> response) {
-        String res = new Gson().toJson(response.body());
+       /* String res = new Gson().toJson(response.body());
         Log.i(TAG, "onResponse: " + res);
         VehicleCategoryRes vehicleCategoryRes = new Gson().fromJson(res, VehicleCategoryRes.class);
         try {
@@ -101,7 +101,7 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-
+*/
 
     }
 

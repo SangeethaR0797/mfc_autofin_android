@@ -1,142 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/g_white"
-    android:orientation="vertical"
     tools:context=".Activity.VehicleDetailsActivities.VehicleMakeActivity">
 
-    <include layout="@layout/vehicle_details_app_bar" />
-
-    <androidx.cardview.widget.CardView
-        style="@style/veh_details_card_view_1style"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+        <include layout="@layout/vehicle_details_app_bar" />
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
+            style="@style/veh_details_card_view_1style"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/text_size10dp">
+            android:layout_height="wrap_content">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/text_size10dp">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.8"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
-                    <TextView
-                        android:id="@+id/tvGivenRegYear"
-                        style="@style/VehDetails_PreviousData_Style"
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/text_size_19dp"
-                        android:text="@string/lbl_reg_no" />
+                        android:layout_weight="1.8"
+                        android:orientation="vertical">
 
-                    <utility.RobotoMedium
-                        android:id="@+id/tvGivenRegYearVal"
-                        style="@style/veh_details_previous_data_val_style"
-                        android:layout_width="wrap_content"
+                        <TextView
+                            android:id="@+id/tvGivenRegYear"
+                            style="@style/VehDetails_PreviousData_Style"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/text_size_19dp"
+                            android:text="@string/lbl_veh_reg_year" />
+
+                        <utility.RobotoMedium
+                            android:id="@+id/tvGivenRegYearVal"
+                            style="@style/veh_details_previous_data_val_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/testing_string" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_green_tick"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/testing_string" />
+                        android:layout_marginTop="@dimen/text_size25dp"
+                        android:layout_marginRight="@dimen/text_size_21dp"
+                        android:layout_weight="0.2"
+                        app:srcCompat="@drawable/ic_baseline_ac_unit_24" />
+
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/iv_green_tick"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/text_size25dp"
-                    android:layout_marginRight="@dimen/text_size_21dp"
-                    android:layout_weight="0.2"
-                    app:srcCompat="@drawable/ic_baseline_ac_unit_24" />
+                <View
+                    style="@style/view_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
 
+                <utility.RobotoMedium
+                    android:id="@+id/tvGivenRegYearEdit"
+                    style="@style/edit_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-            <View
-                style="@style/view_style"
-                android:layout_width="match_parent"
-                android:layout_height="1dp" />
-
-            <utility.RobotoMedium
-                android:id="@+id/tvGivenRegYearEdit"
-                style="@style/edit_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        style="@style/veh_details_card_view_2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
+        <androidx.cardview.widget.CardView
+            style="@style/veh_details_card_view_2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <utility.RobotoMedium
-                android:id="@+id/tvRegMakeLbl"
-                style="@style/select_lbl_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lbl_select_veh_reg_make" />
+            android:layout_height="wrap_content">
 
             <LinearLayout
-                style="@style/select_veh_details_ll_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/tvSelectedVehMake"
-                    style="@style/veh_details_selected_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.8"
-                    android:hint="@string/hint_select_make" />
-
-                <View
-                    android:layout_width="2px"
-                    android:layout_height="@dimen/text_size_18dp"
-                    android:layout_gravity="right|center_vertical"
-                    android:layout_marginRight="@dimen/text_size_15dp"
-                    android:background="@color/grey_color" />
-
-                <ImageView
-                    android:id="@+id/iv_app_make_search"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/text_size25dp"
-                    android:layout_weight="0.3"
-                    app:srcCompat="@drawable/ic_autofin_search_24px" />
-
-            </LinearLayout>
-
-            <View
-                style="@style/c2_view_2_style"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/text_size_8dp" />
-
-            <SearchView
-                android:id="@+id/svVehMakeDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:iconifiedByDefault="false"
-                android:queryHint="Search Here"
-                android:visibility="gone" />
+                android:orientation="vertical">
 
-            <include layout="@layout/layout_common_listview" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+                <utility.RobotoMedium
+                    android:id="@+id/tvRegMakeLbl"
+                    style="@style/select_lbl_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_select_veh_reg_make" />
 
-</LinearLayout>
+                <LinearLayout
+                    style="@style/select_veh_details_ll_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tvSelectedVehMake"
+                        style="@style/veh_details_selected_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.8"
+                        android:hint="@string/hint_select_make" />
+
+                    <View
+                        android:layout_width="2px"
+                        android:layout_height="@dimen/text_size_18dp"
+                        android:layout_gravity="right|center_vertical"
+                        android:layout_marginRight="@dimen/text_size_15dp"
+                        android:background="@color/grey_color" />
+
+                    <ImageView
+                        android:id="@+id/iv_app_make_search"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/text_size25dp"
+                        android:layout_weight="0.3"
+                        app:srcCompat="@drawable/ic_autofin_search_24px" />
+
+                </LinearLayout>
+
+                <View
+                    style="@style/c2_view_2_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/text_size_8dp" />
+
+                <SearchView
+                    android:id="@+id/svVehMakeDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:iconifiedByDefault="false"
+                    android:queryHint="Search Here"
+                    android:visibility="gone" />
+
+                <include layout="@layout/layout_common_listview" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <include layout="@layout/autofin_next_btn" />
+    </LinearLayout>
+</RelativeLayout>

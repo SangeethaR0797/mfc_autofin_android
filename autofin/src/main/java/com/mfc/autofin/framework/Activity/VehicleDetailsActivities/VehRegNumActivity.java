@@ -14,6 +14,7 @@ import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.R;
 
 import utility.CommonMethods;
+import utility.CommonStrings;
 
 import static com.mfc.autofin.framework.R.drawable.navy_blue_outline;
 
@@ -50,6 +51,7 @@ public class VehRegNumActivity extends AppCompatActivity implements View.OnClick
             Intent intent = new Intent(VehRegNumActivity.this, VehRegNumAns.class);
             startActivity(intent);
         } else if (v.getId() == R.id.btnVehNumNo) {
+            CommonStrings.customVehDetails.setVehRegNum("NA");
             CommonMethods.highLightSelectedButton(VehRegNumActivity.this, btnVehNumNo);
             CommonMethods.deHighLightButton(VehRegNumActivity.this, btnVehNumYes);
             Intent intent = new Intent(VehRegNumActivity.this, VehRegistrationYear.class);
