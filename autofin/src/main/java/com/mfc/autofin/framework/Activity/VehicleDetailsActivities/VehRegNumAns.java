@@ -43,7 +43,7 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
     TextView tvVehCategoryQn, tvRegNoLbl;
     EditText etVehRegNo;
 
-    long delay = 2000; // 1 seconds after user stops typing
+    long delay = 2000; // 2 seconds after user stops typing
     long last_text_edit = 0;
     Handler handler = new Handler();
 
@@ -133,7 +133,7 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
             if (stockResponse != null && stockResponse.getStatus().toString().equals("true")) {
 
                 if (stockResponse.getData() != null) {
-                    CommonMethods.setValueAgainstKey(this, CommonStrings.VEH_REG_NO, etVehRegNo.getText().toString());
+                    CommonStrings.customVehDetails.setVehRegNum(etVehRegNo.getText().toString());
                     StockResponseData stockResponseData = stockResponse.getData();
                     CommonStrings.stockResData = stockResponseData;
                     Intent intent = new Intent(VehRegNumAns.this, VehRegistrationYear.class);

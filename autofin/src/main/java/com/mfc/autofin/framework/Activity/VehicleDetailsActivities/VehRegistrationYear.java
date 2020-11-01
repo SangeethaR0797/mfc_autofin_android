@@ -37,7 +37,8 @@ import static utility.CommonStrings.IBB_VEH_DETAILS_END_POINT;
 import static utility.CommonStrings.IBB_YEAR;
 import static utility.CommonStrings.VEH_CATEGORY_URL;
 
-public class VehRegistrationYear extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
+public class VehRegistrationYear extends AppCompatActivity implements View.OnClickListener, Callback<Object>
+{
 
     private static final String TAG = VehRegistrationYear.class.getSimpleName();
     private TextView tvGivenRegNumLbl, tvGivenRegNoVal, tvVehRegNumEdit, tvRegYearLbl, tvRegYear;
@@ -63,6 +64,7 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
     }
 
     private void initView() {
+
         tvGivenRegNumLbl = findViewById(R.id.tvGivenRegNumLbl);
         tvGivenRegNoVal = findViewById(R.id.tvGivenRegNoVal);
         tvVehRegNumEdit = findViewById(R.id.tvVehRegNumEdit);
@@ -116,15 +118,14 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
         if (v.getId() == R.id.iv_vehDetails_backBtn) {
             finish();
         } else if (v.getId() == R.id.tvVehRegNumEdit) {
-            Intent intent = new Intent(VehRegistrationYear.this, VehRegNumAns.class);
-            startActivity(intent);
+           finish();
         } else if (v.getId() == R.id.tvRegYear) {
             if (CommonMethods.isInternetWorking(VehRegistrationYear.this)) {
                 SpinnerManager.showSpinner(VehRegistrationYear.this);
                 IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_YEAR, CommonMethods.getStringValueFromKey(VehRegistrationYear.this, "ibb_access_token"), CommonStrings.IBB_TAG);
                 retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
             } else {
-                Toast.makeText(VehRegistrationYear.this, "PLease check your Interner Connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(VehRegistrationYear.this, "PLease check your Internet Connection", Toast.LENGTH_LONG).show();
             }
 
         } else if (v.getId() == R.id.iv_year_search) {

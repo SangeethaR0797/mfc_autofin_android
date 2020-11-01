@@ -7,6 +7,9 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.widget.Button;
+
+import com.mfc.autofin.framework.R;
 
 public class CommonMethods {
     public static boolean isInternetWorking(Context context) {
@@ -44,6 +47,14 @@ public class CommonMethods {
 
         return preference.getString(key, "");
 
+    }
+
+    public static void deHighLightButton(Activity activity,Button button) {
+        button.setBackground(activity.getResources().getDrawable(R.drawable.grey_box_1dp));
+    }
+
+    public static void highLightSelectedButton(Activity activity,Button button) {
+        button.setBackground(activity.getResources().getDrawable(R.drawable.navy_blue_outline));
     }
 
 }

@@ -1,5 +1,6 @@
 package utility;
 
+import model.custom_model.CustomVehDetails;
 import model.vehicle_details.vehicle_category.stock_details.StockResponseData;
 
 public class CommonStrings {
@@ -25,5 +26,6 @@ public class CommonStrings {
     public static String IBB_MODEL = "model";
     public static String IBB_VARIANT = "variant";
     public static StockResponseData stockResData = new StockResponseData();
+    public static CustomVehDetails customVehDetails =new CustomVehDetails();
 
 }

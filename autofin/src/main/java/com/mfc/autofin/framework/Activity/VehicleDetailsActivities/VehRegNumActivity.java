@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.R;
 
+import utility.CommonMethods;
+
 import static com.mfc.autofin.framework.R.drawable.navy_blue_outline;
 
 public class VehRegNumActivity extends AppCompatActivity implements View.OnClickListener {
@@ -43,17 +45,13 @@ public class VehRegNumActivity extends AppCompatActivity implements View.OnClick
         if (v.getId() == R.id.iv_vehDetails_backBtn) {
             finish();
         } else if (v.getId() == R.id.btnVehNumYes) {
-            btnVehNumYes.setBackgroundResource(R.drawable.navy_blue_outline);
-            btnVehNumNo.setBackgroundResource(R.drawable.grey_box_1dp);
-            btnVehNumYes.setTextColor(getResources().getColor(R.color.navy_blue));
-            btnVehNumNo.setTextColor(getResources().getColor(R.color.grey_color));
+            CommonMethods.highLightSelectedButton(VehRegNumActivity.this, btnVehNumYes);
+            CommonMethods.deHighLightButton(VehRegNumActivity.this, btnVehNumNo);
             Intent intent = new Intent(VehRegNumActivity.this, VehRegNumAns.class);
             startActivity(intent);
         } else if (v.getId() == R.id.btnVehNumNo) {
-            btnVehNumNo.setBackgroundResource(R.drawable.navy_blue_outline);
-            btnVehNumYes.setBackgroundResource(R.drawable.grey_box_1dp);
-            btnVehNumYes.setTextColor(getResources().getColor(R.color.grey_color));
-            btnVehNumNo.setTextColor(getResources().getColor(R.color.navy_blue));
+            CommonMethods.highLightSelectedButton(VehRegNumActivity.this, btnVehNumNo);
+            CommonMethods.deHighLightButton(VehRegNumActivity.this, btnVehNumYes);
             Intent intent = new Intent(VehRegNumActivity.this, VehRegistrationYear.class);
             startActivity(intent);
         }

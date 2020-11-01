@@ -59,12 +59,12 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
         llVehInsuranceAmount = findViewById(R.id.llVehInsuranceAmount);
         btnNext = findViewById(R.id.btnNext);
         if (strInsurance.equalsIgnoreCase("Yes")) {
-            highLightSelectedButton(btnValidInsurance);
-            dehighlightButton(btnValidInsuranceNo);
+            CommonMethods.highLightSelectedButton(VehValidInsuranceActivity.this,btnValidInsurance);
+            CommonMethods.deHighLightButton(VehValidInsuranceActivity.this,btnValidInsuranceNo);
             llVehInsuranceAmount.setVisibility(View.VISIBLE);
         } else {
-            highLightSelectedButton(btnValidInsuranceNo);
-            dehighlightButton(btnValidInsurance);
+            CommonMethods.highLightSelectedButton(VehValidInsuranceActivity.this,btnValidInsuranceNo);
+            CommonMethods.deHighLightButton(VehValidInsuranceActivity.this,btnValidInsurance);
         }
 
 
@@ -73,15 +73,6 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
         btnValidInsurance.setOnClickListener(this);
         btnValidInsuranceNo.setOnClickListener(this);
         btnNext.setOnClickListener(this);
-    }
-
-    private void dehighlightButton(Button button) {
-        button.setBackground(getResources().getDrawable(R.drawable.grey_box_1dp));
-
-    }
-
-    private void highLightSelectedButton(Button button) {
-        button.setBackground(getResources().getDrawable(R.drawable.navy_blue_outline));
     }
 
     @Override
