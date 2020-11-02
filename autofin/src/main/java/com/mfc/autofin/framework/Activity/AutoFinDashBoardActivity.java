@@ -290,4 +290,5 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
         SpinnerManager.showSpinner(this);
         retrofitInterface.getFromWeb(getCustomerDetailsReq(""), CommonStrings.CUSTOMER_DETAILS_URL_END).enqueue(this);
     }
+
 }

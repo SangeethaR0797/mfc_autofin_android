@@ -127,9 +127,16 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
             svVehMakeDetails.setVisibility(View.VISIBLE);
         } else if (v.getId() == R.id.btnNext) {
             if (!tvSelectedVehMake.getText().toString().isEmpty()) {
-                CommonStrings.customVehDetails.setMake(tvSelectedVehMake.getText().toString());
-                Intent intent = new Intent(this, VehicleModelActivity.class);
-                startActivity(intent);
+                if (tvSelectedVehMake.getText().toString().equalsIgnoreCase(strMake)) {
+                    CommonStrings.customVehDetails.setMake(tvSelectedVehMake.getText().toString());
+                    Intent intent = new Intent(this, VehicleModelActivity.class);
+                    startActivity(intent);
+                } else {
+                    CommonStrings.stockResData.setModel("");
+                    CommonStrings.customVehDetails.setMake(tvSelectedVehMake.getText().toString());
+                    Intent intent = new Intent(this, VehicleModelActivity.class);
+                    startActivity(intent);
+                }
             } else {
                 Toast.makeText(VehicleMakeActivity.this, "Please select Vehicle Make", Toast.LENGTH_LONG).show();
 

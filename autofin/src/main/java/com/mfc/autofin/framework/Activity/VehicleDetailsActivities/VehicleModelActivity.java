@@ -128,9 +128,17 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
             svVehModelDetails.setVisibility(View.VISIBLE);
         } else if (v.getId() == R.id.btnNext) {
             if (!tvSelectedVehModel.getText().toString().isEmpty()) {
-                CommonStrings.customVehDetails.setModel(tvSelectedVehModel.getText().toString());
-                Intent intent = new Intent(this, VehicleVariantActivity.class);
-                startActivity(intent);
+                if (tvSelectedVehModel.getText().toString().equalsIgnoreCase(strModel)) {
+                    CommonStrings.customVehDetails.setModel(tvSelectedVehModel.getText().toString());
+                    Intent intent = new Intent(this, VehicleVariantActivity.class);
+                    startActivity(intent);
+                } else {
+                    CommonStrings.stockResData.setVariant("");
+                    CommonStrings.customVehDetails.setModel(tvSelectedVehModel.getText().toString());
+                    Intent intent = new Intent(this, VehicleVariantActivity.class);
+                    startActivity(intent);
+                }
+
             } else {
                 Toast.makeText(VehicleModelActivity.this, "Please select Vehicle Model", Toast.LENGTH_LONG).show();
 
