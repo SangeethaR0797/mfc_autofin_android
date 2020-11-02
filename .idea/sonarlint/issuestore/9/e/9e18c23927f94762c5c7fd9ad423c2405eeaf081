@@ -1,18 +1,9 @@
 
-N
-java:S1128"3Remove this unused import 'android.graphics.Color'.(øãíòþÿÿÿÿ
-K
-java:S18748"0Remove this use of "getColor"; it is deprecated.(àÄ–þÿÿÿÿ
+z	java:S116"`Rename this field "iv_vehDetails_backBtn" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•©¶¥ýÿÿÿÿ
 m
 java:S1128"XRemove this unused import 'com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity'.(“ŽÒI
-K
-java:S18742"0Remove this use of "getColor"; it is deprecated.(È•Èùþÿÿÿÿ
+N
+java:S1128"3Remove this unused import 'android.graphics.Color'.(øãíòþÿÿÿÿ
 >
 java:S1659")Declare "btnVehNumNo" on a separate line.(ú¶ô
-K
-java:S18741"0Remove this use of "getColor"; it is deprecated.(ùú·óÿÿÿÿÿ
-z	java:S116"`Rename this field "iv_vehDetails_backBtn" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•©¶¥ýÿÿÿÿ
-Q	java:S110"<This class has 9 parents which is greater than 5 authorized.(âÊòŸ
 t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ŒÉ©¾ùÿÿÿÿ
-K
-java:S18749"0Remove this use of "getColor"; it is deprecated.(¿ðç˜úÿÿÿÿ
