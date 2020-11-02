@@ -92,5 +92,11 @@
     <string name="enter_valid_emailid">Enter valid EmailId</string>
     <string name="enter_valid_phone_number">Enter valid phone number</string>
     <string name="enter_valid_name">Enter valid name</string>
+    <string name="otp_lbl">OTP</string>
+    <string name="sample_otp">012345</string>
+    <string name="strSecLbl">Sec</string>
+    <string name="lbl_resend">Resend OTP</string>
+    <string name="lbl_proceed">PROCEED</string>
+    <string name="wrong_otp">Incorrect OTP. Please enter correct OTP!</string>
 
 </resources>

@@ -15,13 +15,13 @@
         android:weightSum="10">
 
         <ImageView
-            android:layout_width="14dp"
+            android:id="@+id/exitAutofin"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="19dp"
-            android:id="@+id/exitAutofin"
             android:layout_marginTop="18dp"
             android:layout_marginBottom="19dp"
-            android:foregroundGravity="left"
+            android:foregroundGravity="left|center_vertical"
             app:srcCompat="@drawable/ic_back_arrow_24px" />
 
         <LinearLayout
@@ -34,7 +34,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="18dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="13dp"
+                android:gravity="center"
                 android:text="@string/autofin_title"
                 android:textColor="@color/very_dark_blue"
                 android:textSize="18dp" />
@@ -42,10 +46,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="13dp"
                 android:textColor="@color/n_blue"
                 android:textSize="12dp"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:visibility="gone" />
         </LinearLayout>
 
         <ImageView

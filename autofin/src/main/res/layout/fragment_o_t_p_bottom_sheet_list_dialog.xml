@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context="fragments.OTPBottomSheetFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/text_size27dp"
+        android:layout_marginTop="@dimen/text_size_17dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginBottom="@dimen/text_size_29dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <utility.RobotoMedium
+            android:id="@+id/tvOTPLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="1"
+            android:text="@string/otp_lbl"
+            android:textColor="@color/very_dark_blue"
+            android:textSize="@dimen/text_size_16sp" />
+
+        <utility.RobotoMedium
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="0.75"
+            android:textColor="@color/very_dark_blue"
+            android:textSize="@dimen/text_size_16sp"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/iv_dialog_close"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_weight="0.25"
+            android:foregroundGravity="right"
+            app:srcCompat="@drawable/ic_close_24px" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/text_size_29dp"
+        android:orientation="horizontal">
+
+        <utility.RobotoMedium
+            android:id="@+id/tvCMobileNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/sample_phone_number"
+            android:textColor="@color/very_dark_blue"
+            android:textSize="@dimen/text_size_16sp" />
+
+        <ImageView
+            android:layout_width="@dimen/text_size_14dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/text_size_5dp"
+            app:srcCompat="@drawable/ic_edit" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/etOTPVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="9dp"
+        android:background="@android:color/transparent"
+        android:hint="@string/sample_otp"
+        android:inputType="number"
+        android:maxLength="6"
+        android:textSize="@dimen/text_size_22dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:background="@color/very_dark_blue" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/text_size40dp"
+        android:layout_marginBottom="@dimen/text_size_34dp"
+        android:orientation="horizontal">
+
+        <utility.RobotoMedium
+            android:id="@+id/tvOTPTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/testing_number"
+            android:textColor="@color/very_dark_blue"
+            android:textSize="@dimen/text_size_30dp" />
+
+        <utility.RobotoMedium
+            android:id="@+id/tvSecLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/strSecLbl"
+            android:textColor="@color/very_dark_blue"
+            android:textSize="@dimen/text_size_16sp" />
+    </LinearLayout>
+
+    <utility.RobotoMedium
+        android:id="@+id/tvResendOTPLbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/text_size_31dp"
+        android:text="@string/lbl_resend"
+        android:textColor="@color/navy_blue"
+        android:textSize="@dimen/text_size_16sp" />
+
+    <Button
+        android:id="@+id/btnProceed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/navy_blue"
+        android:text="@string/lbl_proceed"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_16sp" />
+</LinearLayout>

@@ -15,7 +15,9 @@
         android:hardwareAccelerated="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.BasicDetailsActivities.ResidentialCityActivity"></activity>
+        <activity
+            android:name=".Activity.BasicDetailsActivities.ResidentialCityActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
         <activity
             android:name=".Activity.BasicDetailsActivities.BasicDetailsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />

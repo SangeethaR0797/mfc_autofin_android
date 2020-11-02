@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,14 +12,31 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.InsuranceTypeActivity;
+import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehRegNumAns;
+import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehRegistrationYear;
 import com.mfc.autofin.framework.R;
 
+import fragments.OTPBottomSheetFragment;
+import model.otp_models.CustomerMobile;
+import model.otp_models.OTPRequest;
+import model.otp_models.OTPResponse;
+import model.vehicle_details.vehicle_category.stock_details.StockResponse;
+import model.vehicle_details.vehicle_category.stock_details.StockResponseData;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import utility.CommonMethods;
 import utility.CommonStrings;
 import utility.CustomFonts;
+import utility.SpinnerManager;
 
-public class BasicDetailsActivity extends AppCompatActivity implements View.OnClickListener {
+import static retrofit_config.RetroBase.retrofitInterface;
 
+public class BasicDetailsActivity extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
+
+    private static final String TAG = BasicDetailsActivity.class.getSimpleName();
     TextView tvGivenInsType, tvGivenInsTypeVal, tvGivenInsTypeEdit, tvNameLbl, tvEmailLbl, tvPhoneNumLbl;
     EditText etName, etEmailId, etPhoneNumber;
     Button btnNext;
@@ -34,7 +52,6 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_basic_details);
         strInsuranceType = CommonStrings.customVehDetails.getInsuranceType();
         initView();
-        Toast.makeText(this, "This page is Under Development", Toast.LENGTH_SHORT).show();
     }
 
     private void initView() {
@@ -72,11 +89,22 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
                 CommonStrings.customBasicDetails.setFullName(strName);
                 CommonStrings.customBasicDetails.setEmail(strEmail);
                 CommonStrings.customBasicDetails.setCustomerMobile(strPhoneNum);
-                startActivity(new Intent(this, ResidentialCityActivity.class));
+                SpinnerManager.showSpinner(this);
+                retrofitInterface.getFromWeb(getOTPRequest(), CommonStrings.OTP_URL_END).enqueue(this);
             }
-        }else if(v.getId() == R.id.iv_vehDetails_backBtn){
+        } else if (v.getId() == R.id.iv_vehDetails_backBtn) {
             finish();
         }
+    }
+
+    private OTPRequest getOTPRequest() {
+        OTPRequest otpRequest = new OTPRequest();
+        otpRequest.setUserId(CommonMethods.getStringValueFromKey(this, CommonStrings.DEALER_ID_VAL));
+        otpRequest.setUserType(CommonMethods.getStringValueFromKey(this, CommonStrings.USER_TYPE_VAL));
+        CustomerMobile customerMobile = new CustomerMobile();
+        customerMobile.setCustomerMobile(CommonStrings.customBasicDetails.getCustomerMobile());
+        otpRequest.setData(customerMobile);
+        return otpRequest;
     }
 
     private boolean validate() {
@@ -104,6 +132,38 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
         }
 
         return validDetails;
+
+    }
+
+    @Override
+    public void onResponse(Call<Object> call, Response<Object> response) {
+        SpinnerManager.hideSpinner(this);
+        String strRes = new Gson().toJson(response.body());
+        Log.i(TAG, "onResponse: " + strRes);
+
+        OTPResponse otpResponse = new Gson().fromJson(strRes, OTPResponse.class);
+        try {
+            if (otpResponse != null && otpResponse.getStatus().toString().equals("true")) {
+
+                if (otpResponse.getData() != null) {
+                    CommonStrings.customBasicDetails.setOtp(otpResponse.getData());
+                    OTPBottomSheetFragment bottomSheetFragment = new OTPBottomSheetFragment(this);
+                    bottomSheetFragment.show(getSupportFragmentManager(), "ModalBottomSheet");
+                }
+            } else {
+                Toast.makeText(this, getString(R.string.please_try_again), Toast.LENGTH_LONG).show();
+            }
+        } catch (NullPointerException exception) {
+            exception.printStackTrace();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
+
+    }
+
+    @Override
+    public void onFailure(Call<Object> call, Throwable t) {
 
     }
 }

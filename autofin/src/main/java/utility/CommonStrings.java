@@ -19,6 +19,7 @@ public class CommonStrings {
     public static final String DEALER_ID_VAL = "dealer_id_val";
     public static final String USER_TYPE_VAL = "user_type_val";
     public static final String APP_NAME_VAL = "app_name_val";
+    public static final String OTP_URL_END = "generate-otp";
     public static String VEH_CATEGORY_URL = "https://15.207.148.230:3004/api/masters/vehicle-category";
     public static String IBB_PASSWORD = "dHk69ffu7ebP";
     public static String IBB_USERNAME = "mfc@ibb.com";
