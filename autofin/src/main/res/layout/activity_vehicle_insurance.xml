@@ -48,7 +48,7 @@
                             android:text="@string/lbl_enter_insurance_amount" />
 
                         <utility.RobotoMedium
-                            android:id="@+id/tvGivenVehPostInspectionVal"
+                            android:id="@+id/tvGivenVehInsuranceVal"
                             style="@style/veh_details_previous_data_val_style"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

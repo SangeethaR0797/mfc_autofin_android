@@ -40,7 +40,7 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
 
     private static final String TAG = VehicleMakeActivity.class.getSimpleName();
     private TextView tvGivenRegYear, tvGivenRegYearVal, tvGivenRegYearEdit, tvSelectedVehMake;
-    private ImageView iv_app_make_search, svCloseButton;
+    private ImageView iv_vehDetails_backBtn, iv_app_make_search, svCloseButton;
     private Button btnNext;
     ListView lvVehListView;
     SearchView svVehMakeDetails;
@@ -52,6 +52,7 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_make);
         strYear = CommonStrings.customVehDetails.getRegistrationYear();
+
         if (CommonStrings.stockResData != null) {
             if (CommonStrings.stockResData.getMake() != null) {
                 strMake = CommonStrings.stockResData.getMake();
@@ -63,6 +64,7 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void initView() {
+        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
         tvGivenRegYear = findViewById(R.id.tvGivenRegYear);
         tvGivenRegYearVal = findViewById(R.id.tvGivenRegYearVal);
         tvGivenRegYearEdit = findViewById(R.id.tvGivenRegYearEdit);
@@ -72,7 +74,7 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
         svVehMakeDetails = findViewById(R.id.svVehMakeDetails);
         btnNext = findViewById(R.id.btnNext);
         lvVehListView.setDivider(null);
-
+        tvGivenRegYearVal.setText(strYear);
         tvSelectedVehMake.setText(strMake);
 
         int searchCloseButtonId = svVehMakeDetails.getContext().getResources()
@@ -104,6 +106,7 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
             }
         });
 
+        btnNext.setOnClickListener(this);
         tvGivenRegYearEdit.setOnClickListener(this);
         tvSelectedVehMake.setOnClickListener(this);
         iv_app_make_search.setOnClickListener(this);

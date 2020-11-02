@@ -27,7 +27,7 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
     Button btnValidInsurance, btnValidInsuranceNo, btnNext;
     ImageView iv_vehDetails_backBtn;
     LinearLayout llVehInsuranceAmount;
-    String strInsurance = "";
+    String strPostInspectionVal = "", strInsurance = "";
 
 
     @Override
@@ -35,6 +35,11 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_veh_valid_insurance);
         Log.i(TAG, "onCreate: ");
+        if (!CommonStrings.customVehDetails.getPostevaluation().isEmpty()) {
+            strPostInspectionVal = CommonStrings.customVehDetails.getPostevaluation();
+        } else {
+            strPostInspectionVal = "";
+        }
         if (CommonStrings.stockResData != null) {
             if (CommonStrings.stockResData.getInsurance() != null) {
                 strInsurance = CommonStrings.stockResData.getInsurance();
@@ -58,15 +63,16 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
         btnValidInsuranceNo = findViewById(R.id.btnValidInsuranceNo);
         llVehInsuranceAmount = findViewById(R.id.llVehInsuranceAmount);
         btnNext = findViewById(R.id.btnNext);
+        tvGivenVehPostInspectionVal.setText(strPostInspectionVal);
+
         if (strInsurance.equalsIgnoreCase("Yes")) {
-            CommonMethods.highLightSelectedButton(VehValidInsuranceActivity.this,btnValidInsurance);
-            CommonMethods.deHighLightButton(VehValidInsuranceActivity.this,btnValidInsuranceNo);
+            CommonMethods.highLightSelectedButton(VehValidInsuranceActivity.this, btnValidInsurance);
+            CommonMethods.deHighLightButton(VehValidInsuranceActivity.this, btnValidInsuranceNo);
             llVehInsuranceAmount.setVisibility(View.VISIBLE);
         } else {
-            CommonMethods.highLightSelectedButton(VehValidInsuranceActivity.this,btnValidInsuranceNo);
-            CommonMethods.deHighLightButton(VehValidInsuranceActivity.this,btnValidInsurance);
+            CommonMethods.highLightSelectedButton(VehValidInsuranceActivity.this, btnValidInsuranceNo);
+            CommonMethods.deHighLightButton(VehValidInsuranceActivity.this, btnValidInsurance);
         }
-
 
         iv_vehDetails_backBtn.setOnClickListener(this);
         tvGivenVehPostInspectionEdit.setOnClickListener(this);
@@ -85,17 +91,17 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
             llVehInsuranceAmount.setVisibility(View.VISIBLE);
         } else if (v.getId() == R.id.btnValidInsuranceNo) {
             llVehInsuranceAmount.setVisibility(View.GONE);
-            Intent intent = new Intent(VehValidInsuranceActivity.this, VehInsuranceValidityActivity.class);
-            startActivity(intent);
-
         } else if (v.getId() == R.id.btnNext) {
             if (llVehInsuranceAmount.getVisibility() == View.VISIBLE && etInsuranceAmount.getText().toString().isEmpty()) {
                 Toast.makeText(this, "Please enter Insurance Amount", Toast.LENGTH_LONG).show();
             } else if (llVehInsuranceAmount.getVisibility() == View.VISIBLE && !etInsuranceAmount.getText().toString().isEmpty()) {
-                CommonMethods.setValueAgainstKey(this, "veh_insurance_amount", etInsuranceAmount.getText().toString());
+                CommonStrings.customVehDetails.setInsurance(true);
+                CommonStrings.customVehDetails.setInsuranceAmount(etInsuranceAmount.getText().toString());
                 Intent intent = new Intent(VehValidInsuranceActivity.this, VehInsuranceValidityActivity.class);
                 startActivity(intent);
             } else {
+                CommonStrings.customVehDetails.setInsurance(false);
+                CommonStrings.customVehDetails.setInsuranceAmount("NA");
                 Intent intent = new Intent(VehValidInsuranceActivity.this, VehInsuranceValidityActivity.class);
                 startActivity(intent);
             }

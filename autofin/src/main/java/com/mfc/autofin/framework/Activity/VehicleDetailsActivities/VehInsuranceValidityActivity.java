@@ -25,9 +25,9 @@ import utility.CommonStrings;
 public class VehInsuranceValidityActivity extends AppCompatActivity implements View.OnClickListener, CalendarView.OnDateChangeListener {
 
 
-    TextView tvGivenInsurance, tvGivenVehPostInspectionVal, tvGivenInsuranceAmountEdit, tvInsuranceValidityLbl, tvInsuranceValidityDate;
+    TextView tvGivenInsurance, tvGivenVehInsuranceVal, tvGivenInsuranceAmountEdit, tvInsuranceValidityLbl, tvInsuranceValidityDate;
     ImageView iv_vehDetails_backBtn;
-    String strInsuranceValidity = "";
+    String strInsurance = "", strInsuranceValidity = "";
     Calendar insuranceCal = Calendar.getInstance();
     CalendarView cvInsuranceValidity;
     LinearLayout llCalendarView;
@@ -36,12 +36,18 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_insurance);
+
+        if (CommonStrings.customVehDetails.getInsurance()) {
+            strInsurance = "Yes" + " ( " + CommonStrings.customVehDetails.getInsuranceAmount() + " ) ";
+        } else {
+            strInsurance = "No";
+        }
         if (CommonStrings.stockResData != null) {
             if (CommonStrings.stockResData.getInsuranceValidity() != null) {
                 strInsuranceValidity = CommonStrings.stockResData.getInsurance();
             }
         } else {
-            strInsuranceValidity = "";
+            strInsuranceValidity = "dd / mm / yyyy";
         }
 
         initView();
@@ -49,13 +55,14 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
 
     private void initView() {
         tvGivenInsurance = findViewById(R.id.tvGivenInsurance);
-        tvGivenVehPostInspectionVal = findViewById(R.id.tvGivenVehPostInspectionVal);
+        tvGivenVehInsuranceVal = findViewById(R.id.tvGivenVehInsuranceVal);
         tvGivenInsuranceAmountEdit = findViewById(R.id.tvGivenInsuranceAmountEdit);
         tvInsuranceValidityLbl = findViewById(R.id.tvInsuranceValidityLbl);
         tvInsuranceValidityDate = findViewById(R.id.tvInsuranceValidityDate);
         iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
         cvInsuranceValidity = findViewById(R.id.cvInsuranceValidity);
         llCalendarView = findViewById(R.id.llCalendarView);
+        tvGivenVehInsuranceVal.setText(strInsurance);
         llCalendarView.setOnClickListener(this);
         iv_vehDetails_backBtn.setOnClickListener(this);
         tvGivenInsuranceAmountEdit.setOnClickListener(this);
@@ -105,7 +112,7 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
         String monthName = new SimpleDateFormat("MMMM").format(view.getDate());
         String insValidityDate = dayOfMonth + "/" + monthName + "/" + year;
         tvInsuranceValidityDate.setText(insValidityDate);
-        CommonMethods.setValueAgainstKey(this, CommonStrings.VEH_INSURANCE_VALIDITY, tvInsuranceValidityDate.getText().toString());
+        CommonStrings.customVehDetails.setInsuranceValidity(tvInsuranceValidityDate.getText().toString());
         Intent intent = new Intent(VehInsuranceValidityActivity.this, InsuranceTypeActivity.class);
         startActivity(intent);
     }

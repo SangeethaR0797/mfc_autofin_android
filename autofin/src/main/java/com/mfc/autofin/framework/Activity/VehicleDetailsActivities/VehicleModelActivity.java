@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
@@ -38,7 +39,7 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
 
     private static final String TAG = VehicleModelActivity.class.getSimpleName();
     TextView tvGivenRegMake, tvGivenVehMakeVal, tvGivenVehMakeEdit, tvSelectedVehModel;
-    ImageView iv_app_model_search, svCloseButton;
+    ImageView iv_vehDetails_backBtn, iv_app_model_search, svCloseButton;
     private Button btnNext;
     String strYear = "", strVehMake = "", strModel;
     ListView lvVehListView;
@@ -64,6 +65,7 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void initView() {
+        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
         tvGivenRegMake = findViewById(R.id.tvGivenRegMake);
         tvGivenVehMakeVal = findViewById(R.id.tvGivenVehMakeVal);
         tvGivenVehMakeEdit = findViewById(R.id.tvGivenVehMakeEdit);
@@ -106,9 +108,10 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
             }
         });
 
-
+        iv_vehDetails_backBtn.setOnClickListener(this);
         tvGivenVehMakeEdit.setOnClickListener(this);
         tvSelectedVehModel.setOnClickListener(this);
+        btnNext.setOnClickListener(this);
     }
 
     @Override
@@ -116,8 +119,7 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
         if (v.getId() == R.id.iv_vehDetails_backBtn) {
             finish();
         } else if (v.getId() == R.id.tvGivenVehMakeEdit) {
-            Intent intent = new Intent(VehicleModelActivity.this, VehicleMakeActivity.class);
-            startActivity(intent);
+            finish();
         } else if (v.getId() == R.id.tvSelectedVehModel) {
             SpinnerManager.showSpinner(this);
             IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_MODEL, CommonMethods.getStringValueFromKey(VehicleModelActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, strYear, "0", strVehMake);
@@ -125,9 +127,15 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
         } else if (v.getId() == R.id.iv_app_make_search) {
             svVehModelDetails.setVisibility(View.VISIBLE);
         } else if (v.getId() == R.id.btnNext) {
-            CommonStrings.customVehDetails.setModel(tvGivenVehMakeEdit.getText().toString());
-            Intent intent = new Intent(this, VehicleVariantActivity.class);
-            startActivity(intent);
+            if (!tvSelectedVehModel.getText().toString().isEmpty()) {
+                CommonStrings.customVehDetails.setModel(tvSelectedVehModel.getText().toString());
+                Intent intent = new Intent(this, VehicleVariantActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(VehicleModelActivity.this, "Please select Vehicle Model", Toast.LENGTH_LONG).show();
+
+            }
+
         }
 
     }

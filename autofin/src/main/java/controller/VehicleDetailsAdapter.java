@@ -35,9 +35,9 @@ public class VehicleDetailsAdapter extends ArrayAdapter<String> {
         this.activity = activity;
         this.textView = textview;
         this.lvVehListView = lvVehListView;
-        setActivityTag();
+        //setActivityTag();
     }
-
+/*
     private void setActivityTag() {
         if (activity instanceof VehRegistrationYear) {
             activityTag = 1;
@@ -48,7 +48,7 @@ public class VehicleDetailsAdapter extends ArrayAdapter<String> {
         } else if (activity instanceof VehicleVariantActivity) {
             activityTag = 4;
         }
-    }
+    }*/
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -74,22 +74,11 @@ public class VehicleDetailsAdapter extends ArrayAdapter<String> {
                 tvCustomLV.setTextColor(activity.getResources().getColor(R.color.navy_blue));
                 textView.setText(tvCustomLV.getText().toString());
                 lvVehListView.setVisibility(View.GONE);
-                moveToNextPage();
             }
         });
 
         return v;
     }
 
-    private void moveToNextPage() {
-        if (activityTag == 1) {
-
-        } else if (activityTag == 2) {
-
-        } else if (activityTag == 3) {
-        } else if (activityTag == 4) {
-
-        }
-    }
 
 }

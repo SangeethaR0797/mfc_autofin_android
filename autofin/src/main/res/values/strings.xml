@@ -45,7 +45,7 @@
     <string name="lbl_reg_no">Resgistration No</string>
     <string name="edit_btn_lbl">EDIT   </string>
     <string name="lbl_select_veh_reg_year">SELECT VEHICLE REGISTRATION YEAR</string>
-    <string name="lbl_veh_reg_year">VEHICLE registration year</string>
+    <string name="lbl_veh_reg_year">VEHICLE REGISTRATION YEAR</string>
     <string name="hint_select_year">Select Year...</string>
     <string name="lbl_select_veh_reg_make">SELECT MAKE</string>
     <string name="hint_select_make">SELECT MAKE...</string>
@@ -79,5 +79,6 @@
     <string name="no_stock_available">No stock available ! Please check entered registration number.</string>
     <string name="please_try_again">Please try again. Something went wrong!</string>
     <string name="please_check_internet_connection">Please check your internet connection</string>
+    <string name="lbl_veh_model">MODEL</string>
 
 </resources>

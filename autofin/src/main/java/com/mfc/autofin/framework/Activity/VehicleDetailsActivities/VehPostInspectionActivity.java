@@ -10,8 +10,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mfc.autofin.framework.R;
+
+import utility.CommonStrings;
 
 public class VehPostInspectionActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -20,11 +23,17 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
     Button btnVehPostInspectionYes, btnVehPostInspectionNo, btnNext;
     LinearLayout llVehPostInspection;
     ImageView iv_vehDetails_backBtn;
+    String strDoesCarHaveLoan = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_veh_post_inspection);
+        if (CommonStrings.customVehDetails.getDoesCarHaveLoan()) {
+            strDoesCarHaveLoan = "Yes";
+        } else {
+            strDoesCarHaveLoan = "No";
+        }
         initView();
     }
 
@@ -40,10 +49,12 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
         btnNext = findViewById(R.id.btnNext);
         llVehPostInspection = findViewById(R.id.llVehPostInspection);
         iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+        tvGivenVehLoanVal.setText(strDoesCarHaveLoan);
         iv_vehDetails_backBtn.setOnClickListener(this);
         tvGivenVehLoanEdit.setOnClickListener(this);
         btnVehPostInspectionYes.setOnClickListener(this);
         btnVehPostInspectionNo.setOnClickListener(this);
+        btnNext.setOnClickListener(this);
     }
 
     @Override
@@ -54,11 +65,24 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
             finish();
         } else if (v.getId() == R.id.btnVehPostInspectionYes) {
             llVehPostInspection.setVisibility(View.VISIBLE);
-            //Amount need to get.
         } else if (v.getId() == R.id.btnVehPostInspectionNo) {
             llVehPostInspection.setVisibility(View.GONE);
-            Intent intent = new Intent(VehPostInspectionActivity.this, VehValidInsuranceActivity.class);
-            startActivity(intent);
+            etPostInspectionAmount.setText("");
+        } else if (v.getId() == R.id.btnNext) {
+            if (llVehPostInspection.getVisibility() == View.VISIBLE) {
+                if (!etPostInspectionAmount.getText().toString().isEmpty()) {
+                    CommonStrings.customVehDetails.setPostevaluation(btnVehPostInspectionYes.getText().toString() + " (" + etPostInspectionAmount.getText().toString() + " )");
+                    Intent intent = new Intent(VehPostInspectionActivity.this, VehValidInsuranceActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, "Please enter Post valuation amount", Toast.LENGTH_LONG).show();
+
+                }
+            } else {
+                CommonStrings.customVehDetails.setPostevaluation(btnVehPostInspectionNo.getText().toString());
+                Intent intent = new Intent(VehPostInspectionActivity.this, VehValidInsuranceActivity.class);
+                startActivity(intent);
+            }
         }
     }
 }

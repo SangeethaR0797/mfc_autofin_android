@@ -104,7 +104,7 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void moveToNextPage(String strOwner) {
-        CommonMethods.setValueAgainstKey(this, CommonStrings.VEH_OWNER_STRING, strOwner);
+        CommonStrings.customVehDetails.setOwnership(Integer.valueOf(strOwner));
         Intent intent = new Intent(VehicleOwnerActivity.this, CarHaveLoanCurrentlyActivity.class);
         startActivity(intent);
     }

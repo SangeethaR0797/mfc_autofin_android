@@ -30,8 +30,8 @@ public class InsuranceTypeActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insurance_type);
-        strInsuranceValidity = CommonMethods.getStringValueFromKey(InsuranceTypeActivity.this, CommonStrings.VEH_INSURANCE_VALIDITY);
-        strInsuranceValidity.replaceAll("/", " ");
+        strInsuranceValidity = CommonStrings.customVehDetails.getInsuranceValidity();
+        strInsuranceValidity.replace("/", " ");
 
         if (CommonStrings.stockResData != null) {
             if (CommonStrings.stockResData.getInsuranceValidity() != null) {
@@ -73,11 +73,11 @@ public class InsuranceTypeActivity extends AppCompatActivity implements View.OnC
         } else if (v.getId() == R.id.tvGivenInsValidityEdit) {
             finish();
         } else if (v.getId() == R.id.radioBtnComprehensive) {
-            CommonMethods.setValueAgainstKey(InsuranceTypeActivity.this, CommonStrings.VEH_INSURANCE_TYPE, radioBtnComprehensive.getText().toString());
+            CommonStrings.customVehDetails.setInsuranceType(radioBtnComprehensive.getText().toString());
             Intent intent = new Intent(InsuranceTypeActivity.this, BasicDetailsActivity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.radioBtnThirdParty) {
-            CommonMethods.setValueAgainstKey(InsuranceTypeActivity.this, CommonStrings.VEH_INSURANCE_TYPE, radioBtnThirdParty.getText().toString());
+            CommonStrings.customVehDetails.setInsuranceType(radioBtnThirdParty.getText().toString());
             Intent intent = new Intent(InsuranceTypeActivity.this, BasicDetailsActivity.class);
             startActivity(intent);
         }
