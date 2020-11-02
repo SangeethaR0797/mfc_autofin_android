@@ -52,8 +52,7 @@
                             android:id="@+id/tvGivenVehPostInspectionVal"
                             style="@style/veh_details_previous_data_val_style"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/testing_string" />
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
 
                     <ImageView
@@ -156,10 +155,13 @@
 
                     <EditText
                         android:id="@+id/etInsuranceAmount"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
+                        android:clickable="true"
                         android:inputType="number"
+                        android:maxLength="20"
+                        android:singleLine="true"
                         android:textColor="@color/very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 

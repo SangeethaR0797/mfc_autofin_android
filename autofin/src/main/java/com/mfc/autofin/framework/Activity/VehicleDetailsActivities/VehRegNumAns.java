@@ -50,7 +50,7 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
         tvVehCategoryQn = findViewById(R.id.tvVehCategoryQn);
         tvRegNoLbl = findViewById(R.id.tvRegNoLbl);
         etVehRegNo = findViewById(R.id.etVehRegNo);
-        btnNext=findViewById(R.id.btnNext);
+        btnNext = findViewById(R.id.btnNext);
         iv_vehDetails_backBtn.setOnClickListener(this);
         btnNext.setOnClickListener(this);
 
@@ -60,49 +60,37 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if (v.getId() == R.id.iv_vehDetails_backBtn) {
             finish();
-        }
-        else if(v.getId()==R.id.btnNext)
-        {
+        } else if (v.getId() == R.id.btnNext) {
             validate();
         }
 
     }
 
-    private void validate()
-    {
-        String regNo=etVehRegNo.getText().toString();
-        if(!regNo.isEmpty())
-        {
-            if(regNo.length()>=10 && regNo.length()<15)
-            {
+    private void validate() {
+        String regNo = etVehRegNo.getText().toString();
+        if (!regNo.isEmpty()) {
+            if (regNo.length() >= 10 && regNo.length() < 15) {
                 callStockAPI(regNo);
-            }
-            else
-            {
+            } else {
                 Toast.makeText(this, getString(R.string.incorrect_reg_no), Toast.LENGTH_SHORT).show();
             }
-        }
-        else
-        {
+        } else {
             Toast.makeText(this, getString(R.string.reg_no_empty_message), Toast.LENGTH_SHORT).show();
         }
     }
 
     private void callStockAPI(String strRegNo) {
         StockDetailsReq stockDetailsReq = new StockDetailsReq();
-        stockDetailsReq.setUserId(CommonMethods.getStringValueFromKey(this,CommonStrings.DEALER_ID_VAL));
-        stockDetailsReq.setUserType(CommonMethods.getStringValueFromKey(this,CommonStrings.USER_TYPE_VAL));
+        stockDetailsReq.setUserId(CommonMethods.getStringValueFromKey(this, CommonStrings.DEALER_ID_VAL));
+        stockDetailsReq.setUserType(CommonMethods.getStringValueFromKey(this, CommonStrings.USER_TYPE_VAL));
         StockData stockData = new StockData();
         stockData.setVehicleNumber(strRegNo);
         stockDetailsReq.setData(stockData);
 
-        if(CommonMethods.isInternetWorking(this))
-        {
+        if (CommonMethods.isInternetWorking(this)) {
             SpinnerManager.showSpinner(this);
             retrofitInterface.getFromWeb(stockDetailsReq, Global_URLs.STOCK_DETAILS_BASE_URL + CommonStrings.STOCK_DETAILS_URL_END).enqueue(this);
-        }
-        else
-        {
+        } else {
             Toast.makeText(this, getString(R.string.please_check_internet_connection), Toast.LENGTH_LONG).show();
         }
     }
@@ -122,13 +110,13 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
                     CommonStrings.customVehDetails.setVehRegNum(etVehRegNo.getText().toString());
                     StockResponseData stockResponseData = stockResponse.getData();
                     CommonStrings.stockResData = stockResponseData;
+                    Toast.makeText(this, "Vehicle Number verified successfully!", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(VehRegNumAns.this, VehRegistrationYear.class);
                     startActivity(intent);
                 } else {
                     Toast.makeText(this, getString(R.string.no_stock_available), Toast.LENGTH_LONG).show();
                 }
-            }
-            else {
+            } else {
                 Toast.makeText(this, getString(R.string.no_stock_available), Toast.LENGTH_LONG).show();
             }
         } catch (NullPointerException exception) {

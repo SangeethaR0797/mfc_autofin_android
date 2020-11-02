@@ -42,7 +42,7 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
 
     private static final String TAG = VehRegistrationYear.class.getSimpleName();
     private TextView tvGivenRegNumLbl, tvGivenRegNoVal, tvVehRegNumEdit, tvRegYearLbl, tvRegYear;
-    private ImageView iv_year_search, svCloseButton;
+    private ImageView iv_vehDetails_backBtn, iv_year_search, svCloseButton;
     ListView lvVehListView;
     String regNoVal = "", strYear = "";
     //SearchView svVehDetails;
@@ -73,11 +73,13 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
         tvRegYear = findViewById(R.id.tvRegYear);
         lvVehListView = findViewById(R.id.lvVehListView);
         //svVehDetails = findViewById(R.id.svVehDetails);
+        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+
         tvGivenRegNoVal.setText(regNoVal);
         lvVehListView.setDivider(null);
         tvRegYear.setText(strYear);
         btnNext = findViewById(R.id.btnNext);
-
+        iv_vehDetails_backBtn.setOnClickListener(this);
         /*int searchCloseButtonId = svVehDetails.getContext().getResources()
                 .getIdentifier("android:id/search_close_btn", null, null);
 

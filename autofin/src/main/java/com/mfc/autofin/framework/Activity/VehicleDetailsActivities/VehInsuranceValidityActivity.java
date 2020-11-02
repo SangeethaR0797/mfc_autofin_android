@@ -38,7 +38,7 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
         setContentView(R.layout.activity_vehicle_insurance);
 
         if (CommonStrings.customVehDetails.getInsurance()) {
-            strInsurance = "Yes" + " ( " + CommonStrings.customVehDetails.getInsuranceAmount() + " ) ";
+            strInsurance = "Yes" + " ( " + getString(R.string.rupees_symbol) +" "+CommonStrings.customVehDetails.getInsuranceAmount() + " ) ";
         } else {
             strInsurance = "No";
         }

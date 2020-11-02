@@ -55,7 +55,7 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
         strVehModel = CommonStrings.customVehDetails.getModel();
         if (CommonStrings.stockResData != null) {
             if (CommonStrings.stockResData.getVariant() != null) {
-                strVariant = CommonStrings.stockResData.getModel();
+                strVariant = CommonStrings.stockResData.getVariant();
             }
         } else {
             strVariant = "";

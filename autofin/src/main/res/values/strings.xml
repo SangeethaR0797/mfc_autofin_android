@@ -15,6 +15,7 @@
     <string name="autofin_title">AUTOFIN</string>
     <string name="lbl_total_leads">TOTAL</string>
     <string name="lbl_open_leads">OPEN</string>
+    <string name="testing_string">loremIpsum</string>
     <string name="testing_number">00</string>
     <string name="lbl_closed_leads">CLOSED</string>
     <string name="lbl_bank_leads">BANK</string>
@@ -27,6 +28,8 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
+
+    <string name="rupees_symbol">\u20B9</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>

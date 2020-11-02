@@ -23,7 +23,7 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
 
     private static String TAG = VehValidInsuranceActivity.class.getSimpleName();
     TextView tvGivenVehPostInspection, tvGivenVehPostInspectionVal, tvGivenVehPostInspectionEdit, tvValidInsuranceLbl, tvInsuranceAmountLbl;
-    EditText etInsuranceAmount;
+    private EditText etInsuranceAmount;
     Button btnValidInsurance, btnValidInsuranceNo, btnNext;
     ImageView iv_vehDetails_backBtn;
     LinearLayout llVehInsuranceAmount;
@@ -88,8 +88,15 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
         } else if (v.getId() == R.id.tvGivenVehPostInspectionEdit) {
             finish();
         } else if (v.getId() == R.id.btnValidInsurance) {
+            strInsurance="Yes";
             llVehInsuranceAmount.setVisibility(View.VISIBLE);
+            CommonMethods.highLightSelectedButton(this, btnValidInsurance);
+            CommonMethods.deHighLightButton(this, btnValidInsuranceNo);
+            etInsuranceAmount.setFocusable(true);
+            etInsuranceAmount.setEnabled(true);
         } else if (v.getId() == R.id.btnValidInsuranceNo) {
+            CommonMethods.highLightSelectedButton(this, btnValidInsuranceNo);
+            CommonMethods.deHighLightButton(this, btnValidInsurance);
             llVehInsuranceAmount.setVisibility(View.GONE);
         } else if (v.getId() == R.id.btnNext) {
             if (llVehInsuranceAmount.getVisibility() == View.VISIBLE && etInsuranceAmount.getText().toString().isEmpty()) {

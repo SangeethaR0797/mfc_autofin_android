@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.mfc.autofin.framework.R;
 
+import utility.CommonMethods;
 import utility.CommonStrings;
 
 public class VehPostInspectionActivity extends AppCompatActivity implements View.OnClickListener {
@@ -64,16 +65,20 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
         } else if (v.getId() == R.id.tvGivenVehLoanEdit) {
             finish();
         } else if (v.getId() == R.id.btnVehPostInspectionYes) {
+            CommonMethods.highLightSelectedButton(this, btnVehPostInspectionYes);
+            CommonMethods.deHighLightButton(this, btnVehPostInspectionNo);
             llVehPostInspection.setVisibility(View.VISIBLE);
             etPostInspectionAmount.setFocusable(true);
             etPostInspectionAmount.setEnabled(true);
         } else if (v.getId() == R.id.btnVehPostInspectionNo) {
+            CommonMethods.highLightSelectedButton(this, btnVehPostInspectionNo);
+            CommonMethods.deHighLightButton(this, btnVehPostInspectionYes);
             llVehPostInspection.setVisibility(View.GONE);
             etPostInspectionAmount.setText("");
         } else if (v.getId() == R.id.btnNext) {
             if (llVehPostInspection.getVisibility() == View.VISIBLE) {
                 if (!etPostInspectionAmount.getText().toString().isEmpty()) {
-                    CommonStrings.customVehDetails.setPostevaluation(btnVehPostInspectionYes.getText().toString() + " (" + etPostInspectionAmount.getText().toString() + " )");
+                    CommonStrings.customVehDetails.setPostevaluation(btnVehPostInspectionYes.getText().toString() + " (" + getString(R.string.rupees_symbol) + " " + etPostInspectionAmount.getText().toString() + " )");
                     Intent intent = new Intent(VehPostInspectionActivity.this, VehValidInsuranceActivity.class);
                     startActivity(intent);
                 } else {

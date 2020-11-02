@@ -195,7 +195,6 @@
             android:layout_marginLeft="@dimen/text_size_14dp"
             android:layout_marginTop="@dimen/text_size_27dp"
             android:layout_marginBottom="@dimen/text_size10dp"
-            android:text="@string/testing_string"
             android:textColor="@color/grey_color"
             android:textSize="@dimen/text_size_14dp" />
 
