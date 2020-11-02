@@ -83,5 +83,14 @@
     <string name="please_check_internet_connection">Please check your internet connection</string>
     <string name="lbl_veh_model">MODEL</string>
     <string name="title_basic_details">BASIC DETAILS</string>
+    <string name="enter_basic_details">PLEASE ENTER YOUR BASIC DETAILS</string>
+    <string name="lbl_name">Name</string>
+    <string name="lbl_email">Email</string>
+    <string name="sample_email_id">abc@mail.com</string>
+    <string name="lbl_phone_no">Phone No.</string>
+    <string name="sample_phone_number">9876543210</string>
+    <string name="enter_valid_emailid">Enter valid EmailId</string>
+    <string name="enter_valid_phone_number">Enter valid phone number</string>
+    <string name="enter_valid_name">Enter valid name</string>
 
 </resources>

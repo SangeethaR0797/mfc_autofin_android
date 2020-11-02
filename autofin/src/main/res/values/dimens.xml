@@ -48,5 +48,6 @@
     <dimen name="text_size_19sp">19sp</dimen>
     <dimen name="text_size_77dp">77dp</dimen>
     <dimen name="text_size_45dp">45dp</dimen>
+    <dimen name="text_size_32dp">32dp</dimen>
 
 </resources>
