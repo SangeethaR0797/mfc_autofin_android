@@ -19,11 +19,13 @@ public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements V
     TextView tvGivenVehOwnership, tvGivenVehOwnershipVal, tvGivenVehOwnershipEdit;
     Button btnCarHaveLoan, btnCarHaveNoLoan;
     ImageView iv_vehDetails_backBtn;
+    String strOwner="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carhave_loan_currently);
+        strOwner= String.valueOf(CommonStrings.customVehDetails.getOwnership());
         initView();
     }
 
@@ -34,7 +36,7 @@ public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements V
         btnCarHaveLoan = findViewById(R.id.btnCarHaveLoan);
         btnCarHaveNoLoan = findViewById(R.id.btnCarHaveNoLoan);
         iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
-        tvGivenVehOwnershipVal.setText(CommonMethods.getStringValueFromKey(this, CommonStrings.VEH_OWNER_STRING));
+        tvGivenVehOwnershipVal.setText(strOwner);
         iv_vehDetails_backBtn.setOnClickListener(this);
         tvGivenVehOwnershipEdit.setOnClickListener(this);
         btnCarHaveLoan.setOnClickListener(this);

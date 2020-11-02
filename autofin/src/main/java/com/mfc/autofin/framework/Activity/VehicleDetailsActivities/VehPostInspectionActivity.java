@@ -65,6 +65,8 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
             finish();
         } else if (v.getId() == R.id.btnVehPostInspectionYes) {
             llVehPostInspection.setVisibility(View.VISIBLE);
+            etPostInspectionAmount.setFocusable(true);
+            etPostInspectionAmount.setEnabled(true);
         } else if (v.getId() == R.id.btnVehPostInspectionNo) {
             llVehPostInspection.setVisibility(View.GONE);
             etPostInspectionAmount.setText("");

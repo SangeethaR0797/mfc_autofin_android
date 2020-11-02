@@ -22,12 +22,13 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
     TextView tvGivenVehVariantVal, tvGivenVehVariantEdit;
     RadioButton radioBtn01, radioBtn02, radioBtn03, radioBtn04, radioBtn05;
     ImageView iv_vehDetails_backBtn;
-
+    String strVariantVal="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_owner);
+        strVariantVal=CommonStrings.customVehDetails.getVariant();
         initView();
     }
 
@@ -40,7 +41,7 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
         radioBtn03 = findViewById(R.id.radioBtn03);
         radioBtn04 = findViewById(R.id.radioBtn04);
         radioBtn05 = findViewById(R.id.radioBtn05);
-        tvGivenVehVariantVal.setText(CommonMethods.getStringValueFromKey(VehicleOwnerActivity.this, "veh_variant"));
+        tvGivenVehVariantVal.setText(strVariantVal);
         tvGivenVehVariantEdit.setOnClickListener(this);
         iv_vehDetails_backBtn.setOnClickListener(this);
         radioBtn01.setOnCheckedChangeListener(this);

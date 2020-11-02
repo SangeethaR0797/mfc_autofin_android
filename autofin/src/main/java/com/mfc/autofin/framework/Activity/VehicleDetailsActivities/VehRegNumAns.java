@@ -26,6 +26,7 @@ import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
 import utility.Global_URLs;
+import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
 
@@ -97,6 +98,7 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
 
         if(CommonMethods.isInternetWorking(this))
         {
+            SpinnerManager.showSpinner(this);
             retrofitInterface.getFromWeb(stockDetailsReq, Global_URLs.STOCK_DETAILS_BASE_URL + CommonStrings.STOCK_DETAILS_URL_END).enqueue(this);
         }
         else
@@ -107,6 +109,8 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onResponse(Call<Object> call, Response<Object> response) {
+
+        SpinnerManager.hideSpinner(this);
         String strRes = new Gson().toJson(response.body());
         Log.i(TAG, "onResponse: " + strRes);
 

@@ -154,12 +154,11 @@
 
                     <EditText
                         android:id="@+id/etPostInspectionAmount"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
-                        android:editable="true"
-                        android:inputType="number"
-                        android:text="@string/testing_string"
+                        android:digits="0123456789"
+                        android:clickable="true"
                         android:textColor="@color/very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 
