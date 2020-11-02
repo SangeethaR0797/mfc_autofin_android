@@ -1,7 +1,5 @@
 package com.mfc.autofin.framework.Activity.VehicleDetailsActivities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,24 +9,17 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.mfc.autofin.framework.R;
 
 import java.util.List;
 
-import controller.DashboardAdapter;
-import model.CustomerDetailsRes;
-import model.VehicleCategoryRes;
 import model.vehicle_details.vehicle_category.Category;
-import model.vehicle_details.vehicle_category.VehData;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import utility.CommonStrings;
-
-import static retrofit_config.RetroBase.retrofitInterface;
-import static utility.CommonStrings.VEH_CATEGORY_URL;
 
 public class VehicleCategory extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
 

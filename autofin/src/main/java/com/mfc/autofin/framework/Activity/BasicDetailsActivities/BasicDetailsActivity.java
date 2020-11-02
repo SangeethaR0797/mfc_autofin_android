@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,8 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
     String strInsuranceType = "";
     String strName = "", strEmail = "", strPhoneNum = "";
 
+    private ImageView iv_vehDetails_backBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,7 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
         tvGivenInsTypeVal = findViewById(R.id.tvGivenInsTypeVal);
         tvGivenInsTypeEdit = findViewById(R.id.tvGivenInsTypeEdit);
         tvNameLbl = findViewById(R.id.tvNameLbl);
+        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
         tvEmailLbl = findViewById(R.id.tvEmailLbl);
         tvPhoneNumLbl = findViewById(R.id.tvPhoneNumLbl);
         etName = findViewById(R.id.etName);
@@ -55,6 +59,7 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
         btnNext.setTypeface(CustomFonts.getRobotoMedium(this));
         tvGivenInsTypeEdit.setOnClickListener(this);
         btnNext.setOnClickListener(this);
+        iv_vehDetails_backBtn.setOnClickListener(this);
 
     }
 
@@ -69,6 +74,8 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
                 CommonStrings.customBasicDetails.setCustomerMobile(strPhoneNum);
                 startActivity(new Intent(this, ResidentialCityActivity.class));
             }
+        }else if(v.getId() == R.id.iv_vehDetails_backBtn){
+            finish();
         }
     }
 
