@@ -15,7 +15,9 @@
         android:hardwareAccelerated="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.BasicDetailsActivities.BasicDetailsActivity"></activity>
+        <activity
+            android:name=".Activity.BasicDetailsActivities.BasicDetailsActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
             android:name=".Activity.VehicleDetailsActivities.InsuranceTypeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />

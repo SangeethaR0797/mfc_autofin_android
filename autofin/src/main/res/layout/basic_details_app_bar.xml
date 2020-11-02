@@ -18,7 +18,6 @@
             android:id="@+id/iv_vehDetails_backBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginLeft="19dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="19dp"
@@ -39,7 +38,7 @@
                 android:layout_gravity="center"
                 android:layout_marginRight="20dp"
                 android:gravity="center"
-                android:text="@string/vehicle_details_title"
+                android:text="@string/title_basic_details"
                 android:textColor="@color/very_dark_blue"
                 android:textSize="18dp" />
 
