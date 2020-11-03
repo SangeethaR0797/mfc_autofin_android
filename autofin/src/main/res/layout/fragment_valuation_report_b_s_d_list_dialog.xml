@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".Activity.ValuationReportBSD">
+    <utility.RobotoMedium
+        android:id="@+id/tvValuationReportLbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/text_size_18dp"
+        android:layout_marginTop="@dimen/text_size_22dp"
+        android:layout_gravity="left"
+        android:text="@string/str_browse"
+        android:textColor="@color/very_dark_blue"
+        android:textSize="@dimen/text_size_16sp" />
+    <LinearLayout
+        android:id="@+id/llFileAttachment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/g_white"
+        android:layout_marginRight="@dimen/text_size_20dp"
+        android:layout_marginLeft="@dimen/text_size_20dp"
+        android:layout_marginTop="@dimen/text_size_37dp"
+        android:layout_marginBottom="@dimen/text_size40dp"
+        android:weightSum="2">
+
+        <!--Browse files layout-->
+        <LinearLayout
+            android:id="@+id/llBrowseReport"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ivBrowseFiles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_browse_file"
+                android:layout_marginTop="@dimen/text_size_30dp"/>
+            <utility.RobotoMedium
+                android:id="@+id/tvBrowseReportLbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_size_17dp"
+                android:text="@string/str_browse_files"
+                android:layout_marginBottom="@dimen/text_size_32dp"
+                android:layout_gravity="center"
+                android:textSize="@dimen/text_size_16sp"/>
+
+        </LinearLayout>
+        <!--Camera layout-->
+        <LinearLayout
+            android:id="@+id/llOpenCamera"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ivOpenCamera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_camera"
+                android:layout_marginTop="@dimen/text_size_30dp"/>
+            <utility.RobotoMedium
+                android:id="@+id/tvOpenCameraLbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/str_camera_lbl"
+                android:layout_marginTop="@dimen/text_size_17dp"
+                android:layout_marginBottom="@dimen/text_size_32dp"
+                android:layout_gravity="center"
+                android:textSize="@dimen/text_size_16sp"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/llFileAttachmentStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="@color/g_white"
+        style="@style/browse_file_layout_style"
+        android:visibility="gone"
+        android:weightSum="2">
+        <ImageView
+            android:id="@+id/ivDocAttached"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_attach_document"
+            android:layout_marginTop="@dimen/text_size_37dp"
+            android:layout_marginBottom="@dimen/text_size_39dp"
+            />/>
+        <utility.RobotoMedium
+            android:id="@+id/tvDocAttached"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_doc_attached"
+            android:textSize="@dimen/text_size_12dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="@dimen/text_size_37dp"
+            android:layout_marginBottom="@dimen/text_size_39dp"
+            android:textColor="@color/very_dark_blue"/>
+
+    </LinearLayout>
+    <utility.RobotoMedium
+        android:id="@+id/tvSkipNowReport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_size40dp"
+        android:text="@string/skip_now"
+        android:layout_gravity="center"
+        android:drawableRight="@drawable/ic_forward_arrow"
+        android:textSize="@dimen/text_size_16sp"
+        android:textColor="@color/navy_blue"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_size_41dp">
+
+        <Button
+            android:id="@+id/btnReportAttachmentNext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/navy_blue"
+            android:paddingTop="@dimen/text_size_15dp"
+            android:paddingBottom="@dimen/text_size_15dp"
+            android:text="@string/next_btn_text"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_16sp" />
+    </LinearLayout>
+
+</LinearLayout>

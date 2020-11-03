@@ -121,8 +121,11 @@
         <item name="android:layout_marginTop">@dimen/text_size_4dp</item>
     </style>
 
+    <style name="browse_file_layout_style">
+        <item name="android:layout_marginRight">@dimen/text_size_20dp</item>
+        <item name="android:layout_marginLeft">@dimen/text_size_20dp</item>
+        <item name="android:layout_marginTop">@dimen/text_size_37dp</item>
+        <item name="android:layout_marginBottom">@dimen/text_size40dp</item></style>
 
-    <dimen name="text_size_50dp">50dp</dimen>
-    <dimen name="text_size_25px">25dp</dimen>
     <dimen name="text_size_10dp">10dp</dimen>
 </resources>

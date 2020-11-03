@@ -1,5 +1,6 @@
 package com.mfc.autofin.framework.Activity.VehicleDetailsActivities;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,7 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.mfc.autofin.framework.Activity.ValuationReportBSD;
 import com.mfc.autofin.framework.R;
 
 import utility.CommonMethods;
@@ -53,8 +56,10 @@ public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements V
             CommonMethods.highLightSelectedButton(this, btnCarHaveLoan);
             CommonMethods.deHighLightButton(this, btnCarHaveNoLoan);
             CommonStrings.customVehDetails.setDoesCarHaveLoan(true);
-            Intent intent = new Intent(CarHaveLoanCurrentlyActivity.this, VehPostInspectionActivity.class);
-            startActivity(intent);
+            ValuationReportBSD valuationReportBSD=new ValuationReportBSD(this);
+            valuationReportBSD.show(getSupportFragmentManager(),"Validation Report");
+           /* Intent intent = new Intent(CarHaveLoanCurrentlyActivity.this, VehPostInspectionActivity.class);
+            startActivity(intent);*/
         } else if (v.getId() == R.id.btnCarHaveNoLoan) {
             CommonMethods.highLightSelectedButton(this, btnCarHaveNoLoan);
             CommonMethods.deHighLightButton(this, btnCarHaveLoan);
@@ -64,4 +69,9 @@ public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements V
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Toast.makeText(this, "Done!!!", Toast.LENGTH_SHORT).show();
+    }
 }

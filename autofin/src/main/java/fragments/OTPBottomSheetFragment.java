@@ -82,7 +82,6 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
                 CommonStrings.customBasicDetails.setOtp("");
                 Toast.makeText(activity, "Your OTP expired! Please try again.", Toast.LENGTH_LONG).show();
             }
-
         }.start();
 
     }

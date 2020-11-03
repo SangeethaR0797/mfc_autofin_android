@@ -51,5 +51,7 @@
     <dimen name="text_size_32dp">32dp</dimen>
     <dimen name="list_item_spacing">16dp</dimen>
     <dimen name="list_item_spacing_half">8dp</dimen>
+    <dimen name="text_size_37dp">37dp</dimen>
+    <dimen name="text_size_39dp">39dp</dimen>
 
 </resources>

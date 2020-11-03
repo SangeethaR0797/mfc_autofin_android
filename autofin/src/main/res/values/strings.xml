@@ -98,5 +98,10 @@
     <string name="lbl_resend">Resend OTP</string>
     <string name="lbl_proceed">PROCEED</string>
     <string name="wrong_otp">Incorrect OTP. Please enter correct OTP!</string>
+    <string name="str_browse">PLEASE UPLOAD THE VALUATION REPORT IF YOU HAVE</string>
+    <string name="str_browse_files">BROWSE</string>
+    <string name="str_camera_lbl">CAMERA</string>
+    <string name="skip_now">Skip Now</string>
+    <string name="lbl_doc_attached">DOCUMENT ATTACHED</string>
 
 </resources>
