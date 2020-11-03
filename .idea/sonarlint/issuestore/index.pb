@@ -51,3 +51,9 @@ b
 2autofin/src/main/java/aws/AutofinMediaManager.java,0\7\070bcf7531aa81b16483dbf17a59d55af132336f
 @
 app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
+™
+iautofin/src/main/java/com/mfc/autofin/framework/Activity/BasicDetailsActivities/BasicDetailsActivity.java,1\4\14db88a468a54843f33502f297c350f87c75e90b
+e
+5autofin/src/main/java/kyc/DocumentUploadActivity.java,d\a\da8602580b818c2fc4a5a88d1f76a5099c7a792d
+b
+2autofin/src/main/res/layout/autofin_action_bar.xml,a\e\ae724034944470d8b8432b2244239f0946005b4e
