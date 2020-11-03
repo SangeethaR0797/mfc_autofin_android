@@ -1,8 +1,5 @@
 package com.mfc.autofin.framework.Activity.VehicleDetailsActivities;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +7,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.mfc.autofin.framework.Activity.ValuationReportBSD;
 import com.mfc.autofin.framework.R;
@@ -64,7 +64,7 @@ public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements V
             CommonMethods.highLightSelectedButton(this, btnCarHaveNoLoan);
             CommonMethods.deHighLightButton(this, btnCarHaveLoan);
             CommonStrings.customVehDetails.setDoesCarHaveLoan(false);
-            Intent intent = new Intent(CarHaveLoanCurrentlyActivity.this, VehPostInspectionActivity.class);
+            Intent intent = new Intent(this, VehPostInspectionActivity.class);
             startActivity(intent);
         }
     }

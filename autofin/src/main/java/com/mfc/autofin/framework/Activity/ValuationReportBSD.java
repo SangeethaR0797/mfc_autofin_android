@@ -17,20 +17,24 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehPostInspectionActivity;
 import com.mfc.autofin.framework.R;
 
-public class ValuationReportBSD extends BottomSheetDialogFragment implements View.OnClickListener{
+import java.io.File;
+
+import utility.file_attachment.FileAttachment;
+
+public class ValuationReportBSD extends BottomSheetDialogFragment implements View.OnClickListener {
 
     private LinearLayout llBrowseReport, llOpenCamera;
     TextView tvSkipNowReport;
     Button btnReportAttachmentNext;
     Activity activity;
 
-    public ValuationReportBSD(Activity activity)
-    {
-        this.activity=activity;
+    public ValuationReportBSD(Activity activity) {
+        this.activity = activity;
     }
 
     @Nullable
@@ -42,12 +46,15 @@ public class ValuationReportBSD extends BottomSheetDialogFragment implements Vie
         return view;
     }
 
-    private void initView(View view)
-    {
-        llBrowseReport=view.findViewById(R.id.llBrowseReport);
-        llOpenCamera=view.findViewById(R.id.llOpenCamera);
-        tvSkipNowReport=view.findViewById(R.id.tvSkipNowReport);
-        btnReportAttachmentNext=view.findViewById(R.id.btnReportAttachmentNext);
+    private void initView(View view) {
+        llBrowseReport = view.findViewById(R.id.llBrowseReport);
+        llOpenCamera = view.findViewById(R.id.llOpenCamera);
+        tvSkipNowReport = view.findViewById(R.id.tvSkipNowReport);
+        btnReportAttachmentNext = view.findViewById(R.id.btnReportAttachmentNext);
+        llBrowseReport.setOnClickListener(this);
+        llOpenCamera.setOnClickListener(this);
+        tvSkipNowReport.setOnClickListener(this);
+        btnReportAttachmentNext.setOnClickListener(this);
 
     }
 
@@ -58,17 +65,18 @@ public class ValuationReportBSD extends BottomSheetDialogFragment implements Vie
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.llBrowseReport)
-        {
+        if (v.getId() == R.id.llBrowseReport) {
+            // Toast.makeText(activity.getApplication().getApplicationContext(),"Hi",Toast.LENGTH_LONG).show();
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath()); // a directory
-            intent.setDataAndType(uri, "*/*");
-            startActivity(Intent.createChooser(intent, "Open folder"));
-        }
-        else if(v.getId()==R.id.btnReportAttachmentNext)
-        {
+            intent.setDataAndType(uri, "New ");
+            activity.startActivity(Intent.createChooser(intent, "Open folder"));
+        } else if (v.getId() == R.id.btnReportAttachmentNext) {
             Intent intent = new Intent(activity, VehPostInspectionActivity.class);
             startActivity(intent);
+        } else if (v.getId() == R.id.llOpenCamera) {
+            FileAttachment fileAttachment = new FileAttachment();
+            fileAttachment.chooseImage(activity, 1);
         }
     }
 }

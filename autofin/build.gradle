@@ -94,11 +94,14 @@ artifactory {
             password = artifactory_password
         }
         defaults {
-            publications('aar')
-            publishArtifacts = true
+            project.afterEvaluate {
+                publications('aar')
+                publishArtifacts = true
 
-            properties = ['qa.level': 'basic', 'q.os': 'android', 'dev.team': 'core']
-            publishPom = true
+                properties = ['qa.level': 'basic', 'q.os': 'android', 'dev.team': 'core']
+                publishPom = true
+            }
+
         }
     }
 }
