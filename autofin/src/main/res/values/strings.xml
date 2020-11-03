@@ -83,6 +83,7 @@
     <string name="please_check_internet_connection">Please check your internet connection</string>
     <string name="lbl_veh_model">MODEL</string>
     <string name="title_basic_details">BASIC DETAILS</string>
+    <string name="title_upload_documents">UPLOAD DOCUMENTS</string>
     <string name="enter_basic_details">PLEASE ENTER YOUR BASIC DETAILS</string>
     <string name="lbl_name">Name</string>
     <string name="lbl_email">Email</string>
