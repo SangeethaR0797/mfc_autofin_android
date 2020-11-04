@@ -121,7 +121,7 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
             finish();
         } else if (v.getId() == R.id.tvSelectedVehVariant) {
             SpinnerManager.showSpinner(this);
-            IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_VARIANT, CommonMethods.getStringValueFromKey(VehicleVariantActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, CommonMethods.getStringValueFromKey(VehicleVariantActivity.this, "veh_reg_year"), "0", strVehMake, strVehModel);
+            IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_VARIANT, CommonMethods.getStringValueFromKey(VehicleVariantActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, strYear, "0", strVehMake, strVehModel);
             retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
         } else if (v.getId() == R.id.iv_app_variant_search) {
             svVehVariantDetails.setVisibility(View.VISIBLE);

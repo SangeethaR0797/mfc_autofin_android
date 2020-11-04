@@ -1,6 +1,7 @@
 package fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -24,9 +25,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.mfc.autofin.framework.Activity.BasicDetailsActivities.BasicDetailsActivity;
 import com.mfc.autofin.framework.Activity.BasicDetailsActivities.ResidentialCityActivity;
+import com.mfc.autofin.framework.Activity.ResidentialActivity.ResidentialCity;
 import com.mfc.autofin.framework.R;
 
+import model.add_lead_details.AddLeadDetails;
+import model.add_lead_details.AddLeadRequest;
+import model.add_lead_details.AddLeadResponse;
+import model.basic_details.BasicDetails;
 import model.otp_models.CustomerMobile;
 import model.otp_models.OTPRequest;
 import model.otp_models.OTPResponse;
@@ -48,6 +55,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
     ImageView iv_dialog_close;
     Button btnProceed;
     Activity activity;
+    Context context;
 
     public OTPBottomSheetFragment(Activity activity) {
         this.activity = activity;
@@ -57,6 +65,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_o_t_p_bottom_sheet_list_dialog, container, false);
+        context = view.getContext();
         initView(view);
         return view;
     }
@@ -73,14 +82,26 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
         btnProceed.setOnClickListener(this);
         new CountDownTimer(30000, 1000) {
 
+            int tag = 0;
+            long milliSecondRemaining = 0;
+
             public void onTick(long millisUntilFinished) {
+                milliSecondRemaining = millisUntilFinished;
                 tvOTPTimer.setText("" + millisUntilFinished / 1000);
             }
 
+            public void onPause() {
+                tag = 1;
+                milliSecondRemaining = 30000;
+            }
+
             public void onFinish() {
+
                 tvOTPTimer.setText("00");
-                CommonStrings.customBasicDetails.setOtp("");
-                Toast.makeText(activity, "Your OTP expired! Please try again.", Toast.LENGTH_LONG).show();
+                if (tag != 1) {
+                    CommonStrings.customBasicDetails.setOtp("");
+                    Toast.makeText(activity, "Your OTP expired! Please try again.", Toast.LENGTH_LONG).show();
+                }
             }
         }.start();
 
@@ -100,11 +121,18 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
         } else if (v.getId() == R.id.etOTPVal) {
             dismiss();
         } else if (v.getId() == R.id.tvResendOTPLbl) {
-            SpinnerManager.showSpinner(v.getContext());
+            if (!CommonStrings.customBasicDetails.getOtp().isEmpty()) {
+                CommonStrings.customBasicDetails.setOtp("");
+            }
+            SpinnerManager.showSpinner(activity);
             retrofitInterface.getFromWeb(getOTPRequest(), CommonStrings.OTP_URL_END).enqueue(this);
         } else if (v.getId() == R.id.btnProceed) {
-            if (!etOTPVal.getText().toString().isEmpty() && etOTPVal.getText().toString().equalsIgnoreCase(CommonStrings.customBasicDetails.getOtp()))
-                startActivity(new Intent(v.getContext(), ResidentialCityActivity.class));
+            if (!etOTPVal.getText().toString().isEmpty() && etOTPVal.getText().toString().equalsIgnoreCase(CommonStrings.customBasicDetails.getOtp())) {
+                SpinnerManager.showSpinner(activity);
+                retrofitInterface.getFromWeb(getAddLeadRequest(), CommonStrings.ADD_LEAD_URL_END).enqueue(this);
+            }
+
+            //startActivity(new Intent(v.getContext(), ResidentialCityActivity.class));
             else {
                 Toast.makeText(activity, getString(R.string.wrong_otp), Toast.LENGTH_LONG).show();
                 etOTPVal.setText("");
@@ -125,25 +153,47 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
 
     @Override
     public void onResponse(Call<Object> call, Response<Object> response) {
+
         SpinnerManager.hideSpinner(activity);
         String strRes = new Gson().toJson(response.body());
         Log.i(TAG, "onResponse: " + strRes);
+        String url = response.raw().request().url().toString();
 
-        OTPResponse otpResponse = new Gson().fromJson(strRes, OTPResponse.class);
-        try {
-            if (otpResponse != null && otpResponse.getStatus().toString().equals("true")) {
 
-                if (otpResponse.getData() != null) {
-                    CommonStrings.customBasicDetails.setOtp(otpResponse.getData());
+        if (url.contains(CommonStrings.OTP_URL_END)) {
+            OTPResponse otpResponse = new Gson().fromJson(strRes, OTPResponse.class);
+            try {
+                if (otpResponse != null && otpResponse.getStatus().toString().equals("true")) {
+
+                    if (otpResponse.getData() != null) {
+                        CommonStrings.customBasicDetails.setOtp(otpResponse.getData());
+                    }
+                } else {
+                    Toast.makeText(activity, getString(R.string.please_try_again), Toast.LENGTH_LONG).show();
+                }
+            } catch (NullPointerException exception) {
+                exception.printStackTrace();
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+
+        } else if (url.contains(CommonStrings.ADD_LEAD_URL_END)) {
+
+            AddLeadResponse addLeadResponse = new Gson().fromJson(strRes, AddLeadResponse.class);
+            try {
+                if (addLeadResponse != null) {
+                    Toast.makeText(activity, addLeadResponse.getMessage().toString(), Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(activity, ResidentialCity.class);
+                    startActivity(intent);
+
                 }
 
-            } else {
-                Toast.makeText(activity, getString(R.string.please_try_again), Toast.LENGTH_LONG).show();
+            } catch (NullPointerException exception) {
+                exception.printStackTrace();
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
-        } catch (NullPointerException exception) {
-            exception.printStackTrace();
-        } catch (Exception exception) {
-            exception.printStackTrace();
+
         }
 
     }
@@ -152,4 +202,31 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
     public void onFailure(Call<Object> call, Throwable t) {
 
     }
+
+    public AddLeadRequest getAddLeadRequest() {
+        AddLeadRequest addLeadRequest = new AddLeadRequest();
+        addLeadRequest.setData(getAddLeadDetails());
+        addLeadRequest.setUserId(CommonMethods.getStringValueFromKey(activity, CommonStrings.DEALER_ID_VAL));
+        addLeadRequest.setUserType(CommonMethods.getStringValueFromKey(activity, CommonStrings.USER_TYPE_VAL));
+        return addLeadRequest;
+    }
+
+    public AddLeadDetails getAddLeadDetails() {
+        AddLeadDetails addLeadDetails = new AddLeadDetails();
+        BasicDetailsActivity basicDetailsActivity = new BasicDetailsActivity();
+        addLeadDetails.setVehicleDetails(basicDetailsActivity.getVehicleDetails());
+        addLeadDetails.setLoanDetails(basicDetailsActivity.getLoanDetails());
+        addLeadDetails.setBasicDetails(getBasicDetails());
+        return addLeadDetails;
+    }
+
+    public BasicDetails getBasicDetails() {
+        BasicDetails basicDetails = new BasicDetails();
+        basicDetails.setFullName(CommonStrings.customBasicDetails.getFullName());
+        basicDetails.setCustomerMobile(CommonStrings.customBasicDetails.getCustomerMobile());
+        basicDetails.setEmail(CommonStrings.customBasicDetails.getEmail());
+        basicDetails.setOtp(CommonStrings.customBasicDetails.getOtp());
+        return basicDetails;
+    }
+
 }

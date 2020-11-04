@@ -19,9 +19,12 @@ import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehRegistrati
 import com.mfc.autofin.framework.R;
 
 import fragments.OTPBottomSheetFragment;
+import model.add_lead_details.LoanDetails;
+import model.basic_details.BasicDetails;
 import model.otp_models.CustomerMobile;
 import model.otp_models.OTPRequest;
 import model.otp_models.OTPResponse;
+import model.vehicle_details.vehicle_category.VehicleDetails;
 import model.vehicle_details.vehicle_category.stock_details.StockResponse;
 import model.vehicle_details.vehicle_category.stock_details.StockResponseData;
 import retrofit2.Call;
@@ -165,5 +168,28 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onFailure(Call<Object> call, Throwable t) {
 
+    }
+
+    public VehicleDetails getVehicleDetails() {
+        VehicleDetails vehicleDetails = new VehicleDetails();
+        vehicleDetails.setDoesCarHaveLoan(CommonStrings.customVehDetails.getDoesCarHaveLoan());
+        vehicleDetails.setHaveVehicleNumber(CommonStrings.customVehDetails.getHaveVehicleNumber());
+        vehicleDetails.setVehicleNumber(CommonStrings.customVehDetails.getVehicleNumber());
+        vehicleDetails.setMake(CommonStrings.customVehDetails.getMake());
+        vehicleDetails.setModel(CommonStrings.customVehDetails.getModel());
+        vehicleDetails.setVariant(CommonStrings.customVehDetails.getVariant());
+        vehicleDetails.setRegistrationYear(CommonStrings.customVehDetails.getRegistrationYear());
+        vehicleDetails.setOwnership(CommonStrings.customVehDetails.getOwnership());
+        vehicleDetails.setInsurance(CommonStrings.customVehDetails.getInsurance());
+        vehicleDetails.setInsuranceType(CommonStrings.customVehDetails.getInsuranceType());
+        vehicleDetails.setInsuranceAmount(CommonStrings.customVehDetails.getInsuranceAmount());
+        vehicleDetails.setInsuranceValidity(CommonMethods.getIVDateInFormat(CommonStrings.customVehDetails.getInsuranceValidity()));
+        return vehicleDetails;
+    }
+
+    public LoanDetails getLoanDetails() {
+        LoanDetails loanDetails = new LoanDetails();
+        loanDetails.setLoanCategory(CommonStrings.customVehDetails.getVehCategory());
+        return loanDetails;
     }
 }

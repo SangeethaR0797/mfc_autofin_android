@@ -38,7 +38,11 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
         setContentView(R.layout.activity_vehicle_insurance);
 
         if (CommonStrings.customVehDetails.getInsurance()) {
-            strInsurance = "Yes" + " ( " + getString(R.string.rupees_symbol) +" "+CommonStrings.customVehDetails.getInsuranceAmount() + " ) ";
+            if (CommonStrings.customVehDetails.getInsuranceAmount().equals("0")) {
+                strInsurance = "Yes" + " ( " + getString(R.string.rupees_symbol) + " " + CommonStrings.customVehDetails.getInsuranceAmount() + " ) ";
+            } else {
+                strInsurance = "No";
+            }
         } else {
             strInsurance = "No";
         }
@@ -112,7 +116,7 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
         String monthName = new SimpleDateFormat("MMMM").format(view.getDate());
         String insValidityDate = dayOfMonth + "/" + monthName + "/" + year;
         tvInsuranceValidityDate.setText(insValidityDate);
-        CommonStrings.customVehDetails.setInsuranceValidity(tvInsuranceValidityDate.getText().toString());
+        CommonStrings.customVehDetails.setInsuranceValidity(dayOfMonth + " " + monthName + " " + year);
         Intent intent = new Intent(VehInsuranceValidityActivity.this, InsuranceTypeActivity.class);
         startActivity(intent);
     }

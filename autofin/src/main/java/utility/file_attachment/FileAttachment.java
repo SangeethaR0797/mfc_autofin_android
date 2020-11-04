@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.provider.MediaStore;
+
 import androidx.core.content.FileProvider;
 
 import java.io.File;
@@ -37,7 +38,7 @@ public class FileAttachment {
     }
 
 
-    void cameraRequirement(Intent intent, Uri fileUri, Activity activity) {
+    public void cameraRequirement(Intent intent, Uri fileUri, Activity activity) {
         List<ResolveInfo> resInfoList = activity.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
         for (ResolveInfo resolveInfo : resInfoList) {
             String packageName = resolveInfo.activityInfo.packageName;

@@ -104,5 +104,6 @@
     <string name="str_camera_lbl">CAMERA</string>
     <string name="skip_now">Skip Now</string>
     <string name="lbl_doc_attached">DOCUMENT ATTACHED</string>
+    <string name="title_residential_details">RESIDENTIAL DETAILS</string>
 
 </resources>

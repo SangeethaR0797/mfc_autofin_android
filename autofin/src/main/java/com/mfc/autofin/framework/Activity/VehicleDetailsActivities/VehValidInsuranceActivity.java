@@ -88,7 +88,7 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
         } else if (v.getId() == R.id.tvGivenVehPostInspectionEdit) {
             finish();
         } else if (v.getId() == R.id.btnValidInsurance) {
-            strInsurance="Yes";
+            strInsurance = "Yes";
             llVehInsuranceAmount.setVisibility(View.VISIBLE);
             CommonMethods.highLightSelectedButton(this, btnValidInsurance);
             CommonMethods.deHighLightButton(this, btnValidInsuranceNo);
@@ -108,7 +108,7 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
                 startActivity(intent);
             } else {
                 CommonStrings.customVehDetails.setInsurance(false);
-                CommonStrings.customVehDetails.setInsuranceAmount("NA");
+                CommonStrings.customVehDetails.setInsuranceAmount("0");
                 Intent intent = new Intent(VehValidInsuranceActivity.this, VehInsuranceValidityActivity.class);
                 startActivity(intent);
             }

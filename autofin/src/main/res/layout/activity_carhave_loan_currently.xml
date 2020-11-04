@@ -56,7 +56,7 @@
                     android:layout_marginTop="@dimen/text_size25dp"
                     android:layout_marginRight="@dimen/text_size_21dp"
                     android:layout_weight="0.2"
-                    app:srcCompat="@drawable/ic_baseline_ac_unit_24" />
+                    app:srcCompat="@drawable/ic_green_tick" />
 
             </LinearLayout>
 

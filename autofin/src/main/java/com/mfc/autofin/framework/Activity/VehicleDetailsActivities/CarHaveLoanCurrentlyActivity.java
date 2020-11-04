@@ -22,13 +22,13 @@ public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements V
     TextView tvGivenVehOwnership, tvGivenVehOwnershipVal, tvGivenVehOwnershipEdit;
     Button btnCarHaveLoan, btnCarHaveNoLoan;
     ImageView iv_vehDetails_backBtn;
-    String strOwner="";
+    String strOwner = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carhave_loan_currently);
-        strOwner= String.valueOf(CommonStrings.customVehDetails.getOwnership());
+        strOwner = String.valueOf(CommonStrings.customVehDetails.getOwnership());
         initView();
     }
 
@@ -56,8 +56,8 @@ public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements V
             CommonMethods.highLightSelectedButton(this, btnCarHaveLoan);
             CommonMethods.deHighLightButton(this, btnCarHaveNoLoan);
             CommonStrings.customVehDetails.setDoesCarHaveLoan(true);
-            ValuationReportBSD valuationReportBSD=new ValuationReportBSD(this);
-            valuationReportBSD.show(getSupportFragmentManager(),"Validation Report");
+            ValuationReportBSD valuationReportBSD = new ValuationReportBSD(this);
+            valuationReportBSD.show(getSupportFragmentManager(), "Validation Report");
            /* Intent intent = new Intent(CarHaveLoanCurrentlyActivity.this, VehPostInspectionActivity.class);
             startActivity(intent);*/
         } else if (v.getId() == R.id.btnCarHaveNoLoan) {

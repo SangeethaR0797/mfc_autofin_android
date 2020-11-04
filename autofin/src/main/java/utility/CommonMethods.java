@@ -11,6 +11,10 @@ import android.widget.Button;
 
 import com.mfc.autofin.framework.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class CommonMethods {
     public static boolean isInternetWorking(Context context) {
         ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -49,12 +53,28 @@ public class CommonMethods {
 
     }
 
-    public static void deHighLightButton(Activity activity,Button button) {
+    public static void deHighLightButton(Activity activity, Button button) {
         button.setBackground(activity.getResources().getDrawable(R.drawable.grey_box_1dp));
     }
 
-    public static void highLightSelectedButton(Activity activity,Button button) {
+    public static void highLightSelectedButton(Activity activity, Button button) {
         button.setBackground(activity.getResources().getDrawable(R.drawable.navy_blue_outline));
+    }
+
+    public static String getIVDateInFormat(String string) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "dd MMMM yyyy");
+
+        Date myDate = null;
+        try {
+            myDate = dateFormat.parse(string);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String finalDate = timeFormat.format(myDate);
+        return finalDate;
     }
 
 }

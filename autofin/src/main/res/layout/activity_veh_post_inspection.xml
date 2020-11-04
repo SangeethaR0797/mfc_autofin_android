@@ -60,7 +60,7 @@
                         android:layout_marginTop="@dimen/text_size25dp"
                         android:layout_marginRight="@dimen/text_size_21dp"
                         android:layout_weight="0.2"
-                        app:srcCompat="@drawable/ic_baseline_ac_unit_24" />
+                        app:srcCompat="@drawable/ic_green_tick" />
 
                 </LinearLayout>
 
@@ -158,8 +158,8 @@
                         android:background="@android:color/transparent"
                         android:clickable="true"
                         android:inputType="number"
-                        android:singleLine="true"
                         android:maxLength="20"
+                        android:singleLine="true"
                         android:textColor="@color/very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 
