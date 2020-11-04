@@ -10,7 +10,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -120,13 +121,15 @@
 
                     <EditText
                         android:id="@+id/etName"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/text_size_21dp"
                         android:layout_marginTop="@dimen/text_size_5dp"
+                        android:layout_marginRight="@dimen/text_size_19dp"
                         android:background="@android:color/transparent"
                         android:hint="Name"
                         android:inputType="text"
+                        android:maxLength="50"
                         android:singleLine="true"
                         android:textColor="@color/very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
@@ -155,13 +158,15 @@
 
                     <EditText
                         android:id="@+id/etEmailId"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/text_size_21dp"
                         android:layout_marginTop="@dimen/text_size_5dp"
+                        android:layout_marginRight="@dimen/text_size_19dp"
                         android:background="@android:color/transparent"
                         android:hint="@string/sample_email_id"
                         android:inputType="textEmailAddress"
+                        android:maxLength="50"
                         android:singleLine="true"
                         android:textColor="@color/very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
@@ -189,10 +194,11 @@
 
                     <EditText
                         android:id="@+id/etPhoneNumber"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/text_size_21dp"
                         android:layout_marginTop="@dimen/text_size_5dp"
+                        android:layout_marginRight="@dimen/text_size_19dp"
                         android:background="@android:color/transparent"
                         android:hint="@string/sample_phone_number"
                         android:inputType="phone"

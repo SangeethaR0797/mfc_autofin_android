@@ -77,12 +77,10 @@ public class InsuranceTypeActivity extends AppCompatActivity implements View.OnC
             finish();
         } else if (v.getId() == R.id.radioBtnComprehensive) {
             CommonStrings.customVehDetails.setInsuranceType(radioBtnComprehensive.getText().toString());
-            Toast.makeText(this, "Vehicle details updated successfully", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(InsuranceTypeActivity.this, BasicDetailsActivity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.radioBtnThirdParty) {
             CommonStrings.customVehDetails.setInsuranceType(radioBtnThirdParty.getText().toString());
-            Toast.makeText(this, "Vehicle details updated successfully", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(InsuranceTypeActivity.this, BasicDetailsActivity.class);
             startActivity(intent);
         }

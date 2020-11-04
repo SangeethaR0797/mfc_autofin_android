@@ -27,7 +27,7 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
 
     TextView tvGivenInsurance, tvGivenVehInsuranceVal, tvGivenInsuranceAmountEdit, tvInsuranceValidityLbl, tvInsuranceValidityDate;
     ImageView iv_vehDetails_backBtn;
-    String strInsurance = "", strInsuranceValidity = "";
+    String strInsurance = "", strInsuranceAmount = "", strInsuranceValidity = "";
     Calendar insuranceCal = Calendar.getInstance();
     CalendarView cvInsuranceValidity;
     LinearLayout llCalendarView;
@@ -38,8 +38,10 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
         setContentView(R.layout.activity_vehicle_insurance);
 
         if (CommonStrings.customVehDetails.getInsurance()) {
+            strInsurance = "Yes";
             if (CommonStrings.customVehDetails.getInsuranceAmount().equals("0")) {
-                strInsurance = "Yes" + " ( " + getString(R.string.rupees_symbol) + " " + CommonStrings.customVehDetails.getInsuranceAmount() + " ) ";
+                strInsuranceAmount = CommonStrings.customVehDetails.getInsuranceAmount();
+
             } else {
                 strInsurance = "No";
             }
@@ -66,7 +68,7 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
         iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
         cvInsuranceValidity = findViewById(R.id.cvInsuranceValidity);
         llCalendarView = findViewById(R.id.llCalendarView);
-        tvGivenVehInsuranceVal.setText(strInsurance);
+        tvGivenVehInsuranceVal.setText(strInsurance+ " ( " + getString(R.string.rupees_symbol) + " " + strInsuranceAmount + " ) ");
         llCalendarView.setOnClickListener(this);
         iv_vehDetails_backBtn.setOnClickListener(this);
         tvGivenInsuranceAmountEdit.setOnClickListener(this);
@@ -102,13 +104,6 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
         }, mYear, mMonth, mDay);
         mDatePicker.setTitle("Select Insurance validity");
         mDatePicker.show();
-    }
-
-
-    private void updateInsuranceValidity() {
-        String myFormat = "MM/dd/yy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
-        tvInsuranceValidityDate.setText(sdf.format(insuranceCal.getTime()));
     }
 
     @Override

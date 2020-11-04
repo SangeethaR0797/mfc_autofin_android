@@ -55,7 +55,6 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
     ImageView iv_dialog_close;
     Button btnProceed;
     Activity activity;
-    Context context;
 
     public OTPBottomSheetFragment(Activity activity) {
         this.activity = activity;
@@ -65,7 +64,6 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_o_t_p_bottom_sheet_list_dialog, container, false);
-        context = view.getContext();
         initView(view);
         return view;
     }
@@ -78,6 +76,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
         iv_dialog_close = view.findViewById(R.id.iv_dialog_close);
         btnProceed = view.findViewById(R.id.btnProceed);
         tvCMobileNum.setText(CommonStrings.customBasicDetails.getCustomerMobile());
+        etOTPVal.setText(CommonStrings.customBasicDetails.getOtp());
         iv_dialog_close.setOnClickListener(this);
         btnProceed.setOnClickListener(this);
         new CountDownTimer(30000, 1000) {
@@ -130,10 +129,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
             if (!etOTPVal.getText().toString().isEmpty() && etOTPVal.getText().toString().equalsIgnoreCase(CommonStrings.customBasicDetails.getOtp())) {
                 SpinnerManager.showSpinner(activity);
                 retrofitInterface.getFromWeb(getAddLeadRequest(), CommonStrings.ADD_LEAD_URL_END).enqueue(this);
-            }
-
-            //startActivity(new Intent(v.getContext(), ResidentialCityActivity.class));
-            else {
+            } else {
                 Toast.makeText(activity, getString(R.string.wrong_otp), Toast.LENGTH_LONG).show();
                 etOTPVal.setText("");
             }
