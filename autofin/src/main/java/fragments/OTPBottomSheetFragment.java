@@ -77,6 +77,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
         btnProceed = view.findViewById(R.id.btnProceed);
         tvCMobileNum.setText(CommonStrings.customBasicDetails.getCustomerMobile());
         etOTPVal.setText(CommonStrings.customBasicDetails.getOtp());
+        tvResendOTPLbl.setOnClickListener(this);
         iv_dialog_close.setOnClickListener(this);
         btnProceed.setOnClickListener(this);
         new CountDownTimer(30000, 1000) {
@@ -116,8 +117,6 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
     public void onClick(View v) {
 
         if (v.getId() == R.id.iv_dialog_close) {
-            dismiss();
-        } else if (v.getId() == R.id.etOTPVal) {
             dismiss();
         } else if (v.getId() == R.id.tvResendOTPLbl) {
             if (!CommonStrings.customBasicDetails.getOtp().isEmpty()) {

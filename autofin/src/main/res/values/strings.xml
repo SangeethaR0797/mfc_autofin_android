@@ -105,5 +105,11 @@
     <string name="skip_now">Skip Now</string>
     <string name="lbl_doc_attached">DOCUMENT ATTACHED</string>
     <string name="title_residential_details">RESIDENTIAL DETAILS</string>
+    <string name="lbl_res_city">PLEASE ENTER YOUR RESIDENTIAL CITY</string>
+    <string name="enter_pincode">Enter Pincode</string>
+    <string name="lbl_check_pincode">Check</string>
+    <string name="city_lbl">City</string>
+    <string name="please_enter_pincode">Please enter Pincode</string>
+    <string name="please_enter_proper_pincode">Please enter proper pincode</string>
 
 </resources>

@@ -81,6 +81,100 @@
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                style="@style/veh_details_card_view_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+                    <utility.RobotoMedium
+                        android:id="@+id/tvRegCityLbl"
+                        style="@style/select_lbl_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lbl_res_city" />
+                    <LinearLayout
+                        style="@style/select_veh_details_ll_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/text_size_24dp"
+                        android:weightSum="3">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvPincodeLbl"
+                                style="@style/veh_details_selected_style"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/hint_select_model"
+                                android:text="@string/enter_pincode" />
+
+                            <EditText
+                                android:id="@+id/etResPinCode"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/text_size_21dp"
+                                android:layout_marginTop="@dimen/text_size_5dp"
+                                android:background="@android:color/transparent"
+                                android:hint="@string/sample_reg_no"
+                                android:maxLength="15"
+                                android:singleLine="true"
+                                android:textColor="@color/very_dark_blue"
+                                android:textSize="@dimen/text_size_16sp" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_marginTop="@dimen/text_size_8dp"
+                                android:background="@color/very_dark_blue" />
+                        </LinearLayout>
+
+                        <Button
+                            android:id="@+id/btnPinCodeCheck"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                           style="@style/pincode_check_btn_style" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/text_size_21dp"
+                        android:paddingTop="@dimen/text_size_24dp"
+                        android:paddingRight="@dimen/text_size10dp"
+                        android:paddingBottom="@dimen/text_size_17dp">
+
+                        <utility.RobotoMedium
+                            android:id="@+id/tvCityName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/very_dark_blue"
+                            android:textSize="@dimen/text_size_19dp"
+                            android:hint="@string/city_lbl"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
     </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <include layout="@layout/autofin_next_btn" />
+    </LinearLayout>
 </RelativeLayout>
