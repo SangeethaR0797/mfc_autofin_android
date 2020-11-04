@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/g_white"
-    tools:context=".Activity.ResidentialActivity.MovedToCityMYActivity">
-
+    tools:context=".Activity.ResidentialActivity.MovedToCurrentCityActivity">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,7 +34,7 @@
                     android:orientation="vertical">
 
                     <utility.RobotoMedium
-                        android:id="@+id/tvWhenMovedToCityLbl"
+                        android:id="@+id/tvWhenMovedToCurrentCityLbl"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/text_size_20dp"
@@ -44,7 +43,7 @@
                         android:drawableRight="@drawable/ic_baseline_calendar_today_24"
                         android:paddingRight="20dp"
                         android:paddingBottom="@dimen/text_size_30dp"
-                        android:text="@string/lbl_when_did_you_moved_to_the_city"
+                        android:text="@string/lbl_when_did_you_moved_to_current_city"
                         android:textColor="@color/very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 
@@ -61,7 +60,7 @@
                         android:paddingBottom="@dimen/text_size_17dp">
 
                         <utility.RobotoMedium
-                            android:id="@+id/tvMovedToCity"
+                            android:id="@+id/tvMovedToCRes"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/month_year_format_hint"
@@ -72,7 +71,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/llMonthAndYear"
+                        android:id="@+id/llMonthAndYearMovedToCRes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -80,7 +79,7 @@
                         android:visibility="invisible">
 
                         <utility.RobotoMedium
-                            android:id="@+id/tvPleaseSelectMandY"
+                            android:id="@+id/tvPleaseSelectMandYCurrentRes"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/lbl_please_select_month_year"

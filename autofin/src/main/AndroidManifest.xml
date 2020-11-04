@@ -24,7 +24,9 @@
         android:hardwareAccelerated="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.ResidentialActivity.MovedToCityMYActivity"></activity>
+        <activity android:name=".Activity.ResidentialActivity.ResidenceTypeActivity"></activity>
+        <activity android:name=".Activity.ResidentialActivity.MovedToCurrentCityActivity" />
+        <activity android:name=".Activity.ResidentialActivity.MovedToCityMYActivity" />
         <activity
             android:name=".Activity.ResidentialActivity.ResidentialCity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />

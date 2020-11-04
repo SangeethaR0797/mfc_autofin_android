@@ -111,5 +111,10 @@
     <string name="city_lbl">City</string>
     <string name="please_enter_pincode">Please enter Pincode</string>
     <string name="please_enter_proper_pincode">Please enter proper pincode</string>
+    <string name="lbl_when_did_you_moved_to_the_city">WHEN DID YOU MOVED TO THE CITY?</string>
+    <string name="month_year_format_hint"><![CDATA[Month & Year]]></string>
+    <string name="lbl_please_select_month_year">PLEASE SELECT MONTH</string>
+    <string name="lbl_when_did_you_moved_to_current_city">WHEN DID YOU MOVED TO CURRENT RESIDENCE?</string>
+    <string name="lbl_residence_type">Residence Type</string>
 
 </resources>

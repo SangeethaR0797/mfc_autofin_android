@@ -10,23 +10,23 @@ import android.widget.TextView;
 
 import com.mfc.autofin.framework.R;
 
-public class MovedToCityMYActivity extends AppCompatActivity implements View.OnClickListener {
+public class MovedToCurrentCityActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView tvGivenLbl,tvGivenPreviousVal,tvMovedToCity;
+    TextView tvGivenLbl,tvGivenPreviousVal,tvMovedToCRes;
+    LinearLayout llMonthAndYearMovedToCRes;
     ImageView iv_residential_details_backBtn;
-    LinearLayout llMonthAndYear;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_moved_to_city_m_y);
+        setContentView(R.layout.activity_moved_to_current_city);
         initView();
     }
 
     private void initView() {
         tvGivenLbl=findViewById(R.id.tvGivenLbl);
         tvGivenPreviousVal=findViewById(R.id.tvGivenPreviousVal);
-        tvMovedToCity=findViewById(R.id.tvMovedToCity);
-        llMonthAndYear=findViewById(R.id.llMonthAndYear);
+        tvMovedToCRes=findViewById(R.id.tvMovedToCRes);
+        llMonthAndYearMovedToCRes=findViewById(R.id.llMonthAndYearMovedToCRes);
         iv_residential_details_backBtn=findViewById(R.id.iv_residential_details_backBtn);
     }
 
