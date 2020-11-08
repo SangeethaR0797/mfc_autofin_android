@@ -44,6 +44,7 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
         llDOBCalendarView = findViewById(R.id.llDOBCalendarView);
         cvUserDOB = findViewById(R.id.cvUserDOB);
         cvUserDOB.setMinDate(System.currentTimeMillis() - 1000);
+        cvUserDOB.setOnDateChangeListener(this);
         iv_personal_details_backBtn = findViewById(R.id.iv_personal_details_backBtn);
         tvDOBLbl.setOnClickListener(this);
         tvGivenValEdit.setOnClickListener(this);
@@ -53,9 +54,9 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_personal_details_backBtn) {
-            startActivity(new Intent(UserDOBActivity.this, ResidenceTypeActivity.class));
-        } else if (v.getId() == R.id.tvGivenValEdit) {
             startActivity(new Intent(UserDOBActivity.this, AutoFinDashBoardActivity.class));
+        } else if (v.getId() == R.id.tvGivenValEdit) {
+            startActivity(new Intent(UserDOBActivity.this, ResidenceTypeActivity.class));
         } else if (v.getId() == R.id.tvDOBLbl) {
             llDOBCalendarView.setVisibility(View.VISIBLE);
         }
@@ -64,9 +65,8 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
         String monthName = new SimpleDateFormat("MMMM").format(view.getDate());
-        String insValidityDate = dayOfMonth + "/" + monthName + "/" + year;
-        tvDOBLbl.setText(insValidityDate);
-        // CommonStrings.customVehDetails.setInsuranceValidity(dayOfMonth + " " + monthName + " " + year);
+        String dob = dayOfMonth + "/" + monthName + "/" + year;
+        tvDOBLbl.setText(dob);
         CommonMethods.setValueAgainstKey(this, CommonStrings.USER_DOB, dayOfMonth + " " + monthName + " " + year);
         Intent intent = new Intent(UserDOBActivity.this, MonthlyIncome.class);
         startActivity(intent);

@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/g_white"
-    tools:context=".Activity.PersonalDetails.MonthlyIncome">
+    tools:context=".Activity.PersonalDetails.PanCardNumberActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,6 +12,7 @@
         android:orientation="vertical">
 
         <include layout="@layout/personal_details_app_bar" />
+
         <include layout="@layout/layout_previous_screen_values" />
 
         <androidx.cardview.widget.CardView
@@ -31,36 +31,35 @@
                 android:orientation="vertical">
 
                 <utility.RobotoMedium
-                    android:id="@+id/tvMonthlyIncomeLbl"
+                    android:id="@+id/tvPanCardLbl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/text_size_28dp"
-                    android:text="@string/lbl_monthly_income"
+                    android:text="@string/lbl_please_enter_your_pan_num"
                     android:textColor="@color/very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 
                 <LinearLayout
-                    android:id="@+id/llMonthlyIncome"
+                    android:id="@+id/llPanNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/text_size10dp"
                     android:layout_marginRight="@dimen/text_size10dp"
                     android:layout_marginBottom="@dimen/text_size_17dp"
                     android:orientation="vertical"
                     android:visibility="visible">
 
                     <TextView
-                        android:id="@+id/tvMonthlyIncome"
+                        android:id="@+id/tvEnterPanCardNo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/text_size_5dp"
-                        android:text="@string/lbl_enter_amount"
                         android:inputType="number"
+                        android:text="@string/lbl_enter_pan_card"
                         android:textColor="@color/grey_color"
                         android:textSize="@dimen/text_size_16sp" />
 
                     <EditText
-                        android:id="@+id/etMonthlyIncomeAmount"
+                        android:id="@+id/etPanCardNumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
@@ -72,13 +71,14 @@
                         android:textSize="@dimen/text_size_16sp" />
 
                     <View
-                        android:id="@+id/belowETView"
+                        android:id="@+id/belowETViewEMI"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/text_size_8dp"
                         android:background="@color/very_dark_blue" />
-                    <include layout="@layout/layout_error_message"/>
+
+                    <include layout="@layout/layout_error_message" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -91,6 +91,4 @@
 
         <include layout="@layout/autofin_next_btn" />
     </LinearLayout>
-
-
 </RelativeLayout>

@@ -24,6 +24,10 @@
         android:hardwareAccelerated="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Activity.PersonalDetails.BankNamesActivity"></activity>
+        <activity android:name=".Activity.PersonalDetails.EmploymentTypeActivity" />
+        <activity android:name=".Activity.PersonalDetails.PanCardNumberActivity" />
+        <activity android:name=".Activity.PersonalDetails.LoanRequiredActivity" />
         <activity
             android:name=".Activity.PersonalDetails.EMIPayPerMonthActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />

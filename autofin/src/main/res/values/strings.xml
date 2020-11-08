@@ -121,6 +121,16 @@
     <string name="lbl_monthly_income">MONTHLY INCOME</string>
     <string name="sample_pincode">560068</string>
     <string name="title_personal_details">PERSONAL DETAILS</string>
+    <string name="monthly_income_error_message">Please enter Your Monthly Income</string>
+    <string name="lbl_monthly_emi">TOTAL EMI YOU PAY PER MONTH</string>
+    <string name="lbl_loan_required">LOAN REQUIRED</string>
+    <string name="lbl_total_emi">TOTAL EMI</string>
+    <string name="loan_required_error_message">Please enter required loan amount</string>
+    <string name="monthly_emi_error_message">Please enter EMI you pay per month</string>
+    <string name="lbl_enter_pan_card">Enter Pan No</string>
+    <string name="lbl_please_enter_your_pan_num">PLEASE ENTER YOUR PAN NO.</string>
+    <string name="please_enter_pan_number">Please enter your PAN card number</string>
+    <string name="please_enter_valid_pan_number">Please enter valid PAN Card no</string>
 
 
 </resources>

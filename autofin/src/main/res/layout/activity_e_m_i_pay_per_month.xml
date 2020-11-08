@@ -1,9 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.PersonalDetails.EMIPayPerMonthActivity">
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <include layout="@layout/personal_details_app_bar" />
+    <include layout="@layout/layout_previous_screen_values" />
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/text_size10dp"
+        android:layout_marginTop="@dimen/text_size_8dp"
+        android:layout_marginRight="@dimen/text_size10dp"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_size_20dp"
+            android:layout_marginTop="@dimen/text_size_30dp"
+            android:orientation="vertical">
+
+            <utility.RobotoMedium
+                android:id="@+id/tvMonthlyEMILbl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/text_size_28dp"
+                android:text="@string/lbl_monthly_emi"
+                android:textColor="@color/very_dark_blue"
+                android:textSize="@dimen/text_size_16sp" />
+
+            <LinearLayout
+                android:id="@+id/llMonthlyEMI"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size10dp"
+                android:layout_marginRight="@dimen/text_size10dp"
+                android:layout_marginBottom="@dimen/text_size_17dp"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/tvMonthlyEMI"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_size_5dp"
+                    android:text="@string/lbl_enter_amount"
+                    android:inputType="number"
+                    android:textColor="@color/grey_color"
+                    android:textSize="@dimen/text_size_16sp" />
+
+                <EditText
+                    android:id="@+id/etMonthlyEMIAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:clickable="true"
+                    android:inputType="number"
+                    android:maxLength="20"
+                    android:singleLine="true"
+                    android:textColor="@color/very_dark_blue"
+                    android:textSize="@dimen/text_size_16sp" />
+
+                <View
+                    android:id="@+id/belowETViewEMI"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/text_size_8dp"
+                    android:background="@color/very_dark_blue" />
+                <include layout="@layout/layout_error_message"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    </LinearLayout>
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_alignParentBottom="true">
+
+<include layout="@layout/autofin_next_btn" />
+</LinearLayout>
+
+</RelativeLayout>

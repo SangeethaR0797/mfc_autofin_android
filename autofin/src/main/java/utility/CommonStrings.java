@@ -26,6 +26,10 @@ public class CommonStrings {
     public static final String MOVED_TO_CRESIDENCE = "moved_to_current_residence";
     public static final String RES_TYPE_URL = "https://15.207.148.230:3004/api/masters/resident-type";
     public static final String USER_DOB = "user_dob";
+    public static final String MONTHLY_INCOME = "monthly_income";
+    public static final String MONTHLY_EMI ="monthly_emi";
+    public static final String LOAN_REQUIRED ="loan_amount_required" ;
+    public static final String PAN_CARD_NUMBER = "pan_card_number_value";
     public static String VEH_CATEGORY_URL = "https://15.207.148.230:3004/api/masters/vehicle-category";
     public static String RES_CITY_URL = "https://15.207.148.230:3004/api/pincode/city/";
     public static String IBB_PASSWORD = "dHk69ffu7ebP";
