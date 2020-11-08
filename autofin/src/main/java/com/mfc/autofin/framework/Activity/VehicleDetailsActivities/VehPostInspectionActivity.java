@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.R;
 
 import utility.CommonMethods;
@@ -61,7 +62,7 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_vehDetails_backBtn) {
-            finish();
+            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvGivenVehLoanEdit) {
             finish();
         } else if (v.getId() == R.id.btnVehPostInspectionYes) {
@@ -78,7 +79,8 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
         } else if (v.getId() == R.id.btnNext) {
             if (llVehPostInspection.getVisibility() == View.VISIBLE) {
                 if (!etPostInspectionAmount.getText().toString().isEmpty()) {
-                    CommonStrings.customVehDetails.setPostevaluation(btnVehPostInspectionYes.getText().toString() + " (" + getString(R.string.rupees_symbol) + " " + etPostInspectionAmount.getText().toString() + " )");
+                    //  CommonStrings.customVehDetails.setPostevaluation(btnVehPostInspectionYes.getText().toString() + " (" + getString(R.string.rupees_symbol) + " " + etPostInspectionAmount.getText().toString() + " )");
+                    CommonMethods.setValueAgainstKey(this, "post_inspection_amount", btnVehPostInspectionYes.getText().toString() + " (" + getString(R.string.rupees_symbol) + " " + etPostInspectionAmount.getText().toString() + " )");
                     Intent intent = new Intent(VehPostInspectionActivity.this, VehValidInsuranceActivity.class);
                     startActivity(intent);
                 } else {
@@ -86,7 +88,8 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
 
                 }
             } else {
-                CommonStrings.customVehDetails.setPostevaluation(btnVehPostInspectionNo.getText().toString());
+                // CommonStrings.customVehDetails.setPostevaluation(btnVehPostInspectionNo.getText().toString());
+                CommonMethods.setValueAgainstKey(this, "post_inspection_amount", btnVehPostInspectionYes.getText().toString());
                 Intent intent = new Intent(VehPostInspectionActivity.this, VehValidInsuranceActivity.class);
                 startActivity(intent);
             }

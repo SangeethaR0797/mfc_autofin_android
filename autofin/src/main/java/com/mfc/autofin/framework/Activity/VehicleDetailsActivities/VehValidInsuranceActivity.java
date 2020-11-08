@@ -13,8 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
+import com.mfc.autofin.framework.Activity.BasicDetailsActivities.BasicDetailsActivity;
 import com.mfc.autofin.framework.R;
 
+import model.basic_details.BasicDetails;
 import utility.CommonMethods;
 import utility.CommonStrings;
 
@@ -35,8 +38,9 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_veh_valid_insurance);
         Log.i(TAG, "onCreate: ");
-        if (!CommonStrings.customVehDetails.getPostevaluation().isEmpty()) {
-            strPostInspectionVal = CommonStrings.customVehDetails.getPostevaluation();
+
+        if (!CommonMethods.getStringValueFromKey(this, "post_inspection_amount").isEmpty()) {
+            strPostInspectionVal = CommonMethods.getStringValueFromKey(this, "post_inspection_amount");
         } else {
             strPostInspectionVal = "";
         }
@@ -84,7 +88,7 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_vehDetails_backBtn) {
-            finish();
+            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvGivenVehPostInspectionEdit) {
             finish();
         } else if (v.getId() == R.id.btnValidInsurance) {
@@ -109,7 +113,8 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
             } else {
                 CommonStrings.customVehDetails.setInsurance(false);
                 CommonStrings.customVehDetails.setInsuranceAmount("0");
-                Intent intent = new Intent(VehValidInsuranceActivity.this, VehInsuranceValidityActivity.class);
+                CommonStrings.customVehDetails.setInsuranceType("NA");
+                Intent intent = new Intent(VehValidInsuranceActivity.this, BasicDetailsActivity.class);
                 startActivity(intent);
             }
         }

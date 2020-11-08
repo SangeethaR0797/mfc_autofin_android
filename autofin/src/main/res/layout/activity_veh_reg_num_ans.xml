@@ -56,10 +56,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/text_size_21dp"
                     android:layout_marginTop="@dimen/text_size_5dp"
-                    android:singleLine="true"
                     android:background="@android:color/transparent"
                     android:hint="@string/sample_reg_no"
-                    android:maxLength="15"
+                    android:maxLength="11"
+                    android:singleLine="true"
                     android:textColor="@color/very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 

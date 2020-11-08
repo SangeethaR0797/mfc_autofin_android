@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.InsuranceTypeActivity;
 import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehRegNumAns;
 import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehRegistrationYear;
@@ -46,23 +47,28 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
     String strInsuranceType = "";
     String strName = "", strEmail = "", strPhoneNum = "";
 
-    private ImageView iv_vehDetails_backBtn;
+    private ImageView iv_basic_details_backBtn;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_details);
-        strInsuranceType = CommonStrings.customVehDetails.getInsuranceType();
+        if (CommonStrings.customVehDetails.getInsuranceType() != null) {
+            strInsuranceType = CommonStrings.customVehDetails.getInsuranceType();
+        } else {
+            strInsuranceType = "";
+        }
+
         initView();
     }
 
     private void initView() {
+        iv_basic_details_backBtn = findViewById(R.id.iv_basic_details_backBtn);
         tvGivenInsType = findViewById(R.id.tvGivenInsType);
         tvGivenInsTypeVal = findViewById(R.id.tvGivenInsTypeVal);
         tvGivenInsTypeEdit = findViewById(R.id.tvGivenInsTypeEdit);
         tvNameLbl = findViewById(R.id.tvNameLbl);
-        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
         tvEmailLbl = findViewById(R.id.tvEmailLbl);
         tvPhoneNumLbl = findViewById(R.id.tvPhoneNumLbl);
         etName = findViewById(R.id.etName);
@@ -79,7 +85,7 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
         btnNext.setTypeface(CustomFonts.getRobotoMedium(this));
         tvGivenInsTypeEdit.setOnClickListener(this);
         btnNext.setOnClickListener(this);
-        iv_vehDetails_backBtn.setOnClickListener(this);
+        iv_basic_details_backBtn.setOnClickListener(this);
 
     }
 
@@ -95,8 +101,8 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
                 SpinnerManager.showSpinner(this);
                 retrofitInterface.getFromWeb(getOTPRequest(), CommonStrings.OTP_URL_END).enqueue(this);
             }
-        } else if (v.getId() == R.id.iv_vehDetails_backBtn) {
-            finish();
+        } else if (v.getId() == R.id.iv_basic_details_backBtn) {
+            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         }
     }
 
@@ -172,18 +178,43 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
 
     public VehicleDetails getVehicleDetails() {
         VehicleDetails vehicleDetails = new VehicleDetails();
-        vehicleDetails.setDoesCarHaveLoan(CommonStrings.customVehDetails.getDoesCarHaveLoan());
-        vehicleDetails.setHaveVehicleNumber(CommonStrings.customVehDetails.getHaveVehicleNumber());
-        vehicleDetails.setVehicleNumber(CommonStrings.customVehDetails.getVehicleNumber());
-        vehicleDetails.setMake(CommonStrings.customVehDetails.getMake());
-        vehicleDetails.setModel(CommonStrings.customVehDetails.getModel());
-        vehicleDetails.setVariant(CommonStrings.customVehDetails.getVariant());
-        vehicleDetails.setRegistrationYear(CommonStrings.customVehDetails.getRegistrationYear());
-        vehicleDetails.setOwnership(CommonStrings.customVehDetails.getOwnership());
-        vehicleDetails.setInsurance(CommonStrings.customVehDetails.getInsurance());
-        vehicleDetails.setInsuranceType(CommonStrings.customVehDetails.getInsuranceType());
-        vehicleDetails.setInsuranceAmount(CommonStrings.customVehDetails.getInsuranceAmount());
-        vehicleDetails.setInsuranceValidity(CommonMethods.getIVDateInFormat(CommonStrings.customVehDetails.getInsuranceValidity()));
+        try {
+
+            vehicleDetails.setHaveVehicleNumber(false);
+            vehicleDetails.setVehicleNumber("NA");
+            vehicleDetails.setDoesCarHaveLoan(CommonStrings.customVehDetails.getDoesCarHaveLoan());
+            vehicleDetails.setHaveVehicleNumber(CommonStrings.customVehDetails.getHaveVehicleNumber());
+            vehicleDetails.setVehicleNumber(CommonStrings.customVehDetails.getVehicleNumber());
+            vehicleDetails.setMake(CommonStrings.customVehDetails.getMake());
+            vehicleDetails.setModel(CommonStrings.customVehDetails.getModel());
+            vehicleDetails.setVariant(CommonStrings.customVehDetails.getVariant());
+            vehicleDetails.setRegistrationYear(CommonStrings.customVehDetails.getRegistrationYear());
+            vehicleDetails.setOwnership(CommonStrings.customVehDetails.getOwnership());
+            vehicleDetails.setDoesCarHaveLoan(CommonStrings.customVehDetails.getDoesCarHaveLoan());
+            if (CommonStrings.customVehDetails.getInsurance()) {
+                vehicleDetails.setInsurance(CommonStrings.customVehDetails.getInsurance());
+                vehicleDetails.setInsuranceType(CommonStrings.customVehDetails.getInsuranceType());
+                vehicleDetails.setInsuranceAmount(CommonStrings.customVehDetails.getInsuranceAmount());
+                //vehicleDetails.setInsuranceValidity(CommonMethods.getIVDateInFormat(CommonStrings.customVehDetails.getInsuranceValidity()));
+                vehicleDetails.setInsuranceValidity("2020-01-01");
+
+            } else {
+                vehicleDetails.setInsurance(CommonStrings.customVehDetails.getInsurance());
+                vehicleDetails.setInsuranceType(CommonStrings.customVehDetails.getInsuranceType());
+                vehicleDetails.setInsuranceAmount(CommonStrings.customVehDetails.getInsuranceAmount());
+                Log.i(TAG, "getVehicleDetails: " + CommonStrings.customVehDetails.getInsurance());
+                Log.i(TAG, "getVehicleDetails: " + CommonStrings.customVehDetails.getInsuranceType());
+                Log.i(TAG, "getVehicleDetails: " + CommonStrings.customVehDetails.getInsuranceAmount());
+                vehicleDetails.setInsuranceValidity("2020-01-01");
+                Log.i(TAG, "getVehicleDetails: " + CommonStrings.customVehDetails.getInsuranceValidity());
+
+
+            }
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
         return vehicleDetails;
     }
 

@@ -59,6 +59,18 @@ public class CustomVehDetails {
     @Expose
     private String vehicleNumber;
 
+    public String getPostInspectionAmount() {
+        return postInspectionAmount;
+    }
+
+    public void setPostInspectionAmount(String postInspectionAmount) {
+        this.postInspectionAmount = postInspectionAmount;
+    }
+
+    @SerializedName("postInspectionAmount")
+    @Expose
+    private String postInspectionAmount = "";
+
     public String getVehRegNum() {
         return vehRegNum;
     }

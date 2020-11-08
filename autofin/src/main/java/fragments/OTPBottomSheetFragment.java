@@ -77,6 +77,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
         btnProceed = view.findViewById(R.id.btnProceed);
         tvCMobileNum.setText(CommonStrings.customBasicDetails.getCustomerMobile());
         etOTPVal.setText(CommonStrings.customBasicDetails.getOtp());
+        tvCMobileNum.setOnClickListener(this);
         tvResendOTPLbl.setOnClickListener(this);
         iv_dialog_close.setOnClickListener(this);
         btnProceed.setOnClickListener(this);
@@ -117,6 +118,9 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
     public void onClick(View v) {
 
         if (v.getId() == R.id.iv_dialog_close) {
+            dismiss();
+        } else if (v.getId() == R.id.tvCMobileNum) {
+            CommonStrings.customBasicDetails.setCustomerMobile("");
             dismiss();
         } else if (v.getId() == R.id.tvResendOTPLbl) {
             if (!CommonStrings.customBasicDetails.getOtp().isEmpty()) {
@@ -176,15 +180,14 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
 
             AddLeadResponse addLeadResponse = new Gson().fromJson(strRes, AddLeadResponse.class);
             try {
-                if (addLeadResponse != null) {
-                    Toast.makeText(activity, addLeadResponse.getMessage().toString(), Toast.LENGTH_LONG).show();
+                if (addLeadResponse != null && addLeadResponse.getStatus()) {
+                    Toast.makeText(activity, addLeadResponse.getMessage(), Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(activity, ResidentialCity.class);
                     startActivity(intent);
-
+                } else {
+                    CommonMethods.showToast(activity, addLeadResponse.getMessage());
                 }
 
-            } catch (NullPointerException exception) {
-                exception.printStackTrace();
             } catch (Exception exception) {
                 exception.printStackTrace();
             }

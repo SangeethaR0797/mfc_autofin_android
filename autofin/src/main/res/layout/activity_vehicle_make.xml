@@ -104,8 +104,7 @@
                         style="@style/veh_details_selected_style"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1.8"
-                        android:hint="@string/hint_select_make" />
+                        android:layout_weight="1.8" />
 
                     <View
                         android:layout_width="2px"

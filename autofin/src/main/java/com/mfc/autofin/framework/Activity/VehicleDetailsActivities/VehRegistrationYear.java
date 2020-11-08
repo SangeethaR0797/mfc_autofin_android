@@ -60,8 +60,16 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
             else
                 strYear = "";
         }
+
         initView();
 
+        if (CommonMethods.isInternetWorking(VehRegistrationYear.this)) {
+            SpinnerManager.showSpinner(VehRegistrationYear.this);
+            IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_YEAR, CommonMethods.getStringValueFromKey(VehRegistrationYear.this, "ibb_access_token"), CommonStrings.IBB_TAG);
+            retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
+        } else {
+            Toast.makeText(VehRegistrationYear.this, "Please check your Internet Connection", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void initView() {
@@ -72,7 +80,6 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
         tvRegYearLbl = findViewById(R.id.tvRegYearLbl);
         tvRegYear = findViewById(R.id.tvRegYear);
         lvVehListView = findViewById(R.id.lvVehListView);
-        //svVehDetails = findViewById(R.id.svVehDetails);
         iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
 
         tvGivenRegNoVal.setText(regNoVal);
@@ -80,55 +87,21 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
         tvRegYear.setText(strYear);
         btnNext = findViewById(R.id.btnNext);
         iv_vehDetails_backBtn.setOnClickListener(this);
-        /*int searchCloseButtonId = svVehDetails.getContext().getResources()
-                .getIdentifier("android:id/search_close_btn", null, null);
-
-        svCloseButton = this.svVehDetails.findViewById(searchCloseButtonId);
-        svCloseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                svVehDetails.setQuery("", false);
-                svVehDetails.clearFocus();
-                svVehDetails.setVisibility(View.GONE);
-            }
-        });
-
-        svVehDetails.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                vehicleDetailsAdapter.getFilter().filter(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                vehicleDetailsAdapter.getFilter().filter(newText);
-                return false;
-            }
-        });
-*/
         tvVehRegNumEdit.setOnClickListener(this);
         tvRegYear.setOnClickListener(this);
-        // iv_year_search.setOnClickListener(this);
         btnNext.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_vehDetails_backBtn) {
-            finish();
+            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvVehRegNumEdit) {
             finish();
         } else if (v.getId() == R.id.tvRegYear) {
-            if (CommonMethods.isInternetWorking(VehRegistrationYear.this)) {
-                SpinnerManager.showSpinner(VehRegistrationYear.this);
-                IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_YEAR, CommonMethods.getStringValueFromKey(VehRegistrationYear.this, "ibb_access_token"), CommonStrings.IBB_TAG);
-                retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
-            } else {
-                Toast.makeText(VehRegistrationYear.this, "PLease check your Internet Connection", Toast.LENGTH_LONG).show();
-            }
+            SpinnerManager.showSpinner(VehRegistrationYear.this);
+            IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_YEAR, CommonMethods.getStringValueFromKey(VehRegistrationYear.this, "ibb_access_token"), CommonStrings.IBB_TAG);
+            retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
         } else if (v.getId() == R.id.btnNext) {
             if (!tvRegYear.getText().toString().isEmpty()) {
                 CommonStrings.customVehDetails.setRegistrationYear(tvRegYear.getText().toString());

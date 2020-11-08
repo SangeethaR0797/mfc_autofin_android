@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.Activity.ValuationReportBSD;
 import com.mfc.autofin.framework.R;
 
@@ -49,17 +50,18 @@ public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements V
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_vehDetails_backBtn) {
-            finish();
+            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
+
         } else if (v.getId() == R.id.tvGivenVehOwnershipEdit) {
             finish();
         } else if (v.getId() == R.id.btnCarHaveLoan) {
             CommonMethods.highLightSelectedButton(this, btnCarHaveLoan);
             CommonMethods.deHighLightButton(this, btnCarHaveNoLoan);
             CommonStrings.customVehDetails.setDoesCarHaveLoan(true);
-            ValuationReportBSD valuationReportBSD = new ValuationReportBSD(this);
-            valuationReportBSD.show(getSupportFragmentManager(), "Validation Report");
-           /* Intent intent = new Intent(CarHaveLoanCurrentlyActivity.this, VehPostInspectionActivity.class);
-            startActivity(intent);*/
+            /*ValuationReportBSD valuationReportBSD = new ValuationReportBSD(this);
+            valuationReportBSD.show(getSupportFragmentManager(), "Validation Report");*/
+            Intent intent = new Intent(CarHaveLoanCurrentlyActivity.this, VehPostInspectionActivity.class);
+            startActivity(intent);
         } else if (v.getId() == R.id.btnCarHaveNoLoan) {
             CommonMethods.highLightSelectedButton(this, btnCarHaveNoLoan);
             CommonMethods.deHighLightButton(this, btnCarHaveLoan);

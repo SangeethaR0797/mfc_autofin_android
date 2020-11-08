@@ -22,8 +22,12 @@ public class CommonStrings {
     public static final String APP_NAME_VAL = "app_name_val";
     public static final String OTP_URL_END = "generate-otp";
     public static final String ADD_LEAD_URL_END = "v2/add-lead";
+    public static final String MOVED_TO_CCITY = "moved_to_CurrentCity";
+    public static final String MOVED_TO_CRESIDENCE = "moved_to_current_residence";
+    public static final String RES_TYPE_URL = "https://15.207.148.230:3004/api/masters/resident-type";
+    public static final String USER_DOB = "user_dob";
     public static String VEH_CATEGORY_URL = "https://15.207.148.230:3004/api/masters/vehicle-category";
-    public static String RES_CITY_URL="https://15.207.148.230:3004/api/pincode/city/";
+    public static String RES_CITY_URL = "https://15.207.148.230:3004/api/pincode/city/";
     public static String IBB_PASSWORD = "dHk69ffu7ebP";
     public static String IBB_USERNAME = "mfc@ibb.com";
     public static String IBB_VEH_DETAILS_END_POINT = "MFC";
@@ -36,6 +40,6 @@ public class CommonStrings {
     public static StockResponseData stockResData = new StockResponseData();
     public static CustomVehDetails customVehDetails = new CustomVehDetails();
     public static CustomBasicDetailsModel customBasicDetails = new CustomBasicDetailsModel();
-    public static CityData customCityData=new CityData();
+    public static CityData customCityData = new CityData();
 
 }

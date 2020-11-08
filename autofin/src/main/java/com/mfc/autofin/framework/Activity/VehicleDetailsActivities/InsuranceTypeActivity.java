@@ -34,7 +34,9 @@ public class InsuranceTypeActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insurance_type);
         strInsuranceValidity = CommonStrings.customVehDetails.getInsuranceValidity();
+/*
         strInsuranceValidity.replace("/", " ");
+*/
 
         if (CommonStrings.stockResData != null) {
             if (CommonStrings.stockResData.getInsuranceValidity() != null) {
@@ -72,7 +74,7 @@ public class InsuranceTypeActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_vehDetails_backBtn) {
-            finish();
+            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvGivenInsValidityEdit) {
             finish();
         } else if (v.getId() == R.id.radioBtnComprehensive) {

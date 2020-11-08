@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
@@ -15,7 +15,7 @@
         android:weightSum="10">
 
         <ImageView
-            android:id="@+id/iv_basic_details_backBtn"
+            android:id="@+id/iv_personal_details_backBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="19dp"
@@ -38,7 +38,7 @@
                 android:layout_gravity="center"
                 android:layout_marginRight="20dp"
                 android:gravity="center"
-                android:text="@string/title_basic_details"
+                android:text="@string/title_personal_details"
                 android:textColor="@color/very_dark_blue"
                 android:textSize="18dp" />
 

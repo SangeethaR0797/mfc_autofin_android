@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/g_white"
+    tools:context=".Activity.PersonalDetails.MonthlyIncome">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/vehicle_details_app_bar" />
+
+        <include layout="@layout/layout_previous_screen_values" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_size10dp"
+            android:layout_marginTop="@dimen/text_size_8dp"
+            android:layout_marginRight="@dimen/text_size10dp"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_20dp"
+                android:layout_marginTop="@dimen/text_size_30dp"
+                android:orientation="vertical">
+
+                <utility.RobotoMedium
+                    android:id="@+id/tvMonthlyIncomeLbl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_size_28dp"
+                    android:text="@string/lbl_monthly_income"
+                    android:textColor="@color/very_dark_blue"
+                    android:textSize="@dimen/text_size_16sp" />
+
+                <LinearLayout
+                    android:id="@+id/llVehPostInspection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size10dp"
+                    android:layout_marginRight="@dimen/text_size10dp"
+                    android:layout_marginBottom="@dimen/text_size_17dp"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/tvMonthlyIncome"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/text_size_5dp"
+                        android:text="@string/lbl_enter_amount"
+                        android:textColor="@color/grey_color"
+                        android:textSize="@dimen/text_size_16sp" />
+
+                    <EditText
+                        android:id="@+id/etMonthlyIncomeAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:inputType="number"
+                        android:maxLength="20"
+                        android:singleLine="true"
+                        android:textColor="@color/very_dark_blue"
+                        android:textSize="@dimen/text_size_16sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/text_size_8dp"
+                        android:background="@color/very_dark_blue" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <include layout="@layout/autofin_next_btn" />
+    </LinearLayout>
+
+
+</RelativeLayout>

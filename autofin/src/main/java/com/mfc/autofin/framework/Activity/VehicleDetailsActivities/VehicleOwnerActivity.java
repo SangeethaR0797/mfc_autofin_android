@@ -11,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.R;
 
 import utility.AutoFinConstants;
@@ -22,13 +23,13 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
     TextView tvGivenVehVariantVal, tvGivenVehVariantEdit;
     RadioButton radioBtn01, radioBtn02, radioBtn03, radioBtn04, radioBtn05;
     ImageView iv_vehDetails_backBtn;
-    String strVariantVal="";
+    String strVariantVal = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_owner);
-        strVariantVal=CommonStrings.customVehDetails.getVariant();
+        strVariantVal = CommonStrings.customVehDetails.getVariant();
         initView();
     }
 
@@ -55,7 +56,7 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_vehDetails_backBtn) {
-            finish();
+            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvGivenVehVariantEdit) {
             finish();
         }

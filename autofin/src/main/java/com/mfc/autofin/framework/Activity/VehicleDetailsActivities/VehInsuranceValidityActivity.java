@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.R;
 
 import java.text.SimpleDateFormat;
@@ -68,7 +69,7 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
         iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
         cvInsuranceValidity = findViewById(R.id.cvInsuranceValidity);
         llCalendarView = findViewById(R.id.llCalendarView);
-        tvGivenVehInsuranceVal.setText(strInsurance+ " ( " + getString(R.string.rupees_symbol) + " " + strInsuranceAmount + " ) ");
+        tvGivenVehInsuranceVal.setText(strInsurance + " ( " + getString(R.string.rupees_symbol) + " " + strInsuranceAmount + " ) ");
         llCalendarView.setOnClickListener(this);
         iv_vehDetails_backBtn.setOnClickListener(this);
         tvGivenInsuranceAmountEdit.setOnClickListener(this);
@@ -77,13 +78,12 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
         cvInsuranceValidity.setMinDate(System.currentTimeMillis() - 1000);
         cvInsuranceValidity.setOnDateChangeListener(this);
 
-
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_vehDetails_backBtn) {
-            finish();
+            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvGivenInsuranceAmountEdit) {
             finish();
         } else if (v.getId() == R.id.tvInsuranceValidityLbl) {
@@ -92,24 +92,11 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
         }
     }
 
-    private void showDatePickerDialog() {
-        int mYear = insuranceCal.get(Calendar.YEAR);
-        int mMonth = insuranceCal.get(Calendar.MONTH);
-        int mDay = insuranceCal.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog mDatePicker = new DatePickerDialog(VehInsuranceValidityActivity.this, new DatePickerDialog.OnDateSetListener() {
-            public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
-                tvInsuranceValidityDate.setText(selectedday + " / " + selectedmonth + " / " + selectedyear);
-            }
-        }, mYear, mMonth, mDay);
-        mDatePicker.setTitle("Select Insurance validity");
-        mDatePicker.show();
-    }
 
     @Override
     public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
         String monthName = new SimpleDateFormat("MMMM").format(view.getDate());
-        String insValidityDate = dayOfMonth + "/" + monthName + "/" + year;
+        String insValidityDate = dayOfMonth + " " + monthName + " " + year;
         tvInsuranceValidityDate.setText(insValidityDate);
         CommonStrings.customVehDetails.setInsuranceValidity(dayOfMonth + " " + monthName + " " + year);
         Intent intent = new Intent(VehInsuranceValidityActivity.this, InsuranceTypeActivity.class);

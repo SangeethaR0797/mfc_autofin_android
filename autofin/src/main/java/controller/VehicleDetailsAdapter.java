@@ -31,7 +31,7 @@ public class VehicleDetailsAdapter extends ArrayAdapter<String> {
 
     public VehicleDetailsAdapter(Activity activity, int resource, List<String> items, TextView textview, ListView lvVehListView) {
         super(activity, resource, items);
-        this.resourceLayout = resource;
+        resourceLayout = resource;
         this.activity = activity;
         this.textView = textview;
         this.lvVehListView = lvVehListView;

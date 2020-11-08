@@ -24,9 +24,24 @@
         android:hardwareAccelerated="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.ResidentialActivity.ResidenceTypeActivity"></activity>
-        <activity android:name=".Activity.ResidentialActivity.MovedToCurrentCityActivity" />
-        <activity android:name=".Activity.ResidentialActivity.MovedToCityMYActivity" />
+        <activity
+            android:name=".Activity.PersonalDetails.EMIPayPerMonthActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".Activity.PersonalDetails.MonthlyIncome"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".Activity.PersonalDetails.UserDOBActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".Activity.ResidentialActivity.ResidenceTypeActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".Activity.ResidentialActivity.CurrentResidenceMonthAndYearActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".Activity.ResidentialActivity.CityMonthAndYearActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
             android:name=".Activity.ResidentialActivity.ResidentialCity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />

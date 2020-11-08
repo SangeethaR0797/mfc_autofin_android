@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -62,6 +63,14 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
             strModel = "";
         }
         initView();
+
+        if (CommonMethods.isInternetWorking(VehicleModelActivity.this)) {
+            SpinnerManager.showSpinner(this);
+            IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_MODEL, CommonMethods.getStringValueFromKey(VehicleModelActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, strYear, "0", strVehMake);
+            retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
+        } else {
+            Toast.makeText(VehicleModelActivity.this, "Please check your Internet Connection", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void initView() {
@@ -76,11 +85,17 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
         svVehModelDetails = findViewById(R.id.svVehModelDetails);
         btnNext = findViewById(R.id.btnNext);
         lvVehListView.setDivider(null);
-
+        iv_app_model_search.setOnClickListener(this);
         tvSelectedVehModel.setText(strModel);
+
+
+        int magId = getResources().getIdentifier("android:id/search_mag_icon", null, null);
+        ImageView magImage = (ImageView) svVehModelDetails.findViewById(magId);
+        magImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
 
         int searchCloseButtonId = svVehModelDetails.getContext().getResources()
                 .getIdentifier("android:id/search_close_btn", null, null);
+
 
         svCloseButton = this.svVehModelDetails.findViewById(searchCloseButtonId);
         svCloseButton.setOnClickListener(new View.OnClickListener() {
@@ -117,15 +132,26 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_vehDetails_backBtn) {
-            finish();
+            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
+
         } else if (v.getId() == R.id.tvGivenVehMakeEdit) {
             finish();
+        } else if (v.getId() == R.id.iv_app_model_search) {
+            if (lvVehListView.getVisibility() == View.VISIBLE) {
+                svVehModelDetails.setVisibility(View.VISIBLE);
+            } else {
+                CommonMethods.showToast(this, "Please open the List of Models");
+            }
+
         } else if (v.getId() == R.id.tvSelectedVehModel) {
-            SpinnerManager.showSpinner(this);
-            IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_MODEL, CommonMethods.getStringValueFromKey(VehicleModelActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, strYear, "0", strVehMake);
-            retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
-        } else if (v.getId() == R.id.iv_app_make_search) {
-            svVehModelDetails.setVisibility(View.VISIBLE);
+            if (CommonMethods.isInternetWorking(VehicleModelActivity.this)) {
+                SpinnerManager.showSpinner(this);
+                IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_MODEL, CommonMethods.getStringValueFromKey(VehicleModelActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, strYear, "0", strVehMake);
+                retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
+            } else {
+                Toast.makeText(VehicleModelActivity.this, "Please check your Internet Connection", Toast.LENGTH_LONG).show();
+            }
+
         } else if (v.getId() == R.id.btnNext) {
             if (!tvSelectedVehModel.getText().toString().isEmpty()) {
                 if (tvSelectedVehModel.getText().toString().equalsIgnoreCase(strModel)) {

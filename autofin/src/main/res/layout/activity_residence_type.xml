@@ -6,48 +6,65 @@
     android:layout_height="match_parent"
     android:background="@color/g_white"
     tools:context=".Activity.ResidentialActivity.ResidenceTypeActivity">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-    <include layout="@layout/residential_details_app_bar" />
-
-    <include layout="@layout/layout_previous_screen_values" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/text_size10dp"
-            android:layout_marginTop="@dimen/text_size_8dp"
-            android:layout_marginRight="@dimen/text_size10dp"
-            android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <utility.RobotoMedium
-                android:id="@+id/tvResidenceTypeLbl"
+            <include layout="@layout/residential_details_app_bar" />
+
+            <include layout="@layout/layout_previous_screen_values" />
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/text_size_20dp"
-                android:layout_marginTop="@dimen/text_size_30dp"
-                android:clickable="true"
-                android:paddingRight="20dp"
-                android:paddingBottom="@dimen/text_size_30dp"
-                android:text="@string/lbl_residence_type"
-                android:textColor="@color/very_dark_blue"
-                android:textSize="@dimen/text_size_16sp" />
-            <include layout="@layout/radio_button" />
-        </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                android:layout_marginLeft="@dimen/text_size10dp"
+                android:layout_marginTop="@dimen/text_size_8dp"
+                android:layout_marginRight="@dimen/text_size10dp"
+                android:background="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <utility.RobotoMedium
+                        android:id="@+id/tvResidenceTypeLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/text_size_20dp"
+                        android:layout_marginTop="@dimen/text_size_30dp"
+                        android:clickable="true"
+                        android:paddingRight="20dp"
+                        android:paddingBottom="@dimen/text_size_30dp"
+                        android:text="@string/lbl_residence_type"
+                        android:textColor="@color/very_dark_blue"
+                        android:textSize="@dimen/text_size_16sp" />
+
+                    <LinearLayout
+                        android:id="@+id/llRadioGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RadioGroup
+                            android:id="@+id/customRG"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/text_size_30dp"
+                            android:layout_marginTop="@dimen/text_size_34dp"
+                            android:layout_marginBottom="47dp">
+                            <!-- <include layout="@layout/radio_button"/>-->
+                        </RadioGroup>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

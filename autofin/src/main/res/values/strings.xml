@@ -44,7 +44,7 @@
     <string name="yes">YES</string>
     <string name="no">NO</string>
     <string name="enter_vehicle_reg_no">PLEASE ENTER YOUR VEHICLE REGISTRATION NO</string>
-    <string name="lbl_reg_no">Resgistration No</string>
+    <string name="lbl_reg_no">Registration No</string>
     <string name="edit_btn_lbl">EDIT   </string>
     <string name="lbl_select_veh_reg_year">SELECT VEHICLE REGISTRATION YEAR</string>
     <string name="lbl_veh_reg_year">VEHICLE REGISTRATION YEAR</string>
@@ -112,9 +112,15 @@
     <string name="please_enter_pincode">Please enter Pincode</string>
     <string name="please_enter_proper_pincode">Please enter proper pincode</string>
     <string name="lbl_when_did_you_moved_to_the_city">WHEN DID YOU MOVED TO THE CITY?</string>
-    <string name="month_year_format_hint"><![CDATA[Month & Year]]></string>
+    <string name="month_year_format_hint"><![CDATA[Year & Month]]></string>
     <string name="lbl_please_select_month_year">PLEASE SELECT MONTH</string>
     <string name="lbl_when_did_you_moved_to_current_city">WHEN DID YOU MOVED TO CURRENT RESIDENCE?</string>
     <string name="lbl_residence_type">Residence Type</string>
+    <string name="lbl_residential_city">RESIDENTIAL CITY</string>
+    <string name="lbl_dob">DOB</string>
+    <string name="lbl_monthly_income">MONTHLY INCOME</string>
+    <string name="sample_pincode">560068</string>
+    <string name="title_personal_details">PERSONAL DETAILS</string>
+
 
 </resources>

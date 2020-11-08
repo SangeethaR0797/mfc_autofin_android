@@ -1,8 +1,5 @@
 package model.basic_details;
 
-import model.vehicle_details.vehicle_category.VehicleDetails;
-
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

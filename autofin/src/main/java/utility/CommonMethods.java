@@ -8,7 +8,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.mfc.autofin.framework.Activity.ResidentialActivity.CityMonthAndYearActivity;
 import com.mfc.autofin.framework.R;
 
 import java.text.ParseException;
@@ -77,4 +79,7 @@ public class CommonMethods {
         return finalDate;
     }
 
+    public static void showToast(Activity activity, String message) {
+        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+    }
 }

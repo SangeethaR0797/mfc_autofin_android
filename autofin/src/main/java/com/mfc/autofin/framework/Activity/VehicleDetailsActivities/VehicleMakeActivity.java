@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -60,7 +61,18 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
         } else {
             strMake = "";
         }
+
         initView();
+
+        if (CommonMethods.isInternetWorking(VehicleMakeActivity.this)) {
+            SpinnerManager.showSpinner(this);
+            IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_MAKE, CommonMethods.getStringValueFromKey(VehicleMakeActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, strYear, "0");
+            retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
+
+        } else {
+            Toast.makeText(VehicleMakeActivity.this, "Please check your Internet Connection", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     private void initView() {
@@ -76,6 +88,10 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
         lvVehListView.setDivider(null);
         tvGivenRegYearVal.setText(strYear);
         tvSelectedVehMake.setText(strMake);
+
+        int magId = getResources().getIdentifier("android:id/search_mag_icon", null, null);
+        ImageView magImage = (ImageView) svVehMakeDetails.findViewById(magId);
+        magImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
 
         int searchCloseButtonId = svVehMakeDetails.getContext().getResources()
                 .getIdentifier("android:id/search_close_btn", null, null);
@@ -116,15 +132,27 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_vehDetails_backBtn) {
-            finish();
+            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
+
         } else if (v.getId() == R.id.tvGivenRegYearEdit) {
             finish();
         } else if (v.getId() == R.id.tvSelectedVehMake) {
-            SpinnerManager.showSpinner(this);
-            IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_MAKE, CommonMethods.getStringValueFromKey(VehicleMakeActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, strYear, "0");
-            retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
+            if (CommonMethods.isInternetWorking(VehicleMakeActivity.this)) {
+                SpinnerManager.showSpinner(this);
+                IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_MAKE, CommonMethods.getStringValueFromKey(VehicleMakeActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, strYear, "0");
+                retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
+
+            } else {
+                Toast.makeText(VehicleMakeActivity.this, "Please check your Internet Connection", Toast.LENGTH_LONG).show();
+            }
+
         } else if (v.getId() == R.id.iv_app_make_search) {
-            svVehMakeDetails.setVisibility(View.VISIBLE);
+            if (lvVehListView.getVisibility() == View.VISIBLE) {
+                svVehMakeDetails.setVisibility(View.VISIBLE);
+            } else {
+                Toast.makeText(VehicleMakeActivity.this, "Please select ListView", Toast.LENGTH_LONG).show();
+
+            }
         } else if (v.getId() == R.id.btnNext) {
             if (!tvSelectedVehMake.getText().toString().isEmpty()) {
                 if (tvSelectedVehMake.getText().toString().equalsIgnoreCase(strMake)) {

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -61,8 +62,15 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
             strVariant = "";
         }
 
-
         initView();
+
+        if (CommonMethods.isInternetWorking(VehicleVariantActivity.this)) {
+            SpinnerManager.showSpinner(this);
+            IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_VARIANT, CommonMethods.getStringValueFromKey(VehicleVariantActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, strYear, "0", strVehMake, strVehModel);
+            retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
+        } else {
+            Toast.makeText(VehicleVariantActivity.this, "Please check your Internet Connection", Toast.LENGTH_LONG).show();
+        }
 
     }
 
@@ -83,9 +91,14 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
         lvVehListView.setDivider(null);
         iv_vehDetails_backBtn.setOnClickListener(this);
         btnNext.setOnClickListener(this);
+
+
+        int magId = getResources().getIdentifier("android:id/search_mag_icon", null, null);
+        ImageView magImage = (ImageView) svVehVariantDetails.findViewById(magId);
+        magImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+
         int searchCloseButtonId = svVehVariantDetails.getContext().getResources()
                 .getIdentifier("android:id/search_close_btn", null, null);
-
         svCloseButton = this.svVehVariantDetails.findViewById(searchCloseButtonId);
         svCloseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,20 +124,30 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
                 return false;
             }
         });
+
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_vehDetails_backBtn) {
-            finish();
+            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvGivenVehModelEdit) {
             finish();
-        } else if (v.getId() == R.id.tvSelectedVehVariant) {
-            SpinnerManager.showSpinner(this);
-            IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_VARIANT, CommonMethods.getStringValueFromKey(VehicleVariantActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, strYear, "0", strVehMake, strVehModel);
-            retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
         } else if (v.getId() == R.id.iv_app_variant_search) {
-            svVehVariantDetails.setVisibility(View.VISIBLE);
+            if (lvVehListView.getVisibility() == View.VISIBLE) {
+                svVehVariantDetails.setVisibility(View.VISIBLE);
+            } else {
+                CommonMethods.showToast(this, "Please open the List of Variants");
+            }
+        } else if (v.getId() == R.id.tvSelectedVehVariant) {
+            if (CommonMethods.isInternetWorking(VehicleVariantActivity.this)) {
+                SpinnerManager.showSpinner(this);
+                IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_VARIANT, CommonMethods.getStringValueFromKey(VehicleVariantActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, strYear, "0", strVehMake, strVehModel);
+                retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
+            } else {
+                Toast.makeText(VehicleVariantActivity.this, "Please check your Internet Connection", Toast.LENGTH_LONG).show();
+            }
+
         } else if (v.getId() == R.id.btnNext) {
             if (!tvSelectedVehVariant.getText().toString().isEmpty()) {
                 CommonStrings.customVehDetails.setVariant(tvSelectedVehVariant.getText().toString());
@@ -163,7 +186,7 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
 
     private void generateListView(List<String> year) {
         lvVehListView.setVisibility(View.VISIBLE);
-        VehicleDetailsAdapter vehicleDetailsAdapter = new VehicleDetailsAdapter(this, R.layout.custom_list_item_row, year, tvSelectedVehVariant, lvVehListView);
+        vehicleDetailsAdapter = new VehicleDetailsAdapter(this, R.layout.custom_list_item_row, year, tvSelectedVehVariant, lvVehListView);
         lvVehListView.setAdapter(vehicleDetailsAdapter);
     }
 

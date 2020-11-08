@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.R;
 
 import model.residential_models.CityData;
@@ -27,18 +28,18 @@ import static utility.CommonStrings.RES_CITY_URL;
 
 public class ResidentialCity extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
 
-    TextView tvAppBarTitle, tvGivenOTP, tvGivenOTPVal, tvGivenOTPEdit,tvRegCityLbl,tvPincodeLbl,tvCityName;
+    TextView tvAppBarTitle, tvGivenOTP, tvGivenOTPVal, tvGivenOTPEdit, tvRegCityLbl, tvPincodeLbl, tvCityName;
     EditText etResPinCode;
-    Button btnPinCodeCheck,btnNext;
+    Button btnPinCodeCheck, btnNext;
     ImageView iv_residential_details_backBtn;
-    String basicDetailsVal = "",strPinCode="",strCity;
+    String basicDetailsVal = "", strPinCode = "", strCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_residential_city2);
         if (!CommonStrings.customBasicDetails.getOtp().isEmpty()) {
-            basicDetailsVal = CommonStrings.customBasicDetails.getFullName()+" | "+CommonStrings.customBasicDetails.getEmail()+" | "+CommonStrings.customBasicDetails.getCustomerMobile();
+            basicDetailsVal = CommonStrings.customBasicDetails.getFullName() + " | " + CommonStrings.customBasicDetails.getEmail() + " | " + CommonStrings.customBasicDetails.getCustomerMobile();
         }
         initViews();
     }
@@ -52,9 +53,9 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
         tvRegCityLbl = findViewById(R.id.tvRegCityLbl);
         tvPincodeLbl = findViewById(R.id.tvPincodeLbl);
         tvCityName = findViewById(R.id.tvCityName);
-        etResPinCode=findViewById(R.id.etResPinCode);
-        btnPinCodeCheck=findViewById(R.id.btnPinCodeCheck);
-        btnNext=findViewById(R.id.btnNext);
+        etResPinCode = findViewById(R.id.etResPinCode);
+        btnPinCodeCheck = findViewById(R.id.btnPinCodeCheck);
+        btnNext = findViewById(R.id.btnNext);
         tvGivenOTPVal.setText(basicDetailsVal);
         iv_residential_details_backBtn.setOnClickListener(this);
         btnPinCodeCheck.setOnClickListener(this);
@@ -66,33 +67,21 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         if (v.getId() == R.id.iv_residential_details_backBtn) {
             finish();
-        }
-        else if(v.getId()==R.id.btnPinCodeCheck)
-        {
-            strPinCode=etResPinCode.getText().toString();
-            if(!strPinCode.isEmpty())
-            {
+        } else if (v.getId() == R.id.btnPinCodeCheck) {
+            strPinCode = etResPinCode.getText().toString();
+            if (!strPinCode.isEmpty()) {
                 SpinnerManager.showSpinner(this);
-                retrofitInterface.getFromWeb(RES_CITY_URL+etResPinCode.getText().toString()).enqueue(this);
+                retrofitInterface.getFromWeb(RES_CITY_URL + etResPinCode.getText().toString()).enqueue(this);
+            } else if (strPinCode.isEmpty()) {
+                Toast.makeText(this, getResources().getString(R.string.please_enter_pincode), Toast.LENGTH_SHORT).show();
+            } else if (strPinCode.length() != 6) {
+                Toast.makeText(this, getResources().getString(R.string.please_enter_proper_pincode), Toast.LENGTH_SHORT).show();
             }
-            else if(strPinCode.isEmpty())
-            {
-                Toast.makeText(this,getResources().getString(R.string.please_enter_pincode),Toast.LENGTH_SHORT).show();
-            }
-            else if(strPinCode.length()!=6)
-            {
-                Toast.makeText(this,getResources().getString(R.string.please_enter_proper_pincode),Toast.LENGTH_SHORT).show();
-            }
-        }
-        else if(v.getId()==R.id.btnNext)
-        {
-            if(!strPinCode.equals("") && !strCity.equals(""))
-            {
-                startActivity(new Intent(this,MovedToCityMYActivity.class));
-            }
-            else
-            {
-                Toast.makeText(this,"Please fill the fields",Toast.LENGTH_LONG).show();
+        } else if (v.getId() == R.id.btnNext) {
+            if (!strPinCode.equals("") && !strCity.equals("")) {
+                startActivity(new Intent(this, CityMonthAndYearActivity.class));
+            } else {
+                Toast.makeText(this, "Please fill the fields", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -100,45 +89,31 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onResponse(Call<Object> call, Response<Object> response) {
         SpinnerManager.hideSpinner(this);
-        String strRes=new Gson().toJson(response.body());
-        ResidentialPinCodeRes pinCodeRes=new Gson().fromJson(strRes,ResidentialPinCodeRes.class);
-        try
-        {
-          if(pinCodeRes!=null && pinCodeRes.getStatus())
-          {
-              if(pinCodeRes.getData()!=null)
-              {
+        String strRes = new Gson().toJson(response.body());
+        ResidentialPinCodeRes pinCodeRes = new Gson().fromJson(strRes, ResidentialPinCodeRes.class);
+        try {
+            if (pinCodeRes != null && pinCodeRes.getStatus()) {
+                if (pinCodeRes.getData() != null) {
 
-                  CityData cityData=pinCodeRes.getData();
-                  if(cityData.getCity()!=null)
-                  {
-                      CommonStrings.customCityData.setCity(cityData.getCity());
-                      strCity=CommonStrings.customCityData.getCity();
-                      tvCityName.setText(strCity);
-                      CommonStrings.customCityData.setPincode(cityData.getPincode());
-                      CommonStrings.customCityData.setState(cityData.getState());
-                  }
-                  else
-                  {
-                      Toast.makeText(this,pinCodeRes.getMessage(),Toast.LENGTH_LONG).show();
-                  }
-              }
-              else
-              {
-                  Toast.makeText(this,pinCodeRes.getMessage(),Toast.LENGTH_LONG).show();
-              }
-          }
-          else
-          {
-              Toast.makeText(this,pinCodeRes.getMessage(),Toast.LENGTH_LONG).show();
-          }
-        }
-        catch(NullPointerException nullPointerException)
-        {
+                    CityData cityData = pinCodeRes.getData();
+                    if (cityData.getCity() != null) {
+                        CommonStrings.customCityData.setCity(cityData.getCity());
+                        strCity = CommonStrings.customCityData.getCity();
+                        tvCityName.setText(strCity);
+                        CommonStrings.customCityData.setPincode(cityData.getPincode());
+                        CommonStrings.customCityData.setState(cityData.getState());
+                    } else {
+                        Toast.makeText(this, pinCodeRes.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(this, pinCodeRes.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(this, pinCodeRes.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        } catch (NullPointerException nullPointerException) {
             nullPointerException.printStackTrace();
-        }
-        catch(Exception exception)
-        {
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
     }

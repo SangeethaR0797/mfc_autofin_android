@@ -69,11 +69,7 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
     private void validate() {
         String regNo = etVehRegNo.getText().toString();
         if (!regNo.isEmpty()) {
-            if (regNo.length() >= 10 && regNo.length() < 15) {
-                callStockAPI(regNo);
-            } else {
-                Toast.makeText(this, getString(R.string.incorrect_reg_no), Toast.LENGTH_SHORT).show();
-            }
+            callStockAPI(regNo);
         } else {
             Toast.makeText(this, getString(R.string.reg_no_empty_message), Toast.LENGTH_SHORT).show();
         }
