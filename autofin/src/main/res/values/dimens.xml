@@ -53,5 +53,6 @@
     <dimen name="list_item_spacing_half">8dp</dimen>
     <dimen name="text_size_37dp">37dp</dimen>
     <dimen name="text_size_39dp">39dp</dimen>
+    <dimen name="text_size_11dp">11dp</dimen>
 
 </resources>

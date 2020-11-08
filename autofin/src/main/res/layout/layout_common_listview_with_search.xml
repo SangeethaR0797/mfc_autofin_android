@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:layout_weight="0.5"
+                tools:ignore="VectorDrawableCompat" />
+
+
+            <TextView
+                android:id="@+id/searchTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="4"
+                android:gravity="left"
+                android:text="@string/search_your_bank"
+                android:textColor="@color/very_dark_blue"
+                android:textSize="16dp" />
+
+            <ImageView
+                android:id="@+id/dialog_cancel_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_close_24px" />
+        </LinearLayout>
+
+        <include layout="@layout/layout_common_custom_search_view" />
+        <ListView
+            android:id="@+id/alertDialogListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:choiceMode="singleChoice"
+            android:listSelector="@color/pale_grey"/>
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/btnSelect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_alignParentBottom="true"
+        android:background="@color/navy_blue"
+        android:paddingTop="@dimen/text_size_12dp"
+        android:paddingBottom="@dimen/text_size_11dp"
+        android:text="@string/select_btn_text"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_16sp" />
+</RelativeLayout>

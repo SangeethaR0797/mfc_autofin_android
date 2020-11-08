@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.PersonalDetails.SalaryModeActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <include layout="@layout/personal_details_app_bar" />
+
+    <include layout="@layout/layout_previous_screen_values" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_size10dp"
+            android:layout_marginTop="@dimen/text_size_8dp"
+            android:layout_marginRight="@dimen/text_size10dp"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <utility.RobotoMedium
+                    android:id="@+id/tvVehCategoryQn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_22dp"
+                    android:layout_marginTop="@dimen/text_size_34dp"
+                    android:layout_marginRight="@dimen/text_size_19dp"
+                    android:text="@string/lbl_sal_mode"
+                    android:textColor="@color/very_dark_blue"
+                    android:textSize="@dimen/text_size_16sp" />
+
+                <RadioGroup
+                    android:id="@+id/rgSalMode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_19dp"
+                    android:layout_marginTop="@dimen/text_size_33dp">
+
+                    <RadioButton
+                        android:id="@+id/rbCashSalary"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="@dimen/text_size_24dp"
+                        android:buttonTint="@color/very_dark_blue"
+                        android:checked="false"
+                        android:paddingLeft="12dp"
+                        android:text="@string/lbl_cash_salary"
+                        android:textColor="@color/very_dark_blue"
+                        android:textSize="@dimen/text_size_16sp" />
+
+                    <RadioButton
+                        android:id="@+id/rbChequeSal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="@dimen/text_size_24dp"
+                        android:buttonTint="@color/very_dark_blue"
+                        android:checked="false"
+                        android:paddingLeft="12dp"
+                        android:text="@string/cheque_bar"
+                        android:textColor="@color/very_dark_blue"
+                        android:textSize="@dimen/text_size_16sp" />
+
+                    <RadioButton
+                        android:id="@+id/tvTransferanddepositlbl_Transferanddeposit"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="@dimen/text_size_24dp"
+                        android:buttonTint="@color/very_dark_blue"
+                        android:checked="false"
+                        android:paddingLeft="12dp"
+                        android:text="@string/lbl_deposit_tranfer"
+                        android:textColor="@color/very_dark_blue"
+                        android:textSize="@dimen/text_size_16sp" />
+
+                </RadioGroup>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</RelativeLayout>

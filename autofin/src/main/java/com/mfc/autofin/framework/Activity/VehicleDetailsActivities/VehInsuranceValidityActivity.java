@@ -88,7 +88,6 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
             finish();
         } else if (v.getId() == R.id.tvInsuranceValidityLbl) {
             llCalendarView.setVisibility(View.VISIBLE);
-            //showDatePickerDialog();
         }
     }
 

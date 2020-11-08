@@ -131,6 +131,26 @@
     <string name="lbl_please_enter_your_pan_num">PLEASE ENTER YOUR PAN NO.</string>
     <string name="please_enter_pan_number">Please enter your PAN card number</string>
     <string name="please_enter_valid_pan_number">Please enter valid PAN Card no</string>
+    <string name="lbl_select_bank_name">SAVINGS ACCOUNT WITH BANK</string>
+    <string name="hint_search_bank">Search Bank</string>
+    <string name="search_your_bank">SEARCH YOUR BANK</string>
+    <string name="employment_type">EMPLOYMENT TYPE</string>
+    <string name="select_btn_text">SELECT</string>
+    <string name="loan_06">06</string>
+    <string name="lbl_no_pending_loan">No Pending Loans</string>
+    <string name="lbl_how_many_existing_loan">HOW MANY EXISTING LOAN YOU HAVE?</string>
+    <string name="lbl_working_organization_name">ORGANIZATION WORKING FOR</string>
+    <string name="lbl_org_name">Organization Name</string>
+    <string name="lbl_joining_date_of_your_current_org">JOINING DATE OF YOUR CURRENT ORGANIZATION</string>
+    <string name="lbl_year_of_experience">YEAR OF EXPERIENCE</string>
+    <string name="lbl_years">Years</string>
+    <string name="please_enter_year_of_experience">Please enter your Year of Experience</string>
+    <string name="lbl_sal_mode">Salary Mode</string>
+    <string name="vihay_tv_cash_salary">common_layout_select_bank</string>
+    <string name="lbl_cash_salary">Cash Salary</string>
+    <string name="cheque_bar">Cheque Salary</string>
+    <string name="lbl_Transferanddeposit">As transfer  / deposit to salary account</string>
+    <string name="lbl_deposit_tranfer">As transfer / deposit to salary account</string>
 
 
 </resources>

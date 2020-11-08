@@ -30,6 +30,12 @@ public class CommonStrings {
     public static final String MONTHLY_EMI ="monthly_emi";
     public static final String LOAN_REQUIRED ="loan_amount_required" ;
     public static final String PAN_CARD_NUMBER = "pan_card_number_value";
+    public static final String BANK_NAME_URL = "https://15.207.148.230:3004/api/bank/get-banks";
+    public static final String BANK_NAME ="bank_name" ;
+    public static final String NO_OF_EXISTING_LOAN ="number_of_existing_loan" ;
+    public static final String CURRENT_ORG_NAME ="working_organization_name" ;
+    public static final String CURRENT_ORG_JOINING_DATE ="joining_date_of_current_organization" ;
+    public static final String YEARS_OF_EXPERIENCE = "years_of_experience";
     public static String VEH_CATEGORY_URL = "https://15.207.148.230:3004/api/masters/vehicle-category";
     public static String RES_CITY_URL = "https://15.207.148.230:3004/api/pincode/city/";
     public static String IBB_PASSWORD = "dHk69ffu7ebP";

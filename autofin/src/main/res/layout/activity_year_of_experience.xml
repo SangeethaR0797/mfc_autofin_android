@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.PersonalDetails.PanCardNumberActivity">
+    tools:context=".Activity.PersonalDetails.YearOfExperienceActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,11 +31,11 @@
                 android:orientation="vertical">
 
                 <utility.RobotoMedium
-                    android:id="@+id/tvPanCardLbl"
+                    android:id="@+id/tvYearOfExpLbl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/text_size_28dp"
-                    android:text="@string/lbl_please_enter_your_pan_num"
+                    android:text="@string/lbl_year_of_experience"
                     android:textColor="@color/very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 
@@ -45,32 +45,33 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/text_size10dp"
                     android:layout_marginBottom="@dimen/text_size_17dp"
+                    android:paddingBottom="@dimen/text_size_45dp"
                     android:orientation="vertical"
                     android:visibility="visible">
 
                     <TextView
-                        android:id="@+id/tvEnterPanCardNo"
+                        android:id="@+id/tvYears"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/text_size_5dp"
-                        android:text="@string/lbl_enter_pan_card"
+                        android:text="@string/lbl_years"
                         android:textColor="@color/grey_color"
                         android:textSize="@dimen/text_size_16sp" />
 
                     <EditText
-                        android:id="@+id/etPanCardNumber"
+                        android:id="@+id/etNOOfYears"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:clickable="true"
-                        android:inputType="text"
-                        android:maxLength="10"
+                        android:inputType="number"
+                        android:maxLength="2"
                         android:singleLine="true"
                         android:textColor="@color/very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 
                     <View
-                        android:id="@+id/belowETPANNo"
+                        android:id="@+id/belowETYearsOE"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_gravity="center"
@@ -82,12 +83,11 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
-
         <include layout="@layout/autofin_next_btn" />
     </LinearLayout>
+
 </RelativeLayout>

@@ -25,7 +25,7 @@ public class PanCardNumberActivity extends AppCompatActivity implements View.OnC
     private ImageView iv_personal_details_backBtn;
     private TextView tvGivenLbl,tvGivenPreviousVal,tvGivenValEdit,tvPanCardLbl,tvEnterPanCardNo,tvErrorMessage;
     private EditText etPanCardNumber;
-    private View belowETViewEMI;
+    private View belowETPANNo;
     private Button btnNext;
     private String strLoanAmount="",strPanNumber="";
     @Override
@@ -52,7 +52,7 @@ public class PanCardNumberActivity extends AppCompatActivity implements View.OnC
         tvPanCardLbl=findViewById(R.id.tvPanCardLbl);
         tvEnterPanCardNo=findViewById(R.id.tvEnterPanCardNo);
         etPanCardNumber=findViewById(R.id.etPanCardNumber);
-        belowETViewEMI=findViewById(R.id.belowETViewEMI);
+        belowETPANNo=findViewById(R.id.belowETPANNo);
         btnNext=findViewById(R.id.btnNext);
         tvErrorMessage=findViewById(R.id.tvErrorMessage);
         tvGivenLbl.setText(getResources().getString(R.string.lbl_loan_required));
@@ -82,25 +82,25 @@ public class PanCardNumberActivity extends AppCompatActivity implements View.OnC
                if(isPanNumberValid(strPanNumber))
                {
                    CommonMethods.setValueAgainstKey(this,CommonStrings.PAN_CARD_NUMBER,strPanNumber);
-                   startActivity(new Intent(this,EmploymentTypeActivity.class));
+                   startActivity(new Intent(this,BankNamesActivity.class));
                }
                else
                {
-                   belowETViewEMI.setBackgroundColor(getResources().getColor(R.color.error_red));
+                   belowETPANNo.setBackgroundColor(getResources().getColor(R.color.error_red));
                    tvErrorMessage.setVisibility(View.VISIBLE);
                    tvErrorMessage.setText(getResources().getString(R.string.please_enter_valid_pan_number));
                }
             }
             else
             {
-                belowETViewEMI.setBackgroundColor(getResources().getColor(R.color.error_red));
+                belowETPANNo.setBackgroundColor(getResources().getColor(R.color.error_red));
                 tvErrorMessage.setVisibility(View.VISIBLE);
                 tvErrorMessage.setText(getResources().getString(R.string.please_enter_pan_number));
             }
         }
         else if(v.getId()==R.id.etPanCardNumber)
         {
-            belowETViewEMI.setBackgroundColor(getResources().getColor(R.color.very_dark_blue));
+            belowETPANNo.setBackgroundColor(getResources().getColor(R.color.very_dark_blue));
             if(tvErrorMessage.getVisibility()==View.VISIBLE)
             {
                 tvErrorMessage.setVisibility(View.GONE);

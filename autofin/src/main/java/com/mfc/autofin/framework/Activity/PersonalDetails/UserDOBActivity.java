@@ -19,6 +19,7 @@ import com.mfc.autofin.framework.R;
 
 import java.text.SimpleDateFormat;
 
+import model.residential_models.ResidenceType;
 import utility.CommonMethods;
 import utility.CommonStrings;
 
@@ -40,7 +41,9 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
         tvGivenLbl = findViewById(R.id.tvGivenLbl);
         tvGivenPreviousVal = findViewById(R.id.tvGivenPreviousVal);
         tvGivenValEdit = findViewById(R.id.tvGivenValEdit);
+        tvGivenLbl.setText(getResources().getString(R.string.lbl_residence_type).toUpperCase());
         tvDOBLbl = findViewById(R.id.tvDOBLbl);
+        tvGivenPreviousVal.setText("Owned by parent/sibling");
         llDOBCalendarView = findViewById(R.id.llDOBCalendarView);
         cvUserDOB = findViewById(R.id.cvUserDOB);
         cvUserDOB.setMinDate(System.currentTimeMillis() - 1000);
@@ -56,7 +59,7 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
         if (v.getId() == R.id.iv_personal_details_backBtn) {
             startActivity(new Intent(UserDOBActivity.this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvGivenValEdit) {
-            startActivity(new Intent(UserDOBActivity.this, ResidenceTypeActivity.class));
+            finish();
         } else if (v.getId() == R.id.tvDOBLbl) {
             llDOBCalendarView.setVisibility(View.VISIBLE);
         }

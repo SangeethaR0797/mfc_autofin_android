@@ -20,6 +20,7 @@ import model.residential_models.ResidentialPinCodeRes;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import utility.CommonMethods;
 import utility.CommonStrings;
 import utility.SpinnerManager;
 
@@ -78,9 +79,15 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
                 Toast.makeText(this, getResources().getString(R.string.please_enter_proper_pincode), Toast.LENGTH_SHORT).show();
             }
         } else if (v.getId() == R.id.btnNext) {
-            if (!strPinCode.equals("") && !strCity.equals("")) {
-                startActivity(new Intent(this, CityMonthAndYearActivity.class));
-            } else {
+            if (!strPinCode.equals("")){
+                if(!strCity.equals("")) {
+                    startActivity(new Intent(this, CityMonthAndYearActivity.class));
+                }
+                else
+                {
+                    CommonMethods.showToast(ResidentialCity.this,"Please enter Valid Pincode");
+                }
+            }  else {
                 Toast.makeText(this, "Please fill the fields", Toast.LENGTH_LONG).show();
             }
         }
