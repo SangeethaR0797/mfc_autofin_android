@@ -171,6 +171,7 @@
     <string name="lbl_student">Student</string>
     <string name="lbl_retired">Retired</string>
     <string name="lbl_home_maker">Homemaker</string>
+    <string name="hint_sample_pan_card">AAAAA1234Z</string>
 
 
 </resources>

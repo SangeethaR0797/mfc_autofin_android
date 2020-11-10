@@ -66,6 +66,7 @@
                         android:inputType="text"
                         android:maxLength="10"
                         android:singleLine="true"
+                        android:hint="@string/hint_sample_pan_card"
                         android:textColor="@color/very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 
