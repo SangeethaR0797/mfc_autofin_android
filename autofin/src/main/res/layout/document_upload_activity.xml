@@ -92,6 +92,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:id="@+id/llpancard"
                         android:orientation="horizontal"
                         android:padding="@dimen/text_size10_5dp">
 
