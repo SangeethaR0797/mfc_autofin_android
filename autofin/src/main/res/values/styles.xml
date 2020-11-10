@@ -144,9 +144,7 @@
     </style>
 
     <style name="custom_radio_btn">
-        <item name="android:layout_marginTop">0dp</item>
-        <item name="android:layout_marginLeft">0dp</item>
-        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:layout_marginBottom">@dimen/text_size_24dp</item>
         <item name="android:buttonTint" tools:targetApi="lollipop">@color/very_dark_blue</item>
         <item name="android:checked">false</item>
         <item name="android:paddingLeft">12dp</item>

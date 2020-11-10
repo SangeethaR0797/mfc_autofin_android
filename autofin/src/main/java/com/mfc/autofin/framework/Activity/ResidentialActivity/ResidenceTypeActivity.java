@@ -1,8 +1,10 @@
 package com.mfc.autofin.framework.Activity.ResidentialActivity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.Activity.PersonalDetails.UserDOBActivity;
 import com.mfc.autofin.framework.R;
 
@@ -44,7 +47,7 @@ public class ResidenceTypeActivity extends AppCompatActivity implements View.OnC
     String strCResidence = "";
     LinearLayout llRadioGroup;
     List<ResidenceType> residenceTypeList;
-    ViewGroup customRG;
+    RadioGroup customRG;
     RadioButton radioButton;
 
     @Override
@@ -77,12 +80,6 @@ public class ResidenceTypeActivity extends AppCompatActivity implements View.OnC
     }
 
     @Override
-    public void onClick(View v) {
-
-
-    }
-
-    @Override
     public void onResponse(Call<Object> call, Response<Object> response) {
         String strRes = new Gson().toJson(response.body());
         Log.i(TAG, "onResponse: " + strRes);
@@ -108,17 +105,29 @@ public class ResidenceTypeActivity extends AppCompatActivity implements View.OnC
             radioButton.setId(i);
             radioButton.setText(residenceTypeList.get(i).getDisplayLabel());
             customRG.addView(radioButton);
-            radioButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(ResidenceTypeActivity.this, UserDOBActivity.class));
-                }
-            });
+            radioButton.setOnClickListener(this);
         }
     }
 
     @Override
     public void onFailure(Call<Object> call, Throwable t) {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+            CommonMethods.setValueAgainstKey(ResidenceTypeActivity.this,CommonStrings.RESIDENCE_TYPE,radioButton.getText().toString());
+            startActivity(new Intent(ResidenceTypeActivity.this, UserDOBActivity.class));
+
+        if(v.getId()==R.id.iv_residential_details_backBtn)
+        {
+            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
+        }
+        else if(v.getId()==R.id.tvGivenValEdit)
+        {
+            finish();
+        }
 
     }
 }

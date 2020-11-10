@@ -24,11 +24,18 @@
         android:hardwareAccelerated="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.PersonalDetails.SalaryModeActivity"></activity>
-        <activity android:name=".Activity.PersonalDetails.YearOfExperienceActivity" />
-        <activity android:name=".Activity.PersonalDetails.JODOCurrentOrgActivity" />
-        <activity android:name=".Activity.PersonalDetails.CurrentOrganizationActivity" />
-        <activity android:name=".Activity.PersonalDetails.NumOFExistingLoanActivity" />
+        <activity android:name=".Activity.review_activites.ReviewActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
+        <activity android:name=".Activity.PersonalDetails.SalaryModeActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
+        <activity android:name=".Activity.PersonalDetails.YearOfExperienceActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
+        <activity android:name=".Activity.PersonalDetails.JODOCurrentOrgActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
+        <activity android:name=".Activity.PersonalDetails.CurrentOrganizationActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
+        <activity android:name=".Activity.PersonalDetails.NumOFExistingLoanActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
         <activity
             android:name=".Activity.PersonalDetails.BankNamesActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />

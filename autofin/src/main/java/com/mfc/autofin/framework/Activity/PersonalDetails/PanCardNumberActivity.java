@@ -82,7 +82,7 @@ public class PanCardNumberActivity extends AppCompatActivity implements View.OnC
                if(isPanNumberValid(strPanNumber))
                {
                    CommonMethods.setValueAgainstKey(this,CommonStrings.PAN_CARD_NUMBER,strPanNumber);
-                   startActivity(new Intent(this,BankNamesActivity.class));
+                   startActivity(new Intent(this,EmploymentTypeActivity.class));
                }
                else
                {

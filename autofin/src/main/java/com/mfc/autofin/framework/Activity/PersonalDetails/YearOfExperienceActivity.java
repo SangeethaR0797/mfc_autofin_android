@@ -20,7 +20,7 @@ import utility.CustomFonts;
 public class YearOfExperienceActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView iv_personal_details_backBtn;
-    private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvYearOfExpLbl, tvYears, tvErrorMessage;
+    private TextView tvGivenLbl,tvGivenPreviousVal, tvGivenValEdit, tvYearOfExpLbl, tvYears, tvErrorMessage;
     private EditText etNOOfYears;
     private View belowETYearsOE;
     private Button btnNext;
@@ -59,29 +59,28 @@ public class YearOfExperienceActivity extends AppCompatActivity implements View.
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_personal_details_backBtn) {
-            if (v.getId() == R.id.iv_personal_details_backBtn) {
-                startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-            } else if (v.getId() == R.id.tvGivenValEdit) {
-                finish();
-            } else if (v.getId() == R.id.btnNext) {
-                if (!etNOOfYears.getText().toString().isEmpty()) {
-                    strYearsOfExperience = etNOOfYears.getText().toString();
-                    CommonMethods.setValueAgainstKey(this, CommonStrings.YEARS_OF_EXPERIENCE, strYearsOfExperience);
-                    startActivity(new Intent(this, SalaryModeActivity.class));
-                } else {
-                    belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.error_red));
-                    tvErrorMessage.setVisibility(View.VISIBLE);
-                    tvErrorMessage.setText(getResources().getString(R.string.please_enter_year_of_experience));
-                }
+            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
+        } else if (v.getId() == R.id.tvGivenValEdit) {
+            finish();
+        } else if (v.getId() == R.id.btnNext) {
+            if (!etNOOfYears.getText().toString().isEmpty()) {
+                strYearsOfExperience = etNOOfYears.getText().toString();
+                CommonMethods.setValueAgainstKey(this, CommonStrings.YEARS_OF_EXPERIENCE, strYearsOfExperience);
+                startActivity(new Intent(this, SalaryModeActivity.class));
+            } else {
+                belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.error_red));
+                tvErrorMessage.setVisibility(View.VISIBLE);
+                tvErrorMessage.setText(getResources().getString(R.string.please_enter_year_of_experience));
+            }
 
-            } else if (v.getId() == R.id.etNOOfYears) {
-                belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.very_dark_blue));
-                if (tvErrorMessage.getVisibility() == View.VISIBLE) {
-                    tvErrorMessage.setVisibility(View.GONE);
-                }
+        } else if (v.getId() == R.id.etNOOfYears) {
+            belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.very_dark_blue));
+            if (tvErrorMessage.getVisibility() == View.VISIBLE) {
+                tvErrorMessage.setVisibility(View.GONE);
             }
         }
     }
+
 }
 
 

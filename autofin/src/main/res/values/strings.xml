@@ -151,6 +151,7 @@
     <string name="cheque_bar">Cheque Salary</string>
     <string name="lbl_Transferanddeposit">As transfer  / deposit to salary account</string>
     <string name="lbl_deposit_tranfer">As transfer / deposit to salary account</string>
+    <string name="lbl_employment_type">EMPLOYMENT TYPE</string>
 
 
 </resources>

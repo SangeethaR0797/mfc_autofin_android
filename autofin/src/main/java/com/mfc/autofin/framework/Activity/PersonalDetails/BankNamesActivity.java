@@ -38,10 +38,15 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
     private ListView listView;
     private ArrayAdapter<String> arrayAdapter;
     private Button btnNext;
+    private String strEmployeeType="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bank_names);
+        if(!CommonMethods.getStringValueFromKey(this,CommonStrings.EMP_TYPE_VAL).isEmpty())
+        {
+            strEmployeeType=CommonMethods.getStringValueFromKey(this,CommonStrings.EMP_TYPE_VAL);
+        }
         initView();
 
     }
@@ -52,7 +57,7 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
         tvGivenPreviousVal=findViewById(R.id.tvGivenPreviousVal);
         tvGivenValEdit=findViewById(R.id.tvGivenValEdit);
         tvGivenLbl.setText(getResources().getString(R.string.employment_type));
-        tvGivenPreviousVal.setText("Salaried");
+        tvGivenPreviousVal.setText(strEmployeeType);
         tvGivenValEdit.setOnClickListener(this);
         tvSelectedBankName=findViewById(R.id.tvSelectedBankName);
         iv_app_bank_search=findViewById(R.id.iv_app_bank_search);

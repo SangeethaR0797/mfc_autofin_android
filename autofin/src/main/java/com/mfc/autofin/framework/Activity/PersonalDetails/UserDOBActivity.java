@@ -29,11 +29,16 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
     LinearLayout llDOBCalendarView;
     ImageView iv_personal_details_backBtn;
     CalendarView cvUserDOB;
+    String strResidenceType="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_d_o_b);
+        if(!CommonMethods.getStringValueFromKey(this,CommonStrings.RESIDENCE_TYPE).isEmpty())
+        {
+            strResidenceType=CommonMethods.getStringValueFromKey(this,CommonStrings.RESIDENCE_TYPE);
+        }
         initView();
     }
 
@@ -43,7 +48,7 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
         tvGivenValEdit = findViewById(R.id.tvGivenValEdit);
         tvGivenLbl.setText(getResources().getString(R.string.lbl_residence_type).toUpperCase());
         tvDOBLbl = findViewById(R.id.tvDOBLbl);
-        tvGivenPreviousVal.setText("Owned by parent/sibling");
+        tvGivenPreviousVal.setText(strResidenceType);
         llDOBCalendarView = findViewById(R.id.llDOBCalendarView);
         cvUserDOB = findViewById(R.id.cvUserDOB);
         cvUserDOB.setMinDate(System.currentTimeMillis() - 1000);
