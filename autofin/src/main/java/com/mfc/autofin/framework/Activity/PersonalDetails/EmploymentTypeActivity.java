@@ -39,46 +39,77 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
     LinearLayout llEmpTypeRadioGroup;
     ImageView iv_personal_details_backBtn;
     ViewGroup customEmpTypeRG;
-    RadioButton radioButton;
+    RadioButton rbSalaried, rbBusinessOwner, rbSelfEmployedProfessional, rbIndependentWorker, rbStudent, rbRetired, rbHomeMaker;
     List<EmpTypeList> empTypeList;
-    String strLoanRequired="";
+    String strLoanRequired = "";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employment_type);
-        if(!CommonMethods.getStringValueFromKey(this,CommonStrings.LOAN_REQUIRED).isEmpty())
-        {
-            strLoanRequired=CommonMethods.getStringValueFromKey(this,CommonStrings.LOAN_REQUIRED);
+        if (!CommonMethods.getStringValueFromKey(this, CommonStrings.LOAN_REQUIRED).isEmpty()) {
+            strLoanRequired = CommonMethods.getStringValueFromKey(this, CommonStrings.LOAN_REQUIRED);
         }
         retrofitInterface.getFromWeb(CommonStrings.EMP_TYPE_URL).enqueue(this);
         initView();
     }
 
     private void initView() {
-        iv_personal_details_backBtn=findViewById(R.id.iv_personal_details_backBtn);
+        iv_personal_details_backBtn = findViewById(R.id.iv_personal_details_backBtn);
         tvGivenLbl = findViewById(R.id.tvGivenLbl);
         tvGivenPreviousVal = findViewById(R.id.tvGivenPreviousVal);
         tvGivenValEdit = findViewById(R.id.tvGivenValEdit);
-        customEmpTypeRG=findViewById(R.id.customEmpTypeRG);
+        customEmpTypeRG = findViewById(R.id.customEmpTypeRG);
         tvGivenLbl.setText(getResources().getString(R.string.lbl_loan_required).toUpperCase());
-        llEmpTypeRadioGroup=findViewById(R.id.llEmpTypeRadioGroup);
+        llEmpTypeRadioGroup = findViewById(R.id.llEmpTypeRadioGroup);
         tvGivenPreviousVal.setText(strLoanRequired);
+        rbSalaried = findViewById(R.id.rbSalaried);
+        rbBusinessOwner = findViewById(R.id.rbBusinessOwner);
+        rbSelfEmployedProfessional = findViewById(R.id.rbSelfEmployedProfessional);
+        rbIndependentWorker = findViewById(R.id.rbIndependentWorker);
+        rbStudent = findViewById(R.id.rbStudent);
+        rbRetired = findViewById(R.id.rbRetired);
+        rbHomeMaker = findViewById(R.id.rbHomeMaker);
         iv_personal_details_backBtn.setOnClickListener(this);
         tvGivenValEdit.setOnClickListener(this);
-        customEmpTypeRG.setOnClickListener(this);
+        rbSalaried.setOnClickListener(this);
+        rbBusinessOwner.setOnClickListener(this);
+        rbSelfEmployedProfessional.setOnClickListener(this);
+        rbIndependentWorker.setOnClickListener(this);
+        rbStudent.setOnClickListener(this);
+        rbRetired.setOnClickListener(this);
+        rbHomeMaker.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
 
-            CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, empTypeList.get(radioButton.getId()).getValue());
-            startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
-         if (v.getId() == R.id.iv_residential_details_backBtn) {
+        if (v.getId() == R.id.iv_residential_details_backBtn) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvGivenValEdit) {
             finish();
+        } else if (v.getId() == R.id.rbSalaried) {
+            CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbSalaried.getText().toString());
+            startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
+        } else if (v.getId() == R.id.rbBusinessOwner) {
+            CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbBusinessOwner.getText().toString());
+            startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
+        } else if (v.getId() == R.id.rbSelfEmployedProfessional) {
+            CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbSelfEmployedProfessional.getText().toString());
+            startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
+        } else if (v.getId() == R.id.rbIndependentWorker) {
+            CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbIndependentWorker.getText().toString());
+            startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
+        } else if (v.getId() == R.id.rbStudent) {
+            CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbStudent.getText().toString());
+            startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
+        } else if (v.getId() == R.id.rbRetired) {
+            CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbRetired.getText().toString());
+            startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
+        } else if (v.getId() == R.id.rbHomeMaker) {
+            CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbHomeMaker.getText().toString());
+            startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
         }
     }
 
@@ -91,7 +122,7 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
                 EmploymentTypeRes employmentTypeRes = new Gson().fromJson(strRes, EmploymentTypeRes.class);
                 if (employmentTypeRes.getStatus()) {
                     empTypeList = employmentTypeRes.getData().getTypes();
-                    setRadioButtonInRG(empTypeList);
+                    //setRadioButtonInRG(empTypeList);
                 } else {
                     CommonMethods.showToast(this, "No Employment data available");
                 }
@@ -107,28 +138,27 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
 
     }
 
-    private void setRadioButtonInRG(List<EmpTypeList> empTypeList) {
+    /* private void setRadioButtonInRG(List<EmpTypeList> empTypeList) {
 
-        for (int i = 0; i < empTypeList.size(); i++) {
-            String displayVal="";
-            radioButton = (RadioButton) getLayoutInflater().inflate(R.layout.radio_button, null);
-            radioButton.setId(i);
-            displayVal=empTypeList.get(i).getDisplayLabel();
-            radioButton.setText(getSeparatedDisplayVal(displayVal));
-            radioButton.setOnClickListener(this);
-            customEmpTypeRG.addView(radioButton);
-        }
-    }
-
+         for (int i = 0; i < empTypeList.size(); i++) {
+             String displayVal="";
+             radioButton = (RadioButton) getLayoutInflater().inflate(R.layout.radio_button, null);
+             radioButton.setId(i);
+             displayVal=empTypeList.get(i).getDisplayLabel();
+             radioButton.setText(getSeparatedDisplayVal(displayVal));
+             radioButton.setOnClickListener(this);
+             customEmpTypeRG.addView(radioButton);
+         }
+     }
+ */
     private String getSeparatedDisplayVal(String strDisplayVal) {
         String strResult = "";
         if (strDisplayVal.contains("\\(")) {
             String[] strArr = strDisplayVal.split("\\(");
-            strResult=strArr[0]+"//\n"+ Html.fromHtml("<font color='#9babc4'>strArr[1]</font>");
+            strResult = strArr[0] + "//\n" + Html.fromHtml("<font color='#9babc4'>strArr[1]</font>");
 
-        } else
-        {
-            strResult=strDisplayVal;
+        } else {
+            strResult = strDisplayVal;
         }
         return strResult;
     }

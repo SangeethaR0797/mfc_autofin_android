@@ -27,7 +27,8 @@
                 android:layout_marginLeft="@dimen/text_size10dp"
                 android:layout_marginTop="@dimen/text_size_8dp"
                 android:layout_marginRight="@dimen/text_size10dp"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:scrollbars="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -49,17 +50,113 @@
                         android:id="@+id/llRadioGroup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginTop="@dimen/text_size_29dp"
                         android:layout_marginLeft="23dp"
-                        android:layout_marginBottom="@dimen/text_size_31dp">
+                        android:layout_marginTop="@dimen/text_size_29dp"
+                        android:layout_marginBottom="@dimen/text_size_31dp"
+                        android:orientation="vertical">
 
                         <RadioGroup
                             android:id="@+id/customRG"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="47dp">
-                            <!-- <include layout="@layout/radio_button"/>-->
+                            android:layout_marginBottom="@dimen/text_size_33dp">
+
+                            <RadioButton
+                                android:id="@+id/rbOwnedBySelfOrSpouse"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/text_size_24dp"
+                                android:buttonTint="@color/very_dark_blue"
+                                android:checked="false"
+                                android:paddingLeft="12dp"
+                                android:text="@string/lbl_owned_by_self_or_spouse"
+                                android:textColor="@color/very_dark_blue"
+                                android:textSize="@dimen/text_size_16sp" />
+
+                            <RadioButton
+                                android:id="@+id/rbOwnedByParent"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/text_size_24dp"
+                                android:buttonTint="@color/very_dark_blue"
+                                android:checked="false"
+                                android:paddingLeft="12dp"
+                                android:text="@string/lbl_owned_by_parent_sibling"
+                                android:textColor="@color/very_dark_blue"
+                                android:textSize="@dimen/text_size_16sp" />
+
+                            <RadioButton
+                                android:id="@+id/rbRentedWithFamily"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/text_size_24dp"
+                                android:buttonTint="@color/very_dark_blue"
+                                android:checked="false"
+                                android:paddingLeft="12dp"
+                                android:text="@string/lbl_rented_with_family"
+                                android:textColor="@color/very_dark_blue"
+                                android:textSize="@dimen/text_size_16sp" />
+
+                            <RadioButton
+                                android:id="@+id/rbRentedWithFriends"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/text_size_24dp"
+                                android:buttonTint="@color/very_dark_blue"
+                                android:checked="false"
+                                android:paddingLeft="12dp"
+                                android:text="@string/lbl_rented_with_friends"
+                                android:textColor="@color/very_dark_blue"
+                                android:textSize="@dimen/text_size_16sp" />
+
+                            <RadioButton
+                                android:id="@+id/rbRentedStayingAlone"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/text_size_24dp"
+                                android:buttonTint="@color/very_dark_blue"
+                                android:checked="false"
+                                android:paddingLeft="12dp"
+                                android:text="@string/lbl_rented_staying_alone"
+                                android:textColor="@color/very_dark_blue"
+                                android:textSize="@dimen/text_size_16sp" />
+
+                            <RadioButton
+                                android:id="@+id/rbPayingGuest"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/text_size_24dp"
+                                android:buttonTint="@color/very_dark_blue"
+                                android:checked="false"
+                                android:paddingLeft="12dp"
+                                android:text="@string/lbl_paying_guest"
+                                android:textColor="@color/very_dark_blue"
+                                android:textSize="@dimen/text_size_16sp" />
+
+
+                            <RadioButton
+                                android:id="@+id/rbHostel"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/text_size_24dp"
+                                android:buttonTint="@color/very_dark_blue"
+                                android:checked="false"
+                                android:paddingLeft="12dp"
+                                android:text="@string/lbl_hostel"
+                                android:textColor="@color/very_dark_blue"
+                                android:textSize="@dimen/text_size_16sp" />
+
+                            <RadioButton
+                                android:id="@+id/rbCompanyProvided"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/text_size_24dp"
+                                android:buttonTint="@color/very_dark_blue"
+                                android:checked="false"
+                                android:paddingLeft="12dp"
+                                android:text="@string/lbl_company_provided"
+                                android:textColor="@color/very_dark_blue"
+                                android:textSize="@dimen/text_size_16sp" />
                         </RadioGroup>
                     </LinearLayout>
                 </LinearLayout>

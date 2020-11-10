@@ -152,6 +152,25 @@
     <string name="lbl_Transferanddeposit">As transfer  / deposit to salary account</string>
     <string name="lbl_deposit_tranfer">As transfer / deposit to salary account</string>
     <string name="lbl_employment_type">EMPLOYMENT TYPE</string>
+    <string name="lbl_owned_by_self_or_spouse">Owner by Self / Spouse</string>
+    <string name="lbl_owned_by_parent_sibling">Owned by parent / sibling</string>
+    <string name="lbl_rented_with_family">Rented - with Family</string>
+    <string name="lbl_rented_with_friends">Rented - with friends</string>
+    <string name="lbl_rented_staying_alone">Rented - staying alone</string>
+    <string name="lbl_paying_guest">Paying guest</string>
+    <string name="lbl_hostel">Hostel</string>
+    <string name="lbl_company_provided">Company Provided</string>
+    <string name="lbl_earn_monthly_regular_income">Earn regular monthly income</string>
+    <string name="lbl_salaried">Salaried</string>
+    <string name="lbl_runs_own_business">Runs own business</string>
+    <string name="lbl_business_owner">Business Owner</string>
+    <string name="lbl_self_employed_professional">Self-employed Professional</string>
+    <string name="lbl_own_a_practice">Own a practice(e.g. Doctor, C.A, etc.)</string>
+    <string name="lbl_independent_worker">Independent Worker</string>
+    <string name="lbl_driver_electrician">(e.g. driver, electrician, farmer, shopkeeper, etc.)</string>
+    <string name="lbl_student">Student</string>
+    <string name="lbl_retired">Retired</string>
+    <string name="lbl_home_maker">Homemaker</string>
 
 
 </resources>
