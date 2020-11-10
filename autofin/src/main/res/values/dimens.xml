@@ -54,5 +54,6 @@
     <dimen name="text_size_37dp">37dp</dimen>
     <dimen name="text_size_39dp">39dp</dimen>
     <dimen name="text_size_11dp">11dp</dimen>
+    <dimen name="text_size_105dp">105dp</dimen>
 
 </resources>
