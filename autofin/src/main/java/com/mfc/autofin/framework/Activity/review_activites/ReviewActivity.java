@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.view.View;
@@ -19,6 +20,8 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
     private CheckBox cbAgreeTAndC;
     private Button btnReviewNext;
     private boolean isTAndCAgreed;
+    private String strTAndC="<font color='#0061e6'><u>terms and conditions</u></font>",strPrivacyPolicy="<font color='#0061e6'><u>privacy policy</u></font>";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,9 +35,7 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
         cbAgreeTAndC=findViewById(R.id.cbAgreeTAndC);
         btnReviewNext=findViewById(R.id.btnReviewNext);
         tvCommonAppBarTitle.setText(getResources().getString(R.string.str_review));
-
-        SpannableStringBuilder spannableString=new SpannableStringBuilder();
-        spannableString.setSpan(getResources().getString(R.string.str_agree_with_tc),16,35,0);
+        cbAgreeTAndC.setText("I Agree to the "+ Html.fromHtml(strTAndC)+" and "+Html.fromHtml(strPrivacyPolicy));
         cbAgreeTAndC.setOnClickListener(this);
     }
 
