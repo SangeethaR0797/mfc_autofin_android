@@ -46,7 +46,7 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
         tvVehCategoryQn = findViewById(R.id.tvVehCategoryQn);
         rgVehCategory = findViewById(R.id.rgVehCategory);
         rbOldCar = findViewById(R.id.rbOldCar);
-        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
         iv_vehDetails_backBtn.setOnClickListener(this);
         rbNewCar = findViewById(R.id.rbNewCar);
         rbOldCar.setOnClickListener(this);
@@ -58,7 +58,7 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+        if (v.getId() == R.id.iv_vehDetails_back) {
             finish();
         } else if (v.getId() == R.id.rbNewCar) {
             if (rbNewCar.isChecked()) {
