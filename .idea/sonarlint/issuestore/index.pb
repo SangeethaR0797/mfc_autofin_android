@@ -73,3 +73,15 @@ b
 2autofin/src/main/java/kyc/OptionGalleryCamera.java,3\1\31438a00f6083ea68e616c08b5b143aee2df38d2
 [
 +autofin/src/main/java/kyc/CaptureImage.java,9\3\937613f7cc7914f2ab68087d27a17daa7d46d68b
+\
+,autofin/src/main/res/drawable/ic_picture.xml,9\7\97c0b76f5ce9296cee49e2c7084da1b9df2c652a
+V
+&autofin/src/main/res/layout/camera.xml,3\3\335500f81ffdd45b6e57223dd45567d81b174d72
+h
+8autofin/src/main/res/layout/document_upload_activity.xml,e\b\ebb0b854095a5df6b66d6f927fd6807c0bd912ec
+A
+gradle.properties,2\a\2afbb999f001938c88fa43fc2ef52abf0f8213e4
+X
+(gradle/wrapper/gradle-wrapper.properties,f\b\fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
+@
+local.properties,0\7\0712df971a99ac4d2fccb8e0fb19f377f3374cca
