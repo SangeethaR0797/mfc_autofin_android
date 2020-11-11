@@ -1,5 +1,6 @@
 package com.mfc.autofin.framework.Activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -103,6 +104,7 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
         return accessTokenRequest;
     }
 
+    @SuppressLint("NewApi")
     private void initViews() {
         tvTotalLeadsCount = (RobotoMedium) findViewById(R.id.tvTotalLeadsCount);
         tvTotalLeadsLabel = (RobotoMedium) findViewById(R.id.tvTotalLeadsLabel);
@@ -138,6 +140,7 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
         tvLeadTypeLabel.setText(R.string.lbl_all_leads);
         tvLeadTypeLabel.setTypeface(CustomFonts.getRobotoRegularTF(AutoFinDashBoardActivity.this));
         closeButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NewApi")
             @Override
             public void onClick(View v) {
 

@@ -71,7 +71,7 @@ public class MonthlyIncome extends AppCompatActivity implements View.OnClickList
         }
         else if(v.getId()==R.id.btnNext)
         {
-            if(!etMonthlyIncomeAmount.getText().toString().isEmpty())
+            if(!etMonthlyIncomeAmount.getText().toString().equals(""))
             {
                 strMonthlyIncome=etMonthlyIncomeAmount.getText().toString();
                 CommonMethods.setValueAgainstKey(MonthlyIncome.this,CommonStrings.MONTHLY_INCOME,strMonthlyIncome);

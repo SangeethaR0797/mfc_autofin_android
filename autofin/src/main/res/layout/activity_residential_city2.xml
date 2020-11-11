@@ -7,10 +7,6 @@
     android:background="@color/g_white"
     tools:context=".Activity.ResidentialActivity.ResidentialCity">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -82,10 +78,16 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fillViewport="true">
             <androidx.cardview.widget.CardView
                 style="@style/veh_details_card_view_2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                android:paddingBottom="150dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -151,12 +153,48 @@
                             android:layout_weight="1" />
                     </LinearLayout>
 
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:paddingLeft="@dimen/text_size_21dp"
                         android:paddingTop="@dimen/text_size_24dp"
+                        android:paddingRight="@dimen/text_size10dp"
+                        android:paddingBottom="@dimen/text_size_17dp">
+
+                        <utility.RobotoMedium
+                            android:id="@+id/tvState"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/lbl_state"
+                            android:textColor="@color/very_dark_blue"
+                            android:textSize="@dimen/text_size_19dp" />
+
+                        <utility.RobotoMedium
+                            android:id="@+id/tvStateName"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="@dimen/text_size_8dp"
+                            android:drawableRight="@drawable/ic_expand"
+                            android:hint="@string/lbl_select_state"
+                            android:textColor="@color/very_dark_blue"
+                            android:textSize="@dimen/text_size_16sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/very_dark_blue" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingTop="@dimen/text_size_3dp"
+                        android:paddingLeft="@dimen/text_size_21dp"
                         android:paddingRight="@dimen/text_size10dp"
                         android:paddingBottom="@dimen/text_size_17dp">
 
@@ -168,15 +206,136 @@
                             android:textColor="@color/very_dark_blue"
                             android:textSize="@dimen/text_size_19dp" />
 
+                        <utility.RobotoMedium
+                            android:id="@+id/tvSelectedCity"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="@dimen/text_size_8dp"
+                            android:drawableRight="@drawable/ic_expand"
+                            android:hint="@string/lbl_select_city"
+                            android:textColor="@color/very_dark_blue"
+                            android:textSize="@dimen/text_size_16sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/very_dark_blue" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/text_size_21dp"
+                        android:paddingTop="@dimen/text_size_3dp"
+                        android:paddingRight="@dimen/text_size10dp"
+                        android:paddingBottom="@dimen/text_size_17dp">
+
+                        <utility.RobotoMedium
+                            android:id="@+id/tvAddress1Lbl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/address_one_lbl"
+                            android:textColor="@color/very_dark_blue"
+                            android:textSize="@dimen/text_size_19dp" />
+
+                        <EditText
+                            android:id="@+id/etAddressLine1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="5dp"
+                            android:maxLines="1"
+                            android:layout_marginBottom="@dimen/text_size_8dp"
+                            android:background="@android:color/transparent"
+                            android:textColor="@color/very_dark_blue"
+                            android:textSize="@dimen/text_size_16sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/very_dark_blue" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/text_size_21dp"
+                        android:paddingTop="@dimen/text_size_3dp"
+                        android:paddingRight="@dimen/text_size10dp"
+                        android:paddingBottom="@dimen/text_size_17dp">
+
+                        <utility.RobotoMedium
+                            android:id="@+id/tvAddress2Lbl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/address_two_lbl"
+                            android:textColor="@color/very_dark_blue"
+                            android:textSize="@dimen/text_size_19dp" />
+
+                        <EditText
+                            android:id="@+id/etAddressLine2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="5dp"
+                            android:maxLines="1"
+                            android:layout_marginBottom="@dimen/text_size_8dp"
+                            android:background="@android:color/transparent"
+                            android:textColor="@color/very_dark_blue"
+                            android:textSize="@dimen/text_size_16sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/very_dark_blue" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/text_size_21dp"
+                        android:paddingTop="@dimen/text_size_3dp"
+                        android:paddingRight="@dimen/text_size10dp"
+                        android:paddingBottom="@dimen/text_size_17dp">
+
+                        <utility.RobotoMedium
+                            android:id="@+id/tvLandMark"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/lbl_landmark"
+                            android:textColor="@color/very_dark_blue"
+                            android:textSize="@dimen/text_size_19dp" />
+
+                        <EditText
+                            android:id="@+id/etLandmark"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="5dp"
+                            android:maxLines="1"
+                            android:layout_marginBottom="@dimen/text_size_8dp"
+                            android:background="@android:color/transparent"
+                            android:textColor="@color/very_dark_blue"
+                            android:textSize="@dimen/text_size_16sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/very_dark_blue" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+            </ScrollView>
+
         </LinearLayout>
-    </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_size_30dp"
         android:layout_alignParentBottom="true">
 
         <include layout="@layout/autofin_next_btn" />

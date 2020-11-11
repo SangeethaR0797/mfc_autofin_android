@@ -12,6 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
+import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.new_car_flow.VehiclePurchaseAmountActivity;
 import com.mfc.autofin.framework.R;
 
 import utility.AutoFinConstants;
@@ -107,7 +108,7 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
 
     private void moveToNextPage(String strOwner) {
         CommonStrings.customVehDetails.setOwnership(Integer.valueOf(strOwner));
-        Intent intent = new Intent(VehicleOwnerActivity.this, CarHaveLoanCurrentlyActivity.class);
+        Intent intent = new Intent(VehicleOwnerActivity.this, VehiclePurchaseAmountActivity.class);
         startActivity(intent);
     }
 }

@@ -3,6 +3,7 @@ package com.mfc.autofin.framework.Activity.PersonalDetails;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -23,6 +24,7 @@ import model.residential_models.ResidenceType;
 import utility.CommonMethods;
 import utility.CommonStrings;
 
+@SuppressLint("NewApi")
 public class UserDOBActivity extends AppCompatActivity implements View.OnClickListener, CalendarView.OnDateChangeListener {
 
     TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvDOBLbl;
@@ -76,7 +78,11 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
         String dob = dayOfMonth + "/" + monthName + "/" + year;
         tvDOBLbl.setText(dob);
         CommonMethods.setValueAgainstKey(this, CommonStrings.USER_DOB, dayOfMonth + " " + monthName + " " + year);
-        Intent intent = new Intent(UserDOBActivity.this, MonthlyIncome.class);
-        startActivity(intent);
+        try
+        {
+            Intent intent = new Intent(UserDOBActivity.this, GenderActivity.class);
+            startActivity(intent);
+        }catch (Exception exception){exception.printStackTrace();}
+
     }
 }
