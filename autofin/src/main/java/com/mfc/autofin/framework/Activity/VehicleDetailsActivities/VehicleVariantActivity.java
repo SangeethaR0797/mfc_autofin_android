@@ -40,7 +40,7 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
 
     private static String TAG = VehicleVariantActivity.class.getSimpleName();
     TextView tvGivenVehModelVal, tvGivenVehModelEdit, tvSelectedVehVariant;
-    ImageView iv_vehDetails_back, iv_app_variant_search, svCloseButton;
+    ImageView iv_vehDetails_backBtn, iv_app_variant_search, svCloseButton;
     private Button btnNext;
     String strVehCategory="",strYear = "", strVehMake = "", strVehModel = "", strVariant;
     ListView lvVehListView;
@@ -77,7 +77,7 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
     }
 
     private void initView() {
-        iv_vehDetails_back = findViewById(R.id.iv_vehDetails_back);
+        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
         tvGivenVehModelVal = findViewById(R.id.tvGivenVehModelVal);
         tvGivenVehModelEdit = findViewById(R.id.tvGivenVehModelEdit);
         tvSelectedVehVariant = findViewById(R.id.tvSelectedVehVariant);
@@ -91,7 +91,7 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
         iv_app_variant_search = findViewById(R.id.iv_app_variant_search);
         iv_app_variant_search.setOnClickListener(this);
         lvVehListView.setDivider(null);
-        iv_vehDetails_back.setOnClickListener(this);
+        iv_vehDetails_backBtn.setOnClickListener(this);
         btnNext.setOnClickListener(this);
 
 

@@ -1,0 +1,10 @@
+
+r
+java:S3008"WRename this field "IBB_BASE_URL" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Òεάψÿÿÿÿ
+g	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(ίΈ””ωÿÿÿÿ
+M
+java:S1444"2Make this "public static IBB_BASE_URL" field final(Òεάψÿÿÿÿ
+s
+java:S1104"XMake IBB_BASE_URL a static final constant or non-public and provide accessors if needed.(Òεάψÿÿÿÿ
+U
+java:S1118":Add a private constructor to hide the implicit public one.(ίΈ””ωÿÿÿÿ

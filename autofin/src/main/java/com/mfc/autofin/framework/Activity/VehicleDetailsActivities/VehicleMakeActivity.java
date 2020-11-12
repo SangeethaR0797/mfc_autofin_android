@@ -42,7 +42,7 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
 
     private static final String TAG = VehicleMakeActivity.class.getSimpleName();
     private TextView tvGivenRegYear, tvGivenRegYearVal, tvGivenRegYearEdit, tvSelectedVehMake;
-    private ImageView iv_vehDetails_back, iv_app_make_search, svCloseButton;
+    private ImageView iv_vehDetails_backBtn, iv_app_make_search, svCloseButton;
     private Button btnNext;
     ListView lvVehListView;
     SearchView svVehMakeDetails;
@@ -78,7 +78,7 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
 
     @SuppressLint("NewApi")
     private void initView() {
-        iv_vehDetails_back = findViewById(R.id.iv_vehDetails_back);
+        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
         tvGivenRegYear = findViewById(R.id.tvGivenRegYear);
         tvGivenRegYearVal = findViewById(R.id.tvGivenRegYearVal);
         tvGivenRegYearEdit = findViewById(R.id.tvGivenRegYearEdit);

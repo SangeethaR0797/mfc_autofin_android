@@ -1,0 +1,25 @@
+
+C
+java:S1604D"(Make this anonymous inner class a lambda(‡ú¸µùÿÿÿÿ
+i
+java:S1104"SMake fileUri a static final constant or non-public and provide accessors if needed.(·Ù²û
+Q
+java:S1128"4Remove this unused import 'android.content.Context'.(©Ê‰è8´©äİÚ.
+q
+java:S3008"VRename this field "RESULT_LOAD" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûÕ‡©şÿÿÿÿ
+C
+java:S1604,"(Make this anonymous inner class a lambda(„Øêâúÿÿÿÿ
+K
+java:S1481("0Remove this unused "pictureType" local variable.(øšÁĞşÿÿÿÿ
+V
+java:S1128"9Remove this unused import 'com.squareup.picasso.Picasso'.(£œ¿×8´©äİÚ.
+Z
+java:S1854("?Remove this useless assignment to local variable "pictureType".(øšÁĞşÿÿÿÿ
+J
+java:S1068"/Remove this unused "RESULT_LOAD" private field.(ûÕ‡©şÿÿÿÿ
+k
+java:S1104"PMake file a static final constant or non-public and provide accessors if needed.(ğ ½ºÿÿÿÿÿ
+W
+java:S1128"5Remove this unused import 'android.widget.ImageView'.(ú¯ëàüÿÿÿÿ8´©äİÚ.
+k	java:S117)"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­Õ£ûÿÿÿÿ
+f	java:S117*"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ªüğ¶

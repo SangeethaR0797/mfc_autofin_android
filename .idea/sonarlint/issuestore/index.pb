@@ -63,8 +63,6 @@ _
 /autofin/src/main/res/drawable/ic_green_tick.xml,8\b\8bedcaacc012c8621d742ebbd48d95d9ae1a2a14
 ^
 .autofin/src/main/res/drawable/ic_tray_plus.xml,f\8\f8c2bd1bb78834ed3203b848847ddb6d2f792f09
-c
-3autofin/src/main/res/layout/topheader_documents.xml,0\e\0ea038b394d6528cc9382d18ec63120f6c003ff8
 W
 'autofin/src/main/res/values/strings.xml,6\c\6c3ea17702102cd291e611a4041e198bbf7618c2
 <

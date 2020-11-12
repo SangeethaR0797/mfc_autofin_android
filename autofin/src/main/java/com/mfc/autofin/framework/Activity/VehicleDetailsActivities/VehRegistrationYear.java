@@ -42,7 +42,7 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
 
     private static final String TAG = VehRegistrationYear.class.getSimpleName();
     private TextView tvGivenRegNumLbl, tvGivenRegNoVal, tvVehRegNumEdit, tvRegYearLbl, tvRegYear;
-    private ImageView iv_vehDetails_back, iv_year_search, svCloseButton;
+    private ImageView iv_vehDetails_backBtn, iv_year_search, svCloseButton;
     ListView lvVehListView;
     String regNoVal = "", strYear = "";
     //SearchView svVehDetails;
@@ -80,13 +80,13 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
         tvRegYearLbl = findViewById(R.id.tvRegYearLbl);
         tvRegYear = findViewById(R.id.tvRegYear);
         lvVehListView = findViewById(R.id.lvVehListView);
-        iv_vehDetails_back = findViewById(R.id.iv_vehDetails_back);
+        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
 
         tvGivenRegNoVal.setText(regNoVal);
         lvVehListView.setDivider(null);
         tvRegYear.setText(strYear);
         btnNext = findViewById(R.id.btnNext);
-        iv_vehDetails_back.setOnClickListener(this);
+        iv_vehDetails_backBtn.setOnClickListener(this);
         tvVehRegNumEdit.setOnClickListener(this);
         tvRegYear.setOnClickListener(this);
         btnNext.setOnClickListener(this);
@@ -94,7 +94,7 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_back) {
+        if (v.getId() == R.id.iv_vehDetails_backBtn) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvVehRegNumEdit) {
             finish();

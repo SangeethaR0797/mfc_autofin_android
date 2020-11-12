@@ -1,0 +1,59 @@
+
+K
+java:S16593"0Declare "tvClosedLeadsCount" on a separate line.(üÎë¿ıÿÿÿÿ
+|
+java:S14503"aRemove the "tvClosedLeadsLabel" field and declare it as a local variable in the relevant methods.(üÎë¿ıÿÿÿÿ
+E
+java:S1604Œ"(Make this anonymous inner class a lambda(ÍäÿC8şÚ¼¾×.
+z
+java:S14503"_Remove the "tvBankLeadsLabel" field and declare it as a local variable in the relevant methods.(üÎë¿ıÿÿÿÿ
+c
+java:S3008:"NRename this field "TAG" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ã¸ÿ\
+I
+java:S16593".Declare "tvOpenLeadsCount" on a separate line.(üÎë¿ıÿÿÿÿ
+I
+java:S16593".Declare "tvBankLeadsCount" on a separate line.(üÎë¿ıÿÿÿÿ
+t
+java:S1192»"QDefine a constant instead of duplicating this literal "customer-listing" 4 times.(Ö—Ÿ‰ÿÿÿÿÿ8şÚ¼¾×.
+F
+java:S16595"+Declare "llClosedLeads" on a separate line.(äª‡úüÿÿÿÿ
+D
+java:S14440".Make this "public static progress" field final(û¬îÉ
+q	java:S1166"WRename this field "fab_add_lead" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ê…¼Ÿùÿÿÿÿ
+D
+java:S16597")Declare "closeButton" on a separate line.(àÖş™ùÿÿÿÿ
+I
+java:S16593".Declare "tvBankLeadsLabel" on a separate line.(üÎë¿ıÿÿÿÿ
+K
+java:S16593"0Declare "tvClosedLeadsLabel" on a separate line.(üÎë¿ıÿÿÿÿ
+I
+java:S16593".Declare "tvOpenLeadsLabel" on a separate line.(üÎë¿ıÿÿÿÿ
+J
+java:S16593"/Declare "tvTotalLeadsLabel" on a separate line.(üÎë¿ıÿÿÿÿ
+z
+java:S14503"_Remove the "tvOpenLeadsLabel" field and declare it as a local variable in the relevant methods.(üÎë¿ıÿÿÿÿ
+|
+java:S1450;"ZRemove the "exitAutofin" field and declare it as a local variable in the relevant methods.(šÒóÚùÿÿÿÿ8¹»¾×.
+Ÿ
+java:S1186Œ"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ï‚àÏ8şÚ¼¾×.
+y
+java:S1450?"WRemove the "mAppName" field and declare it as a local variable in the relevant methods.(”äİ±şÿÿÿÿ8¬Áü½×.
+A
+java:S16595"&Declare "llAppBar" on a separate line.(äª‡úüÿÿÿÿ
+]	java:S110."<This class has 9 parents which is greater than 5 authorized.(Á±è‡ûÿÿÿÿ8³Ùº¼Û.
+r	java:S1164"]Rename this field "leads_recyclerview" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Îâ¼Ì
+j
+java:S11040"TMake progress a static final constant or non-public and provide accessors if needed.(û¬îÉ
+{
+java:S14503"`Remove the "tvTotalLeadsLabel" field and declare it as a local variable in the relevant methods.(üÎë¿ıÿÿÿÿ
+D
+java:S16595")Declare "llOpenLeads" on a separate line.(äª‡úüÿÿÿÿ
+p
+java:S3776Ó"RRefactor this method to reduce its Cognitive Complexity from 27 to the 15 allowed.(§ÌÁ¶8şÚ¼¾×.
+c
+java:S2147ñ"ECombine this catch with the one at line 240, which has the same body.(®ËúÃ8şÚ¼¾×.
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ß’’
+D
+java:S16595")Declare "llBankLeads" on a separate line.(äª‡úüÿÿÿÿ
+Œ
+java:S1128"jRemove this unused import 'com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehRegNumActivity'.(«ƒÖëøÿÿÿÿ8ù…†¿Û.

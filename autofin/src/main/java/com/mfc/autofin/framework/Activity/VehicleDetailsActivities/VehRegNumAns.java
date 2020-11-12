@@ -33,7 +33,7 @@ import static retrofit_config.RetroBase.retrofitInterface;
 public class VehRegNumAns extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
 
     private static final String TAG = VehRegNumAns.class.getSimpleName();
-    ImageView iv_vehDetails_back;
+    ImageView iv_vehDetails_backBtn;
     TextView tvVehCategoryQn, tvRegNoLbl;
     EditText etVehRegNo;
     Button btnNext;
@@ -46,12 +46,12 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initView() {
-        iv_vehDetails_back = findViewById(R.id.iv_vehDetails_back);
+        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
         tvVehCategoryQn = findViewById(R.id.tvVehCategoryQn);
         tvRegNoLbl = findViewById(R.id.tvRegNoLbl);
         etVehRegNo = findViewById(R.id.etVehRegNo);
         btnNext = findViewById(R.id.btnNext);
-        iv_vehDetails_back.setOnClickListener(this);
+        iv_vehDetails_backBtn.setOnClickListener(this);
         btnNext.setOnClickListener(this);
 
     }
@@ -68,7 +68,7 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
 
     private void validate() {
         String regNo = etVehRegNo.getText().toString();
-        if (!regNo.isEmpty()) {
+        if (!regNo.equals("")) {
             callStockAPI(regNo);
         } else {
             Toast.makeText(this, getString(R.string.reg_no_empty_message), Toast.LENGTH_SHORT).show();

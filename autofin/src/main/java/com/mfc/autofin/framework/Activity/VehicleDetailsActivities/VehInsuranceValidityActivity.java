@@ -27,7 +27,7 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
 
 
     TextView tvGivenInsurance, tvGivenVehInsuranceVal, tvGivenInsuranceAmountEdit, tvInsuranceValidityLbl, tvInsuranceValidityDate;
-    ImageView iv_vehDetails_back;
+    ImageView iv_vehDetails_backBtn;
     String strInsurance = "", strInsuranceAmount = "", strInsuranceValidity = "";
     Calendar insuranceCal = Calendar.getInstance();
     CalendarView cvInsuranceValidity;
@@ -66,12 +66,12 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
         tvGivenInsuranceAmountEdit = findViewById(R.id.tvGivenInsuranceAmountEdit);
         tvInsuranceValidityLbl = findViewById(R.id.tvInsuranceValidityLbl);
         tvInsuranceValidityDate = findViewById(R.id.tvInsuranceValidityDate);
-        iv_vehDetails_back = findViewById(R.id.iv_vehDetails_back);
+        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
         cvInsuranceValidity = findViewById(R.id.cvInsuranceValidity);
         llCalendarView = findViewById(R.id.llCalendarView);
         tvGivenVehInsuranceVal.setText(strInsurance + " ( " + getString(R.string.rupees_symbol) + " " + strInsuranceAmount + " ) ");
         llCalendarView.setOnClickListener(this);
-        iv_vehDetails_back.setOnClickListener(this);
+        iv_vehDetails_backBtn.setOnClickListener(this);
         tvGivenInsuranceAmountEdit.setOnClickListener(this);
         tvInsuranceValidityLbl.setOnClickListener(this);
         tvInsuranceValidityDate.setText(strInsuranceValidity);

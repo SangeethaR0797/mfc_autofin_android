@@ -1,0 +1,42 @@
+
+Q
+java:S1659("/Declare "tvGivenInsTypeVal" on a separate line.(… ÷İşÿÿÿÿ8úÂäÆØ.
+R
+java:S1659("0Declare "tvGivenInsTypeEdit" on a separate line.(… ÷İşÿÿÿÿ8úÂäÆØ.
+K
+java:S1659,")Declare "strPhoneNum" on a separate line.(Ò¹åÇøÿÿÿÿ8úÂäÆØ.
+H
+java:S1659)"+Declare "etPhoneNumber" on a separate line.(†­ÿ“8úÂäÆØ.
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ìİ³‚
+M
+java:S1659("+Declare "tvPhoneNumLbl" on a separate line.(… ÷İşÿÿÿÿ8úÂäÆØ.
+J
+java:S1659("(Declare "tvEmailLbl" on a separate line.(… ÷İşÿÿÿÿ8úÂäÆØ.
+D
+java:S1659)"'Declare "etEmailId" on a separate line.(†­ÿ“8úÂäÆØ.
+L
+java:S5869t"*Remove duplicates in this character class.(üàÀËùÿÿÿÿ8›à¤ÇØ.
+I
+java:S1659("'Declare "tvNameLbl" on a separate line.(… ÷İşÿÿÿÿ8úÂäÆØ.
+‹
+java:S1128"nRemove this unused import 'com.mfc.autofin.framework.Activity.VehicleDetailsActivities.InsuranceTypeActivity'.(àÁ„8úÂäÆØ.
+	java:S116."`Rename this field "iv_vehDetails_backBtn" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(à—šúÿÿÿÿ8ñ™£ÇØ.
+†
+java:S1450."dRemove the "iv_vehDetails_backBtn" field and declare it as a local variable in the relevant methods.(à—šúÿÿÿÿ8¤ÇØ.
+H
+java:S1659,"&Declare "strEmail" on a separate line.(Ò¹åÇøÿÿÿÿ8úÂäÆØ.
+X	java:S110%"<This class has 9 parents which is greater than 5 authorized.(ì“±€8ª·ãèØ.
+O
+java:S1128"3Remove this unused import 'android.content.Intent'.(³ğ‹G8ª·ãèØ.
+|
+java:S1128"_Remove this unused import 'model.vehicle_details.vehicle_category.stock_details.StockResponse'.(±èñ¸8ª·ãèØ.
+…
+java:S1128"cRemove this unused import 'model.vehicle_details.vehicle_category.stock_details.StockResponseData'.(óà…Şùÿÿÿÿ8ª·ãèØ.
+‡
+java:S1128"eRemove this unused import 'com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehRegNumAns'.(©ÒÖ²úÿÿÿÿ8ª·ãèØ.
+‰
+java:S1128"lRemove this unused import 'com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehRegistrationYear'.(œ™¼—8ª·ãèØ.
+Ÿ
+java:S1186¦"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ï‚àÏ8ª·ãèØ.
+c
+java:S2147"ECombine this catch with the one at line 156, which has the same body.(®ËúÃ8ª·ãèØ.
