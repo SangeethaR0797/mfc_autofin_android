@@ -130,6 +130,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
             retrofitInterface.getFromWeb(getOTPRequest(), CommonStrings.OTP_URL_END).enqueue(this);
         } else if (v.getId() == R.id.btnProceed) {
             if (!etOTPVal.getText().toString().equals("") && etOTPVal.getText().toString().equalsIgnoreCase(CommonStrings.customBasicDetails.getOtp())) {
+                CommonStrings.customBasicDetails.setOtp(etOTPVal.getText().toString());
                 SpinnerManager.showSpinner(activity);
                 retrofitInterface.getFromWeb(getAddLeadRequest(), CommonStrings.ADD_LEAD_URL_END).enqueue(this);
             } else {

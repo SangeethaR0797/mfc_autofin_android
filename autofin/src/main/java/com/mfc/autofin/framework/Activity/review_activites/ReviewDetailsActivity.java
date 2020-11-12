@@ -230,7 +230,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         basicDetails.add(new ReviewData(getResources().getString(R.string.lbl_name), customBasicDetails.getFullName()));
         basicDetails.add(new ReviewData(getResources().getString(R.string.lbl_email), customBasicDetails.getEmail()));
         basicDetails.add(new ReviewData(getResources().getString(R.string.lbl_phone_no), customBasicDetails.getCustomerMobile()));
-        basicDetails.add(new ReviewData(getResources().getString(R.string.otp_lbl), customBasicDetails.getOtp()));
+        //basicDetails.add(new ReviewData(getResources().getString(R.string.otp_lbl), customBasicDetails.getOtp()));
         return basicDetails;
     }
 
@@ -252,7 +252,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
     private List<ReviewData> getOldCarDataList()
     {
         ArrayList<ReviewData> reviewDataList=new ArrayList<>();
-        String vehHaveRegNo="",vehRegNo="";
+        String vehHaveRegNo="",vehRegNo="",carHaveLoan="",insuranceAmount="";
         if(CommonMethods.getStringValueFromKey(this, CAR_HAVE_REG_NO).equalsIgnoreCase("Yes"))
         {
             vehHaveRegNo=CommonMethods.getStringValueFromKey(this, CAR_HAVE_REG_NO);
@@ -262,7 +262,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
             }
             else
             {
-                vehRegNo="No data available";
+                vehRegNo="NA";
             }
         }
         else
@@ -270,26 +270,33 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
             vehHaveRegNo=CommonMethods.getStringValueFromKey(this, CAR_HAVE_REG_NO);
         }
 
-        reviewDataList.add(new ReviewData(CommonStrings.VEH_CATEGORY_TITLE, customVehDetails.getVehCategory()));
-        Log.i(TAG, "getOldCarDataList: "+customVehDetails.getVehCategory());
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_reg_num_qn),vehHaveRegNo));
-        Log.i(TAG, "getOldCarDataList: "+vehHaveRegNo);
-        reviewDataList.add(new ReviewData(CommonStrings.VEH_REG_NO_TITLE, vehRegNo));
-        Log.i(TAG, "getOldCarDataList: "+ vehRegNo);
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_reg_year), "2000"));
+        if(customVehDetails.getDoesCarHaveLoan())
+        {
+            carHaveLoan="Yes";
+        }
+        else
+        {
+            carHaveLoan="No";
+        }
 
-        // reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_reg_year), customVehDetails.getRegistrationYear()));
-        Log.i(TAG, "getOldCarDataList: "+ customVehDetails.getRegistrationYear());
+        if(customVehDetails.getInsurance())
+        {
+            insuranceAmount="Yes";
+        }
+        else
+        {
+            insuranceAmount="No";
+        }
+        reviewDataList.add(new ReviewData(CommonStrings.VEH_CATEGORY_TITLE, customVehDetails.getVehCategory()));
+        reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_reg_num_qn),vehHaveRegNo));
+        reviewDataList.add(new ReviewData(CommonStrings.VEH_REG_NO_TITLE, vehRegNo));
+        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_reg_year), "2000"));
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_make), customVehDetails.getMake()));
-        Log.i(TAG, "getOldCarDataList: "+ customVehDetails.getMake());
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_model), customVehDetails.getModel()));
-        Log.i(TAG, "getOldCarDataList: "+ customVehDetails.getModel());
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_variant), customVehDetails.getVariant()));
-        Log.i(TAG, "getOldCarDataList: "+ customVehDetails.getVariant());
         reviewDataList.add(new ReviewData(getString(R.string.lbl_veh_ownership), String.valueOf(customVehDetails.getOwnership())));
-        Log.i(TAG, "getOldCarDataList: "+ customVehDetails.getOwnership());
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_have_loan_qn), String.valueOf(customVehDetails.getDoesCarHaveLoan())));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_insurance_on_vehicle), String.valueOf(customVehDetails.getInsurance())));
+        reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_have_loan_qn),carHaveLoan ));
+        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_insurance_on_vehicle), insuranceAmount));
         reviewDataList.add(new ReviewData("INSURANCE AMOUNT", customVehDetails.getInsuranceAmount()));
         reviewDataList.add(new ReviewData("INSURANCE VALIDITY", customVehDetails.getInsuranceValidity()));
         reviewDataList.add(new ReviewData("INSURANCE TYPE", customVehDetails.getInsuranceType()));
