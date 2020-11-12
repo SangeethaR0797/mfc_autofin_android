@@ -24,18 +24,25 @@
         android:hardwareAccelerated="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.review_activites.ReviewActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
-        <activity android:name=".Activity.PersonalDetails.SalaryModeActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
-        <activity android:name=".Activity.PersonalDetails.YearOfExperienceActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
-        <activity android:name=".Activity.PersonalDetails.JODOCurrentOrgActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
-        <activity android:name=".Activity.PersonalDetails.CurrentOrganizationActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
-        <activity android:name=".Activity.PersonalDetails.NumOFExistingLoanActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
+        <activity android:name=".Activity.VehicleDetailsActivities.LikelyPurchaseActivity"></activity>
+        <activity
+            android:name=".Activity.review_activites.ReviewActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".Activity.PersonalDetails.SalaryModeActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".Activity.PersonalDetails.YearOfExperienceActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".Activity.PersonalDetails.JODOCurrentOrgActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".Activity.PersonalDetails.CurrentOrganizationActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:name=".Activity.PersonalDetails.NumOFExistingLoanActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
             android:name=".Activity.PersonalDetails.BankNamesActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
@@ -127,6 +134,24 @@
             android:name="kyc.DocumentUploadActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+
+        <activity
+            android:name=".Activity.VehicleDetailsActivities.InterestedVehiclePriceActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+
+
+        <activity
+            android:name=".Activity.VehicleDetailsActivities.new_car_flow.VehiclePurchaseAmountActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+
+        <activity
+            android:name=".Activity.VehicleDetailsActivities.new_car_flow.InsuredAmountActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+
+
+        <activity
+            android:name=".Activity.PersonalDetails.GenderActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
 
         <provider

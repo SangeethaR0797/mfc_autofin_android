@@ -2,6 +2,7 @@ package com.mfc.autofin.framework.Activity.VehicleDetailsActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -75,6 +76,7 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
 
     }
 
+    @SuppressLint("NewApi")
     private void initView() {
         iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
         tvGivenRegYear = findViewById(R.id.tvGivenRegYear);
@@ -98,6 +100,7 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
 
         svCloseButton = this.svVehMakeDetails.findViewById(searchCloseButtonId);
         svCloseButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NewApi")
             @Override
             public void onClick(View v) {
 
@@ -154,7 +157,7 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
 
             }
         } else if (v.getId() == R.id.btnNext) {
-            if (!tvSelectedVehMake.getText().toString().isEmpty()) {
+            if (!tvSelectedVehMake.getText().toString().equals("")) {
                 if (tvSelectedVehMake.getText().toString().equalsIgnoreCase(strMake)) {
                     CommonStrings.customVehDetails.setMake(tvSelectedVehMake.getText().toString());
                     Intent intent = new Intent(this, VehicleModelActivity.class);

@@ -2,6 +2,7 @@ package com.mfc.autofin.framework.Activity.VehicleDetailsActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
@@ -73,6 +74,7 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+    @SuppressLint("NewApi")
     private void initView() {
         iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
         tvGivenRegMake = findViewById(R.id.tvGivenRegMake);
@@ -99,6 +101,7 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
 
         svCloseButton = this.svVehModelDetails.findViewById(searchCloseButtonId);
         svCloseButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NewApi")
             @Override
             public void onClick(View v) {
 
@@ -116,6 +119,7 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
                 return false;
             }
 
+            @SuppressLint("NewApi")
             @Override
             public boolean onQueryTextChange(String newText) {
                 vehicleDetailsAdapter.getFilter().filter(newText);
@@ -153,7 +157,7 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
             }
 
         } else if (v.getId() == R.id.btnNext) {
-            if (!tvSelectedVehModel.getText().toString().isEmpty()) {
+            if (!tvSelectedVehModel.getText().toString().equals("")) {
                 if (tvSelectedVehModel.getText().toString().equalsIgnoreCase(strModel)) {
                     CommonStrings.customVehDetails.setModel(tvSelectedVehModel.getText().toString());
                     Intent intent = new Intent(this, VehicleVariantActivity.class);

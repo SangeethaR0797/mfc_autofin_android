@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.R;
 
 import model.residential_models.CityData;
@@ -29,8 +28,8 @@ import static utility.CommonStrings.RES_CITY_URL;
 
 public class ResidentialCity extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
 
-    TextView tvAppBarTitle, tvGivenOTP, tvGivenOTPVal, tvGivenOTPEdit, tvRegCityLbl, tvPincodeLbl, tvCityName;
-    EditText etResPinCode;
+    TextView tvAppBarTitle, tvGivenOTP, tvGivenOTPVal, tvGivenOTPEdit, tvRegCityLbl, tvPincodeLbl, tvStateName,tvSelectedCity,tvCityName;
+    EditText etResPinCode,etAddressLine1,etAddressLine2,etLandmark;
     Button btnPinCodeCheck, btnNext;
     ImageView iv_residential_details_backBtn;
     String basicDetailsVal = "", strPinCode = "", strCity;
@@ -39,7 +38,7 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_residential_city2);
-        if (!CommonStrings.customBasicDetails.getOtp().isEmpty()) {
+        if (CommonStrings.customBasicDetails.getOtp()!="") {
             basicDetailsVal = CommonStrings.customBasicDetails.getFullName() + " | " + CommonStrings.customBasicDetails.getEmail() + " | " + CommonStrings.customBasicDetails.getCustomerMobile();
         }
         initViews();
@@ -50,18 +49,22 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
         tvGivenOTP = findViewById(R.id.tvGivenOTP);
         tvGivenOTPVal = findViewById(R.id.tvGivenOTPVal);
         tvGivenOTPEdit = findViewById(R.id.tvGivenOTPEdit);
+        tvSelectedCity=findViewById(R.id.tvSelectedCity);
         iv_residential_details_backBtn = findViewById(R.id.iv_residential_details_backBtn);
         tvRegCityLbl = findViewById(R.id.tvRegCityLbl);
         tvPincodeLbl = findViewById(R.id.tvPincodeLbl);
+        tvStateName=findViewById(R.id.tvStateName);
         tvCityName = findViewById(R.id.tvCityName);
         etResPinCode = findViewById(R.id.etResPinCode);
+        etAddressLine1= findViewById(R.id.etAddressLine1);
+        etAddressLine2= findViewById(R.id.etAddressLine2);
+        etLandmark= findViewById(R.id.etLandmark);
         btnPinCodeCheck = findViewById(R.id.btnPinCodeCheck);
         btnNext = findViewById(R.id.btnNext);
         tvGivenOTPVal.setText(basicDetailsVal);
         iv_residential_details_backBtn.setOnClickListener(this);
         btnPinCodeCheck.setOnClickListener(this);
         btnNext.setOnClickListener(this);
-
     }
 
     @Override
@@ -70,25 +73,25 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
             finish();
         } else if (v.getId() == R.id.btnPinCodeCheck) {
             strPinCode = etResPinCode.getText().toString();
-            if (!strPinCode.isEmpty()) {
+            if (strPinCode!="") {
                 SpinnerManager.showSpinner(this);
                 retrofitInterface.getFromWeb(RES_CITY_URL + etResPinCode.getText().toString()).enqueue(this);
-            } else if (strPinCode.isEmpty()) {
+            } else if (strPinCode!="") {
                 Toast.makeText(this, getResources().getString(R.string.please_enter_pincode), Toast.LENGTH_SHORT).show();
             } else if (strPinCode.length() != 6) {
                 Toast.makeText(this, getResources().getString(R.string.please_enter_proper_pincode), Toast.LENGTH_SHORT).show();
             }
         } else if (v.getId() == R.id.btnNext) {
             if (!strPinCode.equals("")){
-                if(!strCity.equals("")) {
+                if(!tvStateName.getText().toString().equals("") && !strCity.equals("") && !etAddressLine1.getText().toString().equals("") && !etAddressLine2.getText().toString().equals("") && !etLandmark.getText().toString().equals("")) {
                     startActivity(new Intent(this, CityMonthAndYearActivity.class));
                 }
                 else
                 {
-                    CommonMethods.showToast(ResidentialCity.this,"Please enter Valid Pincode");
+                    CommonMethods.showToast(ResidentialCity.this,"Please fill all the fields");
                 }
             }  else {
-                Toast.makeText(this, "Please fill the fields", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Please enter Valid Pincode", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -106,7 +109,8 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
                     if (cityData.getCity() != null) {
                         CommonStrings.customCityData.setCity(cityData.getCity());
                         strCity = CommonStrings.customCityData.getCity();
-                        tvCityName.setText(strCity);
+                        tvStateName.setText(cityData.getState());
+                        tvSelectedCity.setText(strCity);
                         CommonStrings.customCityData.setPincode(cityData.getPincode());
                         CommonStrings.customCityData.setState(cityData.getState());
                     } else {

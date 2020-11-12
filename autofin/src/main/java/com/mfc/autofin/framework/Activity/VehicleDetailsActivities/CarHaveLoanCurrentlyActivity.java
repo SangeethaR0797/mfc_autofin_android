@@ -23,13 +23,13 @@ public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements V
     TextView tvGivenVehOwnership, tvGivenVehOwnershipVal, tvGivenVehOwnershipEdit;
     Button btnCarHaveLoan, btnCarHaveNoLoan;
     ImageView iv_vehDetails_backBtn;
-    String strOwner = "";
+    String purchaseAmount = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carhave_loan_currently);
-        strOwner = String.valueOf(CommonStrings.customVehDetails.getOwnership());
+        purchaseAmount = CommonMethods.getStringValueFromKey(this,CommonStrings.VEH_PURCHASE_AMOUNT);
         initView();
     }
 
@@ -39,8 +39,8 @@ public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements V
         tvGivenVehOwnershipEdit = findViewById(R.id.tvGivenVehOwnershipEdit);
         btnCarHaveLoan = findViewById(R.id.btnCarHaveLoan);
         btnCarHaveNoLoan = findViewById(R.id.btnCarHaveNoLoan);
-        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
-        tvGivenVehOwnershipVal.setText(strOwner);
+        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+        tvGivenVehOwnershipVal.setText(purchaseAmount);
         iv_vehDetails_backBtn.setOnClickListener(this);
         tvGivenVehOwnershipEdit.setOnClickListener(this);
         btnCarHaveLoan.setOnClickListener(this);
@@ -49,7 +49,7 @@ public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements V
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_back) {
+        if (v.getId() == R.id.iv_vehDetails_backBtn) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
 
         } else if (v.getId() == R.id.tvGivenVehOwnershipEdit) {

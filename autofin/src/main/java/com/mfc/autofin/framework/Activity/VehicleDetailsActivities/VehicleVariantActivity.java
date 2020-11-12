@@ -3,6 +3,7 @@ package com.mfc.autofin.framework.Activity.VehicleDetailsActivities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -41,7 +42,7 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
     TextView tvGivenVehModelVal, tvGivenVehModelEdit, tvSelectedVehVariant;
     ImageView iv_vehDetails_backBtn, iv_app_variant_search, svCloseButton;
     private Button btnNext;
-    String strYear = "", strVehMake = "", strVehModel = "", strVariant;
+    String strVehCategory="",strYear = "", strVehMake = "", strVehModel = "", strVariant;
     ListView lvVehListView;
     VehicleDetailsAdapter vehicleDetailsAdapter;
     SearchView svVehVariantDetails;
@@ -51,6 +52,7 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_variant);
         Log.i(TAG, "onCreate: ");
+        strVehCategory=CommonStrings.customVehDetails.getVehCategory();
         strYear = CommonStrings.customVehDetails.getRegistrationYear();
         strVehMake = CommonStrings.customVehDetails.getMake();
         strVehModel = CommonStrings.customVehDetails.getModel();
@@ -104,26 +106,30 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
             @Override
             public void onClick(View v) {
 
-                svVehVariantDetails.setQuery("", false);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    svVehVariantDetails.setQuery("", false);
+                }
                 svVehVariantDetails.clearFocus();
                 svVehVariantDetails.setVisibility(View.GONE);
             }
         });
 
-        svVehVariantDetails.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            svVehVariantDetails.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                vehicleDetailsAdapter.getFilter().filter(query);
-                return false;
-            }
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    vehicleDetailsAdapter.getFilter().filter(query);
+                    return false;
+                }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                vehicleDetailsAdapter.getFilter().filter(newText);
-                return false;
-            }
-        });
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    vehicleDetailsAdapter.getFilter().filter(newText);
+                    return false;
+                }
+            });
+        }
 
     }
 
@@ -149,13 +155,31 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
             }
 
         } else if (v.getId() == R.id.btnNext) {
-            if (!tvSelectedVehVariant.getText().toString().isEmpty()) {
-                CommonStrings.customVehDetails.setVariant(tvSelectedVehVariant.getText().toString());
-                Intent intent = new Intent(this, VehicleOwnerActivity.class);
-                this.startActivity(intent);
-            } else {
-                Toast.makeText(VehicleVariantActivity.this, "Please select Vehicle Variant", Toast.LENGTH_LONG).show();
-            }
+            try{
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                    if (!tvSelectedVehVariant.getText().toString().isEmpty()) {
+                        CommonStrings.customVehDetails.setVariant(tvSelectedVehVariant.getText().toString());
+
+                    if(strVehCategory.equals(getResources().getString(R.string.new_car)))
+
+                        startActivity(new Intent(this, InterestedVehiclePriceActivity.class));
+                    }
+
+                    try{ if(strVehCategory.equals(getResources().getString(R.string.old_car)))
+                    {
+                        startActivity(new Intent(this, VehicleOwnerActivity.class));
+                    }}
+                    catch (Exception exception)
+                    {
+                        exception.printStackTrace();
+                    }
+                    } else {
+                        Toast.makeText(VehicleVariantActivity.this, "Please select Vehicle Variant", Toast.LENGTH_LONG).show();
+                    }
+
+
+            }catch(Exception exception){exception.printStackTrace();}
+
         }
     }
 

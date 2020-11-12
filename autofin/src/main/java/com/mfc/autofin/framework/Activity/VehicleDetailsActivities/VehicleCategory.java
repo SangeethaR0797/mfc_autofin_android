@@ -52,6 +52,7 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
         rbOldCar.setOnClickListener(this);
         rbNewCar.setOnClickListener(this);
 
+
     }
 
 
