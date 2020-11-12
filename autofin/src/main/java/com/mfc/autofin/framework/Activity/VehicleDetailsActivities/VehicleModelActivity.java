@@ -74,7 +74,7 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void initView() {
-        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
         tvGivenRegMake = findViewById(R.id.tvGivenRegMake);
         tvGivenVehMakeVal = findViewById(R.id.tvGivenVehMakeVal);
         tvGivenVehMakeEdit = findViewById(R.id.tvGivenVehMakeEdit);
@@ -131,7 +131,7 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+        if (v.getId() == R.id.iv_vehDetails_back) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
 
         } else if (v.getId() == R.id.tvGivenVehMakeEdit) {

@@ -62,7 +62,7 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
         tvValidInsuranceLbl = findViewById(R.id.tvValidInsuranceLbl);
         tvInsuranceAmountLbl = findViewById(R.id.tvInsuranceAmountLbl);
         etInsuranceAmount = findViewById(R.id.etInsuranceAmount);
-        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
         btnValidInsurance = findViewById(R.id.btnValidInsurance);
         btnValidInsuranceNo = findViewById(R.id.btnValidInsuranceNo);
         llVehInsuranceAmount = findViewById(R.id.llVehInsuranceAmount);
@@ -87,7 +87,7 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+        if (v.getId() == R.id.iv_vehDetails_back) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvGivenVehPostInspectionEdit) {
             finish();

@@ -32,7 +32,7 @@ public class VehRegNumActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void initView() {
-        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
         tvUserHaveVehNumQn = findViewById(R.id.tvUserHaveVehNumQn);
         btnVehNumYes = findViewById(R.id.btnVehNumYes);
         btnVehNumNo = findViewById(R.id.btnVehNumNo);
@@ -43,7 +43,7 @@ public class VehRegNumActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+        if (v.getId() == R.id.iv_vehDetails_back) {
             finish();
         } else if (v.getId() == R.id.btnVehNumYes) {
             CommonMethods.highLightSelectedButton(VehRegNumActivity.this, btnVehNumYes);

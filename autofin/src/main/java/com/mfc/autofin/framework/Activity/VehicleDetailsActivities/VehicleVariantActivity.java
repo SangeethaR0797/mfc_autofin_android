@@ -75,7 +75,7 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
     }
 
     private void initView() {
-        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
         tvGivenVehModelVal = findViewById(R.id.tvGivenVehModelVal);
         tvGivenVehModelEdit = findViewById(R.id.tvGivenVehModelEdit);
         tvSelectedVehVariant = findViewById(R.id.tvSelectedVehVariant);
@@ -129,7 +129,7 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+        if (v.getId() == R.id.iv_vehDetails_back) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvGivenVehModelEdit) {
             finish();

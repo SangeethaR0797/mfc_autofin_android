@@ -36,7 +36,7 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
     private void initView() {
         tvGivenVehVariantVal = findViewById(R.id.tvGivenVehVariantVal);
         tvGivenVehVariantEdit = findViewById(R.id.tvGivenVehVariantEdit);
-        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
         radioBtn01 = findViewById(R.id.radioBtn01);
         radioBtn02 = findViewById(R.id.radioBtn02);
         radioBtn03 = findViewById(R.id.radioBtn03);
@@ -55,7 +55,7 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+        if (v.getId() == R.id.iv_vehDetails_back) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvGivenVehVariantEdit) {
             finish();

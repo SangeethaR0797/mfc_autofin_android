@@ -80,7 +80,7 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
         tvRegYearLbl = findViewById(R.id.tvRegYearLbl);
         tvRegYear = findViewById(R.id.tvRegYear);
         lvVehListView = findViewById(R.id.lvVehListView);
-        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
 
         tvGivenRegNoVal.setText(regNoVal);
         lvVehListView.setDivider(null);

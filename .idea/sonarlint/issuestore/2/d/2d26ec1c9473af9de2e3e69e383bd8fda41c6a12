@@ -1,0 +1,26 @@
+
+N
+java:S1874*"9Remove this use of "PreferenceManager"; it is deprecated.(ú³Ó|
+Y
+java:S1874"CRemove this use of "getDefaultSharedPreferences"; it is deprecated.(õ…Î¬
+E
+java:S1874"0Remove this use of "getState"; it is deprecated.(©½€
+H
+java:S1874"3Remove this use of "NetworkInfo"; it is deprecated.(©½€
+U
+java:S1118":Add a private constructor to hide the implicit public one.(¤Û…”ûÿÿÿÿ
+F
+java:S1874"1Remove this use of "CONNECTED"; it is deprecated.(©½€
+Y
+java:S1874+"CRemove this use of "getDefaultSharedPreferences"; it is deprecated.(ØÞéÑ
+B
+java:S1874"-Remove this use of "State"; it is deprecated.(©½€
+k	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üÓóÂùÿÿÿÿ
+I
+java:S1128"4Remove this unused import 'android.app.Application'.(¢¶ÿI
+I
+java:S1874"3Remove this use of "NetworkInfo"; it is deprecated.(“Å°¿
+O
+java:S1874"9Remove this use of "PreferenceManager"; it is deprecated.(õ…Î¬
+O
+java:S1874"9Remove this use of "getAllNetworkInfo"; it is deprecated.(“Å°¿

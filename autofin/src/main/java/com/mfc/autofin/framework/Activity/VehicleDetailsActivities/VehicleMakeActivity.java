@@ -76,7 +76,7 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void initView() {
-        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
         tvGivenRegYear = findViewById(R.id.tvGivenRegYear);
         tvGivenRegYearVal = findViewById(R.id.tvGivenRegYearVal);
         tvGivenRegYearEdit = findViewById(R.id.tvGivenRegYearEdit);
@@ -131,7 +131,7 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+        if (v.getId() == R.id.iv_vehDetails_back) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
 
         } else if (v.getId() == R.id.tvGivenRegYearEdit) {

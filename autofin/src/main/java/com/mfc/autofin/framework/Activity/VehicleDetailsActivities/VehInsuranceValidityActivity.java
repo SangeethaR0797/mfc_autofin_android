@@ -66,7 +66,7 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
         tvGivenInsuranceAmountEdit = findViewById(R.id.tvGivenInsuranceAmountEdit);
         tvInsuranceValidityLbl = findViewById(R.id.tvInsuranceValidityLbl);
         tvInsuranceValidityDate = findViewById(R.id.tvInsuranceValidityDate);
-        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
         cvInsuranceValidity = findViewById(R.id.cvInsuranceValidity);
         llCalendarView = findViewById(R.id.llCalendarView);
         tvGivenVehInsuranceVal.setText(strInsurance + " ( " + getString(R.string.rupees_symbol) + " " + strInsuranceAmount + " ) ");
@@ -82,7 +82,7 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+        if (v.getId() == R.id.iv_vehDetails_back) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvGivenInsuranceAmountEdit) {
             finish();

@@ -1,0 +1,63 @@
+
+J
+java:S1444"6Make this "public static VEH_CATEGORY_URL" field final(–È½´
+F
+java:S1444"2Make this "public static IBB_PASSWORD" field final(þÜîå
+F
+java:S1444"2Make this "public static IBB_USERNAME" field final( ˜Üè
+X
+java:S1444"?Make this "public static IBB_VEH_DETAILS_END_POINT" field final(ŠÖ¼ ûÿÿÿÿ
+A
+java:S1444"-Make this "public static IBB_TAG" field final(àÚŠ¸
+G
+java:S1444".Make this "public static IBB_YEAR" field final(êú³Îÿÿÿÿÿ
+H
+java:S1444"/Make this "public static IBB_MONTH" field final(àŠÅ“üÿÿÿÿ
+B
+java:S1444".Make this "public static IBB_MAKE" field final(©Ê¢ý
+C
+java:S1444"/Make this "public static IBB_MODEL" field final(¥¸Åø
+J
+java:S1444"1Make this "public static IBB_VARIANT" field final(Îˆºòÿÿÿÿÿ
+p
+java:S1104"\Make VEH_CATEGORY_URL a static final constant or non-public and provide accessors if needed.(–È½´
+l
+java:S1104"XMake IBB_PASSWORD a static final constant or non-public and provide accessors if needed.(þÜîå
+l
+java:S1104"XMake IBB_USERNAME a static final constant or non-public and provide accessors if needed.( ˜Üè
+~
+java:S1104"eMake IBB_VEH_DETAILS_END_POINT a static final constant or non-public and provide accessors if needed.(ŠÖ¼ ûÿÿÿÿ
+g
+java:S1104"SMake IBB_TAG a static final constant or non-public and provide accessors if needed.(àÚŠ¸
+m
+java:S1104"TMake IBB_YEAR a static final constant or non-public and provide accessors if needed.(êú³Îÿÿÿÿÿ
+n
+java:S1104"UMake IBB_MONTH a static final constant or non-public and provide accessors if needed.(àŠÅ“üÿÿÿÿ
+h
+java:S1104"TMake IBB_MAKE a static final constant or non-public and provide accessors if needed.(©Ê¢ý
+i
+java:S1104"UMake IBB_MODEL a static final constant or non-public and provide accessors if needed.(¥¸Åø
+p
+java:S1104"WMake IBB_VARIANT a static final constant or non-public and provide accessors if needed.(Îˆºòÿÿÿÿÿ
+o
+java:S3008"[Rename this field "VEH_CATEGORY_URL" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–È½´
+k
+java:S3008"WRename this field "IBB_PASSWORD" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(þÜîå
+k
+java:S3008"WRename this field "IBB_USERNAME" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.( ˜Üè
+}
+java:S3008"dRename this field "IBB_VEH_DETAILS_END_POINT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŠÖ¼ ûÿÿÿÿ
+f
+java:S3008"RRename this field "IBB_TAG" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àÚŠ¸
+l
+java:S3008"SRename this field "IBB_YEAR" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(êú³Îÿÿÿÿÿ
+m
+java:S3008"TRename this field "IBB_MONTH" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àŠÅ“üÿÿÿÿ
+g
+java:S3008"SRename this field "IBB_MAKE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(©Ê¢ý
+h
+java:S3008"TRename this field "IBB_MODEL" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥¸Åø
+o
+java:S3008"VRename this field "IBB_VARIANT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Îˆºòÿÿÿÿÿ
+U
+java:S1118":Add a private constructor to hide the implicit public one.(°ï®éýÿÿÿÿ

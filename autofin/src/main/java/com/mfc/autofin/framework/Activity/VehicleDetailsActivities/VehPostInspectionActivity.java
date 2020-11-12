@@ -50,7 +50,7 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
         btnVehPostInspectionNo = findViewById(R.id.btnVehPostInspectionNo);
         btnNext = findViewById(R.id.btnNext);
         llVehPostInspection = findViewById(R.id.llVehPostInspection);
-        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
         tvGivenVehLoanVal.setText(strDoesCarHaveLoan);
         iv_vehDetails_backBtn.setOnClickListener(this);
         tvGivenVehLoanEdit.setOnClickListener(this);
@@ -61,7 +61,7 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+        if (v.getId() == R.id.iv_vehDetails_back) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvGivenVehLoanEdit) {
             finish();
