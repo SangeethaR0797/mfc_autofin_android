@@ -94,7 +94,7 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+        if (v.getId() == R.id.iv_vehDetails_back) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvVehRegNumEdit) {
             finish();
@@ -103,7 +103,7 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
             IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_YEAR, CommonMethods.getStringValueFromKey(VehRegistrationYear.this, "ibb_access_token"), CommonStrings.IBB_TAG);
             retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
         } else if (v.getId() == R.id.btnNext) {
-            if (!tvRegYear.getText().toString().isEmpty()) {
+            if (!tvRegYear.getText().toString().equals("")) {
                 CommonStrings.customVehDetails.setRegistrationYear(tvRegYear.getText().toString());
                 Intent intent = new Intent(this, VehicleMakeActivity.class);
                 startActivity(intent);

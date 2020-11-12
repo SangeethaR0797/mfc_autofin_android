@@ -90,7 +90,7 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
         lvVehListView.setDivider(null);
         tvGivenRegYearVal.setText(strYear);
         tvSelectedVehMake.setText(strMake);
-
+        iv_vehDetails_backBtn.setOnClickListener(this);
         int magId = getResources().getIdentifier("android:id/search_mag_icon", null, null);
         ImageView magImage = (ImageView) svVehMakeDetails.findViewById(magId);
         magImage.setLayoutParams(new LinearLayout.LayoutParams(0, 0));

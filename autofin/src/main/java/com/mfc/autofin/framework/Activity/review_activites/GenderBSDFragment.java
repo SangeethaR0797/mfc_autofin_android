@@ -25,11 +25,12 @@ public class GenderBSDFragment extends BottomSheetDialogFragment implements View
     ListView lvGender;
     Button btnSelectGender;
     TextView textView;
-    private String[] genderArr={"Male","Female","Others"};
+    private String[] givenArr;
     private String strGender="" ;
-    public GenderBSDFragment(Activity activity,TextView textView) {
+    public GenderBSDFragment(Activity activity,TextView textView,String[] strArr) {
         this.activity = activity;
         this.textView=textView;
+        givenArr=strArr;
     }
 
     @Override
@@ -46,7 +47,7 @@ public class GenderBSDFragment extends BottomSheetDialogFragment implements View
         dialog_cancel_btn=view.findViewById(R.id.dialog_cancel_btn);
         lvGender=view.findViewById(R.id.lvGender);
         btnSelectGender=view.findViewById(R.id.btnSelectGender);
-        ArrayAdapter adapter = new ArrayAdapter<String>(activity, R.layout.layout_single_list_view, genderArr);
+        ArrayAdapter adapter = new ArrayAdapter<String>(activity, R.layout.layout_single_list_view, givenArr);
         lvGender.setAdapter(adapter);
         lvGender.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

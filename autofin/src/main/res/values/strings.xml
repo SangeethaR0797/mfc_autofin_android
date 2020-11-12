@@ -201,6 +201,8 @@
     <string name="lbl_apply_now">APPLY NOW</string>
     <string name="lbl_view_bank">VIEW BANK</string>
     <string name="lbl_select_your_gender">SELECT YOUR GENDER</string>
+    <string name="lbl_education">EDUCATION</string>
+    <string name="hint_select_your_qualification">Please enter your Education</string>
 
 
 </resources>
