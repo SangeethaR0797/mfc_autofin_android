@@ -28,7 +28,7 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
     TextView tvGivenVehPostInspection, tvGivenVehPostInspectionVal, tvGivenVehPostInspectionEdit, tvValidInsuranceLbl, tvInsuranceAmountLbl;
     private EditText etInsuranceAmount;
     Button btnValidInsurance, btnValidInsuranceNo, btnNext;
-    ImageView iv_vehDetails_backBtn;
+    ImageView iv_vehDetails_back;
     LinearLayout llVehInsuranceAmount;
     String strPostInspectionVal = "", strInsurance = "";
 
@@ -62,7 +62,7 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
         tvValidInsuranceLbl = findViewById(R.id.tvValidInsuranceLbl);
         tvInsuranceAmountLbl = findViewById(R.id.tvInsuranceAmountLbl);
         etInsuranceAmount = findViewById(R.id.etInsuranceAmount);
-        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+        iv_vehDetails_back = findViewById(R.id.iv_vehDetails_back);
         btnValidInsurance = findViewById(R.id.btnValidInsurance);
         btnValidInsuranceNo = findViewById(R.id.btnValidInsuranceNo);
         llVehInsuranceAmount = findViewById(R.id.llVehInsuranceAmount);
@@ -78,7 +78,7 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
             CommonMethods.deHighLightButton(VehValidInsuranceActivity.this, btnValidInsurance);
         }
 
-        iv_vehDetails_backBtn.setOnClickListener(this);
+        iv_vehDetails_back.setOnClickListener(this);
         tvGivenVehPostInspectionEdit.setOnClickListener(this);
         btnValidInsurance.setOnClickListener(this);
         btnValidInsuranceNo.setOnClickListener(this);
@@ -87,7 +87,7 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+        if (v.getId() == R.id.iv_vehDetails_back) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvGivenVehPostInspectionEdit) {
             finish();

@@ -193,6 +193,14 @@
     <string name="hint_select_your_gender">Please select your gender</string>
     <string name="lbl_vehicle_purchase_amount">VEHICLE PURCHASE AMOUNT</string>
     <string name="lbl_insured_amount">INSURED AMOUNT</string>
+    <string name="lbl_selected_bank">BANKS ARE MATCHING WITH YOUR REQUIREMENT</string>
+    <string name="lbl_loan_amount">Loan Amount</string>
+    <string name="lbl_rate_of_interest">Rate Of Interest</string>
+    <string name="lbl_emi">EMI</string>
+    <string name="lbl_tenure">Tenure</string>
+    <string name="lbl_apply_now">APPLY NOW</string>
+    <string name="lbl_view_bank">VIEW BANK</string>
+    <string name="lbl_select_your_gender">SELECT YOUR GENDER</string>
 
 
 </resources>

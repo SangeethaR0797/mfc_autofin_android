@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<utility.RobotoMedium xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="@dimen/text_size_16sp"
+    android:textColor="@color/very_dark_blue"
+    android:paddingTop="5dp"
+    android:paddingBottom="@dimen/text_size_5dp"
+    android:textAllCaps="true"
+    android:gravity="left" />
+

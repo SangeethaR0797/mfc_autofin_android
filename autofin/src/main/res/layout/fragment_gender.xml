@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="19dp"
+            android:paddingLeft="13dp">
+
+            <TextView
+                android:id="@+id/tvSelectionTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="4"
+                android:gravity="left"
+                android:text="@string/lbl_select_your_gender"
+                android:textColor="@color/very_dark_blue"
+                android:textSize="16dp" />
+
+            <ImageView
+                android:id="@+id/dialog_cancel_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_close_24px" />
+        </LinearLayout>
+
+
+        <ListView
+            android:id="@+id/lvGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_size_34dp"
+            android:layout_marginLeft="@dimen/text_size_14dp"
+            android:layout_marginBottom="23dp"
+            android:listSelector="@color/pale_grey"
+            android:divider="@null" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnSelectGender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/navy_blue"
+        android:paddingTop="@dimen/text_size_12dp"
+        android:paddingBottom="@dimen/text_size_11dp"
+        android:text="@string/select_btn_text"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_16sp" />
+</LinearLayout>

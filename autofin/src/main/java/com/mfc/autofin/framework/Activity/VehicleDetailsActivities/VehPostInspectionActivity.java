@@ -24,7 +24,7 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
     EditText etPostInspectionAmount;
     Button btnVehPostInspectionYes, btnVehPostInspectionNo, btnNext;
     LinearLayout llVehPostInspection;
-    ImageView iv_vehDetails_backBtn;
+    ImageView iv_vehDetails_back;
     String strDoesCarHaveLoan = "";
 
     @Override
@@ -50,9 +50,9 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
         btnVehPostInspectionNo = findViewById(R.id.btnVehPostInspectionNo);
         btnNext = findViewById(R.id.btnNext);
         llVehPostInspection = findViewById(R.id.llVehPostInspection);
-        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+        iv_vehDetails_back = findViewById(R.id.iv_vehDetails_back);
         tvGivenVehLoanVal.setText(strDoesCarHaveLoan);
-        iv_vehDetails_backBtn.setOnClickListener(this);
+        iv_vehDetails_back.setOnClickListener(this);
         tvGivenVehLoanEdit.setOnClickListener(this);
         btnVehPostInspectionYes.setOnClickListener(this);
         btnVehPostInspectionNo.setOnClickListener(this);
@@ -61,7 +61,7 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+        if (v.getId() == R.id.iv_vehDetails_back) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvGivenVehLoanEdit) {
             finish();

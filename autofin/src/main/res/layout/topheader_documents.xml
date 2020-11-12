@@ -15,7 +15,7 @@
         android:weightSum="10">
 
         <ImageView
-            android:id="@+id/iv_vehDetails_backBtn"
+            android:id="@+id/iv_vehDetails_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="19dp"

@@ -21,7 +21,7 @@ import utility.CustomFonts;
 public class InterestedVehiclePriceActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit,tvRoadPriceLbl;
     private EditText etOnRoadPrice;
-    private ImageView iv_vehDetails_backBtn;
+    private ImageView iv_vehDetails_back;
     private Button btnNext;
 
     @Override
@@ -32,7 +32,7 @@ public class InterestedVehiclePriceActivity extends AppCompatActivity implements
     }
 
     private void initView() {
-        iv_vehDetails_backBtn=findViewById(R.id.iv_vehDetails_backBtn);
+        iv_vehDetails_back=findViewById(R.id.iv_vehDetails_back);
         tvGivenLbl=findViewById(R.id.tvGivenLbl);
         tvGivenPreviousVal=findViewById(R.id.tvGivenPreviousVal);
         tvGivenValEdit=findViewById(R.id.tvGivenValEdit);
@@ -42,14 +42,14 @@ public class InterestedVehiclePriceActivity extends AppCompatActivity implements
         etOnRoadPrice=findViewById(R.id.etOnRoadPrice);
         tvRoadPriceLbl.setTypeface(CustomFonts.getRobotoRegularTF(this));
         tvGivenPreviousVal.setText(CommonStrings.customVehDetails.getVariant());
-        iv_vehDetails_backBtn.setOnClickListener(this);
+        iv_vehDetails_back.setOnClickListener(this);
         tvGivenValEdit.setOnClickListener(this);
         btnNext.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.iv_vehDetails_backBtn)
+        if(v.getId()==R.id.iv_vehDetails_back)
         {
             startActivity(new Intent(this,VehicleVariantActivity.class));
         }

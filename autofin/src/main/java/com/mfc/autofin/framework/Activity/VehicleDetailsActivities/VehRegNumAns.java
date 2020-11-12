@@ -33,7 +33,7 @@ import static retrofit_config.RetroBase.retrofitInterface;
 public class VehRegNumAns extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
 
     private static final String TAG = VehRegNumAns.class.getSimpleName();
-    ImageView iv_vehDetails_backBtn;
+    ImageView iv_vehDetails_back;
     TextView tvVehCategoryQn, tvRegNoLbl;
     EditText etVehRegNo;
     Button btnNext;
@@ -46,19 +46,19 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initView() {
-        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+        iv_vehDetails_back = findViewById(R.id.iv_vehDetails_back);
         tvVehCategoryQn = findViewById(R.id.tvVehCategoryQn);
         tvRegNoLbl = findViewById(R.id.tvRegNoLbl);
         etVehRegNo = findViewById(R.id.etVehRegNo);
         btnNext = findViewById(R.id.btnNext);
-        iv_vehDetails_backBtn.setOnClickListener(this);
+        iv_vehDetails_back.setOnClickListener(this);
         btnNext.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+        if (v.getId() == R.id.iv_vehDetails_back) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
             validate();

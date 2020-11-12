@@ -43,7 +43,7 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bank_names);
-        if(!CommonMethods.getStringValueFromKey(this,CommonStrings.EMP_TYPE_VAL).isEmpty())
+        if(!CommonMethods.getStringValueFromKey(this,CommonStrings.EMP_TYPE_VAL).equals(""))
         {
             strEmployeeType=CommonMethods.getStringValueFromKey(this,CommonStrings.EMP_TYPE_VAL);
         }
@@ -75,7 +75,7 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
         }
         else if(v.getId()==R.id.btnNext)
         {
-            if(!tvSelectedBankName.getText().toString().isEmpty())
+            if(!tvSelectedBankName.getText().toString().equals(""))
             {
                 CommonMethods.setValueAgainstKey(this,CommonStrings.BANK_NAME,tvSelectedBankName.getText().toString());
                 startActivity(new Intent(this,NumOFExistingLoanActivity.class));

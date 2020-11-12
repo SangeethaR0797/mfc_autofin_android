@@ -16,7 +16,7 @@ import com.mfc.autofin.framework.R;
 
 public class ReviewActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView tvCommonAppBarTitle;
+    private TextView tvCommonAppBarTitle,tvReviewNav;
     private CheckBox cbAgreeTAndC;
     private Button btnReviewNext;
     private boolean isTAndCAgreed;
@@ -35,6 +35,8 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
         cbAgreeTAndC=findViewById(R.id.cbAgreeTAndC);
         btnReviewNext=findViewById(R.id.btnReviewNext);
         tvCommonAppBarTitle.setText(getResources().getString(R.string.str_review));
+        tvReviewNav=findViewById(R.id.tvReviewNav);
+        tvReviewNav.setOnClickListener(this);
         cbAgreeTAndC.setText("I Agree to the "+ Html.fromHtml(strTAndC)+" and "+Html.fromHtml(strPrivacyPolicy));
         cbAgreeTAndC.setOnClickListener(this);
     }
@@ -53,12 +55,16 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
                 isTAndCAgreed=false;
             }
         }
-        if(v.getId()==R.id.btnReviewNext)
+        else if(v.getId()==R.id.btnReviewNext)
         {
             if(isTAndCAgreed)
             {
-                startActivity(new Intent(this,ReviewActivity.class));
+                startActivity(new Intent(this,ViewBankActivity.class));
             }
+        }
+        else if(v.getId()==R.id.tvReviewNav)
+        {
+            startActivity(new Intent(this,ReviewDetailsActivity.class));
         }
     }
 }

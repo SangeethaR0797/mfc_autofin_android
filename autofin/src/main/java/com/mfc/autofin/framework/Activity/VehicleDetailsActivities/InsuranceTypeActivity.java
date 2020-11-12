@@ -26,7 +26,7 @@ public class InsuranceTypeActivity extends AppCompatActivity implements View.OnC
     TextView tvGivenInsValidity, tvGivenInsValidityVal, tvGivenInsValidityEdit, tvVehTypeQn;
     RadioGroup rgVehType;
     RadioButton radioBtnComprehensive, radioBtnThirdParty;
-    ImageView iv_vehDetails_backBtn;
+    ImageView iv_vehDetails_back;
     String strInsuranceValidity = "", strInsuranceType = "";
 
     @Override
@@ -57,14 +57,14 @@ public class InsuranceTypeActivity extends AppCompatActivity implements View.OnC
         rgVehType = findViewById(R.id.rgVehType);
         radioBtnComprehensive = findViewById(R.id.radioBtnComprehensive);
         radioBtnThirdParty = findViewById(R.id.radioBtnThirdParty);
-        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+        iv_vehDetails_back = findViewById(R.id.iv_vehDetails_back);
         tvGivenInsValidityVal.setText(strInsuranceValidity);
         if (strInsuranceType.equalsIgnoreCase(radioBtnComprehensive.getText().toString())) {
             radioBtnComprehensive.setChecked(true);
         } else if (strInsuranceType.equalsIgnoreCase(radioBtnThirdParty.getText().toString())) {
             radioBtnThirdParty.setChecked(true);
         }
-        iv_vehDetails_backBtn.setOnClickListener(this);
+        iv_vehDetails_back.setOnClickListener(this);
         tvGivenInsValidityEdit.setOnClickListener(this);
         radioBtnComprehensive.setOnClickListener(this);
         radioBtnThirdParty.setOnClickListener(this);
@@ -73,7 +73,7 @@ public class InsuranceTypeActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+        if (v.getId() == R.id.iv_vehDetails_back) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvGivenInsValidityEdit) {
             finish();

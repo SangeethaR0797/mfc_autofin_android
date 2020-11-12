@@ -21,7 +21,7 @@ import static com.mfc.autofin.framework.R.drawable.navy_blue_outline;
 public class VehRegNumActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView tvUserHaveVehNumQn;
-    ImageView iv_vehDetails_backBtn;
+    ImageView iv_vehDetails_back;
     Button btnVehNumYes, btnVehNumNo;
 
     @Override
@@ -32,18 +32,18 @@ public class VehRegNumActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void initView() {
-        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+        iv_vehDetails_back = findViewById(R.id.iv_vehDetails_back);
         tvUserHaveVehNumQn = findViewById(R.id.tvUserHaveVehNumQn);
         btnVehNumYes = findViewById(R.id.btnVehNumYes);
         btnVehNumNo = findViewById(R.id.btnVehNumNo);
-        iv_vehDetails_backBtn.setOnClickListener(this);
+        iv_vehDetails_back.setOnClickListener(this);
         btnVehNumYes.setOnClickListener(this);
         btnVehNumNo.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+        if (v.getId() == R.id.iv_vehDetails_back) {
             finish();
         } else if (v.getId() == R.id.btnVehNumYes) {
             CommonMethods.highLightSelectedButton(VehRegNumActivity.this, btnVehNumYes);

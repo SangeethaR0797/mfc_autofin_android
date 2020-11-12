@@ -24,7 +24,7 @@ public class InsuredAmountActivity extends AppCompatActivity implements View.OnC
 
     private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvInsuredAmount;
     private EditText etInsuredAmount;
-    private ImageView iv_vehDetails_backBtn;
+    private ImageView iv_vehDetails_back;
     private Button btnNext;
     private String strPurchaseAmount = "";
 
@@ -39,14 +39,14 @@ public class InsuredAmountActivity extends AppCompatActivity implements View.OnC
     }
 
     private void initView() {
-        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+        iv_vehDetails_back = findViewById(R.id.iv_vehDetails_back);
         tvGivenLbl = findViewById(R.id.tvGivenLbl);
         tvGivenPreviousVal = findViewById(R.id.tvGivenPreviousVal);
         tvGivenValEdit = findViewById(R.id.tvGivenValEdit);
         tvInsuredAmount = findViewById(R.id.tvInsuredAmount);
         etInsuredAmount = findViewById(R.id.etInsuredAmount);
         btnNext = findViewById(R.id.btnNext);
-        iv_vehDetails_backBtn.setOnClickListener(this);
+        iv_vehDetails_back.setOnClickListener(this);
         tvGivenLbl.setText(getResources().getString(R.string.lbl_insured_amount));
         tvGivenPreviousVal.setText(strPurchaseAmount);
         tvGivenValEdit.setOnClickListener(this);
@@ -56,7 +56,7 @@ public class InsuredAmountActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+        if (v.getId() == R.id.iv_vehDetails_back) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvGivenValEdit) {
             finish();

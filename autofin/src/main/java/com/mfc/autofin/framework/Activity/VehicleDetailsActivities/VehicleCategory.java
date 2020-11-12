@@ -26,7 +26,7 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
     TextView tvVehCategoryQn;
     RadioGroup rgVehCategory;
     RadioButton rbNewCar, rbOldCar;
-    ImageView iv_vehDetails_backBtn;
+    ImageView iv_vehDetails_back;
     private List<Category> vehicleCategoryList;
 
     private String TAG = VehicleCategory.class.getSimpleName();
@@ -46,8 +46,8 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
         tvVehCategoryQn = findViewById(R.id.tvVehCategoryQn);
         rgVehCategory = findViewById(R.id.rgVehCategory);
         rbOldCar = findViewById(R.id.rbOldCar);
-        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
-        iv_vehDetails_backBtn.setOnClickListener(this);
+        iv_vehDetails_back = findViewById(R.id.iv_vehDetails_back);
+        iv_vehDetails_back.setOnClickListener(this);
         rbNewCar = findViewById(R.id.rbNewCar);
         rbOldCar.setOnClickListener(this);
         rbNewCar.setOnClickListener(this);
@@ -61,17 +61,23 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
         if (v.getId() == R.id.iv_vehDetails_back) {
             finish();
         } else if (v.getId() == R.id.rbNewCar) {
-            if (rbNewCar.isChecked()) {
-                CommonStrings.customVehDetails.setVehCategory(rbNewCar.getText().toString());
-                Intent intent = new Intent(VehicleCategory.this, VehRegNumActivity.class);
-                startActivity(intent);
-            }
+           try{
+               if (rbNewCar.isChecked()) {
+                   CommonStrings.customVehDetails.setVehCategory(rbNewCar.getText().toString());
+                   Intent intent = new Intent(VehicleCategory.this, VehRegNumActivity.class);
+                   startActivity(intent);
+               }
+           }catch(Exception exception){exception.printStackTrace();}
         } else if (v.getId() == R.id.rbOldCar) {
-            if (rbOldCar.isChecked()) {
-                CommonStrings.customVehDetails.setVehCategory(rbOldCar.getText().toString());
-                Intent intent = new Intent(VehicleCategory.this, VehRegNumActivity.class);
-                startActivity(intent);
-            }
+
+            try
+            {
+                if (rbOldCar.isChecked()) {
+                    CommonStrings.customVehDetails.setVehCategory(rbOldCar.getText().toString());
+                    Intent intent = new Intent(VehicleCategory.this, VehRegNumActivity.class);
+                    startActivity(intent);
+                }
+            }catch (Exception exception){exception.printStackTrace();}
         }
 
     }

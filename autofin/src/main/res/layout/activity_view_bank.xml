@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/llAppBarSelectBank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <include layout="@layout/layout_common_app_bar" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvMatchingBankLbl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llAppBarSelectBank"
+        android:layout_marginTop="@dimen/text_size27dp"
+        android:layout_marginLeft="@dimen/text_size_22dp"
+        android:layout_marginRight="@dimen/text_size_22dp"
+        android:layout_marginBottom="@dimen/text_size_24dp"
+        android:text="@string/lbl_selected_bank"
+        android:textSize="@dimen/text_size_24dp"
+        android:textColor="@color/very_dark_blue" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSelectBank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvMatchingBankLbl"
+        android:layout_marginLeft="@dimen/text_size10dp"
+        android:layout_marginRight="@dimen/text_size10dp"/>
+</RelativeLayout>

@@ -24,7 +24,7 @@ public class VehiclePurchaseAmountActivity extends AppCompatActivity implements 
 
     private boolean isNewCar=false;
     private String strPreviousVal = "";
-    private ImageView iv_vehDetails_backBtn;
+    private ImageView iv_vehDetails_back;
     private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvVehPurchaseAmount;
     private EditText etVehPurchaseAmount;
     private Button btnNext;
@@ -59,7 +59,7 @@ public class VehiclePurchaseAmountActivity extends AppCompatActivity implements 
     }
 
     private void initView() {
-        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+        iv_vehDetails_back = findViewById(R.id.iv_vehDetails_back);
         tvGivenLbl = findViewById(R.id.tvGivenLbl);
         tvGivenPreviousVal = findViewById(R.id.tvGivenPreviousVal);
         tvGivenValEdit = findViewById(R.id.tvGivenValEdit);
@@ -76,7 +76,7 @@ public class VehiclePurchaseAmountActivity extends AppCompatActivity implements 
         }
         tvVehPurchaseAmount.setTypeface(CustomFonts.getRobotoRegularTF(this));
         tvGivenPreviousVal.setText(strPreviousVal);
-        iv_vehDetails_backBtn.setOnClickListener(this);
+        iv_vehDetails_back.setOnClickListener(this);
         tvGivenValEdit.setOnClickListener(this);
         btnNext.setOnClickListener(this);
     }
@@ -85,7 +85,7 @@ public class VehiclePurchaseAmountActivity extends AppCompatActivity implements 
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+        if (v.getId() == R.id.iv_vehDetails_back) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvGivenValEdit) {
             finish();

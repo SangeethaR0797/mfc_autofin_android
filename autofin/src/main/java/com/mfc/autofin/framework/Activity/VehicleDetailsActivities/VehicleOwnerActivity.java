@@ -23,7 +23,7 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
 
     TextView tvGivenVehVariantVal, tvGivenVehVariantEdit;
     RadioButton radioBtn01, radioBtn02, radioBtn03, radioBtn04, radioBtn05;
-    ImageView iv_vehDetails_backBtn;
+    ImageView iv_vehDetails_back;
     String strVariantVal = "";
 
     @Override
@@ -37,7 +37,7 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
     private void initView() {
         tvGivenVehVariantVal = findViewById(R.id.tvGivenVehVariantVal);
         tvGivenVehVariantEdit = findViewById(R.id.tvGivenVehVariantEdit);
-        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+        iv_vehDetails_back = findViewById(R.id.iv_vehDetails_back);
         radioBtn01 = findViewById(R.id.radioBtn01);
         radioBtn02 = findViewById(R.id.radioBtn02);
         radioBtn03 = findViewById(R.id.radioBtn03);
@@ -45,7 +45,7 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
         radioBtn05 = findViewById(R.id.radioBtn05);
         tvGivenVehVariantVal.setText(strVariantVal);
         tvGivenVehVariantEdit.setOnClickListener(this);
-        iv_vehDetails_backBtn.setOnClickListener(this);
+        iv_vehDetails_back.setOnClickListener(this);
         radioBtn01.setOnCheckedChangeListener(this);
         radioBtn02.setOnCheckedChangeListener(this);
         radioBtn03.setOnCheckedChangeListener(this);
@@ -56,7 +56,7 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+        if (v.getId() == R.id.iv_vehDetails_back) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvGivenVehVariantEdit) {
             finish();

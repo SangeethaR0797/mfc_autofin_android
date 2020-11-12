@@ -41,7 +41,7 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
 
     private static final String TAG = VehicleModelActivity.class.getSimpleName();
     TextView tvGivenRegMake, tvGivenVehMakeVal, tvGivenVehMakeEdit, tvSelectedVehModel;
-    ImageView iv_vehDetails_backBtn, iv_app_model_search, svCloseButton;
+    ImageView iv_vehDetails_back, iv_app_model_search, svCloseButton;
     private Button btnNext;
     String strYear = "", strVehMake = "", strModel;
     ListView lvVehListView;
@@ -76,7 +76,7 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
 
     @SuppressLint("NewApi")
     private void initView() {
-        iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_backBtn);
+        iv_vehDetails_back = findViewById(R.id.iv_vehDetails_back);
         tvGivenRegMake = findViewById(R.id.tvGivenRegMake);
         tvGivenVehMakeVal = findViewById(R.id.tvGivenVehMakeVal);
         tvGivenVehMakeEdit = findViewById(R.id.tvGivenVehMakeEdit);
@@ -127,7 +127,7 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
             }
         });
 
-        iv_vehDetails_backBtn.setOnClickListener(this);
+        iv_vehDetails_back.setOnClickListener(this);
         tvGivenVehMakeEdit.setOnClickListener(this);
         tvSelectedVehModel.setOnClickListener(this);
         btnNext.setOnClickListener(this);
@@ -135,7 +135,7 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_backBtn) {
+        if (v.getId() == R.id.iv_vehDetails_back) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
 
         } else if (v.getId() == R.id.tvGivenVehMakeEdit) {

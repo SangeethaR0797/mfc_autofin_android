@@ -80,7 +80,7 @@ public class CustomSearchDialog extends Dialog implements View.OnClickListener {
             adapter.getFilter().filter(etSearchAlertDialog.getText());
             adapter.notifyDataSetChanged();
         } else if (v.getId() == R.id.btnSelect) {
-            if (!strSelectedValue.isEmpty()) {
+            if (!strSelectedValue.equals("")) {
                 givenTextView.setText(strSelectedValue);
                 dismiss();
             } else {

@@ -59,6 +59,7 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
         etAddressLine1= findViewById(R.id.etAddressLine1);
         etAddressLine2= findViewById(R.id.etAddressLine2);
         etLandmark= findViewById(R.id.etLandmark);
+        etLandmark.setText("Bank");
         btnPinCodeCheck = findViewById(R.id.btnPinCodeCheck);
         btnNext = findViewById(R.id.btnNext);
         tvGivenOTPVal.setText(basicDetailsVal);

@@ -74,15 +74,17 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+        try
+        {
         String monthName = new SimpleDateFormat("MMMM").format(view.getDate());
         String dob = dayOfMonth + "/" + monthName + "/" + year;
         tvDOBLbl.setText(dob);
         CommonMethods.setValueAgainstKey(this, CommonStrings.USER_DOB, dayOfMonth + " " + monthName + " " + year);
-        try
-        {
+
             Intent intent = new Intent(UserDOBActivity.this, GenderActivity.class);
             startActivity(intent);
-        }catch (Exception exception){exception.printStackTrace();}
+        }catch (Exception exception)
+        {exception.printStackTrace();}
 
     }
 }

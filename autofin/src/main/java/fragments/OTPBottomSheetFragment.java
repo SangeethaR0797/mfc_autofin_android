@@ -123,13 +123,13 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
             CommonStrings.customBasicDetails.setCustomerMobile("");
             dismiss();
         } else if (v.getId() == R.id.tvResendOTPLbl) {
-            if (!CommonStrings.customBasicDetails.getOtp().isEmpty()) {
+            if (!CommonStrings.customBasicDetails.getOtp().equals("")) {
                 CommonStrings.customBasicDetails.setOtp("");
             }
             SpinnerManager.showSpinner(activity);
             retrofitInterface.getFromWeb(getOTPRequest(), CommonStrings.OTP_URL_END).enqueue(this);
         } else if (v.getId() == R.id.btnProceed) {
-            if (!etOTPVal.getText().toString().isEmpty() && etOTPVal.getText().toString().equalsIgnoreCase(CommonStrings.customBasicDetails.getOtp())) {
+            if (!etOTPVal.getText().toString().equals("") && etOTPVal.getText().toString().equalsIgnoreCase(CommonStrings.customBasicDetails.getOtp())) {
                 SpinnerManager.showSpinner(activity);
                 retrofitInterface.getFromWeb(getAddLeadRequest(), CommonStrings.ADD_LEAD_URL_END).enqueue(this);
             } else {
