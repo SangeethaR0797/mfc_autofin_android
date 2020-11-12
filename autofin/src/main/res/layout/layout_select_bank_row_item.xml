@@ -2,7 +2,10 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingRight="10dp"
+    android:paddingLeft="@dimen/text_size10dp"
+    android:layout_marginBottom="@dimen/text_size_20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,8 +28,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/ic_expand"
-                android:foregroundGravity="left" />
+                android:foregroundGravity="left"
+                app:srcCompat="@drawable/ic_camera" />
 
             <TextView
                 android:id="@+id/tvBankStatus"

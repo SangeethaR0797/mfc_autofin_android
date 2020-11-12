@@ -52,8 +52,10 @@ public class EducationActivity extends AppCompatActivity implements View.OnClick
         tvGivenLbl.setText(getResources().getString(R.string.lbl_gender));
         tvGivenPreviousVal.setText(strGender);
         tvGivenValEdit.setOnClickListener(this);
+        tvEducationVal.setOnClickListener(this);
         iv_personal_details_backBtn=findViewById(R.id.iv_personal_details_backBtn);
         iv_personal_details_backBtn.setOnClickListener(this);
+        btnNext.setOnClickListener(this);
 
     }
 
@@ -77,7 +79,7 @@ public class EducationActivity extends AppCompatActivity implements View.OnClick
             if(!tvEducationVal.getText().toString().equals(""))
             {
                 CommonMethods.setValueAgainstKey(this,CommonStrings.EDUCATION,tvEducationVal.getText().toString());
-                startActivity(new Intent(this,EducationActivity.class));
+                startActivity(new Intent(this,MonthlyIncome.class));
             }
             else
             {

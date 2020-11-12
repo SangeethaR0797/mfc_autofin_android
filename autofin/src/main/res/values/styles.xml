@@ -62,7 +62,7 @@
     <style name="edit_style">
         <item name="android:background">@color/white</item>
         <item name="android:text">@string/edit_btn_lbl</item>
-        <item name="android:textSize">@dimen/text_size_14dp</item>
+        <item name="android:textSize">@dimen/text_size_14sp</item>
         <item name="android:textColor">@color/navy_blue</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
@@ -154,4 +154,5 @@
     </style>
 
     <dimen name="text_size_10dp">10dp</dimen>
+    <dimen name="text_size_14sp">14sp</dimen>
 </resources>

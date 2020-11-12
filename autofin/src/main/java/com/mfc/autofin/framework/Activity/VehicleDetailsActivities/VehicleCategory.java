@@ -64,7 +64,7 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
            try{
                if (rbNewCar.isChecked()) {
                    CommonStrings.customVehDetails.setVehCategory(rbNewCar.getText().toString());
-                   Intent intent = new Intent(VehicleCategory.this, VehRegNumActivity.class);
+                   Intent intent = new Intent(VehicleCategory.this, VehRegistrationYear.class);
                    startActivity(intent);
                }
            }catch(Exception exception){exception.printStackTrace();}

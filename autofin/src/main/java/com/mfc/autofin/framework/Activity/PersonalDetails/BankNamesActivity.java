@@ -63,6 +63,7 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
         iv_app_bank_search=findViewById(R.id.iv_app_bank_search);
         btnNext=findViewById(R.id.btnNext);
         btnNext.setOnClickListener(this);
+        tvSelectedBankName.setOnClickListener(this);
         iv_app_bank_search.setOnClickListener(this);
     }
 

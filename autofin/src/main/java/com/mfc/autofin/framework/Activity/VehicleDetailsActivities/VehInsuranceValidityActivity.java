@@ -1,10 +1,13 @@
 package com.mfc.autofin.framework.Activity.VehicleDetailsActivities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CalendarView;
@@ -23,6 +26,7 @@ import java.util.Locale;
 import utility.CommonMethods;
 import utility.CommonStrings;
 
+@SuppressLint("NewApi")
 public class VehInsuranceValidityActivity extends AppCompatActivity implements View.OnClickListener, CalendarView.OnDateChangeListener {
 
 
@@ -40,9 +44,8 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
 
         if (CommonStrings.customVehDetails.getInsurance()) {
             strInsurance = "Yes";
-            if (CommonStrings.customVehDetails.getInsuranceAmount().equals("0")) {
+            if (!CommonStrings.customVehDetails.getInsuranceAmount().equals("")) {
                 strInsuranceAmount = CommonStrings.customVehDetails.getInsuranceAmount();
-
             } else {
                 strInsurance = "No";
             }
@@ -60,6 +63,7 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
         initView();
     }
 
+    @SuppressLint("NewApi")
     private void initView() {
         tvGivenInsurance = findViewById(R.id.tvGivenInsurance);
         tvGivenVehInsuranceVal = findViewById(R.id.tvGivenVehInsuranceVal);
@@ -92,6 +96,7 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
         String monthName = new SimpleDateFormat("MMMM").format(view.getDate());

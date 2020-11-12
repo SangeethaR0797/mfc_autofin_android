@@ -31,7 +31,7 @@ public class SalaryModeActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_salary_mode);
-        if (!CommonMethods.getStringValueFromKey(this, CommonStrings.YEARS_OF_EXPERIENCE).isEmpty()) {
+        if (!CommonMethods.getStringValueFromKey(this, CommonStrings.YEARS_OF_EXPERIENCE).equals("")) {
             strYearOfExperience = CommonMethods.getStringValueFromKey(this, CommonStrings.YEARS_OF_EXPERIENCE);
         }
         initView();
@@ -53,6 +53,7 @@ public class SalaryModeActivity extends AppCompatActivity implements View.OnClic
         tvGivenValEdit.setOnClickListener(this);
         rbCashSalary.setOnClickListener(this);
         rbChequeSal.setOnClickListener(this);
+        rbTransferAndDeposit.setOnClickListener(this);
     }
 
     @Override
@@ -63,21 +64,35 @@ public class SalaryModeActivity extends AppCompatActivity implements View.OnClic
         } else if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.rbCashSalary) {
-            if (rbCashSalary.isChecked()) {
-                CommonMethods.setValueAgainstKey(this, CommonStrings.SALARY_MODE, rbCashSalary.getText().toString());
-                startActivity(new Intent(this, ReviewActivity.class));
-            }
+                try{
+                    if (rbCashSalary.isChecked()) {
+
+                        CommonMethods.setValueAgainstKey(this, CommonStrings.SALARY_MODE, rbCashSalary.getText().toString());
+                    startActivity(new Intent(this, ReviewActivity.class));
+                    }
+
+                }catch(Exception exception){exception.printStackTrace();}
+
         } else if (v.getId() == R.id.rbChequeSal) {
-            if (rbChequeSal.isChecked()) {
+            try{  if (rbChequeSal.isChecked()) {
+
                 CommonMethods.setValueAgainstKey(this, CommonStrings.SALARY_MODE, rbChequeSal.getText().toString());
                 startActivity(new Intent(this, ReviewActivity.class));
             }
+                }
+            catch(Exception exception){exception.printStackTrace();}
+
         } else if (v.getId() == R.id.rbTransferAndDeposit) {
-            if (rbTransferAndDeposit.isChecked()) {
-                llBankSelectionInSalMode.setVisibility(View.VISIBLE);
-                CommonMethods.setValueAgainstKey(this, CommonStrings.SALARY_MODE, rbTransferAndDeposit.getText().toString());
-                startActivity(new Intent(this, ReviewActivity.class));
-            }
+            try{
+                if (rbTransferAndDeposit.isChecked()) {
+                //llBankSelectionInSalMode.setVisibility(View.VISIBLE);
+
+                    CommonMethods.setValueAgainstKey(this, CommonStrings.SALARY_MODE, rbTransferAndDeposit.getText().toString());
+                    startActivity(new Intent(this, ReviewActivity.class));
+                }}
+                catch(Exception exception){exception.printStackTrace();}
+
+
         }
     }
 }

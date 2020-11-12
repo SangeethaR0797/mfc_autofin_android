@@ -77,6 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_alignParentBottom="true"
+        android:clickable="true"
         android:background="@color/navy_blue"
         android:paddingTop="@dimen/text_size_19dp"
         android:paddingBottom="@dimen/text_size_18dp"

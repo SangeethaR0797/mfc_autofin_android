@@ -41,12 +41,12 @@ import static retrofit_config.RetroBase.retrofitInterface;
 public class BasicDetailsActivity extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
 
     private static final String TAG = BasicDetailsActivity.class.getSimpleName();
-    TextView tvGivenInsType, tvGivenInsTypeVal, tvGivenInsTypeEdit, tvNameLbl, tvEmailLbl, tvPhoneNumLbl;
+    TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvNameLbl, tvEmailLbl, tvPhoneNumLbl;
     EditText etName, etEmailId, etPhoneNumber;
     Button btnNext;
-    String strInsuranceType = "";
+    String strPreviousScreenVal = "";
     String strName = "", strEmail = "", strPhoneNum = "";
-
+    boolean isNewCarFlow=false;
     private ImageView iv_basic_details_backBtn;
 
 
@@ -54,10 +54,27 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_details);
-        if (CommonStrings.customVehDetails.getInsuranceType() != null) {
-            strInsuranceType = CommonStrings.customVehDetails.getInsuranceType();
-        } else {
-            strInsuranceType = "";
+        if(CommonStrings.customVehDetails.getVehCategory().equals(getResources().getString(R.string.new_car)))
+        {
+            isNewCarFlow=true;
+            if(!CommonMethods.getStringValueFromKey(this,CommonStrings.VEH_PURCHASE_AMOUNT).equals(""))
+            {
+                strPreviousScreenVal=CommonMethods.getStringValueFromKey(this,CommonStrings.VEH_INSURED_AMOUNT);
+            }
+            else
+                {
+                    strPreviousScreenVal="";
+                }
+        }
+        else
+        {
+            isNewCarFlow=false;
+            if (CommonStrings.customVehDetails.getInsuranceType() != null) {
+                strPreviousScreenVal = CommonStrings.customVehDetails.getInsuranceType();
+            } else {
+                strPreviousScreenVal = "";
+            }
+
         }
 
         initView();
@@ -65,9 +82,9 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
 
     private void initView() {
         iv_basic_details_backBtn = findViewById(R.id.iv_basic_details_backBtn);
-        tvGivenInsType = findViewById(R.id.tvGivenInsType);
-        tvGivenInsTypeVal = findViewById(R.id.tvGivenInsTypeVal);
-        tvGivenInsTypeEdit = findViewById(R.id.tvGivenInsTypeEdit);
+        tvGivenLbl=findViewById(R.id.tvGivenLbl);
+        tvGivenPreviousVal=findViewById(R.id.tvGivenPreviousVal);
+        tvGivenValEdit=findViewById(R.id.tvGivenValEdit);
         tvNameLbl = findViewById(R.id.tvNameLbl);
         tvEmailLbl = findViewById(R.id.tvEmailLbl);
         tvPhoneNumLbl = findViewById(R.id.tvPhoneNumLbl);
@@ -75,7 +92,15 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
         etEmailId = findViewById(R.id.etEmailId);
         etPhoneNumber = findViewById(R.id.etPhoneNumber);
         btnNext = findViewById(R.id.btnNext);
-        tvGivenInsTypeVal.setText(strInsuranceType);
+        if(isNewCarFlow)
+        {
+            tvGivenLbl.setText(getString(R.string.lbl_insured_amount));
+        }
+        else
+        {
+            tvGivenLbl.setText(getString(R.string.lbl_insurance_on_vehicle));
+        }
+        tvGivenPreviousVal.setText(strPreviousScreenVal);
         tvNameLbl.setTypeface(CustomFonts.getRobotoRegularTF(this));
         tvEmailLbl.setTypeface(CustomFonts.getRobotoRegularTF(this));
         tvPhoneNumLbl.setTypeface(CustomFonts.getRobotoRegularTF(this));
@@ -83,7 +108,7 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
         etEmailId.setTypeface(CustomFonts.getRobotoMedium(this));
         etPhoneNumber.setTypeface(CustomFonts.getRobotoMedium(this));
         btnNext.setTypeface(CustomFonts.getRobotoMedium(this));
-        tvGivenInsTypeEdit.setOnClickListener(this);
+        tvGivenValEdit.setOnClickListener(this);
         btnNext.setOnClickListener(this);
         iv_basic_details_backBtn.setOnClickListener(this);
 
@@ -91,7 +116,7 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.tvGivenInsValidityEdit) {
+        if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
             if (validate()) {
@@ -122,9 +147,9 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
         strEmail = etEmailId.getText().toString().trim();
         strPhoneNum = etPhoneNumber.getText().toString();
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-        if (!strName.isEmpty() && strName.matches("^[a-z A-Z ]*$")) {
-            if (!strEmail.isEmpty() && strEmail.matches(emailPattern)) {
-                if (!strPhoneNum.isEmpty() && strPhoneNum.matches("^[6-9]\\d{9}$")) {
+        if (!strName.equals("") && strName.matches("^[a-z A-Z ]*$")) {
+            if (!strEmail.equals("") && strEmail.matches(emailPattern)) {
+                if (!strPhoneNum.equals("") && strPhoneNum.matches("^[6-9]\\d{9}$")) {
                     validDetails = true;
                 } else {
                     validDetails = false;

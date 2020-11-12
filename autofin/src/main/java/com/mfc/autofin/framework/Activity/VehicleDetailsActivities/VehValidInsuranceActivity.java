@@ -39,7 +39,7 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
         setContentView(R.layout.activity_veh_valid_insurance);
         Log.i(TAG, "onCreate: ");
 
-        if (!CommonMethods.getStringValueFromKey(this, "post_inspection_amount").isEmpty()) {
+        if (!CommonMethods.getStringValueFromKey(this, "post_inspection_amount").equals("")) {
             strPostInspectionVal = CommonMethods.getStringValueFromKey(this, "post_inspection_amount");
         } else {
             strPostInspectionVal = "";
@@ -103,14 +103,14 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
             CommonMethods.deHighLightButton(this, btnValidInsurance);
             llVehInsuranceAmount.setVisibility(View.GONE);
         } else if (v.getId() == R.id.btnNext) {
-            if (llVehInsuranceAmount.getVisibility() == View.VISIBLE && etInsuranceAmount.getText().toString().isEmpty()) {
+            if (llVehInsuranceAmount.getVisibility() == View.VISIBLE && etInsuranceAmount.getText().toString().equals("")) {
                 Toast.makeText(this, "Please enter Insurance Amount", Toast.LENGTH_LONG).show();
-            } else if (llVehInsuranceAmount.getVisibility() == View.VISIBLE && !etInsuranceAmount.getText().toString().isEmpty()) {
+            } else if (llVehInsuranceAmount.getVisibility() == View.VISIBLE && !etInsuranceAmount.getText().toString().equals("")) {
                 CommonStrings.customVehDetails.setInsurance(true);
                 CommonStrings.customVehDetails.setInsuranceAmount(etInsuranceAmount.getText().toString());
                 Intent intent = new Intent(VehValidInsuranceActivity.this, VehInsuranceValidityActivity.class);
                 startActivity(intent);
-            } else {
+            } else  {
                 CommonStrings.customVehDetails.setInsurance(false);
                 CommonStrings.customVehDetails.setInsuranceAmount("0");
                 CommonStrings.customVehDetails.setInsuranceType("NA");

@@ -22,7 +22,7 @@
         android:layout_marginRight="@dimen/text_size_22dp"
         android:layout_marginBottom="@dimen/text_size_24dp"
         android:text="@string/lbl_selected_bank"
-        android:textSize="@dimen/text_size_24dp"
+        android:textSize="@dimen/text_size_16sp"
         android:textColor="@color/very_dark_blue" />
 
     <androidx.recyclerview.widget.RecyclerView

@@ -78,7 +78,7 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
             etPostInspectionAmount.setText("");
         } else if (v.getId() == R.id.btnNext) {
             if (llVehPostInspection.getVisibility() == View.VISIBLE) {
-                if (!etPostInspectionAmount.getText().toString().isEmpty()) {
+                if (!etPostInspectionAmount.getText().toString().equals("")) {
                     //  CommonStrings.customVehDetails.setPostevaluation(btnVehPostInspectionYes.getText().toString() + " (" + getString(R.string.rupees_symbol) + " " + etPostInspectionAmount.getText().toString() + " )");
                     CommonMethods.setValueAgainstKey(this, "post_inspection_amount", btnVehPostInspectionYes.getText().toString() + " (" + getString(R.string.rupees_symbol) + " " + etPostInspectionAmount.getText().toString() + " )");
                     Intent intent = new Intent(VehPostInspectionActivity.this, VehValidInsuranceActivity.class);
@@ -89,7 +89,7 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
                 }
             } else {
                 // CommonStrings.customVehDetails.setPostevaluation(btnVehPostInspectionNo.getText().toString());
-                CommonMethods.setValueAgainstKey(this, "post_inspection_amount", btnVehPostInspectionYes.getText().toString());
+                CommonMethods.setValueAgainstKey(this, "post_inspection_amount", btnVehPostInspectionNo.getText().toString());
                 Intent intent = new Intent(VehPostInspectionActivity.this, VehValidInsuranceActivity.class);
                 startActivity(intent);
             }

@@ -30,6 +30,7 @@ public class ViewBankActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void initView() {
+        tvMatchingBankLbl=findViewById(R.id.tvMatchingBankLbl);
         tvCommonAppBarTitle = findViewById(R.id.tvCommonAppBarTitle);
         iv_common_bar_backBtn = findViewById(R.id.iv_common_bar_backBtn);
         rvSelectBank = findViewById(R.id.rvSelectBank);
@@ -42,6 +43,7 @@ public class ViewBankActivity extends AppCompatActivity implements View.OnClickL
         ArrayList<SelectBankData> bankDataList = new ArrayList<>();
         bankDataList.add(new SelectBankData("Recommended", "2,00,000", "8.25 - 8.75%", "19,200 - 21,200", "12 Months"));
         bankDataList.add(new SelectBankData("Popular", "1,00,000", "7.25 - 7.75%", "15,200 - 19,200", "9 Months"));
+        tvMatchingBankLbl.setText(bankDataList.size()+" "+getResources().getString(R.string.lbl_selected_bank));
         SelectBankAdapter selectBankAdapter = new SelectBankAdapter(ViewBankActivity.this, bankDataList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rvSelectBank.setLayoutManager(layoutManager);

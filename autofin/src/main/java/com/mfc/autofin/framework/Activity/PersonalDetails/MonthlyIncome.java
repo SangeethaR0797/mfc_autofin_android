@@ -21,20 +21,20 @@ public class MonthlyIncome extends AppCompatActivity implements View.OnClickList
     private TextView tvGivenLbl,tvGivenPreviousVal,tvGivenValEdit,tvMonthlyIncome,tvErrorMessage;
     ImageView iv_personal_details_backBtn;
     private View belowETView;
-    private String strUserDOB="",strMonthlyIncome="";
+    private String strEducation="",strMonthlyIncome="";
     private EditText etMonthlyIncomeAmount;
     private Button btnNext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monthly_income);
-        if(CommonMethods.getStringValueFromKey(this,CommonStrings.USER_DOB).length()>0)
+        if(CommonMethods.getStringValueFromKey(this,CommonStrings.EDUCATION).length()>0)
         {
-           strUserDOB= CommonMethods.getStringValueFromKey(this,CommonStrings.USER_DOB);
+            strEducation= CommonMethods.getStringValueFromKey(this,CommonStrings.EDUCATION);
         }
         else
         {
-            strUserDOB="";
+            strEducation="";
         }
 
         initView();
@@ -52,8 +52,8 @@ public class MonthlyIncome extends AppCompatActivity implements View.OnClickList
         belowETView=findViewById(R.id.belowETView);
         etMonthlyIncomeAmount.setOnClickListener(this);
         tvErrorMessage=findViewById(R.id.tvErrorMessage);
-        tvGivenLbl.setText(getResources().getString(R.string.lbl_dob));
-        tvGivenPreviousVal.setText(strUserDOB);
+        tvGivenLbl.setText(getResources().getString(R.string.lbl_education));
+        tvGivenPreviousVal.setText(strEducation);
         tvGivenValEdit.setOnClickListener(this);
         iv_personal_details_backBtn.setOnClickListener(this);
         btnNext.setOnClickListener(this);

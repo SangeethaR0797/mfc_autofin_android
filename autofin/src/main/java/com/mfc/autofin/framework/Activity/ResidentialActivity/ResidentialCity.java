@@ -59,7 +59,6 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
         etAddressLine1= findViewById(R.id.etAddressLine1);
         etAddressLine2= findViewById(R.id.etAddressLine2);
         etLandmark= findViewById(R.id.etLandmark);
-        etLandmark.setText("Bank");
         btnPinCodeCheck = findViewById(R.id.btnPinCodeCheck);
         btnNext = findViewById(R.id.btnNext);
         tvGivenOTPVal.setText(basicDetailsVal);
@@ -85,6 +84,10 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
         } else if (v.getId() == R.id.btnNext) {
             if (!strPinCode.equals("")){
                 if(!tvStateName.getText().toString().equals("") && !strCity.equals("") && !etAddressLine1.getText().toString().equals("") && !etAddressLine2.getText().toString().equals("") && !etLandmark.getText().toString().equals("")) {
+                    CommonMethods.setValueAgainstKey(this,CommonStrings.ADDRESS1,etAddressLine1.getText().toString());
+                    CommonMethods.setValueAgainstKey(this,CommonStrings.ADDRESS2,etAddressLine2.getText().toString());
+                    CommonMethods.setValueAgainstKey(this,CommonStrings.LANDMARK,etLandmark.getText().toString());
+
                     startActivity(new Intent(this, CityMonthAndYearActivity.class));
                 }
                 else

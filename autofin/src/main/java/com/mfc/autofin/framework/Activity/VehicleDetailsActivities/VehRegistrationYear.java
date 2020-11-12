@@ -44,22 +44,36 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
     private TextView tvGivenRegNumLbl, tvGivenRegNoVal, tvVehRegNumEdit, tvRegYearLbl, tvRegYear;
     private ImageView iv_vehDetails_backBtn, iv_year_search, svCloseButton;
     ListView lvVehListView;
-    String regNoVal = "", strYear = "";
+    String previousVal = "", strYear = "";
     //SearchView svVehDetails;
     VehicleDetailsAdapter vehicleDetailsAdapter;
     private Button btnNext;
+    private boolean isNewCarFlow=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_veh_registration_year);
-        regNoVal = CommonStrings.customVehDetails.getVehRegNum();
-        if (CommonStrings.stockResData != null) {
-            if (CommonStrings.stockResData.getYear() != null)
-                strYear = String.valueOf(CommonStrings.stockResData.getYear());
-            else
-                strYear = "";
+
+
+        if(CommonStrings.customVehDetails.getVehCategory().equals(getString(R.string.new_car)))
+        {
+            isNewCarFlow=true;
+            previousVal=CommonStrings.customVehDetails.getVehCategory();
         }
+        else
+        {
+            previousVal = CommonStrings.customVehDetails.getVehRegNum();
+        }
+
+            if (CommonStrings.stockResData != null) {
+                if (CommonStrings.stockResData.getYear() != null)
+                    strYear = String.valueOf(CommonStrings.stockResData.getYear());
+                else
+                    strYear = "";
+            }
+
+
 
         initView();
 
@@ -82,7 +96,15 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
         lvVehListView = findViewById(R.id.lvVehListView);
         iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
 
-        tvGivenRegNoVal.setText(regNoVal);
+        if(isNewCarFlow)
+        {
+            tvGivenRegNumLbl.setText("VEHICLE CATEGORY");
+        }
+        else
+        {
+            tvGivenRegNumLbl.setText(getString(R.string.lbl_reg_no));
+        }
+        tvGivenRegNoVal.setText(previousVal);
         lvVehListView.setDivider(null);
         tvRegYear.setText(strYear);
         btnNext = findViewById(R.id.btnNext);
@@ -149,12 +171,5 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
         lvVehListView.setAdapter(vehicleDetailsAdapter);
     }
 
-    /*void onItemClick(AdapterView<?> adapterView, View view, int i, long l)     {
 
-        String Exercise = String.valueOf(adapterView.getItemAtPosition(i));
-        result = (textView3.getText().toString() + "\n" + Exercise;
-        textView3.setText(result);
-
-    }
-*/
 }

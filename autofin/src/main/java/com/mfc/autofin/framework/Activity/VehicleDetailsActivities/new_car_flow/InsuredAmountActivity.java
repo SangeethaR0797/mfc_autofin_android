@@ -47,7 +47,7 @@ public class InsuredAmountActivity extends AppCompatActivity implements View.OnC
         etInsuredAmount = findViewById(R.id.etInsuredAmount);
         btnNext = findViewById(R.id.btnNext);
         iv_vehDetails_back.setOnClickListener(this);
-        tvGivenLbl.setText(getResources().getString(R.string.lbl_insured_amount));
+        tvGivenLbl.setText(getResources().getString(R.string.lbl_vehicle_purchase_amount));
         tvGivenPreviousVal.setText(strPurchaseAmount);
         tvGivenValEdit.setOnClickListener(this);
         tvInsuredAmount.setTypeface(CustomFonts.getRobotoRegularTF(this));

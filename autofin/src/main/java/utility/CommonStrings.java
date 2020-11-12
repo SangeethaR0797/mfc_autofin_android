@@ -46,6 +46,12 @@ public class CommonStrings {
     public static final String VEH_INSURED_AMOUNT = "vehicle_insured_amount";
     public static final String GENDER = "personal_details_gender";
     public static final String EDUCATION = "personal_details_education_qualification";
+    public static final String VEH_CATEGORY_TITLE ="VEHICLE CATEGORY" ;
+    public static final String VEH_REG_NO_TITLE ="VEHICLE REGISTRATION NUMBER" ;
+    public static final String CAR_HAVE_REG_NO = "vehicle_have_reg_no_or_not";
+    public static final String ADDRESS1 ="address_line_1" ;
+    public static final String ADDRESS2 ="address_line_2" ;
+    public static final String LANDMARK = "landmark";
     public static String VEH_CATEGORY_URL = "https://15.207.148.230:3004/api/masters/vehicle-category";
     public static String RES_CITY_URL = "https://15.207.148.230:3004/api/pincode/city/";
     public static String IBB_PASSWORD = "dHk69ffu7ebP";

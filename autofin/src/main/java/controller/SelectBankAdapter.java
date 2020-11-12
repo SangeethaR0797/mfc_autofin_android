@@ -42,7 +42,20 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (bankDetailsList.get(position).getBankStatus() != null)
-            holder.tvBankStatus.setText(bankDetailsList.get(position).getBankStatus());
+        {
+            if(bankDetailsList.get(position).getBankStatus().equalsIgnoreCase("Recommended"))
+            {
+                holder.tvBankStatus.setText(bankDetailsList.get(position).getBankStatus());
+                holder.tvBankStatus.setTextColor(activity.getResources().getColor(R.color.light_green));
+            }
+            else
+            {
+                holder.tvBankStatus.setText(bankDetailsList.get(position).getBankStatus());
+                holder.tvBankStatus.setTextColor(activity.getResources().getColor(R.color.grey_color));
+            }
+
+
+        }
         else
             Log.i(TAG, "onBindViewHolder: BankStatus is null");
 

@@ -48,12 +48,14 @@ public class VehRegNumActivity extends AppCompatActivity implements View.OnClick
         } else if (v.getId() == R.id.btnVehNumYes) {
             CommonMethods.highLightSelectedButton(VehRegNumActivity.this, btnVehNumYes);
             CommonMethods.deHighLightButton(VehRegNumActivity.this, btnVehNumNo);
+            CommonMethods.setValueAgainstKey(this,CommonStrings.CAR_HAVE_REG_NO,btnVehNumYes.getText().toString());
             Intent intent = new Intent(VehRegNumActivity.this, VehRegNumAns.class);
             startActivity(intent);
         } else if (v.getId() == R.id.btnVehNumNo) {
             CommonStrings.customVehDetails.setVehRegNum("NA");
             CommonMethods.highLightSelectedButton(VehRegNumActivity.this, btnVehNumNo);
             CommonMethods.deHighLightButton(VehRegNumActivity.this, btnVehNumYes);
+            CommonMethods.setValueAgainstKey(this,CommonStrings.CAR_HAVE_REG_NO,btnVehNumNo.getText().toString());
             Intent intent = new Intent(VehRegNumActivity.this, VehRegistrationYear.class);
             startActivity(intent);
         }
