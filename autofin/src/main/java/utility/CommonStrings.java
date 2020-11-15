@@ -52,6 +52,7 @@ public class CommonStrings {
     public static final String ADDRESS1 ="address_line_1" ;
     public static final String ADDRESS2 ="address_line_2" ;
     public static final String LANDMARK = "landmark";
+    public static final String PANCARD_LBL ="PANCARD NUMBER" ;
     public static String VEH_CATEGORY_URL = "https://15.207.148.230:3004/api/masters/vehicle-category";
     public static String RES_CITY_URL = "https://15.207.148.230:3004/api/pincode/city/";
     public static String IBB_PASSWORD = "dHk69ffu7ebP";

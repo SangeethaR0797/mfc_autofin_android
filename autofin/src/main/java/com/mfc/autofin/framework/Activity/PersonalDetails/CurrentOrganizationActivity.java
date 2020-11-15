@@ -63,7 +63,7 @@ public class CurrentOrganizationActivity extends AppCompatActivity implements Vi
         } else if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
-            if (!etOrganizationName.getText().toString().isEmpty()) {
+            if (!etOrganizationName.getText().toString().equals("")) {
                 strOrgName = etOrganizationName.getText().toString();
                 CommonMethods.setValueAgainstKey(this, CommonStrings.CURRENT_ORG_NAME, strOrgName);
                 startActivity(new Intent(this, JODOCurrentOrgActivity.class));

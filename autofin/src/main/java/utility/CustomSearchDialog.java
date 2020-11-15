@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mfc.autofin.framework.Activity.PersonalDetails.BankNamesActivity;
 import com.mfc.autofin.framework.R;
 
 import java.util.List;
@@ -41,6 +42,8 @@ public class CustomSearchDialog extends Dialog implements View.OnClickListener {
 
         setContentView(R.layout.layout_common_listview_with_search);
         this.context = context;
+        SpinnerManager.showSpinner(context);
+
         dialog_cancel_btn = findViewById(R.id.dialog_cancel_btn);
         iv_custom_search_icon = findViewById(R.id.iv_custom_search_icon);
         etSearchAlertDialog = findViewById(R.id.etSearchAlertDialog);

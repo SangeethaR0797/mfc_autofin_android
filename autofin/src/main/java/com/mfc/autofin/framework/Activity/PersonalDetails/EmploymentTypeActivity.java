@@ -41,15 +41,15 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
     ViewGroup customEmpTypeRG;
     RadioButton rbSalaried, rbBusinessOwner, rbSelfEmployedProfessional, rbIndependentWorker, rbStudent, rbRetired, rbHomeMaker;
     List<EmpTypeList> empTypeList;
-    String strLoanRequired = "";
+    String strPanCardNo = "";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employment_type);
-        if (!CommonMethods.getStringValueFromKey(this, CommonStrings.LOAN_REQUIRED).isEmpty()) {
-            strLoanRequired = CommonMethods.getStringValueFromKey(this, CommonStrings.LOAN_REQUIRED);
+        if (!CommonMethods.getStringValueFromKey(this, CommonStrings.PAN_CARD_NUMBER).equals("")) {
+            strPanCardNo = CommonMethods.getStringValueFromKey(this, CommonStrings.PAN_CARD_NUMBER);
         }
         retrofitInterface.getFromWeb(CommonStrings.EMP_TYPE_URL).enqueue(this);
         initView();
@@ -61,9 +61,9 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
         tvGivenPreviousVal = findViewById(R.id.tvGivenPreviousVal);
         tvGivenValEdit = findViewById(R.id.tvGivenValEdit);
         customEmpTypeRG = findViewById(R.id.customEmpTypeRG);
-        tvGivenLbl.setText(getResources().getString(R.string.lbl_loan_required).toUpperCase());
+        tvGivenLbl.setText(CommonStrings.PANCARD_LBL);
         llEmpTypeRadioGroup = findViewById(R.id.llEmpTypeRadioGroup);
-        tvGivenPreviousVal.setText(strLoanRequired);
+        tvGivenPreviousVal.setText(strPanCardNo);
         rbSalaried = findViewById(R.id.rbSalaried);
         rbBusinessOwner = findViewById(R.id.rbBusinessOwner);
         rbSelfEmployedProfessional = findViewById(R.id.rbSelfEmployedProfessional);

@@ -203,6 +203,16 @@
     <string name="lbl_select_your_gender">SELECT YOUR GENDER</string>
     <string name="lbl_education">EDUCATION</string>
     <string name="hint_select_your_qualification">Please enter your Education</string>
+    <string name="lbl_close">CLOSE</string>
+    <string name="lbl_reference_name">REFERENCE NAME</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="hi_lbl">Hi</string>
+    <string name="update_lbl">Update Your Details</string>
+    <string name="next_lbl">Next Steps</string>
+    <string name="will_contact_lbl">We will contact you for further proceedings.</string>
+    <string name="kyc_not_updated_lbl">Your Kyc is not updated</string>
+    <string name="track_my_loan_text">TRACK MY LOAN</string>
 
 
 </resources>

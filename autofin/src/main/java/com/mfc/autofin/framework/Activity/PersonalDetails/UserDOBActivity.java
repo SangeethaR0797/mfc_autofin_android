@@ -53,7 +53,7 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
         tvGivenPreviousVal.setText(strResidenceType);
         llDOBCalendarView = findViewById(R.id.llDOBCalendarView);
         cvUserDOB = findViewById(R.id.cvUserDOB);
-        cvUserDOB.setMinDate(System.currentTimeMillis() - 1000);
+        cvUserDOB.setMaxDate(System.currentTimeMillis() - 1000);
         cvUserDOB.setOnDateChangeListener(this);
         iv_personal_details_backBtn = findViewById(R.id.iv_personal_details_backBtn);
         tvDOBLbl.setOnClickListener(this);

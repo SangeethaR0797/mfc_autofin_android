@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/layout_common_app_bar" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_size10dp"
+            android:layout_marginRight="@dimen/text_size10dp"
+            android:layout_marginLeft="@dimen/text_size10dp"
+            android:background="@color/white">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fillViewport="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/text_size_20dp"
+                android:layout_marginLeft="@dimen/text_size_20dp"
+                android:layout_marginRight="@dimen/text_size_21dp">
+                <utility.RobotoMedium
+                    android:id="@+id/tvOfficeAddressLbl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_reference_name"
+                    android:textColor="@color/very_dark_blue"
+                    android:textSize="@dimen/text_size_16sp"
+                    android:layout_marginTop="@dimen/text_size_30dp"
+                    android:layout_marginBottom="@dimen/text_size_8dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    style="@style/select_veh_details_ll_style"
+                    android:layout_marginBottom="@dimen/text_size_24dp"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvOfficeAddPinCodeLbl"
+                            style="@style/veh_details_selected_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/hint_select_model"
+                            android:text="@string/enter_pincode" />
+
+                        <EditText
+                            android:id="@+id/etOfficeResPinCode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/text_size_5dp"
+                            android:background="@android:color/transparent"
+                            android:hint="@string/sample_pincode"
+                            android:inputType="number"
+                            android:maxLength="6"
+                            android:singleLine="true"
+                            android:textColor="@color/very_dark_blue"
+                            android:textSize="@dimen/text_size_16sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_gravity="right|center_vertical"
+                            android:layout_marginTop="@dimen/text_size_8dp"
+                            android:background="@color/very_dark_blue" />
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btnORPinCodeCheck"
+                        style="@style/pincode_check_btn_style"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/llOAState"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tvOAStateLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lbl_state"
+                        android:textColor="@color/grey_color"
+                        android:textSize="@dimen/text_size_14sp"
+                        android:layout_marginBottom="@dimen/text_size_5dp"/>
+                    <EditText
+                        android:id="@+id/etOAState"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:textSize="@dimen/text_size_16sp"
+                        android:drawableRight="@drawable/ic_expand"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textColor="@color/very_dark_blue"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/very_dark_blue"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="@dimen/text_size_24dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llOACity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="@dimen/text_size_24dp">
+                    <TextView
+                        android:id="@+id/tvOACityLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/city_lbl"
+                        android:textColor="@color/grey_color"
+                        android:textSize="@dimen/text_size_14sp"
+                        android:layout_marginBottom="@dimen/text_size_5dp"/>
+                    <EditText
+                        android:id="@+id/etOACity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:drawableRight="@drawable/ic_expand"
+                        android:textSize="@dimen/text_size_16sp"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textColor="@color/very_dark_blue"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/very_dark_blue"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llOAAddress1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="@dimen/text_size_24dp">
+                    <TextView
+                        android:id="@+id/tvOAAddress1Lbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/address_one_lbl"
+                        android:textColor="@color/grey_color"
+                        android:textSize="@dimen/text_size_14sp"
+                        android:layout_marginBottom="@dimen/text_size_5dp"/>
+                    <EditText
+                        android:id="@+id/etOAAddress1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:inputType="text"
+                        android:drawableRight="@drawable/ic_expand"
+                        android:maxLength="10"
+                        android:maxLines="1"
+                        android:textSize="@dimen/text_size_16sp"
+                        android:textColor="@color/very_dark_blue"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/very_dark_blue"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llOAAddress2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="120dp">
+                    <TextView
+                        android:id="@+id/tvOAAddress2Lbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/address_two_lbl"
+                        android:textColor="@color/grey_color"
+                        android:textSize="@dimen/text_size_14sp"
+                        android:layout_marginBottom="@dimen/text_size_5dp"/>
+                    <EditText
+                        android:id="@+id/etOAAddress2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:textSize="@dimen/text_size_16sp"
+                        android:inputType="text"
+                        android:drawableRight="@drawable/ic_expand"
+                        android:maxLines="1"
+                        android:textColor="@color/very_dark_blue"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/very_dark_blue"/>
+                </LinearLayout>
+            </LinearLayout>
+            </ScrollView>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+        <include layout="@layout/autofin_next_btn" />
+    </LinearLayout>
+</RelativeLayout>

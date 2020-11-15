@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +21,7 @@ import com.mfc.autofin.framework.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import controller.ReviewAdapter;
 import model.custom_model.ReviewData;
 import utility.CommonMethods;
@@ -28,9 +31,10 @@ import static utility.CommonStrings.*;
 
 public class ReviewDetailsActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = ReviewDetailsActivity.class.getSimpleName();
-    private TextView tvVehDetailsTitle,tvEditVehDetails,tvCommonAppBarTitle,tvBasicDetails,tvEditBasicDetails,tvResidentialDetails,tvEditResidentialDetails,tvPersonalDetails,tvEditPersonalDetails;
-    private RecyclerView rvVehDetails,rvBasicDetails,rvResidentialDetails,rvPersonalDetails;
-    private FloatingActionButton fab_close_review_details;
+    private TextView tvVehDetailsTitle, tvCommonAppBarTitle, tvBasicDetails, tvResidentialDetails, tvPersonalDetails;
+    private RecyclerView rvVehDetails, rvBasicDetails, rvResidentialDetails, rvPersonalDetails;
+    private LinearLayout llEditAndCloseReview;
+    private Button btnEditReview, btnCloseReview;
 
 
     @Override
@@ -43,29 +47,22 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
     private void initView() {
         tvVehDetailsTitle = findViewById(R.id.tvVehDetailsTitle);
         tvVehDetailsTitle.setOnClickListener(this);
+        btnEditReview = findViewById(R.id.btnEditReview);
+        btnCloseReview = findViewById(R.id.btnCloseReview);
         rvVehDetails = findViewById(R.id.rvVehDetails);
-        tvBasicDetails=findViewById(R.id.tvBasicDetails);
-        tvEditBasicDetails=findViewById(R.id.tvEditBasicDetails);
-        tvEditVehDetails=findViewById(R.id.tvEditVehDetails);
-        tvEditPersonalDetails=findViewById(R.id.tvEditPersonalDetails);
-        tvEditResidentialDetails=findViewById(R.id.tvEditResidentialDetails);
-        rvResidentialDetails=findViewById(R.id.rvResidentialDetails);
-        tvEditResidentialDetails=findViewById(R.id.tvEditResidentialDetails);
-        tvResidentialDetails=findViewById(R.id.tvResidentialDetails);
-        tvCommonAppBarTitle=findViewById(R.id.tvCommonAppBarTitle);
-        tvPersonalDetails=findViewById(R.id.tvPersonalDetails);
-        tvEditPersonalDetails=findViewById(R.id.tvEditPersonalDetails);
-        rvPersonalDetails=findViewById(R.id.rvPersonalDetails);
-        fab_close_review_details=findViewById(R.id.fab_close_review_details);
-        rvBasicDetails=findViewById(R.id.rvBasicDetails);
-        tvEditVehDetails.setOnClickListener(this);
+        tvBasicDetails = findViewById(R.id.tvBasicDetails);
+        llEditAndCloseReview = findViewById(R.id.llEditAndCloseReview);
+        rvResidentialDetails = findViewById(R.id.rvResidentialDetails);
+        tvResidentialDetails = findViewById(R.id.tvResidentialDetails);
+        tvCommonAppBarTitle = findViewById(R.id.tvCommonAppBarTitle);
+        tvPersonalDetails = findViewById(R.id.tvPersonalDetails);
+        rvPersonalDetails = findViewById(R.id.rvPersonalDetails);
+        rvBasicDetails = findViewById(R.id.rvBasicDetails);
+        btnEditReview.setOnClickListener(this);
+        btnCloseReview.setOnClickListener(this);
         tvBasicDetails.setOnClickListener(this);
-        tvEditBasicDetails.setOnClickListener(this);
         tvResidentialDetails.setOnClickListener(this);
-        tvEditResidentialDetails.setOnClickListener(this);
         tvPersonalDetails.setOnClickListener(this);
-        tvEditPersonalDetails.setOnClickListener(this);
-        fab_close_review_details.setOnClickListener(this);
         tvCommonAppBarTitle.setText("REVIEW");
     }
 
@@ -73,86 +70,58 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
 
         if (v.getId() == R.id.tvVehDetailsTitle) {
-            fab_close_review_details.setVisibility(View.VISIBLE);
+            llEditAndCloseReview.setVisibility(View.VISIBLE);
             rvVehDetails.setVisibility(View.VISIBLE);
-            tvEditVehDetails.setVisibility(View.VISIBLE);
             if (customVehDetails.getVehCategory().equals(getResources().getString(R.string.new_car))) {
                 displayNewCarVehicleDetails();
             } else if (customVehDetails.getVehCategory().equals(getResources().getString(R.string.old_car))) {
                 displayOldCarVehicleDetails();
             }
-        }
-        else if(v.getId()==R.id.fab_close_review_details)
-        {
-            if(rvVehDetails.getVisibility()==View.VISIBLE)
-            {
+        } else if (v.getId() == R.id.btnCloseReview) {
+            if (rvVehDetails.getVisibility() == View.VISIBLE) {
                 rvVehDetails.setVisibility(View.GONE);
-                tvEditVehDetails.setVisibility(View.GONE);
-                fab_close_review_details.setVisibility(View.GONE);
+                llEditAndCloseReview.setVisibility(View.GONE);
 
-            }
-            else if(rvBasicDetails.getVisibility()==View.VISIBLE)
-            {
+            } else if (rvBasicDetails.getVisibility() == View.VISIBLE) {
                 rvBasicDetails.setVisibility(View.GONE);
-                tvEditBasicDetails.setVisibility(View.GONE);
-                fab_close_review_details.setVisibility(View.GONE);
-            }
-            else if(rvResidentialDetails.getVisibility()==View.VISIBLE)
-            {
+                llEditAndCloseReview.setVisibility(View.GONE);
+            } else if (rvResidentialDetails.getVisibility() == View.VISIBLE) {
                 rvResidentialDetails.setVisibility(View.GONE);
-                tvEditResidentialDetails.setVisibility(View.GONE);
-                fab_close_review_details.setVisibility(View.GONE);
-            }
-            else if(rvPersonalDetails.getVisibility()==View.VISIBLE)
-            {
+                llEditAndCloseReview.setVisibility(View.GONE);
+            } else if (rvPersonalDetails.getVisibility() == View.VISIBLE) {
                 rvPersonalDetails.setVisibility(View.GONE);
-                tvEditPersonalDetails.setVisibility(View.GONE);
-                fab_close_review_details.setVisibility(View.GONE);
+                llEditAndCloseReview.setVisibility(View.GONE);
             }
 
-        }
-        else if (v.getId() == R.id.tvBasicDetails) {
-            fab_close_review_details.setVisibility(View.VISIBLE);
+        } else if (v.getId() == R.id.tvBasicDetails) {
+            llEditAndCloseReview.setVisibility(View.VISIBLE);
             rvBasicDetails.setVisibility(View.VISIBLE);
-            tvEditBasicDetails.setVisibility(View.VISIBLE);
-                displayBasicDetails();
+            displayBasicDetails();
 
-        }
-        else if (v.getId() == R.id.tvResidentialDetails) {
-            fab_close_review_details.setVisibility(View.VISIBLE);
+        } else if (v.getId() == R.id.tvResidentialDetails) {
+            llEditAndCloseReview.setVisibility(View.VISIBLE);
             rvResidentialDetails.setVisibility(View.VISIBLE);
-            tvEditResidentialDetails.setVisibility(View.VISIBLE);
             displayResidentialDetails();
-        }
-        else if (v.getId() == R.id.tvPersonalDetails) {
-            fab_close_review_details.setVisibility(View.VISIBLE);
+        } else if (v.getId() == R.id.tvPersonalDetails) {
+            llEditAndCloseReview.setVisibility(View.VISIBLE);
             rvPersonalDetails.setVisibility(View.VISIBLE);
-            tvEditPersonalDetails.setVisibility(View.VISIBLE);
             displayPersonalDetails();
 
-        }
-        else if(v.getId()==R.id.tvEditVehDetails)
-        {
-            startActivity(new Intent(this, VehicleCategory.class));
-        }
-        else if(v.getId()==R.id.tvEditBasicDetails)
-        {
-            startActivity(new Intent(this, BasicDetailsActivity.class));
-        }
-        else if(v.getId()==R.id.tvEditResidentialDetails)
-        {
-            startActivity(new Intent(this, ResidentialCity.class));
-        }
-        else if(v.getId()==R.id.tvEditPersonalDetails)
-        {
-            startActivity(new Intent(this, UserDOBActivity.class));
+        } else if (v.getId() == R.id.btnEditReview) {
+            if (rvPersonalDetails.getVisibility() == View.VISIBLE)
+                startActivity(new Intent(this, VehicleCategory.class));
+            else if (rvBasicDetails.getVisibility() == View.VISIBLE)
+                startActivity(new Intent(this, BasicDetailsActivity.class));
+            else if (rvResidentialDetails.getVisibility() == View.VISIBLE)
+                startActivity(new Intent(this, ResidentialCity.class));
+            else if (rvPersonalDetails.getVisibility() == View.VISIBLE)
+                startActivity(new Intent(this, UserDOBActivity.class));
         }
     }
 
-    private void displayPersonalDetails()
-    {
+    private void displayPersonalDetails() {
         try {
-            ReviewAdapter reviewAdapter=new ReviewAdapter(this,getPersonalDetails(),getResources().getString(R.string.title_personal_details));
+            ReviewAdapter reviewAdapter = new ReviewAdapter(this, getPersonalDetails(), getResources().getString(R.string.title_personal_details));
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             rvPersonalDetails.setLayoutManager(layoutManager);
             rvPersonalDetails.setAdapter(reviewAdapter);
@@ -163,11 +132,10 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    private List<ReviewData> getPersonalDetails()
-    {
-        ArrayList<ReviewData> personalDetails=new ArrayList<>();
+    private List<ReviewData> getPersonalDetails() {
+        ArrayList<ReviewData> personalDetails = new ArrayList<>();
         personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_dob), CommonMethods.getStringValueFromKey(this, USER_DOB)));
-        personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_gender),CommonMethods.getStringValueFromKey(this, GENDER)));
+        personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_gender), CommonMethods.getStringValueFromKey(this, GENDER)));
         personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_education), CommonMethods.getStringValueFromKey(this, EDUCATION)));
         personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_monthly_income), CommonMethods.getStringValueFromKey(this, MONTHLY_INCOME)));
         personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_total_emi), CommonMethods.getStringValueFromKey(this, MONTHLY_EMI)));
@@ -183,10 +151,9 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         return personalDetails;
     }
 
-    private void displayResidentialDetails()
-    {
+    private void displayResidentialDetails() {
         try {
-            ReviewAdapter reviewAdapter=new ReviewAdapter(this,getResidentialDetails(),getResources().getString(R.string.title_residential_details));
+            ReviewAdapter reviewAdapter = new ReviewAdapter(this, getResidentialDetails(), getResources().getString(R.string.title_residential_details));
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             rvResidentialDetails.setLayoutManager(layoutManager);
             rvResidentialDetails.setAdapter(reviewAdapter);
@@ -197,9 +164,8 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    private List<ReviewData> getResidentialDetails()
-    {
-        ArrayList<ReviewData> residentialDetails=new ArrayList<>();
+    private List<ReviewData> getResidentialDetails() {
+        ArrayList<ReviewData> residentialDetails = new ArrayList<>();
         residentialDetails.add(new ReviewData("PINCODE", customCityData.getPincode()));
         residentialDetails.add(new ReviewData(getResources().getString(R.string.lbl_state), customCityData.getState()));
         residentialDetails.add(new ReviewData(getResources().getString(R.string.city_lbl), customCityData.getCity()));
@@ -210,10 +176,9 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         return residentialDetails;
     }
 
-    private void displayBasicDetails()
-    {
+    private void displayBasicDetails() {
         try {
-            ReviewAdapter reviewAdapter=new ReviewAdapter(this,getBasicDetails(),getResources().getString(R.string.title_basic_details));
+            ReviewAdapter reviewAdapter = new ReviewAdapter(this, getBasicDetails(), getResources().getString(R.string.title_basic_details));
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             rvBasicDetails.setLayoutManager(layoutManager);
             rvBasicDetails.setAdapter(reviewAdapter);
@@ -224,9 +189,8 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    private List<ReviewData> getBasicDetails()
-    {
-        ArrayList<ReviewData> basicDetails=new ArrayList<>();
+    private List<ReviewData> getBasicDetails() {
+        ArrayList<ReviewData> basicDetails = new ArrayList<>();
         basicDetails.add(new ReviewData(getResources().getString(R.string.lbl_name), customBasicDetails.getFullName()));
         basicDetails.add(new ReviewData(getResources().getString(R.string.lbl_email), customBasicDetails.getEmail()));
         basicDetails.add(new ReviewData(getResources().getString(R.string.lbl_phone_no), customBasicDetails.getCustomerMobile()));
@@ -234,10 +198,9 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         return basicDetails;
     }
 
-    private void displayOldCarVehicleDetails()
-    {
+    private void displayOldCarVehicleDetails() {
         try {
-            ReviewAdapter reviewAdapter=new ReviewAdapter(this,getOldCarDataList(),getResources().getString(R.string.vehicle_details_title));
+            ReviewAdapter reviewAdapter = new ReviewAdapter(this, getOldCarDataList(), getResources().getString(R.string.vehicle_details_title));
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             rvVehDetails.setLayoutManager(layoutManager);
             rvVehDetails.setAdapter(reviewAdapter);
@@ -249,53 +212,40 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
 
     }
 
-    private List<ReviewData> getOldCarDataList()
-    {
-        ArrayList<ReviewData> reviewDataList=new ArrayList<>();
-        String vehHaveRegNo="",vehRegNo="",carHaveLoan="",insuranceAmount="";
-        if(CommonMethods.getStringValueFromKey(this, CAR_HAVE_REG_NO).equalsIgnoreCase("Yes"))
-        {
-            vehHaveRegNo=CommonMethods.getStringValueFromKey(this, CAR_HAVE_REG_NO);
-            if(!customVehDetails.getVehRegNum().equals(""))
-            {
-                vehRegNo=customVehDetails.getVehRegNum();
+    private List<ReviewData> getOldCarDataList() {
+        ArrayList<ReviewData> reviewDataList = new ArrayList<>();
+        String vehHaveRegNo = "", vehRegNo = "", carHaveLoan = "", insuranceAmount = "";
+        if (CommonMethods.getStringValueFromKey(this, CAR_HAVE_REG_NO).equalsIgnoreCase("Yes")) {
+            vehHaveRegNo = CommonMethods.getStringValueFromKey(this, CAR_HAVE_REG_NO);
+            if (!customVehDetails.getVehRegNum().equals("")) {
+                vehRegNo = customVehDetails.getVehRegNum();
+            } else {
+                vehRegNo = "NA";
             }
-            else
-            {
-                vehRegNo="NA";
-            }
-        }
-        else
-        {
-            vehHaveRegNo=CommonMethods.getStringValueFromKey(this, CAR_HAVE_REG_NO);
+        } else {
+            vehHaveRegNo = CommonMethods.getStringValueFromKey(this, CAR_HAVE_REG_NO);
         }
 
-        if(customVehDetails.getDoesCarHaveLoan())
-        {
-            carHaveLoan="Yes";
-        }
-        else
-        {
-            carHaveLoan="No";
+        if (customVehDetails.getDoesCarHaveLoan()) {
+            carHaveLoan = "Yes";
+        } else {
+            carHaveLoan = "No";
         }
 
-        if(customVehDetails.getInsurance())
-        {
-            insuranceAmount="Yes";
-        }
-        else
-        {
-            insuranceAmount="No";
+        if (customVehDetails.getInsurance()) {
+            insuranceAmount = "Yes";
+        } else {
+            insuranceAmount = "No";
         }
         reviewDataList.add(new ReviewData(CommonStrings.VEH_CATEGORY_TITLE, customVehDetails.getVehCategory()));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_reg_num_qn),vehHaveRegNo));
+        reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_reg_num_qn), vehHaveRegNo));
         reviewDataList.add(new ReviewData(CommonStrings.VEH_REG_NO_TITLE, vehRegNo));
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_reg_year), "2000"));
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_make), customVehDetails.getMake()));
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_model), customVehDetails.getModel()));
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_variant), customVehDetails.getVariant()));
         reviewDataList.add(new ReviewData(getString(R.string.lbl_veh_ownership), String.valueOf(customVehDetails.getOwnership())));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_have_loan_qn),carHaveLoan ));
+        reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_have_loan_qn), carHaveLoan));
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_insurance_on_vehicle), insuranceAmount));
         reviewDataList.add(new ReviewData("INSURANCE AMOUNT", customVehDetails.getInsuranceAmount()));
         reviewDataList.add(new ReviewData("INSURANCE VALIDITY", customVehDetails.getInsuranceValidity()));
@@ -303,10 +253,9 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         return reviewDataList;
     }
 
-    private void displayNewCarVehicleDetails()
-    {
+    private void displayNewCarVehicleDetails() {
         try {
-            ReviewAdapter reviewAdapter=new ReviewAdapter(this,getNewCarDataList(),getResources().getString(R.string.vehicle_details_title));
+            ReviewAdapter reviewAdapter = new ReviewAdapter(this, getNewCarDataList(), getResources().getString(R.string.vehicle_details_title));
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             rvVehDetails.setLayoutManager(layoutManager);
             rvVehDetails.setAdapter(reviewAdapter);
@@ -318,18 +267,17 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
 
     }
 
-    private List<ReviewData> getNewCarDataList()
-    {
-        ArrayList<ReviewData> reviewDataList=new ArrayList<>();
+    private List<ReviewData> getNewCarDataList() {
+        ArrayList<ReviewData> reviewDataList = new ArrayList<>();
         reviewDataList.add(new ReviewData(CommonStrings.VEH_CATEGORY_TITLE, customVehDetails.getVehCategory()));
-        Log.i(TAG, "getNewCarDataList: "+customVehDetails.getVehCategory());
+        Log.i(TAG, "getNewCarDataList: " + customVehDetails.getVehCategory());
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_reg_year), customVehDetails.getRegistrationYear()));
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_make), customVehDetails.getMake()));
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_model), customVehDetails.getModel()));
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_variant), customVehDetails.getVariant()));
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_road_price), CommonMethods.getStringValueFromKey(this, ROAD_PRICE)));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_vehicle_purchase_amount),CommonMethods.getStringValueFromKey(this, VEH_PURCHASE_AMOUNT)));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_insured_amount),CommonMethods.getStringValueFromKey(this, VEH_INSURED_AMOUNT) ));
+        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_vehicle_purchase_amount), CommonMethods.getStringValueFromKey(this, VEH_PURCHASE_AMOUNT)));
+        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_insured_amount), CommonMethods.getStringValueFromKey(this, VEH_INSURED_AMOUNT)));
         return reviewDataList;
 
     }

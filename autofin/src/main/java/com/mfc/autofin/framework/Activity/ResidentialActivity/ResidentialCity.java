@@ -28,7 +28,7 @@ import static utility.CommonStrings.RES_CITY_URL;
 
 public class ResidentialCity extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
 
-    TextView tvAppBarTitle, tvGivenOTP, tvGivenOTPVal, tvGivenOTPEdit, tvRegCityLbl, tvPincodeLbl, tvStateName,tvSelectedCity,tvCityName;
+    TextView tvAppBarTitle, tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvRegCityLbl, tvPincodeLbl, tvStateName,tvSelectedCity,tvCityName;
     EditText etResPinCode,etAddressLine1,etAddressLine2,etLandmark;
     Button btnPinCodeCheck, btnNext;
     ImageView iv_residential_details_backBtn;
@@ -46,9 +46,9 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
 
     private void initViews() {
         tvAppBarTitle = findViewById(R.id.tvAppBarTitle);
-        tvGivenOTP = findViewById(R.id.tvGivenOTP);
-        tvGivenOTPVal = findViewById(R.id.tvGivenOTPVal);
-        tvGivenOTPEdit = findViewById(R.id.tvGivenOTPEdit);
+        tvGivenLbl=findViewById(R.id.tvGivenLbl);
+        tvGivenPreviousVal=findViewById(R.id.tvGivenPreviousVal);
+        tvGivenValEdit=findViewById(R.id.tvGivenValEdit);
         tvSelectedCity=findViewById(R.id.tvSelectedCity);
         iv_residential_details_backBtn = findViewById(R.id.iv_residential_details_backBtn);
         tvRegCityLbl = findViewById(R.id.tvRegCityLbl);
@@ -61,7 +61,8 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
         etLandmark= findViewById(R.id.etLandmark);
         btnPinCodeCheck = findViewById(R.id.btnPinCodeCheck);
         btnNext = findViewById(R.id.btnNext);
-        tvGivenOTPVal.setText(basicDetailsVal);
+        tvGivenLbl.setText(getString(R.string.title_basic_details));
+        tvGivenPreviousVal.setText(basicDetailsVal);
         iv_residential_details_backBtn.setOnClickListener(this);
         btnPinCodeCheck.setOnClickListener(this);
         btnNext.setOnClickListener(this);

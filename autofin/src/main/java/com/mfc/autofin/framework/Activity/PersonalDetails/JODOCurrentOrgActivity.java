@@ -3,6 +3,7 @@ package com.mfc.autofin.framework.Activity.PersonalDetails;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +22,7 @@ import java.text.SimpleDateFormat;
 import utility.CommonMethods;
 import utility.CommonStrings;
 
+@SuppressLint("NewApi")
 public class JODOCurrentOrgActivity extends AppCompatActivity implements View.OnClickListener, CalendarView.OnDateChangeListener {
 
 
@@ -54,7 +56,7 @@ public class JODOCurrentOrgActivity extends AppCompatActivity implements View.On
         tvGivenPreviousVal.setText(strOrgName);
         iv_personal_details_backBtn.setOnClickListener(this);
         tvGivenValEdit.setOnClickListener(this);
-        cvJoiningDateOfCurrentOrg.setMinDate(System.currentTimeMillis() - 1000);
+        cvJoiningDateOfCurrentOrg.setMaxDate(System.currentTimeMillis() - 1000);
         cvJoiningDateOfCurrentOrg.setOnDateChangeListener(this);
         tvJODOCurrentOrgLbl.setOnClickListener(this);
 

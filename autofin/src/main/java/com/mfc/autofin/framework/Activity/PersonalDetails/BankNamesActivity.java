@@ -26,6 +26,7 @@ import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
 import utility.CustomSearchDialog;
+import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
 
@@ -72,6 +73,7 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
 
         if(v.getId()==R.id.iv_app_bank_search)
         {
+            SpinnerManager.showSpinner(BankNamesActivity.this);
             retrofitInterface.getFromWeb(CommonStrings.BANK_NAME_URL).enqueue(this);
         }
         else if(v.getId()==R.id.btnNext)
