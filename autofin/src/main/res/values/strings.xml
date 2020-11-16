@@ -213,6 +213,12 @@
     <string name="will_contact_lbl">We will contact you for further proceedings.</string>
     <string name="kyc_not_updated_lbl">Your Kyc is not updated</string>
     <string name="track_my_loan_text">TRACK MY LOAN</string>
+    <string name="lbl_change_bank">CHANGE BANK</string>
+    <string name="remove_lbl">Remove</string>
+    <string name="kyc_updated_lbl">Kyc Updated</string>
+    <string name="pending_at_bank_lbl">Pending at Bank</string>
+    <string name="disbursement_lbl">Disbursement</string>
+    <string name="status_lbl">Status</string>
 
 
 </resources>
