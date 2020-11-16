@@ -1,10 +1,12 @@
 package controller;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +17,11 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.BundleCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.LeadDetailsActivity;
 import com.mfc.autofin.framework.R;
 
 import java.util.ArrayList;
@@ -25,6 +29,7 @@ import java.util.List;
 import java.util.Locale;
 
 import model.CustomerData;
+import utility.CommonStrings;
 import utility.CustomFonts;
 
 public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.ViewHolder> {
@@ -89,13 +94,13 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
             Log.i(TAG, "onBindViewHolder: Customer Email is null");
 
         if (holder.tvStatus.getText().equals("open") || holder.tvStatus.getText().equals("Open")) {
-            holder.tvLeadComplete.setVisibility(View.VISIBLE);
+            holder.tvViewDetails.setVisibility(View.VISIBLE);
         } else {
-            holder.tvLeadComplete.setVisibility(View.GONE);
+            holder.tvViewDetails.setVisibility(View.GONE);
         }
 
-        if (holder.tvLeadComplete.getVisibility() == View.VISIBLE) {
-            holder.tvLeadComplete.setOnClickListener(new View.OnClickListener() {
+        if (holder.tvViewDetails.getVisibility() == View.VISIBLE) {
+            holder.tvViewDetails.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
@@ -104,7 +109,23 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
             });
         }
 
-
+        holder.tvViewDetails.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NewApi")
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(activity, LeadDetailsActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putString(CommonStrings.CASE_ID,holder.tvCaseIDVal.getText().toString());
+                bundle.putString(CommonStrings.CNAME,holder.tvCName.getText().toString());
+                bundle.putString(CommonStrings.CEMAIL,holder.tvCEmailId.getText().toString());
+                bundle.putString(CommonStrings.CMOBILE_NUM,holder.tvCMobileNum.getText().toString());
+                bundle.putString(CommonStrings.LEAD_CREATION_DATE,holder.tvDate.getText().toString());
+                bundle.putString(CommonStrings.LEAD_STATUS,holder.tvStatus.getText().toString());
+                bundle.putString(CommonStrings.KYC_STATUS,holder.tvKYCStatus.getText().toString());
+                intent.putExtras(bundle);
+                activity.startActivity(intent);
+            }
+        });
         holder.btnCallCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,7 +147,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvCaseIDVal, tvStatus, tvDate, tvKYCStatus, tvCName, tvCMobileNum, tvCEmailId, tvLeadComplete;
+        TextView tvCaseIDVal, tvStatus, tvDate, tvKYCStatus, tvCName, tvCMobileNum, tvCEmailId, tvViewDetails;
         Button btnCallCustomer;
 
         public ViewHolder(View itemView) {
@@ -138,11 +159,11 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
             tvCName = itemView.findViewById(R.id.tvCName);
             tvCMobileNum = itemView.findViewById(R.id.tvCMobileNum);
             tvCEmailId = itemView.findViewById(R.id.tvCEmailId);
-            tvLeadComplete = itemView.findViewById(R.id.tvLeadComplete);
+            tvViewDetails = itemView.findViewById(R.id.tvViewDetails);
             btnCallCustomer = itemView.findViewById(R.id.btnCallCustomer);
             tvCMobileNum.setTypeface(CustomFonts.getRobotoRegularTF(activity));
             tvCEmailId.setTypeface(CustomFonts.getRobotoRegularTF(activity));
-            tvLeadComplete.setTypeface(CustomFonts.getRobotoRegularTF(activity));
+            tvViewDetails.setTypeface(CustomFonts.getRobotoRegularTF(activity));
         }
     }
 

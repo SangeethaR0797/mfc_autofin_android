@@ -53,6 +53,13 @@ public class CommonStrings {
     public static final String ADDRESS2 ="address_line_2" ;
     public static final String LANDMARK = "landmark";
     public static final String PANCARD_LBL ="PANCARD NUMBER" ;
+    public static final String CNAME ="customer_name" ;
+    public static final String CEMAIL = "customer_email";
+    public static final String CMOBILE_NUM = "customer_mobile_number";
+    public static final String LEAD_CREATION_DATE ="lead_creation_date" ;
+    public static final String LEAD_STATUS ="lead_status" ;
+    public static final String KYC_STATUS ="kyc_status" ;
+    public static final String CASE_ID = "case_id";
     public static String VEH_CATEGORY_URL = "https://15.207.148.230:3004/api/masters/vehicle-category";
     public static String RES_CITY_URL = "https://15.207.148.230:3004/api/pincode/city/";
     public static String IBB_PASSWORD = "dHk69ffu7ebP";

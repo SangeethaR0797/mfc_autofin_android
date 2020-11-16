@@ -219,6 +219,7 @@
     <string name="pending_at_bank_lbl">Pending at Bank</string>
     <string name="disbursement_lbl">Disbursement</string>
     <string name="status_lbl">Status</string>
+    <string name="btn_lbl_view_details">VIEW DETAILS</string>
 
 
 </resources>

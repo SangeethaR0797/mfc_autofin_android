@@ -146,13 +146,13 @@
             android:background="@color/pale_grey" />
 
         <TextView
-            android:id="@+id/tvLeadComplete"
+            android:id="@+id/tvViewDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/text_size_16sp"
             android:background="@color/white"
-            android:text="@string/btn_lbl_complete"
+            android:text="@string/btn_lbl_view_details"
             android:textColor="@color/navy_blue" />
 
     </LinearLayout>
