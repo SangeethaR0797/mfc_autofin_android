@@ -2,6 +2,7 @@ package com.mfc.autofin.framework.Activity.PersonalDetails;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -9,20 +10,30 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
-import com.mfc.autofin.framework.Activity.review_activites.GenderBSDFragment;
+import com.mfc.autofin.framework.Activity.review_activites.BSDListItemFragment;
 import com.mfc.autofin.framework.R;
 
+import java.util.List;
+
+import model.personal_details_models.DataListResponse;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
 
-public class GenderActivity extends AppCompatActivity implements View.OnClickListener {
+import static retrofit_config.RetroBase.retrofitInterface;
 
+public class GenderActivity extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
+
+    private static final String TAG =GenderActivity.class.getSimpleName() ;
     private String strUserDOB = "";
     TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvGenderVal;
     private Button btnNext;
     ImageView iv_personal_details_backBtn;
-    private String[] genderArr={"Male","Female","Others"};
+    private List<String> genderList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +50,7 @@ public class GenderActivity extends AppCompatActivity implements View.OnClickLis
         {
             exception.printStackTrace();
         }
+        retrofitInterface.getFromWeb(CommonStrings.GENDER_URL).enqueue(this);
 
     }
 
@@ -57,14 +69,50 @@ public class GenderActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
+    public void onResponse(Call<Object> call, Response<Object> response) {
+        String strRes=new Gson().toJson(response.body());
+        Log.i(TAG, "onResponse: "+strRes);
+        try
+        {
+            DataListResponse genderListRes=new Gson().fromJson(strRes,DataListResponse.class);
+            if(genderListRes.getStatus() && genderListRes!=null)
+            {
+                if(genderListRes.getData()!=null)
+                {
+                    genderList=genderListRes.getData();
+                }
+                else
+                {
+                    genderListRes.getMessage();
+                }
+            }
+            else
+            {
+                CommonMethods.showToast(this,"No data found,Please try again!");
+            }
+        }
+        catch(Exception exception)
+        {
+            exception.printStackTrace();
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         if(v.getId()==R.id.iv_personal_details_backBtn)
         {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         }
-       else if (v.getId() == R.id.tvGenderVal) {
-            GenderBSDFragment genderBSDFragment = new GenderBSDFragment(this, tvGenderVal,genderArr);
-            genderBSDFragment.show(getSupportFragmentManager(),"GenderFragment");
+        else if (v.getId() == R.id.tvGenderVal) {
+            if(genderList!=null && genderList.size()>0)
+            {
+                BSDListItemFragment BSDListItemFragment = new BSDListItemFragment(this, tvGenderVal,genderList);
+                BSDListItemFragment.show(getSupportFragmentManager(),"GenderFragment");
+            }
+            else
+            {
+                retrofitInterface.getFromWeb(CommonStrings.GENDER_URL).enqueue(this);
+            }
         }
         else if(v.getId()==R.id.tvGivenValEdit)
         {
@@ -75,12 +123,17 @@ public class GenderActivity extends AppCompatActivity implements View.OnClickLis
             if(!tvGenderVal.getText().toString().equals(""))
             {
                 CommonMethods.setValueAgainstKey(this,CommonStrings.GENDER,tvGenderVal.getText().toString());
-            startActivity(new Intent(this,EducationActivity.class));
+                startActivity(new Intent(this,EducationActivity.class));
             }
             else
             {
                 CommonMethods.showToast(this,"Please select Gender");
             }
         }
+    }
+
+    @Override
+    public void onFailure(Call<Object> call, Throwable t) {
+
     }
 }

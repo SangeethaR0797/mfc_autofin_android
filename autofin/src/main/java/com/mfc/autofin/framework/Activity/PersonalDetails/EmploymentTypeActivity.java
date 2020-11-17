@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
+import com.mfc.autofin.framework.Activity.PersonalDetails.employment_activities.ProfessionActivity;
 import com.mfc.autofin.framework.Activity.ResidentialActivity.ResidenceTypeActivity;
 import com.mfc.autofin.framework.R;
 
@@ -94,10 +95,10 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
             startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
         } else if (v.getId() == R.id.rbBusinessOwner) {
             CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbBusinessOwner.getText().toString());
-            startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
+            startActivity(new Intent(EmploymentTypeActivity.this, EmploymentRole.class));
         } else if (v.getId() == R.id.rbSelfEmployedProfessional) {
             CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbSelfEmployedProfessional.getText().toString());
-            startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
+            startActivity(new Intent(EmploymentTypeActivity.this, ProfessionActivity.class));
         } else if (v.getId() == R.id.rbIndependentWorker) {
             CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbIndependentWorker.getText().toString());
             startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));

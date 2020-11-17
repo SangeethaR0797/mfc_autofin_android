@@ -63,6 +63,7 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
         btnNext = findViewById(R.id.btnNext);
         tvGivenLbl.setText(getString(R.string.title_basic_details));
         tvGivenPreviousVal.setText(basicDetailsVal);
+        tvGivenValEdit.setOnClickListener(this);
         iv_residential_details_backBtn.setOnClickListener(this);
         btnPinCodeCheck.setOnClickListener(this);
         btnNext.setOnClickListener(this);
@@ -72,7 +73,11 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         if (v.getId() == R.id.iv_residential_details_backBtn) {
             finish();
-        } else if (v.getId() == R.id.btnPinCodeCheck) {
+        }
+        else if(v.getId()==R.id.tvGivenValEdit)
+        {
+            finish();
+        }else if (v.getId() == R.id.btnPinCodeCheck) {
             strPinCode = etResPinCode.getText().toString();
             if (strPinCode!="") {
                 SpinnerManager.showSpinner(this);

@@ -171,6 +171,19 @@
             android:name=".Activity.VehicleDetailsActivities.LeadDetailsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
 
+        <activity
+            android:name=".Activity.PersonalDetails.ReferenceActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+
+
+        <activity
+            android:name=".Activity.PersonalDetails.InterestedBankOfferActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+
+        <activity
+            android:name=".Activity.bank_offer_activities.InterestedBankOfferDetailsActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

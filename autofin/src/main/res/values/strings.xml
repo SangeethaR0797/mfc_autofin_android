@@ -220,6 +220,15 @@
     <string name="disbursement_lbl">Disbursement</string>
     <string name="status_lbl">Status</string>
     <string name="btn_lbl_view_details">VIEW DETAILS</string>
+    <string name="apply_now_lbl">APPLY NOW</string>
+    <string name="lbl_thanks_for_updating_your_details">Thanks for Updating your Details</string>
+    <string name="lbl_please_wait">Please Wait...</string>
+    <string name="lbl_matching_your_details_with_bank">Matching your details \n with banks</string>
+    <string name="lbl_employment_role">EMPLOYMENT ROLE</string>
+    <string name="hint_employment_role">Please select your employment role</string>
+    <string name="lbl_profession">PROFESSION</string>
+    <string name="hint_profession">Please select your profession</string>
+    <string name="lbl_starting_date_of_business_or_profession">BUSINESS OR PROFESSION STARTED DATE</string>
 
 
 </resources>

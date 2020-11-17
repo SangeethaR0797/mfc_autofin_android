@@ -55,6 +55,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
     ImageView iv_dialog_close;
     Button btnProceed;
     Activity activity;
+    int remainingSecs = 30000;
 
     public OTPBottomSheetFragment(Activity activity) {
         this.activity = activity;
@@ -65,6 +66,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_o_t_p_bottom_sheet_list_dialog, container, false);
         initView(view);
+        loadTimer(remainingSecs,0);
         return view;
     }
 
@@ -81,30 +83,6 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
         tvResendOTPLbl.setOnClickListener(this);
         iv_dialog_close.setOnClickListener(this);
         btnProceed.setOnClickListener(this);
-        new CountDownTimer(30000, 1000) {
-
-            int tag = 0;
-            long milliSecondRemaining = 0;
-
-            public void onTick(long millisUntilFinished) {
-                milliSecondRemaining = millisUntilFinished;
-                tvOTPTimer.setText("" + millisUntilFinished / 1000);
-            }
-
-            public void onPause() {
-                tag = 1;
-                milliSecondRemaining = 30000;
-            }
-
-            public void onFinish() {
-
-                tvOTPTimer.setText("00");
-                if (tag != 1) {
-                    CommonStrings.customBasicDetails.setOtp("");
-                   // Toast.makeText(activity, "Your OTP expired! Please try again.", Toast.LENGTH_LONG).show();
-                }
-            }
-        }.start();
 
     }
 
@@ -113,6 +91,33 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
 
     }
 
+    public void loadTimer(int remainingSecs,int givenTag) {
+        new CountDownTimer(remainingSecs, 1000) {
+
+            int tag = givenTag;
+            long milliSecondRemaining = 0;
+
+            public void onTick(long millisUntilFinished) {
+                milliSecondRemaining = millisUntilFinished;
+                tvOTPTimer.setText("" + millisUntilFinished / 1000);
+            }
+
+
+            public void onFinish() {
+
+                tvOTPTimer.setText("00");
+                if (tag != 1) {
+                    CommonStrings.customBasicDetails.setOtp("");
+                    Toast.makeText(activity, "Your OTP expired! Please try again.", Toast.LENGTH_LONG).show();
+                }
+                else
+                    {
+                        Log.i(TAG, "onFinish: true");
+                    }
+            }
+        }.start();
+
+    }
 
     @Override
     public void onClick(View v) {
@@ -130,6 +135,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
             retrofitInterface.getFromWeb(getOTPRequest(), CommonStrings.OTP_URL_END).enqueue(this);
         } else if (v.getId() == R.id.btnProceed) {
             if (!etOTPVal.getText().toString().equals("") && etOTPVal.getText().toString().equalsIgnoreCase(CommonStrings.customBasicDetails.getOtp())) {
+                loadTimer(1000,1);
                 CommonStrings.customBasicDetails.setOtp(etOTPVal.getText().toString());
                 SpinnerManager.showSpinner(activity);
                 retrofitInterface.getFromWeb(getAddLeadRequest(), CommonStrings.ADD_LEAD_URL_END).enqueue(this);

@@ -17,7 +17,10 @@ import androidx.annotation.Nullable;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.mfc.autofin.framework.R;
 
-public class GenderBSDFragment extends BottomSheetDialogFragment implements View.OnClickListener {
+import java.util.Arrays;
+import java.util.List;
+
+public class BSDListItemFragment extends BottomSheetDialogFragment implements View.OnClickListener {
 
     private Activity activity;
     TextView tvSelectionTitle;
@@ -25,12 +28,12 @@ public class GenderBSDFragment extends BottomSheetDialogFragment implements View
     ListView lvGender;
     Button btnSelectGender;
     TextView textView;
-    private String[] givenArr;
+    private List<String> itemList;
     private String strGender="" ;
-    public GenderBSDFragment(Activity activity,TextView textView,String[] strArr) {
+    public BSDListItemFragment(Activity activity, TextView textView, List<String> itemList) {
         this.activity = activity;
         this.textView=textView;
-        givenArr=strArr;
+        this.itemList=itemList;
     }
 
     @Override
@@ -47,7 +50,7 @@ public class GenderBSDFragment extends BottomSheetDialogFragment implements View
         dialog_cancel_btn=view.findViewById(R.id.dialog_cancel_btn);
         lvGender=view.findViewById(R.id.lvGender);
         btnSelectGender=view.findViewById(R.id.btnSelectGender);
-        ArrayAdapter adapter = new ArrayAdapter<String>(activity, R.layout.layout_single_list_view, givenArr);
+        ArrayAdapter adapter = new ArrayAdapter<String>(activity, R.layout.layout_single_list_view, itemList);
         lvGender.setAdapter(adapter);
         lvGender.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

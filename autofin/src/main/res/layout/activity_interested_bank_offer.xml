@@ -14,6 +14,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:fillViewport="true">
 
             <LinearLayout
@@ -41,7 +42,7 @@
                     android:textSize="@dimen/text_size_16sp" />
 
                 <utility.RobotoMedium
-                    android:id="@+id/tv_hi_name"
+                    android:id="@+id/tv_hi_cname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -60,7 +61,7 @@
                     android:layout_marginBottom="3dp"/>
 
                 <TextView
-                    android:id="@+id/tvCaseIdLbl"
+                    android:id="@+id/tvInterestedBankOfferCaseId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

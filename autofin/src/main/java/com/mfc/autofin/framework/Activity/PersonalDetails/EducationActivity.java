@@ -2,6 +2,7 @@ package com.mfc.autofin.framework.Activity.PersonalDetails;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -10,20 +11,30 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
-import com.mfc.autofin.framework.Activity.review_activites.GenderBSDFragment;
+import com.mfc.autofin.framework.Activity.review_activites.BSDListItemFragment;
 import com.mfc.autofin.framework.R;
 
+import java.util.List;
+
+import model.personal_details_models.DataListResponse;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
 
-public class EducationActivity extends AppCompatActivity implements View.OnClickListener {
+import static retrofit_config.RetroBase.retrofitInterface;
 
+public class EducationActivity extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
+
+    private static final String TAG = EducationActivity.class.getSimpleName();
     private String strGender = "";
     TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvEducationVal;
     private Button btnNext;
     ImageView iv_personal_details_backBtn;
-    private String[] educationArr={"DOCTORATE","MASTER DEGREE","GRADUATION","INTERMEDIATE","DIPLOMA"};
+    private List<String> educationQualificationList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,6 +51,8 @@ public class EducationActivity extends AppCompatActivity implements View.OnClick
         {
             exception.printStackTrace();
         }
+        retrofitInterface.getFromWeb(CommonStrings.EDUCATION_QUALIFICATION_URL).enqueue(this);
+
     }
 
     private void initView()
@@ -60,6 +73,37 @@ public class EducationActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
+    public void onResponse(Call<Object> call, Response<Object> response) {
+        String strRes=new Gson().toJson(response.body());
+        Log.i(TAG, "onResponse: "+strRes);
+        try
+        {
+            DataListResponse eduQualificationListRes=new Gson().fromJson(strRes,DataListResponse.class);
+            if(eduQualificationListRes.getStatus() && eduQualificationListRes!=null)
+            {
+                if(eduQualificationListRes.getData()!=null)
+                {
+                    educationQualificationList=eduQualificationListRes.getData();
+                }
+                else
+                {
+                    eduQualificationListRes.getMessage();
+                }
+            }
+            else
+            {
+                CommonMethods.showToast(this,"No data found,Please try again!");
+            }
+
+        }
+
+        catch(Exception exception)
+    {
+        exception.printStackTrace();
+    }
+}
+
+    @Override
     public void onClick(View v) {
         if(v.getId()==R.id.iv_personal_details_backBtn)
         {
@@ -71,8 +115,13 @@ public class EducationActivity extends AppCompatActivity implements View.OnClick
         }
         else if(v.getId()==R.id.tvEducationVal)
         {
-            GenderBSDFragment genderBSDFragment = new GenderBSDFragment(this, tvEducationVal,educationArr);
-            genderBSDFragment.show(getSupportFragmentManager(),"GenderFragment");
+            if(educationQualificationList!=null)
+            {
+                BSDListItemFragment bSDListItemFragment = new BSDListItemFragment(this, tvEducationVal,educationQualificationList);
+                bSDListItemFragment.show(getSupportFragmentManager(),"EducationList");
+            }
+            else
+            {retrofitInterface.getFromWeb(CommonStrings.EDUCATION_QUALIFICATION_URL).enqueue(this);}
         }
         else if(v.getId()==R.id.btnNext)
         {
@@ -86,5 +135,10 @@ public class EducationActivity extends AppCompatActivity implements View.OnClick
                 CommonMethods.showToast(this,"Please select your Education");
             }
         }
+    }
+
+    @Override
+    public void onFailure(Call<Object> call, Throwable t) {
+
     }
 }

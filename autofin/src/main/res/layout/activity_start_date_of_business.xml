@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/personal_details_app_bar" />
+        <include layout="@layout/layout_previous_screen_values" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_size10dp"
+            android:layout_marginTop="@dimen/text_size_8dp"
+            android:layout_marginRight="@dimen/text_size10dp"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <utility.RobotoMedium
+                    android:id="@+id/tvStartDateOfBOPLbl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_20dp"
+                    android:layout_marginTop="@dimen/text_size_30dp"
+                    android:clickable="true"
+                    android:drawableRight="@drawable/ic_baseline_calendar_today_24"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="@dimen/text_size_17dp"
+                    android:text="@string/lbl_starting_date_of_business_or_profession"
+                    android:textColor="@color/very_dark_blue"
+                    android:textSize="@dimen/text_size_16sp" />
+
+
+                <LinearLayout
+                    android:id="@+id/llStartDateOfBOP"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/g_white"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/text_size_21dp"
+                    android:paddingTop="@dimen/text_size_24dp"
+                    android:paddingRight="@dimen/text_size10dp"
+                    android:paddingBottom="@dimen/text_size_17dp">
+
+                    <utility.RobotoMedium
+                        android:id="@+id/tvStartDateOfBOPVal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/date_format_hint"
+                        android:textColor="@color/very_dark_blue"
+                        android:textSize="@dimen/text_size_19sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llJODCalendarView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_size_20dp"
+                    android:visibility="invisible">
+
+                    <CalendarView
+                        android:id="@+id/cvJoiningDateOfCurrentOrg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusedMonthDateColor="@color/grey_color"
+                        tools:targetApi="honeycomb" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+</RelativeLayout>

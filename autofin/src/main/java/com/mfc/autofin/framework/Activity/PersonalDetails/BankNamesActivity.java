@@ -76,6 +76,10 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
             SpinnerManager.showSpinner(BankNamesActivity.this);
             retrofitInterface.getFromWeb(CommonStrings.BANK_NAME_URL).enqueue(this);
         }
+        else if(v.getId()==R.id.tvGivenValEdit)
+        {
+            finish();
+        }
         else if(v.getId()==R.id.btnNext)
         {
             if(!tvSelectedBankName.getText().toString().equals(""))

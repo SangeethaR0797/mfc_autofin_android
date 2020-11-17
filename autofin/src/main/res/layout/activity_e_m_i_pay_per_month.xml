@@ -41,7 +41,6 @@
                 android:id="@+id/llMonthlyEMI"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/text_size10dp"
                 android:layout_marginRight="@dimen/text_size10dp"
                 android:layout_marginBottom="@dimen/text_size_17dp"
                 android:orientation="vertical"
