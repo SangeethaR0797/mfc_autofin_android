@@ -151,7 +151,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onImageUploadCompleted(String Imageurl, int statuscode) {
-
+         Log.e("Image received","Image received " +Imageurl);
     }
 }
 
