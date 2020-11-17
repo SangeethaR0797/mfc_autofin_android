@@ -1,25 +1,25 @@
 
-M
-java:S1659"0Declare "radioBtnThirdParty" on a separate line.(ĞÜú¸8 ä¼Û.
-S
-java:S1128"1Remove this unused import 'android.widget.Toast'.(©›ïÍúÿÿÿÿ8 ä¼Û.
-F
-java:S1659")Declare "tvVehTypeQn" on a separate line.(¬øë¿8 ä¼Û.
-U
-java:S1128"8Remove this unused import 'controller.DashboardAdapter'.(™ËÂ8 ä¼Û.
-P
-java:S1659"3Declare "tvGivenInsValidityVal" on a separate line.(¬øë¿8 ä¼Û.
-y	java:S116"]Rename this field "iv_vehDetails_back" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(º´ıÀ8Ñ¯ä¼Û.
 T
 java:S1128"2Remove this unused import 'utility.CommonMethods'.(È†–¶úÿÿÿÿ8 ä¼Û.
-P
-java:S1659".Declare "strInsuranceType" on a separate line.(ıĞ§Äÿÿÿÿÿ8 ä¼Û.
 t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ŒÉ©¾ùÿÿÿÿ
-W
-java:S1128"5Remove this unused import 'utility.AutoFinConstants'.(Ãì›ÿÿÿÿÿ8 ä¼Û.
-T
-java:S1128"2Remove this unused import 'android.widget.Button'.(²òıÿÿÿÿ8 ä¼Û.
-]	java:S125&"<This block of commented-out lines of code should be removed.(Ã“«—ıÿÿÿÿ8 ä¼Û.
-]	java:S110"<This class has 9 parents which is greater than 5 authorized.(ü“ˆÖúÿÿÿÿ8 ä¼Û.
 Q
 java:S1659"4Declare "tvGivenInsValidityEdit" on a separate line.(¬øë¿8 ä¼Û.
+P
+java:S1659".Declare "strInsuranceType" on a separate line.(ıĞ§Äÿÿÿÿÿ8 ä¼Û.
+]	java:S125&"<This block of commented-out lines of code should be removed.(Ã“«—ıÿÿÿÿ8 ä¼Û.
+F
+java:S1659")Declare "tvVehTypeQn" on a separate line.(¬øë¿8 ä¼Û.
+T
+java:S1128"2Remove this unused import 'android.widget.Button'.(²òıÿÿÿÿ8 ä¼Û.
+	java:S116"`Rename this field "iv_vehDetails_backBtn" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•©¶¥ıÿÿÿÿ8×é×Û.
+W
+java:S1128"5Remove this unused import 'utility.AutoFinConstants'.(Ãì›ÿÿÿÿÿ8 ä¼Û.
+P
+java:S1659"3Declare "tvGivenInsValidityVal" on a separate line.(¬øë¿8 ä¼Û.
+]	java:S110"<This class has 9 parents which is greater than 5 authorized.(ü“ˆÖúÿÿÿÿ8 ä¼Û.
+S
+java:S1128"1Remove this unused import 'android.widget.Toast'.(©›ïÍúÿÿÿÿ8 ä¼Û.
+U
+java:S1128"8Remove this unused import 'controller.DashboardAdapter'.(™ËÂ8 ä¼Û.
+M
+java:S1659"0Declare "radioBtnThirdParty" on a separate line.(ĞÜú¸8 ä¼Û.

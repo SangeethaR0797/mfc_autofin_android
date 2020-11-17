@@ -59,14 +59,14 @@ public final class AutofinMediaManager {
             AWSCredentials awsCredentials = getAWSCredentials(BUCKETKEY, BUCKETSECRET);
 
             AmazonS3Client s3Client = awsCredentials != null ? new AmazonS3Client(awsCredentials, clientConfiguration) : new AmazonS3Client();
-            s3Client.setRegion(Region.getRegion(Regions.US_WEST_2));
+            s3Client.setRegion(Region.getRegion(Regions.AP_SOUTH_1));
 
             Log.i(TAG, " " + Regions.DEFAULT_REGION);
 
-            s3Client.putObject(new PutObjectRequest(BUCKETNAME, path, new File(filePath)).withCannedAcl(CannedAccessControlList.PublicRead));
+            s3Client.putObject(new PutObjectRequest(BUCKETNAME, path, new File(filePath)).withCannedAcl(CannedAccessControlList.Private));
 
             mImageUrl = s3Client.getResourceUrl(BUCKETNAME, path);
-
+            Log.i(TAG, "mImageUrl " + mImageUrl);
 
         } catch (Exception e) {
             Log.e(TAG, "Exception: " + e.getMessage());

@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 
+import kyc.DocumentUploadActivity;
 import utility.AutoFinConstants;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         mLaunchAutofin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent autodashboard = new Intent(MainActivity.this, AutoFinDashBoardActivity.class);
+                Intent autodashboard = new Intent(MainActivity.this, DocumentUploadActivity.class);
                      autodashboard.putExtra(AutoFinConstants.APP_NAME,"MFCBusiness");
                      autodashboard.putExtra(AutoFinConstants.DEALER_ID,"242");
                      autodashboard.putExtra(AutoFinConstants.USER_TYPE,"Dealer");

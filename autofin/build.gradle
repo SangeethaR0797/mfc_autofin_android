@@ -8,6 +8,7 @@ android {
 
     defaultConfig {
         targetSdkVersion 29
+        minSdkVersion 16
         versionCode 1
         versionName "1.0"
 
@@ -66,7 +67,7 @@ dependencies {
 
 def libraryGroupId = 'com.mfc.sdc'
 def libraryArtifactId = 'autofin'
-def libraryVersion = '1.0.2'
+def libraryVersion = '2.0.1'
 
 publishing {
     publications {
