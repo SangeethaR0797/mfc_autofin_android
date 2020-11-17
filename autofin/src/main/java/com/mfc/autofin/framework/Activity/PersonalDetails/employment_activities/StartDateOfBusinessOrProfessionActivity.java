@@ -16,7 +16,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
-import com.mfc.autofin.framework.Activity.PersonalDetails.YearOfExperienceActivity;
 import com.mfc.autofin.framework.R;
 
 import java.text.SimpleDateFormat;
@@ -29,7 +28,7 @@ public class StartDateOfBusinessOrProfessionActivity extends AppCompatActivity i
 
     private ImageView iv_personal_details_backBtn;
     private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit,tvStartDateOfBOPLbl,tvStartDateOfBOPVal;
-    private String strOrgName="",strJoiningDate="";
+    private String strOrgName="",strStartedDate="";
     CalendarView cvJoiningDateOfCurrentOrg;
     LinearLayout llStartDateOfBOP;
     @Override
@@ -51,7 +50,7 @@ public class StartDateOfBusinessOrProfessionActivity extends AppCompatActivity i
         tvGivenPreviousVal=findViewById(R.id.tvGivenPreviousVal);
         tvGivenValEdit=findViewById(R.id.tvGivenValEdit);
         tvStartDateOfBOPLbl=findViewById(R.id.tvStartDateOfBOPLbl);
-        tvStartDateOfBOPVal=findViewById(R.id.tvStartDateOfBOPVal);
+        tvStartDateOfBOPVal=findViewById(R.id.tvStartDateOfBOPValue);
         cvJoiningDateOfCurrentOrg=findViewById(R.id.cvJoiningDateOfCurrentOrg);
         llStartDateOfBOP=findViewById(R.id.llStartDateOfBOP);
         tvGivenLbl.setText(getResources().getString(R.string.lbl_working_organization_name));
@@ -85,8 +84,8 @@ public class StartDateOfBusinessOrProfessionActivity extends AppCompatActivity i
     @Override
     public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
         String monthName = new SimpleDateFormat("MMMM").format(view.getDate());
-        strJoiningDate = dayOfMonth + " " + monthName + " " + year;
-        tvStartDateOfBOPVal.setText(strJoiningDate);
+        strStartedDate = dayOfMonth + " " + monthName + " " + year;
+        tvStartDateOfBOPVal.setText(strStartedDate);
         CommonMethods.setValueAgainstKey(this,CommonStrings.BUSINESS_OR_PROFESSION_START_DATE,dayOfMonth + " " + monthName + " " + year);
         startActivity(new Intent(this, LastYearSalesOrTurnOver.class));
     }

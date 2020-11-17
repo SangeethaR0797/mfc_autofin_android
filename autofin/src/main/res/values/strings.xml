@@ -229,6 +229,21 @@
     <string name="lbl_profession">PROFESSION</string>
     <string name="hint_profession">Please select your profession</string>
     <string name="lbl_starting_date_of_business_or_profession">BUSINESS OR PROFESSION STARTED DATE</string>
+    <string name="photo_id_proof_lbl">"PHOTO ID PROOF "</string>
+    <string name="skip_lbl">SKIP</string>
+    <string name="str_you_can_select_som_image">You can select one or multiple doc</string>
+    <string name="pancard_lbl">Pan card</string>
+    <string name="add_doc_lbl">Add Doc</string>
+    <string name="aadhar_card_lbl">Aadhar Card</string>
+    <string name="voter_id_lbl">Voter id card</string>
+    <string name="passport_lbl">Passport</string>
+    <string name="residence_proof_lbl">RESIDENCY PROOF</string>
+    <string name="rent_agreement_lbl">Rent Agreement</string>
+    <string name="electricity_bill_lbl">Electricity Bill</string>
+    <string name="bank_statement_lbl">Bank statement</string>
+    <string name="salary_slip_lbl">Salary slip</string>
+    <string name="form_16_lbl">Form 16</string>
+    <string name="itr_lbl">ITR</string>
 
 
 </resources>

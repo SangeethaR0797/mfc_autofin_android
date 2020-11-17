@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/g_white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/llDocUploadAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/topheader_documents" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!-- Photo ID Proof -->
+            <LinearLayout
+                style="@style/doc_upload_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <utility.RobotoMedium
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/photo_id_proof_lbl"
+                        android:textColor="@color/very_dark_blue"
+                        android:textSize="@dimen/text_size_16sp" />
+
+                    <utility.RobotoMedium
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableRight="@drawable/ic_forward_arrow"
+                        android:gravity="right"
+                        android:text="@string/skip_lbl"
+                        android:textColor="@color/navy_blue"
+                        android:textSize="@dimen/text_size_16sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvSelectDocLbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/str_you_can_select_som_image"
+                    android:textColor="@color/grey_color"
+                    android:textSize="@dimen/text_size_14sp"
+                    android:textStyle="italic" />
+                <!-- Pan Card layout-->
+
+                <LinearLayout
+                    android:id="@+id/llPanCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginBottom="@dimen/text_size_22dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <utility.RobotoMedium
+                        android:id="@+id/tvPanCardDocLbl"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/pancard_lbl"
+                        android:textColor="@color/very_dark_blue"
+                        android:textSize="@dimen/text_size_14sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableRight="@drawable/ic_browse_14dp"
+                        android:drawablePadding="7dp"
+                        android:gravity="right"
+                        android:paddingRight="5dp"
+                        android:text="@string/add_doc_lbl"
+                        android:textColor="@color/navy_blue"
+                        android:textSize="@dimen/text_size_16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_color" />
+
+                <!--Aadhar card-->
+
+                <LinearLayout
+                    android:id="@+id/llAadharCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="@dimen/text_size_22dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <utility.RobotoMedium
+                        android:id="@+id/tvAadharCardLbl"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/aadhar_card_lbl"
+                        android:textColor="@color/very_dark_blue"
+                        android:textSize="@dimen/text_size_14sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableRight="@drawable/ic_browse_14dp"
+                        android:drawablePadding="7dp"
+                        android:gravity="right"
+                        android:paddingRight="5dp"
+                        android:text="@string/add_doc_lbl"
+                        android:textColor="@color/navy_blue"
+                        android:textSize="@dimen/text_size_16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_color" />
+
+                <!--Voter id card-->
+
+                <LinearLayout
+                    android:id="@+id/llVoterIdCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="@dimen/text_size_22dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <utility.RobotoMedium
+                        android:id="@+id/tvVoterIdLbl"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/voter_id_lbl"
+                        android:textColor="@color/very_dark_blue"
+                        android:textSize="@dimen/text_size_14sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableRight="@drawable/ic_browse_14dp"
+                        android:drawablePadding="7dp"
+                        android:gravity="right"
+                        android:paddingRight="5dp"
+                        android:text="@string/add_doc_lbl"
+                        android:textColor="@color/navy_blue"
+                        android:textSize="@dimen/text_size_16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_color" />
+
+                <!--Aadhar card-->
+
+                <LinearLayout
+                    android:id="@+id/llPassport"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="@dimen/text_size_22dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <utility.RobotoMedium
+                        android:id="@+id/tvPassportLbl"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/passport_lbl"
+                        android:textColor="@color/very_dark_blue"
+                        android:textSize="@dimen/text_size_14sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableRight="@drawable/ic_browse_14dp"
+                        android:drawablePadding="7dp"
+                        android:gravity="right"
+                        android:paddingRight="5dp"
+                        android:text="@string/add_doc_lbl"
+                        android:textColor="@color/navy_blue"
+                        android:textSize="@dimen/text_size_16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_color" />
+
+            </LinearLayout>
+
+            <!--Residency Proof-->
+
+            <LinearLayout
+                style="@style/doc_upload_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <utility.RobotoMedium
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/residence_proof_lbl"
+                        android:textColor="@color/very_dark_blue"
+                        android:textSize="@dimen/text_size_16sp" />
+
+                    <utility.RobotoMedium
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableRight="@drawable/ic_forward_arrow"
+                        android:gravity="right"
+                        android:text="@string/skip_lbl"
+                        android:textColor="@color/navy_blue"
+                        android:textSize="@dimen/text_size_16sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvSelectResDocLbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/str_you_can_select_som_image"
+                    android:textColor="@color/grey_color"
+                    android:textSize="@dimen/text_size_14sp"
+                    android:textStyle="italic" />
+                <!-- Rent Agreement layout-->
+
+                <LinearLayout
+                    android:id="@+id/llRentAgreement"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginBottom="@dimen/text_size_22dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <utility.RobotoMedium
+                        android:id="@+id/tvRentAgreementLbl"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/rent_agreement_lbl"
+                        android:textColor="@color/very_dark_blue"
+                        android:textSize="@dimen/text_size_14sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableRight="@drawable/ic_browse_14dp"
+                        android:drawablePadding="7dp"
+                        android:gravity="right"
+                        android:paddingRight="5dp"
+                        android:text="@string/add_doc_lbl"
+                        android:textColor="@color/navy_blue"
+                        android:textSize="@dimen/text_size_16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_color" />
+
+                <!--Electricity Bill-->
+
+                <LinearLayout
+                    android:id="@+id/llElectricityBill"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="@dimen/text_size_22dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <utility.RobotoMedium
+                        android:id="@+id/tvElectricityBillLbl"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/electricity_bill_lbl"
+                        android:textColor="@color/very_dark_blue"
+                        android:textSize="@dimen/text_size_14sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableRight="@drawable/ic_browse_14dp"
+                        android:drawablePadding="7dp"
+                        android:gravity="right"
+                        android:paddingRight="5dp"
+                        android:text="@string/add_doc_lbl"
+                        android:textColor="@color/navy_blue"
+                        android:textSize="@dimen/text_size_16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_color" />
+
+                <!--Residence Aadhar card-->
+
+                <LinearLayout
+                    android:id="@+id/llResAadharCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="@dimen/text_size_22dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <utility.RobotoMedium
+                        android:id="@+id/tvResAadharLbl"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:text="@string/aadhar_card_lbl"
+                        android:textColor="@color/very_dark_blue"
+                        android:textSize="@dimen/text_size_14sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableRight="@drawable/ic_browse_14dp"
+                        android:drawablePadding="7dp"
+                        android:gravity="right"
+                        android:paddingRight="5dp"
+                        android:text="@string/add_doc_lbl"
+                        android:textColor="@color/navy_blue"
+                        android:textSize="@dimen/text_size_16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_color" />
+            </LinearLayout>
+            <Button
+                android:id="@+id/btnUpdateDoc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center"
+                android:background="@color/navy_blue"
+                android:paddingTop="@dimen/text_size_19dp"
+                android:paddingBottom="@dimen/text_size_18dp"
+                android:text="@string/update_lbl"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_16sp" />
+        </LinearLayout>
+
+        <!-- Bank Docs Proof -->
+        <LinearLayout
+            style="@style/doc_upload_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvSelectBankDocLbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/str_you_can_select_som_image"
+                android:textColor="@color/grey_color"
+                android:textSize="@dimen/text_size_14sp"
+                android:textStyle="italic" />
+            <!-- Pan Card layout-->
+
+            <LinearLayout
+                android:id="@+id/llBankStatement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="@dimen/text_size_22dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <utility.RobotoMedium
+                    android:id="@+id/tvBankStatementLbl"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="@string/bank_statement_lbl"
+                    android:textColor="@color/very_dark_blue"
+                    android:textSize="@dimen/text_size_14sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_browse_14dp"
+                    android:drawablePadding="7dp"
+                    android:gravity="right"
+                    android:paddingRight="5dp"
+                    android:text="@string/add_doc_lbl"
+                    android:textColor="@color/navy_blue"
+                    android:textSize="@dimen/text_size_16sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey_color" />
+
+            <!--Salary slip card-->
+
+            <LinearLayout
+                android:id="@+id/llSalarySlip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="@dimen/text_size_22dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <utility.RobotoMedium
+                    android:id="@+id/tvSalarySlipLbl"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="@string/salary_slip_lbl"
+                    android:textColor="@color/very_dark_blue"
+                    android:textSize="@dimen/text_size_14sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_browse_14dp"
+                    android:drawablePadding="7dp"
+                    android:gravity="right"
+                    android:paddingRight="5dp"
+                    android:text="@string/add_doc_lbl"
+                    android:textColor="@color/navy_blue"
+                    android:textSize="@dimen/text_size_16sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey_color" />
+
+            <!--Form 16 -->
+
+            <LinearLayout
+                android:id="@+id/llForm16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="@dimen/text_size_22dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <utility.RobotoMedium
+                    android:id="@+id/tvForm16Lbl"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="@string/form_16_lbl"
+                    android:textColor="@color/very_dark_blue"
+                    android:textSize="@dimen/text_size_14sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_browse_14dp"
+                    android:drawablePadding="7dp"
+                    android:gravity="right"
+                    android:paddingRight="5dp"
+                    android:text="@string/add_doc_lbl"
+                    android:textColor="@color/navy_blue"
+                    android:textSize="@dimen/text_size_16sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey_color" />
+
+            <!--ITR card-->
+
+            <LinearLayout
+                android:id="@+id/llITR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="@dimen/text_size_22dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <utility.RobotoMedium
+                    android:id="@+id/tvITRLbl"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="@string/itr_lbl"
+                    android:textColor="@color/very_dark_blue"
+                    android:textSize="@dimen/text_size_14sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableRight="@drawable/ic_browse_14dp"
+                    android:drawablePadding="7dp"
+                    android:gravity="right"
+                    android:paddingRight="5dp"
+                    android:text="@string/add_doc_lbl"
+                    android:textColor="@color/navy_blue"
+                    android:textSize="@dimen/text_size_16sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey_color" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

@@ -52,7 +52,7 @@
                     android:paddingBottom="@dimen/text_size_17dp">
 
                     <utility.RobotoMedium
-                        android:id="@+id/tvStartDateOfBOPVal"
+                        android:id="@+id/tvStartDateOfBOPValue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/date_format_hint"
