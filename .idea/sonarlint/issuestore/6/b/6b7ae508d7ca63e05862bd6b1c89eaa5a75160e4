@@ -1,29 +1,45 @@
 
-J
-java:S1659"/Declare "tvGivenRegYearVal" on a separate line.(îâ´î8Ï­Ø¼×.
-|
-java:S1450"aRemove the "iv_app_make_search" field and declare it as a local variable in the relevant methods.(µşã8Ï­Ø¼×.
-K
-java:S1659"0Declare "tvGivenRegYearEdit" on a separate line.(îâ´î8Ï­Ø¼×.
-x
-java:S1450"]Remove the "tvGivenRegYear" field and declare it as a local variable in the relevant methods.(îâ´î8Ï­Ø¼×.
-{
-java:S1450"`Remove the "tvSelectedVehMake" field and declare it as a local variable in the relevant methods.(îâ´î8Ï­Ø¼×.
-H	java:S108")Either remove or fill this block of code.(ÒÌâ–øÿÿÿÿ8Ï­Ø¼×.
-{
-java:S1450"`Remove the "tvGivenRegYearVal" field and declare it as a local variable in the relevant methods.(îâ´î8Ï­Ø¼×.
-V
-java:S1128";Remove this unused import 'model.ibb_models.VehRegYearRes'.(ï…Ç˜8Ï­Ø¼×.
-M
-java:S1199"-Extract this nested code block into a method.(ÒÌâ–øÿÿÿÿ8Ï­Ø¼×.
 t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ŒÉ©¾ùÿÿÿÿ
-w	java:S116"]Rename this field "iv_app_make_search" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(µşã8Ï­Ø¼×.
-J
-java:S1659"/Declare "tvSelectedVehMake" on a separate line.(îâ´î8Ï­Ø¼×.
-|
-java:S1450"aRemove the "tvGivenRegYearEdit" field and declare it as a local variable in the relevant methods.(îâ´î8Ï­Ø¼×.
+P
+java:S1199¹"-Extract this nested code block into a method.(ÒÌâ–øÿÿÿÿ8Ï­Ø¼×.
 Ÿ
-java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ï‚àÏ8Ï­Ø¼×.
-F
-java:S1172"+Remove this unused method parameter "year".(ëìÖû8Ï­Ø¼×.
-[	java:S110"<This class has 9 parents which is greater than 5 authorized.(Ê¾»ÿÿÿÿÿ8Ï­Ø¼×.
+java:S1186Ò"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ï‚àÏ8Ï­Ø¼×.
+X	java:S110)"<This class has 9 parents which is greater than 5 authorized.(í½Ò³8Ù»¤×Û.
+a
+java:S1128&"?Remove this unused import 'utility.CommonStrings.VEH_MFG_MAKE'.(åéÖœÿÿÿÿÿ8Ù»¤×Û.
+\
+java:S1128'"?Remove this unused import 'utility.CommonStrings.VEH_MFG_YEAR'.(¡óãª8Ù»¤×Û.
+X
+java:S1128";Remove this unused import 'model.ibb_models.VehRegYearRes'.(ï…Ç˜8Ù»¤×Û.
+r
+java:S1450."VRemove the "btnNext" field and declare it as a local variable in the relevant methods.(¬²×@8Ù»¤×Û.
+~
+java:S1450-"aRemove the "iv_app_make_search" field and declare it as a local variable in the relevant methods.(•Ğ€8Ù»¤×Û.
+
+java:S1450-"dRemove the "iv_vehDetails_backBtn" field and declare it as a local variable in the relevant methods.(•Ğ€8Ù»¤×Û.
+y
+java:S1450-"\Remove the "svCloseButton" field and declare it as a local variable in the relevant methods.(•Ğ€8Ù»¤×Û.
+z
+java:S1450,"]Remove the "tvGivenRegYear" field and declare it as a local variable in the relevant methods.(îâ´î8Ù»¤×Û.
+~
+java:S1450,"aRemove the "tvGivenRegYearEdit" field and declare it as a local variable in the relevant methods.(îâ´î8Ù»¤×Û.
+}
+java:S1450,"`Remove the "tvGivenRegYearVal" field and declare it as a local variable in the relevant methods.(îâ´î8Ù»¤×Û.
+L
+java:S1659,"/Declare "tvGivenRegYearVal" on a separate line.(îâ´î8Ù»¤×Û.
+M
+java:S1659,"0Declare "tvGivenRegYearEdit" on a separate line.(îâ´î8Ù»¤×Û.
+L
+java:S1659,"/Declare "tvSelectedVehMake" on a separate line.(îâ´î8Ù»¤×Û.
+M
+java:S1659-"0Declare "iv_app_make_search" on a separate line.(•Ğ€8Ù»¤×Û.
+H
+java:S1659-"+Declare "svCloseButton" on a separate line.(•Ğ€8Ù»¤×Û.
+B
+java:S16592"%Declare "strMake" on a separate line.(…áÂÏ8Ù»¤×Û.
+|	java:S116-"`Rename this field "iv_vehDetails_backBtn" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•Ğ€8Ù»¤×Û.
+y	java:S116-"]Rename this field "iv_app_make_search" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•Ğ€8Ù»¤×Û.
+p
+java:S3776ˆ"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(¡é††8Ù»¤×Û.
+V
+java:S1068-"9Remove this unused "iv_vehDetails_backBtn" private field.(•Ğ€8Ù»¤×Û.

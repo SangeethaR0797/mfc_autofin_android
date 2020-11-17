@@ -75,11 +75,17 @@ b
 ,autofin/src/main/res/drawable/ic_picture.xml,9\7\97c0b76f5ce9296cee49e2c7084da1b9df2c652a
 V
 &autofin/src/main/res/layout/camera.xml,3\3\335500f81ffdd45b6e57223dd45567d81b174d72
-h
-8autofin/src/main/res/layout/document_upload_activity.xml,e\b\ebb0b854095a5df6b66d6f927fd6807c0bd912ec
 A
 gradle.properties,2\a\2afbb999f001938c88fa43fc2ef52abf0f8213e4
 X
 (gradle/wrapper/gradle-wrapper.properties,f\b\fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
 @
 local.properties,0\7\0712df971a99ac4d2fccb8e0fb19f377f3374cca
+h
+8autofin/src/main/res/layout/autofin_vehicle_category.xml,9\d\9dd9d90fd3044539e4a8a1890ef213b095125464
+“
+cautofin/src/main/java/com/mfc/autofin/framework/Activity/VehicleDetailsActivities/VehRegNumAns.java,a\9\a9427ca6c315b3eacdd668f5601c9f1a0400815b
+ 
+pautofin/src/main/java/com/mfc/autofin/framework/Activity/VehicleDetailsActivities/VehValidInsuranceActivity.java,a\7\a7aa2d1b42bc0cef364898e523422a04123afa37
+£
+sautofin/src/main/java/com/mfc/autofin/framework/Activity/VehicleDetailsActivities/CarHaveLoanCurrentlyActivity.java,0\f\0fdaaa8fbf32fc32d5bfa1c799d325f0fe495406

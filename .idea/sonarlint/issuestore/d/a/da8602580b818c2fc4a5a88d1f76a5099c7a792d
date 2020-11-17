@@ -1,7 +1,29 @@
 
-J	java:S108")Either remove or fill this block of code.(ò¢›êþÿÿÿÿ8Çë¢ÝÚ.
+W
+java:S1141h"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8„ò±ÝÛ.
+_
+java:S2259H"BA "NullPointerException" could be thrown; "data" is nullable here.(¢Õ¾Ü8â‡¡ÝÛ.
+n
+java:S3776B"RRefactor this method to reduce its Cognitive Complexity from 21 to the 15 allowed.(¹Î¾8â‡¡ÝÛ.
+]	java:S110"<This class has 9 parents which is greater than 5 authorized.(â îÄùÿÿÿÿ8‡Ì©ÇØ.
+k	java:S100ƒ"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ÿ‚Å—8·ÃµÝÛ.
+E	java:S108w")Either remove or fill this block of code.(å¥ž‡8·ÃµÝÛ.
+W
+java:S1141U"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8â‡¡ÝÛ.
+t
+java:S3252~"WUse static access with "androidx.core.content.ContextCompat" for "checkSelfPermission".(Èêœ8·ÃµÝÛ.
 z
-java:S1450"XRemove the "llpancard" field and declare it as a local variable in the relevant methods.(Úê¡ùÿÿÿÿ8›“šÝÚ.
-]	java:S110"<This class has 9 parents which is greater than 5 authorized.(â îÄùÿÿÿÿ8‡Ì©ÇØ.
-[
-java:S1128"9Remove this unused import 'android.os.PersistableBundle'.(Ñƒ¨’øÿÿÿÿ8¦û©ÇØ.
+java:S3252€"WUse static access with "androidx.core.content.ContextCompat" for "checkSelfPermission".(ò‚Ö«þÿÿÿÿ8Žá“ÜÛ.
+k	java:S100‰"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Àáßç8·ÃµÝÛ.
+N
+java:S1874I",Remove this use of "DATA"; it is deprecated.(™ÅÀåøÿÿÿÿ8â‡¡ÝÛ.
+p
+java:S1450#"SRemove the "file" field and declare it as a local variable in the relevant methods.(ïÛú8©Þ©ÝÛ.
+y
+java:S3252"WUse static access with "androidx.core.content.ContextCompat" for "checkSelfPermission".(þâÞÂüÿÿÿÿ8Žá“ÜÛ.
+o
+java:S3252I"MUse static access with "android.provider.MediaStore$MediaColumns" for "DATA".(™ÅÀåøÿÿÿÿ8â‡¡ÝÛ.
+z
+java:S1450 "XRemove the "llpancard" field and declare it as a local variable in the relevant methods.(Úê¡ùÿÿÿÿ8›“šÝÚ.
+x
+java:S1450$"VRemove the "fileUri" field and declare it as a local variable in the relevant methods.(É´›ùÿÿÿÿ8Ø†ªÝÛ.

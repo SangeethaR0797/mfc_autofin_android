@@ -1,2 +1,26 @@
 
+W
+java:S1659"5Declare "tvInsuranceValidityDate" on a separate line.( Ô†Íùÿÿÿÿ8Ïç—×Û.
+T
+java:S1128"2Remove this unused import 'utility.CommonMethods'.(È†–¶úÿÿÿÿ8Ïç—×Û.
+V
+java:S1659"4Declare "tvGivenVehInsuranceVal" on a separate line.( Ô†Íùÿÿÿÿ8Ïç—×Û.
+	java:S116"`Rename this field "iv_vehDetails_backBtn" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•©¶¥ıÿÿÿÿ8Ïç—×Û.
+Z
+java:S1659"8Declare "tvGivenInsuranceAmountEdit" on a separate line.( Ô†Íùÿÿÿÿ8Ïç—×Û.
+X	java:S110"<This class has 9 parents which is greater than 5 authorized.(ÕàÂâ8Ïç—×Û.
+R
+java:S1659"0Declare "strInsuranceAmount" on a separate line.(€Ìµöÿÿÿÿÿ8Ïç—×Û.
+L
+java:S5411)"*Use the primitive boolean expression here.(„¿ì²üÿÿÿÿ8Ïç—×Û.
+[
+java:S1128"9Remove this unused import 'android.app.DatePickerDialog'.(„å“ˆùÿÿÿÿ8Ïç—×Û.
+O
+java:S1128"-Remove this unused import 'java.util.Locale'.(åğ×±ûÿÿÿÿ8Ïç—×Û.
+V
+java:S1659"4Declare "tvInsuranceValidityLbl" on a separate line.( Ô†Íùÿÿÿÿ8Ïç—×Û.
+T
+java:S1659"2Declare "strInsuranceValidity" on a separate line.(€Ìµöÿÿÿÿÿ8Ïç—×Û.
+X
+java:S1128"6Remove this unused import 'android.widget.DatePicker'.(µö—şÿÿÿÿ8Ïç—×Û.
 t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ŒÉ©¾ùÿÿÿÿ

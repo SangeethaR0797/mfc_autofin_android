@@ -1,2 +1,20 @@
 
+Y
+java:S1659"7Declare "tvPostInspectionAmountLbl" on a separate line.(–äãùÿÿÿÿ8Ë³™×Û.
+X	java:S125["<This block of commented-out lines of code should be removed.(İµåğ8Ë³™×Û.
+	java:S116"`Rename this field "iv_vehDetails_backBtn" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•©¶¥ıÿÿÿÿ8Ë³™×Û.
+B
+java:S1659"%Declare "btnNext" on a separate line.(Î¥©Ó8Ë³™×Û.
+X	java:S125R"<This block of commented-out lines of code should be removed.(•º÷İ8Ë³™×Û.
+F
+java:S5411""*Use the primitive boolean expression here.(ğ²ˆ8Ë³™×Û.
+R
+java:S1659"0Declare "tvGivenVehLoanEdit" on a separate line.(–äãùÿÿÿÿ8Ë³™×Û.
+Y
+java:S1659"7Declare "tvVehValuationPostInspLbl" on a separate line.(–äãùÿÿÿÿ8Ë³™×Û.
+Q
+java:S1659"/Declare "tvGivenVehLoanVal" on a separate line.(–äãùÿÿÿÿ8Ë³™×Û.
+]	java:S110"<This class has 9 parents which is greater than 5 authorized.(ÎÃäÜøÿÿÿÿ8Ë³™×Û.
 t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ŒÉ©¾ùÿÿÿÿ
+Q
+java:S1659"4Declare "btnVehPostInspectionNo" on a separate line.(Î¥©Ó8Ë³™×Û.

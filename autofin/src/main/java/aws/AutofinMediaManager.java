@@ -63,7 +63,7 @@ public final class AutofinMediaManager {
 
             Log.i(TAG, " " + Regions.DEFAULT_REGION);
 
-            s3Client.putObject(new PutObjectRequest(BUCKETNAME, path, new File(filePath)).withCannedAcl(CannedAccessControlList.PublicRead));
+            s3Client.putObject(new PutObjectRequest(BUCKETNAME, path, new File(filePath)).withCannedAcl(CannedAccessControlList.Private));
 
             mImageUrl = s3Client.getResourceUrl(BUCKETNAME, path);
 

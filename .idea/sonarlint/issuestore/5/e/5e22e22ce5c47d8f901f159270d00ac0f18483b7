@@ -1,2 +1,20 @@
 
+C
+java:S1659"(Declare "radioBtn02" on a separate line.(ÅŸıÚ8Ø”“×Û.
+[	java:S110"<This class has 9 parents which is greater than 5 authorized.(ÍæÏ®ûÿÿÿÿ8Ø”“×Û.
+C
+java:S1659"(Declare "radioBtn04" on a separate line.(ÅŸıÚ8Ø”“×Û.
+U
+java:S1128"5Remove this unused import 'utility.AutoFinConstants'.(Ãì›ÿÿÿÿÿ8Ø”“×Û.
+X
+java:S1128"6Remove this unused import 'android.widget.RadioGroup'.(İÚûÿÿÿÿ8Ø”“×Û.
+	java:S116"`Rename this field "iv_vehDetails_backBtn" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(•©¶¥ıÿÿÿÿ8Ø”“×Û.
+R
+java:S1128"2Remove this unused import 'utility.CommonMethods'.(È†–¶úÿÿÿÿ8Ø”“×Û.
 t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ŒÉ©¾ùÿÿÿÿ
+N
+java:S1659"3Declare "tvGivenVehVariantEdit" on a separate line.(­‰÷€8Ø”“×Û.
+C
+java:S1659"(Declare "radioBtn03" on a separate line.(ÅŸıÚ8Ø”“×Û.
+C
+java:S1659"(Declare "radioBtn05" on a separate line.(ÅŸıÚ8Ø”“×Û.
