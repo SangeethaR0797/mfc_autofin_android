@@ -24,6 +24,7 @@
             android:orientation="vertical">
             <!-- Photo ID Proof -->
             <LinearLayout
+                android:id="@+id/llPhotoIDProof"
                 style="@style/doc_upload_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -46,6 +47,7 @@
                         android:textSize="@dimen/text_size_16sp" />
 
                     <utility.RobotoMedium
+                        android:id="@+id/tvSkipPhotoIdProof"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -87,6 +89,7 @@
                         android:textSize="@dimen/text_size_14sp" />
 
                     <TextView
+                        android:id="@+id/tvPanCardURL"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -126,6 +129,7 @@
                         android:textSize="@dimen/text_size_14sp" />
 
                     <TextView
+                        android:id="@+id/tvAadharCardURL"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -165,6 +169,7 @@
                         android:textSize="@dimen/text_size_14sp" />
 
                     <TextView
+                        android:id="@+id/tvVoterIdURL"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -204,6 +209,7 @@
                         android:textSize="@dimen/text_size_14sp" />
 
                     <TextView
+                        android:id="@+id/tvPassportURL"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -226,6 +232,7 @@
             <!--Residency Proof-->
 
             <LinearLayout
+                android:id="@+id/llResidenceProof"
                 style="@style/doc_upload_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -248,6 +255,7 @@
                         android:textSize="@dimen/text_size_16sp" />
 
                     <utility.RobotoMedium
+                        android:id="@+id/tvSkipResidenceProof"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -289,6 +297,7 @@
                         android:textSize="@dimen/text_size_14sp" />
 
                     <TextView
+                        android:id="@+id/tvRentAgreementURL"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -328,6 +337,7 @@
                         android:textSize="@dimen/text_size_14sp" />
 
                     <TextView
+                        android:id="@+id/tvElectricityBillURL"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -367,6 +377,7 @@
                         android:textSize="@dimen/text_size_14sp" />
 
                     <TextView
+                        android:id="@+id/tvResAadharURL"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -384,6 +395,7 @@
                     android:layout_height="1dp"
                     android:background="@color/grey_color" />
             </LinearLayout>
+
             <Button
                 android:id="@+id/btnUpdateDoc"
                 android:layout_width="match_parent"
@@ -396,10 +408,11 @@
                 android:text="@string/update_lbl"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_16sp" />
-        </LinearLayout>
+
 
         <!-- Bank Docs Proof -->
         <LinearLayout
+            android:id="@+id/llBankDocs"
             style="@style/doc_upload_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -437,6 +450,7 @@
                     android:textSize="@dimen/text_size_14sp" />
 
                 <TextView
+                    android:id="@+id/tvBankStatementURL"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -476,6 +490,7 @@
                     android:textSize="@dimen/text_size_14sp" />
 
                 <TextView
+                    android:id="@+id/tvSalarySlipURL"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -515,6 +530,7 @@
                     android:textSize="@dimen/text_size_14sp" />
 
                 <TextView
+                    android:id="@+id/tvForm16URL"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -554,6 +570,7 @@
                     android:textSize="@dimen/text_size_14sp" />
 
                 <TextView
+                    android:id="@+id/tvITRURL"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -573,5 +590,29 @@
 
         </LinearLayout>
 
+            <CheckBox
+                android:id="@+id/cbSkipBankDocs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="68dp"
+                android:layout_marginLeft="35dp"
+                android:paddingLeft="13dp"
+                android:text="@string/str_skip_now_and_do_it_later"
+                android:textColor="@color/very_dark_blue"
+                android:buttonTint="@color/very_dark_blue"
+                android:textSize="16dp"/>
+
+            <CheckBox
+                android:id="@+id/cbUploadDocsAgreeTAndC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="68dp"
+                android:layout_marginLeft="35dp"
+                android:paddingLeft="13dp"
+                android:text="@string/str_agree_with_tc"
+                android:textColor="@color/very_dark_blue"
+                android:buttonTint="@color/very_dark_blue"
+                android:textSize="16dp"/>
+        </LinearLayout>
     </ScrollView>
 </LinearLayout>
