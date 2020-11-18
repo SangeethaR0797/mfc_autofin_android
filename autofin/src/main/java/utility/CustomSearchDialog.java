@@ -42,7 +42,6 @@ public class CustomSearchDialog extends Dialog implements View.OnClickListener {
 
         setContentView(R.layout.layout_common_listview_with_search);
         this.context = context;
-        SpinnerManager.showSpinner(context);
 
         dialog_cancel_btn = findViewById(R.id.dialog_cancel_btn);
         iv_custom_search_icon = findViewById(R.id.iv_custom_search_icon);

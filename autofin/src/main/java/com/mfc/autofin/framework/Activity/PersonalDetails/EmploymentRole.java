@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
+import com.mfc.autofin.framework.Activity.PersonalDetails.employment_activities.ProfessionActivity;
 import com.mfc.autofin.framework.Activity.review_activites.BSDListItemFragment;
 import com.mfc.autofin.framework.R;
 
@@ -99,7 +100,7 @@ public class EmploymentRole extends AppCompatActivity implements Callback<Object
             if(!tvEmploymentRoleVal.getText().toString().equals(""))
             {
                 CommonMethods.setValueAgainstKey(this,CommonStrings.EMPLOYMENT_ROLE_VAL,tvEmploymentRoleVal.getText().toString());
-                startActivity(new Intent(this,EducationActivity.class));
+                startActivity(new Intent(this, ProfessionActivity.class));
             }
             else
             {

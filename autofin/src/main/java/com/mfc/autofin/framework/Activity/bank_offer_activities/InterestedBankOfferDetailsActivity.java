@@ -39,7 +39,7 @@ public class InterestedBankOfferDetailsActivity extends AppCompatActivity implem
         tvRateOfInterestLbl=findViewById(R.id.tvRateOfInterestLbl);
         tvRateOfInterest=findViewById(R.id.tvRateOfInterest);
         tvChangeBankLbl=findViewById(R.id.tvChangeBankLbl);
-        btnApplyNow=findViewById(R.id.btnApplyNow);
+        btnApplyNow=findViewById(R.id.btnApplyNowLoan);
         tvCommonAppBarTitle.setText("INTERESTED BANK OFFER");
         iv_common_bar_backBtn.setOnClickListener(this);
         btnApplyNow.setOnClickListener(this);
@@ -51,7 +51,7 @@ public class InterestedBankOfferDetailsActivity extends AppCompatActivity implem
         {
             finish();
         }
-        else if(v.getId()==R.id.btnNext)
+        else if(v.getId()==R.id.btnApplyNowLoan)
         {
             startActivity(new Intent(this, InterestedBankOfferActivity.class));
         }

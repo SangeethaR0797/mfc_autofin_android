@@ -66,6 +66,11 @@ public class CommonStrings {
     public static final String PROFESSION_VAL = "profession_role";
     public static final String BUSINESS_OR_PROFESSION_START_DATE = "business_or_profession_started_date";
     public static final String UPLOAD_KYC_DOC_URL ="https://15.207.148.230:3003/api/kyc/upload-customer-kyc" ;
+    public static final String LAST_YEAR_TURN_OVER = "last_year_turn_over_or_sales";
+    public static final String INCOME_AFTER_TAX = "income_after_tax";
+    public static final String ITR_AUDITERD_OR_NOT = "was_last_year_itr_audited_or_not";
+    public static final String EMPLOYER_NAME_URL ="https://15.207.148.230:3004/api/masters/employer/employer-masters" ;
+    public static final String EMPLOYER_NAME ="employer_name" ;
     public static String VEH_CATEGORY_URL = "https://15.207.148.230:3004/api/masters/vehicle-category";
     public static String RES_CITY_URL = "https://15.207.148.230:3004/api/pincode/city/";
     public static String IBB_PASSWORD = "dHk69ffu7ebP";

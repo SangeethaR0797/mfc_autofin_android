@@ -12,36 +12,34 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
-import com.mfc.autofin.framework.Activity.PersonalDetails.SalaryModeActivity;
 import com.mfc.autofin.framework.R;
 
 import utility.CommonMethods;
 import utility.CommonStrings;
 
-public class LastYearSalesOrTurnOver extends AppCompatActivity implements View.OnClickListener {
+public class LastYearDepreciationActivity extends AppCompatActivity implements View.OnClickListener {
+
     private ImageView iv_personal_details_backBtn;
-    private TextView tvGivenLbl,tvGivenPreviousVal, tvGivenValEdit, tvLastYearSalesVal,tvErrorMessage;
-    private EditText  etLastYearSalesVal;
+    private TextView tvGivenLbl,tvGivenPreviousVal, tvGivenValEdit,tvErrorMessage;
+    private EditText etLastYearDepreciation;
     private View belowETYearsOE;
     private Button btnNext;
-    private String strJoiningDate = "", strLastYearSales = "";
+    private String strJoiningDate = "", strLastYearDepreciation = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_last_year_sales);
+        setContentView(R.layout.activity_last_year_depreciation);
         initView();
     }
 
-    private void initView()
-    {
+    private void initView() {
         iv_personal_details_backBtn=findViewById(R.id.iv_personal_details_backBtn);
         tvGivenLbl=findViewById(R.id.tvGivenLbl);
         tvGivenPreviousVal=findViewById(R.id.tvGivenPreviousVal);
         tvGivenValEdit=findViewById(R.id.tvGivenValEdit);
-        tvLastYearSalesVal=findViewById(R.id.tvLastYearSalesVal);
         tvErrorMessage=findViewById(R.id.tvErrorMessage);
-        etLastYearSalesVal=findViewById(R.id.etLastYearSalesVal);
+        etLastYearDepreciation=findViewById(R.id.etLastYearDepreciation);
         belowETYearsOE=findViewById(R.id.belowETYearsOE);
         btnNext=findViewById(R.id.btnNext);
         tvGivenValEdit.setOnClickListener(this);
@@ -56,24 +54,21 @@ public class LastYearSalesOrTurnOver extends AppCompatActivity implements View.O
         } else if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
-            try{
-                if (!etLastYearSalesVal.getText().toString().isEmpty()) {
-                    strLastYearSales = etLastYearSalesVal.getText().toString();
-                    CommonMethods.setValueAgainstKey(LastYearSalesOrTurnOver.this, CommonStrings.LAST_YEAR_TURN_OVER, strLastYearSales);
-                    startActivity(new Intent(this, IncomeAfterTaxActivity.class));
-                } else {
-                    belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.error_red));
-                    tvErrorMessage.setVisibility(View.VISIBLE);
-                    tvErrorMessage.setText(getResources().getString(R.string.please_enter_year_of_experience));
-                }
+            if (!etLastYearDepreciation.getText().toString().isEmpty()) {
+                strLastYearDepreciation = etLastYearDepreciation.getText().toString();
+                CommonMethods.setValueAgainstKey(this, CommonStrings.INCOME_AFTER_TAX, strLastYearDepreciation);
+                startActivity(new Intent(this, ITRAuditedActivity.class));
+            } else {
+                belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.error_red));
+                tvErrorMessage.setVisibility(View.VISIBLE);
+                tvErrorMessage.setText(getResources().getString(R.string.please_enter_year_of_experience));
+            }
 
-            }catch(Exception exception){exception.printStackTrace();}
-
-        } /*else if (v.getId() == R.id.etLastYearSalesVal) {
+        } else if (v.getId() == R.id.etLastYearDepreciation) {
             belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.very_dark_blue));
             if (tvErrorMessage.getVisibility() == View.VISIBLE) {
                 tvErrorMessage.setVisibility(View.GONE);
             }
-        }*/
+        }
     }
 }

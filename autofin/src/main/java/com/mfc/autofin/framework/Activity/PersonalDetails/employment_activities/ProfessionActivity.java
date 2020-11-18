@@ -43,10 +43,13 @@ public class ProfessionActivity extends AppCompatActivity implements View.OnClic
             exception.printStackTrace();
         }
         professionList=new ArrayList<>();
-        professionList.add("Proprietor");
-        professionList.add("Partner Applying as an Individual");
-        professionList.add("Partnership Firm");
-        professionList.add("Private Limited Company");
+        professionList.add("Architect");
+        professionList.add("CA");
+        professionList.add("Doctor");
+        professionList.add("CS");
+        professionList.add("Lawyer");
+        professionList.add("Other");
+
         initView();
 
     }
@@ -74,7 +77,7 @@ public class ProfessionActivity extends AppCompatActivity implements View.OnClic
         {
             startActivity(new Intent(this, UserDOBActivity.class));
         }
-        else if (v.getId() == R.id.tvEmploymentRoleVal) {
+        else if (v.getId() == R.id.tvProfessionVal) {
             if(professionList!=null && professionList.size()>0)
             {
                 BSDListItemFragment BSDListItemFragment = new BSDListItemFragment(this, tvProfessionVal,professionList);
@@ -90,7 +93,7 @@ public class ProfessionActivity extends AppCompatActivity implements View.OnClic
             if(!tvProfessionVal.getText().toString().equals(""))
             {
                 CommonMethods.setValueAgainstKey(this,CommonStrings.PROFESSION_VAL,tvProfessionVal.getText().toString());
-                startActivity(new Intent(this, EducationActivity.class));
+                startActivity(new Intent(this, LastYearSalesOrTurnOver.class));
             }
             else
             {

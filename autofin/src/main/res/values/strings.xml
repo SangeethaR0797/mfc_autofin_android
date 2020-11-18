@@ -246,6 +246,13 @@
     <string name="itr_lbl">ITR</string>
     <string name="str_skip_now_and_do_it_later">Skip Now and do it later.</string>
     <string name="update">UPDATE</string>
+    <string name="lbl_income_after_tax">INCOME AFTER TAX</string>
+    <string name="lbl_last_year_sales_or_turn_over">LAST YEAR SALES OR TURN OVER</string>
+    <string name="lbl_last_year_depreciation">LAST YEAR DEPRECIATION</string>
+    <string name="is_itr_audited">WAS LATEST ITR AUDITED?</string>
+    <string name="lbl_employer_name">EMPLOYER NAME</string>
+    <string name="hint_select_employer_name">Please select employer name</string>
+    <string name="hint_industry_type">Please select Industry type</string>
 
 
 </resources>

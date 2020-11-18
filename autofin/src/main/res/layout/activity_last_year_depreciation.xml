@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,41 +28,32 @@
                 android:orientation="vertical">
 
                 <utility.RobotoMedium
-                    android:id="@+id/tvLastYearSales"
+                    android:id="@+id/tvLastYearDepreciationLbl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/text_size_28dp"
-                    android:text="@string/lbl_last_year_sales_or_turn_over"
+                    android:text="@string/lbl_last_year_depreciation"
                     android:textColor="@color/very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 
                 <LinearLayout
-                    android:id="@+id/llLastYearSales"
+                    android:id="@+id/llLastYearDepreciation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/text_size10dp"
                     android:layout_marginBottom="@dimen/text_size_17dp"
-                    android:paddingBottom="@dimen/text_size_45dp"
+                    android:paddingBottom="@dimen/text_size_30dp"
                     android:orientation="vertical"
                     android:visibility="visible">
 
-                    <TextView
-                        android:id="@+id/tvLastYearSalesVal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/text_size_5dp"
-                        android:text="@string/lbl_enter_amount"
-                        android:textColor="@color/grey_color"
-                        android:textSize="@dimen/text_size_16sp" />
-
                     <EditText
-                        android:id="@+id/etLastYearSalesVal"
+                        android:id="@+id/etLastYearDepreciation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:clickable="true"
                         android:inputType="number"
-                        android:maxLength="15"
+                        android:maxLength="2"
                         android:singleLine="true"
                         android:textColor="@color/very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />

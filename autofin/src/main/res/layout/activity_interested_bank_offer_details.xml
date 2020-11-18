@@ -52,8 +52,9 @@
                         android:id="@+id/tvBankOfferedLoanAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/navy_blue"
+                        android:textColor="@color/very_dark_blue"
                         android:textSize="@dimen/text_size_16sp"
+                        android:text="120,00,00"
                         android:layout_marginBottom="@dimen/text_size_18dp"/>
 
                     <!-- EMI -->
@@ -75,8 +76,9 @@
                         android:id="@+id/tvBankOfferedEMIAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/navy_blue"
+                        android:textColor="@color/very_dark_blue"
                         android:textSize="@dimen/text_size_16sp"
+                        android:text="19,200 - 20,100"
                         android:layout_marginBottom="@dimen/text_size_18dp"/>
 
                     <!--Tenure-->
@@ -98,8 +100,9 @@
                         android:id="@+id/tvTenurePeriod"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/navy_blue"
+                        android:textColor="@color/very_dark_blue"
                         android:textSize="@dimen/text_size_16sp"
+                        android:text="36 - 48 month"
                         android:layout_marginBottom="@dimen/text_size_18dp"/>
 
                     <!--Rate of Interest-->
@@ -120,8 +123,9 @@
                         android:id="@+id/tvRateOfInterest"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/navy_blue"
+                        android:textColor="@color/very_dark_blue"
                         android:textSize="@dimen/text_size_16sp"
+                        android:text="8.25 - 9.025"
                         android:layout_marginBottom="@dimen/text_size_22dp"/>
 
 
@@ -141,11 +145,17 @@
             android:paddingRight="7dp"
             android:layout_gravity="center"/>
     </LinearLayout>
-
-    <LinearLayout
+    <Button
+        android:id="@+id/btnApplyNowLoan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-        <include layout="@layout/autofin_next_btn" />
-    </LinearLayout>
+        android:layout_gravity="center"
+        android:background="@color/navy_blue"
+        android:paddingTop="@dimen/text_size_19dp"
+        android:paddingBottom="@dimen/text_size_18dp"
+        android:text="@string/apply_now_lbl"
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"
+        android:textSize="@dimen/text_size_16sp" />
+
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.mfc.autofin.framework.Activity.PersonalDetails;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,9 +10,11 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.R;
 
 import utility.CommonMethods;
+import utility.CommonStrings;
 
 public class InterestedBankOfferActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -37,6 +40,8 @@ public class InterestedBankOfferActivity extends AppCompatActivity implements Vi
         tvLbl=findViewById(R.id.tvLbl);
         btnUpdate=findViewById(R.id.btnUpdate);
         btnTrackLoan=findViewById(R.id.btnTrackLoan);
+        tv_hi_cname.setText(CommonStrings.customBasicDetails.getFullName());
+        tvInterestedBankOfferCaseId.setText("Your Case Id is "+CommonMethods.getStringValueFromKey(this,CommonStrings.CASE_ID));
         tvCommonAppBarTitle.setText("INTERESTED BANK OFFER");
         iv_common_bar_backBtn.setOnClickListener(this);
         btnUpdate.setOnClickListener(this);
@@ -55,7 +60,8 @@ public class InterestedBankOfferActivity extends AppCompatActivity implements Vi
         }
         else if(v.getId()==R.id.btnTrackLoan)
         {
-            CommonMethods.showToast(this,"Yet to implement");
+            CommonMethods.showToast(this,"Details Updated");
+            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         }
     }
 }

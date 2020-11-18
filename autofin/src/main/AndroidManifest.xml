@@ -190,6 +190,31 @@
             android:name=".Activity.PersonalDetails.EmploymentRole"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
 
+        <activity
+            android:name=".Activity.PersonalDetails.employment_activities.ProfessionActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+
+        <activity
+            android:name=".Activity.PersonalDetails.employment_activities.StartDateOfBusinessOrProfessionActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+
+        <activity
+            android:name=".Activity.PersonalDetails.employment_activities.LastYearSalesOrTurnOver"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+
+        <activity
+            android:name=".Activity.PersonalDetails.employment_activities.LastYearDepreciationActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+
+        <activity
+            android:name=".Activity.PersonalDetails.employment_activities.ITRAuditedActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+
+        <activity
+            android:name=".Activity.PersonalDetails.employment_activities.IndustryTypeActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

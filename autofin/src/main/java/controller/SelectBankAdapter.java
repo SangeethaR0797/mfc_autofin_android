@@ -1,6 +1,7 @@
 package controller;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.mfc.autofin.framework.R;
 
 import java.util.List;
 
+import kyc.DocumentUploadActivity;
 import model.bank_models.SelectBankData;
 
 public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.ViewHolder> {
@@ -84,7 +86,7 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(activity, "Yet to implement", Toast.LENGTH_LONG).show();
+            activity.startActivity(new Intent(activity, DocumentUploadActivity.class));
             }
         });
 

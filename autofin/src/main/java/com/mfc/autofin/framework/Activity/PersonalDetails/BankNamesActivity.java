@@ -73,8 +73,16 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
 
         if(v.getId()==R.id.iv_app_bank_search)
         {
-            SpinnerManager.showSpinner(BankNamesActivity.this);
-            retrofitInterface.getFromWeb(CommonStrings.BANK_NAME_URL).enqueue(this);
+            if(CommonMethods.isInternetWorking(this))
+            {
+                SpinnerManager.showSpinner(this);
+                retrofitInterface.getFromWeb(CommonStrings.BANK_NAME_URL).enqueue(this);
+            }
+            else
+            {
+                CommonMethods.showToast(this,"Please check your Internet Connection");
+            }
+
         }
         else if(v.getId()==R.id.tvGivenValEdit)
         {
@@ -105,6 +113,7 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
             {
                 if(bankNamesRes.getData()!=null)
                 {
+                    SpinnerManager.hideSpinner(this);
                     bankNameList=bankNamesRes.getData();
                     new CustomSearchDialog(BankNamesActivity.this,bankNameList,tvSelectedBankName).show();
                 }
