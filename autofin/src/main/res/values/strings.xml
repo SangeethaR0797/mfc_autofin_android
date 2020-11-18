@@ -245,6 +245,7 @@
     <string name="form_16_lbl">Form 16</string>
     <string name="itr_lbl">ITR</string>
     <string name="str_skip_now_and_do_it_later">Skip Now and do it later.</string>
+    <string name="update">UPDATE</string>
 
 
 </resources>

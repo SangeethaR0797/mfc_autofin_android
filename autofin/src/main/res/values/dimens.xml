@@ -4,6 +4,7 @@
     <dimen name="text_size_30dp">30sp</dimen>
     <dimen name="text_size_16sp">16sp</dimen>
     <dimen name="text_size10dp">10dp</dimen>
+    <dimen name="text_size_10dp">10dp</dimen>
     <dimen name="text_size_20dp">20dp</dimen>
     <dimen name="text_size10_5dp">10</dimen>
     <dimen name="text_size_26dp">26dp</dimen>

@@ -188,6 +188,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
             AddLeadResponse addLeadResponse = new Gson().fromJson(strRes, AddLeadResponse.class);
             try {
                 if (addLeadResponse != null && addLeadResponse.getStatus()) {
+                    CommonMethods.setValueAgainstKey(activity,CommonStrings.CASE_ID,addLeadResponse.getData().toString());
                     Toast.makeText(activity, addLeadResponse.getMessage(), Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(activity, ResidentialCity.class);
                     startActivity(intent);

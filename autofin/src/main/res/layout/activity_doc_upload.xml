@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/g_white"
-    android:orientation="vertical">
+    android:background="@color/g_white">
 
     <LinearLayout
         android:id="@+id/llDocUploadAppBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
         <include layout="@layout/topheader_documents" />
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:layout_below="@+id/llDocUploadAppBar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -98,8 +99,10 @@
                         android:gravity="right"
                         android:paddingRight="5dp"
                         android:text="@string/add_doc_lbl"
-                        android:textColor="@color/navy_blue"
-                        android:textSize="@dimen/text_size_16sp" />
+                        android:maxLines="1"
+                        android:textColor="@color/grey_color"
+                        android:textSize="@dimen/text_size_12dp"
+                        android:textStyle="italic"/>
                 </LinearLayout>
 
                 <View
@@ -138,8 +141,10 @@
                         android:gravity="right"
                         android:paddingRight="5dp"
                         android:text="@string/add_doc_lbl"
-                        android:textColor="@color/navy_blue"
-                        android:textSize="@dimen/text_size_16sp" />
+                        android:maxLines="1"
+                        android:textColor="@color/grey_color"
+                        android:textSize="@dimen/text_size_12dp"
+                        android:textStyle="italic"/>
                 </LinearLayout>
 
                 <View
@@ -178,8 +183,10 @@
                         android:gravity="right"
                         android:paddingRight="5dp"
                         android:text="@string/add_doc_lbl"
-                        android:textColor="@color/navy_blue"
-                        android:textSize="@dimen/text_size_16sp" />
+                        android:maxLines="1"
+                        android:textColor="@color/grey_color"
+                        android:textSize="@dimen/text_size_12dp"
+                        android:textStyle="italic"/>
                 </LinearLayout>
 
                 <View
@@ -218,8 +225,10 @@
                         android:gravity="right"
                         android:paddingRight="5dp"
                         android:text="@string/add_doc_lbl"
-                        android:textColor="@color/navy_blue"
-                        android:textSize="@dimen/text_size_16sp" />
+                        android:maxLines="1"
+                        android:textColor="@color/grey_color"
+                        android:textSize="@dimen/text_size_12dp"
+                        android:textStyle="italic"/>
                 </LinearLayout>
 
                 <View
@@ -248,7 +257,7 @@
                     <utility.RobotoMedium
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="1.5"
                         android:gravity="left"
                         android:text="@string/residence_proof_lbl"
                         android:textColor="@color/very_dark_blue"
@@ -258,7 +267,7 @@
                         android:id="@+id/tvSkipResidenceProof"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:drawableRight="@drawable/ic_forward_arrow"
                         android:gravity="right"
                         android:text="@string/skip_lbl"
@@ -306,8 +315,10 @@
                         android:gravity="right"
                         android:paddingRight="5dp"
                         android:text="@string/add_doc_lbl"
-                        android:textColor="@color/navy_blue"
-                        android:textSize="@dimen/text_size_16sp" />
+                        android:maxLines="1"
+                        android:textColor="@color/grey_color"
+                        android:textSize="@dimen/text_size_12dp"
+                        android:textStyle="italic"/>
                 </LinearLayout>
 
                 <View
@@ -345,9 +356,11 @@
                         android:drawablePadding="7dp"
                         android:gravity="right"
                         android:paddingRight="5dp"
+                        android:maxLines="1"
                         android:text="@string/add_doc_lbl"
-                        android:textColor="@color/navy_blue"
-                        android:textSize="@dimen/text_size_16sp" />
+                        android:textColor="@color/grey_color"
+                        android:textSize="@dimen/text_size_12dp"
+                        android:textStyle="italic"/>
                 </LinearLayout>
 
                 <View
@@ -385,9 +398,11 @@
                         android:drawablePadding="7dp"
                         android:gravity="right"
                         android:paddingRight="5dp"
+                        android:maxLines="1"
                         android:text="@string/add_doc_lbl"
-                        android:textColor="@color/navy_blue"
-                        android:textSize="@dimen/text_size_16sp" />
+                        android:textColor="@color/grey_color"
+                        android:textSize="@dimen/text_size_12dp"
+                        android:textStyle="italic"/>
                 </LinearLayout>
 
                 <View
@@ -395,20 +410,6 @@
                     android:layout_height="1dp"
                     android:background="@color/grey_color" />
             </LinearLayout>
-
-            <Button
-                android:id="@+id/btnUpdateDoc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="center"
-                android:background="@color/navy_blue"
-                android:paddingTop="@dimen/text_size_19dp"
-                android:paddingBottom="@dimen/text_size_18dp"
-                android:text="@string/update_lbl"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_16sp" />
-
 
         <!-- Bank Docs Proof -->
         <LinearLayout
@@ -459,8 +460,10 @@
                     android:gravity="right"
                     android:paddingRight="5dp"
                     android:text="@string/add_doc_lbl"
-                    android:textColor="@color/navy_blue"
-                    android:textSize="@dimen/text_size_16sp" />
+                    android:maxLines="1"
+                    android:textColor="@color/grey_color"
+                    android:textSize="@dimen/text_size_12dp"
+                    android:textStyle="italic"/>
             </LinearLayout>
 
             <View
@@ -499,8 +502,10 @@
                     android:gravity="right"
                     android:paddingRight="5dp"
                     android:text="@string/add_doc_lbl"
-                    android:textColor="@color/navy_blue"
-                    android:textSize="@dimen/text_size_16sp" />
+                    android:maxLines="1"
+                    android:textColor="@color/grey_color"
+                    android:textSize="@dimen/text_size_12dp"
+                    android:textStyle="italic"/>
             </LinearLayout>
 
             <View
@@ -539,8 +544,10 @@
                     android:gravity="right"
                     android:paddingRight="5dp"
                     android:text="@string/add_doc_lbl"
-                    android:textColor="@color/navy_blue"
-                    android:textSize="@dimen/text_size_16sp" />
+                    android:maxLines="1"
+                    android:textColor="@color/grey_color"
+                    android:textSize="@dimen/text_size_12dp"
+                    android:textStyle="italic"/>
             </LinearLayout>
 
             <View
@@ -579,8 +586,10 @@
                     android:gravity="right"
                     android:paddingRight="5dp"
                     android:text="@string/add_doc_lbl"
-                    android:textColor="@color/navy_blue"
-                    android:textSize="@dimen/text_size_16sp" />
+                    android:maxLines="1"
+                    android:textColor="@color/grey_color"
+                    android:textSize="@dimen/text_size_12dp"
+                    android:textStyle="italic"/>
             </LinearLayout>
 
             <View
@@ -594,8 +603,9 @@
                 android:id="@+id/cbSkipBankDocs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="68dp"
+                android:layout_marginTop="@dimen/text_size25dp"
                 android:layout_marginLeft="35dp"
+                android:layout_marginBottom="@dimen/text_size25dp"
                 android:paddingLeft="13dp"
                 android:text="@string/str_skip_now_and_do_it_later"
                 android:textColor="@color/very_dark_blue"
@@ -606,8 +616,8 @@
                 android:id="@+id/cbUploadDocsAgreeTAndC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="68dp"
                 android:layout_marginLeft="35dp"
+                android:layout_marginBottom="85dp"
                 android:paddingLeft="13dp"
                 android:text="@string/str_agree_with_tc"
                 android:textColor="@color/very_dark_blue"
@@ -615,4 +625,17 @@
                 android:textSize="16dp"/>
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+
+    <Button
+        android:id="@+id/btnUpdateDoc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:background="@color/navy_blue"
+        android:paddingTop="@dimen/text_size_19dp"
+        android:paddingBottom="@dimen/text_size_18dp"
+        android:text="@string/update"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_16sp" />
+</RelativeLayout>
