@@ -75,7 +75,7 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
         else if(v.getId()==R.id.btnReviewNext)
         {
             try{
-                startActivity(new Intent(this,ViewBankActivity.class));
+                startActivity(new Intent(this,DetailsUpdateActivity.class));
             }
             catch (Exception exception)
             {

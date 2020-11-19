@@ -215,6 +215,11 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
 
 
+        <activity
+            android:name=".Activity.review_activites.DetailsUpdateActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
