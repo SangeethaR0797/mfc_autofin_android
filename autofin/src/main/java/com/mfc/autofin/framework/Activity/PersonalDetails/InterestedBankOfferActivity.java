@@ -41,7 +41,7 @@ public class InterestedBankOfferActivity extends AppCompatActivity implements Vi
         btnUpdate=findViewById(R.id.btnUpdate);
         btnTrackLoan=findViewById(R.id.btnTrackLoan);
         tv_hi_cname.setText(CommonStrings.customBasicDetails.getFullName());
-        tvInterestedBankOfferCaseId.setText("Your Case Id is "+CommonMethods.getStringValueFromKey(this,CommonStrings.CASE_ID));
+        tvInterestedBankOfferCaseId.setText("Your Case Id is "+CommonMethods.getStringValueFromKey(this,CommonStrings.CUSTOMER_ID));
         tvCommonAppBarTitle.setText("INTERESTED BANK OFFER");
         iv_common_bar_backBtn.setOnClickListener(this);
         btnUpdate.setOnClickListener(this);

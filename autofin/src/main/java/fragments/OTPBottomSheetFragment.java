@@ -1,7 +1,6 @@
 package fragments;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -9,9 +8,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -26,7 +22,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.mfc.autofin.framework.Activity.BasicDetailsActivities.BasicDetailsActivity;
-import com.mfc.autofin.framework.Activity.BasicDetailsActivities.ResidentialCityActivity;
 import com.mfc.autofin.framework.Activity.ResidentialActivity.ResidentialCity;
 import com.mfc.autofin.framework.R;
 
@@ -42,7 +37,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
-import utility.Global_URLs;
 import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
@@ -105,13 +99,15 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
 
             public void onFinish() {
 
-                tvOTPTimer.setText("00");
+
                 if (tag != 1) {
+                    tvOTPTimer.setText("00");
                     CommonStrings.customBasicDetails.setOtp("");
-                    Toast.makeText(activity, "Your OTP expired! Please try again.", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(activity, "Your OTP expired! Please try again.", Toast.LENGTH_LONG).show();
                 }
                 else
                     {
+                        tvOTPTimer.setText("00");
                         Log.i(TAG, "onFinish: true");
                     }
             }
@@ -188,7 +184,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
             AddLeadResponse addLeadResponse = new Gson().fromJson(strRes, AddLeadResponse.class);
             try {
                 if (addLeadResponse != null && addLeadResponse.getStatus()) {
-                    CommonMethods.setValueAgainstKey(activity,CommonStrings.CASE_ID,addLeadResponse.getData().toString());
+                    CommonMethods.setValueAgainstKey(activity,CommonStrings.CUSTOMER_ID,addLeadResponse.getData().toString());
                     Toast.makeText(activity, addLeadResponse.getMessage(), Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(activity, ResidentialCity.class);
                     startActivity(intent);

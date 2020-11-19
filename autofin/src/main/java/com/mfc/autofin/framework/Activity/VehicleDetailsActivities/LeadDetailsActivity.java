@@ -40,7 +40,7 @@ public class LeadDetailsActivity extends AppCompatActivity implements View.OnCli
         if (getIntent() != null) {
             intent = getIntent();
             Bundle leadData = intent.getExtras();
-            strCaseId = leadData.getString(CommonStrings.CASE_ID);
+            strCaseId = leadData.getString(CommonStrings.CUSTOMER_ID);
             strCName = leadData.getString(CommonStrings.CNAME);
             strEmailId = leadData.getString(CommonStrings.CEMAIL);
             strMobileNo = leadData.getString(CommonStrings.CMOBILE_NUM);

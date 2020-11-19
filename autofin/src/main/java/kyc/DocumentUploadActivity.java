@@ -15,9 +15,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,7 +35,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.CustomerDetailsRes;
 import model.kyc_model.DocumentData;
 import model.kyc_model.KYCDocUploadResponse;
 import model.kyc_model.UploadDocRequest;
@@ -57,6 +56,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
     private CheckBox cbSkipBankDocs, cbUploadDocsAgreeTAndC;
     private CaptureImage captureImage;
     private Button btnUpdateDoc;
+    private ImageView iv_vehDetails_back;
 
     private String panCardURL = "", aadhaarCardURL = "", voterIdURL = "", passportURL = "",
             rentalAgreementURL = "", ebBillURL = "", resAadhaarURL = "",
@@ -72,7 +72,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_doc_upload);
         initViews();
         Callpermissions(DocumentUploadActivity.this);
-
+        startActivity(new Intent(this, InterestedBankOfferDetailsActivity.class));
     }
 
     private void initViews() {
@@ -107,6 +107,8 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         cbSkipBankDocs = findViewById(R.id.cbSkipBankDocs);
         cbUploadDocsAgreeTAndC = findViewById(R.id.cbUploadDocsAgreeTAndC);
         btnUpdateDoc = findViewById(R.id.btnUpdateDoc);
+        iv_vehDetails_back=findViewById(R.id.iv_vehDetails_back);
+        iv_vehDetails_back.setOnClickListener(this);
         llPanCard.setOnClickListener(DocumentUploadActivity.this);
         llAadharCard.setOnClickListener(this);
         llVoterIdCard.setOnClickListener(this);
@@ -128,7 +130,11 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.llPanCard) {
+        if(v.getId()==R.id.iv_vehDetails_back)
+        {
+            finish();
+        }
+        else if (v.getId() == R.id.llPanCard) {
             if (checkPermissions(DocumentUploadActivity.this)) {
                 captureImage.chooseImage(DocumentUploadActivity.this, AutoFinConstants.PANCARD);
             } else {
@@ -221,7 +227,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         uploadDocRequest.setUserType(CommonMethods.getStringValueFromKey(this, CommonStrings.USER_TYPE_VAL));
         DocumentData documentData=new DocumentData();
         documentData.setCustomerId(4281);
-        documentData.setCaseId(CommonMethods.getStringValueFromKey(this, CommonStrings.CASE_ID));
+        documentData.setCaseId(CommonMethods.getStringValueFromKey(this, CommonStrings.CUSTOMER_ID));
         documentData.setKey("PanCard");
         documentData.setDocs(documentList);
         uploadDocRequest.setData(documentData);
@@ -395,6 +401,8 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         String strRes = new Gson().toJson(response.body());
         Log.i(TAG, "onResponse: " + strRes);
         KYCDocUploadResponse kycDocUploadResponse=new Gson().fromJson(strRes,KYCDocUploadResponse.class);
+
+
         try
         {
             if(kycDocUploadResponse!=null)
@@ -406,6 +414,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         catch(Exception exception)
         {
             exception.printStackTrace();
+            startActivity(new Intent(this, InterestedBankOfferDetailsActivity.class));
         }
 
 

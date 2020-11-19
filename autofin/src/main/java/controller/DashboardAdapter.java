@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.BundleCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -115,7 +114,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
             public void onClick(View v) {
                 Intent intent=new Intent(activity, LeadDetailsActivity.class);
                 Bundle bundle=new Bundle();
-                bundle.putString(CommonStrings.CASE_ID,holder.tvCaseIDVal.getText().toString());
+                bundle.putString(CommonStrings.CUSTOMER_ID,holder.tvCaseIDVal.getText().toString());
                 bundle.putString(CommonStrings.CNAME,holder.tvCName.getText().toString());
                 bundle.putString(CommonStrings.CEMAIL,holder.tvCEmailId.getText().toString());
                 bundle.putString(CommonStrings.CMOBILE_NUM,holder.tvCMobileNum.getText().toString());
