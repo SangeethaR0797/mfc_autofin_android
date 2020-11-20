@@ -23,7 +23,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <!-- Photo ID Proof -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvDocType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_size10dp"
+                android:layout_marginLeft="@dimen/text_size10dp"
+                android:layout_marginRight="@dimen/text_size10dp"
+                android:layout_marginBottom="@dimen/text_size10dp"/>
+        <!--    &lt;!&ndash; Photo ID Proof &ndash;&gt;
             <LinearLayout
                 android:id="@+id/llPhotoIDProof"
                 style="@style/doc_upload_style"
@@ -68,7 +76,7 @@
                     android:textColor="@color/grey_color"
                     android:textSize="@dimen/text_size_14sp"
                     android:textStyle="italic" />
-                <!-- Pan Card layout-->
+                &lt;!&ndash; Pan Card layout&ndash;&gt;
 
                 <LinearLayout
                     android:id="@+id/llPanCard"
@@ -110,7 +118,7 @@
                     android:layout_height="1dp"
                     android:background="@color/grey_color" />
 
-                <!--Aadhar card-->
+                &lt;!&ndash;Aadhar card&ndash;&gt;
 
                 <LinearLayout
                     android:id="@+id/llAadharCard"
@@ -152,7 +160,7 @@
                     android:layout_height="1dp"
                     android:background="@color/grey_color" />
 
-                <!--Voter id card-->
+                &lt;!&ndash;Voter id card&ndash;&gt;
 
                 <LinearLayout
                     android:id="@+id/llVoterIdCard"
@@ -194,7 +202,7 @@
                     android:layout_height="1dp"
                     android:background="@color/grey_color" />
 
-                <!--Aadhar card-->
+                &lt;!&ndash;Aadhar card&ndash;&gt;
 
                 <LinearLayout
                     android:id="@+id/llPassport"
@@ -238,7 +246,7 @@
 
             </LinearLayout>
 
-            <!--Residency Proof-->
+            &lt;!&ndash;Residency Proof&ndash;&gt;
 
             <LinearLayout
                 android:id="@+id/llResidenceProof"
@@ -284,7 +292,7 @@
                     android:textColor="@color/grey_color"
                     android:textSize="@dimen/text_size_14sp"
                     android:textStyle="italic" />
-                <!-- Rent Agreement layout-->
+                &lt;!&ndash; Rent Agreement layout&ndash;&gt;
 
                 <LinearLayout
                     android:id="@+id/llRentAgreement"
@@ -326,7 +334,7 @@
                     android:layout_height="1dp"
                     android:background="@color/grey_color" />
 
-                <!--Electricity Bill-->
+                &lt;!&ndash;Electricity Bill&ndash;&gt;
 
                 <LinearLayout
                     android:id="@+id/llElectricityBill"
@@ -368,7 +376,7 @@
                     android:layout_height="1dp"
                     android:background="@color/grey_color" />
 
-                <!--Residence Aadhar card-->
+                &lt;!&ndash;Residence Aadhar card&ndash;&gt;
 
                 <LinearLayout
                     android:id="@+id/llResAadharCard"
@@ -411,7 +419,7 @@
                     android:background="@color/grey_color" />
             </LinearLayout>
 
-        <!-- Bank Docs Proof -->
+        &lt;!&ndash; Bank Docs Proof &ndash;&gt;
         <LinearLayout
             android:id="@+id/llBankDocs"
             style="@style/doc_upload_style"
@@ -429,7 +437,7 @@
                 android:textColor="@color/grey_color"
                 android:textSize="@dimen/text_size_14sp"
                 android:textStyle="italic" />
-            <!-- Pan Card layout-->
+            &lt;!&ndash; Pan Card layout&ndash;&gt;
 
             <LinearLayout
                 android:id="@+id/llBankStatement"
@@ -471,7 +479,7 @@
                 android:layout_height="1dp"
                 android:background="@color/grey_color" />
 
-            <!--Salary slip card-->
+            &lt;!&ndash;Salary slip card&ndash;&gt;
 
             <LinearLayout
                 android:id="@+id/llSalarySlip"
@@ -513,7 +521,7 @@
                 android:layout_height="1dp"
                 android:background="@color/grey_color" />
 
-            <!--Form 16 -->
+            &lt;!&ndash;Form 16 &ndash;&gt;
 
             <LinearLayout
                 android:id="@+id/llForm16"
@@ -555,7 +563,7 @@
                 android:layout_height="1dp"
                 android:background="@color/grey_color" />
 
-            <!--ITR card-->
+            &lt;!&ndash;ITR card&ndash;&gt;
 
             <LinearLayout
                 android:id="@+id/llITR"
@@ -598,7 +606,7 @@
                 android:background="@color/grey_color" />
 
         </LinearLayout>
-
+-->
             <CheckBox
                 android:id="@+id/cbSkipBankDocs"
                 android:layout_width="wrap_content"

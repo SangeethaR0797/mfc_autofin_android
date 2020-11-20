@@ -17,14 +17,18 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.mfc.autofin.framework.Activity.bank_offer_activities.InterestedBankOfferDetailsActivity;
+import com.mfc.autofin.framework.Activity.review_activites.ViewBankActivity;
 import com.mfc.autofin.framework.R;
 
 import java.io.File;
@@ -35,6 +39,11 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import controller.DocumentTypeAdapter;
+import controller.SelectBankAdapter;
+import model.document.DOCObject;
+import model.document.DocData;
+import model.document.DocumentResponse;
 import model.kyc_model.DocumentData;
 import model.kyc_model.KYCDocUploadResponse;
 import model.kyc_model.UploadDocRequest;
@@ -64,12 +73,16 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
     private File file;
     private Uri fileUri;
+    private RecyclerView rvDocType;
     private List<String> documentList=new ArrayList<>();
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doc_upload);
+        retrofitInterface.getFromWeb(CommonStrings.GET_KYC_DOC_URL).enqueue(this);
+
         initViews();
         Callpermissions(DocumentUploadActivity.this);
         startActivity(new Intent(this, InterestedBankOfferDetailsActivity.class));
@@ -77,51 +90,12 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
     private void initViews() {
         captureImage = new CaptureImage();
-        llPanCard = findViewById(R.id.llPanCard);
-        llPhotoIDProof = findViewById(R.id.llPhotoIDProof);
-        llAadharCard = findViewById(R.id.llAadharCard);
-        llVoterIdCard = findViewById(R.id.llVoterIdCard);
-        llPassport = findViewById(R.id.llPassport);
-        llResidenceProof = findViewById(R.id.llResidenceProof);
-        llRentAgreement = findViewById(R.id.llRentAgreement);
-        llElectricityBill = findViewById(R.id.llElectricityBill);
-        llResAadharCard = findViewById(R.id.llResAadharCard);
-        llBankDocs = findViewById(R.id.llBankDocs);
-        llBankStatement = findViewById(R.id.llBankStatement);
-        llSalarySlip = findViewById(R.id.llSalarySlip);
-        llForm16 = findViewById(R.id.llForm16);
-        llITR = findViewById(R.id.llITR);
-        tvSkipPhotoIdProof = findViewById(R.id.tvSkipPhotoIdProof);
-        tvPanCardURL = findViewById(R.id.tvPanCardURL);
-        tvAadharCardURL = findViewById(R.id.tvAadharCardURL);
-        tvVoterIdURL = findViewById(R.id.tvVoterIdURL);
-        tvPassportURL = findViewById(R.id.tvPassportURL);
-        tvSkipResidenceProof = findViewById(R.id.tvSkipResidenceProof);
-        tvRentAgreementURL = findViewById(R.id.tvRentAgreementURL);
-        tvElectricityBillURL = findViewById(R.id.tvElectricityBillURL);
-        tvResAadharURL = findViewById(R.id.tvResAadharURL);
-        tvBankStatementURL = findViewById(R.id.tvBankStatementURL);
-        tvSalarySlipURL = findViewById(R.id.tvSalarySlipURL);
-        tvForm16URL = findViewById(R.id.tvForm16URL);
-        tvITRURL = findViewById(R.id.tvITRURL);
+        rvDocType=findViewById(R.id.rvDocType);
         cbSkipBankDocs = findViewById(R.id.cbSkipBankDocs);
         cbUploadDocsAgreeTAndC = findViewById(R.id.cbUploadDocsAgreeTAndC);
         btnUpdateDoc = findViewById(R.id.btnUpdateDoc);
         iv_vehDetails_back=findViewById(R.id.iv_vehDetails_back);
         iv_vehDetails_back.setOnClickListener(this);
-        llPanCard.setOnClickListener(DocumentUploadActivity.this);
-        llAadharCard.setOnClickListener(this);
-        llVoterIdCard.setOnClickListener(this);
-        llPassport.setOnClickListener(this);
-        llResidenceProof.setOnClickListener(this);
-        llRentAgreement.setOnClickListener(this);
-        llElectricityBill.setOnClickListener(this);
-        llResAadharCard.setOnClickListener(this);
-        llBankDocs.setOnClickListener(this);
-        llBankStatement.setOnClickListener(this);
-        llSalarySlip.setOnClickListener(this);
-        llForm16.setOnClickListener(this);
-        llITR.setOnClickListener(this);
         cbSkipBankDocs.setOnClickListener(this);
         cbUploadDocsAgreeTAndC.setOnClickListener(this);
         btnUpdateDoc.setOnClickListener(this);
@@ -134,73 +108,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         {
             finish();
         }
-        else if (v.getId() == R.id.llPanCard) {
-            if (checkPermissions(DocumentUploadActivity.this)) {
-                captureImage.chooseImage(DocumentUploadActivity.this, AutoFinConstants.PANCARD);
-            } else {
-                Callpermissions(DocumentUploadActivity.this);
-            }
-        } else if (v.getId() == R.id.llAadharCard) {
-            if (checkPermissions(DocumentUploadActivity.this)) {
-                captureImage.chooseImage(DocumentUploadActivity.this, AutoFinConstants.AADHARCARD);
-            } else {
-                Callpermissions(DocumentUploadActivity.this);
-            }
-        } else if (v.getId() == R.id.llVoterIdCard) {
-            if (checkPermissions(DocumentUploadActivity.this)) {
-                captureImage.chooseImage(DocumentUploadActivity.this, AutoFinConstants.VOTERIDCARD);
-            } else {
-                Callpermissions(DocumentUploadActivity.this);
-            }
-        } else if (v.getId() == R.id.llPassport) {
-            if (checkPermissions(DocumentUploadActivity.this)) {
-                captureImage.chooseImage(DocumentUploadActivity.this, AutoFinConstants.PASSPORT);
-            } else {
-                Callpermissions(DocumentUploadActivity.this);
-            }
-        } else if (v.getId() == R.id.llRentAgreement) {
-            if (checkPermissions(DocumentUploadActivity.this)) {
-                captureImage.chooseImage(DocumentUploadActivity.this, AutoFinConstants.RENTAL_AGREEMENT);
-            } else {
-                Callpermissions(DocumentUploadActivity.this);
-            }
-        } else if (v.getId() == R.id.llElectricityBill) {
-            if (checkPermissions(DocumentUploadActivity.this)) {
-                captureImage.chooseImage(DocumentUploadActivity.this, AutoFinConstants.ELECTRICITY_BILL);
-            } else {
-                Callpermissions(DocumentUploadActivity.this);
-            }
-        } else if (v.getId() == R.id.llResAadharCard) {
-            if (checkPermissions(DocumentUploadActivity.this)) {
-                captureImage.chooseImage(DocumentUploadActivity.this, AutoFinConstants.RES_AADHAR_CARD);
-            } else {
-                Callpermissions(DocumentUploadActivity.this);
-            }
-        } else if (v.getId() == R.id.llBankStatement) {
-            if (checkPermissions(DocumentUploadActivity.this)) {
-                captureImage.chooseImage(DocumentUploadActivity.this, AutoFinConstants.BANK_STATEMENT);
-            } else {
-                Callpermissions(DocumentUploadActivity.this);
-            }
-        } else if (v.getId() == R.id.llSalarySlip) {
-            if (checkPermissions(DocumentUploadActivity.this)) {
-                captureImage.chooseImage(DocumentUploadActivity.this, AutoFinConstants.SALARY_SLIP);
-            } else {
-                Callpermissions(DocumentUploadActivity.this);
-            }
-        } else if (v.getId() == R.id.llForm16) {
-            if (checkPermissions(DocumentUploadActivity.this)) {
-                captureImage.chooseImage(DocumentUploadActivity.this, AutoFinConstants.FORM_16);
-            } else {
-                Callpermissions(DocumentUploadActivity.this);
-            }
-        } else if (v.getId() == R.id.llITR) {
-            if (checkPermissions(DocumentUploadActivity.this)) {
-                captureImage.chooseImage(DocumentUploadActivity.this, AutoFinConstants.ITR);
-            } else {
-                Callpermissions(DocumentUploadActivity.this);
-            }
-        } else if (v.getId() == R.id.cbSkipBankDocs) {
+         else if (v.getId() == R.id.cbSkipBankDocs) {
             if (cbSkipBankDocs.isChecked()) {
             }
         } else if (v.getId() == R.id.cbUploadDocsAgreeTAndC) {
@@ -400,6 +308,33 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
         String strRes = new Gson().toJson(response.body());
         Log.i(TAG, "onResponse: " + strRes);
+        DocumentResponse documentResponse=new Gson().fromJson(strRes,DocumentResponse.class);
+
+
+        try
+        {
+            if(documentResponse!=null)
+            {
+                CommonMethods.showToast(this,documentResponse.getMessage());
+                if(documentResponse.getData()!=null)
+                {
+                    DocData documentData=documentResponse.getData();
+                    if(documentData.getDocs()!=null)
+                    {
+                     List<DOCObject> docObjectsList=documentData.getDocs();
+                     attachToAdapter(docObjectsList);
+                    }
+                }
+            }
+        }
+        catch(Exception exception)
+        {
+            exception.printStackTrace();
+            startActivity(new Intent(this, InterestedBankOfferDetailsActivity.class));
+        }
+
+
+/*
         KYCDocUploadResponse kycDocUploadResponse=new Gson().fromJson(strRes,KYCDocUploadResponse.class);
 
 
@@ -416,8 +351,17 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             exception.printStackTrace();
             startActivity(new Intent(this, InterestedBankOfferDetailsActivity.class));
         }
+*/
 
 
+    }
+
+    private void attachToAdapter(List<DOCObject> docObjectsList)
+    {
+        DocumentTypeAdapter selectBankAdapter = new DocumentTypeAdapter(DocumentUploadActivity.this, docObjectsList);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        rvDocType.setLayoutManager(layoutManager);
+        rvDocType.setAdapter(selectBankAdapter);
     }
 
     @Override

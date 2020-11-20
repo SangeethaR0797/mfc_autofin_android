@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/llDocFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:layout_marginBottom="@dimen/text_size_22dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <utility.RobotoMedium
+            android:id="@+id/tvDocFileLbl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.4"
+            android:gravity="left"
+            android:text="@string/pancard_lbl"
+            android:textColor="@color/very_dark_blue"
+            android:textSize="@dimen/text_size_14sp" />
+
+        <TextView
+            android:id="@+id/tvDocFileURL"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            android:drawableRight="@drawable/ic_browse_14dp"
+            android:drawablePadding="7dp"
+            android:gravity="right"
+            android:paddingRight="5dp"
+            android:text="@string/add_doc_lbl"
+            android:maxLines="1"
+            android:textColor="@color/grey_color"
+            android:textSize="@dimen/text_size_12dp"
+            android:textStyle="italic"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey_color" />
+
+
+</LinearLayout>
