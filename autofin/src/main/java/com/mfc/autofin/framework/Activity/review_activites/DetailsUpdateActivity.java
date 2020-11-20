@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.gson.Gson;
 import com.mfc.autofin.framework.R;
 
+import kyc.DocumentUploadActivity;
 import model.CustomerDetailsReq;
 import model.CustomerDetailsRes;
 import model.add_lead_details.AddLeadResponse;
@@ -186,7 +187,9 @@ public class DetailsUpdateActivity extends AppCompatActivity implements Callback
                             CommonMethods.setValueAgainstKey(this,CommonStrings.CASE_ID,customerDetails.getCaseId());
                             CommonMethods.showToast(this,customerDetails.getCaseId());
                             Log.i(TAG, "onResponse: "+customerDetails.getCaseId());
-                            startActivity(new Intent(DetailsUpdateActivity.this,ViewBankActivity.class));
+                            startActivity(new Intent(DetailsUpdateActivity.this, DocumentUploadActivity.class));
+
+                            //startActivity(new Intent(DetailsUpdateActivity.this,ViewBankActivity.class));
                         }
                         else
                         {

@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.CustomerDetailsRes;
+import model.kyc_model.Doc;
 import model.kyc_model.DocumentData;
 import model.kyc_model.KYCDocUploadResponse;
 import model.kyc_model.UploadDocRequest;
@@ -64,7 +65,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
     private File file;
     private Uri fileUri;
-    private List<String> documentList=new ArrayList<>();
+    private List<Doc> documentList=new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -222,7 +223,6 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         DocumentData documentData=new DocumentData();
         documentData.setCustomerId(4281);
         documentData.setCaseId(CommonMethods.getStringValueFromKey(this, CommonStrings.CASE_ID));
-        documentData.setKey("PanCard");
         documentData.setDocs(documentList);
         uploadDocRequest.setData(documentData);
         return uploadDocRequest;
@@ -321,7 +321,10 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             {
                 panCardURL = imageURL;
                 setFileOnTextView(imageURL, tvPanCardURL);
-                documentList.add(imageURL);
+                Doc doc=new Doc();
+                doc.setKey("PanCard");
+                doc.setUrl(imageURL);
+                documentList.add(doc);
             }
             else
             {
@@ -331,53 +334,76 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         else if (statusCode == AutoFinConstants.AADHARCARD) {
             aadhaarCardURL = imageURL;
             setFileOnTextView(imageURL, tvAadharCardURL);
-            documentList.add(imageURL);
-        }
+            Doc doc=new Doc();
+            doc.setKey("AdhaarCard");
+            doc.setUrl(imageURL);
+            documentList.add(doc);        }
         else if (statusCode == AutoFinConstants.VOTERIDCARD) {
             voterIdURL = imageURL;
             setFileOnTextView(imageURL, tvVoterIdURL);
-            documentList.add(imageURL);
-        }
+            Doc doc=new Doc();
+            doc.setKey("VoterId");
+            doc.setUrl(imageURL);
+            documentList.add(doc);        }
         else if (statusCode == AutoFinConstants.PASSPORT) {
             passportURL = imageURL;
             setFileOnTextView(imageURL, tvPassportURL);
-            documentList.add(imageURL);
+            Doc doc=new Doc();
+            doc.setKey("Passport");
+            doc.setUrl(imageURL);
+            documentList.add(doc);
         }
         else if (statusCode == AutoFinConstants.RENTAL_AGREEMENT) {
             rentalAgreementURL = imageURL;
             setFileOnTextView(imageURL, tvRentAgreementURL);
-            documentList.add(imageURL);
-        }
+            Doc doc=new Doc();
+            doc.setKey("RentAgreement");
+            doc.setUrl(imageURL);
+            documentList.add(doc);        }
         else if (statusCode == AutoFinConstants.ELECTRICITY_BILL) {
             ebBillURL = imageURL;
             setFileOnTextView(imageURL, tvElectricityBillURL);
-            documentList.add(imageURL);
+            Doc doc=new Doc();
+            doc.setKey("ElectricityBill");
+            doc.setUrl(imageURL);
+            documentList.add(doc);
         }
         else if (statusCode == AutoFinConstants.RES_AADHAR_CARD) {
             resAadhaarURL = imageURL;
             setFileOnTextView(imageURL, tvResAadharURL);
-            documentList.add(imageURL);
-        }
+            Doc doc=new Doc();
+            doc.setKey("AdhaarCard");
+            doc.setUrl(imageURL);
+            documentList.add(doc);        }
         else if (statusCode == AutoFinConstants.BANK_STATEMENT) {
             bankStmtURL = imageURL;
             setFileOnTextView(imageURL, tvBankStatementURL);
-            documentList.add(imageURL);
+            Doc doc=new Doc();
+            doc.setKey("BankStatement");
+            doc.setUrl(imageURL);
+            documentList.add(doc);
         }
         else if (statusCode == AutoFinConstants.SALARY_SLIP) {
             salSlip = imageURL;
             setFileOnTextView(imageURL, tvSalarySlipURL);
-            documentList.add(imageURL);
-        }
+            Doc doc=new Doc();
+            doc.setKey("SalarySlip");
+            doc.setUrl(imageURL);
+            documentList.add(doc);        }
         else if (statusCode == AutoFinConstants.FORM_16) {
             form16URL = imageURL;
             setFileOnTextView(imageURL, tvForm16URL);
-            documentList.add(imageURL);
-        }
+            Doc doc=new Doc();
+            doc.setKey("Form16");
+            doc.setUrl(imageURL);
+            documentList.add(doc);        }
         else if (statusCode == AutoFinConstants.ITR) {
             itrURL = imageURL;
             setFileOnTextView(imageURL, tvITRURL);
-            documentList.add(imageURL);
-        }
+            Doc doc=new Doc();
+            doc.setKey("ITRReturn");
+            doc.setUrl(imageURL);
+            documentList.add(doc);        }
 
     }
 

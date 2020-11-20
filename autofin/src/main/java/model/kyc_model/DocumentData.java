@@ -5,6 +5,8 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import model.add_lead_details.Document;
+
 public class DocumentData
 {
         @SerializedName("CustomerId")
@@ -13,12 +15,9 @@ public class DocumentData
         @SerializedName("CaseId")
         @Expose
         private String caseId;
-        @SerializedName("Key")
-        @Expose
-        private String key;
         @SerializedName("Docs")
         @Expose
-        private List<String> docs = null;
+        private List<Doc> docs = null;
 
         public Integer getCustomerId() {
             return customerId;
@@ -36,19 +35,11 @@ public class DocumentData
             this.caseId = caseId;
         }
 
-        public String getKey() {
-            return key;
-        }
-
-        public void setKey(String key) {
-            this.key = key;
-        }
-
-        public List<String> getDocs() {
+        public List<Doc> getDocs() {
             return docs;
         }
 
-        public void setDocs(List<String> docs) {
+        public void setDocs(List<Doc> docs) {
             this.docs = docs;
         }
 
