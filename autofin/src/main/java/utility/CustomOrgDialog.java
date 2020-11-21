@@ -1,12 +1,10 @@
 package utility;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -18,29 +16,28 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mfc.autofin.framework.Activity.PersonalDetails.BankNamesActivity;
 import com.mfc.autofin.framework.R;
 
 import java.util.List;
 
 import static android.R.layout.simple_list_item_1;
 
-public class CustomSearchDialog extends Dialog implements View.OnClickListener {
+public class CustomOrgDialog extends Dialog implements View.OnClickListener {
 
     private Context context;
     ArrayAdapter<String> adapter = null;
     List<String> listOfItems, temporaryList;
-    TextView givenTextView, text1;
+    TextView text1;
     ImageView dialog_cancel_btn, iv_custom_search_icon;
-    private EditText etSearchAlertDialog;
+    private EditText etSearchAlertDialog,givenEditText;
     private ListView alertDialogListView;
     Button btnSelect;
     private String strSelectedValue = "";
 
-    public CustomSearchDialog(Context context, List<String> list, TextView textView) {
+    public CustomOrgDialog(Context context, List<String> list, EditText editText) {
         super(context);
 
-        setContentView(R.layout.layout_common_listview_with_search);
+        setContentView(R.layout.custom_org_name_dialog);
         this.context = context;
 
         dialog_cancel_btn = findViewById(R.id.dialog_cancel_btn);
@@ -54,12 +51,12 @@ public class CustomSearchDialog extends Dialog implements View.OnClickListener {
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(lp);
+        etSearchAlertDialog.setHint("Select Organization name");
         adapter = new ArrayAdapter<String>(context, simple_list_item_1, list);
 
         listOfItems = list;
         temporaryList = listOfItems;
-        givenTextView = textView;
-        etSearchAlertDialog.setHint("Select Bank");
+        givenEditText = editText;
         etSearchAlertDialog.addTextChangedListener(filterTextWatcher);
         alertDialogListView.setAdapter(adapter);
         alertDialogListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -84,7 +81,7 @@ public class CustomSearchDialog extends Dialog implements View.OnClickListener {
             adapter.notifyDataSetChanged();
         } else if (v.getId() == R.id.btnSelect) {
             if (!strSelectedValue.equals("")) {
-                givenTextView.setText(strSelectedValue);
+                givenEditText.setText(strSelectedValue);
                 dismiss();
             } else {
                 Toast.makeText(context, "Please select any Bank Name", Toast.LENGTH_SHORT).show();

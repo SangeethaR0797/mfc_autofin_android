@@ -253,6 +253,7 @@
     <string name="lbl_employer_name">EMPLOYER NAME</string>
     <string name="hint_select_employer_name">Please select employer name</string>
     <string name="hint_industry_type">Please select Industry type</string>
+    <string name="sear_your_org">Search Your Organization</string>
 
 
 </resources>

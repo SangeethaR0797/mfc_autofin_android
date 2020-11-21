@@ -39,6 +39,7 @@ public class CommonStrings {
     public static final String SALARY_MODE = "salary_mode";
     public static final String RESIDENCE_TYPE = "residence_type";
     public static final String EMP_TYPE_URL = "https://15.207.148.230:3004/api/masters/employee-type";
+    public static final String ORG_NAME_LIST_URL ="https://15.207.148.230:3004/api/masters/employer/employer-masters";
     public static final String EMP_TYPE_VAL = "employment_type";
     public static final String LIKELY_PURCHASE_DATE = "likely_purchase_date";
     public static final String ROAD_PRICE = "road_price";
