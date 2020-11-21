@@ -60,7 +60,7 @@ public class LastYearSalesOrTurnOver extends AppCompatActivity implements View.O
                 if (!etLastYearSalesVal.getText().toString().isEmpty()) {
                     strLastYearSales = etLastYearSalesVal.getText().toString();
                     CommonMethods.setValueAgainstKey(LastYearSalesOrTurnOver.this, CommonStrings.LAST_YEAR_TURN_OVER, strLastYearSales);
-                    startActivity(new Intent(this, IncomeAfterTaxActivity.class));
+                    startActivity(new Intent(LastYearSalesOrTurnOver.this, IncomeAfterTaxActivity.class));
                 } else {
                     belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.error_red));
                     tvErrorMessage.setVisibility(View.VISIBLE);
@@ -69,11 +69,11 @@ public class LastYearSalesOrTurnOver extends AppCompatActivity implements View.O
 
             }catch(Exception exception){exception.printStackTrace();}
 
-        } /*else if (v.getId() == R.id.etLastYearSalesVal) {
+        } else if (v.getId() == R.id.etLastYearSalesVal) {
             belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.very_dark_blue));
             if (tvErrorMessage.getVisibility() == View.VISIBLE) {
                 tvErrorMessage.setVisibility(View.GONE);
             }
-        }*/
+        }
     }
 }

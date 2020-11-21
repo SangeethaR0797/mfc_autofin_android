@@ -25,23 +25,20 @@ public class ProfessionActivity extends AppCompatActivity implements View.OnClic
     TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvProfessionVal;
     private Button btnNext;
     ImageView iv_personal_details_backBtn;
-    String strEmpType="";
+    String strEmpType="",strPreviousLbl="",strEmpRole="";
     ArrayList<String> professionList;
+    private Intent intent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profession);
-        try{
-            if (!CommonMethods.getStringValueFromKey(this, CommonStrings.EMP_TYPE_VAL).equals("")) {
-                strEmpType = CommonMethods.getStringValueFromKey(this, CommonStrings.EMP_TYPE_VAL);
-            } else {
-                strEmpType = "";
-            }
-        }catch(Exception exception)
+        try
         {
-            exception.printStackTrace();
-        }
+           intent=getIntent();
+            strPreviousLbl=intent.getStringExtra(CommonStrings.PREVIOUS_VALUE_LBL);
+            strEmpRole=intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
+        }catch (Exception exception){exception.printStackTrace();}
         professionList=new ArrayList<>();
         professionList.add("Architect");
         professionList.add("CA");
@@ -62,8 +59,8 @@ public class ProfessionActivity extends AppCompatActivity implements View.OnClic
         tvProfessionVal=findViewById(R.id.tvProfessionVal);
         btnNext=findViewById(R.id.btnNext);
         iv_personal_details_backBtn=findViewById(R.id.iv_personal_details_backBtn);
-        tvGivenLbl.setText(getResources().getString(R.string.lbl_employment_type));
-        tvGivenPreviousVal.setText(strEmpType);
+        tvGivenLbl.setText(strPreviousLbl);
+        tvGivenPreviousVal.setText(strEmpRole);
         tvGivenValEdit.setOnClickListener(this);
         tvProfessionVal.setOnClickListener(this);
         btnNext.setOnClickListener(this);
@@ -93,7 +90,11 @@ public class ProfessionActivity extends AppCompatActivity implements View.OnClic
             if(!tvProfessionVal.getText().toString().equals(""))
             {
                 CommonMethods.setValueAgainstKey(this,CommonStrings.PROFESSION_VAL,tvProfessionVal.getText().toString());
-                startActivity(new Intent(this, LastYearSalesOrTurnOver.class));
+                CommonStrings.cusEmpDetailsModel.setProfession(tvProfessionVal.getText().toString());
+                Intent intent=new Intent(this, StartDateOfBusinessOrProfessionActivity.class);
+                intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL,getResources().getString(R.string.lbl_profession));
+                intent.putExtra(CommonStrings.PREVIOUS_VALUE,CommonStrings.cusEmpDetailsModel.getProfession());
+                startActivity(intent);
             }
             else
             {

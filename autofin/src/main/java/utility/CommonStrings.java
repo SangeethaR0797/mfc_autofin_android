@@ -1,5 +1,6 @@
 package utility;
 
+import model.custom_model.CusEmpDetailsModel;
 import model.custom_model.CustomBasicDetailsModel;
 import model.custom_model.CustomVehDetails;
 import model.residential_models.CityData;
@@ -78,6 +79,9 @@ public class CommonStrings {
     public static final String ADD_BASIC_DETAILS_URL = "https://15.207.148.230:3007/api/customer/v2/add-basic-details";
     public static final String CASE_ID ="case_id" ;
     public static final String CUSTOMER_DETAILS_URL = "https://15.207.148.230:3007/api/customer/v2/customer-details";
+    public static final String INDUSTRY_TYPE ="industry_type" ;
+    public static final String PREVIOUS_VALUE_LBL = "previous_value_lbl";
+    public static final String PREVIOUS_VALUE = "previous_screen_value";
     public static String VEH_CATEGORY_URL = "https://15.207.148.230:3004/api/masters/vehicle-category";
     public static String RES_CITY_URL = "https://15.207.148.230:3004/api/pincode/city/";
     public static String IBB_PASSWORD = "dHk69ffu7ebP";
@@ -92,6 +96,7 @@ public class CommonStrings {
     public static StockResponseData stockResData = new StockResponseData();
     public static CustomVehDetails customVehDetails = new CustomVehDetails();
     public static CustomBasicDetailsModel customBasicDetails = new CustomBasicDetailsModel();
+    public static CusEmpDetailsModel cusEmpDetailsModel = new CusEmpDetailsModel();
     public static CityData customCityData = new CityData();
 
 }

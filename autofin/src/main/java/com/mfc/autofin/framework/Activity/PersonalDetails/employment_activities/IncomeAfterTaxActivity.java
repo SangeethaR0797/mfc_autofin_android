@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
+import com.mfc.autofin.framework.Activity.PersonalDetails.CurrentOrganizationActivity;
 import com.mfc.autofin.framework.Activity.PersonalDetails.SalaryModeActivity;
 import com.mfc.autofin.framework.R;
 
@@ -59,19 +60,28 @@ public class IncomeAfterTaxActivity extends AppCompatActivity implements View.On
             if (!etIncomeAfterTax.getText().toString().isEmpty()) {
                 strIncomeAfterTax = etIncomeAfterTax.getText().toString();
                 CommonMethods.setValueAgainstKey(this, CommonStrings.INCOME_AFTER_TAX, strIncomeAfterTax);
-                startActivity(new Intent(this, LastYearDepreciationActivity.class));
+                if(CommonMethods.getStringValueFromKey(this,CommonStrings.EMP_TYPE_VAL).equals(getResources().getString(R.string.lbl_business_owner)))
+                {
+                    startActivity(new Intent(this, LastYearDepreciationActivity.class));
+                }
+                else
+                {
+                    startActivity(new Intent(this, CurrentOrganizationActivity.class));
+
+                }
+
             } else {
                 belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.error_red));
                 tvErrorMessage.setVisibility(View.VISIBLE);
                 tvErrorMessage.setText(getResources().getString(R.string.please_enter_year_of_experience));
             }
 
-        } /*else if (v.getId() == R.id.etIncomeAfterTax) {
+        } else if (v.getId() == R.id.etIncomeAfterTax) {
             belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.very_dark_blue));
             if (tvErrorMessage.getVisibility() == View.VISIBLE) {
                 tvErrorMessage.setVisibility(View.GONE);
             }
-        }*/
+        }
     }
 
 }

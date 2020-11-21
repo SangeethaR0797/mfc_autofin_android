@@ -33,7 +33,7 @@ import static retrofit_config.RetroBase.retrofitInterface;
 public class BankNamesActivity extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
 
     private static final String TAG = BankNamesActivity.class.getSimpleName();
-    private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit,tvSelectedBankName;
+    private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit,tvSelectedBankName,tvSelectBankNameLbl;
     private ImageView iv_app_bank_search;
     private List<String> bankNameList;
     private ListView listView;
@@ -57,6 +57,15 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
         tvGivenLbl=findViewById(R.id.tvGivenLbl);
         tvGivenPreviousVal=findViewById(R.id.tvGivenPreviousVal);
         tvGivenValEdit=findViewById(R.id.tvGivenValEdit);
+        tvSelectBankNameLbl=findViewById(R.id.tvSelectBankNameLbl);
+        if(CommonMethods.getStringValueFromKey(this,CommonStrings.EMP_TYPE_VAL).equals(getResources().getString(R.string.lbl_salaried)))
+        {
+            tvSelectBankNameLbl.setText("SELECT SALARY ACCOUNT BANK NAME");
+        }
+        else
+        {
+            tvSelectBankNameLbl.setText(getResources().getString(R.string.lbl_select_bank_name));
+        }
         tvGivenLbl.setText(getResources().getString(R.string.employment_type));
         tvGivenPreviousVal.setText(strEmployeeType);
         tvGivenValEdit.setOnClickListener(this);

@@ -14,6 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
+import com.mfc.autofin.framework.Activity.PersonalDetails.BankNamesActivity;
+import com.mfc.autofin.framework.Activity.PersonalDetails.JODOCurrentOrgActivity;
+import com.mfc.autofin.framework.Activity.PersonalDetails.PanCardNumberActivity;
+import com.mfc.autofin.framework.Activity.PersonalDetails.YearOfExperienceActivity;
 import com.mfc.autofin.framework.R;
 
 import java.util.List;
@@ -80,8 +84,21 @@ public class IndustryTypeActivity extends AppCompatActivity implements View.OnCl
         {
             if(!tvSelectedIndustryType.getText().toString().equals(""))
             {
-                CommonMethods.setValueAgainstKey(this,CommonStrings.EMPLOYER_NAME,tvSelectedIndustryType.getText().toString());
-                startActivity(new Intent(this, IndustryTypeActivity.class));
+                CommonMethods.setValueAgainstKey(this,CommonStrings.INDUSTRY_TYPE,tvSelectedIndustryType.getText().toString());
+                if(CommonMethods.getStringValueFromKey(this,CommonStrings.EMP_TYPE_VAL).equals(getResources().getString(R.string.lbl_salaried)))
+                {
+                    startActivity(new Intent(this, YearOfExperienceActivity.class));
+                }
+                else if(CommonMethods.getStringValueFromKey(this,CommonStrings.EMP_TYPE_VAL).equals(getResources().getString(R.string.lbl_student)))
+                {
+                    startActivity(new Intent(this, BankNamesActivity.class));
+                }
+                else
+                {
+                    startActivity(new Intent(this, PanCardNumberActivity.class));
+                }
+
+
             }
             else
             {

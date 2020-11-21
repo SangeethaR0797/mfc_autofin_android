@@ -92,25 +92,32 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
             finish();
         } else if (v.getId() == R.id.rbSalaried) {
             CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbSalaried.getText().toString());
+            CommonStrings.cusEmpDetailsModel.setEmpType(rbSalaried.getText().toString());
             startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
         } else if (v.getId() == R.id.rbBusinessOwner) {
+            CommonStrings.cusEmpDetailsModel.setEmpType(rbBusinessOwner.getText().toString());
             CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbBusinessOwner.getText().toString());
-            startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
-            //startActivity(new Intent(EmploymentTypeActivity.this, EmploymentRole.class));
+            //startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
+            startActivity(new Intent(EmploymentTypeActivity.this, EmploymentRole.class));
         } else if (v.getId() == R.id.rbSelfEmployedProfessional) {
+            CommonStrings.cusEmpDetailsModel.setEmpType(rbSelfEmployedProfessional.getText().toString());
             CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbSelfEmployedProfessional.getText().toString());
-            startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
-            //startActivity(new Intent(EmploymentTypeActivity.this, ProfessionActivity.class));
+            //startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
+            startActivity(new Intent(EmploymentTypeActivity.this, ProfessionActivity.class));
         } else if (v.getId() == R.id.rbIndependentWorker) {
+            CommonStrings.cusEmpDetailsModel.setEmpType(rbIndependentWorker.getText().toString());
             CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbIndependentWorker.getText().toString());
             startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
         } else if (v.getId() == R.id.rbStudent) {
+            CommonStrings.cusEmpDetailsModel.setEmpType(rbStudent.getText().toString());
             CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbStudent.getText().toString());
             startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
         } else if (v.getId() == R.id.rbRetired) {
+            CommonStrings.cusEmpDetailsModel.setEmpType(rbRetired.getText().toString());
             CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbRetired.getText().toString());
             startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
         } else if (v.getId() == R.id.rbHomeMaker) {
+            CommonStrings.cusEmpDetailsModel.setEmpType(rbHomeMaker.getText().toString());
             CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbHomeMaker.getText().toString());
             startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
         }

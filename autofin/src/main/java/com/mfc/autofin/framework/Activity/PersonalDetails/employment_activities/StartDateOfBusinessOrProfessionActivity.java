@@ -20,6 +20,7 @@ import com.mfc.autofin.framework.R;
 
 import java.text.SimpleDateFormat;
 
+import model.bank_models.InterestedBankOfferRes;
 import utility.CommonMethods;
 import utility.CommonStrings;
 
@@ -28,17 +29,22 @@ public class StartDateOfBusinessOrProfessionActivity extends AppCompatActivity i
 
     private ImageView iv_personal_details_backBtn;
     private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit,tvStartDateOfBOPLbl,tvStartDateOfBOPVal;
-    private String strOrgName="",strStartedDate="";
-    CalendarView cvJoiningDateOfCurrentOrg;
-    LinearLayout llStartDateOfBOP;
+    private String strEmpType="",strPreviousLbl="",strPreviousVal="",strStartedDate="";
+    CalendarView cvStartDateOfBOP;
+    LinearLayout llStartDateOfBOP,llBusinessCalendarView;
+    private Intent intent;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_date_of_business);
-        if(!CommonMethods.getStringValueFromKey(this, CommonStrings.CURRENT_ORG_NAME).equals(""))
+
+        try
         {
-            strOrgName=CommonMethods.getStringValueFromKey(this, CommonStrings.CURRENT_ORG_NAME);
-        }
+            intent=getIntent();
+            strPreviousLbl=intent.getStringExtra(CommonStrings.PREVIOUS_VALUE_LBL);
+            strPreviousVal=intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
+        }catch (Exception exception){exception.printStackTrace();}
+
         initView();
     }
 
@@ -51,14 +57,15 @@ public class StartDateOfBusinessOrProfessionActivity extends AppCompatActivity i
         tvGivenValEdit=findViewById(R.id.tvGivenValEdit);
         tvStartDateOfBOPLbl=findViewById(R.id.tvStartDateOfBOPLbl);
         tvStartDateOfBOPVal=findViewById(R.id.tvStartDateOfBOPValue);
-        cvJoiningDateOfCurrentOrg=findViewById(R.id.cvJoiningDateOfCurrentOrg);
+        cvStartDateOfBOP=findViewById(R.id.cvStartDateOfBOP);
         llStartDateOfBOP=findViewById(R.id.llStartDateOfBOP);
-        tvGivenLbl.setText(getResources().getString(R.string.lbl_working_organization_name));
-        tvGivenPreviousVal.setText(strOrgName);
+        llBusinessCalendarView=findViewById(R.id.llBusinessCalendarView);
+        tvGivenLbl.setText(strPreviousLbl);
+        tvGivenPreviousVal.setText(strPreviousVal);
         iv_personal_details_backBtn.setOnClickListener(this);
         tvGivenValEdit.setOnClickListener(this);
-        cvJoiningDateOfCurrentOrg.setMaxDate(System.currentTimeMillis() - 1000);
-        cvJoiningDateOfCurrentOrg.setOnDateChangeListener(this);
+        cvStartDateOfBOP.setMaxDate(System.currentTimeMillis() - 1000);
+        cvStartDateOfBOP.setOnDateChangeListener(this);
         tvStartDateOfBOPLbl.setOnClickListener(this);
 
     }
@@ -74,9 +81,9 @@ public class StartDateOfBusinessOrProfessionActivity extends AppCompatActivity i
         {
             finish();
         }
-        else if(v.getId()==R.id.tvJODOCurrentOrgLbl)
+        else if(v.getId()==R.id.tvStartDateOfBOPLbl)
         {
-            llStartDateOfBOP.setVisibility(View.VISIBLE);
+            llBusinessCalendarView.setVisibility(View.VISIBLE);
         }
 
     }
@@ -87,6 +94,7 @@ public class StartDateOfBusinessOrProfessionActivity extends AppCompatActivity i
         strStartedDate = dayOfMonth + " " + monthName + " " + year;
         tvStartDateOfBOPVal.setText(strStartedDate);
         CommonMethods.setValueAgainstKey(this,CommonStrings.BUSINESS_OR_PROFESSION_START_DATE,dayOfMonth + " " + monthName + " " + year);
+
         startActivity(new Intent(this, LastYearSalesOrTurnOver.class));
     }
 

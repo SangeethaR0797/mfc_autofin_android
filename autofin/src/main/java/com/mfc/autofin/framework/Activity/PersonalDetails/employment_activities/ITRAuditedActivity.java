@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.mfc.autofin.framework.Activity.PersonalDetails.CurrentOrganizationActivity;
 import com.mfc.autofin.framework.R;
 
 import utility.CommonMethods;
@@ -57,12 +58,12 @@ public class ITRAuditedActivity extends AppCompatActivity implements View.OnClic
         else if(v.getId()==R.id.btnItrAuditedYes)
         {
             CommonMethods.setValueAgainstKey(this, CommonStrings.ITR_AUDITERD_OR_NOT, btnItrAuditedYes.getText().toString());
-            startActivity(new Intent(this,EmployerNameActivity.class));
+            startActivity(new Intent(this, CurrentOrganizationActivity.class));
         }
         else if(v.getId()==R.id.btnItrAuditedNo)
         {
             CommonMethods.setValueAgainstKey(this, CommonStrings.INCOME_AFTER_TAX,  btnItrAuditedNo.getText().toString());
-            startActivity(new Intent(this,EmployerNameActivity.class));
+            startActivity(new Intent(this,CurrentOrganizationActivity.class));
         }
     }
 }

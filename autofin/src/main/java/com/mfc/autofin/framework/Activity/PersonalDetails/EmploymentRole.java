@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.Activity.PersonalDetails.employment_activities.ProfessionActivity;
+import com.mfc.autofin.framework.Activity.PersonalDetails.employment_activities.StartDateOfBusinessOrProfessionActivity;
 import com.mfc.autofin.framework.Activity.review_activites.BSDListItemFragment;
 import com.mfc.autofin.framework.R;
 
@@ -100,7 +101,22 @@ public class EmploymentRole extends AppCompatActivity implements Callback<Object
             if(!tvEmploymentRoleVal.getText().toString().equals(""))
             {
                 CommonMethods.setValueAgainstKey(this,CommonStrings.EMPLOYMENT_ROLE_VAL,tvEmploymentRoleVal.getText().toString());
-                startActivity(new Intent(this, ProfessionActivity.class));
+                CommonStrings.cusEmpDetailsModel.setEmpRole(tvEmploymentRoleVal.getText().toString());
+                if(CommonStrings.cusEmpDetailsModel.getEmpType().equals(getResources().getString(R.string.lbl_self_employed_professional)))
+                {
+                    Intent intent=new Intent(this, ProfessionActivity.class);
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL,getResources().getString(R.string.lbl_employment_role));
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE,CommonStrings.cusEmpDetailsModel.getEmpRole());
+                    startActivity(intent);
+                }
+                else
+                {
+                    Intent intent=new Intent(this, StartDateOfBusinessOrProfessionActivity.class);
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL,getResources().getString(R.string.lbl_employment_role));
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE,CommonStrings.cusEmpDetailsModel.getEmpRole());
+                    startActivity(intent);
+                }
+
             }
             else
             {

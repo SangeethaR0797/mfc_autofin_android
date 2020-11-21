@@ -62,14 +62,14 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/llJODCalendarView"
+                    android:id="@+id/llBusinessCalendarView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/text_size_20dp"
                     android:visibility="invisible">
 
                     <CalendarView
-                        android:id="@+id/cvJoiningDateOfCurrentOrg"
+                        android:id="@+id/cvStartDateOfBOP"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusedMonthDateColor="@color/grey_color"

@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
+import com.mfc.autofin.framework.Activity.PersonalDetails.employment_activities.IndustryTypeActivity;
+import com.mfc.autofin.framework.Activity.PersonalDetails.employment_activities.LastYearDepreciationActivity;
 import com.mfc.autofin.framework.R;
 
 import java.util.List;
@@ -99,7 +101,17 @@ public class CurrentOrganizationActivity extends AppCompatActivity implements Vi
             if (!etOrganizationName.getText().toString().equals("")) {
                 strOrgName = etOrganizationName.getText().toString();
                 CommonMethods.setValueAgainstKey(this, CommonStrings.CURRENT_ORG_NAME, strOrgName);
-                startActivity(new Intent(this, JODOCurrentOrgActivity.class));
+                if(CommonMethods.getStringValueFromKey(this,CommonStrings.EMP_TYPE_VAL).equals(getResources().getString(R.string.lbl_salaried)))
+                {
+                    startActivity(new Intent(this, JODOCurrentOrgActivity.class));
+                }
+                else
+                {
+                    startActivity(new Intent(this, IndustryTypeActivity.class));
+
+                }
+
+
             } else {
                 belowOrgName.setBackgroundColor(getResources().getColor(R.color.error_red));
                 tvErrorMessage.setVisibility(View.VISIBLE);

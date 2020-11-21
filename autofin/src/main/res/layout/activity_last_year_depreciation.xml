@@ -53,7 +53,7 @@
                         android:background="@android:color/transparent"
                         android:clickable="true"
                         android:inputType="number"
-                        android:maxLength="2"
+                        android:maxLength="15"
                         android:singleLine="true"
                         android:textColor="@color/very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
