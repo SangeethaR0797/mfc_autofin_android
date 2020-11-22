@@ -39,14 +39,18 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
     private ListView listView;
     private ArrayAdapter<String> arrayAdapter;
     private Button btnNext;
-    private String strEmployeeType="";
+    private String strEmployeeType="",strPreviousLbl="",strPreviousVal="";
+    private Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bank_names);
-        if(!CommonMethods.getStringValueFromKey(this,CommonStrings.EMP_TYPE_VAL).equals(""))
-        {
-            strEmployeeType=CommonMethods.getStringValueFromKey(this,CommonStrings.EMP_TYPE_VAL);
+        try {
+            intent = getIntent();
+            strPreviousLbl = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE_LBL);
+            strPreviousVal = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
         initView();
 
@@ -66,8 +70,8 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
         {
             tvSelectBankNameLbl.setText(getResources().getString(R.string.lbl_select_bank_name));
         }
-        tvGivenLbl.setText(getResources().getString(R.string.employment_type));
-        tvGivenPreviousVal.setText(strEmployeeType);
+        tvGivenLbl.setText(strPreviousLbl);
+        tvGivenPreviousVal.setText(strPreviousVal);
         tvGivenValEdit.setOnClickListener(this);
         tvSelectedBankName=findViewById(R.id.tvSelectedBankName);
         iv_app_bank_search=findViewById(R.id.iv_app_bank_search);

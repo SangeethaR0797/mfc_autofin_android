@@ -30,7 +30,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/text_size_28dp"
-                    android:text="@string/lbl_last_year_sales_or_turn_over"
+                    android:text="@string/lbl_last_year_sales"
                     android:textColor="@color/very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 

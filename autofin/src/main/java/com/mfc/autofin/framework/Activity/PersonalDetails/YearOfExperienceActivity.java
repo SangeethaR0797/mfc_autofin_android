@@ -20,18 +20,23 @@ import utility.CustomFonts;
 public class YearOfExperienceActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView iv_personal_details_backBtn;
-    private TextView tvGivenLbl,tvGivenPreviousVal, tvGivenValEdit, tvYearOfExpLbl, tvYears, tvErrorMessage;
+    private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvYearOfExpLbl, tvYears, tvErrorMessage;
     private EditText etNOOfYears;
     private View belowETYearsOE;
     private Button btnNext;
-    private String strJoiningDate = "", strYearsOfExperience = "";
+    private String strPreviousLbl, strPreviousVal, strJoiningDate = "", strYearsOfExperience = "";
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_year_of_experience);
-        if (!CommonMethods.getStringValueFromKey(this, CommonStrings.CURRENT_ORG_JOINING_DATE).isEmpty()) {
-            strJoiningDate = CommonMethods.getStringValueFromKey(this, CommonStrings.CURRENT_ORG_JOINING_DATE);
+        try {
+            intent = getIntent();
+            strPreviousLbl = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE_LBL);
+            strPreviousVal = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
         initView();
     }
@@ -47,8 +52,8 @@ public class YearOfExperienceActivity extends AppCompatActivity implements View.
         etNOOfYears = findViewById(R.id.etNOOfYears);
         belowETYearsOE = findViewById(R.id.belowETYearsOE);
         btnNext = findViewById(R.id.btnNext);
-        tvGivenLbl.setText(getResources().getString(R.string.lbl_joining_date_of_your_current_org));
-        tvGivenPreviousVal.setText(strJoiningDate);
+        tvGivenLbl.setText(strPreviousLbl);
+        tvGivenPreviousVal.setText(strPreviousVal);
         tvYears.setTypeface(CustomFonts.getRobotoRegularTF(this));
         iv_personal_details_backBtn.setOnClickListener(this);
         tvGivenValEdit.setOnClickListener(this);
@@ -65,7 +70,10 @@ public class YearOfExperienceActivity extends AppCompatActivity implements View.
         } else if (v.getId() == R.id.btnNext) {
             if (!etNOOfYears.getText().toString().isEmpty()) {
                 strYearsOfExperience = etNOOfYears.getText().toString();
-                CommonMethods.setValueAgainstKey(this, CommonStrings.YEARS_OF_EXPERIENCE, strYearsOfExperience);
+                CommonStrings.cusEmpDetailsModel.setTotalExp(strYearsOfExperience);
+                Intent intent = new Intent(this, BankNamesActivity.class);
+                intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvYearOfExpLbl.getText().toString());
+                intent.putExtra(CommonStrings.PREVIOUS_VALUE, strYearsOfExperience);
                 startActivity(new Intent(this, SalaryModeActivity.class));
             } else {
                 belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.error_red));

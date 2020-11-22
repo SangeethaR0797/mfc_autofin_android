@@ -22,29 +22,39 @@ import utility.CommonStrings;
 
 public class IncomeAfterTaxActivity extends AppCompatActivity implements View.OnClickListener {
     private ImageView iv_personal_details_backBtn;
-    private TextView tvGivenLbl,tvGivenPreviousVal, tvGivenValEdit,tvErrorMessage;
+    private TextView tvIncomeAfterTaxLbl, tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvErrorMessage;
     private EditText etIncomeAfterTax;
     private View belowETYearsOE;
     private Button btnNext;
-    private String strJoiningDate = "", strIncomeAfterTax = "";
+    private String strPreviousLbl = "", strPreviousVal = "", strJoiningDate = "", strIncomeAfterTax = "";
+    private Intent intent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_income_after_tax);
+        try {
+            intent = getIntent();
+            strPreviousLbl = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE_LBL);
+            strPreviousVal = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
         initView();
     }
 
-    private void initView()
-    {
-        iv_personal_details_backBtn=findViewById(R.id.iv_personal_details_backBtn);
-        tvGivenLbl=findViewById(R.id.tvGivenLbl);
-        tvGivenPreviousVal=findViewById(R.id.tvGivenPreviousVal);
-        tvGivenValEdit=findViewById(R.id.tvGivenValEdit);
-        tvErrorMessage=findViewById(R.id.tvErrorMessage);
-        etIncomeAfterTax=findViewById(R.id.etIncomeAfterTax);
-        belowETYearsOE=findViewById(R.id.belowETYearsOE);
-        btnNext=findViewById(R.id.btnNext);
+    private void initView() {
+        iv_personal_details_backBtn = findViewById(R.id.iv_personal_details_backBtn);
+        tvIncomeAfterTaxLbl = findViewById(R.id.tvIncomeAfterTaxLbl);
+        tvGivenLbl = findViewById(R.id.tvGivenLbl);
+        tvGivenPreviousVal = findViewById(R.id.tvGivenPreviousVal);
+        tvGivenValEdit = findViewById(R.id.tvGivenValEdit);
+        tvErrorMessage = findViewById(R.id.tvErrorMessage);
+        etIncomeAfterTax = findViewById(R.id.etIncomeAfterTax);
+        belowETYearsOE = findViewById(R.id.belowETYearsOE);
+        btnNext = findViewById(R.id.btnNext);
+        tvGivenLbl.setText(strPreviousLbl);
+        tvGivenPreviousVal.setText(strPreviousVal);
         iv_personal_details_backBtn.setOnClickListener(this);
         tvGivenValEdit.setOnClickListener(this);
         btnNext.setOnClickListener(this);
@@ -59,15 +69,17 @@ public class IncomeAfterTaxActivity extends AppCompatActivity implements View.On
         } else if (v.getId() == R.id.btnNext) {
             if (!etIncomeAfterTax.getText().toString().isEmpty()) {
                 strIncomeAfterTax = etIncomeAfterTax.getText().toString();
-                CommonMethods.setValueAgainstKey(this, CommonStrings.INCOME_AFTER_TAX, strIncomeAfterTax);
-                if(CommonMethods.getStringValueFromKey(this,CommonStrings.EMP_TYPE_VAL).equals(getResources().getString(R.string.lbl_business_owner)))
-                {
-                    startActivity(new Intent(this, LastYearDepreciationActivity.class));
-                }
-                else
-                {
-                    startActivity(new Intent(this, CurrentOrganizationActivity.class));
-
+                CommonStrings.cusEmpDetailsModel.setIncomeAfterTax(strIncomeAfterTax);
+                if (CommonMethods.getStringValueFromKey(this, CommonStrings.EMP_TYPE_VAL).equals(getResources().getString(R.string.lbl_business_owner))) {
+                    Intent intent = new Intent(this, LastYearDepreciationActivity.class);
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvIncomeAfterTaxLbl.getText().toString());
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, strIncomeAfterTax);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(this, CurrentOrganizationActivity.class);
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvIncomeAfterTaxLbl.getText().toString());
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, strIncomeAfterTax);
+                    startActivity(intent);
                 }
 
             } else {

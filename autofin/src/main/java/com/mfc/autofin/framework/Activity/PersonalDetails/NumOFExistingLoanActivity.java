@@ -161,6 +161,8 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
     private void moveToNextPage(String existingLoan) {
         CommonMethods.setValueAgainstKey(this,CommonStrings.NO_OF_EXISTING_LOAN,existingLoan);
         Intent intent = new Intent(this, CurrentOrganizationActivity.class);
+        intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvNumOfExistingLoanLbl.getText().toString());
+        intent.putExtra(CommonStrings.PREVIOUS_VALUE, existingLoan);
         startActivity(intent);
     }
 }

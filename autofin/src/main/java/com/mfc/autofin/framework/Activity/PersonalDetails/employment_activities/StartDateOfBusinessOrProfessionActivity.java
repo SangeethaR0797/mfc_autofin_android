@@ -45,6 +45,10 @@ public class StartDateOfBusinessOrProfessionActivity extends AppCompatActivity i
             strPreviousVal=intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
         }catch (Exception exception){exception.printStackTrace();}
 
+        if(CommonStrings.cusEmpDetailsModel.getEmpType()!=null && !CommonStrings.cusEmpDetailsModel.getEmpType().isEmpty() )
+        {
+            strEmpType=CommonStrings.cusEmpDetailsModel.getEmpType();
+        }
         initView();
     }
 
@@ -60,6 +64,14 @@ public class StartDateOfBusinessOrProfessionActivity extends AppCompatActivity i
         cvStartDateOfBOP=findViewById(R.id.cvStartDateOfBOP);
         llStartDateOfBOP=findViewById(R.id.llStartDateOfBOP);
         llBusinessCalendarView=findViewById(R.id.llBusinessCalendarView);
+        if(strEmpType.equals(getResources().getString(R.string.lbl_business_owner)))
+        {
+            tvStartDateOfBOPLbl.setText(getResources().getString(R.string.lbl_starting_date_of_business));
+        }
+        else
+        {
+            tvStartDateOfBOPLbl.setText(getResources().getString(R.string.lbl_starting_date_of_profession));
+        }
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strPreviousVal);
         iv_personal_details_backBtn.setOnClickListener(this);
@@ -93,9 +105,12 @@ public class StartDateOfBusinessOrProfessionActivity extends AppCompatActivity i
         String monthName = new SimpleDateFormat("MMMM").format(view.getDate());
         strStartedDate = dayOfMonth + " " + monthName + " " + year;
         tvStartDateOfBOPVal.setText(strStartedDate);
-        CommonMethods.setValueAgainstKey(this,CommonStrings.BUSINESS_OR_PROFESSION_START_DATE,dayOfMonth + " " + monthName + " " + year);
-
-        startActivity(new Intent(this, LastYearSalesOrTurnOver.class));
+        //CommonMethods.setValueAgainstKey(this,CommonStrings.BUSINESS_OR_PROFESSION_START_DATE,dayOfMonth + " " + monthName + " " + year);
+        CommonStrings.cusEmpDetailsModel.setbOPStartDate(dayOfMonth + " " + monthName + " " + year);
+        Intent intent=new Intent(this, LastYearSalesOrTurnOver.class);
+        intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL,tvStartDateOfBOPLbl.getText().toString());
+        intent.putExtra(CommonStrings.PREVIOUS_VALUE,CommonStrings.cusEmpDetailsModel.getbOPStartDate());
+        startActivity(intent);
     }
 
     @Override

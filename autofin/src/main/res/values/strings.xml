@@ -228,7 +228,8 @@
     <string name="hint_employment_role">Please select your employment role</string>
     <string name="lbl_profession">PROFESSION</string>
     <string name="hint_profession">Please select your profession</string>
-    <string name="lbl_starting_date_of_business_or_profession">BUSINESS OR PROFESSION STARTED DATE</string>
+    <string name="lbl_starting_date_of_business">BUSINESS STARTED DATE</string>
+    <string name="lbl_starting_date_of_profession">PROFESSION STARTED DATE</string>
     <string name="photo_id_proof_lbl">"PHOTO ID PROOF "</string>
     <string name="skip_lbl">SKIP</string>
     <string name="str_you_can_select_som_image">You can select one or multiple doc</string>
@@ -247,7 +248,8 @@
     <string name="str_skip_now_and_do_it_later">Skip Now and do it later.</string>
     <string name="update">UPDATE</string>
     <string name="lbl_income_after_tax">INCOME AFTER TAX</string>
-    <string name="lbl_last_year_sales_or_turn_over">LAST YEAR SALES OR TURN OVER</string>
+    <string name="lbl_last_year_sales">LAST YEAR SALES</string>
+    <string name="lbl_last_year_turn_over">LAST TURN OVER</string>
     <string name="lbl_last_year_depreciation">LAST YEAR DEPRECIATION</string>
     <string name="is_itr_audited">WAS LATEST ITR AUDITED?</string>
     <string name="lbl_employer_name">EMPLOYER NAME</string>

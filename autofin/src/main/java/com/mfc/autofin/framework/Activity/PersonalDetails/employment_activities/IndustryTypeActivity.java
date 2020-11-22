@@ -36,17 +36,25 @@ import static retrofit_config.RetroBase.retrofitInterface;
 public class IndustryTypeActivity extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
 
     private static final String TAG = IndustryTypeActivity.class.getSimpleName() ;
-    private String strIndustryType = "";
+    private String strIndustryType = "",strPreviousLbl="",strPreviousVal="";
     private LinearLayout llIndustryType;
-    TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvSelectedIndustryType;
+    private TextView tvIndustryType,tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvSelectedIndustryType;
     private Button btnNext;
     ImageView iv_personal_details_backBtn;
     private List<String> employerList;
+    private Intent intent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_industry_type);
+        try {
+            intent = getIntent();
+            strPreviousLbl = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE_LBL);
+            strPreviousVal = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
         initView();
     }
 
@@ -56,9 +64,12 @@ public class IndustryTypeActivity extends AppCompatActivity implements View.OnCl
         tvGivenLbl=findViewById(R.id.tvGivenLbl);
         tvGivenPreviousVal=findViewById(R.id.tvGivenPreviousVal);
         tvGivenValEdit=findViewById(R.id.tvGivenValEdit);
+        tvIndustryType=findViewById(R.id.tvIndustryType);
         tvSelectedIndustryType=findViewById(R.id.tvSelectedIndustryType);
         btnNext=findViewById(R.id.btnNext);
         llIndustryType=findViewById(R.id.llIndustryType);
+        tvGivenLbl.setText(strPreviousLbl);
+        tvGivenPreviousVal.setText(strPreviousVal);
         llIndustryType.setOnClickListener(this);
         iv_personal_details_backBtn.setOnClickListener(this);
         tvGivenValEdit.setOnClickListener(this);
@@ -84,18 +95,27 @@ public class IndustryTypeActivity extends AppCompatActivity implements View.OnCl
         {
             if(!tvSelectedIndustryType.getText().toString().equals(""))
             {
-                CommonMethods.setValueAgainstKey(this,CommonStrings.INDUSTRY_TYPE,tvSelectedIndustryType.getText().toString());
+                CommonStrings.cusEmpDetailsModel.setIndustryType(tvSelectedIndustryType.getText().toString());
                 if(CommonMethods.getStringValueFromKey(this,CommonStrings.EMP_TYPE_VAL).equals(getResources().getString(R.string.lbl_salaried)))
                 {
-                    startActivity(new Intent(this, YearOfExperienceActivity.class));
+                    Intent intent = new Intent(this, YearOfExperienceActivity.class);
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvIndustryType.getText().toString());
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, tvSelectedIndustryType.getText().toString());
+                    startActivity(intent);
                 }
                 else if(CommonMethods.getStringValueFromKey(this,CommonStrings.EMP_TYPE_VAL).equals(getResources().getString(R.string.lbl_student)))
                 {
-                    startActivity(new Intent(this, BankNamesActivity.class));
+                    Intent intent = new Intent(this, BankNamesActivity.class);
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvIndustryType.getText().toString());
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, tvSelectedIndustryType.getText().toString());
+                    startActivity(intent);
                 }
                 else
                 {
-                    startActivity(new Intent(this, PanCardNumberActivity.class));
+                    Intent intent = new Intent(this, PanCardNumberActivity.class);
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvIndustryType.getText().toString());
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, tvSelectedIndustryType.getText().toString());
+                    startActivity(intent);
                 }
 
 

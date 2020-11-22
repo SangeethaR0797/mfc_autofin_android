@@ -39,12 +39,13 @@ public class CurrentOrganizationActivity extends AppCompatActivity implements Vi
 
     private static final String TAG = CurrentOrganizationActivity.class.getSimpleName();
     private ImageView iv_personal_details_backBtn;
-    private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvErrorMessage, tvOrgNameLbl;
+    private TextView tvGivenLbl, tvGivenPreviousVal, tvOrganizationLbl, tvGivenValEdit, tvErrorMessage, tvOrgNameLbl;
     private EditText etOrganizationName;
     private Button btnNext;
     private View belowOrgName;
-    private String strExistingLoan = "", strOrgName = "";
+    private String strPreviousLbl = "", strPreviousVal = "", strExistingLoan = "", strOrgName = "";
     private List<String> orgList;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,13 @@ public class CurrentOrganizationActivity extends AppCompatActivity implements Vi
         setContentView(R.layout.activity_current_organization);
         if (!CommonMethods.getStringValueFromKey(this, CommonStrings.NO_OF_EXISTING_LOAN).isEmpty()) {
             strExistingLoan = CommonMethods.getStringValueFromKey(this, CommonStrings.NO_OF_EXISTING_LOAN);
+        }
+        try {
+            intent = getIntent();
+            strPreviousLbl = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE_LBL);
+            strPreviousVal = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
         initView();
     }
@@ -62,16 +70,18 @@ public class CurrentOrganizationActivity extends AppCompatActivity implements Vi
         tvGivenPreviousVal = findViewById(R.id.tvGivenPreviousVal);
         tvGivenValEdit = findViewById(R.id.tvGivenValEdit);
         tvOrgNameLbl = findViewById(R.id.tvOrgName);
+        tvOrganizationLbl = findViewById(R.id.tvOrganizationLbl);
         etOrganizationName = findViewById(R.id.etOrganizationName);
         btnNext = findViewById(R.id.btnNext);
-        tvGivenLbl.setText(getResources().getString(R.string.lbl_how_many_existing_loan));
-        tvGivenPreviousVal.setText(strExistingLoan);
+        tvGivenLbl.setText(strPreviousLbl);
+        tvGivenPreviousVal.setText(strPreviousVal);
         tvErrorMessage = findViewById(R.id.tvErrorMessage);
         belowOrgName = findViewById(R.id.belowOrgName);
         tvGivenValEdit.setOnClickListener(this);
         tvOrgNameLbl.setTypeface(CustomFonts.getRobotoRegularTF(this));
         iv_personal_details_backBtn.setOnClickListener(this);
-
+        tvGivenLbl.setText(strPreviousLbl);
+        tvGivenPreviousVal.setText(strPreviousVal);
         btnNext.setOnClickListener(this);
         etOrganizationName.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
@@ -100,28 +110,25 @@ public class CurrentOrganizationActivity extends AppCompatActivity implements Vi
         } else if (v.getId() == R.id.btnNext) {
             if (!etOrganizationName.getText().toString().equals("")) {
                 strOrgName = etOrganizationName.getText().toString();
-                CommonMethods.setValueAgainstKey(this, CommonStrings.CURRENT_ORG_NAME, strOrgName);
-                if(CommonMethods.getStringValueFromKey(this,CommonStrings.EMP_TYPE_VAL).equals(getResources().getString(R.string.lbl_salaried)))
-                {
-                    startActivity(new Intent(this, JODOCurrentOrgActivity.class));
+                CommonStrings.cusEmpDetailsModel.setEmpOrgName(strOrgName);
+                if (CommonMethods.getStringValueFromKey(this, CommonStrings.EMP_TYPE_VAL).equals(getResources().getString(R.string.lbl_salaried))) {
+                    Intent intent = new Intent(this, JODOCurrentOrgActivity.class);
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvOrganizationLbl.getText().toString());
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, strOrgName);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(this, IndustryTypeActivity.class);
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvOrganizationLbl.getText().toString());
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, strOrgName);
+                    startActivity(intent);
                 }
-                else
-                {
-                    startActivity(new Intent(this, IndustryTypeActivity.class));
-
-                }
-
-
             } else {
                 belowOrgName.setBackgroundColor(getResources().getColor(R.color.error_red));
                 tvErrorMessage.setVisibility(View.VISIBLE);
                 tvErrorMessage.setText("Please enter name of the organization you are working for!");
             }
-        }
-        else if(v.getId()==R.id.etOrganizationName)
-        {
-            if(etOrganizationName.getText().toString().length()>3)
-            {
+        } else if (v.getId() == R.id.etOrganizationName) {
+            if (etOrganizationName.getText().toString().length() > 3) {
                 SpinnerManager.showSpinner(CurrentOrganizationActivity.this);
                 retrofitInterface.getFromWeb(CommonStrings.ORG_NAME_LIST_URL).enqueue(CurrentOrganizationActivity.this);
             }

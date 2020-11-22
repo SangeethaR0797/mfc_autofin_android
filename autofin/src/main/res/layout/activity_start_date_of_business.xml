@@ -35,7 +35,7 @@
                     android:drawableRight="@drawable/ic_baseline_calendar_today_24"
                     android:paddingRight="20dp"
                     android:paddingBottom="@dimen/text_size_17dp"
-                    android:text="@string/lbl_starting_date_of_business_or_profession"
+                    android:text="@string/lbl_starting_date_of_business"
                     android:textColor="@color/very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 

@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
+import com.mfc.autofin.framework.Activity.PersonalDetails.CurrentOrganizationActivity;
 import com.mfc.autofin.framework.R;
 
 import utility.CommonMethods;
@@ -20,31 +21,39 @@ import utility.CommonStrings;
 public class LastYearDepreciationActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView iv_personal_details_backBtn;
-    private TextView tvGivenLbl,tvGivenPreviousVal, tvGivenValEdit,tvErrorMessage;
+    private TextView tvGivenLbl, tvGivenPreviousVal,tvLastYearDepreciationLbl, tvGivenValEdit, tvErrorMessage;
     private EditText etLastYearDepreciation;
     private View belowETYearsOE;
     private Button btnNext;
-    private String strJoiningDate = "", strLastYearDepreciation = "";
+    private String strJoiningDate = "", strLastYearDepreciation = "", strPreviousLbl = "", strPreviousVal = "";
+    private Intent intent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_last_year_depreciation);
+        try {
+            intent = getIntent();
+            strPreviousLbl = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE_LBL);
+            strPreviousVal = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
         initView();
     }
 
     private void initView() {
-        iv_personal_details_backBtn=findViewById(R.id.iv_personal_details_backBtn);
-        tvGivenLbl=findViewById(R.id.tvGivenLbl);
-        tvGivenPreviousVal=findViewById(R.id.tvGivenPreviousVal);
-        tvGivenValEdit=findViewById(R.id.tvGivenValEdit);
-        tvErrorMessage=findViewById(R.id.tvErrorMessage);
-        etLastYearDepreciation=findViewById(R.id.etLastYearDepreciation);
-        belowETYearsOE=findViewById(R.id.belowETYearsOE);
-        btnNext=findViewById(R.id.btnNext);
+        iv_personal_details_backBtn = findViewById(R.id.iv_personal_details_backBtn);
+        tvLastYearDepreciationLbl=findViewById(R.id.tvLastYearDepreciationLbl);
+        tvGivenLbl = findViewById(R.id.tvGivenLbl);
+        tvGivenPreviousVal = findViewById(R.id.tvGivenPreviousVal);
+        tvGivenValEdit = findViewById(R.id.tvGivenValEdit);
+        tvErrorMessage = findViewById(R.id.tvErrorMessage);
+        etLastYearDepreciation = findViewById(R.id.etLastYearDepreciation);
+        belowETYearsOE = findViewById(R.id.belowETYearsOE);
+        btnNext = findViewById(R.id.btnNext);
         tvGivenValEdit.setOnClickListener(this);
         btnNext.setOnClickListener(this);
-
     }
 
     @Override
@@ -56,8 +65,11 @@ public class LastYearDepreciationActivity extends AppCompatActivity implements V
         } else if (v.getId() == R.id.btnNext) {
             if (!etLastYearDepreciation.getText().toString().isEmpty()) {
                 strLastYearDepreciation = etLastYearDepreciation.getText().toString();
-                CommonMethods.setValueAgainstKey(this, CommonStrings.INCOME_AFTER_TAX, strLastYearDepreciation);
-                startActivity(new Intent(this, ITRAuditedActivity.class));
+                CommonStrings.cusEmpDetailsModel.setLastYearDepreciation(strLastYearDepreciation);
+                Intent intent = new Intent(this, ITRAuditedActivity.class);
+                intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL,tvLastYearDepreciationLbl.getText().toString() );
+                intent.putExtra(CommonStrings.PREVIOUS_VALUE, strLastYearDepreciation);
+                startActivity(intent);
             } else {
                 belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.error_red));
                 tvErrorMessage.setVisibility(View.VISIBLE);
