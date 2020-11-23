@@ -53,7 +53,8 @@ public final class AutofinMediaManager {
             StrictMode.setThreadPolicy(policy);
 
             String path = "";
-            path = "MFCBusiness" + "/" + year + "/" + month + "/" + day + "/" + UserID + "/" + "original/" + keydata; // the folder structure for the image in Prod
+          //  path = "MFCBusiness" + "/" + year + "/" + month + "/" + day + "/" + UserID + "/" + "original/" + keydata;
+            path = "MFCBusiness" + "/" + UserID + "/"+ year + "-" + month + "-" + day +"_"+ keydata;
 
 
             AWSCredentials awsCredentials = getAWSCredentials(BUCKETKEY, BUCKETSECRET);

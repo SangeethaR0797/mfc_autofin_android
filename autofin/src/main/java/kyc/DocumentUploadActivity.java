@@ -66,6 +66,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
     private File file;
     private Uri fileUri;
     private List<Doc> documentList=new ArrayList<>();
+    private String mDealerID,mCaseID;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,6 +74,8 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_doc_upload);
         initViews();
         Callpermissions(DocumentUploadActivity.this);
+        mDealerID = CommonMethods.getStringValueFromKey(DocumentUploadActivity.this,CommonStrings.DEALER_ID_VAL);
+        mCaseID = CommonMethods.getStringValueFromKey(DocumentUploadActivity.this,CommonStrings.CASE_ID);
 
     }
 
@@ -256,7 +259,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                         e.printStackTrace();
                     }
 
-                    new ImageUploadTask(DocumentUploadActivity.this, file.getPath(), "123456", "PAN", requestCode, this).execute();
+                    new ImageUploadTask(DocumentUploadActivity.this, file.getPath(), mDealerID+"/"+mCaseID, "PAN", requestCode, this).execute();
 
 
                 } catch (Exception e) {
@@ -273,7 +276,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        new ImageUploadTask(DocumentUploadActivity.this, captureImage.file.getPath(), "123456", "PAN", requestCode, this).execute();
+                        new ImageUploadTask(DocumentUploadActivity.this, captureImage.file.getPath(), mDealerID+"/"+mCaseID, "PAN", requestCode, this).execute();
 
 
                     }

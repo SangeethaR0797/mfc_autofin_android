@@ -1,29 +1,196 @@
 
-W
-java:S1141h"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8„ò±İÛ.
-_
-java:S2259H"BA "NullPointerException" could be thrown; "data" is nullable here.(¢Õ¾Ü8â‡¡İÛ.
-n
-java:S3776B"RRefactor this method to reduce its Cognitive Complexity from 21 to the 15 allowed.(¹Î¾8â‡¡İÛ.
-]	java:S110"<This class has 9 parents which is greater than 5 authorized.(â îÄùÿÿÿÿ8‡Ì©ÇØ.
-k	java:S100ƒ"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ÿ‚Å—8·ÃµİÛ.
-E	java:S108w")Either remove or fill this block of code.(å¥‡8·ÃµİÛ.
-W
-java:S1141U"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8â‡¡İÛ.
-t
-java:S3252~"WUse static access with "androidx.core.content.ContextCompat" for "checkSelfPermission".(Èêœ8·ÃµİÛ.
+k	java:S100Ñ"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Àáßç8·ÃµİÛ.
+k	java:S100Ë"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ÿ‚Å—8·ÃµİÛ.
+`
+java:S2259"BA "NullPointerException" could be thrown; "data" is nullable here.(¢Õ¾Ü8â‡¡İÛ.
+O
+java:S1874‘",Remove this use of "DATA"; it is deprecated.(™ÅÀåøÿÿÿÿ8â‡¡İÛ.
+u
+java:S3252Æ"WUse static access with "androidx.core.content.ContextCompat" for "checkSelfPermission".(Èêœ8·ÃµİÛ.
 z
-java:S3252€"WUse static access with "androidx.core.content.ContextCompat" for "checkSelfPermission".(ò‚Ö«şÿÿÿÿ8á“ÜÛ.
-k	java:S100‰"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Àáßç8·ÃµİÛ.
-N
-java:S1874I",Remove this use of "DATA"; it is deprecated.(™ÅÀåøÿÿÿÿ8â‡¡İÛ.
-p
-java:S1450#"SRemove the "file" field and declare it as a local variable in the relevant methods.(ïÛú8©Ş©İÛ.
-y
-java:S3252"WUse static access with "androidx.core.content.ContextCompat" for "checkSelfPermission".(şâŞÂüÿÿÿÿ8á“ÜÛ.
+java:S3252Ç"WUse static access with "androidx.core.content.ContextCompat" for "checkSelfPermission".(şâŞÂüÿÿÿÿ8á“ÜÛ.
 o
-java:S3252I"MUse static access with "android.provider.MediaStore$MediaColumns" for "DATA".(™ÅÀåøÿÿÿÿ8â‡¡İÛ.
-z
-java:S1450 "XRemove the "llpancard" field and declare it as a local variable in the relevant methods.(Úê¡ùÿÿÿÿ8›“šİÚ.
+java:S3776Š"RRefactor this method to reduce its Cognitive Complexity from 21 to the 15 allowed.(¹Î¾8â‡¡İÛ.
+F	java:S108¿")Either remove or fill this block of code.(å¥‡8·ÃµİÛ.
+p
+java:S1450J"SRemove the "file" field and declare it as a local variable in the relevant methods.(ïÛú8©Ş©İÛ.
+X
+java:S1141°"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8â‡¡İÛ.
 x
-java:S1450$"VRemove the "fileUri" field and declare it as a local variable in the relevant methods.(É´›ùÿÿÿÿ8Ø†ªİÛ.
+java:S1450K"VRemove the "fileUri" field and declare it as a local variable in the relevant methods.(É´›ùÿÿÿÿ8Ø†ªİÛ.
+z
+java:S3252È"WUse static access with "androidx.core.content.ContextCompat" for "checkSelfPermission".(ò‚Ö«şÿÿÿÿ8á“ÜÛ.
+p
+java:S3252‘"MUse static access with "android.provider.MediaStore$MediaColumns" for "DATA".(™ÅÀåøÿÿÿÿ8â‡¡İÛ.
+X
+java:S1141"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8„ò±İÛ.
+]	java:S110<"<This class has 9 parents which is greater than 5 authorized.(õõïßûÿÿÿÿ8ãÃøÙŞ.
+`
+java:S1155s">Use isEmpty() to check whether the collection is empty or not.(ø‰®ûÿÿÿÿ8ãÃøÙŞ.
+ƒ
+java:S1128"aRemove this unused import 'com.mfc.autofin.framework.Activity.review_activites.ViewBankActivity'.(†ğÿ¥üÿÿÿÿ8ãÃøÙŞ.
+Q
+java:S1128"4Remove this unused import 'android.widget.ListView'.(Œ‰Ö×8ãÃøÙŞ.
+V
+java:S1128+"9Remove this unused import 'controller.SelectBankAdapter'.(Â¨‘ó8ãÃøÙŞ.
+z
+java:S1450F"]Remove the "aadhaarCardURL" field and declare it as a local variable in the relevant methods.( Í˜8ãÃøÙŞ.
+w
+java:S1450H"ZRemove the "bankStmtURL" field and declare it as a local variable in the relevant methods.(ÕòÌã8ãÃøÙŞ.
+x
+java:S1450C"[Remove the "btnUpdateDoc" field and declare it as a local variable in the relevant methods.(·¸öè8ãÃøÙŞ.
+z
+java:S1450G"XRemove the "ebBillURL" field and declare it as a local variable in the relevant methods.(ääØ™şÿÿÿÿ8ãÃøÙŞ.
+u
+java:S1450H"XRemove the "form16URL" field and declare it as a local variable in the relevant methods.(ÕòÌã8ãÃøÙŞ.
+r
+java:S1450H"URemove the "itrURL" field and declare it as a local variable in the relevant methods.(ÕòÌã8ãÃøÙŞ.
+ƒ
+java:S1450D"aRemove the "iv_vehDetails_back" field and declare it as a local variable in the relevant methods.(åÏÿòûÿÿÿÿ8ãÃøÙŞ.
+v
+java:S1450F"YRemove the "panCardURL" field and declare it as a local variable in the relevant methods.( Í˜8ãÃøÙŞ.
+w
+java:S1450F"ZRemove the "passportURL" field and declare it as a local variable in the relevant methods.( Í˜8ãÃøÙŞ.
+ƒ
+java:S1450G"aRemove the "rentalAgreementURL" field and declare it as a local variable in the relevant methods.(ääØ™şÿÿÿÿ8ãÃøÙŞ.
+~
+java:S1450G"\Remove the "resAadhaarURL" field and declare it as a local variable in the relevant methods.(ääØ™şÿÿÿÿ8ãÃøÙŞ.
+s
+java:S1450H"VRemove the "salSlip" field and declare it as a local variable in the relevant methods.(ÕòÌã8ãÃøÙŞ.
+v
+java:S1450F"YRemove the "voterIdURL" field and declare it as a local variable in the relevant methods.( Í˜8ãÃøÙŞ.
+Ÿ
+java:S1186Ô"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ï‚àÏ8ãÃøÙŞ.
+D
+java:S1659?"'Declare "llPanCard" on a separate line.(¯¼ê³8ãÃøÙŞ.
+G
+java:S1659?"*Declare "llAadharCard" on a separate line.(¯¼ê³8ãÃøÙŞ.
+H
+java:S1659?"+Declare "llVoterIdCard" on a separate line.(¯¼ê³8ãÃøÙŞ.
+E
+java:S1659?"(Declare "llPassport" on a separate line.(¯¼ê³8ãÃøÙŞ.
+K
+java:S1659?".Declare "llResidenceProof" on a separate line.(¯¼ê³8ãÃøÙŞ.
+J
+java:S1659?"-Declare "llRentAgreement" on a separate line.(¯¼ê³8ãÃøÙŞ.
+L
+java:S1659?"/Declare "llElectricityBill" on a separate line.(¯¼ê³8ãÃøÙŞ.
+J
+java:S1659?"-Declare "llResAadharCard" on a separate line.(¯¼ê³8ãÃøÙŞ.
+E
+java:S1659?"(Declare "llBankDocs" on a separate line.(¯¼ê³8ãÃøÙŞ.
+J
+java:S1659?"-Declare "llBankStatement" on a separate line.(¯¼ê³8ãÃøÙŞ.
+G
+java:S1659?"*Declare "llSalarySlip" on a separate line.(¯¼ê³8ãÃøÙŞ.
+C
+java:S1659?"&Declare "llForm16" on a separate line.(¯¼ê³8ãÃøÙŞ.
+@
+java:S1659?"#Declare "llITR" on a separate line.(¯¼ê³8ãÃøÙŞ.
+G
+java:S1659@"*Declare "tvPanCardURL" on a separate line.(™¥æ…8ãÃøÙŞ.
+J
+java:S1659@"-Declare "tvAadharCardURL" on a separate line.(™¥æ…8ãÃøÙŞ.
+G
+java:S1659@"*Declare "tvVoterIdURL" on a separate line.(™¥æ…8ãÃøÙŞ.
+H
+java:S1659@"+Declare "tvPassportURL" on a separate line.(™¥æ…8ãÃøÙŞ.
+O
+java:S1659@"2Declare "tvSkipResidenceProof" on a separate line.(™¥æ…8ãÃøÙŞ.
+M
+java:S1659@"0Declare "tvRentAgreementURL" on a separate line.(™¥æ…8ãÃøÙŞ.
+O
+java:S1659@"2Declare "tvElectricityBillURL" on a separate line.(™¥æ…8ãÃøÙŞ.
+I
+java:S1659@",Declare "tvResAadharURL" on a separate line.(™¥æ…8ãÃøÙŞ.
+M
+java:S1659@"0Declare "tvBankStatementURL" on a separate line.(™¥æ…8ãÃøÙŞ.
+J
+java:S1659@"-Declare "tvSalarySlipURL" on a separate line.(™¥æ…8ãÃøÙŞ.
+F
+java:S1659@")Declare "tvForm16URL" on a separate line.(™¥æ…8ãÃøÙŞ.
+C
+java:S1659@"&Declare "tvITRURL" on a separate line.(™¥æ…8ãÃøÙŞ.
+V
+java:S1659A"4Declare "cbUploadDocsAgreeTAndC" on a separate line.(ñŒæ€ûÿÿÿÿ8ãÃøÙŞ.
+I
+java:S1659F",Declare "aadhaarCardURL" on a separate line.( Í˜8ãÃøÙŞ.
+E
+java:S1659F"(Declare "voterIdURL" on a separate line.( Í˜8ãÃøÙŞ.
+F
+java:S1659F")Declare "passportURL" on a separate line.( Í˜8ãÃøÙŞ.
+R
+java:S1659G"0Declare "rentalAgreementURL" on a separate line.(ääØ™şÿÿÿÿ8ãÃøÙŞ.
+I
+java:S1659G"'Declare "ebBillURL" on a separate line.(ääØ™şÿÿÿÿ8ãÃøÙŞ.
+M
+java:S1659G"+Declare "resAadhaarURL" on a separate line.(ääØ™şÿÿÿÿ8ãÃøÙŞ.
+F
+java:S1659H")Declare "bankStmtURL" on a separate line.(ÕòÌã8ãÃøÙŞ.
+B
+java:S1659H"%Declare "salSlip" on a separate line.(ÕòÌã8ãÃøÙŞ.
+D
+java:S1659H"'Declare "form16URL" on a separate line.(ÕòÌã8ãÃøÙŞ.
+A
+java:S1659H"$Declare "itrURL" on a separate line.(ÕòÌã8ãÃøÙŞ.
+~	java:S116D"]Rename this field "iv_vehDetails_back" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(åÏÿòûÿÿÿÿ8ãÃøÙŞ.
+]	java:S125W"<This block of commented-out lines of code should be removed.(÷¾·ùÿÿÿÿ8ãÃøÙŞ.
+E	java:S108m")Either remove or fill this block of code.(íå¬ß8ãÃøÙŞ.
+J	java:S108p")Either remove or fill this block of code.(âÒÔûÿÿÿÿ8ãÃøÙŞ.
+Y	java:S125·"<This block of commented-out lines of code should be removed.(âğÓü8ãÃøÙŞ.
+I
+java:S1481Œ"&Remove this unused "x" local variable.(¾„ëüÿÿÿÿ8ãÃøÙŞ.
+O
+java:S1068?"2Remove this unused "llPhotoIDProof" private field.(¯¼ê³8ãÃøÙŞ.
+J
+java:S1068?"-Remove this unused "llPanCard" private field.(¯¼ê³8ãÃøÙŞ.
+M
+java:S1068?"0Remove this unused "llAadharCard" private field.(¯¼ê³8ãÃøÙŞ.
+N
+java:S1068?"1Remove this unused "llVoterIdCard" private field.(¯¼ê³8ãÃøÙŞ.
+K
+java:S1068?".Remove this unused "llPassport" private field.(¯¼ê³8ãÃøÙŞ.
+Q
+java:S1068?"4Remove this unused "llResidenceProof" private field.(¯¼ê³8ãÃøÙŞ.
+P
+java:S1068?"3Remove this unused "llRentAgreement" private field.(¯¼ê³8ãÃøÙŞ.
+R
+java:S1068?"5Remove this unused "llElectricityBill" private field.(¯¼ê³8ãÃøÙŞ.
+P
+java:S1068?"3Remove this unused "llResAadharCard" private field.(¯¼ê³8ãÃøÙŞ.
+K
+java:S1068?".Remove this unused "llBankDocs" private field.(¯¼ê³8ãÃøÙŞ.
+P
+java:S1068?"3Remove this unused "llBankStatement" private field.(¯¼ê³8ãÃøÙŞ.
+M
+java:S1068?"0Remove this unused "llSalarySlip" private field.(¯¼ê³8ãÃøÙŞ.
+I
+java:S1068?",Remove this unused "llForm16" private field.(¯¼ê³8ãÃøÙŞ.
+F
+java:S1068?")Remove this unused "llITR" private field.(¯¼ê³8ãÃøÙŞ.
+S
+java:S1068@"6Remove this unused "tvSkipPhotoIdProof" private field.(™¥æ…8ãÃøÙŞ.
+U
+java:S1068@"8Remove this unused "tvSkipResidenceProof" private field.(™¥æ…8ãÃøÙŞ.
+K
+java:S1068F".Remove this unused "panCardURL" private field.( Í˜8ãÃøÙŞ.
+O
+java:S1068F"2Remove this unused "aadhaarCardURL" private field.( Í˜8ãÃøÙŞ.
+K
+java:S1068F".Remove this unused "voterIdURL" private field.( Í˜8ãÃøÙŞ.
+L
+java:S1068F"/Remove this unused "passportURL" private field.( Í˜8ãÃøÙŞ.
+X
+java:S1068G"6Remove this unused "rentalAgreementURL" private field.(ääØ™şÿÿÿÿ8ãÃøÙŞ.
+O
+java:S1068G"-Remove this unused "ebBillURL" private field.(ääØ™şÿÿÿÿ8ãÃøÙŞ.
+S
+java:S1068G"1Remove this unused "resAadhaarURL" private field.(ääØ™şÿÿÿÿ8ãÃøÙŞ.
+L
+java:S1068H"/Remove this unused "bankStmtURL" private field.(ÕòÌã8ãÃøÙŞ.
+H
+java:S1068H"+Remove this unused "salSlip" private field.(ÕòÌã8ãÃøÙŞ.
+J
+java:S1068H"-Remove this unused "form16URL" private field.(ÕòÌã8ãÃøÙŞ.
+G
+java:S1068H"*Remove this unused "itrURL" private field.(ÕòÌã8ãÃøÙŞ.
