@@ -64,9 +64,18 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_review_details);
         try{if (getIntent() != null) {
             intent = getIntent();
-            Bundle bundle=getIntent().getExtras();
-            customerId = bundle.getInt(CUSTOMER_ID);
-            flag=true;
+            if (intent.getExtras() != null) {
+                Bundle bundle = intent.getExtras();
+                customerId = bundle.getInt(CUSTOMER_ID);
+                if(customerId!=0)
+                {
+                    flag = true;
+                }
+                else
+                {
+                    flag=false;
+                }
+            }
         }}catch(Exception exception)
         {
             exception.printStackTrace();
@@ -76,7 +85,11 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         userId = CommonMethods.getStringValueFromKey(this, CommonStrings.DEALER_ID_VAL);
         userType = CommonMethods.getStringValueFromKey(this, CommonStrings.USER_TYPE_VAL);
 
-        retrofitInterface.getFromWeb(getCustomerDetailsReq(), CUSTOMER_DETAILS_URL).enqueue(this);
+        if(flag)
+        {
+            retrofitInterface.getFromWeb(getCustomerDetailsReq(), CUSTOMER_DETAILS_URL).enqueue(this);
+        }
+
 
     }
 

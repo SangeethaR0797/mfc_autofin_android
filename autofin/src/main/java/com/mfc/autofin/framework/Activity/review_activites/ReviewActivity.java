@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.mfc.autofin.framework.R;
 
 import model.custom_model.ReviewData;
+import utility.CommonStrings;
 
 public class ReviewActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -76,6 +77,7 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
         {
             try{
                 Intent intent=new Intent(ReviewActivity.this,ReviewDetailsActivity.class);
+                intent.putExtra(CommonStrings.CUSTOMER_ID,0);
                 startActivity(intent);
             }
             catch (Exception exception)
