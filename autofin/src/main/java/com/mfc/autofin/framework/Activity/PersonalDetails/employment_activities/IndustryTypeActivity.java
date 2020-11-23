@@ -20,6 +20,7 @@ import com.mfc.autofin.framework.Activity.PersonalDetails.PanCardNumberActivity;
 import com.mfc.autofin.framework.Activity.PersonalDetails.YearOfExperienceActivity;
 import com.mfc.autofin.framework.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import model.personal_details_models.BankNamesRes;
@@ -44,7 +45,7 @@ public class IndustryTypeActivity extends AppCompatActivity implements View.OnCl
     private TextView tvIndustryType, tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvSelectedIndustryType;
     private Button btnNext;
     ImageView iv_personal_details_backBtn;
-    private List<String> industryTypeList;
+    private List<String> industryTypeList = new ArrayList<>();
     private Intent intent;
 
     @Override
@@ -125,10 +126,13 @@ public class IndustryTypeActivity extends AppCompatActivity implements View.OnCl
             if (industryTypeRes.getStatus() && industryTypeRes != null) {
                 if (industryTypeRes.getData() != null) {
                     IndustryTypeData industryTypeData = industryTypeRes.getData();
-                    if (industryTypeData.getTypes() != null) {
-                        for (int i = 0; i < industryTypeData.getTypes().size(); i++) {
-                            industryTypeList.add(industryTypeData.getTypes().get(i).getValue());
+                    List<IndustryType> industryTypes = industryTypeData.getTypes();
+                    if (industryTypes != null) {
+                        for (int i = 0; i < industryTypes.size(); i++) {
+                            industryTypeList.add(industryTypes.get(i).getValue());
                         }
+                        new CustomSearchDialog(IndustryTypeActivity.this, industryTypeList, tvSelectedIndustryType).show();
+
                     } else {
                         CommonMethods.showToast(this, "No Industry type found, Please try again!");
                     }

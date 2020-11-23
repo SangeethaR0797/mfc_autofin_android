@@ -9,6 +9,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.mfc.autofin.framework.Activity.PersonalDetails.SalaryModeActivity;
+import com.mfc.autofin.framework.Activity.review_activites.ReviewActivity;
 import com.mfc.autofin.framework.R;
 
 import utility.CommonMethods;
@@ -19,11 +21,20 @@ public class LikelyPurchaseActivity extends AppCompatActivity implements View.On
     private TextView tvLikePurchaseTitle, tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit;
     private RadioGroup rgLikelyPurchase;
     private RadioButton rbWithinAWeek, rbWithinAMonth, rbAfterAMonth;
+    private String strPreviousLbl = "", strPreviousVal = "";
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_likely_purchase);
+        try {
+            intent = getIntent();
+            strPreviousLbl = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE_LBL);
+            strPreviousVal = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
         initView();
     }
 
@@ -35,8 +46,8 @@ public class LikelyPurchaseActivity extends AppCompatActivity implements View.On
         rbWithinAWeek = findViewById(R.id.rbWithinAWeek);
         rbWithinAMonth = findViewById(R.id.rbWithinAMonth);
         rbAfterAMonth = findViewById(R.id.rbAfterAMonth);
-        tvGivenLbl.setText("VARIANT");
-        tvGivenPreviousVal.setText(CommonStrings.customVehDetails.getVariant());
+        tvGivenLbl.setText(strPreviousLbl);
+        tvGivenPreviousVal.setText(strPreviousVal);
         tvGivenValEdit.setOnClickListener(this);
     }
 
@@ -47,21 +58,47 @@ public class LikelyPurchaseActivity extends AppCompatActivity implements View.On
         } else if (v.getId() == R.id.rbWithinAWeek) {
             if (rbWithinAWeek.isChecked()) {
                 CommonMethods.setValueAgainstKey(this, CommonStrings.LIKELY_PURCHASE_DATE, rbWithinAWeek.getText().toString());
-                /*Intent intent = new Intent(LikelyPurchaseActivity.this, VehRegNumActivity.class);
-                startActivity(intent);*/
+                if (CommonStrings.cusEmpDetailsModel.getEmpType().equals(getResources().getString(R.string.lbl_salaried))) {
+                    Intent intent = new Intent(LikelyPurchaseActivity.this, SalaryModeActivity.class);
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLikePurchaseTitle.getText().toString());
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbWithinAWeek.getText().toString());
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(LikelyPurchaseActivity.this, ReviewActivity.class);
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLikePurchaseTitle.getText().toString());
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbWithinAWeek.getText().toString());
+                    startActivity(intent);
+                }
             }
-        } else if (v.getId() == R.id.rbWithinAWeek) {
+        } else if (v.getId() == R.id.rbWithinAMonth) {
             if (rbWithinAWeek.isChecked()) {
                 CommonMethods.setValueAgainstKey(this, CommonStrings.LIKELY_PURCHASE_DATE, rbWithinAMonth.getText().toString());
-                /*Intent intent = new Intent(LikelyPurchaseActivity.this, VehRegNumActivity.class);
-                startActivity(intent);*/
+                if (CommonStrings.cusEmpDetailsModel.getEmpType().equals(getResources().getString(R.string.lbl_salaried))) {
+                    Intent intent = new Intent(LikelyPurchaseActivity.this, SalaryModeActivity.class);
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLikePurchaseTitle.getText().toString());
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbWithinAMonth.getText().toString());
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(LikelyPurchaseActivity.this, ReviewActivity.class);
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLikePurchaseTitle.getText().toString());
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbWithinAMonth.getText().toString());
+                    startActivity(intent);
+                }
             }
-        }
-        else if (v.getId() == R.id.rbAfterAMonth) {
+        } else if (v.getId() == R.id.rbAfterAMonth) {
             if (rbAfterAMonth.isChecked()) {
                 CommonMethods.setValueAgainstKey(this, CommonStrings.LIKELY_PURCHASE_DATE, rbAfterAMonth.getText().toString());
-                /*Intent intent = new Intent(LikelyPurchaseActivity.this, VehRegNumActivity.class);
-                startActivity(intent);*/
+                if (CommonStrings.cusEmpDetailsModel.getEmpType().equals(getResources().getString(R.string.lbl_salaried))) {
+                    Intent intent = new Intent(LikelyPurchaseActivity.this, SalaryModeActivity.class);
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLikePurchaseTitle.getText().toString());
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbAfterAMonth.getText().toString());
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(LikelyPurchaseActivity.this, ReviewActivity.class);
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLikePurchaseTitle.getText().toString());
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbAfterAMonth.getText().toString());
+                    startActivity(intent);
+                }
             }
         }
     }
