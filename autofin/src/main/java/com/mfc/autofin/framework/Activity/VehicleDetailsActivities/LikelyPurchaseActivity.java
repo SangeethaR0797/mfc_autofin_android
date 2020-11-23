@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ public class LikelyPurchaseActivity extends AppCompatActivity implements View.On
     private RadioButton rbWithinAWeek, rbWithinAMonth, rbAfterAMonth;
     private String strPreviousLbl = "", strPreviousVal = "";
     private Intent intent;
+    private ImageView iv_personal_details_backBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +45,14 @@ public class LikelyPurchaseActivity extends AppCompatActivity implements View.On
         tvGivenLbl = findViewById(R.id.tvGivenLbl);
         tvGivenPreviousVal = findViewById(R.id.tvGivenPreviousVal);
         tvGivenValEdit = findViewById(R.id.tvGivenValEdit);
+        iv_personal_details_backBtn=findViewById(R.id.iv_personal_details_backBtn);
+        iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         rbWithinAWeek = findViewById(R.id.rbWithinAWeek);
         rbWithinAMonth = findViewById(R.id.rbWithinAMonth);
         rbAfterAMonth = findViewById(R.id.rbAfterAMonth);
+        rbWithinAWeek.setOnClickListener(this);
+        rbWithinAMonth.setOnClickListener(this);
+        rbAfterAMonth.setOnClickListener(this);
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strPreviousVal);
         tvGivenValEdit.setOnClickListener(this);

@@ -55,16 +55,17 @@ public class IncomeAfterTaxActivity extends AppCompatActivity implements View.On
         btnNext = findViewById(R.id.btnNext);
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strPreviousVal);
-        iv_personal_details_backBtn.setOnClickListener(this);
+        iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         tvGivenValEdit.setOnClickListener(this);
         btnNext.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_personal_details_backBtn) {
+        /*if (v.getId() == R.id.iv_personal_details_backBtn) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else if (v.getId() == R.id.tvGivenValEdit) {
+        } else*/
+        if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
             if (!etIncomeAfterTax.getText().toString().isEmpty()) {

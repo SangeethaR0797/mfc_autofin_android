@@ -91,7 +91,7 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
         iv_app_variant_search = findViewById(R.id.iv_app_variant_search);
         iv_app_variant_search.setOnClickListener(this);
         lvVehListView.setDivider(null);
-        iv_vehDetails_backBtn.setOnClickListener(this);
+        iv_vehDetails_backBtn.setVisibility(View.INVISIBLE);
         btnNext.setOnClickListener(this);
 
 
@@ -135,9 +135,10 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_back) {
+        /*if (v.getId() == R.id.iv_vehDetails_back) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else if (v.getId() == R.id.tvGivenVehModelEdit) {
+        } else */
+        if (v.getId() == R.id.tvGivenVehModelEdit) {
             finish();
         } else if (v.getId() == R.id.iv_app_variant_search) {
             if (lvVehListView.getVisibility() == View.VISIBLE) {

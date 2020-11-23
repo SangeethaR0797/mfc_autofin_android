@@ -59,7 +59,7 @@ public class JODOCurrentOrgActivity extends AppCompatActivity implements View.On
         llJODCalendarView = findViewById(R.id.llJODCalendarView);
         tvGivenLbl.setText(getResources().getString(R.string.lbl_working_organization_name));
         tvGivenPreviousVal.setText(strOrgName);
-        iv_personal_details_backBtn.setOnClickListener(this);
+        iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         tvGivenValEdit.setOnClickListener(this);
         tvJODOCurrentOrgLbl.setOnClickListener(this);
 
@@ -67,9 +67,10 @@ public class JODOCurrentOrgActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_personal_details_backBtn) {
+        /*if (v.getId() == R.id.iv_personal_details_backBtn) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else if (v.getId() == R.id.tvGivenValEdit) {
+        } else*/
+        if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.tvJODOCurrentOrgLbl) {
             showDatePickerDialog();

@@ -60,7 +60,7 @@ public class CurrentResidenceMonthAndYearActivity extends AppCompatActivity impl
         llMonthAndYearMovedToCRes = findViewById(R.id.llMonthAndYearMovedToCRes);
         iv_residential_details_backBtn = findViewById(R.id.iv_residential_details_backBtn);
         tvGivenPreviousVal.setText(strMYofCCity);
-        iv_residential_details_backBtn.setOnClickListener(this);
+        iv_residential_details_backBtn.setVisibility(View.INVISIBLE);
         tvGivenValEdit.setOnClickListener(this);
         tvWhenMovedToCurrentCityLbl.setOnClickListener(this);
 
@@ -69,9 +69,10 @@ public class CurrentResidenceMonthAndYearActivity extends AppCompatActivity impl
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.iv_residential_details_backBtn) {
+        /*if (v.getId() == R.id.iv_residential_details_backBtn) {
             finish();
-        } else if (v.getId() == R.id.tvGivenValEdit) {
+        } else*/
+        if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.tvWhenMovedToCurrentCityLbl) {
             showDatePickerDialog();

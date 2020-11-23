@@ -73,7 +73,7 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
         rbStudent = findViewById(R.id.rbStudent);
         rbRetired = findViewById(R.id.rbRetired);
         rbHomeMaker = findViewById(R.id.rbHomeMaker);
-        iv_personal_details_backBtn.setOnClickListener(this);
+        iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         tvGivenValEdit.setOnClickListener(this);
         rbSalaried.setOnClickListener(this);
         rbBusinessOwner.setOnClickListener(this);
@@ -87,9 +87,10 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.iv_residential_details_backBtn) {
+        /*if (v.getId() == R.id.iv_residential_details_backBtn) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else if (v.getId() == R.id.tvGivenValEdit) {
+        } else*/
+        if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.rbSalaried) {
             CommonStrings.cusEmpDetailsModel.setEmpType(rbSalaried.getText().toString());

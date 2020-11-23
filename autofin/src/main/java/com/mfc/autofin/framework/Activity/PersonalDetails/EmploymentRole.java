@@ -64,7 +64,7 @@ public class EmploymentRole extends AppCompatActivity implements Callback<Object
         tvGivenValEdit.setOnClickListener(this);
         tvEmploymentRoleVal.setOnClickListener(this);
         btnNext.setOnClickListener(this);
-        iv_personal_details_backBtn.setOnClickListener(this);
+        iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -79,14 +79,15 @@ public class EmploymentRole extends AppCompatActivity implements Callback<Object
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.iv_personal_details_backBtn)
+        /*if(v.getId()==R.id.iv_personal_details_backBtn)
         {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         }
-        else if (v.getId() == R.id.tvEmploymentRoleVal) {
+        else*/
+        if (v.getId() == R.id.tvEmploymentRoleVal) {
             if(employmentRoleList!=null && employmentRoleList.size()>0)
             {
-                BSDListItemFragment BSDListItemFragment = new BSDListItemFragment(this, tvEmploymentRoleVal,employmentRoleList);
+                BSDListItemFragment BSDListItemFragment = new BSDListItemFragment(this, tvEmploymentRoleVal,employmentRoleList,"SELECT EMPLOYMENT ROLE");
                 BSDListItemFragment.show(getSupportFragmentManager(),"EmploymentRole List");
             }
         }

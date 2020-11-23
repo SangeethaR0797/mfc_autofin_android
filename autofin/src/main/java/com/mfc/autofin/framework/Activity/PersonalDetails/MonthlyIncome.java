@@ -55,17 +55,18 @@ public class MonthlyIncome extends AppCompatActivity implements View.OnClickList
         tvGivenLbl.setText(getResources().getString(R.string.lbl_education));
         tvGivenPreviousVal.setText(strEducation);
         tvGivenValEdit.setOnClickListener(this);
-        iv_personal_details_backBtn.setOnClickListener(this);
+        iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         btnNext.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.iv_personal_details_backBtn)
+        /*if(v.getId()==R.id.iv_personal_details_backBtn)
         {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         }
-        else if(v.getId()==R.id.tvGivenValEdit)
+        else*/
+        if(v.getId()==R.id.tvGivenValEdit)
         {
             finish();
         }
@@ -75,7 +76,7 @@ public class MonthlyIncome extends AppCompatActivity implements View.OnClickList
             {
                 strMonthlyIncome=etMonthlyIncomeAmount.getText().toString();
                 CommonMethods.setValueAgainstKey(MonthlyIncome.this,CommonStrings.MONTHLY_INCOME,strMonthlyIncome);
-                startActivity(new Intent(MonthlyIncome.this,EMIPayPerMonthActivity.class));
+                startActivity(new Intent(MonthlyIncome.this,LoanRequiredActivity.class));
             }
            else
             {

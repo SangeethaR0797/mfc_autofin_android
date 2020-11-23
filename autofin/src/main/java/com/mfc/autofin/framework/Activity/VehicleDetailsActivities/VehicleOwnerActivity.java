@@ -45,7 +45,7 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
         radioBtn05 = findViewById(R.id.radioBtn05);
         tvGivenVehVariantVal.setText(strVariantVal);
         tvGivenVehVariantEdit.setOnClickListener(this);
-        iv_vehDetails_backBtn.setOnClickListener(this);
+        iv_vehDetails_backBtn.setVisibility(View.INVISIBLE);
         radioBtn01.setOnCheckedChangeListener(this);
         radioBtn02.setOnCheckedChangeListener(this);
         radioBtn03.setOnCheckedChangeListener(this);

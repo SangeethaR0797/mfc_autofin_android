@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.LikelyPurchaseActivity;
+import com.mfc.autofin.framework.Activity.review_activites.ReviewActivity;
 import com.mfc.autofin.framework.R;
 
 import java.util.regex.Matcher;
@@ -58,7 +59,7 @@ public class PanCardNumberActivity extends AppCompatActivity implements View.OnC
         tvErrorMessage = findViewById(R.id.tvErrorMessage);
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strPreviousVal);
-        iv_personal_details_backBtn.setOnClickListener(this);
+        iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         tvGivenValEdit.setOnClickListener(this);
         etPanCardNumber.setOnClickListener(this);
         btnNext.setOnClickListener(this);
@@ -67,9 +68,10 @@ public class PanCardNumberActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.iv_personal_details_backBtn) {
+        /*if (v.getId() == R.id.iv_personal_details_backBtn) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else if (v.getId() == R.id.tvGivenValEdit) {
+        } else*/
+        if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
             if (!etPanCardNumber.getText().toString().isEmpty()) {
@@ -77,7 +79,7 @@ public class PanCardNumberActivity extends AppCompatActivity implements View.OnC
                 CommonStrings.cusEmpDetailsModel.setPanNum(strPanNumber);
                 if (isPanNumberValid(strPanNumber)) {
                     CommonMethods.setValueAgainstKey(this, CommonStrings.PAN_CARD_NUMBER, strPanNumber);
-                    Intent intent = new Intent(this, LikelyPurchaseActivity.class);
+                    Intent intent = new Intent(this, ReviewActivity.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvPanCardLbl.getText());
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE, strPanNumber);
                     startActivity(intent);

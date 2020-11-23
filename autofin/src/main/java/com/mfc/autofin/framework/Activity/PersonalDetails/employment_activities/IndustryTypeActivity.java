@@ -74,7 +74,7 @@ public class IndustryTypeActivity extends AppCompatActivity implements View.OnCl
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strPreviousVal);
         llIndustryType.setOnClickListener(this);
-        iv_personal_details_backBtn.setOnClickListener(this);
+        iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         tvSelectedIndustryType.setOnClickListener(this);
         tvGivenValEdit.setOnClickListener(this);
         btnNext.setOnClickListener(this);
@@ -82,9 +82,10 @@ public class IndustryTypeActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_personal_details_backBtn) {
+       /* if (v.getId() == R.id.iv_personal_details_backBtn) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else if (v.getId() == R.id.tvSelectedIndustryType) {
+        } else*/
+        if (v.getId() == R.id.tvSelectedIndustryType) {
             SpinnerManager.showSpinner(IndustryTypeActivity.this);
             retrofitInterface.getFromWeb(CommonStrings.INDUSTRY_TYPE_URL).enqueue(this);
         } else if (v.getId() == R.id.tvGivenValEdit) {

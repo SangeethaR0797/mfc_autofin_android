@@ -37,7 +37,7 @@
     <string name="lbl_all_leads">All Leads</string>
     <string name="vehicle_category">PLEASE SELECT YOUR VEHICLE CATEGORY</string>
     <string name="new_car">New Car</string>
-    <string name="old_car">Old Car</string>
+    <string name="old_car">Used Car</string>
     <string name="new_bike">New Bike</string>
     <string name="vehicle_details_title">VEHICLE DETAILS</string>
     <string name="vehicle_reg_num_qn">DO YOU HAVE VEHICLE REGISTRATION NO?</string>
@@ -199,7 +199,7 @@
     <string name="lbl_emi">EMI</string>
     <string name="lbl_tenure">Tenure</string>
     <string name="lbl_apply_now">APPLY NOW</string>
-    <string name="lbl_view_bank">VIEW BANK</string>
+    <string name="lbl_view_bank">VIEW BANK OFFER</string>
     <string name="lbl_select_your_gender">SELECT YOUR GENDER</string>
     <string name="lbl_education">EDUCATION</string>
     <string name="hint_select_your_qualification">Please enter your Education</string>

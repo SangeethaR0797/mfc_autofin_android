@@ -56,17 +56,18 @@ public class EMIPayPerMonthActivity extends AppCompatActivity implements View.On
         tvGivenPreviousVal.setText(strMonthlyIncome);
         tvGivenValEdit.setOnClickListener(this);
         etMonthlyEMIAmount.setOnClickListener(this);
-        iv_personal_details_backBtn.setOnClickListener(this);
+        iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         btnNext.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.iv_personal_details_backBtn)
+        /*if(v.getId()==R.id.iv_personal_details_backBtn)
         {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         }
-        else if(v.getId()==R.id.tvGivenValEdit)
+        else*/
+        if(v.getId()==R.id.tvGivenValEdit)
         {
             finish();
         }
@@ -76,7 +77,7 @@ public class EMIPayPerMonthActivity extends AppCompatActivity implements View.On
             {
                 strMonthlyEMI=etMonthlyEMIAmount.getText().toString();
                 CommonMethods.setValueAgainstKey(EMIPayPerMonthActivity.this,CommonStrings.MONTHLY_EMI,strMonthlyEMI);
-                startActivity(new Intent(EMIPayPerMonthActivity.this,LoanRequiredActivity.class));
+                startActivity(new Intent(EMIPayPerMonthActivity.this,EmploymentTypeActivity.class));
             }
             else
             {

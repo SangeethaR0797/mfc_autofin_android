@@ -76,7 +76,7 @@ public class VehiclePurchaseAmountActivity extends AppCompatActivity implements 
         }
         tvVehPurchaseAmount.setTypeface(CustomFonts.getRobotoRegularTF(this));
         tvGivenPreviousVal.setText(strPreviousVal);
-        iv_vehDetails_back.setOnClickListener(this);
+        iv_vehDetails_back.setVisibility(View.INVISIBLE);
         tvGivenValEdit.setOnClickListener(this);
         btnNext.setOnClickListener(this);
     }
@@ -85,9 +85,9 @@ public class VehiclePurchaseAmountActivity extends AppCompatActivity implements 
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.iv_vehDetails_back) {
+       /* if (v.getId() == R.id.iv_vehDetails_back) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else if (v.getId() == R.id.tvGivenValEdit) {
+        } else*/ if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
 

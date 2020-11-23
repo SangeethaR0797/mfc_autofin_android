@@ -53,7 +53,7 @@ public class SalaryModeActivity extends AppCompatActivity implements View.OnClic
         rbTransferAndDeposit = findViewById(R.id.rbTransferAndDeposit);
         llBankSelectionInSalMode = findViewById(R.id.llBankSelectionInSalMode);
         tvGivenLbl.setText(strPreviousLbl);
-        iv_personal_details_backBtn.setOnClickListener(this);
+        iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         tvGivenPreviousVal.setText(strPreviousVal);
         tvGivenValEdit.setOnClickListener(this);
         rbCashSalary.setOnClickListener(this);
@@ -64,9 +64,10 @@ public class SalaryModeActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.iv_personal_details_backBtn) {
+        /*if (v.getId() == R.id.iv_personal_details_backBtn) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else if (v.getId() == R.id.tvGivenValEdit) {
+        } else*/
+        if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.rbCashSalary) {
             try {

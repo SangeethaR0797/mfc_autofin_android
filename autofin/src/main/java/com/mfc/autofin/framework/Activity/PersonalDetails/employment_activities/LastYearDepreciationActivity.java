@@ -44,6 +44,7 @@ public class LastYearDepreciationActivity extends AppCompatActivity implements V
 
     private void initView() {
         iv_personal_details_backBtn = findViewById(R.id.iv_personal_details_backBtn);
+        iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         tvLastYearDepreciationLbl=findViewById(R.id.tvLastYearDepreciationLbl);
         tvGivenLbl = findViewById(R.id.tvGivenLbl);
         tvGivenPreviousVal = findViewById(R.id.tvGivenPreviousVal);
@@ -60,9 +61,9 @@ public class LastYearDepreciationActivity extends AppCompatActivity implements V
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_personal_details_backBtn) {
+        /*if (v.getId() == R.id.iv_personal_details_backBtn) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else if (v.getId() == R.id.tvGivenValEdit) {
+        } else*/ if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
             if (!etLastYearDepreciation.getText().toString().isEmpty()) {

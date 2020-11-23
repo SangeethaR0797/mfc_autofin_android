@@ -126,8 +126,7 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
                 return false;
             }
         });
-
-        iv_vehDetails_backBtn.setOnClickListener(this);
+        iv_vehDetails_backBtn.setVisibility(View.INVISIBLE);
         tvGivenVehMakeEdit.setOnClickListener(this);
         tvSelectedVehModel.setOnClickListener(this);
         btnNext.setOnClickListener(this);
@@ -135,10 +134,11 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_back) {
+      /*  if (v.getId() == R.id.iv_vehDetails_back) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
 
-        } else if (v.getId() == R.id.tvGivenVehMakeEdit) {
+        } else*/
+        if (v.getId() == R.id.tvGivenVehMakeEdit) {
             finish();
         } else if (v.getId() == R.id.iv_app_model_search) {
             if (lvVehListView.getVisibility() == View.VISIBLE) {

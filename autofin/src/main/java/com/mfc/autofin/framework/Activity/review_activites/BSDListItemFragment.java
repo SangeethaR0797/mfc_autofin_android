@@ -29,11 +29,12 @@ public class BSDListItemFragment extends BottomSheetDialogFragment implements Vi
     Button btnSelectGender;
     TextView textView;
     private List<String> itemList;
-    private String strGender="" ;
-    public BSDListItemFragment(Activity activity, TextView textView, List<String> itemList) {
+    private String strGender="",title ;
+    public BSDListItemFragment(Activity activity, TextView textView, List<String> itemList,String title) {
         this.activity = activity;
         this.textView=textView;
         this.itemList=itemList;
+        this.title=title;
     }
 
     @Override
@@ -50,6 +51,7 @@ public class BSDListItemFragment extends BottomSheetDialogFragment implements Vi
         dialog_cancel_btn=view.findViewById(R.id.dialog_cancel_btn);
         lvGender=view.findViewById(R.id.lvGender);
         btnSelectGender=view.findViewById(R.id.btnSelectGender);
+        tvSelectionTitle.setText(title);
         ArrayAdapter adapter = new ArrayAdapter<String>(activity, R.layout.layout_single_list_view, itemList);
         lvGender.setAdapter(adapter);
         lvGender.setOnItemClickListener(new AdapterView.OnItemClickListener() {

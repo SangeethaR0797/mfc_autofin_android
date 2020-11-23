@@ -50,7 +50,7 @@ public class LoanRequiredActivity extends AppCompatActivity implements View.OnCl
         btnNext = findViewById(R.id.btnNext);
         tvGivenLbl.setText(getResources().getString(R.string.lbl_total_emi));
         tvGivenPreviousVal.setText(strMonthlyEMI);
-        iv_personal_details_backBtn.setOnClickListener(this);
+        iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         tvGivenValEdit.setOnClickListener(this);
         etLoanRequiredAmount.setOnClickListener(this);
         btnNext.setOnClickListener(this);
@@ -59,15 +59,16 @@ public class LoanRequiredActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.iv_personal_details_backBtn) {
+        /*if (v.getId() == R.id.iv_personal_details_backBtn) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else if (v.getId() == R.id.tvGivenValEdit) {
+        } else*/
+        if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
             if (!etLoanRequiredAmount.getText().toString().isEmpty()) {
                 strLoanAmount = etLoanRequiredAmount.getText().toString();
                 CommonMethods.setValueAgainstKey(this, CommonStrings.LOAN_REQUIRED, strLoanAmount);
-                startActivity(new Intent(this, EmploymentTypeActivity.class));
+                startActivity(new Intent(this, EMIPayPerMonthActivity.class));
             } else {
                 tvErrorMessage.setVisibility(View.VISIBLE);
                 tvErrorMessage.setText(getResources().getString(R.string.loan_required_error_message));

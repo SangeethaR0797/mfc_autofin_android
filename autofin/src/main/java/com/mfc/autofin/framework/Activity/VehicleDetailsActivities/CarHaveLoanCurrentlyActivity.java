@@ -41,7 +41,7 @@ public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements V
         btnCarHaveNoLoan = findViewById(R.id.btnCarHaveNoLoan);
         iv_vehDetails_back = findViewById(R.id.iv_vehDetails_back);
         tvGivenVehOwnershipVal.setText(purchaseAmount);
-        iv_vehDetails_back.setOnClickListener(this);
+        iv_vehDetails_back.setVisibility(View.INVISIBLE);
         tvGivenVehOwnershipEdit.setOnClickListener(this);
         btnCarHaveLoan.setOnClickListener(this);
         btnCarHaveNoLoan.setOnClickListener(this);
@@ -49,10 +49,11 @@ public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements V
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_back) {
+        /*if (v.getId() == R.id.iv_vehDetails_back) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
 
-        } else if (v.getId() == R.id.tvGivenVehOwnershipEdit) {
+        } else*/
+        if (v.getId() == R.id.tvGivenVehOwnershipEdit) {
             finish();
         } else if (v.getId() == R.id.btnCarHaveLoan) {
             CommonMethods.highLightSelectedButton(this, btnCarHaveLoan);

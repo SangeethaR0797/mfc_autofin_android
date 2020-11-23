@@ -24,8 +24,9 @@ public class MainActivity extends AppCompatActivity {
         mLaunchAutofin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent autodashboard = new Intent(MainActivity.this, DocumentUploadActivity.class);
-                     autodashboard.putExtra(AutoFinConstants.APP_NAME,"MFCBusiness");
+               // Intent autodashboard = new Intent(MainActivity.this, DocumentUploadActivity.class);
+                Intent autodashboard = new Intent(MainActivity.this, AutoFinDashBoardActivity.class);
+                autodashboard.putExtra(AutoFinConstants.APP_NAME,"MFCBusiness");
                      autodashboard.putExtra(AutoFinConstants.DEALER_ID,"242");
                      autodashboard.putExtra(AutoFinConstants.USER_TYPE,"Dealer");
                 startActivity(autodashboard);

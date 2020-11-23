@@ -63,6 +63,7 @@ public class GenderActivity extends AppCompatActivity implements View.OnClickLis
         tvGivenPreviousVal.setText(strUserDOB);
         btnNext=findViewById(R.id.btnNext);
         iv_personal_details_backBtn=findViewById(R.id.iv_personal_details_backBtn);
+        iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         btnNext.setOnClickListener(this);
         tvGivenValEdit.setOnClickListener(this);
         tvGenderVal.setOnClickListener(this);
@@ -99,14 +100,15 @@ public class GenderActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.iv_personal_details_backBtn)
+        /*if(v.getId()==R.id.iv_personal_details_backBtn)
         {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         }
-        else if (v.getId() == R.id.tvGenderVal) {
+        else*/
+        if (v.getId() == R.id.tvGenderVal) {
             if(genderList!=null && genderList.size()>0)
             {
-                BSDListItemFragment BSDListItemFragment = new BSDListItemFragment(this, tvGenderVal,genderList);
+                BSDListItemFragment BSDListItemFragment = new BSDListItemFragment(this, tvGenderVal,genderList,"SELECT GENDER");
                 BSDListItemFragment.show(getSupportFragmentManager(),"GenderFragment");
             }
             else

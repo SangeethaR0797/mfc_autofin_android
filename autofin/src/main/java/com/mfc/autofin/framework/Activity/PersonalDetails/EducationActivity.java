@@ -67,7 +67,7 @@ public class EducationActivity extends AppCompatActivity implements View.OnClick
         tvGivenValEdit.setOnClickListener(this);
         tvEducationVal.setOnClickListener(this);
         iv_personal_details_backBtn=findViewById(R.id.iv_personal_details_backBtn);
-        iv_personal_details_backBtn.setOnClickListener(this);
+        iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         btnNext.setOnClickListener(this);
 
     }
@@ -105,11 +105,12 @@ public class EducationActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.iv_personal_details_backBtn)
+        /*if(v.getId()==R.id.iv_personal_details_backBtn)
         {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         }
-        else if(v.getId()==R.id.tvGivenValEdit)
+        else*/
+        if(v.getId()==R.id.tvGivenValEdit)
         {
             finish();
         }
@@ -117,7 +118,7 @@ public class EducationActivity extends AppCompatActivity implements View.OnClick
         {
             if(educationQualificationList!=null)
             {
-                BSDListItemFragment bSDListItemFragment = new BSDListItemFragment(this, tvEducationVal,educationQualificationList);
+                BSDListItemFragment bSDListItemFragment = new BSDListItemFragment(this, tvEducationVal,educationQualificationList,"SELECT EDUCATION");
                 bSDListItemFragment.show(getSupportFragmentManager(),"EducationList");
             }
             else

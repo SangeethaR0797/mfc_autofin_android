@@ -53,6 +53,7 @@ public class LastYearSalesOrTurnOver extends AppCompatActivity implements View.O
         etLastYearSalesVal=findViewById(R.id.etLastYearSalesVal);
         belowETYearsOE=findViewById(R.id.belowETYearsOE);
         btnNext=findViewById(R.id.btnNext);
+        iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         if(CommonStrings.cusEmpDetailsModel.getEmpType().equals(getResources().getString(R.string.lbl_business_owner)))
         {
             tvLastYearSales.setText(getResources().getString(R.string.lbl_last_year_sales));
@@ -70,9 +71,10 @@ public class LastYearSalesOrTurnOver extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_personal_details_backBtn) {
+        /*if (v.getId() == R.id.iv_personal_details_backBtn) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else if (v.getId() == R.id.tvGivenValEdit) {
+        } else*/
+        if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
             try{

@@ -40,10 +40,10 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
         try{
             tvCommonAppBarTitle=findViewById(R.id.tvCommonAppBarTitle);
             iv_common_bar_backBtn=findViewById(R.id.iv_common_bar_backBtn);
+            tvReviewNav=findViewById(R.id.tvReviewNav);
             cbAgreeTAndC=findViewById(R.id.cbAgreeTAndC);
             btnReviewNext=findViewById(R.id.btnReviewNext);
             tvCommonAppBarTitle.setText(getResources().getString(R.string.str_review));
-            tvReviewNav=findViewById(R.id.tvReviewNav);
             iv_common_bar_backBtn.setOnClickListener(this);
             tvReviewNav.setOnClickListener(this);
             btnReviewNext.setOnClickListener(this);
@@ -72,22 +72,23 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
                 isTAndCAgreed=false;
             }
         }
-        else if(v.getId()==R.id.btnReviewNext)
+        else if(v.getId()==R.id.tvReviewNav)
         {
             try{
-                startActivity(new Intent(this,DetailsUpdateActivity.class));
+                Intent intent=new Intent(ReviewActivity.this,ReviewDetailsActivity.class);
+                startActivity(intent);
             }
             catch (Exception exception)
             {
                 exception.printStackTrace();
             }
         }
-        else if(v.getId()==R.id.tvReviewNav)
+        else if(v.getId()==R.id.btnReviewNext)
         {
             if(isTAndCAgreed)
             {
                 try{
-                    startActivity(new Intent(ReviewActivity.this,ReviewDetailsActivity.class));
+                    startActivity(new Intent(this,DetailsUpdateActivity.class));
                 }catch (Exception exception){exception.printStackTrace();}
             }
         }

@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.mfc.autofin.framework.Activity.review_activites.ReviewActivity;
+import com.mfc.autofin.framework.Activity.review_activites.ReviewDetailsActivity;
 import com.mfc.autofin.framework.R;
 
 import utility.CommonMethods;
@@ -25,13 +27,14 @@ import utility.CommonStrings;
 
 public class LeadDetailsActivity extends AppCompatActivity implements View.OnClickListener {
     TextView tvLeadDetailsAppBarTitle, tvLeadCaseId, tvLeadDetailsDate, tvLeadDetailsStatus, tvKYCStatus, tvLeadDetailsCName, tvLeadDetailsCMobileNum, tvLeadDetailsCEmailId;
-    Button btnLeadDetailsCallCustomer, btnUpdateLeadDetails, btnRemoveLeads;
+    Button btnLeadDetailsCallCustomer, btnUpdateLeadDetails;
     String strCName = "", strCaseId = "", strEmailId = "", strMobileNo = "", strLeadStatus = "", strKYCStatus = "", strLeadCreationDate = "";
     ImageView iv_lead_details_backBtn;
     Intent intent;
     LinearLayout llUpdateLeadDetails;
     RadioGroup rgLeadStatus;
     RadioButton rbKYCUpdated,rbPendingAtBank,rbDisbursement;
+    private int customerId=0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,13 +43,14 @@ public class LeadDetailsActivity extends AppCompatActivity implements View.OnCli
         if (getIntent() != null) {
             intent = getIntent();
             Bundle leadData = intent.getExtras();
-            strCaseId = leadData.getString(CommonStrings.CUSTOMER_ID);
+            strCaseId = leadData.getString(CommonStrings.CASE_ID);
             strCName = leadData.getString(CommonStrings.CNAME);
             strEmailId = leadData.getString(CommonStrings.CEMAIL);
             strMobileNo = leadData.getString(CommonStrings.CMOBILE_NUM);
             strLeadCreationDate = leadData.getString(CommonStrings.LEAD_CREATION_DATE);
             strLeadStatus = leadData.getString(CommonStrings.LEAD_STATUS);
             strKYCStatus = leadData.getString(CommonStrings.KYC_STATUS);
+            customerId=leadData.getInt(CommonStrings.CUSTOMER_ID);
         } else {
             CommonMethods.showToast(this, "No Data found");
         }
@@ -65,7 +69,6 @@ public class LeadDetailsActivity extends AppCompatActivity implements View.OnCli
         tvLeadDetailsCEmailId = findViewById(R.id.tvLeadDetailsCEmailId);
         btnLeadDetailsCallCustomer = findViewById(R.id.btnLeadDetailsCallCustomer);
         btnUpdateLeadDetails = findViewById(R.id.btnUpdateLeadDetails);
-        btnRemoveLeads = findViewById(R.id.btnRemoveLeads);
         iv_lead_details_backBtn = findViewById(R.id.iv_lead_details_backBtn);
         llUpdateLeadDetails=findViewById(R.id.llUpdateLeadDetails);
         rgLeadStatus=findViewById(R.id.rgLeadStatus);
@@ -75,7 +78,6 @@ public class LeadDetailsActivity extends AppCompatActivity implements View.OnCli
         iv_lead_details_backBtn.setOnClickListener(this);
         btnLeadDetailsCallCustomer.setOnClickListener(this);
         btnUpdateLeadDetails.setOnClickListener(this);
-        btnRemoveLeads.setOnClickListener(this);
         rbKYCUpdated.setOnClickListener(this);
         rbPendingAtBank.setOnClickListener(this);
         rbDisbursement.setOnClickListener(this);
@@ -130,11 +132,9 @@ public class LeadDetailsActivity extends AppCompatActivity implements View.OnCli
         {
             CommonMethods.showToast(this,"You've checked "+rbDisbursement.getText().toString());
         }else if (v.getId() == R.id.btnUpdateLeadDetails) {
-            llUpdateLeadDetails.setVisibility(View.VISIBLE);
-        } else if (v.getId() == R.id.btnRemoveLeads) {
-
+            Intent intent=new Intent(this, ReviewDetailsActivity.class);
+            intent.putExtra(CommonStrings.CUSTOMER_ID,customerId);
+            startActivity(intent);
         }
-
-
     }
 }

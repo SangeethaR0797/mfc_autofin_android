@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 import com.mfc.autofin.framework.Activity.BasicDetailsActivities.BasicDetailsActivity;
 import com.mfc.autofin.framework.Activity.PersonalDetails.UserDOBActivity;
 import com.mfc.autofin.framework.Activity.ResidentialActivity.ResidentialCity;
@@ -23,25 +23,71 @@ import java.util.ArrayList;
 import java.util.List;
 
 import controller.ReviewAdapter;
+import kyc.DocumentUploadActivity;
+import model.add_lead_details.CustomerDetails;
+import model.add_lead_details.CustomerDetailsRequest;
+import model.add_lead_details.CustomerDetailsResponse;
+import model.add_lead_details.CustomerID;
+import model.basic_details.BasicDetails;
+import model.basic_details.PersonalDetailsData;
+import model.basic_details.ResidentialDetails;
 import model.custom_model.ReviewData;
+import model.vehicle_details.vehicle_category.VehicleDetails;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
 
+import static retrofit_config.RetroBase.retrofitInterface;
 import static utility.CommonStrings.*;
 
-public class ReviewDetailsActivity extends AppCompatActivity implements View.OnClickListener {
+public class ReviewDetailsActivity extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
     private static final String TAG = ReviewDetailsActivity.class.getSimpleName();
     private TextView tvVehDetailsTitle, tvCommonAppBarTitle, tvBasicDetails, tvResidentialDetails, tvPersonalDetails;
     private RecyclerView rvVehDetails, rvBasicDetails, rvResidentialDetails, rvPersonalDetails;
     private LinearLayout llEditAndCloseReview;
     private Button btnEditReview, btnCloseReview;
+    private Intent intent;
+    private int customerId = 0;
+    private String userId = "", userType = "";
+    private VehicleDetails vehDetailsResList;
+    private BasicDetails basicDetailsResList;
+    private ResidentialDetails residentialDetailsResList;
+    private PersonalDetailsData personalDetailsResList;
+    private boolean flag=false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_details);
+        try{if (getIntent() != null) {
+            intent = getIntent();
+            Bundle bundle=getIntent().getExtras();
+            customerId = bundle.getInt(CUSTOMER_ID);
+            flag=true;
+        }}catch(Exception exception)
+        {
+            exception.printStackTrace();
+            finish();
+        }
         initView();
+        userId = CommonMethods.getStringValueFromKey(this, CommonStrings.DEALER_ID_VAL);
+        userType = CommonMethods.getStringValueFromKey(this, CommonStrings.USER_TYPE_VAL);
+
+        retrofitInterface.getFromWeb(getCustomerDetailsReq(), CUSTOMER_DETAILS_URL).enqueue(this);
+
+    }
+
+    private CustomerDetailsRequest getCustomerDetailsReq() {
+        CustomerDetailsRequest customerDetailsReq = new CustomerDetailsRequest();
+        customerDetailsReq.setUserId(userId);
+        customerDetailsReq.setUserType(userType);
+        CustomerID customerID = new CustomerID();
+        customerID.setCustomerId(customerId);
+        customerDetailsReq.setData(customerID);
+        return customerDetailsReq;
     }
 
     private void initView() {
@@ -72,11 +118,19 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         if (v.getId() == R.id.tvVehDetailsTitle) {
             llEditAndCloseReview.setVisibility(View.VISIBLE);
             rvVehDetails.setVisibility(View.VISIBLE);
-            if (customVehDetails.getVehCategory().equals(getResources().getString(R.string.new_car))) {
-                displayNewCarVehicleDetails();
-            } else if (customVehDetails.getVehCategory().equals(getResources().getString(R.string.old_car))) {
-                displayOldCarVehicleDetails();
+            if(flag)
+            {
+                displayReviewVehRes();
             }
+            else
+            {
+                if (customVehDetails.getVehCategory().equals(getResources().getString(R.string.new_car))) {
+                    displayNewCarVehicleDetails();
+                } else if (customVehDetails.getVehCategory().equals(getResources().getString(R.string.old_car))) {
+                    displayOldCarVehicleDetails();
+                }
+            }
+
         } else if (v.getId() == R.id.btnCloseReview) {
             if (rvVehDetails.getVisibility() == View.VISIBLE) {
                 rvVehDetails.setVisibility(View.GONE);
@@ -96,16 +150,40 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         } else if (v.getId() == R.id.tvBasicDetails) {
             llEditAndCloseReview.setVisibility(View.VISIBLE);
             rvBasicDetails.setVisibility(View.VISIBLE);
-            displayBasicDetails();
+            if(flag)
+            {
+                displayReviewBasicRes();
+            }
+            else
+            {
+                displayBasicDetails();
+            }
+
 
         } else if (v.getId() == R.id.tvResidentialDetails) {
             llEditAndCloseReview.setVisibility(View.VISIBLE);
             rvResidentialDetails.setVisibility(View.VISIBLE);
-            displayResidentialDetails();
+            if(flag)
+            {
+                CommonMethods.showToast(ReviewDetailsActivity.this,"Yet to Implement");
+            }
+            else
+            {
+                displayResidentialDetails();
+            }
+
         } else if (v.getId() == R.id.tvPersonalDetails) {
             llEditAndCloseReview.setVisibility(View.VISIBLE);
             rvPersonalDetails.setVisibility(View.VISIBLE);
-            displayPersonalDetails();
+            if(flag)
+            {
+                CommonMethods.showToast(ReviewDetailsActivity.this,"Yet to Implement");
+            }
+            else
+            {
+                displayPersonalDetails();
+            }
+
 
         } else if (v.getId() == R.id.btnEditReview) {
             if (rvPersonalDetails.getVisibility() == View.VISIBLE)
@@ -279,6 +357,95 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_vehicle_purchase_amount), CommonMethods.getStringValueFromKey(this, VEH_PURCHASE_AMOUNT)));
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_insured_amount), CommonMethods.getStringValueFromKey(this, VEH_INSURED_AMOUNT)));
         return reviewDataList;
+
+    }
+
+    @Override
+    public void onResponse(Call<Object> call, Response<Object> response) {
+        String strRes = new Gson().toJson(response.body());
+        Log.i(TAG, "onResponse: " + strRes);
+        CustomerDetailsResponse customerDetailsRes = new Gson().fromJson(strRes, CustomerDetailsResponse.class);
+        if (customerDetailsRes != null && customerDetailsRes.getStatus()) {
+            try {
+                if (customerDetailsRes.getData() != null) {
+                    CustomerDetails customerDetails = customerDetailsRes.getData();
+                    if (customerDetails.getCaseId() != null && !customerDetails.getCaseId().equals("")) {
+                        CommonMethods.setValueAgainstKey(this, CommonStrings.CASE_ID, customerDetails.getCaseId());
+                        CommonMethods.showToast(this, customerDetails.getCaseId());
+                        Log.i(TAG, "onResponse: " + customerDetails.getCaseId());
+                        vehDetailsResList=customerDetails.getVehicleDetails();
+                        basicDetailsResList=customerDetails.getBasicDetails();
+                        residentialDetailsResList=customerDetails.getResidentialDetails();
+                        personalDetailsResList=customerDetails.getPersonalDetails();
+                    } else {
+                        CommonMethods.showToast(this, "No Case-Id found");
+                    }
+                }
+
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+
+        }
+    }
+
+    private List<ReviewData> prepareNewReviewDataList()
+    {
+        ArrayList<ReviewData> reviewDataList = new ArrayList<>();
+        reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_reg_num_qn), String.valueOf(vehDetailsResList.getHaveVehicleNumber())));
+        reviewDataList.add(new ReviewData(CommonStrings.VEH_REG_NO_TITLE, vehDetailsResList.getVehicleNumber()));
+        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_reg_year), vehDetailsResList.getRegistrationYear()));
+        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_make), vehDetailsResList.getMake()));
+        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_model), vehDetailsResList.getModel()));
+        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_variant), vehDetailsResList.getVariant()));
+        reviewDataList.add(new ReviewData(getString(R.string.lbl_veh_ownership), String.valueOf(vehDetailsResList.getOwnership())));
+        reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_have_loan_qn), String.valueOf(vehDetailsResList.getDoesCarHaveLoan())));
+        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_insurance_on_vehicle),String.valueOf(vehDetailsResList.getInsurance())));
+        reviewDataList.add(new ReviewData("INSURANCE AMOUNT", vehDetailsResList.getInsuranceAmount()));
+        reviewDataList.add(new ReviewData("INSURANCE VALIDITY", vehDetailsResList.getInsuranceValidity()));
+        reviewDataList.add(new ReviewData("INSURANCE TYPE", vehDetailsResList.getInsuranceType()));
+        return reviewDataList;
+
+    }
+    private List<ReviewData> prepareNewReviewBasicDataList()
+    {
+        ArrayList<ReviewData> reviewDataList = new ArrayList<>();
+        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_name), basicDetailsResList.getFullName()));
+        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_email), basicDetailsResList.getEmail()));
+        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_phone_no), basicDetailsResList.getCustomerMobile()));
+        return reviewDataList;
+    }
+
+    private void displayReviewVehRes()
+    {
+        try {
+            ReviewAdapter reviewAdapter = new ReviewAdapter(this, prepareNewReviewDataList(), getResources().getString(R.string.title_basic_details));
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            rvVehDetails.setLayoutManager(layoutManager);
+            rvVehDetails.setAdapter(reviewAdapter);
+        } catch (NullPointerException nullPointerExc) {
+            nullPointerExc.printStackTrace();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    private void displayReviewBasicRes()
+    {
+        try {
+            ReviewAdapter reviewAdapter = new ReviewAdapter(this, prepareNewReviewBasicDataList(), getResources().getString(R.string.title_basic_details));
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            rvBasicDetails.setLayoutManager(layoutManager);
+            rvBasicDetails.setAdapter(reviewAdapter);
+        } catch (NullPointerException nullPointerExc) {
+            nullPointerExc.printStackTrace();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onFailure(Call<Object> call, Throwable t) {
 
     }
 }

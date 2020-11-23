@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
+
     <LinearLayout
         android:id="@+id/llAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:layout_alignParentTop="true"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:weightSum="10">
@@ -50,16 +51,18 @@
                 android:textStyle="italic"
                 android:visibility="gone" />
         </LinearLayout>
+
         <ImageView
             android:id="@+id/ivLeadDetailsSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="19dp"
             android:layout_marginTop="20dp"
+            android:layout_marginRight="19dp"
             android:layout_marginBottom="19dp"
             android:foregroundGravity="right"
             app:srcCompat="@drawable/ic_autofin_search_24px" />
     </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -70,239 +73,244 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/text_size10dp"
-        android:layout_marginRight="@dimen/text_size10dp"
-        android:layout_marginLeft="@dimen/text_size10dp"
-        android:background="@color/white">
 
-            <LinearLayout
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="@dimen/text_size_20dp"
-                android:layout_marginLeft="@dimen/text_size11dp"
-                android:layout_marginRight="@dimen/text_size_11dp">
+                android:layout_marginLeft="@dimen/text_size10dp"
+                android:layout_marginTop="@dimen/text_size10dp"
+                android:layout_marginRight="@dimen/text_size10dp"
+                android:background="@color/white">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/text_size25dp"
-                    android:layout_marginBottom="4dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/lbl_case_id"
-                        android:textColor="@color/grey_color"
-                        android:textSize="@dimen/text_size_14sp" />
-                    <TextView
-                        android:id="@+id/tvLeadCaseId"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/lbl_case_id"
-                        android:textColor="@color/very_dark_blue"
-                        android:textSize="@dimen/text_size_14sp" />
-                </LinearLayout>
-                <TextView
-                    android:id="@+id/tvLeadDetailsDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/date_format_hint"
-                    android:textColor="@color/grey_color"
-                    android:textSize="@dimen/text_size_14sp"
-                    android:textStyle="italic"
-                    android:layout_marginBottom="@dimen/text_size_18dp"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/grey_color"
-                    android:layout_marginBottom="@dimen/text_size_18dp"/>
+                    android:layout_marginLeft="@dimen/text_size11dp"
+                    android:layout_marginTop="@dimen/text_size_20dp"
+                    android:layout_marginRight="@dimen/text_size_11dp"
+                    android:orientation="vertical">
 
-                <utility.RobotoMedium
-                    android:id="@+id/tvLeadDetailsStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sample_title"
-                    android:textColor="@color/torch_red"
-                    android:textSize="@dimen/text_size_16sp"
-                    android:layout_marginBottom="5dp"/>
-                <TextView
-                    android:id="@+id/tvKYCStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/kyc_not_updated_lbl"
-                    android:textColor="@color/grey_color"
-                    android:textSize="@dimen/text_size_14sp"
-                    android:textStyle="italic"
-                    android:layout_marginBottom="@dimen/text_size_18dp"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/grey_color"
-                    android:layout_marginBottom="@dimen/text_size_18dp"/>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/text_size_18dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/text_size25dp"
+                        android:layout_marginBottom="4dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lbl_case_id"
+                            android:textColor="@color/grey_color"
+                            android:textSize="@dimen/text_size_14sp" />
+
+                        <TextView
+                            android:id="@+id/tvLeadCaseId"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lbl_case_id"
+                            android:textColor="@color/very_dark_blue"
+                            android:textSize="@dimen/text_size_14sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvLeadDetailsDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/text_size_18dp"
+                        android:text="@string/date_format_hint"
+                        android:textColor="@color/grey_color"
+                        android:textSize="@dimen/text_size_14sp"
+                        android:textStyle="italic" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="@dimen/text_size_18dp"
+                        android:background="@color/grey_color" />
 
                     <utility.RobotoMedium
-                        android:id="@+id/tvLeadDetailsCName"
+                        android:id="@+id/tvLeadDetailsStatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/testing_string"
-                        android:textColor="@color/very_dark_blue"
+                        android:layout_marginBottom="5dp"
+                        android:text="@string/sample_title"
+                        android:textColor="@color/torch_red"
                         android:textSize="@dimen/text_size_16sp" />
 
                     <TextView
-                        android:id="@+id/tvLeadDetailsCMobileNum"
+                        android:id="@+id/tvKYCStatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/tvLeadDetailsCName"
-                        android:layout_marginTop="@dimen/text_size_5dp"
-                        android:text="@string/testing_string"
+                        android:layout_marginBottom="@dimen/text_size_18dp"
+                        android:text="@string/kyc_not_updated_lbl"
                         android:textColor="@color/grey_color"
-                        android:textSize="@dimen/text_size_14dp" />
+                        android:textSize="@dimen/text_size_14sp"
+                        android:textStyle="italic" />
 
-                    <TextView
-                        android:id="@+id/tvLeadDetailsCEmailId"
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="@dimen/text_size_18dp"
+                        android:background="@color/grey_color" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/text_size_18dp">
+
+                        <utility.RobotoMedium
+                            android:id="@+id/tvLeadDetailsCName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/testing_string"
+                            android:textColor="@color/very_dark_blue"
+                            android:textSize="@dimen/text_size_16sp" />
+
+                        <TextView
+                            android:id="@+id/tvLeadDetailsCMobileNum"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tvLeadDetailsCName"
+                            android:layout_marginTop="@dimen/text_size_5dp"
+                            android:text="@string/testing_string"
+                            android:textColor="@color/grey_color"
+                            android:textSize="@dimen/text_size_14dp" />
+
+                        <TextView
+                            android:id="@+id/tvLeadDetailsCEmailId"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tvLeadDetailsCMobileNum"
+                            android:text="@string/testing_string"
+                            android:textColor="@color/grey_color"
+                            android:textSize="@dimen/text_size_14dp" />
+
+                        <Button
+                            android:id="@+id/btnLeadDetailsCallCustomer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:background="@drawable/grey_box_1dp"
+                            android:drawableLeft="@drawable/ic_call_24px"
+                            android:paddingLeft="@dimen/text_size_12dp"
+                            android:text="@string/lbl_call"
+                            android:textColor="@color/navy_blue" />
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="@dimen/text_size_30dp"
+                        android:background="@color/grey_color" />
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/tvLeadDetailsCMobileNum"
-                        android:text="@string/testing_string"
-                        android:textColor="@color/grey_color"
-                        android:textSize="@dimen/text_size_14dp" />
-
-                    <Button
-                        android:id="@+id/btnLeadDetailsCallCustomer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:background="@drawable/grey_box_1dp"
-                        android:drawableLeft="@drawable/ic_call_24px"
-                        android:paddingLeft="@dimen/text_size_12dp"
-                        android:text="@string/lbl_call"
-                        android:textColor="@color/navy_blue" />
-
-                </RelativeLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/grey_color"
-                    android:layout_marginBottom="@dimen/text_size_30dp"/>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="center">
-                    <Button
-                        android:id="@+id/btnUpdateLeadDetails"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/update_lbl"
-                        android:layout_marginBottom="43dp"
                         android:layout_gravity="center"
-                        android:background="@color/navy_blue"
-                        android:textColor="@color/white"
-                        android:paddingRight="50dp"
-                        android:paddingLeft="50dp" />
-                    <Button
-                        android:id="@+id/btnRemoveLeads"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/remove_lbl"
-                        android:layout_gravity="center"
-                        android:background="@android:color/transparent"
-                        android:textColor="@color/torch_red" />
-            </LinearLayout>
-            </LinearLayout>
-    </androidx.cardview.widget.CardView>
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/btnUpdateLeadDetails"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="43dp"
+                            android:background="@color/navy_blue"
+                            android:paddingLeft="50dp"
+                            android:paddingRight="50dp"
+                            android:text="@string/update_lbl"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
             <LinearLayout
                 android:id="@+id/llUpdateLeadDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/text_size10dp"
-                android:layout_marginRight="@dimen/text_size10dp"
-                android:layout_marginLeft="@dimen/text_size10dp">
 
-                <LinearLayout
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="@dimen/text_size_20dp"
-                    android:layout_marginLeft="@dimen/text_size11dp"
-                    android:layout_marginRight="@dimen/text_size_11dp">
+                    android:layout_marginLeft="@dimen/text_size10dp"
+                    android:layout_marginTop="@dimen/text_size10dp"
+                    android:layout_marginRight="@dimen/text_size10dp"
+                    android:visibility="gone">
 
-                    <TextView
-                        android:id="@+id/tvLeadDetailsStatusLbl"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/status_lbl"
-                        android:textColor="@color/grey_color"
-                        android:textSize="@dimen/text_size_14sp"
-                        android:textStyle="italic"
-                        android:layout_marginBottom="@dimen/text_size_18dp"/>
-                    <RadioGroup
-                        android:id="@+id/rgLeadStatus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/text_size_19dp"
-                        android:layout_marginBottom="36dp" >
+                        android:layout_marginLeft="@dimen/text_size11dp"
+                        android:layout_marginTop="@dimen/text_size_20dp"
+                        android:layout_marginRight="@dimen/text_size_11dp"
+                        android:orientation="vertical">
 
-                        <RadioButton
-                            android:id="@+id/rbKYCUpdated"
-                            android:layout_width="fill_parent"
+                        <TextView
+                            android:id="@+id/tvLeadDetailsStatusLbl"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="@dimen/text_size_24dp"
-                            android:buttonTint="@color/very_dark_blue"
-                            android:checked="false"
-                            android:paddingLeft="12dp"
-                            android:text="@string/kyc_updated_lbl"
-                            android:textColor="@color/very_dark_blue"
-                            android:textSize="@dimen/text_size_16sp" />
+                            android:layout_marginBottom="@dimen/text_size_18dp"
+                            android:text="@string/status_lbl"
+                            android:textColor="@color/grey_color"
+                            android:textSize="@dimen/text_size_14sp"
+                            android:textStyle="italic" />
 
-                        <RadioButton
-                            android:id="@+id/rbPendingAtBank"
-                            android:layout_width="fill_parent"
+                        <RadioGroup
+                            android:id="@+id/rgLeadStatus"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="@dimen/text_size_24dp"
-                            android:buttonTint="@color/very_dark_blue"
-                            android:checked="false"
-                            android:paddingLeft="12dp"
-                            android:text="@string/pending_at_bank_lbl"
-                            android:textColor="@color/very_dark_blue"
-                            android:textSize="@dimen/text_size_16sp" />
+                            android:layout_marginLeft="@dimen/text_size_19dp"
+                            android:layout_marginBottom="36dp">
 
-                        <RadioButton
-                            android:id="@+id/rbDisbursement"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="@dimen/text_size_24dp"
-                            android:buttonTint="@color/very_dark_blue"
-                            android:checked="false"
-                            android:paddingLeft="12dp"
-                            android:text="@string/disbursement_lbl"
-                            android:textColor="@color/very_dark_blue"
-                            android:textSize="@dimen/text_size_16sp" />
+                            <RadioButton
+                                android:id="@+id/rbKYCUpdated"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="@dimen/text_size_24dp"
+                                android:buttonTint="@color/very_dark_blue"
+                                android:checked="false"
+                                android:paddingLeft="12dp"
+                                android:text="@string/kyc_updated_lbl"
+                                android:textColor="@color/very_dark_blue"
+                                android:textSize="@dimen/text_size_16sp" />
 
-                    </RadioGroup>
+                            <RadioButton
+                                android:id="@+id/rbPendingAtBank"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="@dimen/text_size_24dp"
+                                android:buttonTint="@color/very_dark_blue"
+                                android:checked="false"
+                                android:paddingLeft="12dp"
+                                android:text="@string/pending_at_bank_lbl"
+                                android:textColor="@color/very_dark_blue"
+                                android:textSize="@dimen/text_size_16sp" />
 
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                            <RadioButton
+                                android:id="@+id/rbDisbursement"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="@dimen/text_size_24dp"
+                                android:buttonTint="@color/very_dark_blue"
+                                android:checked="false"
+                                android:paddingLeft="12dp"
+                                android:text="@string/disbursement_lbl"
+                                android:textColor="@color/very_dark_blue"
+                                android:textSize="@dimen/text_size_16sp" />
+
+                        </RadioGroup>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
-    </LinearLayout>
+        </LinearLayout>
     </ScrollView>
-
 
 
 </RelativeLayout>

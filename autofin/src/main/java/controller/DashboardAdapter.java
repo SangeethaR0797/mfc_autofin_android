@@ -114,7 +114,8 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
             public void onClick(View v) {
                 Intent intent=new Intent(activity, LeadDetailsActivity.class);
                 Bundle bundle=new Bundle();
-                bundle.putString(CommonStrings.CUSTOMER_ID,holder.tvCaseIDVal.getText().toString());
+                bundle.putInt(CommonStrings.CUSTOMER_ID,customerDataList.get(position).getCustomerId());
+                bundle.putString(CommonStrings.CASE_ID,holder.tvCaseIDVal.getText().toString());
                 bundle.putString(CommonStrings.CNAME,holder.tvCName.getText().toString());
                 bundle.putString(CommonStrings.CEMAIL,holder.tvCEmailId.getText().toString());
                 bundle.putString(CommonStrings.CMOBILE_NUM,holder.tvCMobileNum.getText().toString());

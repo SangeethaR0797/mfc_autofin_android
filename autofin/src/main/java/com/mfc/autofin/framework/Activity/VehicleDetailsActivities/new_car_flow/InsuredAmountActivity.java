@@ -46,7 +46,7 @@ public class InsuredAmountActivity extends AppCompatActivity implements View.OnC
         tvInsuredAmount = findViewById(R.id.tvInsuredAmount);
         etInsuredAmount = findViewById(R.id.etInsuredAmount);
         btnNext = findViewById(R.id.btnNext);
-        iv_vehDetails_back.setOnClickListener(this);
+        iv_vehDetails_back.setVisibility(View.INVISIBLE);
         tvGivenLbl.setText(getResources().getString(R.string.lbl_vehicle_purchase_amount));
         tvGivenPreviousVal.setText(strPurchaseAmount);
         tvGivenValEdit.setOnClickListener(this);
@@ -56,9 +56,10 @@ public class InsuredAmountActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_back) {
+       /* if (v.getId() == R.id.iv_vehDetails_back) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else if (v.getId() == R.id.tvGivenValEdit) {
+        } else */
+        if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
             try {

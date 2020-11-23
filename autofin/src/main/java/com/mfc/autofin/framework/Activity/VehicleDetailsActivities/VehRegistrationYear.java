@@ -95,7 +95,7 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
         tvRegYear = findViewById(R.id.tvRegYear);
         lvVehListView = findViewById(R.id.lvVehListView);
         iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
-
+        iv_vehDetails_backBtn.setVisibility(View.INVISIBLE);
         if(isNewCarFlow)
         {
             tvGivenRegNumLbl.setText("VEHICLE CATEGORY");
@@ -116,9 +116,10 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_back) {
+        /*if (v.getId() == R.id.iv_vehDetails_back) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else if (v.getId() == R.id.tvVehRegNumEdit) {
+        } else */
+        if (v.getId() == R.id.tvVehRegNumEdit) {
             finish();
         } else if (v.getId() == R.id.tvRegYear) {
             SpinnerManager.showSpinner(VehRegistrationYear.this);

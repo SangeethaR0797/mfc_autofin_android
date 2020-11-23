@@ -84,7 +84,7 @@ public class ResidenceTypeActivity extends AppCompatActivity implements View.OnC
         rbHostel = findViewById(R.id.rbHostel);
         rbCompanyProvided = findViewById(R.id.rbCompanyProvided);
         tvGivenPreviousVal.setText(strCResidence);
-        iv_residential_details_backBtn.setOnClickListener(this);
+        iv_residential_details_backBtn.setVisibility(View.INVISIBLE);
         tvGivenValEdit.setOnClickListener(this);
         rbOwnedBySelfOrSpouse.setOnClickListener(this);
         rbOwnedByParent.setOnClickListener(this);
@@ -160,10 +160,10 @@ public class ResidenceTypeActivity extends AppCompatActivity implements View.OnC
 
             CommonMethods.setValueAgainstKey(ResidenceTypeActivity.this,CommonStrings.RESIDENCE_TYPE,text);
             startActivity(new Intent(ResidenceTypeActivity.this, UserDOBActivity.class));
-*/
+
         if (v.getId() == R.id.iv_residential_details_backBtn) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else if (v.getId() == R.id.tvGivenValEdit) {
+        } else */ if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.rbOwnedBySelfOrSpouse) {
             CommonMethods.setValueAgainstKey(ResidenceTypeActivity.this, CommonStrings.RESIDENCE_TYPE, rbOwnedBySelfOrSpouse.getText().toString());

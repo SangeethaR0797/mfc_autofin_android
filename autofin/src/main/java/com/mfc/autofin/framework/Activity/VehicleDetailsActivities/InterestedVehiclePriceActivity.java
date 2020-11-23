@@ -42,7 +42,7 @@ public class InterestedVehiclePriceActivity extends AppCompatActivity implements
         etOnRoadPrice=findViewById(R.id.etOnRoadPrice);
         tvRoadPriceLbl.setTypeface(CustomFonts.getRobotoRegularTF(this));
         tvGivenPreviousVal.setText(CommonStrings.customVehDetails.getVariant());
-        iv_vehDetails_back.setOnClickListener(this);
+        iv_vehDetails_back.setVisibility(View.INVISIBLE);
         tvGivenValEdit.setOnClickListener(this);
         btnNext.setOnClickListener(this);
     }

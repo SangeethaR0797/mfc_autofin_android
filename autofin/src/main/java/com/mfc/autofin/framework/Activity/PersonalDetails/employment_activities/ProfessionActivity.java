@@ -64,17 +64,18 @@ public class ProfessionActivity extends AppCompatActivity implements View.OnClic
         tvGivenValEdit.setOnClickListener(this);
         tvProfessionVal.setOnClickListener(this);
         btnNext.setOnClickListener(this);
-        iv_personal_details_backBtn.setOnClickListener(this);
+        iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
 
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_personal_details_backBtn) {
+        /*if (v.getId() == R.id.iv_personal_details_backBtn) {
             startActivity(new Intent(this, UserDOBActivity.class));
-        } else if (v.getId() == R.id.tvProfessionVal) {
+        } else*/
+        if (v.getId() == R.id.tvProfessionVal) {
             if (professionList != null && professionList.size() > 0) {
-                BSDListItemFragment BSDListItemFragment = new BSDListItemFragment(this, tvProfessionVal, professionList);
+                BSDListItemFragment BSDListItemFragment = new BSDListItemFragment(this, tvProfessionVal, professionList,"SELECT PROFESSION");
                 BSDListItemFragment.show(getSupportFragmentManager(), "Profession List");
             }
         } else if (v.getId() == R.id.tvGivenValEdit) {
