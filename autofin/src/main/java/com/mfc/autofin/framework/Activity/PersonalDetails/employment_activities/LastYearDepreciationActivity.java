@@ -52,6 +52,8 @@ public class LastYearDepreciationActivity extends AppCompatActivity implements V
         etLastYearDepreciation = findViewById(R.id.etLastYearDepreciation);
         belowETYearsOE = findViewById(R.id.belowETYearsOE);
         btnNext = findViewById(R.id.btnNext);
+        tvGivenLbl.setText(strPreviousLbl);
+        tvGivenPreviousVal.setText(strPreviousVal);
         tvGivenValEdit.setOnClickListener(this);
         btnNext.setOnClickListener(this);
     }

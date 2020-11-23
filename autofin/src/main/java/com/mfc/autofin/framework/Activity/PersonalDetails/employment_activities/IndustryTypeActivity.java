@@ -23,6 +23,9 @@ import com.mfc.autofin.framework.R;
 import java.util.List;
 
 import model.personal_details_models.BankNamesRes;
+import model.personal_details_models.IndustryType;
+import model.personal_details_models.IndustryTypeData;
+import model.personal_details_models.IndustryTypeRes;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,7 +44,7 @@ public class IndustryTypeActivity extends AppCompatActivity implements View.OnCl
     private TextView tvIndustryType,tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvSelectedIndustryType;
     private Button btnNext;
     ImageView iv_personal_details_backBtn;
-    private List<String> employerList;
+    private List<String> industryTypeList;
     private Intent intent;
 
     @Override
@@ -72,6 +75,7 @@ public class IndustryTypeActivity extends AppCompatActivity implements View.OnCl
         tvGivenPreviousVal.setText(strPreviousVal);
         llIndustryType.setOnClickListener(this);
         iv_personal_details_backBtn.setOnClickListener(this);
+        tvSelectedIndustryType.setOnClickListener(this);
         tvGivenValEdit.setOnClickListener(this);
         btnNext.setOnClickListener(this);
     }
@@ -82,10 +86,9 @@ public class IndustryTypeActivity extends AppCompatActivity implements View.OnCl
         {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         }
-        else if (v.getId() == R.id.tvEmploymentRoleVal) {
-
+        else if (v.getId() == R.id.tvSelectedIndustryType) {
             SpinnerManager.showSpinner(IndustryTypeActivity.this);
-            retrofitInterface.getFromWeb(CommonStrings.BANK_NAME_URL).enqueue(this);
+            retrofitInterface.getFromWeb(CommonStrings.INDUSTRY_TYPE_URL).enqueue(this);
         }
         else if(v.getId()==R.id.tvGivenValEdit)
         {
@@ -134,17 +137,29 @@ public class IndustryTypeActivity extends AppCompatActivity implements View.OnCl
         Log.i(TAG, "onResponse: "+strRes);
         try
         {
-            BankNamesRes industryNameRes=new Gson().fromJson(strRes,BankNamesRes.class);
-            if(industryNameRes.getStatus() && industryNameRes!=null)
+            IndustryTypeRes industryTypeRes=new Gson().fromJson(strRes,IndustryTypeRes.class);
+            if(industryTypeRes.getStatus() && industryTypeRes!=null)
             {
-                if(industryNameRes.getData()!=null)
+                if(industryTypeRes.getData()!=null)
                 {
-                    employerList=industryNameRes.getData();
-                    new CustomSearchDialog(IndustryTypeActivity.this,employerList,tvSelectedIndustryType).show();
+                    IndustryTypeData industryTypeData=industryTypeRes.getData();
+                    if(industryTypeData.getTypes()!=null)
+                    {
+                        for(IndustryType industryType:industryTypeData.getTypes())
+                        {
+                            industryTypeList.add(industryType.getValue());
+                        }
+                    }
+                    else
+                    {
+                        CommonMethods.showToast(this,"No Industry type found, Please try again!");
+
+                    }
+                    new CustomSearchDialog(IndustryTypeActivity.this,industryTypeList,tvSelectedIndustryType).show();
                 }
                 else
                 {
-                    industryNameRes.getMessage();
+                    CommonMethods.showToast(this,"No Industry type found, Please try again!");
                 }
             }
             else

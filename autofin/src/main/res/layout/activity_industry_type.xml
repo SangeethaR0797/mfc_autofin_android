@@ -27,7 +27,7 @@
                     style="@style/select_lbl_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/lbl_select_bank_name" />
+                    android:text="@string/lbl_industry_type" />
 
                 <LinearLayout
                     android:id="@+id/llIndustryType"
@@ -41,6 +41,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.8"
+                        android:clickable="true"
                         android:hint="@string/hint_industry_type"/>
 
                     <View

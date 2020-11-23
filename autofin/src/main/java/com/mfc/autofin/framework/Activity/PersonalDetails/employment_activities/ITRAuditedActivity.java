@@ -20,12 +20,20 @@ public class ITRAuditedActivity extends AppCompatActivity implements View.OnClic
     private ImageView iv_personal_details_backBtn;
     private TextView tvGivenLbl,tvGivenPreviousVal, tvGivenValEdit,tvIsITRAuditedLbl;
     private Button btnItrAuditedYes,btnItrAuditedNo;
-    private String strJoiningDate = "", strIsITRAudited = "";
+    private String strPreviousLbl,strPreviousVal,strJoiningDate = "", strIsITRAudited = "";
+    private Intent intent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_itr_audited);
+        try {
+            intent = getIntent();
+            strPreviousLbl = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE_LBL);
+            strPreviousVal = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
         initView();
     }
 
@@ -38,6 +46,8 @@ public class ITRAuditedActivity extends AppCompatActivity implements View.OnClic
         tvIsITRAuditedLbl=findViewById(R.id.tvIsITRAuditedLbl);
         btnItrAuditedYes=findViewById(R.id.btnItrAuditedYes);
         btnItrAuditedNo=findViewById(R.id.btnItrAuditedNo);
+        tvGivenLbl.setText(strPreviousLbl);
+        tvGivenPreviousVal.setText(strPreviousVal);
         iv_personal_details_backBtn.setOnClickListener(this);
         tvGivenValEdit.setOnClickListener(this);
         btnItrAuditedYes.setOnClickListener(this);
@@ -57,13 +67,17 @@ public class ITRAuditedActivity extends AppCompatActivity implements View.OnClic
         }
         else if(v.getId()==R.id.btnItrAuditedYes)
         {
-            CommonMethods.setValueAgainstKey(this, CommonStrings.ITR_AUDITERD_OR_NOT, btnItrAuditedYes.getText().toString());
-            startActivity(new Intent(this, CurrentOrganizationActivity.class));
+            Intent intent = new Intent(this, CurrentOrganizationActivity.class);
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL,tvIsITRAuditedLbl.getText().toString());
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE, btnItrAuditedYes.getText().toString());
+            startActivity(intent);
         }
         else if(v.getId()==R.id.btnItrAuditedNo)
         {
-            CommonMethods.setValueAgainstKey(this, CommonStrings.INCOME_AFTER_TAX,  btnItrAuditedNo.getText().toString());
-            startActivity(new Intent(this,CurrentOrganizationActivity.class));
+            Intent intent = new Intent(this, CurrentOrganizationActivity.class);
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL,tvIsITRAuditedLbl.getText().toString() );
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE, btnItrAuditedNo.getText().toString());
+            startActivity(intent);
         }
     }
 }

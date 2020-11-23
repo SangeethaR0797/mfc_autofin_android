@@ -30,20 +30,18 @@ public class EmploymentRole extends AppCompatActivity implements Callback<Object
     TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvEmploymentRoleVal;
     private Button btnNext;
     ImageView iv_personal_details_backBtn;
-    String strEmpType="";
+    String strEmpType="",strPreviousLbl="",strPreviousVal="";
     ArrayList<String> employmentRoleList;
+    private Intent intent;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employment_role);
-        try{
-            if (!CommonMethods.getStringValueFromKey(this, CommonStrings.EMP_TYPE_VAL).equals("")) {
-                strEmpType = CommonMethods.getStringValueFromKey(this, CommonStrings.EMP_TYPE_VAL);
-            } else {
-                strEmpType = "";
-            }
-        }catch(Exception exception)
-        {
+        try {
+            intent = getIntent();
+            strPreviousLbl = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE_LBL);
+            strPreviousVal = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
         employmentRoleList=new ArrayList<>();
@@ -61,8 +59,8 @@ public class EmploymentRole extends AppCompatActivity implements Callback<Object
         tvEmploymentRoleVal=findViewById(R.id.tvEmploymentRoleVal);
         btnNext=findViewById(R.id.btnNext);
         iv_personal_details_backBtn=findViewById(R.id.iv_personal_details_backBtn);
-        tvGivenLbl.setText(getResources().getString(R.string.lbl_employment_type));
-        tvGivenPreviousVal.setText(strEmpType);
+        tvGivenLbl.setText(strPreviousLbl);
+        tvGivenPreviousVal.setText(strPreviousVal);
         tvGivenValEdit.setOnClickListener(this);
         tvEmploymentRoleVal.setOnClickListener(this);
         btnNext.setOnClickListener(this);

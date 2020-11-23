@@ -71,10 +71,10 @@ public class YearOfExperienceActivity extends AppCompatActivity implements View.
             if (!etNOOfYears.getText().toString().isEmpty()) {
                 strYearsOfExperience = etNOOfYears.getText().toString();
                 CommonStrings.cusEmpDetailsModel.setTotalExp(strYearsOfExperience);
-                Intent intent = new Intent(this, BankNamesActivity.class);
+                Intent intent = new Intent(this, SalaryModeActivity.class);
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvYearOfExpLbl.getText().toString());
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE, strYearsOfExperience);
-                startActivity(new Intent(this, SalaryModeActivity.class));
+                startActivity(intent);
             } else {
                 belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.error_red));
                 tvErrorMessage.setVisibility(View.VISIBLE);

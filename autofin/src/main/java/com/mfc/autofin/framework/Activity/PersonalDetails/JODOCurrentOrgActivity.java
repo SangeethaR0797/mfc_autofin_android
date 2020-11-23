@@ -35,9 +35,9 @@ public class JODOCurrentOrgActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_j_o_d_o_current_org);
-        if(!CommonMethods.getStringValueFromKey(this, CommonStrings.CURRENT_ORG_NAME).isEmpty())
+        if(!CommonStrings.cusEmpDetailsModel.getEmpOrgName().isEmpty())
         {
-            strOrgName=CommonMethods.getStringValueFromKey(this, CommonStrings.CURRENT_ORG_NAME);
+            strOrgName=CommonStrings.cusEmpDetailsModel.getEmpOrgName();
         }
             initView();
     }
@@ -85,7 +85,10 @@ public class JODOCurrentOrgActivity extends AppCompatActivity implements View.On
         String monthName = new SimpleDateFormat("MMMM").format(view.getDate());
         strJoiningDate = dayOfMonth + " " + monthName + " " + year;
         tvCurrentOrgJoiningDate.setText(strJoiningDate);
-        CommonMethods.setValueAgainstKey(this,CommonStrings.CURRENT_ORG_JOINING_DATE,dayOfMonth + " " + monthName + " " + year);
-        startActivity(new Intent(this, YearOfExperienceActivity.class));
+        CommonStrings.cusEmpDetailsModel.setOrgJoiningDate(dayOfMonth + " " + monthName + " " + year);
+        Intent intent=new Intent(this, YearOfExperienceActivity.class);
+        intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvJODOCurrentOrgLbl.getText().toString());
+        intent.putExtra(CommonStrings.PREVIOUS_VALUE, strJoiningDate);
+        startActivity(intent);
     }
 }

@@ -24,15 +24,20 @@ public class SalaryModeActivity extends AppCompatActivity implements View.OnClic
     private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit;
     private RadioGroup rgSalMode;
     private RadioButton rbCashSalary, rbChequeSal, rbTransferAndDeposit;
-    private String strYearOfExperience = "";
+    private String strYearOfExperience = "", strPreviousLbl = "", strPreviousVal = "";
     private LinearLayout llBankSelectionInSalMode;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_salary_mode);
-        if (!CommonMethods.getStringValueFromKey(this, CommonStrings.YEARS_OF_EXPERIENCE).equals("")) {
-            strYearOfExperience = CommonMethods.getStringValueFromKey(this, CommonStrings.YEARS_OF_EXPERIENCE);
+        try {
+            intent = getIntent();
+            strPreviousLbl = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE_LBL);
+            strPreviousVal = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
         initView();
     }
@@ -47,9 +52,9 @@ public class SalaryModeActivity extends AppCompatActivity implements View.OnClic
         rbChequeSal = findViewById(R.id.rbChequeSal);
         rbTransferAndDeposit = findViewById(R.id.rbTransferAndDeposit);
         llBankSelectionInSalMode = findViewById(R.id.llBankSelectionInSalMode);
-        tvGivenLbl.setText(getResources().getString(R.string.lbl_year_of_experience));
+        tvGivenLbl.setText(strPreviousLbl);
         iv_personal_details_backBtn.setOnClickListener(this);
-        tvGivenPreviousVal.setText(strYearOfExperience);
+        tvGivenPreviousVal.setText(strPreviousVal);
         tvGivenValEdit.setOnClickListener(this);
         rbCashSalary.setOnClickListener(this);
         rbChequeSal.setOnClickListener(this);
@@ -64,33 +69,37 @@ public class SalaryModeActivity extends AppCompatActivity implements View.OnClic
         } else if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.rbCashSalary) {
-                try{
-                    if (rbCashSalary.isChecked()) {
+            try {
+                if (rbCashSalary.isChecked()) {
 
-                        CommonMethods.setValueAgainstKey(this, CommonStrings.SALARY_MODE, rbCashSalary.getText().toString());
+                    CommonMethods.setValueAgainstKey(this, CommonStrings.SALARY_MODE, rbCashSalary.getText().toString());
                     startActivity(new Intent(this, ReviewActivity.class));
-                    }
+                }
 
-                }catch(Exception exception){exception.printStackTrace();}
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
 
         } else if (v.getId() == R.id.rbChequeSal) {
-            try{  if (rbChequeSal.isChecked()) {
+            try {
+                if (rbChequeSal.isChecked()) {
 
-                CommonMethods.setValueAgainstKey(this, CommonStrings.SALARY_MODE, rbChequeSal.getText().toString());
-                startActivity(new Intent(this, ReviewActivity.class));
-            }
+                    CommonMethods.setValueAgainstKey(this, CommonStrings.SALARY_MODE, rbChequeSal.getText().toString());
+                    startActivity(new Intent(this, ReviewActivity.class));
                 }
-            catch(Exception exception){exception.printStackTrace();}
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
 
         } else if (v.getId() == R.id.rbTransferAndDeposit) {
-            try{
+            try {
                 if (rbTransferAndDeposit.isChecked()) {
-                //llBankSelectionInSalMode.setVisibility(View.VISIBLE);
-
                     CommonMethods.setValueAgainstKey(this, CommonStrings.SALARY_MODE, rbTransferAndDeposit.getText().toString());
                     startActivity(new Intent(this, ReviewActivity.class));
-                }}
-                catch(Exception exception){exception.printStackTrace();}
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
 
 
         }

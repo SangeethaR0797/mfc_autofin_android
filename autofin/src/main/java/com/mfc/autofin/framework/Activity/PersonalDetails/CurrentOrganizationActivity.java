@@ -51,9 +51,6 @@ public class CurrentOrganizationActivity extends AppCompatActivity implements Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_organization);
-        if (!CommonMethods.getStringValueFromKey(this, CommonStrings.NO_OF_EXISTING_LOAN).isEmpty()) {
-            strExistingLoan = CommonMethods.getStringValueFromKey(this, CommonStrings.NO_OF_EXISTING_LOAN);
-        }
         try {
             intent = getIntent();
             strPreviousLbl = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE_LBL);

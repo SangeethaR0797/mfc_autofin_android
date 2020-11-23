@@ -36,7 +36,7 @@ import static retrofit_config.RetroBase.retrofitInterface;
 public class EmploymentTypeActivity extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
 
     private static final String TAG = EmploymentTypeActivity.class.getSimpleName();
-    TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit;
+    TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit,tvEmpTypeLbl;
     LinearLayout llEmpTypeRadioGroup;
     ImageView iv_personal_details_backBtn;
     ViewGroup customEmpTypeRG;
@@ -65,6 +65,7 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
         tvGivenLbl.setText(CommonStrings.PANCARD_LBL);
         llEmpTypeRadioGroup = findViewById(R.id.llEmpTypeRadioGroup);
         tvGivenPreviousVal.setText(strPanCardNo);
+        tvEmpTypeLbl=findViewById(R.id.tvEmpTypeLbl);
         rbSalaried = findViewById(R.id.rbSalaried);
         rbBusinessOwner = findViewById(R.id.rbBusinessOwner);
         rbSelfEmployedProfessional = findViewById(R.id.rbSelfEmployedProfessional);
@@ -91,36 +92,49 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
         } else if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.rbSalaried) {
-            CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbSalaried.getText().toString());
             CommonStrings.cusEmpDetailsModel.setEmpType(rbSalaried.getText().toString());
-            startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
+            Intent intent = new Intent(this, BankNamesActivity.class);
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbSalaried.getText().toString());
+            startActivity(intent);
         } else if (v.getId() == R.id.rbBusinessOwner) {
-            CommonStrings.cusEmpDetailsModel.setEmpType(rbBusinessOwner.getText().toString());
             CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbBusinessOwner.getText().toString());
-            //startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
-            startActivity(new Intent(EmploymentTypeActivity.this, EmploymentRole.class));
+            Intent intent = new Intent(this, EmploymentRole.class);
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbBusinessOwner.getText().toString());
+            startActivity(intent);
         } else if (v.getId() == R.id.rbSelfEmployedProfessional) {
             CommonStrings.cusEmpDetailsModel.setEmpType(rbSelfEmployedProfessional.getText().toString());
-            CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbSelfEmployedProfessional.getText().toString());
-            //startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
-            startActivity(new Intent(EmploymentTypeActivity.this, ProfessionActivity.class));
+            Intent intent = new Intent(this, ProfessionActivity.class);
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbSelfEmployedProfessional.getText().toString());
+            startActivity(intent);
         } else if (v.getId() == R.id.rbIndependentWorker) {
             CommonStrings.cusEmpDetailsModel.setEmpType(rbIndependentWorker.getText().toString());
-            CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbIndependentWorker.getText().toString());
-            startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
+            Intent intent = new Intent(this, BankNamesActivity.class);
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbIndependentWorker.getText().toString());
+            startActivity(intent);
         } else if (v.getId() == R.id.rbStudent) {
             CommonStrings.cusEmpDetailsModel.setEmpType(rbStudent.getText().toString());
             CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbStudent.getText().toString());
-            startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
+            Intent intent = new Intent(this, BankNamesActivity.class);
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbStudent.getText().toString());
+            startActivity(intent);
         } else if (v.getId() == R.id.rbRetired) {
             CommonStrings.cusEmpDetailsModel.setEmpType(rbRetired.getText().toString());
-            CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbRetired.getText().toString());
-            startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
+            Intent intent = new Intent(this, BankNamesActivity.class);
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbRetired.getText().toString());
+            startActivity(intent);
         } else if (v.getId() == R.id.rbHomeMaker) {
             CommonStrings.cusEmpDetailsModel.setEmpType(rbHomeMaker.getText().toString());
             CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbHomeMaker.getText().toString());
-            startActivity(new Intent(EmploymentTypeActivity.this, BankNamesActivity.class));
-        }
+            Intent intent = new Intent(this, BankNamesActivity.class);
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbHomeMaker.getText().toString());
+            startActivity(intent);        }
     }
 
     @Override
