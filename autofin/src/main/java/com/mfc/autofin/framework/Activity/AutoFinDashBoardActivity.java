@@ -187,15 +187,31 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
 
 
         if (v.getId() == R.id.llOpenLeads) {
+            highLightTab(llOpenLeads, tvOpenLeadsCount, tvOpenLeadsLabel);
+            deHighLightTab(llTotalLeads, tvTotalLeadsCount, tvTotalLeadsLabel);
+            deHighLightTab(llBankLeads, tvBankLeadsCount, tvBankLeadsLabel);
+            deHighLightTab(llClosedLeads, tvClosedLeadsCount, tvClosedLeadsLabel);
             retrofitInterface.getFromWeb(getCustomerDetailsReq("Open"), "customer-listing").enqueue(this);
             tvLeadTypeLabel.setText(R.string.lbl_open_leads);
         } else if (v.getId() == R.id.llClosedLeads) {
+            deHighLightTab(llOpenLeads, tvOpenLeadsCount, tvOpenLeadsLabel);
+            deHighLightTab(llTotalLeads, tvTotalLeadsCount, tvTotalLeadsLabel);
+            deHighLightTab(llBankLeads, tvBankLeadsCount, tvBankLeadsLabel);
+            highLightTab(llClosedLeads, tvClosedLeadsCount, tvClosedLeadsLabel);
             retrofitInterface.getFromWeb(getCustomerDetailsReq("RTO"), "customer-listing").enqueue(this);
             tvLeadTypeLabel.setText(R.string.lbl_closed_leads);
         } else if (v.getId() == R.id.llBankLeads) {
+            deHighLightTab(llOpenLeads, tvOpenLeadsCount, tvOpenLeadsLabel);
+            deHighLightTab(llTotalLeads, tvTotalLeadsCount, tvTotalLeadsLabel);
+            highLightTab(llBankLeads, tvBankLeadsCount, tvBankLeadsLabel);
+            deHighLightTab(llClosedLeads, tvClosedLeadsCount, tvClosedLeadsLabel);
             retrofitInterface.getFromWeb(getCustomerDetailsReq("Bank"), "customer-listing").enqueue(this);
             tvLeadTypeLabel.setText(R.string.lbl_bank_leads);
         } else if (v.getId() == R.id.llTotalLeads) {
+            deHighLightTab(llOpenLeads, tvOpenLeadsCount, tvOpenLeadsLabel);
+            highLightTab(llTotalLeads, tvTotalLeadsCount, tvTotalLeadsLabel);
+            deHighLightTab(llBankLeads, tvBankLeadsCount, tvBankLeadsLabel);
+            deHighLightTab(llClosedLeads, tvClosedLeadsCount, tvClosedLeadsLabel);
             retrofitInterface.getFromWeb(getCustomerDetailsReq(""), "customer-listing").enqueue(this);
             tvLeadTypeLabel.setText(R.string.lbl_all_leads);
         } else if (v.getId() == R.id.fab_add_lead) {
@@ -209,6 +225,17 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
 
     }
 
+    private void highLightTab(LinearLayout lLayout, TextView textView, TextView textView1) {
+        lLayout.setBackgroundColor(getResources().getColor(R.color.navy_blue));
+        textView.setTextColor(getResources().getColor(R.color.white));
+        textView1.setTextColor(getResources().getColor(R.color.white));
+    }
+
+    private void deHighLightTab(LinearLayout lLayout, TextView textView, TextView textView1) {
+        lLayout.setBackgroundColor(getResources().getColor(R.color.white));
+        textView.setTextColor(getResources().getColor(R.color.very_dark_blue));
+        textView1.setTextColor(getResources().getColor(R.color.very_dark_blue));
+    }
 
     @Override
     public void onResponse(Call<Object> call, Response<Object> response) {

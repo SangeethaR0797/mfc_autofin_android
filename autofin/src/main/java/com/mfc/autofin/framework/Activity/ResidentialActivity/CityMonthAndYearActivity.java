@@ -26,7 +26,7 @@ import utility.CommonStrings;
 public class CityMonthAndYearActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = CityMonthAndYearActivity.class.getSimpleName();
-    TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvMovedToCity,tvWhenMovedToCityLbl;
+    TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvMovedToCity, tvWhenMovedToCityLbl;
     ImageView iv_residential_details_backBtn;
     LinearLayout llMonthAndYear;
     String strCity = "", strYear = "";
@@ -45,7 +45,7 @@ public class CityMonthAndYearActivity extends AppCompatActivity implements View.
     private void initView() {
         tvGivenLbl = findViewById(R.id.tvGivenLbl);
         tvGivenPreviousVal = findViewById(R.id.tvGivenPreviousVal);
-        tvWhenMovedToCityLbl=findViewById(R.id.tvWhenMovedToCityLbl);
+        tvWhenMovedToCityLbl = findViewById(R.id.tvWhenMovedToCityLbl);
         tvMovedToCity = findViewById(R.id.tvMovedToCity);
         llMonthAndYear = findViewById(R.id.llMonthAndYear);
         tvGivenValEdit = findViewById(R.id.tvGivenValEdit);
@@ -74,9 +74,9 @@ public class CityMonthAndYearActivity extends AppCompatActivity implements View.
     private void showDatePickerDialog() {
         Date todayDate = Calendar.getInstance().getTime();
 
-        @SuppressLint("NewApi") String day = (String) DateFormat.format("dd", todayDate);
-        @SuppressLint("NewApi") String monthNumber = (String) DateFormat.format("MM", todayDate);
-        @SuppressLint("NewApi") String year = (String) DateFormat.format("yyyy", todayDate);
+        String day = (String) DateFormat.format("dd", todayDate);
+        String monthNumber = (String) DateFormat.format("MM", todayDate);
+        String year = (String) DateFormat.format("yyyy", todayDate);
 
         int cMonth = Integer.parseInt(monthNumber), cDay = Integer.parseInt(day), cYear = Integer.parseInt(year);
 
@@ -84,7 +84,6 @@ public class CityMonthAndYearActivity extends AppCompatActivity implements View.
                 AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
                 String monthName = new DateFormatSymbols().getMonths()[month];
                 tvMovedToCity.setText(monthName + " " + year);
                 moveToNextScreen();

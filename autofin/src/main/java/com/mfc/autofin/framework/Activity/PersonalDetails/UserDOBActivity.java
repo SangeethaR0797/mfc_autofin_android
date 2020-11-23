@@ -4,42 +4,51 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
+import com.mfc.autofin.framework.Activity.ResidentialActivity.CityMonthAndYearActivity;
 import com.mfc.autofin.framework.Activity.ResidentialActivity.ResidenceTypeActivity;
 import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.InsuranceTypeActivity;
 import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehInsuranceValidityActivity;
 import com.mfc.autofin.framework.R;
 
+import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import model.residential_models.ResidenceType;
 import utility.CommonMethods;
 import utility.CommonStrings;
 
 @SuppressLint("NewApi")
-public class UserDOBActivity extends AppCompatActivity implements View.OnClickListener, CalendarView.OnDateChangeListener {
+public class UserDOBActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvDOBLbl;
+    TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvDOBLbl, tvDOB;
     LinearLayout llDOBCalendarView;
     ImageView iv_personal_details_backBtn;
+    DatePickerDialog dobDatePicker;
+    DatePicker datePicker;
     CalendarView cvUserDOB;
-    String strResidenceType="";
+    String strResidenceType = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_d_o_b);
-        if(!CommonMethods.getStringValueFromKey(this,CommonStrings.RESIDENCE_TYPE).isEmpty())
-        {
-            strResidenceType=CommonMethods.getStringValueFromKey(this,CommonStrings.RESIDENCE_TYPE);
+        if (!CommonMethods.getStringValueFromKey(this, CommonStrings.RESIDENCE_TYPE).isEmpty()) {
+            strResidenceType = CommonMethods.getStringValueFromKey(this, CommonStrings.RESIDENCE_TYPE);
         }
         initView();
     }
@@ -51,10 +60,9 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
         tvGivenLbl.setText(getResources().getString(R.string.lbl_residence_type).toUpperCase());
         tvDOBLbl = findViewById(R.id.tvDOBLbl);
         tvGivenPreviousVal.setText(strResidenceType);
+        datePicker = findViewById(R.id.dobDatePicker);
         llDOBCalendarView = findViewById(R.id.llDOBCalendarView);
-        cvUserDOB = findViewById(R.id.cvUserDOB);
-        cvUserDOB.setMaxDate(System.currentTimeMillis() - 1000);
-        cvUserDOB.setOnDateChangeListener(this);
+        tvDOB = findViewById(R.id.tvDOB);
         iv_personal_details_backBtn = findViewById(R.id.iv_personal_details_backBtn);
         tvDOBLbl.setOnClickListener(this);
         tvGivenValEdit.setOnClickListener(this);
@@ -68,23 +76,40 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
         } else if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.tvDOBLbl) {
-            llDOBCalendarView.setVisibility(View.VISIBLE);
+            showDatePickerDialog();
         }
     }
 
-    @Override
-    public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-        try
-        {
-        String monthName = new SimpleDateFormat("MMMM").format(view.getDate());
-        String dob = dayOfMonth + "/" + monthName + "/" + year;
-        tvDOBLbl.setText(dob);
-        CommonMethods.setValueAgainstKey(this, CommonStrings.USER_DOB, dayOfMonth + " " + monthName + " " + year);
 
-            Intent intent = new Intent(UserDOBActivity.this, GenderActivity.class);
-            startActivity(intent);
-        }catch (Exception exception)
-        {exception.printStackTrace();}
+    private void showDatePickerDialog() {
+        Date todayDate = Calendar.getInstance().getTime();
 
+        String day = (String) DateFormat.format("dd", todayDate);
+        String monthNumber = (String) DateFormat.format("MM", todayDate);
+        String year = (String) DateFormat.format("yyyy", todayDate);
+
+        int cMonth = Integer.parseInt(monthNumber), cDay = Integer.parseInt(day), cYear = Integer.parseInt(year);
+
+        dobDatePicker = new DatePickerDialog(UserDOBActivity.this, AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+                String monthName = new DateFormatSymbols().getMonths()[month];
+                tvDOB.setText(monthName + " " + year);
+                moveToNextScreen();
+            }
+        }, cYear, cMonth, cDay);
+
+        dobDatePicker.getDatePicker().setMaxDate(System.currentTimeMillis() - 1000);
+        dobDatePicker.show();
     }
+
+
+    private void moveToNextScreen() {
+        CommonMethods.setValueAgainstKey(this, CommonStrings.USER_DOB, tvDOB.getText().toString());
+        Intent intent = new Intent(this, GenderActivity.class);
+        //intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL,tvDOBLbl.getText());
+        //intent.putExtra(CommonStrings.PREVIOUS_VALUE,tvDOB.getText());
+        startActivity(intent);
+    }
+
 }

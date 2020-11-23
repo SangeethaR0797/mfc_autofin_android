@@ -133,13 +133,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/text_size_20dp"
+                    android:orientation="vertical"
                     android:visibility="invisible">
 
-                    <CalendarView
-                        android:id="@+id/cvInsuranceValidity"
-                        android:layout_width="match_parent"
+                    <DatePicker
+                        android:id="@+id/vehInsurancePicker"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:focusedMonthDateColor="@color/grey_color" />
+                        android:calendarViewShown="false"
+                        android:datePickerMode="spinner" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

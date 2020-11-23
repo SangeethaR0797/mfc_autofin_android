@@ -164,4 +164,9 @@
         <item name="android:paddingBottom">@dimen/text_size_30dp</item>
     </style>
 
+    <style name="Custom_Date_Picker" parent="@android:style/Widget.Material.DatePicker" tools:targetApi="lollipop">
+        <item name="android:datePickerMode" tools:targetApi="lollipop">spinner</item>
+        <item name="android:calendarViewShown">false</item>
+    </style>
+
 </resources>
