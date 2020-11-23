@@ -131,7 +131,6 @@ public class IndustryTypeActivity extends AppCompatActivity implements View.OnCl
                         }
                     } else {
                         CommonMethods.showToast(this, "No Industry type found, Please try again!");
-
                     }
                     new CustomSearchDialog(IndustryTypeActivity.this, industryTypeList, tvSelectedIndustryType).show();
                 } else {
