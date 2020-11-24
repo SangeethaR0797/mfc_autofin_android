@@ -45,7 +45,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/text_size_19dp"
-                            android:text="@string/vehicle_insurance_validity" />
+                            android:text="@string/lbl_enter_insurance_amount" />
 
                         <utility.RobotoMedium
                             android:id="@+id/tvGivenInsValidityVal"
@@ -98,7 +98,7 @@
                     android:layout_marginLeft="@dimen/text_size_22dp"
                     android:layout_marginTop="@dimen/text_size_34dp"
                     android:layout_marginRight="@dimen/text_size_19dp"
-                    android:text="@string/vehicle_type"
+                    android:text="@string/vehicle_insurance_type"
                     android:textColor="@color/very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 

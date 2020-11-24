@@ -10,8 +10,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -81,6 +81,41 @@
                         android:layout_marginTop="@dimen/text_size_8dp"
                         android:layout_marginRight="@dimen/text_size_21dp"
                         android:background="@color/very_dark_blue" />
+                    <!--Phone Number-->
+                    <TextView
+                        android:id="@+id/tvPhoneNumLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/text_size_21dp"
+                        android:layout_marginTop="@dimen/text_size_32dp"
+                        android:layout_marginRight="@dimen/text_size_19dp"
+                        android:text="@string/lbl_phone_no"
+                        android:textColor="@color/grey_color"
+                        android:textSize="@dimen/text_size_14dp" />
+
+                    <EditText
+                        android:id="@+id/etPhoneNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/text_size_21dp"
+                        android:layout_marginTop="@dimen/text_size_5dp"
+                        android:layout_marginRight="@dimen/text_size_19dp"
+                        android:background="@android:color/transparent"
+                        android:hint="@string/sample_phone_number"
+                        android:inputType="phone"
+                        android:maxLength="10"
+                        android:singleLine="true"
+                        android:textColor="@color/very_dark_blue"
+                        android:textSize="@dimen/text_size_16sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/text_size_21dp"
+                        android:layout_marginTop="@dimen/text_size_8dp"
+                        android:layout_marginRight="@dimen/text_size_21dp"
+                        android:background="@color/very_dark_blue" />
 
                     <!--Email-->
 
@@ -117,44 +152,9 @@
                         android:layout_marginLeft="@dimen/text_size_21dp"
                         android:layout_marginTop="@dimen/text_size_8dp"
                         android:layout_marginRight="@dimen/text_size_21dp"
-                        android:background="@color/very_dark_blue" />
-
-                    <!--Phone Number-->
-                    <TextView
-                        android:id="@+id/tvPhoneNumLbl"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/text_size_21dp"
-                        android:layout_marginTop="@dimen/text_size_32dp"
-                        android:layout_marginRight="@dimen/text_size_19dp"
-                        android:text="@string/lbl_phone_no"
-                        android:textColor="@color/grey_color"
-                        android:textSize="@dimen/text_size_14dp" />
-
-                    <EditText
-                        android:id="@+id/etPhoneNumber"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/text_size_21dp"
-                        android:layout_marginTop="@dimen/text_size_5dp"
-                        android:layout_marginRight="@dimen/text_size_19dp"
-                        android:background="@android:color/transparent"
-                        android:hint="@string/sample_phone_number"
-                        android:inputType="phone"
-                        android:maxLength="10"
-                        android:singleLine="true"
-                        android:textColor="@color/very_dark_blue"
-                        android:textSize="@dimen/text_size_16sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="@dimen/text_size_21dp"
-                        android:layout_marginTop="@dimen/text_size_8dp"
-                        android:layout_marginRight="@dimen/text_size_21dp"
                         android:layout_marginBottom="@dimen/text_size_48dp"
                         android:background="@color/very_dark_blue" />
+
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

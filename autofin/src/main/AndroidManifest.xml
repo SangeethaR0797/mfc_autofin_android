@@ -23,8 +23,8 @@
     <application
         android:hardwareAccelerated="true"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
         <activity android:name=".Activity.VehicleDetailsActivities.LikelyPurchaseActivity"></activity>
         <activity
             android:name=".Activity.review_activites.ReviewActivity"
@@ -76,9 +76,6 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
             android:name=".Activity.ResidentialActivity.ResidentialCity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-        <activity
-            android:name=".Activity.BasicDetailsActivities.ResidentialCityActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
             android:name=".Activity.BasicDetailsActivities.BasicDetailsActivity"

@@ -78,7 +78,7 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
             CommonMethods.deHighLightButton(VehValidInsuranceActivity.this, btnValidInsurance);
         }
 
-        iv_vehDetails_backBtn.setOnClickListener(this);
+        iv_vehDetails_backBtn.setVisibility(View.INVISIBLE);
         tvGivenVehPostInspectionEdit.setOnClickListener(this);
         btnValidInsurance.setOnClickListener(this);
         btnValidInsuranceNo.setOnClickListener(this);
@@ -108,12 +108,13 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
             } else if (llVehInsuranceAmount.getVisibility() == View.VISIBLE && !etInsuranceAmount.getText().toString().equals("")) {
                 CommonStrings.customVehDetails.setInsurance(true);
                 CommonStrings.customVehDetails.setInsuranceAmount(etInsuranceAmount.getText().toString());
-                Intent intent = new Intent(VehValidInsuranceActivity.this, VehInsuranceValidityActivity.class);
+                Intent intent = new Intent(VehValidInsuranceActivity.this, InsuranceTypeActivity.class);
                 startActivity(intent);
-            } else  {
+            } else {
                 CommonStrings.customVehDetails.setInsurance(false);
                 CommonStrings.customVehDetails.setInsuranceAmount("0");
                 CommonStrings.customVehDetails.setInsuranceType("NA");
+                CommonStrings.customVehDetails.setInsuranceValidity("NA");
                 Intent intent = new Intent(VehValidInsuranceActivity.this, BasicDetailsActivity.class);
                 startActivity(intent);
             }

@@ -56,6 +56,7 @@ public class CurrentResidenceMonthAndYearActivity extends AppCompatActivity impl
         tvGivenPreviousVal = findViewById(R.id.tvGivenPreviousVal);
         tvGivenValEdit = findViewById(R.id.tvGivenValEdit);
         tvMovedToCRes = findViewById(R.id.tvMovedToCRes);
+        tvGivenLbl.setText(getResources().getString(R.string.lbl_when_did_you_moved_to_the_city));
         tvWhenMovedToCurrentCityLbl = findViewById(R.id.tvWhenMovedToCurrentCityLbl);
         llMonthAndYearMovedToCRes = findViewById(R.id.llMonthAndYearMovedToCRes);
         iv_residential_details_backBtn = findViewById(R.id.iv_residential_details_backBtn);

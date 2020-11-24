@@ -10,23 +10,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
-import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
-import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.InsuranceTypeActivity;
-import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehInsuranceValidityActivity;
 import com.mfc.autofin.framework.R;
 
 import java.text.DateFormatSymbols;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import utility.CommonMethods;
 import utility.CommonStrings;
 
 @SuppressLint("NewApi")

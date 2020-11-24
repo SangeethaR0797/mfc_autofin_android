@@ -44,7 +44,7 @@
                         android:drawableRight="@drawable/ic_baseline_calendar_today_24"
                         android:paddingRight="20dp"
                         android:paddingBottom="@dimen/text_size_30dp"
-                        android:text="@string/lbl_when_did_you_moved_to_current_city"
+                        android:text="@string/lbl_when_moved_to_current_residence"
                         android:textColor="@color/very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 

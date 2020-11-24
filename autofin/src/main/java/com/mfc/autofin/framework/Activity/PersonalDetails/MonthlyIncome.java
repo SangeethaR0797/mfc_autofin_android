@@ -18,40 +18,37 @@ import utility.CommonStrings;
 
 public class MonthlyIncome extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView tvGivenLbl,tvGivenPreviousVal,tvGivenValEdit,tvMonthlyIncome,tvErrorMessage;
+    private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvMonthlyIncome, tvErrorMessage;
     ImageView iv_personal_details_backBtn;
     private View belowETView;
-    private String strEducation="",strMonthlyIncome="";
+    private String strEducation = "", strMonthlyIncome = "";
     private EditText etMonthlyIncomeAmount;
     private Button btnNext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monthly_income);
-        if(CommonMethods.getStringValueFromKey(this,CommonStrings.EDUCATION).length()>0)
-        {
-            strEducation= CommonMethods.getStringValueFromKey(this,CommonStrings.EDUCATION);
-        }
-        else
-        {
-            strEducation="";
+        if (CommonMethods.getStringValueFromKey(this, CommonStrings.EDUCATION).length() > 0) {
+            strEducation = CommonMethods.getStringValueFromKey(this, CommonStrings.EDUCATION);
+        } else {
+            strEducation = "";
         }
 
         initView();
     }
 
-    private void initView()
-    {
-        iv_personal_details_backBtn=findViewById(R.id.iv_personal_details_backBtn);
-        tvGivenLbl=findViewById(R.id.tvGivenLbl);
-        tvGivenPreviousVal=findViewById(R.id.tvGivenPreviousVal);
-        tvGivenValEdit=findViewById(R.id.tvGivenValEdit);
-        tvMonthlyIncome=findViewById(R.id.tvMonthlyIncome);
-        etMonthlyIncomeAmount=findViewById(R.id.etMonthlyIncomeAmount);
-        btnNext=findViewById(R.id.btnNext);
-        belowETView=findViewById(R.id.belowETView);
+    private void initView() {
+        iv_personal_details_backBtn = findViewById(R.id.iv_personal_details_backBtn);
+        tvGivenLbl = findViewById(R.id.tvGivenLbl);
+        tvGivenPreviousVal = findViewById(R.id.tvGivenPreviousVal);
+        tvGivenValEdit = findViewById(R.id.tvGivenValEdit);
+        tvMonthlyIncome = findViewById(R.id.tvMonthlyIncome);
+        etMonthlyIncomeAmount = findViewById(R.id.etMonthlyIncomeAmount);
+        btnNext = findViewById(R.id.btnNext);
+        belowETView = findViewById(R.id.belowETView);
         etMonthlyIncomeAmount.setOnClickListener(this);
-        tvErrorMessage=findViewById(R.id.tvErrorMessage);
+        tvErrorMessage = findViewById(R.id.tvErrorMessage);
         tvGivenLbl.setText(getResources().getString(R.string.lbl_education));
         tvGivenPreviousVal.setText(strEducation);
         tvGivenValEdit.setOnClickListener(this);
@@ -66,31 +63,23 @@ public class MonthlyIncome extends AppCompatActivity implements View.OnClickList
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         }
         else*/
-        if(v.getId()==R.id.tvGivenValEdit)
-        {
+        if (v.getId() == R.id.tvGivenValEdit) {
             finish();
-        }
-        else if(v.getId()==R.id.btnNext)
-        {
-            if(!etMonthlyIncomeAmount.getText().toString().equals(""))
-            {
-                strMonthlyIncome=etMonthlyIncomeAmount.getText().toString();
-                CommonMethods.setValueAgainstKey(MonthlyIncome.this,CommonStrings.MONTHLY_INCOME,strMonthlyIncome);
-                startActivity(new Intent(MonthlyIncome.this,LoanRequiredActivity.class));
-            }
-           else
-            {
+        } else if (v.getId() == R.id.btnNext) {
+            if (!etMonthlyIncomeAmount.getText().toString().equals("")) {
+                strMonthlyIncome = etMonthlyIncomeAmount.getText().toString();
+                CommonMethods.setValueAgainstKey(MonthlyIncome.this, CommonStrings.MONTHLY_INCOME, strMonthlyIncome);
+                Intent intent = new Intent(MonthlyIncome.this, NumOFExistingLoanActivity.class);
+                startActivity(intent);
+            } else {
                 belowETView.setBackgroundColor(getResources().getColor(R.color.error_red));
                 tvErrorMessage.setVisibility(View.VISIBLE);
                 tvErrorMessage.setText(getResources().getString(R.string.monthly_income_error_message));
             }
-        }
-        else if(v.getId()==R.id.etMonthlyIncomeAmount)
-        {
+        } else if (v.getId() == R.id.etMonthlyIncomeAmount) {
             belowETView.setBackgroundColor(getResources().getColor(R.color.very_dark_blue));
 
-            if(tvErrorMessage.getVisibility()==View.VISIBLE)
-            {
+            if (tvErrorMessage.getVisibility() == View.VISIBLE) {
                 tvErrorMessage.setVisibility(View.GONE);
             }
         }

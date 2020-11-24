@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
+import com.mfc.autofin.framework.Activity.BasicDetailsActivities.BasicDetailsActivity;
 import com.mfc.autofin.framework.Activity.PersonalDetails.employment_activities.LastYearSalesOrTurnOver;
 import com.mfc.autofin.framework.Activity.PersonalDetails.employment_activities.StartDateOfBusinessOrProfessionActivity;
 import com.mfc.autofin.framework.R;
@@ -38,27 +39,26 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
 
     TextView tvGivenInsurance, tvGivenVehInsuranceVal, tvGivenInsuranceAmountEdit, tvInsuranceValidityLbl, tvInsuranceValidityDate;
     ImageView iv_vehDetails_backBtn;
-    String strInsurance = "", strInsuranceAmount = "", strInsuranceValidity = "";
     Calendar insuranceCal = Calendar.getInstance();
     LinearLayout llCalendarView;
     DatePickerDialog vehInsuranceDate;
     DatePicker vehInsurancePicker;
+    String strInsuranceValidity = "", strInsuranceType = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_insurance);
 
-        if (CommonStrings.customVehDetails.getInsurance()) {
-            strInsurance = "Yes";
-            if (!CommonStrings.customVehDetails.getInsuranceAmount().equals("")) {
-                strInsuranceAmount = CommonStrings.customVehDetails.getInsuranceAmount();
-            } else {
-                strInsurance = "No";
+        if (CommonStrings.customVehDetails != null) {
+            if (CommonStrings.customVehDetails.getInsuranceType() != null) {
+                strInsuranceType = CommonStrings.customVehDetails.getInsuranceType();
             }
         } else {
-            strInsurance = "No";
+            strInsuranceType = "";
         }
+
         if (CommonStrings.stockResData != null) {
             if (CommonStrings.stockResData.getInsuranceValidity() != null) {
                 strInsuranceValidity = CommonStrings.stockResData.getInsurance();
@@ -80,9 +80,9 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
         iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
         llCalendarView = findViewById(R.id.llCalendarView);
         vehInsurancePicker = findViewById(R.id.vehInsurancePicker);
-        tvGivenVehInsuranceVal.setText(strInsurance + " ( " + getString(R.string.rupees_symbol) + " " + strInsuranceAmount + " ) ");
+        tvGivenVehInsuranceVal.setText(strInsuranceType);
         llCalendarView.setOnClickListener(this);
-        iv_vehDetails_backBtn.setOnClickListener(this);
+        iv_vehDetails_backBtn.setVisibility(View.INVISIBLE);
         tvGivenInsuranceAmountEdit.setOnClickListener(this);
         tvInsuranceValidityLbl.setOnClickListener(this);
         tvInsuranceValidityDate.setText(strInsuranceValidity);
@@ -91,9 +91,7 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_back) {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else if (v.getId() == R.id.tvGivenInsuranceAmountEdit) {
+        if (v.getId() == R.id.tvGivenInsuranceAmountEdit) {
             finish();
         } else if (v.getId() == R.id.tvInsuranceValidityLbl) {
             showDatePickerDialog();
@@ -116,7 +114,7 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
                 String insValidityDate = dayOfMonth + " " + monthName + " " + year;
                 tvInsuranceValidityDate.setText(insValidityDate);
                 CommonStrings.customVehDetails.setInsuranceValidity(dayOfMonth + " " + monthName + " " + year);
-                Intent intent = new Intent(VehInsuranceValidityActivity.this, InsuranceTypeActivity.class);
+                Intent intent = new Intent(VehInsuranceValidityActivity.this, BasicDetailsActivity.class);
                 startActivity(intent);
 
             }

@@ -17,19 +17,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
-import com.mfc.autofin.framework.Activity.ResidentialActivity.CityMonthAndYearActivity;
-import com.mfc.autofin.framework.Activity.ResidentialActivity.ResidenceTypeActivity;
-import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.InsuranceTypeActivity;
-import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehInsuranceValidityActivity;
 import com.mfc.autofin.framework.R;
 
 import java.text.DateFormatSymbols;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import model.residential_models.ResidenceType;
 import utility.CommonMethods;
 import utility.CommonStrings;
 
@@ -74,6 +68,7 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         if (v.getId() == R.id.iv_personal_details_backBtn) {
             startActivity(new Intent(UserDOBActivity.this, AutoFinDashBoardActivity.class));
+            CommonMethods.clearData();
         } else if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.tvDOBLbl) {

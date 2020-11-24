@@ -45,7 +45,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/text_size_19dp"
-                            android:text="@string/lbl_enter_insurance_amount" />
+                            android:text="@string/vehicle_insurance_type" />
 
                         <utility.RobotoMedium
                             android:id="@+id/tvGivenVehInsuranceVal"

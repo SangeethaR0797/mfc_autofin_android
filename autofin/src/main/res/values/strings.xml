@@ -70,7 +70,7 @@
     <string name="next_btn_text">NEXT</string>
     <string name="vehicle_insurance_validity">INSURANCE VALIDITY</string>
     <string name="date_format_hint">dd mm yyyy</string>
-    <string name="vehicle_type">INSURANCE TYPE FOR YOUR VEHICLE?</string>
+    <string name="vehicle_insurance_type">INSURANCE TYPE FOR YOUR VEHICLE?</string>
     <string name="comprehensive">Comprehensive</string>
     <string name="third_party">Third party</string>
     <string name="sample_reg_no">Eg: KA 01 BR 1234</string>
@@ -114,7 +114,7 @@
     <string name="lbl_when_did_you_moved_to_the_city">WHEN DID YOU MOVED TO THE CITY?</string>
     <string name="month_year_format_hint"><![CDATA[Year & Month]]></string>
     <string name="lbl_please_select_month_year">PLEASE SELECT MONTH</string>
-    <string name="lbl_when_did_you_moved_to_current_city">WHEN DID YOU MOVED TO CURRENT RESIDENCE?</string>
+    <string name="lbl_when_moved_to_current_residence">WHEN DID YOU MOVED TO CURRENT RESIDENCE?</string>
     <string name="lbl_residence_type">Residence Type</string>
     <string name="lbl_residential_city">RESIDENTIAL CITY</string>
     <string name="lbl_dob">DOB</string>

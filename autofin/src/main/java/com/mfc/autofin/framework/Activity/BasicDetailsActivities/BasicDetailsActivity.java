@@ -57,11 +57,16 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
             }
         } else {
             isNewCarFlow = false;
-            if (CommonStrings.customVehDetails.getInsuranceType() != null) {
-                strPreviousScreenVal = CommonStrings.customVehDetails.getInsuranceType();
+            if (CommonStrings.customVehDetails.getInsurance()) {
+                if (CommonStrings.customVehDetails.getInsuranceType() != null) {
+                    strPreviousScreenVal = CommonStrings.customVehDetails.getInsuranceValidity();
+                } else {
+                    strPreviousScreenVal = "";
+                }
             } else {
-                strPreviousScreenVal = "";
+                strPreviousScreenVal = "No";
             }
+
 
         }
 
@@ -83,7 +88,12 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
         if (isNewCarFlow) {
             tvGivenLbl.setText(getString(R.string.lbl_insured_amount));
         } else {
-            tvGivenLbl.setText(getString(R.string.lbl_insurance_on_vehicle));
+            if (strPreviousScreenVal.equals("No")) {
+                tvGivenLbl.setText(getString(R.string.lbl_insurance_on_vehicle));
+            } else {
+                tvGivenLbl.setText(getString(R.string.vehicle_insurance_validity));
+            }
+
         }
         tvGivenPreviousVal.setText(strPreviousScreenVal);
         tvNameLbl.setTypeface(CustomFonts.getRobotoRegularTF(this));
@@ -113,6 +123,7 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
             }
         } else if (v.getId() == R.id.iv_basic_details_backBtn) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
+            CommonMethods.clearData();
         }
     }
 
@@ -166,7 +177,7 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
 
                 if (otpResponse.getData() != null) {
                     CommonStrings.customBasicDetails.setOtp(otpResponse.getData());
-                    OTPBottomSheetFragment bottomSheetFragment = new OTPBottomSheetFragment(this);
+                    OTPBottomSheetFragment bottomSheetFragment = new OTPBottomSheetFragment(this, etPhoneNumber);
                     bottomSheetFragment.show(getSupportFragmentManager(), "ModalBottomSheet");
                 }
             } else {

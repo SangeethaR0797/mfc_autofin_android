@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,14 +46,16 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
 
     private static final String TAG = OTPBottomSheetFragment.class.getSimpleName();
     TextView tvCMobileNum, tvOTPTimer, tvResendOTPLbl;
-    EditText etOTPVal;
+    EditText etOTPVal, editText;
     ImageView iv_dialog_close;
     Button btnProceed;
     Activity activity;
+    LinearLayout llEditPhoneNum;
     int remainingSecs = 30000;
 
-    public OTPBottomSheetFragment(Activity activity) {
+    public OTPBottomSheetFragment(Activity activity, EditText editText) {
         this.activity = activity;
+        this.editText = editText;
     }
 
     @Override
@@ -60,7 +63,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_o_t_p_bottom_sheet_list_dialog, container, false);
         initView(view);
-        loadTimer(remainingSecs,0);
+        loadTimer(remainingSecs, 0);
         return view;
     }
 
@@ -71,11 +74,13 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
         etOTPVal = view.findViewById(R.id.etOTPVal);
         iv_dialog_close = view.findViewById(R.id.iv_dialog_close);
         btnProceed = view.findViewById(R.id.btnProceed);
+        llEditPhoneNum = view.findViewById(R.id.llEditPhoneNum);
         tvCMobileNum.setText(CommonStrings.customBasicDetails.getCustomerMobile());
         etOTPVal.setText(CommonStrings.customBasicDetails.getOtp());
         tvCMobileNum.setOnClickListener(this);
         tvResendOTPLbl.setOnClickListener(this);
         iv_dialog_close.setOnClickListener(this);
+        llEditPhoneNum.setOnClickListener(this);
         btnProceed.setOnClickListener(this);
 
     }
@@ -85,7 +90,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
 
     }
 
-    public void loadTimer(int remainingSecs,int givenTag) {
+    public void loadTimer(int remainingSecs, int givenTag) {
         new CountDownTimer(remainingSecs, 1000) {
 
             int tag = givenTag;
@@ -104,12 +109,10 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
                     tvOTPTimer.setText("00");
                     CommonStrings.customBasicDetails.setOtp("");
                     //Toast.makeText(activity, "Your OTP expired! Please try again.", Toast.LENGTH_LONG).show();
+                } else {
+                    tvOTPTimer.setText("00");
+                    Log.i(TAG, "onFinish: true");
                 }
-                else
-                    {
-                        tvOTPTimer.setText("00");
-                        Log.i(TAG, "onFinish: true");
-                    }
             }
         }.start();
 
@@ -120,8 +123,9 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
 
         if (v.getId() == R.id.iv_dialog_close) {
             dismiss();
-        } else if (v.getId() == R.id.tvCMobileNum) {
+        } else if (v.getId() == R.id.llEditPhoneNum) {
             CommonStrings.customBasicDetails.setCustomerMobile("");
+            editText.setText("");
             dismiss();
         } else if (v.getId() == R.id.tvResendOTPLbl) {
             if (!CommonStrings.customBasicDetails.getOtp().equals("")) {
@@ -131,7 +135,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
             retrofitInterface.getFromWeb(getOTPRequest(), CommonStrings.OTP_URL_END).enqueue(this);
         } else if (v.getId() == R.id.btnProceed) {
             if (!etOTPVal.getText().toString().equals("") && etOTPVal.getText().toString().equalsIgnoreCase(CommonStrings.customBasicDetails.getOtp())) {
-                loadTimer(1000,1);
+                loadTimer(1000, 1);
                 CommonStrings.customBasicDetails.setOtp(etOTPVal.getText().toString());
                 SpinnerManager.showSpinner(activity);
                 retrofitInterface.getFromWeb(getAddLeadRequest(), CommonStrings.ADD_LEAD_URL_END).enqueue(this);
@@ -184,7 +188,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
             AddLeadResponse addLeadResponse = new Gson().fromJson(strRes, AddLeadResponse.class);
             try {
                 if (addLeadResponse != null && addLeadResponse.getStatus()) {
-                    CommonMethods.setValueAgainstKey(activity,CommonStrings.CUSTOMER_ID,addLeadResponse.getData().toString());
+                    CommonMethods.setValueAgainstKey(activity, CommonStrings.CUSTOMER_ID, addLeadResponse.getData().toString());
                     Toast.makeText(activity, addLeadResponse.getMessage(), Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(activity, ResidentialCity.class);
                     startActivity(intent);

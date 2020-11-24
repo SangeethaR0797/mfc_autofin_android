@@ -17,6 +17,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import model.custom_model.CusEmpDetailsModel;
+import model.custom_model.CustomBasicDetailsModel;
+import model.custom_model.CustomVehDetails;
+import model.residential_models.CityData;
+
 public class CommonMethods {
     public static boolean isInternetWorking(Context context) {
         ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -81,5 +86,12 @@ public class CommonMethods {
 
     public static void showToast(Activity activity, String message) {
         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void clearData() {
+        CommonStrings.customVehDetails = new CustomVehDetails();
+        CommonStrings.customBasicDetails = new CustomBasicDetailsModel();
+        CommonStrings.customCityData = new CityData();
+        CommonStrings.cusEmpDetailsModel = new CusEmpDetailsModel();
     }
 }
