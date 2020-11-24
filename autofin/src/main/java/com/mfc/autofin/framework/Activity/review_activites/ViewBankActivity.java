@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
-import com.mfc.autofin.framework.Activity.bank_offer_activities.InterestedBankOfferDetailsActivity;
+import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.R;
 
 import java.util.ArrayList;
@@ -24,8 +24,6 @@ import model.bank_models.BankListData;
 import model.bank_models.BankListReqData;
 import model.bank_models.BankListResponse;
 import model.bank_models.RecBankListReq;
-import model.bank_models.SelectBankData;
-import model.kyc_model.KYCDocUploadResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,31 +38,30 @@ public class ViewBankActivity extends AppCompatActivity implements View.OnClickL
     private TextView tvMatchingBankLbl, tvCommonAppBarTitle;
     private RecyclerView rvSelectBank;
     private ImageView iv_common_bar_backBtn;
-    private List<BankListData> bankList=new ArrayList<BankListData>();
+    private List<BankListData> bankList = new ArrayList<BankListData>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_bank);
         initView();
-        retrofitInterface.getFromWeb(getBankListReq(),CommonStrings.RECOMMENDED_BANK_URL).enqueue(this);
+        retrofitInterface.getFromWeb(getBankListReq(), CommonStrings.RECOMMENDED_BANK_URL).enqueue(this);
     }
 
-    private Object getBankListReq()
-    {
-        RecBankListReq bankListReq=new RecBankListReq();
-        bankListReq.setUserId(CommonMethods.getStringValueFromKey(this,CommonStrings.DEALER_ID_VAL));
-        bankListReq.setUserType(CommonMethods.getStringValueFromKey(this,CommonStrings.USER_TYPE_VAL));
-        BankListReqData reqData=new BankListReqData();
-        reqData.setCaseId(CommonMethods.getStringValueFromKey(this,CommonStrings.CASE_ID));
+    private Object getBankListReq() {
+        RecBankListReq bankListReq = new RecBankListReq();
+        bankListReq.setUserId(CommonMethods.getStringValueFromKey(this, CommonStrings.DEALER_ID_VAL));
+        bankListReq.setUserType(CommonMethods.getStringValueFromKey(this, CommonStrings.USER_TYPE_VAL));
+        BankListReqData reqData = new BankListReqData();
+        reqData.setCaseId(CommonMethods.getStringValueFromKey(this, CommonStrings.CASE_ID));
         //reqData.setCustomerId("6416");
-        reqData.setCustomerId(CommonMethods.getStringValueFromKey(this,CommonStrings.CUSTOMER_ID));
+        reqData.setCustomerId(CommonMethods.getStringValueFromKey(this, CommonStrings.CUSTOMER_ID));
         bankListReq.setData(reqData);
         return bankListReq;
     }
 
     private void initView() {
-        tvMatchingBankLbl=findViewById(R.id.tvMatchingBankLbl);
+        tvMatchingBankLbl = findViewById(R.id.tvMatchingBankLbl);
         tvCommonAppBarTitle = findViewById(R.id.tvCommonAppBarTitle);
         iv_common_bar_backBtn = findViewById(R.id.iv_common_bar_backBtn);
         rvSelectBank = findViewById(R.id.rvSelectBank);
@@ -73,7 +70,7 @@ public class ViewBankActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void attachToAdapter(List<BankListData> listOfBank) {
-        tvMatchingBankLbl.setText(listOfBank.size()+" "+getResources().getString(R.string.lbl_selected_bank));
+        tvMatchingBankLbl.setText(listOfBank.size() + " " + getResources().getString(R.string.lbl_selected_bank));
         SelectBankAdapter selectBankAdapter = new SelectBankAdapter(ViewBankActivity.this, listOfBank);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rvSelectBank.setLayoutManager(layoutManager);
@@ -83,7 +80,7 @@ public class ViewBankActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_common_bar_backBtn) {
-            finish();
+            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         }
     }
 
@@ -91,29 +88,20 @@ public class ViewBankActivity extends AppCompatActivity implements View.OnClickL
     public void onResponse(Call<Object> call, Response<Object> response) {
         String strRes = new Gson().toJson(response.body());
         Log.i(TAG, "onResponse: " + strRes);
-        BankListResponse bankListResponse=new Gson().fromJson(strRes,BankListResponse.class);
+        BankListResponse bankListResponse = new Gson().fromJson(strRes, BankListResponse.class);
 
-        try
-        {
-            if(bankListResponse!=null && bankListResponse.getStatus())
-            {
-                if(bankListResponse.getData()!=null)
-                {
-                    bankList=bankListResponse.getData();
+        try {
+            if (bankListResponse != null && bankListResponse.getStatus()) {
+                if (bankListResponse.getData() != null) {
+                    bankList = bankListResponse.getData();
                     attachToAdapter(bankList);
+                } else {
+                    CommonMethods.showToast(this, "No Data found");
                 }
-                else
-                {
-                    CommonMethods.showToast(this,"No Data found");
-                }
+            } else {
+                CommonMethods.showToast(this, "No Data found");
             }
-            else
-            {
-                CommonMethods.showToast(this,"No Data found");
-            }
-        }
-        catch(Exception exception)
-        {
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
 
@@ -123,5 +111,10 @@ public class ViewBankActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onFailure(Call<Object> call, Throwable t) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

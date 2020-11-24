@@ -55,29 +55,27 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
     private BasicDetails basicDetailsResList;
     private ResidentialDetails residentialDetailsResList;
     private PersonalDetailsData personalDetailsResList;
-    private boolean flag=false;
+    private boolean flag = false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_details);
-        try{if (getIntent() != null) {
-            intent = getIntent();
-            if (intent.getExtras() != null) {
-                Bundle bundle = intent.getExtras();
-                customerId = bundle.getInt(CUSTOMER_ID);
-                if(customerId!=0)
-                {
-                    flag = true;
-                }
-                else
-                {
-                    flag=false;
+        try {
+            if (getIntent() != null) {
+                intent = getIntent();
+                if (intent.getExtras() != null) {
+                    Bundle bundle = intent.getExtras();
+                    customerId = bundle.getInt(CUSTOMER_ID);
+                    if (customerId != 0) {
+                        flag = true;
+                    } else {
+                        flag = false;
+                    }
                 }
             }
-        }}catch(Exception exception)
-        {
+        } catch (Exception exception) {
             exception.printStackTrace();
             finish();
         }
@@ -85,8 +83,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         userId = CommonMethods.getStringValueFromKey(this, CommonStrings.DEALER_ID_VAL);
         userType = CommonMethods.getStringValueFromKey(this, CommonStrings.USER_TYPE_VAL);
 
-        if(flag)
-        {
+        if (flag) {
             retrofitInterface.getFromWeb(getCustomerDetailsReq(), CUSTOMER_DETAILS_URL).enqueue(this);
         }
 
@@ -131,12 +128,9 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         if (v.getId() == R.id.tvVehDetailsTitle) {
             llEditAndCloseReview.setVisibility(View.VISIBLE);
             rvVehDetails.setVisibility(View.VISIBLE);
-            if(flag)
-            {
+            if (flag) {
                 displayReviewVehRes();
-            }
-            else
-            {
+            } else {
                 if (customVehDetails.getVehCategory().equals(getResources().getString(R.string.new_car))) {
                     displayNewCarVehicleDetails();
                 } else if (customVehDetails.getVehCategory().equals(getResources().getString(R.string.old_car))) {
@@ -163,12 +157,10 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         } else if (v.getId() == R.id.tvBasicDetails) {
             llEditAndCloseReview.setVisibility(View.VISIBLE);
             rvBasicDetails.setVisibility(View.VISIBLE);
-            if(flag)
-            {
+            btnEditReview.setVisibility(View.GONE);
+            if (flag) {
                 displayReviewBasicRes();
-            }
-            else
-            {
+            } else {
                 displayBasicDetails();
             }
 
@@ -176,24 +168,18 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         } else if (v.getId() == R.id.tvResidentialDetails) {
             llEditAndCloseReview.setVisibility(View.VISIBLE);
             rvResidentialDetails.setVisibility(View.VISIBLE);
-            if(flag)
-            {
-                CommonMethods.showToast(ReviewDetailsActivity.this,"Yet to Implement");
-            }
-            else
-            {
+            if (flag) {
+                CommonMethods.showToast(ReviewDetailsActivity.this, "Yet to Implement");
+            } else {
                 displayResidentialDetails();
             }
 
         } else if (v.getId() == R.id.tvPersonalDetails) {
             llEditAndCloseReview.setVisibility(View.VISIBLE);
             rvPersonalDetails.setVisibility(View.VISIBLE);
-            if(flag)
-            {
-                CommonMethods.showToast(ReviewDetailsActivity.this,"Yet to Implement");
-            }
-            else
-            {
+            if (flag) {
+                CommonMethods.showToast(ReviewDetailsActivity.this, "Yet to Implement");
+            } else {
                 displayPersonalDetails();
             }
 
@@ -202,7 +188,8 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
             if (rvPersonalDetails.getVisibility() == View.VISIBLE)
                 startActivity(new Intent(this, VehicleCategory.class));
             else if (rvBasicDetails.getVisibility() == View.VISIBLE)
-                startActivity(new Intent(this, BasicDetailsActivity.class));
+                CommonMethods.showToast(this, "Sorry! you cannot edit Basic details");
+                //startActivity(new Intent(this, BasicDetailsActivity.class));
             else if (rvResidentialDetails.getVisibility() == View.VISIBLE)
                 startActivity(new Intent(this, ResidentialCity.class));
             else if (rvPersonalDetails.getVisibility() == View.VISIBLE)
@@ -386,10 +373,10 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
                         CommonMethods.setValueAgainstKey(this, CommonStrings.CASE_ID, customerDetails.getCaseId());
                         CommonMethods.showToast(this, customerDetails.getCaseId());
                         Log.i(TAG, "onResponse: " + customerDetails.getCaseId());
-                        vehDetailsResList=customerDetails.getVehicleDetails();
-                        basicDetailsResList=customerDetails.getBasicDetails();
-                        residentialDetailsResList=customerDetails.getResidentialDetails();
-                        personalDetailsResList=customerDetails.getPersonalDetails();
+                        vehDetailsResList = customerDetails.getVehicleDetails();
+                        basicDetailsResList = customerDetails.getBasicDetails();
+                        residentialDetailsResList = customerDetails.getResidentialDetails();
+                        personalDetailsResList = customerDetails.getPersonalDetails();
                     } else {
                         CommonMethods.showToast(this, "No Case-Id found");
                     }
@@ -402,8 +389,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    private List<ReviewData> prepareNewReviewDataList()
-    {
+    private List<ReviewData> prepareNewReviewDataList() {
         ArrayList<ReviewData> reviewDataList = new ArrayList<>();
         reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_reg_num_qn), String.valueOf(vehDetailsResList.getHaveVehicleNumber())));
         reviewDataList.add(new ReviewData(CommonStrings.VEH_REG_NO_TITLE, vehDetailsResList.getVehicleNumber()));
@@ -413,15 +399,15 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_variant), vehDetailsResList.getVariant()));
         reviewDataList.add(new ReviewData(getString(R.string.lbl_veh_ownership), String.valueOf(vehDetailsResList.getOwnership())));
         reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_have_loan_qn), String.valueOf(vehDetailsResList.getDoesCarHaveLoan())));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_insurance_on_vehicle),String.valueOf(vehDetailsResList.getInsurance())));
+        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_insurance_on_vehicle), String.valueOf(vehDetailsResList.getInsurance())));
         reviewDataList.add(new ReviewData("INSURANCE AMOUNT", vehDetailsResList.getInsuranceAmount()));
         reviewDataList.add(new ReviewData("INSURANCE VALIDITY", vehDetailsResList.getInsuranceValidity()));
         reviewDataList.add(new ReviewData("INSURANCE TYPE", vehDetailsResList.getInsuranceType()));
         return reviewDataList;
 
     }
-    private List<ReviewData> prepareNewReviewBasicDataList()
-    {
+
+    private List<ReviewData> prepareNewReviewBasicDataList() {
         ArrayList<ReviewData> reviewDataList = new ArrayList<>();
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_name), basicDetailsResList.getFullName()));
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_email), basicDetailsResList.getEmail()));
@@ -429,8 +415,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         return reviewDataList;
     }
 
-    private void displayReviewVehRes()
-    {
+    private void displayReviewVehRes() {
         try {
             ReviewAdapter reviewAdapter = new ReviewAdapter(this, prepareNewReviewDataList(), getResources().getString(R.string.title_basic_details));
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -443,8 +428,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    private void displayReviewBasicRes()
-    {
+    private void displayReviewBasicRes() {
         try {
             ReviewAdapter reviewAdapter = new ReviewAdapter(this, prepareNewReviewBasicDataList(), getResources().getString(R.string.title_basic_details));
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);

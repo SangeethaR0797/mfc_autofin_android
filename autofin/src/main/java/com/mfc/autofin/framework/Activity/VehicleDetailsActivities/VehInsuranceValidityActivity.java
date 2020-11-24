@@ -121,7 +121,7 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
 
             }
         }, cYear, cMonth, cDay);
-        vehInsuranceDate.getDatePicker().setMaxDate(System.currentTimeMillis() - 1000);
+        vehInsuranceDate.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         vehInsuranceDate.show();
     }
 

@@ -14,20 +14,14 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
-import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.InsuranceTypeActivity;
-import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehRegNumAns;
-import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehRegistrationYear;
 import com.mfc.autofin.framework.R;
 
 import fragments.OTPBottomSheetFragment;
 import model.add_lead_details.LoanDetails;
-import model.basic_details.BasicDetails;
 import model.otp_models.CustomerMobile;
 import model.otp_models.OTPRequest;
 import model.otp_models.OTPResponse;
 import model.vehicle_details.vehicle_category.VehicleDetails;
-import model.vehicle_details.vehicle_category.stock_details.StockResponse;
-import model.vehicle_details.vehicle_category.stock_details.StockResponseData;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,7 +40,7 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
     Button btnNext;
     String strPreviousScreenVal = "";
     String strName = "", strEmail = "", strPhoneNum = "";
-    boolean isNewCarFlow=false;
+    boolean isNewCarFlow = false;
     private ImageView iv_basic_details_backBtn;
 
 
@@ -54,21 +48,15 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_details);
-        if(CommonStrings.customVehDetails.getVehCategory().equals(getResources().getString(R.string.new_car)))
-        {
-            isNewCarFlow=true;
-            if(!CommonMethods.getStringValueFromKey(this,CommonStrings.VEH_PURCHASE_AMOUNT).equals(""))
-            {
-                strPreviousScreenVal=CommonMethods.getStringValueFromKey(this,CommonStrings.VEH_INSURED_AMOUNT);
+        if (CommonStrings.customVehDetails.getVehCategory().equals(getResources().getString(R.string.new_car))) {
+            isNewCarFlow = true;
+            if (!CommonMethods.getStringValueFromKey(this, CommonStrings.VEH_PURCHASE_AMOUNT).equals("")) {
+                strPreviousScreenVal = CommonMethods.getStringValueFromKey(this, CommonStrings.VEH_INSURED_AMOUNT);
+            } else {
+                strPreviousScreenVal = "";
             }
-            else
-                {
-                    strPreviousScreenVal="";
-                }
-        }
-        else
-        {
-            isNewCarFlow=false;
+        } else {
+            isNewCarFlow = false;
             if (CommonStrings.customVehDetails.getInsuranceType() != null) {
                 strPreviousScreenVal = CommonStrings.customVehDetails.getInsuranceType();
             } else {
@@ -82,9 +70,9 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
 
     private void initView() {
         iv_basic_details_backBtn = findViewById(R.id.iv_basic_details_backBtn);
-        tvGivenLbl=findViewById(R.id.tvGivenLbl);
-        tvGivenPreviousVal=findViewById(R.id.tvGivenPreviousVal);
-        tvGivenValEdit=findViewById(R.id.tvGivenValEdit);
+        tvGivenLbl = findViewById(R.id.tvGivenLbl);
+        tvGivenPreviousVal = findViewById(R.id.tvGivenPreviousVal);
+        tvGivenValEdit = findViewById(R.id.tvGivenValEdit);
         tvNameLbl = findViewById(R.id.tvNameLbl);
         tvEmailLbl = findViewById(R.id.tvEmailLbl);
         tvPhoneNumLbl = findViewById(R.id.tvPhoneNumLbl);
@@ -92,12 +80,9 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
         etEmailId = findViewById(R.id.etEmailId);
         etPhoneNumber = findViewById(R.id.etPhoneNumber);
         btnNext = findViewById(R.id.btnNext);
-        if(isNewCarFlow)
-        {
+        if (isNewCarFlow) {
             tvGivenLbl.setText(getString(R.string.lbl_insured_amount));
-        }
-        else
-        {
+        } else {
             tvGivenLbl.setText(getString(R.string.lbl_insurance_on_vehicle));
         }
         tvGivenPreviousVal.setText(strPreviousScreenVal);

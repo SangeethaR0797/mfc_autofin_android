@@ -22,7 +22,7 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
 
     TextView tvGivenVehLoan, tvGivenVehLoanVal, tvGivenVehLoanEdit, tvVehValuationPostInspLbl, tvPostInspectionAmountLbl;
     EditText etPostInspectionAmount;
-    Button btnVehPostInspectionYes, btnVehPostInspectionNo, btnNext;
+    Button btnNext;
     LinearLayout llVehPostInspection;
     ImageView iv_vehDetails_backBtn;
     String strDoesCarHaveLoan = "";
@@ -46,16 +46,12 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
         tvVehValuationPostInspLbl = findViewById(R.id.tvVehValuationPostInspLbl);
         tvPostInspectionAmountLbl = findViewById(R.id.tvPostInspectionAmountLbl);
         etPostInspectionAmount = findViewById(R.id.etPostInspectionAmount);
-        btnVehPostInspectionYes = findViewById(R.id.btnVehPostInspectionYes);
-        btnVehPostInspectionNo = findViewById(R.id.btnVehPostInspectionNo);
         btnNext = findViewById(R.id.btnNext);
         llVehPostInspection = findViewById(R.id.llVehPostInspection);
         iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
         tvGivenVehLoanVal.setText(strDoesCarHaveLoan);
         iv_vehDetails_backBtn.setOnClickListener(this);
         tvGivenVehLoanEdit.setOnClickListener(this);
-        btnVehPostInspectionYes.setOnClickListener(this);
-        btnVehPostInspectionNo.setOnClickListener(this);
         btnNext.setOnClickListener(this);
     }
 
@@ -65,33 +61,14 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else if (v.getId() == R.id.tvGivenVehLoanEdit) {
             finish();
-        } else if (v.getId() == R.id.btnVehPostInspectionYes) {
-            CommonMethods.highLightSelectedButton(this, btnVehPostInspectionYes);
-            CommonMethods.deHighLightButton(this, btnVehPostInspectionNo);
-            llVehPostInspection.setVisibility(View.VISIBLE);
-            etPostInspectionAmount.setFocusable(true);
-            etPostInspectionAmount.setEnabled(true);
-        } else if (v.getId() == R.id.btnVehPostInspectionNo) {
-            CommonMethods.highLightSelectedButton(this, btnVehPostInspectionNo);
-            CommonMethods.deHighLightButton(this, btnVehPostInspectionYes);
-            llVehPostInspection.setVisibility(View.GONE);
-            etPostInspectionAmount.setText("");
         } else if (v.getId() == R.id.btnNext) {
-            if (llVehPostInspection.getVisibility() == View.VISIBLE) {
-                if (!etPostInspectionAmount.getText().toString().equals("")) {
-                    //  CommonStrings.customVehDetails.setPostevaluation(btnVehPostInspectionYes.getText().toString() + " (" + getString(R.string.rupees_symbol) + " " + etPostInspectionAmount.getText().toString() + " )");
-                    CommonMethods.setValueAgainstKey(this, "post_inspection_amount", btnVehPostInspectionYes.getText().toString() + " (" + getString(R.string.rupees_symbol) + " " + etPostInspectionAmount.getText().toString() + " )");
-                    Intent intent = new Intent(VehPostInspectionActivity.this, VehValidInsuranceActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(this, "Please enter Post valuation amount", Toast.LENGTH_LONG).show();
-
-                }
-            } else {
-                // CommonStrings.customVehDetails.setPostevaluation(btnVehPostInspectionNo.getText().toString());
-                CommonMethods.setValueAgainstKey(this, "post_inspection_amount", btnVehPostInspectionNo.getText().toString());
+            if (!etPostInspectionAmount.getText().toString().equals("")) {
+                CommonMethods.setValueAgainstKey(this, "post_inspection_amount", getString(R.string.rupees_symbol) + " " + etPostInspectionAmount.getText().toString());
                 Intent intent = new Intent(VehPostInspectionActivity.this, VehValidInsuranceActivity.class);
                 startActivity(intent);
+            } else {
+                Toast.makeText(this, "Please enter Post valuation amount", Toast.LENGTH_LONG).show();
+
             }
         }
     }

@@ -27,6 +27,7 @@ import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import model.residential_models.ResidenceType;
 import utility.CommonMethods;
@@ -82,24 +83,36 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
 
 
     private void showDatePickerDialog() {
-        Date todayDate = Calendar.getInstance().getTime();
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.YEAR, -18);
+        Date todayDate = c.getTime();
 
         String day = (String) DateFormat.format("dd", todayDate);
         String monthNumber = (String) DateFormat.format("MM", todayDate);
         String year = (String) DateFormat.format("yyyy", todayDate);
 
-        int cMonth = Integer.parseInt(monthNumber), cDay = Integer.parseInt(day), cYear = Integer.parseInt(year);
+        int cMonth = Integer.parseInt(monthNumber),
+                cDay = Integer.parseInt(day),
+                cYear = Integer.parseInt(year) - 18;
 
         dobDatePicker = new DatePickerDialog(UserDOBActivity.this, AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
                 String monthName = new DateFormatSymbols().getMonths()[month];
-                tvDOB.setText(monthName + " " + year);
-                moveToNextScreen();
+                Calendar userAge = new GregorianCalendar(year, month, dayOfMonth);
+                Calendar minAdultAge = new GregorianCalendar();
+                minAdultAge.add(Calendar.YEAR, -18);
+                if (minAdultAge.before(userAge)) {
+                    CommonMethods.showToast(UserDOBActivity.this, "Please enter proper Date of Birth");
+                } else {
+                    tvDOB.setText(dayOfMonth + " " + monthName + " " + year);
+                    moveToNextScreen();
+                }
+
             }
         }, cYear, cMonth, cDay);
 
-        dobDatePicker.getDatePicker().setMaxDate(System.currentTimeMillis() - 1000);
+        dobDatePicker.getDatePicker().setMaxDate(c.getTimeInMillis());
         dobDatePicker.show();
     }
 

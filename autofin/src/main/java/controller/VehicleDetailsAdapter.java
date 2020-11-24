@@ -64,7 +64,15 @@ public class VehicleDetailsAdapter extends ArrayAdapter<String> {
         String p = getItem(position);
         TextView tvCustomLV = v.findViewById(R.id.tvCustomLV);
         if (p != null) {
-            tvCustomLV.setText(p);
+            if (!textView.getText().toString().equals("") && textView.getText().toString().equals(p)) {
+                tvCustomLV.setText(p);
+                tvCustomLV.setBackground(activity.getResources().getDrawable(R.drawable.navy_blue_outline));
+                tvCustomLV.setTextColor(activity.getResources().getColor(R.color.navy_blue));
+            } else {
+                tvCustomLV.setBackground(activity.getResources().getDrawable(R.drawable.grey_box_1dp));
+                tvCustomLV.setTextColor(activity.getResources().getColor(R.color.grey_color));
+                tvCustomLV.setText(p);
+            }
         }
 
         tvCustomLV.setOnClickListener(new View.OnClickListener() {
