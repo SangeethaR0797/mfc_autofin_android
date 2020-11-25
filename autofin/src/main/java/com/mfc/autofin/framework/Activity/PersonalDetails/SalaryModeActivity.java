@@ -21,7 +21,7 @@ import utility.CommonStrings;
 public class SalaryModeActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView iv_personal_details_backBtn;
-    private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit;
+    private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit,tvSalaryModeLbl;
     private RadioGroup rgSalMode;
     private RadioButton rbCashSalary, rbChequeSal, rbTransferAndDeposit;
     private String strYearOfExperience = "", strPreviousLbl = "", strPreviousVal = "";
@@ -47,6 +47,7 @@ public class SalaryModeActivity extends AppCompatActivity implements View.OnClic
         tvGivenLbl = findViewById(R.id.tvGivenLbl);
         tvGivenPreviousVal = findViewById(R.id.tvGivenPreviousVal);
         tvGivenValEdit = findViewById(R.id.tvGivenValEdit);
+        tvSalaryModeLbl=findViewById(R.id.tvSalaryModeLbl);
         rgSalMode = findViewById(R.id.rgSalMode);
         rbCashSalary = findViewById(R.id.rbCashSalary);
         rbChequeSal = findViewById(R.id.rbChequeSal);
@@ -74,8 +75,10 @@ public class SalaryModeActivity extends AppCompatActivity implements View.OnClic
                 if (rbCashSalary.isChecked()) {
 
                     CommonMethods.setValueAgainstKey(this, CommonStrings.SALARY_MODE, rbCashSalary.getText().toString());
-                    startActivity(new Intent(this, ReviewActivity.class));
-                }
+                    Intent intent = new Intent(this, PanCardNumberActivity.class);
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvSalaryModeLbl.getText().toString());
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbCashSalary.getText().toString());
+                    startActivity(intent);                }
 
             } catch (Exception exception) {
                 exception.printStackTrace();
@@ -86,7 +89,10 @@ public class SalaryModeActivity extends AppCompatActivity implements View.OnClic
                 if (rbChequeSal.isChecked()) {
 
                     CommonMethods.setValueAgainstKey(this, CommonStrings.SALARY_MODE, rbChequeSal.getText().toString());
-                    startActivity(new Intent(this, ReviewActivity.class));
+                    Intent intent = new Intent(this, PanCardNumberActivity.class);
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvSalaryModeLbl.getText().toString());
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbChequeSal.getText().toString());
+                    startActivity(intent);
                 }
             } catch (Exception exception) {
                 exception.printStackTrace();
@@ -96,7 +102,10 @@ public class SalaryModeActivity extends AppCompatActivity implements View.OnClic
             try {
                 if (rbTransferAndDeposit.isChecked()) {
                     CommonMethods.setValueAgainstKey(this, CommonStrings.SALARY_MODE, rbTransferAndDeposit.getText().toString());
-                    startActivity(new Intent(this, ReviewActivity.class));
+                    Intent intent = new Intent(this, PanCardNumberActivity.class);
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvSalaryModeLbl.getText().toString());
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbTransferAndDeposit.getText().toString());
+                    startActivity(intent);
                 }
             } catch (Exception exception) {
                 exception.printStackTrace();

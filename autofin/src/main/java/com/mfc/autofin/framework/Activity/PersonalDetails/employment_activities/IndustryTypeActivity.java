@@ -15,8 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.gson.Gson;
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.Activity.PersonalDetails.BankNamesActivity;
+import com.mfc.autofin.framework.Activity.PersonalDetails.CurrentOrganizationActivity;
 import com.mfc.autofin.framework.Activity.PersonalDetails.JODOCurrentOrgActivity;
 import com.mfc.autofin.framework.Activity.PersonalDetails.PanCardNumberActivity;
+import com.mfc.autofin.framework.Activity.PersonalDetails.SavingsBankAccountActivity;
 import com.mfc.autofin.framework.Activity.PersonalDetails.YearOfExperienceActivity;
 import com.mfc.autofin.framework.R;
 
@@ -85,7 +87,7 @@ public class IndustryTypeActivity extends AppCompatActivity implements View.OnCl
        /* if (v.getId() == R.id.iv_personal_details_backBtn) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         } else*/
-        if (v.getId() == R.id.tvSelectedIndustryType) {
+        if (v.getId() == R.id.llIndustryType) {
             SpinnerManager.showSpinner(IndustryTypeActivity.this);
             retrofitInterface.getFromWeb(CommonStrings.INDUSTRY_TYPE_URL).enqueue(this);
         } else if (v.getId() == R.id.tvGivenValEdit) {
@@ -93,23 +95,18 @@ public class IndustryTypeActivity extends AppCompatActivity implements View.OnCl
         } else if (v.getId() == R.id.btnNext) {
             if (!tvSelectedIndustryType.getText().toString().equals("")) {
                 CommonStrings.cusEmpDetailsModel.setIndustryType(tvSelectedIndustryType.getText().toString());
-                if (CommonMethods.getStringValueFromKey(this, CommonStrings.EMP_TYPE_VAL).equals(getResources().getString(R.string.lbl_salaried))) {
-                    Intent intent = new Intent(this, YearOfExperienceActivity.class);
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvIndustryType.getText().toString());
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, tvSelectedIndustryType.getText().toString());
-                    startActivity(intent);
-                } else if (CommonMethods.getStringValueFromKey(this, CommonStrings.EMP_TYPE_VAL).equals(getResources().getString(R.string.lbl_student))) {
-                    Intent intent = new Intent(this, BankNamesActivity.class);
+                if (CommonStrings.cusEmpDetailsModel.getEmpType().equalsIgnoreCase(getResources().getString(R.string.lbl_salaried))) {
+                    Log.i(TAG, "onClick: "+CommonStrings.cusEmpDetailsModel.getEmpType().equalsIgnoreCase(getResources().getString(R.string.lbl_salaried)));
+                    Intent intent = new Intent(IndustryTypeActivity.this, SavingsBankAccountActivity.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvIndustryType.getText().toString());
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE, tvSelectedIndustryType.getText().toString());
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(this, PanCardNumberActivity.class);
+                    Intent intent = new Intent(IndustryTypeActivity.this, SavingsBankAccountActivity.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvIndustryType.getText().toString());
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE, tvSelectedIndustryType.getText().toString());
                     startActivity(intent);
                 }
-
 
             } else {
                 CommonMethods.showToast(this, "Please select industry type");
@@ -132,12 +129,10 @@ public class IndustryTypeActivity extends AppCompatActivity implements View.OnCl
                         for (int i = 0; i < industryTypes.size(); i++) {
                             industryTypeList.add(industryTypes.get(i).getValue());
                         }
-                        new CustomSearchDialog(IndustryTypeActivity.this, industryTypeList, tvSelectedIndustryType).show();
-
+                    new CustomSearchDialog(IndustryTypeActivity.this, industryTypeList, tvSelectedIndustryType,"SELECT INDUSTRY TYPE",tvSelectedIndustryType.getText().toString()).show();
                     } else {
                         CommonMethods.showToast(this, "No Industry type found, Please try again!");
                     }
-                    new CustomSearchDialog(IndustryTypeActivity.this, industryTypeList, tvSelectedIndustryType).show();
                 } else {
                     CommonMethods.showToast(this, "No Industry type found, Please try again!");
                 }

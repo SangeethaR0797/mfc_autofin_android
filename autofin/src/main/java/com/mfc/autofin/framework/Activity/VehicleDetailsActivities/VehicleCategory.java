@@ -116,4 +116,5 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
     public void onFailure(Call<Object> call, Throwable t) {
 
     }
+
 }

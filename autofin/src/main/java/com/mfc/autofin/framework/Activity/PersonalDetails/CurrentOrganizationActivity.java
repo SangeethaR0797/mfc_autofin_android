@@ -43,7 +43,7 @@ public class CurrentOrganizationActivity extends AppCompatActivity implements Vi
     private EditText etOrganizationName;
     private Button btnNext;
     private View belowOrgName;
-    private String strPreviousLbl = "", strPreviousVal = "", strExistingLoan = "", strOrgName = "";
+    private String strPreviousLbl = "", strPreviousVal = "", strOnET = "", strOrgName = "";
     private List<String> orgList;
     private Intent intent;
 
@@ -89,9 +89,17 @@ public class CurrentOrganizationActivity extends AppCompatActivity implements Vi
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() == 3) {
-                    SpinnerManager.showSpinner(CurrentOrganizationActivity.this);
-                    retrofitInterface.getFromWeb(CommonStrings.ORG_NAME_LIST_URL).enqueue(CurrentOrganizationActivity.this);
+                    String temp = ""+s;
+                    if (temp.equalsIgnoreCase("mah")) {
+                        strOnET=temp;
+                        SpinnerManager.showSpinner(CurrentOrganizationActivity.this);
+                        retrofitInterface.getFromWeb(CommonStrings.MAHINDRA_FILTER_URL).enqueue(CurrentOrganizationActivity.this);
 
+                    } else {
+                        strOnET=temp;
+                        SpinnerManager.showSpinner(CurrentOrganizationActivity.this);
+                        retrofitInterface.getFromWeb(CommonStrings.ORG_NAME_LIST_URL).enqueue(CurrentOrganizationActivity.this);
+                    }
                 }
             }
         });
@@ -102,19 +110,20 @@ public class CurrentOrganizationActivity extends AppCompatActivity implements Vi
     public void onClick(View v) {
         /*if (v.getId() == R.id.iv_personal_details_backBtn) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else*/ if (v.getId() == R.id.tvGivenValEdit) {
+        } else*/
+        if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
             if (!etOrganizationName.getText().toString().equals("")) {
                 strOrgName = etOrganizationName.getText().toString();
                 CommonStrings.cusEmpDetailsModel.setEmpOrgName(strOrgName);
-                if (CommonMethods.getStringValueFromKey(this, CommonStrings.EMP_TYPE_VAL).equals(getResources().getString(R.string.lbl_salaried))) {
+                if (CommonStrings.cusEmpDetailsModel.getEmpType().equals(getResources().getString(R.string.lbl_salaried))) {
                     Intent intent = new Intent(this, JODOCurrentOrgActivity.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvOrganizationLbl.getText().toString());
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE, strOrgName);
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(this, IndustryTypeActivity.class);
+                    Intent intent = new Intent(this, SavingsBankAccountActivity.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvOrganizationLbl.getText().toString());
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE, strOrgName);
                     startActivity(intent);
@@ -126,6 +135,7 @@ public class CurrentOrganizationActivity extends AppCompatActivity implements Vi
             }
         } else if (v.getId() == R.id.etOrganizationName) {
             if (etOrganizationName.getText().toString().length() > 3) {
+                strOnET=etOrganizationName.getText().toString();
                 SpinnerManager.showSpinner(CurrentOrganizationActivity.this);
                 retrofitInterface.getFromWeb(CommonStrings.ORG_NAME_LIST_URL).enqueue(CurrentOrganizationActivity.this);
             }
@@ -143,7 +153,7 @@ public class CurrentOrganizationActivity extends AppCompatActivity implements Vi
             if (bankNamesRes.getStatus() && bankNamesRes != null) {
                 if (bankNamesRes.getData() != null) {
                     orgList = bankNamesRes.getData();
-                    new CustomOrgDialog(CurrentOrganizationActivity.this, orgList, etOrganizationName).show();
+                    new CustomOrgDialog(CurrentOrganizationActivity.this, orgList, etOrganizationName,strOnET).show();
                 } else {
                     bankNamesRes.getMessage();
                 }

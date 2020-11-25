@@ -11,8 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
+import com.mfc.autofin.framework.Activity.PersonalDetails.employment_activities.IndustryTypeActivity;
 import com.mfc.autofin.framework.R;
 
+import model.personal_details_models.IndustryType;
 import utility.CommonMethods;
 import utility.CommonStrings;
 import utility.CustomFonts;
@@ -24,7 +26,7 @@ public class YearOfExperienceActivity extends AppCompatActivity implements View.
     private EditText etNOOfYears;
     private View belowETYearsOE;
     private Button btnNext;
-    private String strPreviousLbl, strPreviousVal, strJoiningDate = "", strYearsOfExperience = "";
+    private String strPreviousLbl, strPreviousVal, strYearsOfExperience = "";
     private Intent intent;
 
     @Override

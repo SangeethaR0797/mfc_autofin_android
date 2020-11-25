@@ -73,6 +73,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doc_upload);
         initViews();
+
         Callpermissions(DocumentUploadActivity.this);
         mDealerID = CommonMethods.getStringValueFromKey(DocumentUploadActivity.this,CommonStrings.DEALER_ID_VAL);
         mCaseID = CommonMethods.getStringValueFromKey(DocumentUploadActivity.this,CommonStrings.CASE_ID);

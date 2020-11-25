@@ -79,7 +79,7 @@ public class PanCardNumberActivity extends AppCompatActivity implements View.OnC
                 CommonStrings.cusEmpDetailsModel.setPanNum(strPanNumber);
                 if (isPanNumberValid(strPanNumber)) {
                     CommonMethods.setValueAgainstKey(this, CommonStrings.PAN_CARD_NUMBER, strPanNumber);
-                    Intent intent = new Intent(this, ReviewActivity.class);
+                    Intent intent = new Intent(this, LikelyPurchaseActivity.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvPanCardLbl.getText());
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE, strPanNumber);
                     startActivity(intent);

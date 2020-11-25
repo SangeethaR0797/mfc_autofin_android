@@ -1,8 +1,6 @@
 package com.mfc.autofin.framework.Activity.PersonalDetails;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -15,12 +13,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mfc.autofin.framework.Activity.PersonalDetails.employment_activities.IndustryTypeActivity;
 import com.mfc.autofin.framework.R;
 
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.Date;
 
+import model.personal_details_models.IndustryType;
 import utility.CommonStrings;
 
 @SuppressLint("NewApi")
@@ -29,16 +29,21 @@ public class JODOCurrentOrgActivity extends AppCompatActivity implements View.On
 
     private ImageView iv_personal_details_backBtn;
     private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvJODOCurrentOrgLbl, tvCurrentOrgJoiningDate;
-    private String strOrgName = "", strJoiningDate = "";
+    private String strPreviousLbl = "",strPreviousVal="", strJoiningDate = "";
     LinearLayout llJODCalendarView;
     DatePickerDialog jodoCurrentOrg;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_j_o_d_o_current_org);
-        if (!CommonStrings.cusEmpDetailsModel.getEmpOrgName().isEmpty()) {
-            strOrgName = CommonStrings.cusEmpDetailsModel.getEmpOrgName();
+        try {
+            intent = getIntent();
+            strPreviousLbl = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE_LBL);
+            strPreviousVal = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
         initView();
     }
@@ -51,8 +56,8 @@ public class JODOCurrentOrgActivity extends AppCompatActivity implements View.On
         tvCurrentOrgJoiningDate = findViewById(R.id.tvCurrentOrgJoiningDate);
         tvJODOCurrentOrgLbl = findViewById(R.id.tvJODOCurrentOrgLbl);
         llJODCalendarView = findViewById(R.id.llJODCalendarView);
-        tvGivenLbl.setText(getResources().getString(R.string.lbl_working_organization_name));
-        tvGivenPreviousVal.setText(strOrgName);
+        tvGivenLbl.setText(strPreviousLbl);
+        tvGivenPreviousVal.setText(strPreviousLbl);
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         tvGivenValEdit.setOnClickListener(this);
         tvJODOCurrentOrgLbl.setOnClickListener(this);
@@ -88,7 +93,7 @@ public class JODOCurrentOrgActivity extends AppCompatActivity implements View.On
                 strJoiningDate = dayOfMonth + " " + monthName + " " + year;
                 tvCurrentOrgJoiningDate.setText(strJoiningDate);
                 CommonStrings.cusEmpDetailsModel.setOrgJoiningDate(dayOfMonth + " " + monthName + " " + year);
-                Intent intent = new Intent(JODOCurrentOrgActivity.this, YearOfExperienceActivity.class);
+                Intent intent = new Intent(JODOCurrentOrgActivity.this, IndustryTypeActivity.class);
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvJODOCurrentOrgLbl.getText().toString());
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE, strJoiningDate);
                 startActivity(intent);

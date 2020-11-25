@@ -42,16 +42,22 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
     ViewGroup customEmpTypeRG;
     RadioButton rbSalaried, rbBusinessOwner, rbSelfEmployedProfessional, rbIndependentWorker, rbStudent, rbRetired, rbHomeMaker;
     List<EmpTypeList> empTypeList;
-    String strPanCardNo = "";
+    private Intent intent;
+    private String strPreviousLbl="",strPreviousVal="";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employment_type);
-        if (!CommonMethods.getStringValueFromKey(this, CommonStrings.PAN_CARD_NUMBER).equals("")) {
-            strPanCardNo = CommonMethods.getStringValueFromKey(this, CommonStrings.PAN_CARD_NUMBER);
+        try {
+            intent = getIntent();
+            strPreviousLbl = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE_LBL);
+            strPreviousVal = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
+
         retrofitInterface.getFromWeb(CommonStrings.EMP_TYPE_URL).enqueue(this);
         initView();
     }
@@ -62,9 +68,9 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
         tvGivenPreviousVal = findViewById(R.id.tvGivenPreviousVal);
         tvGivenValEdit = findViewById(R.id.tvGivenValEdit);
         customEmpTypeRG = findViewById(R.id.customEmpTypeRG);
-        tvGivenLbl.setText(CommonStrings.PANCARD_LBL);
+        tvGivenLbl.setText(strPreviousLbl);
         llEmpTypeRadioGroup = findViewById(R.id.llEmpTypeRadioGroup);
-        tvGivenPreviousVal.setText(strPanCardNo);
+        tvGivenPreviousVal.setText(strPreviousVal);
         tvEmpTypeLbl=findViewById(R.id.tvEmpTypeLbl);
         rbSalaried = findViewById(R.id.rbSalaried);
         rbBusinessOwner = findViewById(R.id.rbBusinessOwner);
@@ -99,7 +105,8 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
             intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbSalaried.getText().toString());
             startActivity(intent);
         } else if (v.getId() == R.id.rbBusinessOwner) {
-            CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbBusinessOwner.getText().toString());
+            CommonStrings.cusEmpDetailsModel.setEmpType(rbBusinessOwner.getText().toString());
+            Log.i(TAG, "onClick: "+CommonStrings.cusEmpDetailsModel.getEmpType());
             Intent intent = new Intent(this, EmploymentRole.class);
             intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
             intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbBusinessOwner.getText().toString());
@@ -119,20 +126,20 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
         } else if (v.getId() == R.id.rbStudent) {
             CommonStrings.cusEmpDetailsModel.setEmpType(rbStudent.getText().toString());
             CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbStudent.getText().toString());
-            Intent intent = new Intent(this, BankNamesActivity.class);
+            Intent intent = new Intent(this, SavingsBankAccountActivity.class);
             intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
             intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbStudent.getText().toString());
             startActivity(intent);
         } else if (v.getId() == R.id.rbRetired) {
             CommonStrings.cusEmpDetailsModel.setEmpType(rbRetired.getText().toString());
-            Intent intent = new Intent(this, BankNamesActivity.class);
+            Intent intent = new Intent(this, SavingsBankAccountActivity.class);
             intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
             intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbRetired.getText().toString());
             startActivity(intent);
         } else if (v.getId() == R.id.rbHomeMaker) {
             CommonStrings.cusEmpDetailsModel.setEmpType(rbHomeMaker.getText().toString());
             CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbHomeMaker.getText().toString());
-            Intent intent = new Intent(this, BankNamesActivity.class);
+            Intent intent = new Intent(this, SavingsBankAccountActivity.class);
             intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
             intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbHomeMaker.getText().toString());
             startActivity(intent);        }

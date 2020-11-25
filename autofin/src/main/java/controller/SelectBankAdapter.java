@@ -100,9 +100,10 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
 
             @Override
             public void onClick(View v) {
+
             activity.startActivity(new Intent(activity, DocumentUploadActivity.class));
 
-                invokeSelectedBankRequest(bankDetailsList.get(position).getBankId().toString());
+               // invokeSelectedBankRequest(bankDetailsList.get(position).getBankId().toString());
 
             }
         });

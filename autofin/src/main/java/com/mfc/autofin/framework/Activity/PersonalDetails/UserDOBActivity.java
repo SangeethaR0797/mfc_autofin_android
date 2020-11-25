@@ -88,7 +88,7 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
 
         int cMonth = Integer.parseInt(monthNumber),
                 cDay = Integer.parseInt(day),
-                cYear = Integer.parseInt(year) - 18;
+                cYear = Integer.parseInt(year);
 
         dobDatePicker = new DatePickerDialog(UserDOBActivity.this, AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
             @Override

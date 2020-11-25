@@ -33,7 +33,7 @@
                 android:orientation="vertical">
 
                 <utility.RobotoMedium
-                    android:id="@+id/tvVehCategoryQn"
+                    android:id="@+id/tvSalaryModeLbl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/text_size_22dp"

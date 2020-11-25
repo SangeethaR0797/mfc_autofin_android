@@ -24,15 +24,19 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
     private ImageView iv_personal_details_backBtn;
     private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvNumOfExistingLoanLbl;
     private RadioButton rbLoan01, rbLoan02, rbLoan03, rbLoan04,rbLoan05, rbLoan06, rbNoPendingLoan;
-    private String strSelectedBankName = "";
-
+    private Intent intent;
+    private String strPreviousLbl,strPreviousVal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_num_o_f_existing_loan);
-        if (!CommonMethods.getStringValueFromKey(this, CommonStrings.BANK_NAME).isEmpty()) {
-            strSelectedBankName = CommonMethods.getStringValueFromKey(this, CommonStrings.BANK_NAME);
+        try {
+            intent = getIntent();
+            strPreviousLbl = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE_LBL);
+            strPreviousVal = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
         initView();
     }
@@ -50,7 +54,8 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
         rbLoan05=findViewById(R.id.rbLoan05);
         rbLoan06=findViewById(R.id.rbLoan06);
         rbNoPendingLoan=findViewById(R.id.rbNoPendingLoan);
-        tvGivenPreviousVal.setText(strSelectedBankName);
+        tvGivenLbl.setText(strPreviousLbl);
+        tvGivenPreviousVal.setText(strPreviousVal);
         iv_personal_details_backBtn.setOnClickListener(this);
         tvGivenValEdit.setOnClickListener(this);
         rbLoan01.setOnCheckedChangeListener(this);
@@ -160,7 +165,7 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
 
     private void moveToNextPage(String existingLoan) {
         CommonMethods.setValueAgainstKey(this,CommonStrings.NO_OF_EXISTING_LOAN,existingLoan);
-        Intent intent = new Intent(this, CurrentOrganizationActivity.class);
+        Intent intent = new Intent(this, LoanRequiredActivity.class);
         intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvNumOfExistingLoanLbl.getText().toString());
         intent.putExtra(CommonStrings.PREVIOUS_VALUE, existingLoan);
         startActivity(intent);

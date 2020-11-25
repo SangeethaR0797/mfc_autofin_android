@@ -23,16 +23,19 @@ public class LoanRequiredActivity extends AppCompatActivity implements View.OnCl
     private EditText etLoanRequiredAmount;
     private Button btnNext;
     private View belowETViewLoanAmount;
-    private String strMonthlyEMI = "", strLoanAmount = "";
+    private Intent intent;
+    private String strPreviousLbl="",strPreviousVal="",strLoanAmount = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loan_required);
-        if (!CommonMethods.getStringValueFromKey(this, CommonStrings.MONTHLY_EMI).isEmpty()) {
-            strMonthlyEMI = CommonMethods.getStringValueFromKey(this, CommonStrings.MONTHLY_EMI);
-        } else {
-            strMonthlyEMI = "";
+        try {
+            intent = getIntent();
+            strPreviousLbl = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE_LBL);
+            strPreviousVal = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
         initView();
     }
@@ -48,8 +51,8 @@ public class LoanRequiredActivity extends AppCompatActivity implements View.OnCl
         tvErrorMessage = findViewById(R.id.tvErrorMessage);
         belowETViewLoanAmount = findViewById(R.id.belowETViewLoanAmount);
         btnNext = findViewById(R.id.btnNext);
-        tvGivenLbl.setText(getResources().getString(R.string.lbl_total_emi));
-        tvGivenPreviousVal.setText(strMonthlyEMI);
+        tvGivenLbl.setText(strPreviousLbl);
+        tvGivenPreviousVal.setText(strPreviousVal);
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         tvGivenValEdit.setOnClickListener(this);
         etLoanRequiredAmount.setOnClickListener(this);
@@ -68,7 +71,10 @@ public class LoanRequiredActivity extends AppCompatActivity implements View.OnCl
             if (!etLoanRequiredAmount.getText().toString().isEmpty()) {
                 strLoanAmount = etLoanRequiredAmount.getText().toString();
                 CommonMethods.setValueAgainstKey(this, CommonStrings.LOAN_REQUIRED, strLoanAmount);
-                startActivity(new Intent(this, EMIPayPerMonthActivity.class));
+                Intent intent = new Intent(this, EMIPayPerMonthActivity.class);
+                intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLoanRequiredLbl.getText().toString());
+                intent.putExtra(CommonStrings.PREVIOUS_VALUE, strLoanAmount);
+                startActivity(intent);
             } else {
                 tvErrorMessage.setVisibility(View.VISIBLE);
                 tvErrorMessage.setText(getResources().getString(R.string.loan_required_error_message));

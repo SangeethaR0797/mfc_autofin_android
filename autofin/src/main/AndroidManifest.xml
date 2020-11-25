@@ -25,7 +25,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.VehicleDetailsActivities.LikelyPurchaseActivity"></activity>
+        <activity android:name=".Activity.VehicleDetailsActivities.LikelyPurchaseActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
         <activity
             android:name=".Activity.review_activites.ReviewActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
@@ -223,6 +224,11 @@
 
         <activity
             android:name=".Activity.PersonalDetails.employment_activities.EmployerNameActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+
+
+        <activity
+            android:name=".Activity.PersonalDetails.SavingsBankAccountActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
 
 

@@ -98,7 +98,7 @@ public class EmployerNameActivity extends AppCompatActivity implements View.OnCl
                 if(employerNameRes.getData()!=null)
                 {
                     employerList=employerNameRes.getData();
-                    new CustomSearchDialog(EmployerNameActivity.this,employerList,tvSelectedEmployerVal).show();
+                    new CustomSearchDialog(EmployerNameActivity.this,employerList,tvSelectedEmployerVal,"SELECT ORG NAME",tvSelectedEmployerVal.getText().toString()).show();
                 }
                 else
                 {

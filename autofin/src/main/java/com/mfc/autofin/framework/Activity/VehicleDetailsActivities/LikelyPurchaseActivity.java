@@ -41,6 +41,7 @@ public class LikelyPurchaseActivity extends AppCompatActivity implements View.On
     }
 
     private void initView() {
+        tvLikePurchaseTitle=findViewById(R.id.tvLikePurchaseTitle);
         rgLikelyPurchase = findViewById(R.id.rgLikelyPurchase);
         tvGivenLbl = findViewById(R.id.tvGivenLbl);
         tvGivenPreviousVal = findViewById(R.id.tvGivenPreviousVal);
@@ -65,47 +66,28 @@ public class LikelyPurchaseActivity extends AppCompatActivity implements View.On
         } else if (v.getId() == R.id.rbWithinAWeek) {
             if (rbWithinAWeek.isChecked()) {
                 CommonMethods.setValueAgainstKey(this, CommonStrings.LIKELY_PURCHASE_DATE, rbWithinAWeek.getText().toString());
-                if (CommonStrings.cusEmpDetailsModel.getEmpType().equals(getResources().getString(R.string.lbl_salaried))) {
-                    Intent intent = new Intent(LikelyPurchaseActivity.this, SalaryModeActivity.class);
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLikePurchaseTitle.getText().toString());
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbWithinAWeek.getText().toString());
-                    startActivity(intent);
-                } else {
                     Intent intent = new Intent(LikelyPurchaseActivity.this, ReviewActivity.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLikePurchaseTitle.getText().toString());
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbWithinAWeek.getText().toString());
                     startActivity(intent);
-                }
+
             }
         } else if (v.getId() == R.id.rbWithinAMonth) {
-            if (rbWithinAWeek.isChecked()) {
+            if (rbWithinAMonth.isChecked()) {
                 CommonMethods.setValueAgainstKey(this, CommonStrings.LIKELY_PURCHASE_DATE, rbWithinAMonth.getText().toString());
-                if (CommonStrings.cusEmpDetailsModel.getEmpType().equals(getResources().getString(R.string.lbl_salaried))) {
-                    Intent intent = new Intent(LikelyPurchaseActivity.this, SalaryModeActivity.class);
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLikePurchaseTitle.getText().toString());
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbWithinAMonth.getText().toString());
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(LikelyPurchaseActivity.this, ReviewActivity.class);
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLikePurchaseTitle.getText().toString());
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbWithinAMonth.getText().toString());
-                    startActivity(intent);
-                }
+                Intent intent = new Intent(LikelyPurchaseActivity.this, ReviewActivity.class);
+                intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLikePurchaseTitle.getText().toString());
+                intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbWithinAMonth.getText().toString());
+                startActivity(intent);
+
             }
         } else if (v.getId() == R.id.rbAfterAMonth) {
             if (rbAfterAMonth.isChecked()) {
                 CommonMethods.setValueAgainstKey(this, CommonStrings.LIKELY_PURCHASE_DATE, rbAfterAMonth.getText().toString());
-                if (CommonStrings.cusEmpDetailsModel.getEmpType().equals(getResources().getString(R.string.lbl_salaried))) {
-                    Intent intent = new Intent(LikelyPurchaseActivity.this, SalaryModeActivity.class);
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLikePurchaseTitle.getText().toString());
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbAfterAMonth.getText().toString());
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(LikelyPurchaseActivity.this, ReviewActivity.class);
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLikePurchaseTitle.getText().toString());
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbAfterAMonth.getText().toString());
-                    startActivity(intent);
-                }
+                Intent intent = new Intent(LikelyPurchaseActivity.this, ReviewActivity.class);
+                intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLikePurchaseTitle.getText().toString());
+                intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbAfterAMonth.getText().toString());
+                startActivity(intent);
             }
         }
     }

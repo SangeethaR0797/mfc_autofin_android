@@ -18,7 +18,7 @@ import utility.CommonStrings;
 
 public class MonthlyIncome extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvMonthlyIncome, tvErrorMessage;
+    private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit,tvMonthlyIncomeLbl, tvMonthlyIncome, tvErrorMessage;
     ImageView iv_personal_details_backBtn;
     private View belowETView;
     private String strEducation = "", strMonthlyIncome = "";
@@ -43,6 +43,7 @@ public class MonthlyIncome extends AppCompatActivity implements View.OnClickList
         tvGivenLbl = findViewById(R.id.tvGivenLbl);
         tvGivenPreviousVal = findViewById(R.id.tvGivenPreviousVal);
         tvGivenValEdit = findViewById(R.id.tvGivenValEdit);
+        tvMonthlyIncomeLbl=findViewById(R.id.tvMonthlyIncomeLbl);
         tvMonthlyIncome = findViewById(R.id.tvMonthlyIncome);
         etMonthlyIncomeAmount = findViewById(R.id.etMonthlyIncomeAmount);
         btnNext = findViewById(R.id.btnNext);
@@ -69,7 +70,9 @@ public class MonthlyIncome extends AppCompatActivity implements View.OnClickList
             if (!etMonthlyIncomeAmount.getText().toString().equals("")) {
                 strMonthlyIncome = etMonthlyIncomeAmount.getText().toString();
                 CommonMethods.setValueAgainstKey(MonthlyIncome.this, CommonStrings.MONTHLY_INCOME, strMonthlyIncome);
-                Intent intent = new Intent(MonthlyIncome.this, NumOFExistingLoanActivity.class);
+                Intent intent = new Intent(this, NumOFExistingLoanActivity.class);
+                intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvMonthlyIncomeLbl .getText().toString());
+                intent.putExtra(CommonStrings.PREVIOUS_VALUE, strMonthlyIncome);
                 startActivity(intent);
             } else {
                 belowETView.setBackgroundColor(getResources().getColor(R.color.error_red));

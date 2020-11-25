@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import controller.SelectBankAdapter;
+import kyc.DocumentUploadActivity;
 import model.bank_models.BankListData;
 import model.bank_models.BankListReqData;
 import model.bank_models.BankListResponse;
@@ -53,9 +54,10 @@ public class ViewBankActivity extends AppCompatActivity implements View.OnClickL
         bankListReq.setUserId(CommonMethods.getStringValueFromKey(this, CommonStrings.DEALER_ID_VAL));
         bankListReq.setUserType(CommonMethods.getStringValueFromKey(this, CommonStrings.USER_TYPE_VAL));
         BankListReqData reqData = new BankListReqData();
-        reqData.setCaseId(CommonMethods.getStringValueFromKey(this, CommonStrings.CASE_ID));
-        //reqData.setCustomerId("6416");
-        reqData.setCustomerId(CommonMethods.getStringValueFromKey(this, CommonStrings.CUSTOMER_ID));
+        //reqData.setCaseId(CommonMethods.getStringValueFromKey(this, CommonStrings.CASE_ID));
+        reqData.setCustomerId("6416");
+        reqData.setCaseId("0242201118000006");
+        //reqData.setCustomerId(CommonMethods.getStringValueFromKey(this, CommonStrings.CUSTOMER_ID));
         bankListReq.setData(reqData);
         return bankListReq;
     }
@@ -103,6 +105,7 @@ public class ViewBankActivity extends AppCompatActivity implements View.OnClickL
             }
         } catch (Exception exception) {
             exception.printStackTrace();
+            startActivity(new Intent(ViewBankActivity.this, DocumentUploadActivity.class));
         }
 
 
@@ -114,7 +117,5 @@ public class ViewBankActivity extends AppCompatActivity implements View.OnClickL
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
+    public void onBackPressed() { }
 }

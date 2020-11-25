@@ -68,7 +68,8 @@
                         android:maxLength="20"
                         android:singleLine="true"
                         android:textColor="@color/very_dark_blue"
-                        android:textSize="@dimen/text_size_16sp" />
+                        android:imeOptions="actionDone"
+                    android:textSize="@dimen/text_size_16sp" />
 
                     <View
                         android:id="@+id/belowETView"

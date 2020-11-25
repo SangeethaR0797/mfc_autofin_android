@@ -34,7 +34,7 @@ public class CustomOrgDialog extends Dialog implements View.OnClickListener {
     Button btnSelect;
     private String strSelectedValue = "";
 
-    public CustomOrgDialog(Context context, List<String> list, EditText editText) {
+    public CustomOrgDialog(Context context, List<String> list, EditText editText,String searchString) {
         super(context);
 
         setContentView(R.layout.custom_org_name_dialog);
@@ -51,18 +51,25 @@ public class CustomOrgDialog extends Dialog implements View.OnClickListener {
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(lp);
-        etSearchAlertDialog.setHint("Select Organization name");
         adapter = new ArrayAdapter<String>(context, simple_list_item_1, list);
-
         listOfItems = list;
         temporaryList = listOfItems;
         givenEditText = editText;
         etSearchAlertDialog.addTextChangedListener(filterTextWatcher);
+        if(searchString.equals(""))
+        {
+            etSearchAlertDialog.setHint("Select Organization name");
+        }
+        else
+        {
+            etSearchAlertDialog.setText(searchString);
+        }
         alertDialogListView.setAdapter(adapter);
         alertDialogListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 strSelectedValue = "" + alertDialogListView.getItemAtPosition(position);
+                etSearchAlertDialog.setText(strSelectedValue);
             }
         });
         dialog_cancel_btn.setOnClickListener(this);
@@ -84,7 +91,7 @@ public class CustomOrgDialog extends Dialog implements View.OnClickListener {
                 givenEditText.setText(strSelectedValue);
                 dismiss();
             } else {
-                Toast.makeText(context, "Please select any Bank Name", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Please select any one option", Toast.LENGTH_SHORT).show();
             }
         }
     }

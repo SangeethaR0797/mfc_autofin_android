@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Activity.PersonalDetails.BankNamesActivity">
+    android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-    <include layout="@layout/personal_details_app_bar" />
+        <include layout="@layout/personal_details_app_bar" />
 
-    <include layout="@layout/layout_previous_screen_values" />
+        <include layout="@layout/layout_previous_screen_values" />
 
         <androidx.cardview.widget.CardView
             style="@style/veh_details_card_view_2"
@@ -26,27 +24,27 @@
                 android:orientation="vertical">
 
                 <utility.RobotoMedium
-                    android:id="@+id/tvSelectBankNameLbl"
+                    android:id="@+id/tvSavingsBankNameLbl"
                     style="@style/select_lbl_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/lbl_select_bank_name" />
 
                 <LinearLayout
-                    android:id="@+id/llSelectBank"
+                    android:id="@+id/llSelectSavingsBank"
                     style="@style/select_veh_details_ll_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:clickable="true">
+                    android:clickable="true"
+                    android:padding="10dp">
 
                     <TextView
-                        android:id="@+id/tvSelectedBankName"
+                        android:id="@+id/tvSelectSavingsBank"
                         style="@style/veh_details_selected_style"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.8"
-                        android:hint="@string/hint_search_bank"/>
+                        android:hint="@string/hint_search_bank" />
 
                     <View
                         android:layout_width="2px"
@@ -56,7 +54,7 @@
                         android:background="@color/grey_color" />
 
                     <ImageView
-                        android:id="@+id/iv_app_bank_search"
+                        android:id="@+id/iv_app_savings_bank_search"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/text_size25dp"
@@ -84,56 +82,59 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginLeft="@dimen/text_size11dp"
                     android:layout_marginRight="@dimen/text_size11dp"
+                    android:orientation="horizontal"
                     android:weightSum="2">
+
                     <ImageButton
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
                         android:background="@drawable/grey_box_1dp"
-                        app:srcCompat="@drawable/ic_camera"
-                        android:layout_gravity="center"
                         android:padding="@dimen/text_size10dp"
-                        />
+                        app:srcCompat="@drawable/ic_camera" />
+
                     <ImageButton
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/text_size10dp"
                         android:layout_weight="1"
                         android:background="@drawable/grey_box_1dp"
-                        app:srcCompat="@drawable/ic_camera"
-                        android:layout_marginLeft="@dimen/text_size10dp"
-                        android:layout_gravity="center"
-                        android:padding="@dimen/text_size10dp" />
+                        android:padding="@dimen/text_size10dp"
+                        app:srcCompat="@drawable/ic_camera" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/text_size11dp"
                     android:layout_marginLeft="@dimen/text_size11dp"
+                    android:layout_marginTop="@dimen/text_size11dp"
                     android:layout_marginRight="@dimen/text_size11dp"
                     android:layout_marginBottom="200dp"
+                    android:orientation="horizontal"
                     android:weightSum="2">
+
                     <ImageButton
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
                         android:background="@drawable/grey_box_1dp"
-                        app:srcCompat="@drawable/ic_camera"
-                        android:layout_gravity="center"
                         android:padding="@dimen/text_size10dp"
-                        />
+                        app:srcCompat="@drawable/ic_camera" />
+
                     <ImageButton
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/text_size10dp"
                         android:layout_weight="1"
                         android:background="@drawable/grey_box_1dp"
-                        app:srcCompat="@drawable/ic_camera"
-                        android:layout_marginLeft="@dimen/text_size10dp"
-                        android:layout_gravity="center"
-                        android:padding="@dimen/text_size10dp" />
+                        android:padding="@dimen/text_size10dp"
+                        app:srcCompat="@drawable/ic_camera" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

@@ -23,19 +23,19 @@ public class EMIPayPerMonthActivity extends AppCompatActivity implements View.On
     private View belowETViewEMI;
     private ImageView iv_personal_details_backBtn;
     private Button btnNext;
-    String strMonthlyIncome="",strMonthlyEMI="";
+    private Intent intent;
+    private String strPreviousLbl="",strPreviousVal="",strMonthlyEMI="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_e_m_i_pay_per_month);
-        if(!CommonMethods.getStringValueFromKey(this, CommonStrings.MONTHLY_INCOME).isEmpty())
-        {
-            strMonthlyIncome=CommonMethods.getStringValueFromKey(this, CommonStrings.MONTHLY_INCOME);
-        }
-        else
-        {
-            strMonthlyIncome="";
+        try {
+            intent = getIntent();
+            strPreviousLbl = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE_LBL);
+            strPreviousVal = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
         initView();
     }
@@ -52,8 +52,8 @@ public class EMIPayPerMonthActivity extends AppCompatActivity implements View.On
         belowETViewEMI=findViewById(R.id.belowETViewEMI);
         iv_personal_details_backBtn=findViewById(R.id.iv_personal_details_backBtn);
         btnNext=findViewById(R.id.btnNext);
-        tvGivenLbl.setText(getResources().getString(R.string.lbl_monthly_income));
-        tvGivenPreviousVal.setText(strMonthlyIncome);
+        tvGivenLbl.setText(strPreviousLbl);
+        tvGivenPreviousVal.setText(strPreviousVal);
         tvGivenValEdit.setOnClickListener(this);
         etMonthlyEMIAmount.setOnClickListener(this);
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
@@ -77,7 +77,10 @@ public class EMIPayPerMonthActivity extends AppCompatActivity implements View.On
             {
                 strMonthlyEMI=etMonthlyEMIAmount.getText().toString();
                 CommonMethods.setValueAgainstKey(EMIPayPerMonthActivity.this,CommonStrings.MONTHLY_EMI,strMonthlyEMI);
-                startActivity(new Intent(EMIPayPerMonthActivity.this,EmploymentTypeActivity.class));
+                Intent intent = new Intent(this, EmploymentTypeActivity.class);
+                intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvMonthlyEMILbl.getText().toString());
+                intent.putExtra(CommonStrings.PREVIOUS_VALUE, strMonthlyEMI);
+                startActivity(intent);
             }
             else
             {

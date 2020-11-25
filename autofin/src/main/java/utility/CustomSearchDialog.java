@@ -30,14 +30,14 @@ public class CustomSearchDialog extends Dialog implements View.OnClickListener {
     private Context context;
     ArrayAdapter<String> adapter = null;
     List<String> listOfItems, temporaryList;
-    TextView givenTextView, text1;
+    TextView givenTextView, searchTitle;
     ImageView dialog_cancel_btn, iv_custom_search_icon;
     private EditText etSearchAlertDialog;
     private ListView alertDialogListView;
     Button btnSelect;
     private String strSelectedValue = "";
 
-    public CustomSearchDialog(Context context, List<String> list, TextView textView) {
+    public CustomSearchDialog(Context context, List<String> list, TextView textView,String strTitle,String searchString) {
         super(context);
 
         setContentView(R.layout.layout_common_listview_with_search);
@@ -47,6 +47,7 @@ public class CustomSearchDialog extends Dialog implements View.OnClickListener {
         iv_custom_search_icon = findViewById(R.id.iv_custom_search_icon);
         etSearchAlertDialog = findViewById(R.id.etSearchAlertDialog);
         alertDialogListView = findViewById(R.id.alertDialogListView);
+        searchTitle=findViewById(R.id.searchTitle);
         btnSelect = findViewById(R.id.btnSelect);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         Window window = this.getWindow();
@@ -54,18 +55,28 @@ public class CustomSearchDialog extends Dialog implements View.OnClickListener {
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(lp);
+        searchTitle.setText(strTitle);
         adapter = new ArrayAdapter<String>(context, simple_list_item_1, list);
 
         listOfItems = list;
         temporaryList = listOfItems;
         givenTextView = textView;
-        etSearchAlertDialog.setHint("Select Bank");
         etSearchAlertDialog.addTextChangedListener(filterTextWatcher);
+        if(searchString.equals(""))
+        {
+            etSearchAlertDialog.setHint("Search here");
+        }
+        else
+        {
+            etSearchAlertDialog.setText(searchString);
+        }
+
         alertDialogListView.setAdapter(adapter);
         alertDialogListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 strSelectedValue = "" + alertDialogListView.getItemAtPosition(position);
+                etSearchAlertDialog.setText(strSelectedValue);
             }
         });
         dialog_cancel_btn.setOnClickListener(this);
@@ -87,14 +98,15 @@ public class CustomSearchDialog extends Dialog implements View.OnClickListener {
                 givenTextView.setText(strSelectedValue);
                 dismiss();
             } else {
-                Toast.makeText(context, "Please select any Bank Name", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Please select any One Option", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
     private TextWatcher filterTextWatcher = new TextWatcher() {
 
-        public void afterTextChanged(Editable s) {
+        public void afterTextChanged(Editable s)
+        {
         }
 
         public void beforeTextChanged(CharSequence s, int start, int count,
