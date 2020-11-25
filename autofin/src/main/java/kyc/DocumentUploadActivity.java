@@ -225,8 +225,8 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         uploadDocRequest.setUserId(CommonMethods.getStringValueFromKey(this, CommonStrings.DEALER_ID_VAL));
         uploadDocRequest.setUserType(CommonMethods.getStringValueFromKey(this, CommonStrings.USER_TYPE_VAL));
         DocumentData documentData=new DocumentData();
-        documentData.setCustomerId(4281);
-        documentData.setCaseId(CommonMethods.getStringValueFromKey(this, CommonStrings.CASE_ID));
+        documentData.setCaseId(CommonMethods.getStringValueFromKey(DocumentUploadActivity.this, CommonStrings.CASE_ID));
+        documentData.setCustomerId(Integer.parseInt(CommonMethods.getStringValueFromKey(this, CommonStrings.CUSTOMER_ID)));
         documentData.setDocs(documentList);
         uploadDocRequest.setData(documentData);
         return uploadDocRequest;
