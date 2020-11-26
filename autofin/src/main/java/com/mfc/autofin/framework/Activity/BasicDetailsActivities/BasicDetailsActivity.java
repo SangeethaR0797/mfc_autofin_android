@@ -24,6 +24,7 @@ import java.util.List;
 
 import fragments.OTPBottomSheetFragment;
 import model.add_lead_details.LoanDetails;
+import model.basic_details.BasicDetails;
 import model.basic_details.SalutationData;
 import model.basic_details.SalutationResponse;
 import model.basic_details.SalutationType;
@@ -225,7 +226,7 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
                             {
                                 salutationTypeList.add(salTypeList.get(i).getValue());
                             }
-                            adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,salutationTypeList);
+                            adapter = new ArrayAdapter(BasicDetailsActivity.this,android.R.layout.simple_spinner_item,salutationTypeList);
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             spSalutation.setAdapter(adapter);
                         }
@@ -302,11 +303,9 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        spSalutation.setSelection(position);
-        salutation=salutationTypeList.get(position);
-        CommonMethods.showToast(this,salutation);
-        adapter.notifyDataSetChanged();
 
+        salutation=parent.getItemAtPosition(position).toString();
+        CommonMethods.showToast(this,salutation);
     }
 
     @Override

@@ -295,7 +295,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
 
     private List<ReviewData> getBasicDetails() {
         ArrayList<ReviewData> basicDetails = new ArrayList<>();
-        basicDetails.add(new ReviewData(getResources().getString(R.string.lbl_name), customBasicDetails.getFullName()));
+        basicDetails.add(new ReviewData(getResources().getString(R.string.lbl_name), customBasicDetails.getSalutation()+" "+customBasicDetails.getFullName()));
         basicDetails.add(new ReviewData(getResources().getString(R.string.lbl_email), customBasicDetails.getEmail()));
         basicDetails.add(new ReviewData(getResources().getString(R.string.lbl_phone_no), customBasicDetails.getCustomerMobile()));
         //basicDetails.add(new ReviewData(getResources().getString(R.string.otp_lbl), customBasicDetails.getOtp()));
