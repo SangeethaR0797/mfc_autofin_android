@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.mfc.autofin.framework.R;
 
 import model.custom_model.ReviewData;
+import utility.CommonMethods;
 import utility.CommonStrings;
 
 public class ReviewActivity extends AppCompatActivity implements View.OnClickListener {
@@ -92,6 +93,10 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
                 try{
                     startActivity(new Intent(this,DetailsUpdateActivity.class));
                 }catch (Exception exception){exception.printStackTrace();}
+            }
+            else
+            {
+                CommonMethods.showToast(ReviewActivity.this,"Please check Terms and Conditions");
             }
         }
 

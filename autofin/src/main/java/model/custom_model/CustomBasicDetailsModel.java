@@ -16,6 +16,10 @@ public class CustomBasicDetailsModel {
     @SerializedName("otp")
     @Expose
     private String otp;
+    @SerializedName("salutation")
+    @Expose
+    private String salutation;
+
 
     public String getFullName() {
         return fullName;
@@ -47,6 +51,14 @@ public class CustomBasicDetailsModel {
 
     public void setOtp(String otp) {
         this.otp = otp;
+    }
+
+    public String getSalutation() {
+        return salutation;
+    }
+
+    public void setSalutation(String salutation) {
+        this.salutation = salutation;
     }
 
 }

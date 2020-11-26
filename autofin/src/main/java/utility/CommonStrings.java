@@ -84,6 +84,7 @@ public class CommonStrings {
     public static final String PREVIOUS_VALUE = "previous_screen_value";
     public static final String INDUSTRY_TYPE_URL ="https://15.207.148.230:3004/api/masters/industry-type";
     public static final String MAHINDRA_FILTER_URL ="https://15.207.148.230:3004/api/masters/employer/filter-by-name/mahind" ;
+    public static final String GET_SALUTATION_URL = "https://15.207.148.230:3004/api/masters/salutations";
     public static String VEH_CATEGORY_URL = "https://15.207.148.230:3004/api/masters/vehicle-category";
     public static String RES_CITY_URL = "https://15.207.148.230:3004/api/pincode/city/";
     public static String IBB_PASSWORD = "dHk69ffu7ebP";

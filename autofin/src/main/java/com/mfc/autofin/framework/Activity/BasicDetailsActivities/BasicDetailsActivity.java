@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,8 +19,14 @@ import com.google.gson.Gson;
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fragments.OTPBottomSheetFragment;
 import model.add_lead_details.LoanDetails;
+import model.basic_details.SalutationData;
+import model.basic_details.SalutationResponse;
+import model.basic_details.SalutationType;
 import model.otp_models.CustomerMobile;
 import model.otp_models.OTPRequest;
 import model.otp_models.OTPResponse;
@@ -32,7 +41,7 @@ import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
 
-public class BasicDetailsActivity extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
+public class BasicDetailsActivity extends AppCompatActivity implements View.OnClickListener, Callback<Object>, AdapterView.OnItemSelectedListener {
 
     private static final String TAG = BasicDetailsActivity.class.getSimpleName();
     TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvNameLbl, tvEmailLbl, tvPhoneNumLbl;
@@ -40,8 +49,12 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
     Button btnNext;
     String strPreviousScreenVal = "";
     String strName = "", strEmail = "", strPhoneNum = "";
+    private Spinner spSalutation;
     boolean isNewCarFlow = false;
     private ImageView iv_basic_details_backBtn;
+    private List<String> salutationTypeList=new ArrayList<>();
+    String salutation="";
+    ArrayAdapter adapter;
 
 
     @Override
@@ -69,7 +82,7 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
 
 
         }
-
+        retrofitInterface.getFromWeb(CommonStrings.GET_SALUTATION_URL).enqueue(this);
         initView();
     }
 
@@ -81,6 +94,7 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
         tvNameLbl = findViewById(R.id.tvNameLbl);
         tvEmailLbl = findViewById(R.id.tvEmailLbl);
         tvPhoneNumLbl = findViewById(R.id.tvPhoneNumLbl);
+        spSalutation = findViewById(R.id.spSalutation);
         etName = findViewById(R.id.etName);
         etEmailId = findViewById(R.id.etEmailId);
         etPhoneNumber = findViewById(R.id.etPhoneNumber);
@@ -93,7 +107,6 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
             } else {
                 tvGivenLbl.setText(getString(R.string.vehicle_insurance_validity));
             }
-
         }
         tvGivenPreviousVal.setText(strPreviousScreenVal);
         tvNameLbl.setTypeface(CustomFonts.getRobotoRegularTF(this));
@@ -106,6 +119,9 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
         tvGivenValEdit.setOnClickListener(this);
         btnNext.setOnClickListener(this);
         iv_basic_details_backBtn.setOnClickListener(this);
+        spSalutation.setOnItemSelectedListener(this);
+
+
 
     }
 
@@ -118,13 +134,16 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
                 CommonStrings.customBasicDetails.setFullName(strName);
                 CommonStrings.customBasicDetails.setEmail(strEmail);
                 CommonStrings.customBasicDetails.setCustomerMobile(strPhoneNum);
+                CommonStrings.customBasicDetails.setSalutation(salutation);
                 SpinnerManager.showSpinner(this);
                 retrofitInterface.getFromWeb(getOTPRequest(), CommonStrings.OTP_URL_END).enqueue(this);
             }
         } else if (v.getId() == R.id.iv_basic_details_backBtn) {
             startActivity(new Intent(this, AutoFinDashBoardActivity.class));
             CommonMethods.clearData();
-        }
+        } /*else if (v.getId() == R.id.spSalutation) {
+            retrofitInterface.getFromWeb(CommonStrings.GET_SALUTATION_URL).enqueue(this);
+        }*/
     }
 
     private OTPRequest getOTPRequest() {
@@ -168,25 +187,61 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onResponse(Call<Object> call, Response<Object> response) {
         SpinnerManager.hideSpinner(this);
+
+        String url = response.raw().request().url().toString();
+        Log.i(TAG, "onResponse: URL " + url);
+
         String strRes = new Gson().toJson(response.body());
         Log.i(TAG, "onResponse: " + strRes);
+        if (url.contains(CommonStrings.OTP_URL_END)) {
+            OTPResponse otpResponse = new Gson().fromJson(strRes, OTPResponse.class);
+            try {
+                if (otpResponse != null && otpResponse.getStatus().toString().equals("true")) {
 
-        OTPResponse otpResponse = new Gson().fromJson(strRes, OTPResponse.class);
-        try {
-            if (otpResponse != null && otpResponse.getStatus().toString().equals("true")) {
-
-                if (otpResponse.getData() != null) {
-                    CommonStrings.customBasicDetails.setOtp(otpResponse.getData());
-                    OTPBottomSheetFragment bottomSheetFragment = new OTPBottomSheetFragment(this, etPhoneNumber);
-                    bottomSheetFragment.show(getSupportFragmentManager(), "ModalBottomSheet");
+                    if (otpResponse.getData() != null) {
+                        CommonStrings.customBasicDetails.setOtp(otpResponse.getData());
+                        OTPBottomSheetFragment bottomSheetFragment = new OTPBottomSheetFragment(this, etPhoneNumber);
+                        bottomSheetFragment.show(getSupportFragmentManager(), "ModalBottomSheet");
+                    }
+                } else {
+                    Toast.makeText(this, getString(R.string.please_try_again), Toast.LENGTH_LONG).show();
                 }
-            } else {
-                Toast.makeText(this, getString(R.string.please_try_again), Toast.LENGTH_LONG).show();
+            } catch (NullPointerException exception) {
+                exception.printStackTrace();
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
-        } catch (NullPointerException exception) {
-            exception.printStackTrace();
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        } else if (url.contains(CommonStrings.GET_SALUTATION_URL)) {
+            SalutationResponse salRes = new Gson().fromJson(strRes, SalutationResponse.class);
+            try {
+                if (salRes != null && salRes.getStatus()) {
+
+                    if (salRes.getData() != null) {
+                        SalutationData salutationData=salRes.getData();
+                        if(salutationData.getTypes()!=null)
+                        {
+                            List<SalutationType> salTypeList=salutationData.getTypes();
+                            for(int i=0;i<salTypeList.size();i++)
+                            {
+                                salutationTypeList.add(salTypeList.get(i).getValue());
+                            }
+                            adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,salutationTypeList);
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spSalutation.setAdapter(adapter);
+                        }
+                        else
+                        {
+                            Toast.makeText(this, "No Salutation found", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                } else {
+                    Toast.makeText(this, getString(R.string.please_try_again), Toast.LENGTH_LONG).show();
+                }
+            } catch (NullPointerException exception) {
+                exception.printStackTrace();
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
         }
 
 
@@ -243,5 +298,19 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
         LoanDetails loanDetails = new LoanDetails();
         loanDetails.setLoanCategory(CommonStrings.customVehDetails.getVehCategory());
         return loanDetails;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        spSalutation.setSelection(position);
+        salutation=salutationTypeList.get(position);
+        CommonMethods.showToast(this,salutation);
+        adapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

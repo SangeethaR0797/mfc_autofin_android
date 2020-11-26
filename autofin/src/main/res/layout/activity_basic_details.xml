@@ -58,20 +58,36 @@
                         android:textColor="@color/grey_color"
                         android:textSize="@dimen/text_size_14dp" />
 
-                    <EditText
-                        android:id="@+id/etName"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/text_size_21dp"
                         android:layout_marginTop="@dimen/text_size_5dp"
                         android:layout_marginRight="@dimen/text_size_19dp"
-                        android:background="@android:color/transparent"
-                        android:hint="Name"
-                        android:inputType="text"
-                        android:maxLength="50"
-                        android:singleLine="true"
-                        android:textColor="@color/very_dark_blue"
-                        android:textSize="@dimen/text_size_16sp" />
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <Spinner
+                            android:id="@+id/spSalutation"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.2"
+                            android:scrollbarAlwaysDrawVerticalTrack="true" />
+
+                        <EditText
+                            android:id="@+id/etName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.8"
+                            android:background="@android:color/transparent"
+                            android:hint="Name"
+                            android:inputType="text"
+                            android:maxLength="50"
+                            android:singleLine="true"
+                            android:textColor="@color/very_dark_blue"
+                            android:textSize="@dimen/text_size_16sp" />
+                    </LinearLayout>
+
 
                     <View
                         android:layout_width="match_parent"

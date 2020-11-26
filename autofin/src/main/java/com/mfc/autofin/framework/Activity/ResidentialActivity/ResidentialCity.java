@@ -40,7 +40,7 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_residential_city2);
         if (CommonStrings.customBasicDetails.getOtp() != "") {
-            basicDetailsVal = CommonStrings.customBasicDetails.getFullName() + " | " + CommonStrings.customBasicDetails.getEmail() + " | " + CommonStrings.customBasicDetails.getCustomerMobile();
+            basicDetailsVal = CommonStrings.customBasicDetails.getSalutation()+" "+CommonStrings.customBasicDetails.getFullName() + " | " + CommonStrings.customBasicDetails.getEmail() + " | " + CommonStrings.customBasicDetails.getCustomerMobile();
         }
         initViews();
     }

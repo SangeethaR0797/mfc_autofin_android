@@ -56,7 +56,6 @@ public class CaptureImage {
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
                     activity.startActivityForResult(intent, requestCode);
                     activity.overridePendingTransition(0, 0);
-
                     cameraRequirement(intent, fileUri, activity);
                 }
 

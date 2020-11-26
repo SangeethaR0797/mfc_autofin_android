@@ -52,7 +52,7 @@ import static retrofit_config.RetroBase.retrofitInterface;
 
 public class DocumentUploadActivity extends AppCompatActivity implements View.OnClickListener, ImageUploadCompleted, Callback<Object> {
 
-    private static final String TAG =DocumentUploadActivity.class.getSimpleName();
+    private static final String TAG = DocumentUploadActivity.class.getSimpleName();
     private LinearLayout llPhotoIDProof, llPanCard, llAadharCard, llVoterIdCard, llPassport, llResidenceProof, llRentAgreement, llElectricityBill, llResAadharCard, llBankDocs, llBankStatement, llSalarySlip, llForm16, llITR;
     private TextView tvSkipPhotoIdProof, tvPanCardURL, tvAadharCardURL, tvVoterIdURL, tvPassportURL, tvSkipResidenceProof, tvRentAgreementURL, tvElectricityBillURL, tvResAadharURL, tvBankStatementURL, tvSalarySlipURL, tvForm16URL, tvITRURL;
     private CheckBox cbSkipBankDocs, cbUploadDocsAgreeTAndC;
@@ -65,8 +65,8 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
     private File file;
     private Uri fileUri;
-    private List<Doc> documentList=new ArrayList<>();
-    private String mDealerID,mCaseID;
+    private List<Doc> documentList = new ArrayList<>();
+    private String mDealerID, mCaseID;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,8 +75,8 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         initViews();
 
         Callpermissions(DocumentUploadActivity.this);
-        mDealerID = CommonMethods.getStringValueFromKey(DocumentUploadActivity.this,CommonStrings.DEALER_ID_VAL);
-        mCaseID = CommonMethods.getStringValueFromKey(DocumentUploadActivity.this,CommonStrings.CASE_ID);
+        mDealerID = CommonMethods.getStringValueFromKey(DocumentUploadActivity.this, CommonStrings.DEALER_ID_VAL);
+        mCaseID = CommonMethods.getStringValueFromKey(DocumentUploadActivity.this, CommonStrings.CASE_ID);
 
     }
 
@@ -205,26 +205,21 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         } else if (v.getId() == R.id.cbUploadDocsAgreeTAndC) {
             if (cbUploadDocsAgreeTAndC.isChecked()) {
             }
-        } else if (v.getId() == R.id.btnUpdateDoc)
-        {
-            if(documentList.size()>0 && cbUploadDocsAgreeTAndC.isChecked())
-            {
+        } else if (v.getId() == R.id.btnUpdateDoc) {
+            if (documentList.size() > 0 && cbUploadDocsAgreeTAndC.isChecked()) {
                 SpinnerManager.showSpinner(this);
                 retrofitInterface.getFromWeb(getUploadKYCRequest(), CommonStrings.UPLOAD_KYC_DOC_URL).enqueue(this);
-            }
-            else
-            {
-                CommonMethods.showToast(this,"Please select image and check T&C");
+            } else {
+                CommonMethods.showToast(this, "Please select image and check T&C");
             }
         }
     }
 
-    private UploadDocRequest getUploadKYCRequest()
-    {
-        UploadDocRequest uploadDocRequest=new UploadDocRequest();
+    private UploadDocRequest getUploadKYCRequest() {
+        UploadDocRequest uploadDocRequest = new UploadDocRequest();
         uploadDocRequest.setUserId(CommonMethods.getStringValueFromKey(this, CommonStrings.DEALER_ID_VAL));
         uploadDocRequest.setUserType(CommonMethods.getStringValueFromKey(this, CommonStrings.USER_TYPE_VAL));
-        DocumentData documentData=new DocumentData();
+        DocumentData documentData = new DocumentData();
         documentData.setCaseId(CommonMethods.getStringValueFromKey(DocumentUploadActivity.this, CommonStrings.CASE_ID));
         documentData.setCustomerId(Integer.parseInt(CommonMethods.getStringValueFromKey(this, CommonStrings.CUSTOMER_ID)));
         documentData.setDocs(documentList);
@@ -260,7 +255,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                         e.printStackTrace();
                     }
 
-                    new ImageUploadTask(DocumentUploadActivity.this, file.getPath(), mDealerID+"/"+mCaseID, "PAN", requestCode, this).execute();
+                    new ImageUploadTask(DocumentUploadActivity.this, file.getPath(), mDealerID + "/" + mCaseID, getImageName(requestCode), requestCode, this).execute();
 
 
                 } catch (Exception e) {
@@ -277,9 +272,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        new ImageUploadTask(DocumentUploadActivity.this, captureImage.file.getPath(), mDealerID+"/"+mCaseID, "PAN", requestCode, this).execute();
-
-
+                        new ImageUploadTask(DocumentUploadActivity.this, captureImage.file.getPath(), mDealerID + "/" + mCaseID, getImageName(requestCode), requestCode, this).execute();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -290,6 +283,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
         }
     }
+
 
     public boolean checkPermissions(Context context) {
 
@@ -319,96 +313,118 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onImageUploadCompleted(String imageURL, int statusCode) {
-        Log.e("Image received", "Image received " + imageURL+" Status Code "+statusCode);
+        Log.e("Image received", "Image received " + imageURL + " Status Code " + statusCode);
         if (statusCode == AutoFinConstants.PANCARD) {
-            if(imageURL!=null)
-            {
+            if (imageURL != null) {
                 panCardURL = imageURL;
                 setFileOnTextView(imageURL, tvPanCardURL);
-                Doc doc=new Doc();
+                Doc doc = new Doc();
                 doc.setKey("PanCard");
                 doc.setUrl(imageURL);
                 documentList.add(doc);
+            } else {
+                CommonMethods.showToast(this, "Image URL is null");
             }
-            else
-            {
-                CommonMethods.showToast(this,"Image URL is null");
-            }
-        }
-        else if (statusCode == AutoFinConstants.AADHARCARD) {
+        } else if (statusCode == AutoFinConstants.AADHARCARD) {
             aadhaarCardURL = imageURL;
             setFileOnTextView(imageURL, tvAadharCardURL);
-            Doc doc=new Doc();
+            Doc doc = new Doc();
             doc.setKey("AdhaarCard");
             doc.setUrl(imageURL);
-            documentList.add(doc);        }
-        else if (statusCode == AutoFinConstants.VOTERIDCARD) {
+            documentList.add(doc);
+        } else if (statusCode == AutoFinConstants.VOTERIDCARD) {
             voterIdURL = imageURL;
             setFileOnTextView(imageURL, tvVoterIdURL);
-            Doc doc=new Doc();
+            Doc doc = new Doc();
             doc.setKey("VoterId");
             doc.setUrl(imageURL);
-            documentList.add(doc);        }
-        else if (statusCode == AutoFinConstants.PASSPORT) {
+            documentList.add(doc);
+        } else if (statusCode == AutoFinConstants.PASSPORT) {
             passportURL = imageURL;
             setFileOnTextView(imageURL, tvPassportURL);
-            Doc doc=new Doc();
+            Doc doc = new Doc();
             doc.setKey("Passport");
             doc.setUrl(imageURL);
             documentList.add(doc);
-        }
-        else if (statusCode == AutoFinConstants.RENTAL_AGREEMENT) {
+        } else if (statusCode == AutoFinConstants.RENTAL_AGREEMENT) {
             rentalAgreementURL = imageURL;
             setFileOnTextView(imageURL, tvRentAgreementURL);
-            Doc doc=new Doc();
+            Doc doc = new Doc();
             doc.setKey("RentAgreement");
             doc.setUrl(imageURL);
-            documentList.add(doc);        }
-        else if (statusCode == AutoFinConstants.ELECTRICITY_BILL) {
+            documentList.add(doc);
+        } else if (statusCode == AutoFinConstants.ELECTRICITY_BILL) {
             ebBillURL = imageURL;
             setFileOnTextView(imageURL, tvElectricityBillURL);
-            Doc doc=new Doc();
+            Doc doc = new Doc();
             doc.setKey("ElectricityBill");
             doc.setUrl(imageURL);
             documentList.add(doc);
-        }
-        else if (statusCode == AutoFinConstants.RES_AADHAR_CARD) {
+        } else if (statusCode == AutoFinConstants.RES_AADHAR_CARD) {
             resAadhaarURL = imageURL;
             setFileOnTextView(imageURL, tvResAadharURL);
-            Doc doc=new Doc();
+            Doc doc = new Doc();
             doc.setKey("AdhaarCard");
             doc.setUrl(imageURL);
-            documentList.add(doc);        }
-        else if (statusCode == AutoFinConstants.BANK_STATEMENT) {
+            documentList.add(doc);
+        } else if (statusCode == AutoFinConstants.BANK_STATEMENT) {
             bankStmtURL = imageURL;
             setFileOnTextView(imageURL, tvBankStatementURL);
-            Doc doc=new Doc();
+            Doc doc = new Doc();
             doc.setKey("BankStatement");
             doc.setUrl(imageURL);
             documentList.add(doc);
-        }
-        else if (statusCode == AutoFinConstants.SALARY_SLIP) {
+        } else if (statusCode == AutoFinConstants.SALARY_SLIP) {
             salSlip = imageURL;
             setFileOnTextView(imageURL, tvSalarySlipURL);
-            Doc doc=new Doc();
+            Doc doc = new Doc();
             doc.setKey("SalarySlip");
             doc.setUrl(imageURL);
-            documentList.add(doc);        }
-        else if (statusCode == AutoFinConstants.FORM_16) {
+            documentList.add(doc);
+        } else if (statusCode == AutoFinConstants.FORM_16) {
             form16URL = imageURL;
             setFileOnTextView(imageURL, tvForm16URL);
-            Doc doc=new Doc();
+            Doc doc = new Doc();
             doc.setKey("Form16");
             doc.setUrl(imageURL);
-            documentList.add(doc);        }
-        else if (statusCode == AutoFinConstants.ITR) {
+            documentList.add(doc);
+        } else if (statusCode == AutoFinConstants.ITR) {
             itrURL = imageURL;
             setFileOnTextView(imageURL, tvITRURL);
-            Doc doc=new Doc();
+            Doc doc = new Doc();
             doc.setKey("ITRReturn");
             doc.setUrl(imageURL);
-            documentList.add(doc);        }
+            documentList.add(doc);
+        }
 
+    }
+
+    private String getImageName(int requestCode) {
+        switch (requestCode) {
+            case AutoFinConstants.PANCARD:
+                return "PanCard";
+            case AutoFinConstants.AADHARCARD:
+                return "AadharCard";
+            case AutoFinConstants.VOTERIDCARD:
+                return "VoterIdCard";
+            case AutoFinConstants.PASSPORT:
+                return "Passport";
+            case AutoFinConstants.RENTAL_AGREEMENT:
+                return "RentalAgreement";
+            case AutoFinConstants.ELECTRICITY_BILL:
+                return "ElectricityBill";
+            case AutoFinConstants.RES_AADHAR_CARD:
+                return "ResAadharCard";
+            case AutoFinConstants.BANK_STATEMENT:
+                return "BankStatement";
+            case AutoFinConstants.SALARY_SLIP:
+                return "SalarySlip";
+            case AutoFinConstants.FORM_16:
+                return "";
+            case AutoFinConstants.ITR:
+                return "ITR";
+        }
+        return "";
     }
 
     private void setFileOnTextView(String fileName, TextView textView) {
@@ -424,17 +440,13 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
         String strRes = new Gson().toJson(response.body());
         Log.i(TAG, "onResponse: " + strRes);
-        KYCDocUploadResponse kycDocUploadResponse=new Gson().fromJson(strRes,KYCDocUploadResponse.class);
-        try
-        {
-            if(kycDocUploadResponse!=null)
-            {
-                CommonMethods.showToast(this,kycDocUploadResponse.getMessage());
+        KYCDocUploadResponse kycDocUploadResponse = new Gson().fromJson(strRes, KYCDocUploadResponse.class);
+        try {
+            if (kycDocUploadResponse != null) {
+                CommonMethods.showToast(this, kycDocUploadResponse.getMessage());
                 startActivity(new Intent(this, InterestedBankOfferDetailsActivity.class));
             }
-        }
-        catch(Exception exception)
-        {
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
 
