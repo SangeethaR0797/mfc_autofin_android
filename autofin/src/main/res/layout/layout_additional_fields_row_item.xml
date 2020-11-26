@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvTextLbl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/text_size_5dp"
+        android:text="@string/first_name"
+        android:textColor="@color/grey_color"
+        android:textSize="@dimen/text_size_14sp" />
+
+    <LinearLayout
+        android:id="@+id/llRFirstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/etRFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="@color/very_dark_blue"
+            android:textSize="@dimen/text_size_16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="@dimen/text_size_24dp"
+            android:background="@color/very_dark_blue" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llRLastName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/text_size_24dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/etRLastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="@color/very_dark_blue"
+            android:textSize="@dimen/text_size_16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/very_dark_blue" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llRPhoneNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/text_size_24dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/etRPhoneNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:inputType="number"
+            android:maxLength="10"
+            android:maxLines="1"
+            android:textColor="@color/very_dark_blue"
+            android:textSize="@dimen/text_size_16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/very_dark_blue" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llRelationShip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/text_size_24dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <Spinner
+            android:id="@+id/addFieldSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/very_dark_blue" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llState"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/text_size_24dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <utility.RobotoMedium
+            android:id="@+id/tvAddFState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="@dimen/text_size_8dp"
+            android:singleLine="true"
+            android:textColor="@color/very_dark_blue"
+            android:textSize="@dimen/text_size_16sp"
+            android:visibility="gone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/very_dark_blue" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/llCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/text_size_24dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <utility.RobotoMedium
+            android:id="@+id/tvAddFCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="@dimen/text_size_8dp"
+            android:singleLine="true"
+            android:textColor="@color/very_dark_blue"
+            android:textSize="@dimen/text_size_16sp"
+            android:visibility="gone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/very_dark_blue" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/llAFPinCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:weightSum="3">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/etAFResPinCode"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/text_size_21dp"
+                android:layout_marginTop="@dimen/text_size_5dp"
+                android:background="@android:color/transparent"
+                android:hint="@string/sample_pincode"
+                android:inputType="number"
+                android:maxLength="6"
+                android:singleLine="true"
+                android:textColor="@color/very_dark_blue"
+                android:textSize="@dimen/text_size_16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginTop="@dimen/text_size_8dp"
+                android:background="@color/very_dark_blue" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnAFPinCodeCheck"
+            style="@style/pincode_check_btn_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:singleLine="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llWorkAddress1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/etWorkAddress1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="@color/very_dark_blue"
+            android:textSize="@dimen/text_size_16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="@dimen/text_size_24dp"
+            android:background="@color/very_dark_blue" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/llWorkAddress2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/etWorkAddress2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="@color/very_dark_blue"
+            android:textSize="@dimen/text_size_16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="@dimen/text_size_24dp"
+            android:background="@color/very_dark_blue" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/llCommon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:weightSum="3">
+    <EditText
+        android:id="@+id/etField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:inputType="text"
+        android:maxLines="1"
+        android:textColor="@color/very_dark_blue"
+        android:textSize="@dimen/text_size_16sp"
+        android:visibility="gone" />
+    <View
+        android:id="@+id/addFieldView"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="@dimen/text_size_24dp"
+        android:background="@color/very_dark_blue" />
+    </LinearLayout>
+</LinearLayout>

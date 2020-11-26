@@ -1,5 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/g_white">
+    <LinearLayout
+        android:id="@+id/llAppBarReference"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+        <include layout="@layout/layout_common_app_bar" />
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llAppBarReference"
+        android:fillViewport="true">
+    <LinearLayout
+        android:id="@+id/llRefContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/text_size10dp"
+        android:layout_marginRight="@dimen/text_size10dp"
+        android:layout_marginLeft="@dimen/text_size10dp"
+        android:layout_marginBottom="70dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/text_size_20dp"
+            android:layout_marginLeft="@dimen/text_size_20dp"
+            android:layout_marginRight="@dimen/text_size_21dp">
+            <utility.RobotoMedium
+                android:id="@+id/tvReferenceLbl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lbl_reference_name"
+                android:textColor="@color/very_dark_blue"
+                android:textSize="@dimen/text_size_16sp"
+                android:layout_marginTop="@dimen/text_size_30dp"
+                android:layout_marginBottom="@dimen/text_size_8dp" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAdditionalFields"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollIndicators="none"
+                android:layout_marginBottom="40dp"
+                android:layout_marginTop="40dp"/>
+        </LinearLayout>
+    </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+        <include layout="@layout/autofin_next_btn" />
+    </LinearLayout>
 </RelativeLayout>

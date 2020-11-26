@@ -170,10 +170,6 @@
             android:name=".Activity.VehicleDetailsActivities.LeadDetailsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
 
-        <activity
-            android:name=".Activity.PersonalDetails.ReferenceActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
 
         <activity
             android:name=".Activity.PersonalDetails.InterestedBankOfferActivity"
@@ -229,6 +225,10 @@
 
         <activity
             android:name=".Activity.PersonalDetails.SavingsBankAccountActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+
+        <activity
+            android:name=".Activity.bank_offer_activities.AdditionalFieldsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
 
 

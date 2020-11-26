@@ -17,7 +17,7 @@ public class AdditionalFieldResponse
         private String statusCode;
         @SerializedName("data")
         @Expose
-        private List<AdditionalFieldData> data = null;
+        private List<AdditionFields> data = null;
 
         public Boolean getStatus() {
             return status;
@@ -43,11 +43,11 @@ public class AdditionalFieldResponse
             this.statusCode = statusCode;
         }
 
-        public List<AdditionalFieldData> getData() {
+        public List<AdditionFields> getData() {
             return data;
         }
 
-        public void setData(List<AdditionalFieldData> data) {
+        public void setData(List<AdditionFields> data) {
             this.data = data;
         }
 }

@@ -131,16 +131,7 @@
                     android:id="@+id/llREmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="120dp">
-                    <TextView
-                        android:id="@+id/tvREmailLbl"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/lbl_email"
-                        android:textColor="@color/grey_color"
-                        android:textSize="@dimen/text_size_14sp"
-                        android:layout_marginBottom="@dimen/text_size_5dp"/>
+                    android:orientation="vertical">
                     <EditText
                         android:id="@+id/etREmail"
                         android:layout_width="match_parent"

@@ -257,6 +257,7 @@
     <string name="hint_industry_type">Please select Industry type</string>
     <string name="sear_your_org">Search Your Organization</string>
     <string name="lbl_industry_type">INDUSTRY TYPE</string>
+    <string name="lbl_asterick"><![CDATA[<font color=\'#FF0000\'>*</font>]]></string>
 
 
 </resources>
