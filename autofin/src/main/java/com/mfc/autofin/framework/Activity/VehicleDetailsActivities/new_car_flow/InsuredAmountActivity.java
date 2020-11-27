@@ -75,4 +75,7 @@ public class InsuredAmountActivity extends AppCompatActivity implements View.OnC
 
         }
     }
+    @Override
+    public void onBackPressed() {
+    }
 }

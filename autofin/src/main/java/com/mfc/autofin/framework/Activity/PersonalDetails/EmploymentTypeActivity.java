@@ -85,9 +85,9 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
         rbBusinessOwner.setOnClickListener(this);
         rbSelfEmployedProfessional.setOnClickListener(this);
         rbIndependentWorker.setOnClickListener(this);
-        rbStudent.setOnClickListener(this);
+        rbStudent.setVisibility(View.GONE);
         rbRetired.setOnClickListener(this);
-        rbHomeMaker.setOnClickListener(this);
+        rbHomeMaker.setVisibility(View.GONE);
     }
 
     @Override
@@ -123,26 +123,13 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
             intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
             intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbIndependentWorker.getText().toString());
             startActivity(intent);
-        } else if (v.getId() == R.id.rbStudent) {
-            CommonStrings.cusEmpDetailsModel.setEmpType(rbStudent.getText().toString());
-            CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbStudent.getText().toString());
-            Intent intent = new Intent(this, SavingsBankAccountActivity.class);
-            intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
-            intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbStudent.getText().toString());
-            startActivity(intent);
         } else if (v.getId() == R.id.rbRetired) {
             CommonStrings.cusEmpDetailsModel.setEmpType(rbRetired.getText().toString());
             Intent intent = new Intent(this, SavingsBankAccountActivity.class);
             intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
             intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbRetired.getText().toString());
             startActivity(intent);
-        } else if (v.getId() == R.id.rbHomeMaker) {
-            CommonStrings.cusEmpDetailsModel.setEmpType(rbHomeMaker.getText().toString());
-            CommonMethods.setValueAgainstKey(EmploymentTypeActivity.this, CommonStrings.EMP_TYPE_VAL, rbHomeMaker.getText().toString());
-            Intent intent = new Intent(this, SavingsBankAccountActivity.class);
-            intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
-            intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbHomeMaker.getText().toString());
-            startActivity(intent);        }
+        }
     }
 
     @Override
@@ -194,5 +181,8 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
         }
         return strResult;
     }
+    @Override
+    public void onBackPressed() {
 
+    }
 }

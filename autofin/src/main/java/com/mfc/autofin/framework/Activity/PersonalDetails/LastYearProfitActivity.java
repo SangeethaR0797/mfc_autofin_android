@@ -1,4 +1,4 @@
-package com.mfc.autofin.framework.Activity.PersonalDetails.employment_activities;
+package com.mfc.autofin.framework.Activity.PersonalDetails;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,17 +11,16 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
-import com.mfc.autofin.framework.Activity.PersonalDetails.SalaryModeActivity;
+import com.mfc.autofin.framework.Activity.PersonalDetails.employment_activities.IncomeAfterTaxActivity;
+import com.mfc.autofin.framework.Activity.PersonalDetails.employment_activities.LastYearSalesOrTurnOver;
 import com.mfc.autofin.framework.R;
 
-import utility.CommonMethods;
 import utility.CommonStrings;
 
-public class LastYearSalesOrTurnOver extends AppCompatActivity implements View.OnClickListener {
+public class LastYearProfitActivity extends AppCompatActivity implements View.OnClickListener {
     private ImageView iv_personal_details_backBtn;
-    private TextView tvGivenLbl,tvGivenPreviousVal, tvGivenValEdit, tvLastYearSales,tvLastYearSalesVal,tvErrorMessage;
-    private EditText  etLastYearSalesVal;
+    private TextView tvGivenLbl,tvGivenPreviousVal, tvGivenValEdit, tvLastYearProfit,tvLastYearProfitVal,tvErrorMessage;
+    private EditText etLastYearProfitVal;
     private View belowETYearsOE;
     private Button btnNext;
     private String strPreviousLbl="",strPreviousVal="", strLastYearSales = "";
@@ -30,7 +29,7 @@ public class LastYearSalesOrTurnOver extends AppCompatActivity implements View.O
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_last_year_sales);
+        setContentView(R.layout.activity_last_year_profit);
         try
         {
             intent=getIntent();
@@ -47,21 +46,13 @@ public class LastYearSalesOrTurnOver extends AppCompatActivity implements View.O
         tvGivenLbl=findViewById(R.id.tvGivenLbl);
         tvGivenPreviousVal=findViewById(R.id.tvGivenPreviousVal);
         tvGivenValEdit=findViewById(R.id.tvGivenValEdit);
-        tvLastYearSales=findViewById(R.id.tvLastYearSales);
-        tvLastYearSalesVal=findViewById(R.id.tvLastYearSalesVal);
+        tvLastYearProfit=findViewById(R.id.tvLastYearProfit);
+        tvLastYearProfitVal=findViewById(R.id.tvLastYearProfitVal);
         tvErrorMessage=findViewById(R.id.tvErrorMessage);
-        etLastYearSalesVal=findViewById(R.id.etLastYearSalesVal);
+        etLastYearProfitVal=findViewById(R.id.etLastYearProfitVal);
         belowETYearsOE=findViewById(R.id.belowETYearsOE);
         btnNext=findViewById(R.id.btnNext);
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
-        if(CommonStrings.cusEmpDetailsModel.getEmpType().equals(getResources().getString(R.string.lbl_business_owner)))
-        {
-            tvLastYearSales.setText(getResources().getString(R.string.lbl_last_year_sales));
-        }
-        else
-        {
-            tvLastYearSales.setText(getResources().getString(R.string.lbl_last_year_turn_over));
-        }
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strPreviousVal);
         tvGivenValEdit.setOnClickListener(this);
@@ -78,18 +69,18 @@ public class LastYearSalesOrTurnOver extends AppCompatActivity implements View.O
             finish();
         } else if (v.getId() == R.id.btnNext) {
             try{
-                if (!etLastYearSalesVal.getText().toString().isEmpty()) {
-                    strLastYearSales = etLastYearSalesVal.getText().toString();
-                   // CommonMethods.setValueAgainstKey(LastYearSalesOrTurnOver.this, CommonStrings.LAST_YEAR_TURN_OVER, strLastYearSales);
-                    CommonStrings.cusEmpDetailsModel.setLastYearTurnOver(strLastYearSales);
-                    Intent intent=new Intent(this, IncomeAfterTaxActivity.class);
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL,tvLastYearSales.getText().toString());
+                if (!etLastYearProfitVal.getText().toString().isEmpty()) {
+                    strLastYearSales = etLastYearProfitVal.getText().toString();
+                    // CommonMethods.setValueAgainstKey(LastYearSalesOrTurnOver.this, CommonStrings.LAST_YEAR_TURN_OVER, strLastYearSales);
+                   // CommonStrings.cusEmpDetailsModel.setLastYearTurnOver(strLastYearSales);
+                    Intent intent=new Intent(this, LastYearSalesOrTurnOver.class);
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL,tvLastYearProfit.getText().toString());
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE,strLastYearSales);
                     startActivity(intent);
                 } else {
                     belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.error_red));
                     tvErrorMessage.setVisibility(View.VISIBLE);
-                    tvErrorMessage.setText(getResources().getString(R.string.please_enter_year_of_experience));
+                    tvErrorMessage.setText("Please enter Last year Profit");
                 }
 
             }catch(Exception exception){exception.printStackTrace();}
@@ -100,6 +91,11 @@ public class LastYearSalesOrTurnOver extends AppCompatActivity implements View.O
                 tvErrorMessage.setVisibility(View.GONE);
             }
         }
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 
     @Override

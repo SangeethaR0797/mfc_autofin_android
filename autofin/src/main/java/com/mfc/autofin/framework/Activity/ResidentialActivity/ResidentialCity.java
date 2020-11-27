@@ -141,4 +141,8 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
     public void onFailure(Call<Object> call, Throwable t) {
 
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

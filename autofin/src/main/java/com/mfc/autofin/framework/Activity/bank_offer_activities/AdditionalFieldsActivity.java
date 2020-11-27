@@ -77,7 +77,7 @@ public class AdditionalFieldsActivity extends AppCompatActivity implements View.
         tvReferenceLbl=findViewById(R.id.tvReferenceLbl);
         llRefContent=findViewById(R.id.llRefContent);
         rvAdditionalFields=findViewById(R.id.rvAdditionalFields);
-        iv_common_bar_backBtn.setVisibility(View.GONE);
+        iv_common_bar_backBtn.setVisibility(View.INVISIBLE);
         tvCommonAppBarTitle.setText("REFERENCE");
         tvReferenceLbl.setText(getResources().getString(R.string.lbl_reference_name));
         btnNext=findViewById(R.id.btnNext);

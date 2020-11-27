@@ -86,4 +86,8 @@ public class LastYearDepreciationActivity extends AppCompatActivity implements V
             }
         }
     }
+    @Override
+    public void onBackPressed() {
+
+    }
 }

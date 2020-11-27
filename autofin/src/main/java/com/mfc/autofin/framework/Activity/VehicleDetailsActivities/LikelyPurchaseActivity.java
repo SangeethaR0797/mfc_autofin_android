@@ -91,4 +91,8 @@ public class LikelyPurchaseActivity extends AppCompatActivity implements View.On
             }
         }
     }
+    @Override
+    public void onBackPressed() {
+
+    }
 }

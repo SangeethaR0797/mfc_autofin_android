@@ -113,5 +113,8 @@ public class PanCardNumberActivity extends AppCompatActivity implements View.OnC
             return false;
 
     }
+    @Override
+    public void onBackPressed() {
 
+    }
 }

@@ -172,5 +172,7 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
         lvVehListView.setAdapter(vehicleDetailsAdapter);
     }
 
-
+    @Override
+    public void onBackPressed() {
+    }
 }

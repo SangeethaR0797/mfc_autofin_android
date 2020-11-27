@@ -20,6 +20,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
+import com.mfc.autofin.framework.Activity.PersonalDetails.LastYearProfitActivity;
 import com.mfc.autofin.framework.Activity.PersonalDetails.UserDOBActivity;
 import com.mfc.autofin.framework.R;
 
@@ -120,7 +121,7 @@ public class StartDateOfBusinessOrProfessionActivity extends AppCompatActivity i
                 tvStartDateOfBOPVal.setText(strStartedDate);
                 //CommonMethods.setValueAgainstKey(this,CommonStrings.BUSINESS_OR_PROFESSION_START_DATE,dayOfMonth + " " + monthName + " " + year);
                 CommonStrings.cusEmpDetailsModel.setbOPStartDate(dayOfMonth + " " + monthName + " " + year);
-                Intent intent = new Intent(StartDateOfBusinessOrProfessionActivity.this, LastYearSalesOrTurnOver.class);
+                Intent intent = new Intent(StartDateOfBusinessOrProfessionActivity.this, LastYearProfitActivity.class);
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvStartDateOfBOPLbl.getText().toString());
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE, CommonStrings.cusEmpDetailsModel.getbOPStartDate());
                 startActivity(intent);
@@ -131,5 +132,8 @@ public class StartDateOfBusinessOrProfessionActivity extends AppCompatActivity i
         startDateOfBOP.getDatePicker().setMaxDate(System.currentTimeMillis() - 1000);
         startDateOfBOP.show();
     }
+    @Override
+    public void onBackPressed() {
 
+    }
 }

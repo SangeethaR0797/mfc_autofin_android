@@ -110,5 +110,8 @@ public class CityMonthAndYearActivity extends AppCompatActivity implements View.
         }
     }
 
+    @Override
+    public void onBackPressed() {
 
+    }
 }

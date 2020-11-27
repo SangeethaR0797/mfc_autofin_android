@@ -101,4 +101,8 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
         }
 
     }
+    @Override
+    public void onBackPressed() {
+       finish();
+    }
 }

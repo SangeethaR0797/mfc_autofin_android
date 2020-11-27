@@ -88,7 +88,7 @@ public class CommonStrings {
     public static String VEH_CATEGORY_URL = "https://15.207.148.230:3004/api/masters/vehicle-category";
     public static String RES_CITY_URL = "https://15.207.148.230:3004/api/pincode/city/";
     public static String GET_ADDITIONAL_FIELDS ="https://15.207.148.230:3004/api/additionalfields/additional-fields";
-    public static String SUBMIT_ADDITIONAL_FIELDS ="https://15.207.148.230:3007/api/customer/submit-additional-data";
+    public static String SUBMIT_ADDITIONAL_FIELDS_URL ="https://15.207.148.230:3007/api/customer/submit-additional-data";
     public static String IBB_PASSWORD = "dHk69ffu7ebP";
     public static String IBB_USERNAME = "mfc@ibb.com";
     public static String IBB_VEH_DETAILS_END_POINT = "MFC";

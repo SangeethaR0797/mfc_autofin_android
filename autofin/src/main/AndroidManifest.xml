@@ -230,7 +230,9 @@
         <activity
             android:name=".Activity.bank_offer_activities.AdditionalFieldsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
+        <activity
+            android:name=".Activity.PersonalDetails.LastYearProfitActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

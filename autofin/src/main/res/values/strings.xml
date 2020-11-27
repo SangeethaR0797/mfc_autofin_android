@@ -249,6 +249,7 @@
     <string name="update">UPDATE</string>
     <string name="lbl_income_after_tax">INCOME AFTER TAX</string>
     <string name="lbl_last_year_sales">LAST YEAR SALES</string>
+    <string name="lbl_last_year_profit">LAST YEAR PROFIT</string>
     <string name="lbl_last_year_turn_over">LAST TURN OVER</string>
     <string name="lbl_last_year_depreciation">LAST YEAR DEPRECIATION</string>
     <string name="is_itr_audited">WAS LATEST ITR AUDITED?</string>

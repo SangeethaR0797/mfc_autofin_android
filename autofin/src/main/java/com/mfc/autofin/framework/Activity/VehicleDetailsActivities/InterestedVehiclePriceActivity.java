@@ -77,4 +77,7 @@ public class InterestedVehiclePriceActivity extends AppCompatActivity implements
         }
 
     }
+    @Override
+    public void onBackPressed() {
+    }
 }

@@ -113,6 +113,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         cbUploadDocsAgreeTAndC = findViewById(R.id.cbUploadDocsAgreeTAndC);
         btnUpdateDoc = findViewById(R.id.btnUpdateDoc);
         llPanCard.setOnClickListener(DocumentUploadActivity.this);
+        tvSkipPhotoIdProof.setOnClickListener(this);
         llAadharCard.setOnClickListener(this);
         llVoterIdCard.setOnClickListener(this);
         llPassport.setOnClickListener(this);
@@ -139,7 +140,8 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             } else {
                 Callpermissions(DocumentUploadActivity.this);
             }
-        } else if (v.getId() == R.id.llAadharCard) {
+        }
+        else if (v.getId() == R.id.llAadharCard) {
             if (checkPermissions(DocumentUploadActivity.this)) {
                 captureImage.chooseImage(DocumentUploadActivity.this, AutoFinConstants.AADHARCARD);
             } else {
@@ -201,6 +203,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             }
         } else if (v.getId() == R.id.cbSkipBankDocs) {
             if (cbSkipBankDocs.isChecked()) {
+                startActivity(new Intent(DocumentUploadActivity.this,InterestedBankOfferDetailsActivity.class));
             }
         } else if (v.getId() == R.id.cbUploadDocsAgreeTAndC) {
             if (cbUploadDocsAgreeTAndC.isChecked()) {

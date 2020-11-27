@@ -305,11 +305,15 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
         salutation=parent.getItemAtPosition(position).toString();
-        CommonMethods.showToast(this,salutation);
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

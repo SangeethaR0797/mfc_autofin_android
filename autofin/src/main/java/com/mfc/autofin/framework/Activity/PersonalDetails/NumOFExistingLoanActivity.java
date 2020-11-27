@@ -170,4 +170,8 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
         intent.putExtra(CommonStrings.PREVIOUS_VALUE, existingLoan);
         startActivity(intent);
     }
+    @Override
+    public void onBackPressed() {
+
+    }
 }

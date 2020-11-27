@@ -96,5 +96,8 @@ public class IncomeAfterTaxActivity extends AppCompatActivity implements View.On
             }
         }
     }
+    @Override
+    public void onBackPressed() {
 
+    }
 }

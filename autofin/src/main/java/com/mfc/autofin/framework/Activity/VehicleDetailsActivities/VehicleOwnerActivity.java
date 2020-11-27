@@ -111,4 +111,7 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
         Intent intent = new Intent(VehicleOwnerActivity.this, VehiclePurchaseAmountActivity.class);
         startActivity(intent);
     }
+    @Override
+    public void onBackPressed() {
+    }
 }

@@ -97,8 +97,7 @@
         <Spinner
             android:id="@+id/addFieldSpinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:layout_height="wrap_content" />
 
         <View
             android:layout_width="match_parent"
@@ -122,8 +121,7 @@
             android:layout_marginBottom="@dimen/text_size_8dp"
             android:singleLine="true"
             android:textColor="@color/very_dark_blue"
-            android:textSize="@dimen/text_size_16sp"
-            android:visibility="gone" />
+            android:textSize="@dimen/text_size_16sp" />
 
         <View
             android:layout_width="match_parent"
@@ -146,8 +144,7 @@
             android:layout_marginBottom="@dimen/text_size_8dp"
             android:singleLine="true"
             android:textColor="@color/very_dark_blue"
-            android:textSize="@dimen/text_size_16sp"
-            android:visibility="gone" />
+            android:textSize="@dimen/text_size_16sp" />
 
         <View
             android:layout_width="match_parent"

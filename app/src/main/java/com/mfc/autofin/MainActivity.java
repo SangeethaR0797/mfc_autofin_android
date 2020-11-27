@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
               // Intent autodashboard = new Intent(MainActivity.this, DocumentUploadActivity.class);
-               // Intent autodashboard = new Intent(MainActivity.this, AutoFinDashBoardActivity.class);
-                Intent autodashboard = new Intent(MainActivity.this, AdditionalFieldsActivity.class);
+               Intent autodashboard = new Intent(MainActivity.this, AutoFinDashBoardActivity.class);
+               // Intent autodashboard = new Intent(MainActivity.this, AdditionalFieldsActivity.class);
 
                 autodashboard.putExtra(AutoFinConstants.APP_NAME,"MFCBusiness");
                      autodashboard.putExtra(AutoFinConstants.DEALER_ID,"242");

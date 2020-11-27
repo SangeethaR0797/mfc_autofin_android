@@ -77,4 +77,7 @@ public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements V
         super.onActivityResult(requestCode, resultCode, data);
         Toast.makeText(this, "Done!!!", Toast.LENGTH_SHORT).show();
     }
+    @Override
+    public void onBackPressed() {
+    }
 }

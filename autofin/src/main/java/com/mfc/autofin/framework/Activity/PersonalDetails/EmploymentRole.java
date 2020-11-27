@@ -123,4 +123,8 @@ public class EmploymentRole extends AppCompatActivity implements Callback<Object
             }
         }
     }
+    @Override
+    public void onBackPressed() {
+
+    }
 }

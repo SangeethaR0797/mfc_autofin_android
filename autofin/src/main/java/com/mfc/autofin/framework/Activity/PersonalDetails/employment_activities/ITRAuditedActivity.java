@@ -81,4 +81,8 @@ public class ITRAuditedActivity extends AppCompatActivity implements View.OnClic
             startActivity(intent);
         }
     }
+    @Override
+    public void onBackPressed() {
+
+    }
 }

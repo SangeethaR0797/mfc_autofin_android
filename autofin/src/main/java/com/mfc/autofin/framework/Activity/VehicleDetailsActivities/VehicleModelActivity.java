@@ -212,4 +212,7 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
     public void onFailure(Call<Object> call, Throwable t) {
 
     }
+    @Override
+    public void onBackPressed() {
+    }
 }

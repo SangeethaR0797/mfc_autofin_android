@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
+import com.mfc.autofin.framework.Activity.bank_offer_activities.AdditionalFieldsActivity;
 import com.mfc.autofin.framework.R;
 
 import java.util.List;
@@ -101,7 +102,14 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
             @Override
             public void onClick(View v) {
 
-            activity.startActivity(new Intent(activity, DocumentUploadActivity.class));
+                if(bankDetailsList.get(position).getBankName().equalsIgnoreCase("HDFC Bank"))
+                {
+                    activity.startActivity(new Intent(activity, AdditionalFieldsActivity.class));
+                }
+                else
+                {
+                    activity.startActivity(new Intent(activity, DocumentUploadActivity.class));
+                }
 
                // invokeSelectedBankRequest(bankDetailsList.get(position).getBankId().toString());
 
@@ -142,7 +150,7 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
             if(selectedBankRes!=null && selectedBankRes.getStatus())
             {
                 CommonMethods.showToast(activity,selectedBankRes.getMessage());
-                activity.startActivity(new Intent(activity,DocumentUploadActivity.class));
+                activity.startActivity(new Intent(activity,AdditionalFieldsActivity.class));
             }
             else
             {

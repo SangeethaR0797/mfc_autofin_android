@@ -89,4 +89,8 @@ public class LoanRequiredActivity extends AppCompatActivity implements View.OnCl
         }
 
     }
+    @Override
+    public void onBackPressed() {
+
+    }
 }

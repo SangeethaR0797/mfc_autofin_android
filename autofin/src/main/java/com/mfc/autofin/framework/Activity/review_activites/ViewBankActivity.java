@@ -115,5 +115,8 @@ public class ViewBankActivity extends AppCompatActivity implements View.OnClickL
     }
 
     @Override
-    public void onBackPressed() { }
+    public void onBackPressed()
+    {
+        startActivity(new Intent(this, AutoFinDashBoardActivity.class));
+    }
 }

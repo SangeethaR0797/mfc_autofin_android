@@ -120,4 +120,7 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
             }
         }
     }
+    @Override
+    public void onBackPressed() {
+    }
 }

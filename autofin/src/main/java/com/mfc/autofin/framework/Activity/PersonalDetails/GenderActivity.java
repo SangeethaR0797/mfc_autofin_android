@@ -138,4 +138,8 @@ public class GenderActivity extends AppCompatActivity implements View.OnClickLis
     public void onFailure(Call<Object> call, Throwable t) {
 
     }
+    @Override
+    public void onBackPressed() {
+
+    }
 }

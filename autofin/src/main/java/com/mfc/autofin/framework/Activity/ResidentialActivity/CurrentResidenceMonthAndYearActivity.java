@@ -129,4 +129,8 @@ public class CurrentResidenceMonthAndYearActivity extends AppCompatActivity impl
             CommonMethods.showToast(this, "Please select Month and Year");
         }
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

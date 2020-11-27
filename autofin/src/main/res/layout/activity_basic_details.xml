@@ -71,13 +71,13 @@
                             android:id="@+id/spSalutation"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.5" />
+                            android:layout_weight="0.3" />
 
                         <EditText
                             android:id="@+id/etName"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.6"
+                            android:layout_weight="0.7"
                             android:background="@android:color/transparent"
                             android:hint="Name"
                             android:inputType="text"

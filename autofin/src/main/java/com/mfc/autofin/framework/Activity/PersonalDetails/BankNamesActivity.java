@@ -166,5 +166,8 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
     public void onFailure(Call<Object> call, Throwable t) {
 
     }
+    @Override
+    public void onBackPressed() {
 
+    }
 }

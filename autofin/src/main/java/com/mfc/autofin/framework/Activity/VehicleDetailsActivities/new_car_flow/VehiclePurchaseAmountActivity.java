@@ -115,4 +115,7 @@ public class VehiclePurchaseAmountActivity extends AppCompatActivity implements 
             }catch(Exception exception){exception.printStackTrace();}
         }
     }
+    @Override
+    public void onBackPressed() {
+    }
 }

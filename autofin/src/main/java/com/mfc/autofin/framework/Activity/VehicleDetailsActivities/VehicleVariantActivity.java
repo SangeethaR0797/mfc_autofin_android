@@ -219,4 +219,7 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
     public void onFailure(Call<Object> call, Throwable t) {
 
     }
+    @Override
+    public void onBackPressed() {
+    }
 }

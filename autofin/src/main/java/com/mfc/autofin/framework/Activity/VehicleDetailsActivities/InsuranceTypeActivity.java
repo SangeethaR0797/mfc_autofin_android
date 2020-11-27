@@ -83,4 +83,7 @@ public class InsuranceTypeActivity extends AppCompatActivity implements View.OnC
             startActivity(intent);
         }
     }
+    @Override
+    public void onBackPressed() {
+    }
 }

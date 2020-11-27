@@ -59,6 +59,7 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
         llDOBCalendarView = findViewById(R.id.llDOBCalendarView);
         tvDOB = findViewById(R.id.tvDOB);
         iv_personal_details_backBtn = findViewById(R.id.iv_personal_details_backBtn);
+        iv_personal_details_backBtn.setOnClickListener(this);
         tvDOBLbl.setOnClickListener(this);
         tvGivenValEdit.setOnClickListener(this);
 
@@ -119,5 +120,8 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
         //intent.putExtra(CommonStrings.PREVIOUS_VALUE,tvDOB.getText());
         startActivity(intent);
     }
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

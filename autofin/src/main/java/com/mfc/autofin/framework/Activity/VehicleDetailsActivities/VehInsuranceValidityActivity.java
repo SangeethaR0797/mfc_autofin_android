@@ -122,5 +122,7 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
         vehInsuranceDate.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         vehInsuranceDate.show();
     }
-
+    @Override
+    public void onBackPressed() {
+    }
 }

@@ -12,7 +12,12 @@ public class Field {
         @Expose
         private String value;
 
-        public String getKey() {
+    public Field(String key, String value) {
+        this.key = key;
+        this.value = value;
+    }
+
+    public String getKey() {
             return key;
         }
 

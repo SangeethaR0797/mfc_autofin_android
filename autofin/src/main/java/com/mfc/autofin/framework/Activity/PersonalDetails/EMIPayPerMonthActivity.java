@@ -98,7 +98,9 @@ public class EMIPayPerMonthActivity extends AppCompatActivity implements View.On
                 tvErrorMessage.setVisibility(View.GONE);
             }
         }
+    }
 
-
+    @Override
+    public void onBackPressed() {
     }
 }

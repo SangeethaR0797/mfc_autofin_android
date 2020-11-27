@@ -60,4 +60,8 @@ public class VehRegNumActivity extends AppCompatActivity implements View.OnClick
             startActivity(intent);
         }
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

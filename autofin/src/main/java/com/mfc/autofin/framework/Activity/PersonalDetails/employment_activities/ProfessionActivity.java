@@ -93,4 +93,8 @@ public class ProfessionActivity extends AppCompatActivity implements View.OnClic
             }
         }
     }
+    @Override
+    public void onBackPressed() {
+
+    }
 }
