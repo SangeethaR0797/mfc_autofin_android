@@ -80,7 +80,7 @@ public class ViewBankActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_common_bar_backBtn) {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
+            CommonMethods.redirectToDashboard(this);
         }
     }
 
@@ -117,6 +117,7 @@ public class ViewBankActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onBackPressed()
     {
-        startActivity(new Intent(this, AutoFinDashBoardActivity.class));
+        CommonMethods.redirectToDashboard(this);
+
     }
 }

@@ -29,7 +29,7 @@ public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements V
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carhave_loan_currently);
-        purchaseAmount = CommonMethods.getStringValueFromKey(this,CommonStrings.VEH_PURCHASE_AMOUNT);
+        purchaseAmount = CommonStrings.customVehDetails.getVehicleSellingPrice();
         initView();
     }
 
@@ -49,18 +49,13 @@ public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements V
 
     @Override
     public void onClick(View v) {
-        /*if (v.getId() == R.id.iv_vehDetails_back) {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
 
-        } else*/
         if (v.getId() == R.id.tvGivenVehOwnershipEdit) {
             finish();
         } else if (v.getId() == R.id.btnCarHaveLoan) {
             CommonMethods.highLightSelectedButton(this, btnCarHaveLoan);
             CommonMethods.deHighLightButton(this, btnCarHaveNoLoan);
             CommonStrings.customVehDetails.setDoesCarHaveLoan(true);
-            /*ValuationReportBSD valuationReportBSD = new ValuationReportBSD(this);
-            valuationReportBSD.show(getSupportFragmentManager(), "Validation Report");*/
             Intent intent = new Intent(CarHaveLoanCurrentlyActivity.this, VehPostInspectionActivity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.btnCarHaveNoLoan) {
@@ -72,11 +67,6 @@ public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements V
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Toast.makeText(this, "Done!!!", Toast.LENGTH_SHORT).show();
-    }
     @Override
     public void onBackPressed() {
     }

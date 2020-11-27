@@ -32,8 +32,8 @@ public class InsuredAmountActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insured_amount);
-        if (!CommonMethods.getStringValueFromKey(this, CommonStrings.VEH_PURCHASE_AMOUNT).equals("")) {
-            strPurchaseAmount = CommonMethods.getStringValueFromKey(this, CommonStrings.VEH_PURCHASE_AMOUNT);
+        if (!CommonStrings.customVehDetails.getVehicleSellingPrice().equals("")) {
+            strPurchaseAmount = CommonStrings.customVehDetails.getVehicleSellingPrice();
         }
         initView();
     }
@@ -56,15 +56,13 @@ public class InsuredAmountActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
-       /* if (v.getId() == R.id.iv_vehDetails_back) {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else */
+
         if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
             try {
                 if (!etInsuredAmount.getText().toString().equals("")) {
-                    CommonMethods.setValueAgainstKey(this, CommonStrings.VEH_INSURED_AMOUNT, etInsuredAmount.getText().toString());
+                    CommonStrings.customVehDetails.setInsuranceAmount(etInsuredAmount.getText().toString());
                     startActivity(new Intent(this, BasicDetailsActivity.class));
                 } else {
                     CommonMethods.showToast(this, "Please enter Insured Amount");

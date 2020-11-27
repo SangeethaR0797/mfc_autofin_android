@@ -41,8 +41,8 @@ public class EducationActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_education_details);
         try{
-            if (!CommonMethods.getStringValueFromKey(this, CommonStrings.GENDER).equals("")) {
-                strGender = CommonMethods.getStringValueFromKey(this, CommonStrings.GENDER);
+            if (!CommonStrings.customPersonalDetails.getGender().equals("")) {
+                strGender = CommonStrings.customPersonalDetails.getGender();
             } else {
                 strGender = "";
             }
@@ -105,11 +105,6 @@ public class EducationActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        /*if(v.getId()==R.id.iv_personal_details_backBtn)
-        {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        }
-        else*/
         if(v.getId()==R.id.tvGivenValEdit)
         {
             finish();
@@ -128,7 +123,7 @@ public class EducationActivity extends AppCompatActivity implements View.OnClick
         {
             if(!tvEducationVal.getText().toString().equals(""))
             {
-                CommonMethods.setValueAgainstKey(this,CommonStrings.EDUCATION,tvEducationVal.getText().toString());
+                CommonStrings.customPersonalDetails.setEducation(tvEducationVal.getText().toString());
                 startActivity(new Intent(this,MonthlyIncome.class));
             }
             else

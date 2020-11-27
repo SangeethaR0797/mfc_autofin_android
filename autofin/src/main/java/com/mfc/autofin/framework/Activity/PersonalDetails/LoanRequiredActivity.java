@@ -24,7 +24,7 @@ public class LoanRequiredActivity extends AppCompatActivity implements View.OnCl
     private Button btnNext;
     private View belowETViewLoanAmount;
     private Intent intent;
-    private String strPreviousLbl="",strPreviousVal="",strLoanAmount = "";
+    private String strPreviousLbl = "", strPreviousVal = "", strLoanAmount = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,15 +62,12 @@ public class LoanRequiredActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
 
-        /*if (v.getId() == R.id.iv_personal_details_backBtn) {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else*/
         if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
             if (!etLoanRequiredAmount.getText().toString().isEmpty()) {
                 strLoanAmount = etLoanRequiredAmount.getText().toString();
-                CommonMethods.setValueAgainstKey(this, CommonStrings.LOAN_REQUIRED, strLoanAmount);
+                CommonStrings.customLoanDetails.setRequiredLoanAmount(strLoanAmount);
                 Intent intent = new Intent(this, EMIPayPerMonthActivity.class);
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLoanRequiredLbl.getText().toString());
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE, strLoanAmount);
@@ -89,6 +86,7 @@ public class LoanRequiredActivity extends AppCompatActivity implements View.OnCl
         }
 
     }
+
     @Override
     public void onBackPressed() {
 

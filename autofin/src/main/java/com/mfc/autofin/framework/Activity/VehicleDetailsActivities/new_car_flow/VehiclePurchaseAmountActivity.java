@@ -34,18 +34,17 @@ public class VehiclePurchaseAmountActivity extends AppCompatActivity implements 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_purchase_amount);
-        if(CommonStrings.customVehDetails.getVehCategory().equals(getResources().getString(R.string.new_car)))
+        if(CommonStrings.customLoanDetails.getLoanCategory().equals(getResources().getString(R.string.new_car)))
         {
             isNewCar=true;
         }
         if(isNewCar)
         {
-            if (!CommonMethods.getStringValueFromKey(this, CommonStrings.ROAD_PRICE).equals("")) {
-                strPreviousVal = CommonMethods.getStringValueFromKey(this, CommonStrings.ROAD_PRICE);
+            if (!CommonStrings.customVehDetails.getOnRoadPrice().equals("")) {
+                strPreviousVal = CommonStrings.customVehDetails.getOnRoadPrice();
             } else {
                 strPreviousVal = "";
             }
-
         }
         else
         {
@@ -85,9 +84,7 @@ public class VehiclePurchaseAmountActivity extends AppCompatActivity implements 
     @Override
     public void onClick(View v) {
 
-       /* if (v.getId() == R.id.iv_vehDetails_back) {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else*/ if (v.getId() == R.id.tvGivenValEdit) {
+       if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
 
@@ -96,7 +93,7 @@ public class VehiclePurchaseAmountActivity extends AppCompatActivity implements 
                 if(isNewCar)
                 {
                     if (!etVehPurchaseAmount.getText().toString().equals("")) {
-                        CommonMethods.setValueAgainstKey(this, CommonStrings.VEH_PURCHASE_AMOUNT, etVehPurchaseAmount.getText().toString());
+                        CommonStrings.customVehDetails.setVehicleSellingPrice(etVehPurchaseAmount.getText().toString());
                         startActivity(new Intent(this, InsuredAmountActivity.class));
                     } else {
                         CommonMethods.showToast(this, "Please enter vehicle purchase amount");
@@ -105,7 +102,7 @@ public class VehiclePurchaseAmountActivity extends AppCompatActivity implements 
                 else
                     {
                         if (!etVehPurchaseAmount.getText().toString().equals("")) {
-                            CommonMethods.setValueAgainstKey(this, CommonStrings.VEH_PURCHASE_AMOUNT, etVehPurchaseAmount.getText().toString());
+                            CommonStrings.customVehDetails.setVehicleSellingPrice(etVehPurchaseAmount.getText().toString());
                             startActivity(new Intent(this, CarHaveLoanCurrentlyActivity.class));
                         } else {
                             CommonMethods.showToast(this, "Please enter vehicle purchase amount");

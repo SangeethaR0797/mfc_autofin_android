@@ -16,6 +16,9 @@ public class BasicDetails {
     @SerializedName("otp")
     @Expose
     private String otp;
+    @SerializedName("Salutation")
+    @Expose
+    private String salutation;
 
     public String getFullName() {
         return fullName;
@@ -49,6 +52,13 @@ public class BasicDetails {
         this.otp = otp;
     }
 
+    public String getSalutation() {
+        return salutation;
+    }
+
+    public void setSalutation(String salutation) {
+        this.salutation = salutation;
+    }
 }
 
 

@@ -60,7 +60,7 @@ public class EmployerNameActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
         if(v.getId()==R.id.iv_personal_details_backBtn)
         {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
+            //startActivity(new Intent(this, AutoFinDashBoardActivity.class));
         }
         else if (v.getId() == R.id.tvEmploymentRoleVal) {
 

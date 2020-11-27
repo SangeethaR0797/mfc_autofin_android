@@ -196,8 +196,8 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
             }
         } catch (Exception exception) {
             exception.printStackTrace();
-            Intent intent = new Intent(VehicleModelActivity.this, AutoFinDashBoardActivity.class);
-            startActivity(intent);
+            CommonMethods.redirectToDashboard(this);
+
         }
 
     }

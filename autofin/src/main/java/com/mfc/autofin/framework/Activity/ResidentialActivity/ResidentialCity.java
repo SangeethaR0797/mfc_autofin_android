@@ -73,7 +73,7 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_residential_details_backBtn) {
-            startActivity(new Intent(ResidentialCity.this, AutoFinDashBoardActivity.class));
+            CommonMethods.redirectToDashboard(this);
             CommonMethods.clearData();
         } else if (v.getId() == R.id.tvGivenValEdit) {
             finish();
@@ -90,10 +90,9 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
         } else if (v.getId() == R.id.btnNext) {
             if (!strPinCode.equals("")) {
                 if (!tvStateName.getText().toString().equals("") && !strCity.equals("") && !etAddressLine1.getText().toString().equals("") && !etAddressLine2.getText().toString().equals("") && !etLandmark.getText().toString().equals("")) {
-                    CommonMethods.setValueAgainstKey(this, CommonStrings.ADDRESS1, etAddressLine1.getText().toString());
-                    CommonMethods.setValueAgainstKey(this, CommonStrings.ADDRESS2, etAddressLine2.getText().toString());
-                    CommonMethods.setValueAgainstKey(this, CommonStrings.LANDMARK, etLandmark.getText().toString());
-
+                    CommonStrings.customResDetails.setAddressLine1(etAddressLine1.getText().toString());
+                    CommonStrings.customResDetails.setAddressLine2(etAddressLine2.getText().toString());
+                    CommonStrings.customResDetails.setAddressLine3(etLandmark.getText().toString());
                     startActivity(new Intent(this, CityMonthAndYearActivity.class));
                 } else {
                     CommonMethods.showToast(ResidentialCity.this, "Please fill all the fields");
@@ -115,12 +114,12 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
 
                     CityData cityData = pinCodeRes.getData();
                     if (cityData.getCity() != null) {
-                        CommonStrings.customCityData.setCity(cityData.getCity());
-                        strCity = CommonStrings.customCityData.getCity();
+                        CommonStrings.customResDetails.setCustomerCity(cityData.getCity());
+                        strCity = CommonStrings.customResDetails.getCustomerCity();
                         tvStateName.setText(cityData.getState());
                         tvSelectedCity.setText(strCity);
-                        CommonStrings.customCityData.setPincode(cityData.getPincode());
-                        CommonStrings.customCityData.setState(cityData.getState());
+                        CommonStrings.customResDetails.setPincode(cityData.getPincode());
+                        CommonStrings.customResDetails.setCustomerState(cityData.getState());
                     } else {
                         Toast.makeText(this, pinCodeRes.getMessage(), Toast.LENGTH_LONG).show();
                     }

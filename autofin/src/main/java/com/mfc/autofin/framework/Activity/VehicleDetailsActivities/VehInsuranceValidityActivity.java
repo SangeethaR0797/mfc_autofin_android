@@ -111,7 +111,7 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
                 String monthName = new DateFormatSymbols().getMonths()[month];
-                String insValidityDate = dayOfMonth + " " + monthName + " " + year;
+                String insValidityDate = dayOfMonth + "-" + monthName + "-" + year;
                 tvInsuranceValidityDate.setText(insValidityDate);
                 CommonStrings.customVehDetails.setInsuranceValidity(dayOfMonth + " " + monthName + " " + year);
                 Intent intent = new Intent(VehInsuranceValidityActivity.this, BasicDetailsActivity.class);

@@ -63,7 +63,9 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
         } else if (v.getId() == R.id.rbNewCar) {
            try{
                if (rbNewCar.isChecked()) {
-                   CommonStrings.customVehDetails.setVehCategory(rbNewCar.getText().toString());
+                   CommonStrings.customLoanDetails.setLoanCategory(rbNewCar.getText().toString());
+                   CommonStrings.customVehDetails.setHaveVehicleNumber(false);
+                   CommonStrings.customVehDetails.setVehicleNumber("NA");
                    Intent intent = new Intent(VehicleCategory.this, VehRegistrationYear.class);
                    startActivity(intent);
                }
@@ -73,7 +75,7 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
             try
             {
                 if (rbOldCar.isChecked()) {
-                    CommonStrings.customVehDetails.setVehCategory(rbOldCar.getText().toString());
+                    CommonStrings.customLoanDetails.setLoanCategory(rbOldCar.getText().toString());
                     Intent intent = new Intent(VehicleCategory.this, VehRegNumActivity.class);
                     startActivity(intent);
                 }

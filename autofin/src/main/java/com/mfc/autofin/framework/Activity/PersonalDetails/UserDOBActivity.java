@@ -42,8 +42,8 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_d_o_b);
-        if (!CommonMethods.getStringValueFromKey(this, CommonStrings.RESIDENCE_TYPE).isEmpty()) {
-            strResidenceType = CommonMethods.getStringValueFromKey(this, CommonStrings.RESIDENCE_TYPE);
+        if (!CommonStrings.customResDetails.getResidenceType().isEmpty()) {
+            strResidenceType = CommonStrings.customResDetails.getResidenceType();
         }
         initView();
     }
@@ -68,7 +68,7 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_personal_details_backBtn) {
-            startActivity(new Intent(UserDOBActivity.this, AutoFinDashBoardActivity.class));
+            CommonMethods.redirectToDashboard(this);
             CommonMethods.clearData();
         } else if (v.getId() == R.id.tvGivenValEdit) {
             finish();
@@ -114,7 +114,7 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
 
 
     private void moveToNextScreen() {
-        CommonMethods.setValueAgainstKey(this, CommonStrings.USER_DOB, tvDOB.getText().toString());
+        CommonStrings.customPersonalDetails.setBirthDate(tvDOB.getText().toString());
         Intent intent = new Intent(this, GenderActivity.class);
         //intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL,tvDOBLbl.getText());
         //intent.putExtra(CommonStrings.PREVIOUS_VALUE,tvDOB.getText());

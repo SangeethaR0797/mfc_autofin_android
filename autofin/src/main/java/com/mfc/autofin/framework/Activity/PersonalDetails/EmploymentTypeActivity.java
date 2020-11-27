@@ -99,32 +99,31 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
         if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.rbSalaried) {
-            CommonStrings.cusEmpDetailsModel.setEmpType(rbSalaried.getText().toString());
+            CommonStrings.cusEmpDetails.setEmploymentType(rbSalaried.getText().toString());
             Intent intent = new Intent(this, BankNamesActivity.class);
             intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
             intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbSalaried.getText().toString());
             startActivity(intent);
         } else if (v.getId() == R.id.rbBusinessOwner) {
-            CommonStrings.cusEmpDetailsModel.setEmpType(rbBusinessOwner.getText().toString());
-            Log.i(TAG, "onClick: "+CommonStrings.cusEmpDetailsModel.getEmpType());
+            CommonStrings.cusEmpDetails.setEmploymentType(rbBusinessOwner.getText().toString());
             Intent intent = new Intent(this, EmploymentRole.class);
             intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
             intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbBusinessOwner.getText().toString());
             startActivity(intent);
         } else if (v.getId() == R.id.rbSelfEmployedProfessional) {
-            CommonStrings.cusEmpDetailsModel.setEmpType(rbSelfEmployedProfessional.getText().toString());
+            CommonStrings.cusEmpDetails.setEmploymentType(rbSelfEmployedProfessional.getText().toString());
             Intent intent = new Intent(this, ProfessionActivity.class);
             intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
             intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbSelfEmployedProfessional.getText().toString());
             startActivity(intent);
         } else if (v.getId() == R.id.rbIndependentWorker) {
-            CommonStrings.cusEmpDetailsModel.setEmpType(rbIndependentWorker.getText().toString());
+            CommonStrings.cusEmpDetails.setEmploymentType(rbIndependentWorker.getText().toString());
             Intent intent = new Intent(this, BankNamesActivity.class);
             intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
             intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbIndependentWorker.getText().toString());
             startActivity(intent);
         } else if (v.getId() == R.id.rbRetired) {
-            CommonStrings.cusEmpDetailsModel.setEmpType(rbRetired.getText().toString());
+            CommonStrings.cusEmpDetails.setEmploymentType(rbRetired.getText().toString());
             Intent intent = new Intent(this, SavingsBankAccountActivity.class);
             intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
             intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbRetired.getText().toString());

@@ -1,7 +1,6 @@
 package model.basic_details;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 public class PersonalDetailsData {
 
         @SerializedName("BirthDate")
@@ -83,5 +82,6 @@ public class PersonalDetailsData {
         }
 
     }
+
 
 

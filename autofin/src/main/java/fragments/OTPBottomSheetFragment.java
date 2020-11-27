@@ -52,6 +52,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
     Activity activity;
     LinearLayout llEditPhoneNum;
     int remainingSecs = 30000;
+    CountDownTimer otpTimer;
 
     public OTPBottomSheetFragment(Activity activity, EditText editText) {
         this.activity = activity;
@@ -63,7 +64,23 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_o_t_p_bottom_sheet_list_dialog, container, false);
         initView(view);
-        loadTimer(remainingSecs, 0);
+        //loadTimer(remainingSecs, 0);
+        otpTimer= new CountDownTimer(remainingSecs, 1000) {
+
+            long milliSecondRemaining = 0;
+
+            public void onTick(long millisUntilFinished) {
+                milliSecondRemaining = millisUntilFinished;
+                tvOTPTimer.setText("" + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+
+                tvOTPTimer.setText("00");
+                CommonStrings.customBasicDetails.setOtp("");
+                Toast.makeText(activity, "Your OTP expired! Please try again.", Toast.LENGTH_LONG).show();
+            }
+        }.start();
         return view;
     }
 
@@ -91,30 +108,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
     }
 
     public void loadTimer(int remainingSecs, int givenTag) {
-        new CountDownTimer(remainingSecs, 1000) {
 
-            int tag = givenTag;
-            long milliSecondRemaining = 0;
-
-            public void onTick(long millisUntilFinished) {
-                milliSecondRemaining = millisUntilFinished;
-                tvOTPTimer.setText("" + millisUntilFinished / 1000);
-            }
-
-
-            public void onFinish() {
-
-
-                if (tag != 1) {
-                    tvOTPTimer.setText("00");
-                    CommonStrings.customBasicDetails.setOtp("");
-                    //Toast.makeText(activity, "Your OTP expired! Please try again.", Toast.LENGTH_LONG).show();
-                } else {
-                    tvOTPTimer.setText("00");
-                    Log.i(TAG, "onFinish: true");
-                }
-            }
-        }.start();
 
     }
 
@@ -124,18 +118,20 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
         if (v.getId() == R.id.iv_dialog_close) {
             dismiss();
         } else if (v.getId() == R.id.llEditPhoneNum) {
+            otpTimer.cancel();
             CommonStrings.customBasicDetails.setCustomerMobile("");
             editText.setText("");
             dismiss();
         } else if (v.getId() == R.id.tvResendOTPLbl) {
             if (!CommonStrings.customBasicDetails.getOtp().equals("")) {
                 CommonStrings.customBasicDetails.setOtp("");
+                otpTimer.cancel();
             }
             SpinnerManager.showSpinner(activity);
             retrofitInterface.getFromWeb(getOTPRequest(), CommonStrings.OTP_URL_END).enqueue(this);
         } else if (v.getId() == R.id.btnProceed) {
             if (!etOTPVal.getText().toString().equals("") && etOTPVal.getText().toString().equalsIgnoreCase(CommonStrings.customBasicDetails.getOtp())) {
-                loadTimer(1000, 1);
+                otpTimer.cancel();
                 CommonStrings.customBasicDetails.setOtp(etOTPVal.getText().toString());
                 SpinnerManager.showSpinner(activity);
                 retrofitInterface.getFromWeb(getAddLeadRequest(), CommonStrings.ADD_LEAD_URL_END).enqueue(this);
@@ -173,6 +169,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
 
                     if (otpResponse.getData() != null) {
                         CommonStrings.customBasicDetails.setOtp(otpResponse.getData());
+                        otpTimer.start();
                     }
                 } else {
                     Toast.makeText(activity, getString(R.string.please_try_again), Toast.LENGTH_LONG).show();
@@ -193,7 +190,15 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
                     Intent intent = new Intent(activity, ResidentialCity.class);
                     startActivity(intent);
                 } else {
-                    CommonMethods.showToast(activity, addLeadResponse.getMessage());
+                    if(addLeadResponse.getMessage()!=null)
+                    {
+                        CommonMethods.showToast(activity, addLeadResponse.getMessage());
+                    }
+                    else
+                    {
+                        CommonMethods.showToast(activity, "Try Again");
+                    }
+
                 }
 
             } catch (Exception exception) {
@@ -232,6 +237,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
         basicDetails.setCustomerMobile(CommonStrings.customBasicDetails.getCustomerMobile());
         basicDetails.setEmail(CommonStrings.customBasicDetails.getEmail());
         basicDetails.setOtp(CommonStrings.customBasicDetails.getOtp());
+        basicDetails.setSalutation(CommonStrings.customBasicDetails.getSalutation());
         return basicDetails;
     }
 

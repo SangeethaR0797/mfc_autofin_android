@@ -103,21 +103,18 @@ public class CurrentOrganizationActivity extends AppCompatActivity implements Vi
                 }
             }
         });
-        //etOrganizationName.setOnClickListener(this);
+
     }
 
     @Override
     public void onClick(View v) {
-        /*if (v.getId() == R.id.iv_personal_details_backBtn) {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else*/
         if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
             if (!etOrganizationName.getText().toString().equals("")) {
                 strOrgName = etOrganizationName.getText().toString();
-                CommonStrings.cusEmpDetailsModel.setEmpOrgName(strOrgName);
-                if (CommonStrings.cusEmpDetailsModel.getEmpType().equals(getResources().getString(R.string.lbl_salaried))) {
+                CommonStrings.cusEmpDetails.setCompanyName(strOrgName);
+                if (CommonStrings.cusEmpDetails.getEmploymentType().equals(getResources().getString(R.string.lbl_salaried))) {
                     Intent intent = new Intent(this, JODOCurrentOrgActivity.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvOrganizationLbl.getText().toString());
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE, strOrgName);

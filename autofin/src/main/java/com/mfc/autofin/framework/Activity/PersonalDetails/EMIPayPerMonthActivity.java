@@ -62,11 +62,6 @@ public class EMIPayPerMonthActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        /*if(v.getId()==R.id.iv_personal_details_backBtn)
-        {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        }
-        else*/
         if(v.getId()==R.id.tvGivenValEdit)
         {
             finish();
@@ -76,7 +71,7 @@ public class EMIPayPerMonthActivity extends AppCompatActivity implements View.On
             if(!etMonthlyEMIAmount.getText().toString().isEmpty())
             {
                 strMonthlyEMI=etMonthlyEMIAmount.getText().toString();
-                CommonMethods.setValueAgainstKey(EMIPayPerMonthActivity.this,CommonStrings.MONTHLY_EMI,strMonthlyEMI);
+                CommonStrings.customPersonalDetails.setTotalEMIPaid(strMonthlyEMI);
                 Intent intent = new Intent(this, EmploymentTypeActivity.class);
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvMonthlyEMILbl.getText().toString());
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE, strMonthlyEMI);

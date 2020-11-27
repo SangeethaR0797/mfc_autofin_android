@@ -36,8 +36,8 @@ public class CurrentResidenceMonthAndYearActivity extends AppCompatActivity impl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_moved_to_current_city);
-        if (CommonMethods.getStringValueFromKey(this, CommonStrings.MOVED_TO_CCITY).length() > 0) {
-            strMYofCCity = CommonMethods.getStringValueFromKey(this, CommonStrings.MOVED_TO_CCITY);
+        if (CommonStrings.customResDetails.getMoveInCityYear().length() > 0) {
+            strMYofCCity = CommonStrings.customResDetails.getMoveInCityYear();
             strYOfCCity = getMYear(strMYofCCity);
         } else {
             strMYofCCity = "";
@@ -70,9 +70,6 @@ public class CurrentResidenceMonthAndYearActivity extends AppCompatActivity impl
     @Override
     public void onClick(View v) {
 
-        /*if (v.getId() == R.id.iv_residential_details_backBtn) {
-            finish();
-        } else*/
         if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.tvWhenMovedToCurrentCityLbl) {
@@ -114,7 +111,7 @@ public class CurrentResidenceMonthAndYearActivity extends AppCompatActivity impl
         if (tvGivenPreviousVal.getText().toString() != "" && tvMovedToCRes.getText().toString() != "") {
             try {
                 if (crYear >= Integer.parseInt(strYOfCCity)) {
-                    CommonMethods.setValueAgainstKey(this, CommonStrings.MOVED_TO_CRESIDENCE, tvMovedToCRes.getText().toString());
+                    CommonStrings.customResDetails.setMoveInResidenceYear(tvMovedToCRes.getText().toString());
                     startActivity(new Intent(this, ResidenceTypeActivity.class));
                 } else {
                     CommonMethods.showToast(this, "Selected Year should be Same or Later");

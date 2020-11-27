@@ -8,7 +8,7 @@ public class VehicleDetails {
 
     @SerializedName("haveVehicleNumber")
     @Expose
-    private Boolean haveVehicleNumber;
+    private boolean haveVehicleNumber;
     @SerializedName("registrationYear")
     @Expose
     private String registrationYear;
@@ -26,7 +26,7 @@ public class VehicleDetails {
     private Integer ownership;
     @SerializedName("doesCarHaveLoan")
     @Expose
-    private Boolean doesCarHaveLoan;
+    private boolean doesCarHaveLoan;
     @SerializedName("valuationPrice")
     @Expose
     private String valuationPrice;
@@ -35,7 +35,7 @@ public class VehicleDetails {
     private String valuationreport;
     @SerializedName("insurance")
     @Expose
-    private Boolean insurance;
+    private boolean insurance;
     @SerializedName("insuranceAmount")
     @Expose
     private String insuranceAmount;
@@ -48,12 +48,21 @@ public class VehicleDetails {
     @SerializedName("vehicleNumber")
     @Expose
     private String vehicleNumber;
+    @SerializedName("OnRoadPrice")
+    @Expose
+    private String onRoadPrice;
+    @SerializedName("IsValuationDone")
+    @Expose
+    private boolean isValuationDone;
+    @SerializedName("VehicleSellingPrice")
+    @Expose
+    private String vehicleSellingPrice;
 
-    public Boolean getHaveVehicleNumber() {
+    public boolean getHaveVehicleNumber() {
         return haveVehicleNumber;
     }
 
-    public void setHaveVehicleNumber(Boolean haveVehicleNumber) {
+    public void setHaveVehicleNumber(boolean haveVehicleNumber) {
         this.haveVehicleNumber = haveVehicleNumber;
     }
 
@@ -97,11 +106,11 @@ public class VehicleDetails {
         this.ownership = ownership;
     }
 
-    public Boolean getDoesCarHaveLoan() {
+    public boolean getDoesCarHaveLoan() {
         return doesCarHaveLoan;
     }
 
-    public void setDoesCarHaveLoan(Boolean doesCarHaveLoan) {
+    public void setDoesCarHaveLoan(boolean doesCarHaveLoan) {
         this.doesCarHaveLoan = doesCarHaveLoan;
     }
 
@@ -121,11 +130,11 @@ public class VehicleDetails {
         this.valuationreport = valuationreport;
     }
 
-    public Boolean getInsurance() {
+    public boolean getInsurance() {
         return insurance;
     }
 
-    public void setInsurance(Boolean insurance) {
+    public void setInsurance(boolean insurance) {
         this.insurance = insurance;
     }
 
@@ -161,4 +170,27 @@ public class VehicleDetails {
         this.vehicleNumber = vehicleNumber;
     }
 
+    public String getOnRoadPrice() {
+        return onRoadPrice;
+    }
+
+    public void setOnRoadPrice(String onRoadPrice) {
+        this.onRoadPrice = onRoadPrice;
+    }
+
+    public boolean getIsValuationDone() {
+        return isValuationDone;
+    }
+
+    public void setIsValuationDone(boolean isValuationDone) {
+        this.isValuationDone = isValuationDone;
+    }
+
+    public String getVehicleSellingPrice() {
+        return vehicleSellingPrice;
+    }
+
+    public void setVehicleSellingPrice(String vehicleSellingPrice) {
+        this.vehicleSellingPrice = vehicleSellingPrice;
+    }
 }

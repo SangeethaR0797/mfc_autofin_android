@@ -56,9 +56,7 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_back) {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else if (v.getId() == R.id.tvGivenVehVariantEdit) {
+         if (v.getId() == R.id.tvGivenVehVariantEdit) {
             finish();
         }
     }
@@ -108,6 +106,7 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
 
     private void moveToNextPage(String strOwner) {
         CommonStrings.customVehDetails.setOwnership(Integer.valueOf(strOwner));
+        CommonStrings.customVehDetails.setOnRoadPrice("0");
         Intent intent = new Intent(VehicleOwnerActivity.this, VehiclePurchaseAmountActivity.class);
         startActivity(intent);
     }

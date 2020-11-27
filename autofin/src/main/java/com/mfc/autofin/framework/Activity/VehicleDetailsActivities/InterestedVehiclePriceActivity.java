@@ -62,7 +62,7 @@ public class InterestedVehiclePriceActivity extends AppCompatActivity implements
             try{
                 if(etOnRoadPrice.getText().toString()!="")
                 {
-                    CommonMethods.setValueAgainstKey(this,CommonStrings.ROAD_PRICE,etOnRoadPrice.getText().toString());
+                    CommonStrings.customVehDetails.setOnRoadPrice(etOnRoadPrice.getText().toString());
                     startActivity(new Intent(this, VehiclePurchaseAmountActivity.class));
                 }
                 else

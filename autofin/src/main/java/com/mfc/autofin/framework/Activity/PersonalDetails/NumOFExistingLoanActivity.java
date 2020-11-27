@@ -8,12 +8,8 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
-import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.CarHaveLoanCurrentlyActivity;
-import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehicleOwnerActivity;
 import com.mfc.autofin.framework.R;
 
 import utility.CommonMethods;
@@ -23,9 +19,9 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
 
     private ImageView iv_personal_details_backBtn;
     private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvNumOfExistingLoanLbl;
-    private RadioButton rbLoan01, rbLoan02, rbLoan03, rbLoan04,rbLoan05, rbLoan06, rbNoPendingLoan;
+    private RadioButton rbLoan01, rbLoan02, rbLoan03, rbLoan04, rbLoan05, rbLoan06, rbNoPendingLoan;
     private Intent intent;
-    private String strPreviousLbl,strPreviousVal;
+    private String strPreviousLbl, strPreviousVal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,20 +39,20 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
 
     private void initView() {
         iv_personal_details_backBtn = findViewById(R.id.iv_personal_details_backBtn);
+        iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         tvGivenLbl = findViewById(R.id.tvGivenLbl);
         tvGivenPreviousVal = findViewById(R.id.tvGivenPreviousVal);
         tvGivenValEdit = findViewById(R.id.tvGivenValEdit);
         tvNumOfExistingLoanLbl = findViewById(R.id.tvNumOfExistingLoanLbl);
-        rbLoan01=findViewById(R.id.rbLoan01);
-        rbLoan02=findViewById(R.id.rbLoan02);
-        rbLoan03=findViewById(R.id.rbLoan03);
-        rbLoan04=findViewById(R.id.rbLoan04);
-        rbLoan05=findViewById(R.id.rbLoan05);
-        rbLoan06=findViewById(R.id.rbLoan06);
-        rbNoPendingLoan=findViewById(R.id.rbNoPendingLoan);
+        rbLoan01 = findViewById(R.id.rbLoan01);
+        rbLoan02 = findViewById(R.id.rbLoan02);
+        rbLoan03 = findViewById(R.id.rbLoan03);
+        rbLoan04 = findViewById(R.id.rbLoan04);
+        rbLoan05 = findViewById(R.id.rbLoan05);
+        rbLoan06 = findViewById(R.id.rbLoan06);
+        rbNoPendingLoan = findViewById(R.id.rbNoPendingLoan);
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strPreviousVal);
-        iv_personal_details_backBtn.setOnClickListener(this);
         tvGivenValEdit.setOnClickListener(this);
         rbLoan01.setOnCheckedChangeListener(this);
         rbLoan02.setOnCheckedChangeListener(this);
@@ -70,22 +66,15 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
     @Override
     public void onClick(View v) {
 
-        if(v.getId()==R.id.iv_personal_details_backBtn)
-        {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        }
-        else if(v.getId()==R.id.tvGivenValEdit)
-        {
+        if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         }
     }
 
     @Override
     public void onCheckedChanged(CompoundButton button, boolean isChecked) {
-        if(isChecked)
-        {
-            if(button.getId()==R.id.rbLoan01)
-            {
+        if (isChecked) {
+            if (button.getId() == R.id.rbLoan01) {
                 rbLoan02.setChecked(false);
                 rbLoan03.setChecked(false);
                 rbLoan04.setChecked(false);
@@ -94,9 +83,7 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
                 rbNoPendingLoan.setChecked(false);
                 moveToNextPage(rbLoan01.getText().toString());
 
-            }
-            else if(button.getId()==R.id.rbLoan02)
-            {
+            } else if (button.getId() == R.id.rbLoan02) {
                 rbLoan01.setChecked(false);
                 rbLoan03.setChecked(false);
                 rbLoan04.setChecked(false);
@@ -105,9 +92,7 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
                 rbNoPendingLoan.setChecked(false);
                 moveToNextPage(rbLoan02.getText().toString());
 
-            }
-            else if(button.getId()==R.id.rbLoan03)
-            {
+            } else if (button.getId() == R.id.rbLoan03) {
                 rbLoan01.setChecked(false);
                 rbLoan02.setChecked(false);
                 rbLoan04.setChecked(false);
@@ -116,9 +101,7 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
                 rbNoPendingLoan.setChecked(false);
                 moveToNextPage(rbLoan03.getText().toString());
 
-            }
-            else if(button.getId()==R.id.rbLoan04)
-            {
+            } else if (button.getId() == R.id.rbLoan04) {
                 rbLoan01.setChecked(false);
                 rbLoan02.setChecked(false);
                 rbLoan03.setChecked(false);
@@ -127,9 +110,7 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
                 rbNoPendingLoan.setChecked(false);
                 moveToNextPage(rbLoan04.getText().toString());
 
-            }
-            else if(button.getId()==R.id.rbLoan05)
-            {
+            } else if (button.getId() == R.id.rbLoan05) {
                 rbLoan01.setChecked(false);
                 rbLoan02.setChecked(false);
                 rbLoan03.setChecked(false);
@@ -138,9 +119,7 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
                 rbNoPendingLoan.setChecked(false);
                 moveToNextPage(rbLoan05.getText().toString());
 
-            }
-            else if(button.getId()==R.id.rbLoan06)
-            {
+            } else if (button.getId() == R.id.rbLoan06) {
                 rbLoan01.setChecked(false);
                 rbLoan02.setChecked(false);
                 rbLoan03.setChecked(false);
@@ -148,9 +127,7 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
                 rbLoan05.setChecked(false);
                 rbNoPendingLoan.setChecked(false);
                 moveToNextPage(rbLoan06.getText().toString());
-            }
-            else if(button.getId()==R.id.rbNoPendingLoan)
-            {
+            } else if (button.getId() == R.id.rbNoPendingLoan) {
                 rbLoan01.setChecked(false);
                 rbLoan02.setChecked(false);
                 rbLoan03.setChecked(false);
@@ -164,12 +141,13 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
     }
 
     private void moveToNextPage(String existingLoan) {
-        CommonMethods.setValueAgainstKey(this,CommonStrings.NO_OF_EXISTING_LOAN,existingLoan);
+        CommonStrings.customLoanDetails.setNoOfExistingLoans(existingLoan);
         Intent intent = new Intent(this, LoanRequiredActivity.class);
         intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvNumOfExistingLoanLbl.getText().toString());
         intent.putExtra(CommonStrings.PREVIOUS_VALUE, existingLoan);
         startActivity(intent);
     }
+
     @Override
     public void onBackPressed() {
 

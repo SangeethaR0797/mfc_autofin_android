@@ -39,8 +39,8 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
         setContentView(R.layout.activity_veh_valid_insurance);
         Log.i(TAG, "onCreate: ");
 
-        if (!CommonMethods.getStringValueFromKey(this, "post_inspection_amount").equals("")) {
-            strPostInspectionVal = CommonMethods.getStringValueFromKey(this, "post_inspection_amount");
+        if (!CommonStrings.customVehDetails.getValuationPrice().equals("")) {
+            strPostInspectionVal = getString(R.string.rupees_symbol) + " "+CommonStrings.customVehDetails.getValuationPrice();
         } else {
             strPostInspectionVal = "";
         }
@@ -87,9 +87,7 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_back) {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else if (v.getId() == R.id.tvGivenVehPostInspectionEdit) {
+         if (v.getId() == R.id.tvGivenVehPostInspectionEdit) {
             finish();
         } else if (v.getId() == R.id.btnValidInsurance) {
             strInsurance = "Yes";

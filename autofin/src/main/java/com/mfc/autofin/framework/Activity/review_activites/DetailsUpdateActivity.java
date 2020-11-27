@@ -121,17 +121,17 @@ public class DetailsUpdateActivity extends AppCompatActivity implements Callback
 
     private EmploymentDetails getEmploymentDetails() {
         EmploymentDetails employmentDetails = new EmploymentDetails();
-        employmentDetails.setEmploymentRole("");
+        employmentDetails.setEmploymentRole(CommonStrings.cusEmpDetailsModel.getEmpRole());
         employmentDetails.setCompanyJoiningDate(CommonMethods.getStringValueFromKey(this, CommonStrings.CURRENT_ORG_JOINING_DATE));
-        employmentDetails.setCompanyName(CommonMethods.getStringValueFromKey(this, CommonStrings.CURRENT_ORG_NAME));
-        employmentDetails.setEmploymentType("");
+        employmentDetails.setCompanyName(CommonStrings.cusEmpDetailsModel.getEmpOrgName());
+        employmentDetails.setEmploymentType(CommonStrings.cusEmpDetailsModel.getEmpType());
         employmentDetails.setIsLastestItraudited(false);
         employmentDetails.setLastYearDepreciation("");
-        employmentDetails.setProfession("IT");
-        employmentDetails.setLastYearTurnOver("");
+        employmentDetails.setProfession(CommonStrings.cusEmpDetailsModel.getProfession());
+        employmentDetails.setLastYearTurnOver(CommonStrings.cusEmpDetailsModel.getLastYearTurnOver());
         employmentDetails.setSalaryAccount(CommonMethods.getStringValueFromKey(this, CommonStrings.BANK_NAME));
         employmentDetails.setSalaryMode(CommonMethods.getStringValueFromKey(this, CommonStrings.SALARY_MODE));
-        employmentDetails.setTotalWorkExperience(CommonMethods.getStringValueFromKey(this, CommonStrings.YEARS_OF_EXPERIENCE));
+        employmentDetails.setTotalWorkExperience(CommonStrings.cusEmpDetailsModel.getTotalExp());
 
         return employmentDetails;
     }

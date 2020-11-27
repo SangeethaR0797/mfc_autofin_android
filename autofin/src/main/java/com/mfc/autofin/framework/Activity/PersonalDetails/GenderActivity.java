@@ -40,8 +40,8 @@ public class GenderActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gender_personal_details);
         try{
-            if (!CommonMethods.getStringValueFromKey(this, CommonStrings.USER_DOB).equals("")) {
-                strUserDOB = CommonMethods.getStringValueFromKey(this, CommonStrings.USER_DOB);
+            if (!CommonStrings.customPersonalDetails.getBirthDate().equals("")) {
+                strUserDOB = CommonStrings.customPersonalDetails.getBirthDate();
             } else {
                 strUserDOB = "";
             }
@@ -100,11 +100,6 @@ public class GenderActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        /*if(v.getId()==R.id.iv_personal_details_backBtn)
-        {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        }
-        else*/
         if (v.getId() == R.id.tvGenderVal) {
             if(genderList!=null && genderList.size()>0)
             {
@@ -124,7 +119,7 @@ public class GenderActivity extends AppCompatActivity implements View.OnClickLis
         {
             if(!tvGenderVal.getText().toString().equals(""))
             {
-                CommonMethods.setValueAgainstKey(this,CommonStrings.GENDER,tvGenderVal.getText().toString());
+                CommonStrings.customPersonalDetails.setGender(tvGenderVal.getText().toString());
                 startActivity(new Intent(this,EducationActivity.class));
             }
             else

@@ -52,7 +52,7 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_variant);
         Log.i(TAG, "onCreate: ");
-        strVehCategory=CommonStrings.customVehDetails.getVehCategory();
+        strVehCategory=CommonStrings.customLoanDetails.getLoanCategory();
         strYear = CommonStrings.customVehDetails.getRegistrationYear();
         strVehMake = CommonStrings.customVehDetails.getMake();
         strVehModel = CommonStrings.customVehDetails.getModel();
@@ -203,8 +203,8 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
             }
         } catch (Exception exception) {
             exception.printStackTrace();
-            Intent intent = new Intent(VehicleVariantActivity.this, AutoFinDashBoardActivity.class);
-            startActivity(intent);
+            CommonMethods.redirectToDashboard(this);
+
         }
 
     }

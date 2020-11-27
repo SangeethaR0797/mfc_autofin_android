@@ -35,6 +35,7 @@ import model.vehicle_details.vehicle_category.VehicleDetails;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import utility.AutoFinConstants;
 import utility.CommonMethods;
 import utility.CommonStrings;
 import utility.CustomFonts;
@@ -62,9 +63,9 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_details);
-        if (CommonStrings.customVehDetails.getVehCategory().equals(getResources().getString(R.string.new_car))) {
+        if (CommonStrings.customLoanDetails.getLoanCategory().equals(getResources().getString(R.string.new_car))) {
             isNewCarFlow = true;
-            if (!CommonMethods.getStringValueFromKey(this, CommonStrings.VEH_PURCHASE_AMOUNT).equals("")) {
+            if (!CommonStrings.customVehDetails.getVehicleSellingPrice().equals("")) {
                 strPreviousScreenVal = CommonMethods.getStringValueFromKey(this, CommonStrings.VEH_INSURED_AMOUNT);
             } else {
                 strPreviousScreenVal = "";
@@ -140,11 +141,9 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
                 retrofitInterface.getFromWeb(getOTPRequest(), CommonStrings.OTP_URL_END).enqueue(this);
             }
         } else if (v.getId() == R.id.iv_basic_details_backBtn) {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
+            CommonMethods.redirectToDashboard(BasicDetailsActivity.this);
             CommonMethods.clearData();
-        } /*else if (v.getId() == R.id.spSalutation) {
-            retrofitInterface.getFromWeb(CommonStrings.GET_SALUTATION_URL).enqueue(this);
-        }*/
+        }
     }
 
     private OTPRequest getOTPRequest() {
@@ -257,35 +256,29 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
         VehicleDetails vehicleDetails = new VehicleDetails();
         try {
 
-            vehicleDetails.setHaveVehicleNumber(false);
-            vehicleDetails.setVehicleNumber("NA");
-            vehicleDetails.setDoesCarHaveLoan(CommonStrings.customVehDetails.getDoesCarHaveLoan());
             vehicleDetails.setHaveVehicleNumber(CommonStrings.customVehDetails.getHaveVehicleNumber());
             vehicleDetails.setVehicleNumber(CommonStrings.customVehDetails.getVehicleNumber());
+            vehicleDetails.setRegistrationYear(CommonStrings.customVehDetails.getRegistrationYear());
             vehicleDetails.setMake(CommonStrings.customVehDetails.getMake());
             vehicleDetails.setModel(CommonStrings.customVehDetails.getModel());
             vehicleDetails.setVariant(CommonStrings.customVehDetails.getVariant());
-            vehicleDetails.setRegistrationYear(CommonStrings.customVehDetails.getRegistrationYear());
             vehicleDetails.setOwnership(CommonStrings.customVehDetails.getOwnership());
+            vehicleDetails.setVehicleSellingPrice(CommonStrings.customVehDetails.getVehicleSellingPrice());
             vehicleDetails.setDoesCarHaveLoan(CommonStrings.customVehDetails.getDoesCarHaveLoan());
+            vehicleDetails.setValuationPrice(CommonStrings.customVehDetails.getValuationPrice());
+            vehicleDetails.setOnRoadPrice(CommonStrings.customVehDetails.getOnRoadPrice());
+
             if (CommonStrings.customVehDetails.getInsurance()) {
                 vehicleDetails.setInsurance(CommonStrings.customVehDetails.getInsurance());
-                vehicleDetails.setInsuranceType(CommonStrings.customVehDetails.getInsuranceType());
                 vehicleDetails.setInsuranceAmount(CommonStrings.customVehDetails.getInsuranceAmount());
-                //vehicleDetails.setInsuranceValidity(CommonMethods.getIVDateInFormat(CommonStrings.customVehDetails.getInsuranceValidity()));
-                vehicleDetails.setInsuranceValidity("2020-01-01");
+                vehicleDetails.setInsuranceType(CommonStrings.customVehDetails.getInsuranceType());
+                vehicleDetails.setInsuranceValidity(CommonStrings.customVehDetails.getInsuranceValidity());
 
             } else {
                 vehicleDetails.setInsurance(CommonStrings.customVehDetails.getInsurance());
                 vehicleDetails.setInsuranceType(CommonStrings.customVehDetails.getInsuranceType());
                 vehicleDetails.setInsuranceAmount(CommonStrings.customVehDetails.getInsuranceAmount());
-                Log.i(TAG, "getVehicleDetails: " + CommonStrings.customVehDetails.getInsurance());
-                Log.i(TAG, "getVehicleDetails: " + CommonStrings.customVehDetails.getInsuranceType());
-                Log.i(TAG, "getVehicleDetails: " + CommonStrings.customVehDetails.getInsuranceAmount());
-                vehicleDetails.setInsuranceValidity("2020-01-01");
-                Log.i(TAG, "getVehicleDetails: " + CommonStrings.customVehDetails.getInsuranceValidity());
-
-
+                vehicleDetails.setInsuranceValidity(CommonStrings.customVehDetails.getInsuranceValidity());
             }
 
         } catch (Exception exception) {
@@ -297,7 +290,7 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
 
     public LoanDetails getLoanDetails() {
         LoanDetails loanDetails = new LoanDetails();
-        loanDetails.setLoanCategory(CommonStrings.customVehDetails.getVehCategory());
+        loanDetails.setLoanCategory(CommonStrings.customLoanDetails.getLoanCategory());
         return loanDetails;
     }
 

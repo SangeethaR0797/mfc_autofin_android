@@ -103,7 +103,7 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
             if (stockResponse != null && stockResponse.getStatus().toString().equals("true")) {
 
                 if (stockResponse.getData() != null) {
-                    CommonStrings.customVehDetails.setVehRegNum(etVehRegNo.getText().toString());
+                    CommonStrings.customVehDetails.setVehicleNumber(etVehRegNo.getText().toString());
                     StockResponseData stockResponseData = stockResponse.getData();
                     CommonStrings.stockResData = stockResponseData;
                     Toast.makeText(this, "Vehicle Number verified successfully!", Toast.LENGTH_LONG).show();

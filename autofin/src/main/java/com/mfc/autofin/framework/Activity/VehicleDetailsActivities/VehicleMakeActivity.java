@@ -137,8 +137,7 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_vehDetails_back) {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-
+            CommonMethods.redirectToDashboard(this);
         } else if (v.getId() == R.id.tvGivenRegYearEdit) {
             finish();
         } else if (v.getId() == R.id.tvSelectedVehMake) {
@@ -196,8 +195,7 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
             }
         } catch (Exception exception) {
             exception.printStackTrace();
-            Intent intent = new Intent(VehicleMakeActivity.this, AutoFinDashBoardActivity.class);
-            startActivity(intent);
+            CommonMethods.redirectToDashboard(this);
         }
 
     }

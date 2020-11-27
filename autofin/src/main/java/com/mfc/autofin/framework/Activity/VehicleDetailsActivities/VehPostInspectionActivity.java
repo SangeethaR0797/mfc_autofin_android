@@ -49,26 +49,23 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
         btnNext = findViewById(R.id.btnNext);
         llVehPostInspection = findViewById(R.id.llVehPostInspection);
         iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
+        iv_vehDetails_backBtn.setVisibility(View.INVISIBLE);
         tvGivenVehLoanVal.setText(strDoesCarHaveLoan);
-        iv_vehDetails_backBtn.setOnClickListener(this);
         tvGivenVehLoanEdit.setOnClickListener(this);
         btnNext.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.iv_vehDetails_back) {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else if (v.getId() == R.id.tvGivenVehLoanEdit) {
+         if (v.getId() == R.id.tvGivenVehLoanEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
             if (!etPostInspectionAmount.getText().toString().equals("")) {
-                CommonMethods.setValueAgainstKey(this, "post_inspection_amount", getString(R.string.rupees_symbol) + " " + etPostInspectionAmount.getText().toString());
+               CommonStrings.customVehDetails.setValuationPrice(etPostInspectionAmount.getText().toString());
                 Intent intent = new Intent(VehPostInspectionActivity.this, VehValidInsuranceActivity.class);
                 startActivity(intent);
             } else {
                 Toast.makeText(this, "Please enter Post valuation amount", Toast.LENGTH_LONG).show();
-
             }
         }
     }

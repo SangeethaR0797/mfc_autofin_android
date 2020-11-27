@@ -37,8 +37,8 @@ public class CityMonthAndYearActivity extends AppCompatActivity implements View.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_moved_to_city_m_y);
-        if (CommonStrings.customCityData.getCity() != null)
-            strCity = CommonStrings.customCityData.getCity();
+        if (CommonStrings.customResDetails.getCustomerCity() != null)
+            strCity = CommonStrings.customResDetails.getCustomerCity();
         initView();
     }
 
@@ -56,15 +56,11 @@ public class CityMonthAndYearActivity extends AppCompatActivity implements View.
         tvGivenValEdit.setOnClickListener(this);
         tvWhenMovedToCityLbl.setOnClickListener(this);
         tvMovedToCity.setOnClickListener(this);
-        //datePicker=findViewById(R.id.date_picker);
     }
 
     @Override
     public void onClick(View v) {
 
-        /*if (v.getId() == R.id.iv_residential_details_backBtn) {
-            finish();
-        } else*/
         if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.tvWhenMovedToCityLbl) {
@@ -103,7 +99,7 @@ public class CityMonthAndYearActivity extends AppCompatActivity implements View.
 
     private void moveToNextScreen() {
         if (tvGivenPreviousVal.getText().toString() != "" && tvMovedToCity.getText().toString() != "") {
-            CommonMethods.setValueAgainstKey(this, CommonStrings.MOVED_TO_CCITY, tvMovedToCity.getText().toString());
+            CommonStrings.customResDetails.setMoveInCityYear(tvMovedToCity.getText().toString());
             startActivity(new Intent(this, CurrentResidenceMonthAndYearActivity.class));
         } else {
             CommonMethods.showToast(this, "Please select Month and Year");

@@ -1,9 +1,16 @@
 package utility;
 
+import com.mfc.autofin.framework.Activity.ResidentialActivity.ResidentialCity;
+
+import model.add_lead_details.LoanDetails;
+import model.basic_details.BasicDetails;
+import model.basic_details.EmploymentDetails;
+import model.basic_details.PersonalDetailsData;
+import model.basic_details.ResidentialDetails;
 import model.custom_model.CusEmpDetailsModel;
 import model.custom_model.CustomBasicDetailsModel;
-import model.custom_model.CustomVehDetails;
 import model.residential_models.CityData;
+import model.vehicle_details.vehicle_category.VehicleDetails;
 import model.vehicle_details.vehicle_category.stock_details.StockResponseData;
 
 public class CommonStrings {
@@ -99,9 +106,11 @@ public class CommonStrings {
     public static String IBB_MODEL = "model";
     public static String IBB_VARIANT = "variant";
     public static StockResponseData stockResData = new StockResponseData();
-    public static CustomVehDetails customVehDetails = new CustomVehDetails();
-    public static CustomBasicDetailsModel customBasicDetails = new CustomBasicDetailsModel();
-    public static CusEmpDetailsModel cusEmpDetailsModel = new CusEmpDetailsModel();
-    public static CityData customCityData = new CityData();
+    public static VehicleDetails customVehDetails = new VehicleDetails();
+    public static LoanDetails customLoanDetails = new LoanDetails();
+    public static BasicDetails customBasicDetails = new BasicDetails();
+    public static ResidentialDetails customResDetails = new ResidentialDetails();
+    public static PersonalDetailsData customPersonalDetails = new PersonalDetailsData();
+    public static EmploymentDetails cusEmpDetails = new EmploymentDetails();
 
 }

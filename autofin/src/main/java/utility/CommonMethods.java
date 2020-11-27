@@ -1,8 +1,8 @@
 package utility;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -10,17 +10,18 @@ import android.preference.PreferenceManager;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.mfc.autofin.framework.Activity.ResidentialActivity.CityMonthAndYearActivity;
+import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import model.basic_details.BasicDetails;
 import model.custom_model.CusEmpDetailsModel;
 import model.custom_model.CustomBasicDetailsModel;
-import model.custom_model.CustomVehDetails;
 import model.residential_models.CityData;
+import model.vehicle_details.vehicle_category.VehicleDetails;
 
 public class CommonMethods {
     public static boolean isInternetWorking(Context context) {
@@ -89,9 +90,18 @@ public class CommonMethods {
     }
 
     public static void clearData() {
-        CommonStrings.customVehDetails = new CustomVehDetails();
-        CommonStrings.customBasicDetails = new CustomBasicDetailsModel();
+        CommonStrings.customVehDetails = new VehicleDetails();
+        CommonStrings.customBasicDetails = new BasicDetails();
         CommonStrings.customCityData = new CityData();
         CommonStrings.cusEmpDetailsModel = new CusEmpDetailsModel();
+    }
+
+    public static void redirectToDashboard(Activity activity)
+    {
+        Intent intent=new Intent(activity, AutoFinDashBoardActivity.class);
+        intent.putExtra(AutoFinConstants.APP_NAME,"MFCBusiness");
+        intent.putExtra(AutoFinConstants.DEALER_ID,CommonMethods.getStringValueFromKey(activity,CommonStrings.DEALER_ID_VAL));
+        intent.putExtra(AutoFinConstants.USER_TYPE,CommonMethods.getStringValueFromKey(activity,CommonStrings.USER_TYPE_VAL));
+        activity.startActivity(intent);
     }
 }

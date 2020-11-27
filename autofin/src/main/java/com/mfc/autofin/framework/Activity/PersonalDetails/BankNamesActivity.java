@@ -108,8 +108,9 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
         {
             if(!tvSelectedBankName.getText().toString().equals(""))
             {
-                if(CommonStrings.cusEmpDetailsModel.getEmpType().equalsIgnoreCase(getResources().getString(R.string.lbl_salaried)))
+                if(CommonStrings.cusEmpDetails.getEmploymentType().equalsIgnoreCase(getResources().getString(R.string.lbl_salaried)))
                 {
+                    CommonStrings.cusEmpDetails.setSalaryAccount(tvSelectedBankName.getText().toString());
                     Intent intent = new Intent(this, CurrentOrganizationActivity.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvSelectBankNameLbl.getText().toString());
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE, tvSelectedBankName.getText().toString());
@@ -117,7 +118,7 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
                 }
                 else
                 {
-
+                    CommonStrings.cusEmpDetails.setSalaryAccount(tvSelectedBankName.getText().toString());
                     Intent intent = new Intent(this, PanCardNumberActivity.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvSelectBankNameLbl.getText().toString());
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE, tvSelectedBankName.getText().toString());

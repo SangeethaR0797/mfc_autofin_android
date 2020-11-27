@@ -56,14 +56,14 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_veh_registration_year);
 
 
-        if(CommonStrings.customVehDetails.getVehCategory().equals(getString(R.string.new_car)))
+        if(CommonStrings.customLoanDetails.getLoanCategory().equals(getString(R.string.new_car)))
         {
             isNewCarFlow=true;
-            previousVal=CommonStrings.customVehDetails.getVehCategory();
+            previousVal=CommonStrings.customLoanDetails.getLoanCategory();
         }
         else
         {
-            previousVal = CommonStrings.customVehDetails.getVehRegNum();
+            previousVal = CommonStrings.customVehDetails.getVehicleNumber();
         }
 
             if (CommonStrings.stockResData != null) {
@@ -102,7 +102,7 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
         }
         else
         {
-            tvGivenRegNumLbl.setText(getString(R.string.lbl_reg_no));
+            tvGivenRegNumLbl.setText("REGISTRATION NO.");
         }
         tvGivenRegNoVal.setText(previousVal);
         lvVehListView.setDivider(null);
@@ -116,9 +116,7 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        /*if (v.getId() == R.id.iv_vehDetails_back) {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else */
+
         if (v.getId() == R.id.tvVehRegNumEdit) {
             finish();
         } else if (v.getId() == R.id.tvRegYear) {
@@ -155,8 +153,7 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
             }
         } catch (Exception exception) {
             exception.printStackTrace();
-            Intent intent = new Intent(VehRegistrationYear.this, AutoFinDashBoardActivity.class);
-            startActivity(intent);
+            CommonMethods.redirectToDashboard(this);
         }
 
     }

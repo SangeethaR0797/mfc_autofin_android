@@ -29,8 +29,8 @@ public class MonthlyIncome extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monthly_income);
-        if (CommonMethods.getStringValueFromKey(this, CommonStrings.EDUCATION).length() > 0) {
-            strEducation = CommonMethods.getStringValueFromKey(this, CommonStrings.EDUCATION);
+        if (CommonStrings.customPersonalDetails.getEducation().length() > 0) {
+            strEducation = CommonStrings.customPersonalDetails.getEducation();
         } else {
             strEducation = "";
         }
@@ -59,17 +59,12 @@ public class MonthlyIncome extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        /*if(v.getId()==R.id.iv_personal_details_backBtn)
-        {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        }
-        else*/
         if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
             if (!etMonthlyIncomeAmount.getText().toString().equals("")) {
                 strMonthlyIncome = etMonthlyIncomeAmount.getText().toString();
-                CommonMethods.setValueAgainstKey(MonthlyIncome.this, CommonStrings.MONTHLY_INCOME, strMonthlyIncome);
+                CommonStrings.customPersonalDetails.setSalaryPerMonth(strMonthlyIncome);
                 Intent intent = new Intent(this, NumOFExistingLoanActivity.class);
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvMonthlyIncomeLbl .getText().toString());
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE, strMonthlyIncome);
