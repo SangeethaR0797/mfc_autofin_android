@@ -57,6 +57,17 @@ public class VehicleDetails {
     @SerializedName("VehicleSellingPrice")
     @Expose
     private String vehicleSellingPrice;
+    @SerializedName("LikelyPurchaseDate")
+    @Expose
+    private String likelyPurchaseDate;
+
+    public String getLikelyPurchaseDate() {
+        return likelyPurchaseDate;
+    }
+
+    public void setLikelyPurchaseDate(String likelyPurchaseDate) {
+        this.likelyPurchaseDate = likelyPurchaseDate;
+    }
 
     public boolean getHaveVehicleNumber() {
         return haveVehicleNumber;

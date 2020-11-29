@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.google.gson.Gson;
+import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.Activity.bank_offer_activities.InterestedBankOfferDetailsActivity;
 import com.mfc.autofin.framework.R;
 
@@ -203,7 +204,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             }
         } else if (v.getId() == R.id.cbSkipBankDocs) {
             if (cbSkipBankDocs.isChecked()) {
-                startActivity(new Intent(DocumentUploadActivity.this,InterestedBankOfferDetailsActivity.class));
+                startActivity(new Intent(DocumentUploadActivity.this, AutoFinDashBoardActivity.class));
             }
         } else if (v.getId() == R.id.cbUploadDocsAgreeTAndC) {
             if (cbUploadDocsAgreeTAndC.isChecked()) {

@@ -10,16 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
     <include layout="@layout/personal_details_app_bar" />
-
     <include layout="@layout/layout_previous_screen_values" />
-
         <androidx.cardview.widget.CardView
             style="@style/veh_details_card_view_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -14,9 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
-import com.mfc.autofin.framework.Activity.PersonalDetails.employment_activities.IndustryTypeActivity;
-import com.mfc.autofin.framework.Activity.PersonalDetails.employment_activities.LastYearDepreciationActivity;
 import com.mfc.autofin.framework.R;
 
 import java.util.List;
@@ -119,11 +116,6 @@ public class CurrentOrganizationActivity extends AppCompatActivity implements Vi
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvOrganizationLbl.getText().toString());
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE, strOrgName);
                     startActivity(intent);
-                } else {
-                    Intent intent = new Intent(this, SavingsBankAccountActivity.class);
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvOrganizationLbl.getText().toString());
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, strOrgName);
-                    startActivity(intent);
                 }
             } else {
                 belowOrgName.setBackgroundColor(getResources().getColor(R.color.error_red));
@@ -155,7 +147,7 @@ public class CurrentOrganizationActivity extends AppCompatActivity implements Vi
                     bankNamesRes.getMessage();
                 }
             } else {
-                CommonMethods.showToast(this, "No Bank names found,Please try again!");
+                CommonMethods.showToast(this, "No Current Organization found,Please try again!");
             }
         } catch (Exception exception) {
             exception.printStackTrace();

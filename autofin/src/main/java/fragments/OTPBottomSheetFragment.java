@@ -124,7 +124,6 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
             dismiss();
         } else if (v.getId() == R.id.tvResendOTPLbl) {
             if (!CommonStrings.customBasicDetails.getOtp().equals("")) {
-                CommonStrings.customBasicDetails.setOtp("");
                 otpTimer.cancel();
             }
             SpinnerManager.showSpinner(activity);
@@ -168,7 +167,6 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
                 if (otpResponse != null && otpResponse.getStatus().toString().equals("true")) {
 
                     if (otpResponse.getData() != null) {
-                        CommonStrings.customBasicDetails.setOtp(otpResponse.getData());
                         otpTimer.start();
                     }
                 } else {

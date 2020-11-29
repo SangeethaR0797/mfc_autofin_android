@@ -55,6 +55,7 @@
                         android:drawableRight="@drawable/ic_forward_arrow"
                         android:gravity="right"
                         android:text="@string/skip_lbl"
+                        android:visibility="invisible"
                         android:textColor="@color/navy_blue"
                         android:textSize="@dimen/text_size_16sp" />
                 </LinearLayout>
@@ -271,6 +272,7 @@
                         android:drawableRight="@drawable/ic_forward_arrow"
                         android:gravity="right"
                         android:text="@string/skip_lbl"
+                        android:visibility="invisible"
                         android:textColor="@color/navy_blue"
                         android:textSize="@dimen/text_size_16sp" />
                 </LinearLayout>
@@ -610,6 +612,7 @@
                 android:text="@string/str_skip_now_and_do_it_later"
                 android:textColor="@color/very_dark_blue"
                 android:buttonTint="@color/very_dark_blue"
+                android:visibility="invisible"
                 android:textSize="16dp"/>
 
             <CheckBox

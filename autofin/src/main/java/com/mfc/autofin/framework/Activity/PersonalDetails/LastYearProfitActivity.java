@@ -15,6 +15,7 @@ import com.mfc.autofin.framework.Activity.PersonalDetails.employment_activities.
 import com.mfc.autofin.framework.Activity.PersonalDetails.employment_activities.LastYearSalesOrTurnOver;
 import com.mfc.autofin.framework.R;
 
+import utility.CommonMethods;
 import utility.CommonStrings;
 
 public class LastYearProfitActivity extends AppCompatActivity implements View.OnClickListener {
@@ -71,7 +72,7 @@ public class LastYearProfitActivity extends AppCompatActivity implements View.On
             try{
                 if (!etLastYearProfitVal.getText().toString().isEmpty()) {
                     strLastYearSales = etLastYearProfitVal.getText().toString();
-                    // CommonMethods.setValueAgainstKey(LastYearSalesOrTurnOver.this, CommonStrings.LAST_YEAR_TURN_OVER, strLastYearSales);
+                    CommonMethods.setValueAgainstKey(LastYearProfitActivity.this, CommonStrings.LAST_YEAR_PROFIT, strLastYearSales);
                    // CommonStrings.cusEmpDetailsModel.setLastYearTurnOver(strLastYearSales);
                     Intent intent=new Intent(this, LastYearSalesOrTurnOver.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL,tvLastYearProfit.getText().toString());

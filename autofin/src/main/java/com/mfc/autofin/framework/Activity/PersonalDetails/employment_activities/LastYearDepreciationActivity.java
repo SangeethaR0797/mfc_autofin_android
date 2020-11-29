@@ -61,14 +61,12 @@ public class LastYearDepreciationActivity extends AppCompatActivity implements V
 
     @Override
     public void onClick(View v) {
-        /*if (v.getId() == R.id.iv_personal_details_backBtn) {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else*/ if (v.getId() == R.id.tvGivenValEdit) {
+       if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
             if (!etLastYearDepreciation.getText().toString().isEmpty()) {
                 strLastYearDepreciation = etLastYearDepreciation.getText().toString();
-                CommonStrings.cusEmpDetailsModel.setLastYearDepreciation(strLastYearDepreciation);
+                CommonStrings.cusEmpDetails.setLastYearDepreciation(strLastYearDepreciation);
                 Intent intent = new Intent(this, ITRAuditedActivity.class);
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL,tvLastYearDepreciationLbl.getText().toString() );
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE, strLastYearDepreciation);
@@ -76,7 +74,7 @@ public class LastYearDepreciationActivity extends AppCompatActivity implements V
             } else {
                 belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.error_red));
                 tvErrorMessage.setVisibility(View.VISIBLE);
-                tvErrorMessage.setText(getResources().getString(R.string.please_enter_year_of_experience));
+                tvErrorMessage.setText("Please enter your Last year depreciation");
             }
 
         } else if (v.getId() == R.id.etLastYearDepreciation) {

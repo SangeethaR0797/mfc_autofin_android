@@ -374,7 +374,13 @@ public class AdditionalFieldAdapter extends RecyclerView.Adapter<AdditionalField
                     Toast.makeText(activity, "Success", Toast.LENGTH_LONG).show();
                     activity.startActivity(new Intent(activity, DocumentUploadActivity.class));
                 } else {
-                    Toast.makeText(activity, "Please try again", Toast.LENGTH_LONG).show();
+                    if(submitAdditionalFldRes.getMessage()!=null)
+                    {
+                        Toast.makeText(activity, submitAdditionalFldRes.getMessage().toString(), Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Toast.makeText(activity, "Please try again", Toast.LENGTH_LONG).show();
+                    }
                 }
             } catch (NullPointerException nullPointerException) {
                 nullPointerException.printStackTrace();

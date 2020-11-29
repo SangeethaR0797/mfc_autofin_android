@@ -65,15 +65,12 @@ public class YearOfExperienceActivity extends AppCompatActivity implements View.
 
     @Override
     public void onClick(View v) {
-        /*if (v.getId() == R.id.iv_personal_details_backBtn) {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else*/
         if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
             if (!etNOOfYears.getText().toString().isEmpty()) {
                 strYearsOfExperience = etNOOfYears.getText().toString();
-                CommonStrings.cusEmpDetailsModel.setTotalExp(strYearsOfExperience);
+                CommonStrings.cusEmpDetails.setTotalWorkExperience(strYearsOfExperience);
                 Intent intent = new Intent(this, SalaryModeActivity.class);
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvYearOfExpLbl.getText().toString());
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE, strYearsOfExperience);

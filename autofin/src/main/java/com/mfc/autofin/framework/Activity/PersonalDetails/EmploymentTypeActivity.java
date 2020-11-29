@@ -118,7 +118,7 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
             startActivity(intent);
         } else if (v.getId() == R.id.rbIndependentWorker) {
             CommonStrings.cusEmpDetails.setEmploymentType(rbIndependentWorker.getText().toString());
-            Intent intent = new Intent(this, BankNamesActivity.class);
+            Intent intent = new Intent(this, SavingsBankAccountActivity.class);
             intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
             intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbIndependentWorker.getText().toString());
             startActivity(intent);

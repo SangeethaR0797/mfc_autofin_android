@@ -122,6 +122,6 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
     }
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        CommonMethods.redirectToDashboard(UserDOBActivity.this);
     }
 }

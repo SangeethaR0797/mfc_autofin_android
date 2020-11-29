@@ -134,7 +134,7 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
                 rbLoan04.setChecked(false);
                 rbLoan05.setChecked(false);
                 rbLoan06.setChecked(false);
-                moveToNextPage(rbNoPendingLoan.getText().toString());
+                moveToNextPage("0");
 
             }
         }

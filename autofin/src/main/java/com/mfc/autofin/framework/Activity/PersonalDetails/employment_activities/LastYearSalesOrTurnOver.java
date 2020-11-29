@@ -54,7 +54,7 @@ public class LastYearSalesOrTurnOver extends AppCompatActivity implements View.O
         belowETYearsOE=findViewById(R.id.belowETYearsOE);
         btnNext=findViewById(R.id.btnNext);
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
-        if(CommonStrings.cusEmpDetailsModel.getEmpType().equals(getResources().getString(R.string.lbl_business_owner)))
+        if(CommonStrings.cusEmpDetails.getEmploymentType().equals(getResources().getString(R.string.lbl_business_owner)))
         {
             tvLastYearSales.setText(getResources().getString(R.string.lbl_last_year_sales));
         }
@@ -71,17 +71,13 @@ public class LastYearSalesOrTurnOver extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View v) {
-        /*if (v.getId() == R.id.iv_personal_details_backBtn) {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else*/
         if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
             try{
                 if (!etLastYearSalesVal.getText().toString().isEmpty()) {
                     strLastYearSales = etLastYearSalesVal.getText().toString();
-                   // CommonMethods.setValueAgainstKey(LastYearSalesOrTurnOver.this, CommonStrings.LAST_YEAR_TURN_OVER, strLastYearSales);
-                    CommonStrings.cusEmpDetailsModel.setLastYearTurnOver(strLastYearSales);
+                    CommonStrings.cusEmpDetails.setLastYearTurnOver(strLastYearSales);
                     Intent intent=new Intent(this, IncomeAfterTaxActivity.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL,tvLastYearSales.getText().toString());
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE,strLastYearSales);
@@ -91,7 +87,6 @@ public class LastYearSalesOrTurnOver extends AppCompatActivity implements View.O
                     tvErrorMessage.setVisibility(View.VISIBLE);
                     tvErrorMessage.setText(getResources().getString(R.string.please_enter_year_of_experience));
                 }
-
             }catch(Exception exception){exception.printStackTrace();}
 
         } else if (v.getId() == R.id.etLastYearSalesVal) {

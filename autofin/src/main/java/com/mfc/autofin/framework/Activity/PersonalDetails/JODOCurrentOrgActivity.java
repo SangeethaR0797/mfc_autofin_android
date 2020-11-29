@@ -92,7 +92,7 @@ public class JODOCurrentOrgActivity extends AppCompatActivity implements View.On
                 String monthName = new DateFormatSymbols().getMonths()[month];
                 strJoiningDate = dayOfMonth + " " + monthName + " " + year;
                 tvCurrentOrgJoiningDate.setText(strJoiningDate);
-                CommonStrings.cusEmpDetailsModel.setOrgJoiningDate(dayOfMonth + " " + monthName + " " + year);
+                CommonStrings.cusEmpDetails.setCompanyJoiningDate(dayOfMonth + " " + monthName + " " + year);
                 Intent intent = new Intent(JODOCurrentOrgActivity.this, IndustryTypeActivity.class);
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvJODOCurrentOrgLbl.getText().toString());
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE, strJoiningDate);

@@ -68,15 +68,12 @@ public class PanCardNumberActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View v) {
 
-        /*if (v.getId() == R.id.iv_personal_details_backBtn) {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else*/
         if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
             if (!etPanCardNumber.getText().toString().isEmpty()) {
                 strPanNumber = etPanCardNumber.getText().toString();
-                CommonStrings.cusEmpDetailsModel.setPanNum(strPanNumber);
+                CommonStrings.customPersonalDetails.setPANNumber(strPanNumber);
                 if (isPanNumberValid(strPanNumber)) {
                     CommonMethods.setValueAgainstKey(this, CommonStrings.PAN_CARD_NUMBER, strPanNumber);
                     Intent intent = new Intent(this, LikelyPurchaseActivity.class);
@@ -113,6 +110,7 @@ public class PanCardNumberActivity extends AppCompatActivity implements View.OnC
             return false;
 
     }
+
     @Override
     public void onBackPressed() {
 

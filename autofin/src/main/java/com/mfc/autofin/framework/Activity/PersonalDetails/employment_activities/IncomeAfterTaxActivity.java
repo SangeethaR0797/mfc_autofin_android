@@ -62,31 +62,21 @@ public class IncomeAfterTaxActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        /*if (v.getId() == R.id.iv_personal_details_backBtn) {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else*/
         if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
             if (!etIncomeAfterTax.getText().toString().isEmpty()) {
                 strIncomeAfterTax = etIncomeAfterTax.getText().toString();
-                CommonStrings.cusEmpDetailsModel.setIncomeAfterTax(strIncomeAfterTax);
-                if (CommonMethods.getStringValueFromKey(this, CommonStrings.EMP_TYPE_VAL).equals(getResources().getString(R.string.lbl_business_owner))) {
+                CommonMethods.setValueAgainstKey(this,CommonStrings.INCOME_AFTER_TAX,strIncomeAfterTax);
                     Intent intent = new Intent(this, LastYearDepreciationActivity.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvIncomeAfterTaxLbl.getText().toString());
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE, strIncomeAfterTax);
                     startActivity(intent);
-                } else {
-                    Intent intent = new Intent(this, CurrentOrganizationActivity.class);
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvIncomeAfterTaxLbl.getText().toString());
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, strIncomeAfterTax);
-                    startActivity(intent);
-                }
 
             } else {
                 belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.error_red));
                 tvErrorMessage.setVisibility(View.VISIBLE);
-                tvErrorMessage.setText(getResources().getString(R.string.please_enter_year_of_experience));
+                tvErrorMessage.setText("Please enter your income after tax");
             }
 
         } else if (v.getId() == R.id.etIncomeAfterTax) {

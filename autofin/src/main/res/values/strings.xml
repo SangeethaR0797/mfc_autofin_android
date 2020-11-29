@@ -131,7 +131,7 @@
     <string name="lbl_please_enter_your_pan_num">PLEASE ENTER YOUR PAN NO.</string>
     <string name="please_enter_pan_number">Please enter your PAN card number</string>
     <string name="please_enter_valid_pan_number">Please enter valid PAN Card no</string>
-    <string name="lbl_select_bank_name">SAVINGS ACCOUNT WITH BANK</string>
+    <string name="lbl_select_bank_name">SALARY ACCOUNT WITH BANK</string>
     <string name="hint_search_bank">Search Bank</string>
     <string name="search_your_bank">SEARCH YOUR BANK</string>
     <string name="employment_type">EMPLOYMENT TYPE</string>

@@ -65,16 +65,13 @@ public class SalaryModeActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
 
-        /*if (v.getId() == R.id.iv_personal_details_backBtn) {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else*/
         if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.rbCashSalary) {
             try {
                 if (rbCashSalary.isChecked()) {
 
-                    CommonMethods.setValueAgainstKey(this, CommonStrings.SALARY_MODE, rbCashSalary.getText().toString());
+                    CommonStrings.cusEmpDetails.setSalaryMode(rbCashSalary.getText().toString());
                     Intent intent = new Intent(this, PanCardNumberActivity.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvSalaryModeLbl.getText().toString());
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbCashSalary.getText().toString());
@@ -88,7 +85,7 @@ public class SalaryModeActivity extends AppCompatActivity implements View.OnClic
             try {
                 if (rbChequeSal.isChecked()) {
 
-                    CommonMethods.setValueAgainstKey(this, CommonStrings.SALARY_MODE, rbChequeSal.getText().toString());
+                    CommonStrings.cusEmpDetails.setSalaryMode(rbChequeSal.getText().toString());
                     Intent intent = new Intent(this, PanCardNumberActivity.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvSalaryModeLbl.getText().toString());
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbChequeSal.getText().toString());
@@ -101,7 +98,7 @@ public class SalaryModeActivity extends AppCompatActivity implements View.OnClic
         } else if (v.getId() == R.id.rbTransferAndDeposit) {
             try {
                 if (rbTransferAndDeposit.isChecked()) {
-                    CommonMethods.setValueAgainstKey(this, CommonStrings.SALARY_MODE, rbTransferAndDeposit.getText().toString());
+                    CommonStrings.cusEmpDetails.setSalaryMode(rbTransferAndDeposit.getText().toString());
                     Intent intent = new Intent(this, PanCardNumberActivity.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvSalaryModeLbl.getText().toString());
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbTransferAndDeposit.getText().toString());

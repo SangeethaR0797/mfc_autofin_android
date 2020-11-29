@@ -16,15 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.R;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import fragments.OTPBottomSheetFragment;
 import model.add_lead_details.LoanDetails;
-import model.basic_details.BasicDetails;
 import model.basic_details.SalutationData;
 import model.basic_details.SalutationResponse;
 import model.basic_details.SalutationType;

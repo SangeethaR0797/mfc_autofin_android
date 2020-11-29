@@ -3,6 +3,8 @@ package model.basic_details;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import model.add_lead_details.LoanDetails;
+
 public class BasicData
 {
         @SerializedName("CustomerId")

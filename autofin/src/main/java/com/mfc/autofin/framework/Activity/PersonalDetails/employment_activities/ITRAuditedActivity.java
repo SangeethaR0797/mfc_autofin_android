@@ -9,11 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.mfc.autofin.framework.Activity.PersonalDetails.CurrentOrganizationActivity;
 import com.mfc.autofin.framework.R;
-
-import model.personal_details_models.IndustryType;
 import utility.CommonMethods;
 import utility.CommonStrings;
 
@@ -68,6 +64,7 @@ public class ITRAuditedActivity extends AppCompatActivity implements View.OnClic
         }
         else if(v.getId()==R.id.btnItrAuditedYes)
         {
+            CommonStrings.cusEmpDetails.setIsLastestItraudited(true);
             Intent intent = new Intent(this, IndustryTypeActivity.class);
             intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL,tvIsITRAuditedLbl.getText().toString());
             intent.putExtra(CommonStrings.PREVIOUS_VALUE, btnItrAuditedYes.getText().toString());
@@ -75,6 +72,7 @@ public class ITRAuditedActivity extends AppCompatActivity implements View.OnClic
         }
         else if(v.getId()==R.id.btnItrAuditedNo)
         {
+            CommonStrings.cusEmpDetails.setIsLastestItraudited(false);
             Intent intent = new Intent(this, IndustryTypeActivity.class);
             intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL,tvIsITRAuditedLbl.getText().toString() );
             intent.putExtra(CommonStrings.PREVIOUS_VALUE, btnItrAuditedNo.getText().toString());

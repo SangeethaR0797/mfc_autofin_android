@@ -16,8 +16,12 @@ import com.mfc.autofin.framework.R;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
+import model.add_lead_details.LoanDetails;
 import model.basic_details.BasicDetails;
+import model.basic_details.EmploymentDetails;
+import model.basic_details.ResidentialDetails;
 import model.custom_model.CusEmpDetailsModel;
 import model.custom_model.CustomBasicDetailsModel;
 import model.residential_models.CityData;
@@ -92,8 +96,9 @@ public class CommonMethods {
     public static void clearData() {
         CommonStrings.customVehDetails = new VehicleDetails();
         CommonStrings.customBasicDetails = new BasicDetails();
-        CommonStrings.customCityData = new CityData();
-        CommonStrings.cusEmpDetailsModel = new CusEmpDetailsModel();
+        CommonStrings.customResDetails = new ResidentialDetails();
+        CommonStrings.cusEmpDetails = new EmploymentDetails();
+        CommonStrings.customLoanDetails = new LoanDetails();
     }
 
     public static void redirectToDashboard(Activity activity)
@@ -104,4 +109,6 @@ public class CommonMethods {
         intent.putExtra(AutoFinConstants.USER_TYPE,CommonMethods.getStringValueFromKey(activity,CommonStrings.USER_TYPE_VAL));
         activity.startActivity(intent);
     }
+
+
 }

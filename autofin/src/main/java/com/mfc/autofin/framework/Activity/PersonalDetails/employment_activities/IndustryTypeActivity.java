@@ -94,19 +94,11 @@ public class IndustryTypeActivity extends AppCompatActivity implements View.OnCl
             finish();
         } else if (v.getId() == R.id.btnNext) {
             if (!tvSelectedIndustryType.getText().toString().equals("")) {
-                CommonStrings.cusEmpDetailsModel.setIndustryType(tvSelectedIndustryType.getText().toString());
-                if (CommonStrings.cusEmpDetailsModel.getEmpType().equalsIgnoreCase(getResources().getString(R.string.lbl_salaried))) {
-                    Log.i(TAG, "onClick: "+CommonStrings.cusEmpDetailsModel.getEmpType().equalsIgnoreCase(getResources().getString(R.string.lbl_salaried)));
-                    Intent intent = new Intent(IndustryTypeActivity.this, SavingsBankAccountActivity.class);
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvIndustryType.getText().toString());
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, tvSelectedIndustryType.getText().toString());
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(IndustryTypeActivity.this, SavingsBankAccountActivity.class);
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvIndustryType.getText().toString());
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, tvSelectedIndustryType.getText().toString());
-                    startActivity(intent);
-                }
+                CommonStrings.cusEmpDetails.setIndustryType(tvSelectedIndustryType.getText().toString());
+                Intent intent = new Intent(IndustryTypeActivity.this, SavingsBankAccountActivity.class);
+                intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvIndustryType.getText().toString());
+                intent.putExtra(CommonStrings.PREVIOUS_VALUE, tvSelectedIndustryType.getText().toString());
+                startActivity(intent);
 
             } else {
                 CommonMethods.showToast(this, "Please select industry type");

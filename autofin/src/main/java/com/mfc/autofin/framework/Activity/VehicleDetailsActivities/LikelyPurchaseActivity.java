@@ -65,7 +65,7 @@ public class LikelyPurchaseActivity extends AppCompatActivity implements View.On
             startActivity(new Intent(this, VehicleVariantActivity.class));
         } else if (v.getId() == R.id.rbWithinAWeek) {
             if (rbWithinAWeek.isChecked()) {
-                CommonMethods.setValueAgainstKey(this, CommonStrings.LIKELY_PURCHASE_DATE, rbWithinAWeek.getText().toString());
+               CommonStrings.customVehDetails.setLikelyPurchaseDate(rbWithinAWeek.getText().toString());
                     Intent intent = new Intent(LikelyPurchaseActivity.this, ReviewActivity.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLikePurchaseTitle.getText().toString());
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbWithinAWeek.getText().toString());
@@ -74,7 +74,7 @@ public class LikelyPurchaseActivity extends AppCompatActivity implements View.On
             }
         } else if (v.getId() == R.id.rbWithinAMonth) {
             if (rbWithinAMonth.isChecked()) {
-                CommonMethods.setValueAgainstKey(this, CommonStrings.LIKELY_PURCHASE_DATE, rbWithinAMonth.getText().toString());
+                CommonStrings.customVehDetails.setLikelyPurchaseDate(rbWithinAMonth.getText().toString());
                 Intent intent = new Intent(LikelyPurchaseActivity.this, ReviewActivity.class);
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLikePurchaseTitle.getText().toString());
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbWithinAMonth.getText().toString());
@@ -83,7 +83,7 @@ public class LikelyPurchaseActivity extends AppCompatActivity implements View.On
             }
         } else if (v.getId() == R.id.rbAfterAMonth) {
             if (rbAfterAMonth.isChecked()) {
-                CommonMethods.setValueAgainstKey(this, CommonStrings.LIKELY_PURCHASE_DATE, rbAfterAMonth.getText().toString());
+                CommonStrings.customVehDetails.setLikelyPurchaseDate(rbAfterAMonth.getText().toString());
                 Intent intent = new Intent(LikelyPurchaseActivity.this, ReviewActivity.class);
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLikePurchaseTitle.getText().toString());
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbAfterAMonth.getText().toString());

@@ -11,22 +11,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.gson.Gson;
 import com.mfc.autofin.framework.R;
 
-import kyc.DocumentUploadActivity;
-import model.CustomerDetailsReq;
-import model.CustomerDetailsRes;
-import model.add_lead_details.AddLeadResponse;
 import model.add_lead_details.CustomerDetails;
 import model.add_lead_details.CustomerDetailsRequest;
 import model.add_lead_details.CustomerDetailsResponse;
 import model.add_lead_details.CustomerID;
-import model.bank_models.InterestedBankOfferRes;
-import model.bank_models.InterestedBankOfferResData;
+import model.add_lead_details.LoanDetails;
 import model.basic_details.BasicData;
 import model.basic_details.BasicDetailsReq;
 import model.basic_details.BasicDetailsResponse;
 import model.basic_details.BasicVehDetails;
 import model.basic_details.EmploymentDetails;
-import model.basic_details.LoanDetails;
 import model.basic_details.PersonalDetailsData;
 import model.basic_details.ReferenceDetails;
 import model.basic_details.ResidentialDetails;
@@ -82,14 +76,15 @@ public class DetailsUpdateActivity extends AppCompatActivity implements Callback
     }
 
     private ResidentialDetails getResidentialDetails() {
-        ResidentialDetails residentialDetails = new ResidentialDetails();
-        residentialDetails.setPincode(CommonStrings.customCityData.getPincode());
-        residentialDetails.setCustomerCity(CommonStrings.customCityData.getCity());
-        residentialDetails.setAddressLine1(CommonMethods.getStringValueFromKey(this, CommonStrings.ADDRESS1));
-        residentialDetails.setAddressLine1(CommonMethods.getStringValueFromKey(this, CommonStrings.ADDRESS2));
-        residentialDetails.setMoveInCityYear(CommonMethods.getStringValueFromKey(this, CommonStrings.MOVED_TO_CCITY));
-        residentialDetails.setResidenceType(CommonMethods.getStringValueFromKey(this, CommonStrings.RESIDENCE_TYPE));
-        return residentialDetails;
+        ResidentialDetails residentialDetails =CommonStrings.customResDetails;
+        /*residentialDetails.setPincode(CommonStrings.customResDetails.getPincode());
+        residentialDetails.setCustomerCity(CommonStrings.customResDetails.getCustomerCity());
+        residentialDetails.setAddressLine1(CommonStrings.customResDetails.getAddressLine1());
+        residentialDetails.setAddressLine2(CommonStrings.customResDetails.getAddressLine2());
+        residentialDetails.setMoveInCityYear(CommonStrings.customResDetails.getMoveInCityYear());
+        residentialDetails.setMoveInResidenceYear(CommonStrings.customResDetails.getMoveInResidenceYear());
+        residentialDetails.setResidenceType(CommonStrings.customResDetails.getResidenceType());
+        */return residentialDetails;
     }
 
     private ReferenceDetails getReferenceDetails() {
@@ -101,38 +96,27 @@ public class DetailsUpdateActivity extends AppCompatActivity implements Callback
     }
 
     private PersonalDetailsData getPersonalDetails() {
-        PersonalDetailsData personalDetailsData = new PersonalDetailsData();
-        personalDetailsData.setBirthDate(CommonMethods.getStringValueFromKey(this, CommonStrings.USER_DOB));
+        PersonalDetailsData personalDetailsData = CommonStrings.customPersonalDetails;
+        /*personalDetailsData.setBirthDate(CommonMethods.getStringValueFromKey(this, CommonStrings.USER_DOB));
         personalDetailsData.setEducation(CommonMethods.getStringValueFromKey(this, CommonStrings.EDUCATION));
         personalDetailsData.setGender(CommonMethods.getStringValueFromKey(this, CommonStrings.GENDER));
         personalDetailsData.setPANNumber(CommonMethods.getStringValueFromKey(this, CommonStrings.PAN_CARD_NUMBER));
         personalDetailsData.setSalaryPerMonth(CommonMethods.getStringValueFromKey(this, CommonStrings.MONTHLY_INCOME));
         personalDetailsData.setTotalEMIPaid(CommonMethods.getStringValueFromKey(this, CommonStrings.MONTHLY_EMI));
-        return personalDetailsData;
+        */return personalDetailsData;
     }
 
     private LoanDetails getLoanDetails() {
-        LoanDetails loanDetails = new LoanDetails();
-        loanDetails.setLoanTenure(0);
+        LoanDetails loanDetails =CommonStrings.customLoanDetails;
+        /*LoanDetails loanDetails = new LoanDetails();
+        loanDetails.setLoanTenure("0");
         loanDetails.setNoOfExistingLoans(CommonMethods.getStringValueFromKey(this, CommonStrings.NO_OF_EXISTING_LOAN));
         loanDetails.setRequiredLoanAmount(CommonMethods.getStringValueFromKey(this, CommonStrings.LOAN_REQUIRED));
-        return loanDetails;
+        */return loanDetails;
     }
 
     private EmploymentDetails getEmploymentDetails() {
-        EmploymentDetails employmentDetails = new EmploymentDetails();
-        employmentDetails.setEmploymentRole(CommonStrings.cusEmpDetailsModel.getEmpRole());
-        employmentDetails.setCompanyJoiningDate(CommonMethods.getStringValueFromKey(this, CommonStrings.CURRENT_ORG_JOINING_DATE));
-        employmentDetails.setCompanyName(CommonStrings.cusEmpDetailsModel.getEmpOrgName());
-        employmentDetails.setEmploymentType(CommonStrings.cusEmpDetailsModel.getEmpType());
-        employmentDetails.setIsLastestItraudited(false);
-        employmentDetails.setLastYearDepreciation("");
-        employmentDetails.setProfession(CommonStrings.cusEmpDetailsModel.getProfession());
-        employmentDetails.setLastYearTurnOver(CommonStrings.cusEmpDetailsModel.getLastYearTurnOver());
-        employmentDetails.setSalaryAccount(CommonMethods.getStringValueFromKey(this, CommonStrings.BANK_NAME));
-        employmentDetails.setSalaryMode(CommonMethods.getStringValueFromKey(this, CommonStrings.SALARY_MODE));
-        employmentDetails.setTotalWorkExperience(CommonStrings.cusEmpDetailsModel.getTotalExp());
-
+        EmploymentDetails employmentDetails = CommonStrings.cusEmpDetails;
         return employmentDetails;
     }
 
@@ -182,7 +166,6 @@ public class DetailsUpdateActivity extends AppCompatActivity implements Callback
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
-
             }
         }
 

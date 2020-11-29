@@ -95,7 +95,8 @@ public class SavingsBankAccountActivity extends AppCompatActivity implements Vie
         {
             if(!tvSelectSavingsBank.getText().toString().equals(""))
             {
-                if(CommonStrings.cusEmpDetailsModel.getEmpType().equalsIgnoreCase(getResources().getString(R.string.lbl_salaried)))
+                CommonStrings.customPersonalDetails.setSavingsAccount(tvSelectSavingsBank.getText().toString());
+                if(CommonStrings.cusEmpDetails.getEmploymentType().equalsIgnoreCase(getResources().getString(R.string.lbl_salaried)))
                 {
                     Intent intent = new Intent(this, YearOfExperienceActivity.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvSavingsBankNameLbl.getText().toString());

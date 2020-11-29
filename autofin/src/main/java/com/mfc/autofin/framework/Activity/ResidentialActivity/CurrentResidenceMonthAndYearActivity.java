@@ -128,6 +128,6 @@ public class CurrentResidenceMonthAndYearActivity extends AppCompatActivity impl
     }
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+
     }
 }

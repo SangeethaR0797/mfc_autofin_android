@@ -56,8 +56,8 @@ public class StartDateOfBusinessOrProfessionActivity extends AppCompatActivity i
             exception.printStackTrace();
         }
 
-        if (CommonStrings.cusEmpDetailsModel.getEmpType() != null && !CommonStrings.cusEmpDetailsModel.getEmpType().isEmpty()) {
-            strEmpType = CommonStrings.cusEmpDetailsModel.getEmpType();
+        if (CommonStrings.cusEmpDetails.getEmploymentType() != null && !CommonStrings.cusEmpDetails.getEmploymentType().isEmpty()) {
+            strEmpType = CommonStrings.cusEmpDetails.getEmploymentType();
         }
         initView();
     }
@@ -120,10 +120,10 @@ public class StartDateOfBusinessOrProfessionActivity extends AppCompatActivity i
                 strStartedDate = dayOfMonth + " " + monthName + " " + year;
                 tvStartDateOfBOPVal.setText(strStartedDate);
                 //CommonMethods.setValueAgainstKey(this,CommonStrings.BUSINESS_OR_PROFESSION_START_DATE,dayOfMonth + " " + monthName + " " + year);
-                CommonStrings.cusEmpDetailsModel.setbOPStartDate(dayOfMonth + " " + monthName + " " + year);
+                CommonStrings.cusEmpDetails.setBusinessStartDate(dayOfMonth + " " + monthName + " " + year);
                 Intent intent = new Intent(StartDateOfBusinessOrProfessionActivity.this, LastYearProfitActivity.class);
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvStartDateOfBOPLbl.getText().toString());
-                intent.putExtra(CommonStrings.PREVIOUS_VALUE, CommonStrings.cusEmpDetailsModel.getbOPStartDate());
+                intent.putExtra(CommonStrings.PREVIOUS_VALUE, CommonStrings.cusEmpDetails.getBusinessStartDate());
                 startActivity(intent);
 
             }

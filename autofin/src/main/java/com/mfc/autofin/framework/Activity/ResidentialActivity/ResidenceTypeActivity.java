@@ -154,7 +154,7 @@ public class ResidenceTypeActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+
     }
 
 }

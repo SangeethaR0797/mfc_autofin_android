@@ -92,6 +92,9 @@ public class CommonStrings {
     public static final String INDUSTRY_TYPE_URL ="https://15.207.148.230:3004/api/masters/industry-type";
     public static final String MAHINDRA_FILTER_URL ="https://15.207.148.230:3004/api/masters/employer/filter-by-name/mahind" ;
     public static final String GET_SALUTATION_URL = "https://15.207.148.230:3004/api/masters/salutations";
+    public static final String LAST_YEAR_PROFIT = "last_year_profit";
+    public static final String PROFESSION_URL ="https://15.207.148.230:3004/api/masters/professions";
+    public static final String PROFESSION_FILTER_URL ="https://15.207.148.230:3004/api/masters/professions/deve";
     public static String VEH_CATEGORY_URL = "https://15.207.148.230:3004/api/masters/vehicle-category";
     public static String RES_CITY_URL = "https://15.207.148.230:3004/api/pincode/city/";
     public static String GET_ADDITIONAL_FIELDS ="https://15.207.148.230:3004/api/additionalfields/additional-fields";

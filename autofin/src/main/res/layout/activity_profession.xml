@@ -44,8 +44,8 @@
                     android:orientation="vertical"
                     android:visibility="visible">
 
-                    <TextView
-                        android:id="@+id/tvProfessionVal"
+                    <EditText
+                        android:id="@+id/etProfessionalVal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"

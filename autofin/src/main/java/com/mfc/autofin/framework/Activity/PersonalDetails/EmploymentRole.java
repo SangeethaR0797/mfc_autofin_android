@@ -100,19 +100,19 @@ public class EmploymentRole extends AppCompatActivity implements Callback<Object
             if(!tvEmploymentRoleVal.getText().toString().equals(""))
             {
                 CommonMethods.setValueAgainstKey(this,CommonStrings.EMPLOYMENT_ROLE_VAL,tvEmploymentRoleVal.getText().toString());
-                CommonStrings.cusEmpDetailsModel.setEmpRole(tvEmploymentRoleVal.getText().toString());
-                if(CommonStrings.cusEmpDetailsModel.getEmpType().equals(getResources().getString(R.string.lbl_self_employed_professional)))
+                CommonStrings.cusEmpDetails.setEmploymentRole(tvEmploymentRoleVal.getText().toString());
+                if(CommonStrings.cusEmpDetails.getEmploymentType().equals(getResources().getString(R.string.lbl_self_employed_professional)))
                 {
                     Intent intent=new Intent(this, ProfessionActivity.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL,getResources().getString(R.string.lbl_employment_role));
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE,CommonStrings.cusEmpDetailsModel.getEmpRole());
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE,CommonStrings.cusEmpDetails.getEmploymentRole());
                     startActivity(intent);
                 }
                 else
                 {
                     Intent intent=new Intent(this, StartDateOfBusinessOrProfessionActivity.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL,getResources().getString(R.string.lbl_employment_role));
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE,CommonStrings.cusEmpDetailsModel.getEmpRole());
+                    intent.putExtra(CommonStrings.PREVIOUS_VALUE,CommonStrings.cusEmpDetails.getEmploymentRole());
                     startActivity(intent);
                 }
 

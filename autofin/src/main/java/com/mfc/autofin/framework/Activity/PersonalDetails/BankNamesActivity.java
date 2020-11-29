@@ -34,15 +34,16 @@ import static retrofit_config.RetroBase.retrofitInterface;
 public class BankNamesActivity extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
 
     private static final String TAG = BankNamesActivity.class.getSimpleName();
-    private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit,tvSelectedBankName,tvSelectBankNameLbl;
+    private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvSelectedBankName, tvSelectBankNameLbl;
     private ImageView iv_app_bank_search;
     private List<String> bankNameList;
     private ListView listView;
     private ArrayAdapter<String> arrayAdapter;
     private Button btnNext;
-    private String strEmployeeType="",strPreviousLbl="",strPreviousVal="";
+    private String strEmployeeType = "", strPreviousLbl = "", strPreviousVal = "";
     private LinearLayout llSelectBank;
     private Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,27 +59,18 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
 
     }
 
-    private void initView()
-    {
-        tvGivenLbl=findViewById(R.id.tvGivenLbl);
-        tvGivenPreviousVal=findViewById(R.id.tvGivenPreviousVal);
-        tvGivenValEdit=findViewById(R.id.tvGivenValEdit);
-        tvSelectBankNameLbl=findViewById(R.id.tvSelectBankNameLbl);
-        llSelectBank=findViewById(R.id.llSelectBank);
-        if(CommonMethods.getStringValueFromKey(this,CommonStrings.EMP_TYPE_VAL).equals(getResources().getString(R.string.lbl_salaried)))
-        {
-            tvSelectBankNameLbl.setText("SELECT SALARY ACCOUNT BANK NAME");
-        }
-        else
-        {
-            tvSelectBankNameLbl.setText(getResources().getString(R.string.lbl_select_bank_name));
-        }
+    private void initView() {
+        tvGivenLbl = findViewById(R.id.tvGivenLbl);
+        tvGivenPreviousVal = findViewById(R.id.tvGivenPreviousVal);
+        tvGivenValEdit = findViewById(R.id.tvGivenValEdit);
+        tvSelectBankNameLbl = findViewById(R.id.tvSelectBankNameLbl);
+        llSelectBank = findViewById(R.id.llSelectBank);
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strPreviousVal);
         tvGivenValEdit.setOnClickListener(this);
-        tvSelectedBankName=findViewById(R.id.tvSelectedBankName);
-        iv_app_bank_search=findViewById(R.id.iv_app_bank_search);
-        btnNext=findViewById(R.id.btnNext);
+        tvSelectedBankName = findViewById(R.id.tvSelectedBankName);
+        iv_app_bank_search = findViewById(R.id.iv_app_bank_search);
+        btnNext = findViewById(R.id.btnNext);
         llSelectBank.setOnClickListener(this);
         btnNext.setOnClickListener(this);
         tvSelectedBankName.setOnClickListener(this);
@@ -87,78 +79,48 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
 
-        if(v.getId()==R.id.llSelectBank)
-        {
-            if(CommonMethods.isInternetWorking(this))
-            {
+        if (v.getId() == R.id.llSelectBank) {
+            if (CommonMethods.isInternetWorking(this)) {
                 SpinnerManager.showSpinner(this);
                 retrofitInterface.getFromWeb(CommonStrings.BANK_NAME_URL).enqueue(this);
-            }
-            else
-            {
-                CommonMethods.showToast(this,"Please check your Internet Connection");
+            } else {
+                CommonMethods.showToast(this, "Please check your Internet Connection");
             }
 
-        }
-        else if(v.getId()==R.id.tvGivenValEdit)
-        {
+        } else if (v.getId() == R.id.tvGivenValEdit) {
             finish();
-        }
-        else if(v.getId()==R.id.btnNext)
-        {
-            if(!tvSelectedBankName.getText().toString().equals(""))
-            {
-                if(CommonStrings.cusEmpDetails.getEmploymentType().equalsIgnoreCase(getResources().getString(R.string.lbl_salaried)))
-                {
-                    CommonStrings.cusEmpDetails.setSalaryAccount(tvSelectedBankName.getText().toString());
-                    Intent intent = new Intent(this, CurrentOrganizationActivity.class);
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvSelectBankNameLbl.getText().toString());
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, tvSelectedBankName.getText().toString());
-                    startActivity(intent);
-                }
-                else
-                {
-                    CommonStrings.cusEmpDetails.setSalaryAccount(tvSelectedBankName.getText().toString());
-                    Intent intent = new Intent(this, PanCardNumberActivity.class);
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvSelectBankNameLbl.getText().toString());
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, tvSelectedBankName.getText().toString());
-                    startActivity(intent);
-                }
+        } else if (v.getId() == R.id.btnNext) {
+            if (!tvSelectedBankName.getText().toString().equals("")) {
+                CommonStrings.cusEmpDetails.setSalaryAccount(tvSelectedBankName.getText().toString());
+                Intent intent = new Intent(this, CurrentOrganizationActivity.class);
+                intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvSelectBankNameLbl.getText().toString());
+                intent.putExtra(CommonStrings.PREVIOUS_VALUE, tvSelectedBankName.getText().toString());
+                startActivity(intent);
             }
-            else
-            {
-                CommonMethods.showToast(this,"Please select any bank");
-            }
+        } else {
+            CommonMethods.showToast(this, "Please select any bank");
         }
-    }
+
+}
 
     @Override
     public void onResponse(Call<Object> call, Response<Object> response) {
-        String strRes=new Gson().toJson(response.body());
-        Log.i(TAG, "onResponse: "+strRes);
-        try
-        {
-            BankNamesRes bankNamesRes=new Gson().fromJson(strRes,BankNamesRes.class);
-            if(bankNamesRes.getStatus() && bankNamesRes!=null)
-            {
-                if(bankNamesRes.getData()!=null)
-                {
+        String strRes = new Gson().toJson(response.body());
+        Log.i(TAG, "onResponse: " + strRes);
+        try {
+            BankNamesRes bankNamesRes = new Gson().fromJson(strRes, BankNamesRes.class);
+            if (bankNamesRes.getStatus() && bankNamesRes != null) {
+                if (bankNamesRes.getData() != null) {
                     SpinnerManager.hideSpinner(this);
-                    bankNameList=bankNamesRes.getData();
-                    new CustomSearchDialog(BankNamesActivity.this,bankNameList,tvSelectedBankName,"SELECT BANK NAME",tvSelectedBankName.getText().toString()).show();
-                }
-                else
-                {
+                    bankNameList = bankNamesRes.getData();
+                    new CustomSearchDialog(BankNamesActivity.this, bankNameList, tvSelectedBankName, "SELECT BANK NAME", tvSelectedBankName.getText().toString()).show();
+                } else {
                     bankNamesRes.getMessage();
                 }
+            } else {
+                CommonMethods.showToast(this, "No Bank names found,Please try again!");
             }
-            else
-            {
-                CommonMethods.showToast(this,"No Bank names found,Please try again!");
-            }
-        }
-        catch(Exception exception)
-        {
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
@@ -167,6 +129,7 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
     public void onFailure(Call<Object> call, Throwable t) {
 
     }
+
     @Override
     public void onBackPressed() {
 
