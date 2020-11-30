@@ -73,7 +73,7 @@ public class PanCardNumberActivity extends AppCompatActivity implements View.OnC
         } else if (v.getId() == R.id.btnNext) {
             if (!etPanCardNumber.getText().toString().isEmpty()) {
                 strPanNumber = etPanCardNumber.getText().toString();
-                CommonStrings.customPersonalDetails.setPANNumber(strPanNumber);
+                CommonStrings.customPersonalDetails.setPanNumber(strPanNumber);
                 if (isPanNumberValid(strPanNumber)) {
                     CommonMethods.setValueAgainstKey(this, CommonStrings.PAN_CARD_NUMBER, strPanNumber);
                     Intent intent = new Intent(this, LikelyPurchaseActivity.class);

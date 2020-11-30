@@ -123,7 +123,7 @@
             android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvPersonalDetails"
+                    android:id="@+id/tvReviewPersonalDetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/title_personal_details"

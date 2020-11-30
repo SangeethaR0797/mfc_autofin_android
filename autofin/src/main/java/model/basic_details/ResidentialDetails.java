@@ -5,33 +5,33 @@ import com.google.gson.annotations.SerializedName;
 
 public class ResidentialDetails
 {
-    @SerializedName("Pincode")
+    @SerializedName("pincode")
     @Expose
     private String pincode;
-    @SerializedName("CustomerCity")
+    @SerializedName("customerCity")
     @Expose
     private String customerCity;
-    @SerializedName("CustomerState")
-    @Expose
-    private String customerState;
-    @SerializedName("MoveInCityYear")
+    @SerializedName("moveInCityYear")
     @Expose
     private String moveInCityYear;
-    @SerializedName("MoveInResidenceYear")
+    @SerializedName("moveInResidenceYear")
     @Expose
     private String moveInResidenceYear;
-    @SerializedName("ResidenceType")
+    @SerializedName("residenceType")
     @Expose
     private String residenceType;
-    @SerializedName("AddressLine1")
+    @SerializedName("addressLine1")
     @Expose
     private String addressLine1;
-    @SerializedName("AddressLine2")
+    @SerializedName("addressLine2")
     @Expose
     private String addressLine2;
-    @SerializedName("AddressLine3")
+    @SerializedName("addressLine3")
     @Expose
     private String addressLine3;
+    @SerializedName("customerState")
+    @Expose
+    private String customerState;
 
     public String getPincode() {
         return pincode;
@@ -47,14 +47,6 @@ public class ResidentialDetails
 
     public void setCustomerCity(String customerCity) {
         this.customerCity = customerCity;
-    }
-
-    public String getCustomerState() {
-        return customerState;
-    }
-
-    public void setCustomerState(String customerState) {
-        this.customerState = customerState;
     }
 
     public String getMoveInCityYear() {
@@ -104,6 +96,15 @@ public class ResidentialDetails
     public void setAddressLine3(String addressLine3) {
         this.addressLine3 = addressLine3;
     }
+
+    public String getCustomerState() {
+        return customerState;
+    }
+
+    public void setCustomerState(String customerState) {
+        this.customerState = customerState;
+    }
+
 
 }
 

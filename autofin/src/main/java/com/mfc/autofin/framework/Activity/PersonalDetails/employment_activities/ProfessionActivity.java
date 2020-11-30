@@ -134,9 +134,17 @@ public class ProfessionActivity extends AppCompatActivity implements View.OnClic
             BankNamesRes bankNamesRes = new Gson().fromJson(strRes, BankNamesRes.class);
             if (bankNamesRes.getStatus() && bankNamesRes != null) {
                 if (bankNamesRes.getData() != null) {
-                    professionList.addAll(bankNamesRes.getData());
-                    new CustomOrgDialog(ProfessionActivity.this, professionList, etProfessionalVal,strOnET).show();
-                } else {
+                    if(professionList.size()==0) {
+                        professionList.addAll(bankNamesRes.getData());
+                        new CustomOrgDialog(ProfessionActivity.this, professionList, etProfessionalVal, strOnET).show();
+                    }
+                else
+                    {
+                        professionList.clear();
+                        professionList.addAll(bankNamesRes.getData());
+                        new CustomOrgDialog(ProfessionActivity.this, professionList, etProfessionalVal, strOnET).show();
+
+                    }} else {
                     bankNamesRes.getMessage();
                 }
             } else {

@@ -64,7 +64,7 @@ public class MonthlyIncome extends AppCompatActivity implements View.OnClickList
         } else if (v.getId() == R.id.btnNext) {
             if (!etMonthlyIncomeAmount.getText().toString().equals("")) {
                 strMonthlyIncome = etMonthlyIncomeAmount.getText().toString();
-                CommonStrings.customPersonalDetails.setSalaryPerMonth(strMonthlyIncome);
+                CommonStrings.customPersonalDetails.setSalaryPerMonth(Double.parseDouble(strMonthlyIncome));
                 Intent intent = new Intent(this, NumOFExistingLoanActivity.class);
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvMonthlyIncomeLbl .getText().toString());
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE, strMonthlyIncome);

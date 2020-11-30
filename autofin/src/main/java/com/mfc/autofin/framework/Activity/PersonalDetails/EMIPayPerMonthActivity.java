@@ -71,7 +71,7 @@ public class EMIPayPerMonthActivity extends AppCompatActivity implements View.On
             if(!etMonthlyEMIAmount.getText().toString().isEmpty())
             {
                 strMonthlyEMI=etMonthlyEMIAmount.getText().toString();
-                CommonStrings.customPersonalDetails.setTotalEMIPaid(strMonthlyEMI);
+                CommonStrings.customPersonalDetails.setTotalEMIPaid(Double.parseDouble(strMonthlyEMI));
                 Intent intent = new Intent(this, EmploymentTypeActivity.class);
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvMonthlyEMILbl.getText().toString());
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE, strMonthlyEMI);

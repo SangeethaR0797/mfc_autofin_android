@@ -115,7 +115,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         rvResidentialDetails = findViewById(R.id.rvResidentialDetails);
         tvResidentialDetails = findViewById(R.id.tvResidentialDetails);
         tvCommonAppBarTitle = findViewById(R.id.tvCommonAppBarTitle);
-        tvPersonalDetails = findViewById(R.id.tvPersonalDetails);
+        tvPersonalDetails = findViewById(R.id.tvReviewPersonalDetails);
         rvPersonalDetails = findViewById(R.id.rvPersonalDetails);
         rvBasicDetails = findViewById(R.id.rvBasicDetails);
         iv_common_bar_backBtn.setOnClickListener(this);
@@ -184,7 +184,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
                 displayResidentialDetails();
             }
 
-        } else if (v.getId() == R.id.tvPersonalDetails) {
+        } else if (v.getId() == R.id.tvReviewPersonalDetails) {
             llEditAndCloseReview.setVisibility(View.VISIBLE);
             rvPersonalDetails.setVisibility(View.VISIBLE);
             btnEditReview.setVisibility(View.VISIBLE);
@@ -226,11 +226,11 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_dob), customPersonalDetails.getBirthDate()));
         personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_gender),  customPersonalDetails.getGender()));
         personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_education),  customPersonalDetails.getEducation()));
-        personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_monthly_income),  customPersonalDetails.getSalaryPerMonth()));
+        personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_monthly_income),  String.valueOf(customPersonalDetails.getSalaryPerMonth())));
         personalDetails.add(new ReviewData("NUMBER OF EXISTING LOAN", customLoanDetails.getNoOfExistingLoans()));
         personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_loan_required),  customLoanDetails.getRequiredLoanAmount()));
-        personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_total_emi),  customPersonalDetails.getTotalEMIPaid()));
-        personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_employment_type), customPersonalDetails.getTotalEMIPaid()));
+        personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_total_emi),  String.valueOf(customPersonalDetails.getTotalEMIPaid())));
+        personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_employment_type), String.valueOf(customPersonalDetails.getTotalEMIPaid())));
 
         if(cusEmpDetails.getEmploymentType().equalsIgnoreCase(getResources().getString(R.string.lbl_salaried)))
         {
@@ -266,7 +266,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
 
         }
         personalDetails.add(new ReviewData("SAVINGS BANK ACCOUNT",customPersonalDetails.getSavingsAccount()));
-        personalDetails.add(new ReviewData("PANCARD NO.", customPersonalDetails.getPANNumber()));
+        personalDetails.add(new ReviewData("PANCARD NO.", customPersonalDetails.getPanNumber()));
         personalDetails.add(new ReviewData("LIKELY PURCHASE DATE", customVehDetails.getLikelyPurchaseDate()));
         return personalDetails;
     }
@@ -428,10 +428,11 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
                         Log.i(TAG, "onResponse: " + customerDetails.getCaseId());
                         vehDetailsResList = customerDetails.getVehicleDetails();
                         basicDetailsResList = customerDetails.getBasicDetails();
+                        Log.i(TAG, "onResponse: "+customerDetails.getResidentialDetails());
                         residentialDetailsResList = customerDetails.getResidentialDetails();
-                        personalDetailsResList = customerDetails.getPersonalDetails();
-                        employmentResDetails=customerDetails.getEmploymentDetails();
-                        loanDetailsResList=customerDetails.getLoanDetails();
+                        personalDetailsResList =  customerDetails.getPersonalDetails();
+                        employmentResDetails= customerDetails.getEmploymentDetails();
+                        loanDetailsResList= customerDetails.getLoanDetails();
                     } else {
                         CommonMethods.showToast(this, "No Case-Id found");
                     }
@@ -516,11 +517,11 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_dob), personalDetailsResList.getBirthDate()));
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_gender),  personalDetailsResList.getGender()));
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_education),  personalDetailsResList.getEducation()));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_monthly_income),  personalDetailsResList.getSalaryPerMonth()));
+        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_monthly_income),   String.valueOf(personalDetailsResList.getSalaryPerMonth())));
         reviewDataList.add(new ReviewData("NUMBER OF EXISTING LOAN",loanDetailsResList.getNoOfExistingLoans() ));
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_loan_required),  loanDetailsResList.getRequiredLoanAmount()));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_total_emi),  personalDetailsResList.getTotalEMIPaid()));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_employment_type), personalDetailsResList.getTotalEMIPaid()));
+        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_total_emi),  String.valueOf(personalDetailsResList.getTotalEMIPaid())));
+        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_employment_type),  String.valueOf(personalDetailsResList.getTotalEMIPaid())));
 
         if(employmentResDetails.getEmploymentType().equalsIgnoreCase(getResources().getString(R.string.lbl_salaried)))
         {
@@ -556,7 +557,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
 
         }
         reviewDataList.add(new ReviewData("SAVINGS BANK ACCOUNT",personalDetailsResList.getSavingsAccount()));
-        reviewDataList.add(new ReviewData("PANCARD NO.", personalDetailsResList.getPANNumber()));
+        reviewDataList.add(new ReviewData("PANCARD NO.", personalDetailsResList.getPanNumber()));
         reviewDataList.add(new ReviewData("LIKELY PURCHASE DATE", vehDetailsResList.getLikelyPurchaseDate()));
 
         return reviewDataList;

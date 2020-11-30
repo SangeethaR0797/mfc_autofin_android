@@ -118,10 +118,21 @@ public class IndustryTypeActivity extends AppCompatActivity implements View.OnCl
                     IndustryTypeData industryTypeData = industryTypeRes.getData();
                     List<IndustryType> industryTypes = industryTypeData.getTypes();
                     if (industryTypes != null) {
+                        if(industryTypeList.size()==0)
+                        {
                         for (int i = 0; i < industryTypes.size(); i++) {
                             industryTypeList.add(industryTypes.get(i).getValue());
                         }
-                    new CustomSearchDialog(IndustryTypeActivity.this, industryTypeList, tvSelectedIndustryType,"SELECT INDUSTRY TYPE",tvSelectedIndustryType.getText().toString()).show();
+                            new CustomSearchDialog(IndustryTypeActivity.this, industryTypeList, tvSelectedIndustryType,"SELECT INDUSTRY TYPE",tvSelectedIndustryType.getText().toString()).show();
+                        }
+                        else
+                        {
+                            industryTypeList.clear();
+                            for (int i = 0; i < industryTypes.size(); i++) {
+                                industryTypeList.add(industryTypes.get(i).getValue());
+                            }
+                            new CustomSearchDialog(IndustryTypeActivity.this, industryTypeList, tvSelectedIndustryType,"SELECT INDUSTRY TYPE",tvSelectedIndustryType.getText().toString()).show();
+                        }
                     } else {
                         CommonMethods.showToast(this, "No Industry type found, Please try again!");
                     }
