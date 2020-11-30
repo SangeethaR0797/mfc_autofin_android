@@ -424,7 +424,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             case AutoFinConstants.SALARY_SLIP:
                 return "SalarySlip";
             case AutoFinConstants.FORM_16:
-                return "";
+                return "FORM_16";
             case AutoFinConstants.ITR:
                 return "ITR";
         }

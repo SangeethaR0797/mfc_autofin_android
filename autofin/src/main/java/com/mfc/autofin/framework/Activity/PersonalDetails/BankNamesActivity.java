@@ -35,7 +35,7 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
 
     private static final String TAG = BankNamesActivity.class.getSimpleName();
     private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvSelectedBankName, tvSelectBankNameLbl;
-    private ImageView iv_app_bank_search;
+    private ImageView iv_app_bank_search,iv_salary_hdfc,iv_salary_icici,iv_salary_axis,iv_salary_sbi;
     private List<String> bankNameList;
     private ListView listView;
     private ArrayAdapter<String> arrayAdapter;
@@ -65,12 +65,20 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
         tvGivenValEdit = findViewById(R.id.tvGivenValEdit);
         tvSelectBankNameLbl = findViewById(R.id.tvSelectBankNameLbl);
         llSelectBank = findViewById(R.id.llSelectBank);
+        iv_salary_hdfc= findViewById(R.id.iv_salary_hdfc);
+        iv_salary_icici= findViewById(R.id.iv_salary_icici);
+        iv_salary_axis= findViewById(R.id.iv_salary_axis);
+        iv_salary_sbi= findViewById(R.id.iv_salary_sbi);
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strPreviousVal);
         tvGivenValEdit.setOnClickListener(this);
         tvSelectedBankName = findViewById(R.id.tvSelectedBankName);
         iv_app_bank_search = findViewById(R.id.iv_app_bank_search);
         btnNext = findViewById(R.id.btnNext);
+        iv_salary_hdfc.setOnClickListener(this);
+        iv_salary_icici.setOnClickListener(this);
+        iv_salary_axis.setOnClickListener(this);
+        iv_salary_sbi.setOnClickListener(this);
         llSelectBank.setOnClickListener(this);
         btnNext.setOnClickListener(this);
         tvSelectedBankName.setOnClickListener(this);
@@ -89,7 +97,23 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
 
         } else if (v.getId() == R.id.tvGivenValEdit) {
             finish();
-        } else if (v.getId() == R.id.btnNext) {
+        }  else if (v.getId() == R.id.tvGivenValEdit) {
+            finish();
+        } else if(v.getId()==R.id.iv_salary_hdfc)
+        {
+            tvSelectedBankName.setText("HDFC");
+        }
+        else if(v.getId()==R.id.iv_salary_icici)
+        {
+            tvSelectedBankName.setText("ICICI");
+        }
+        else if(v.getId()==R.id.iv_salary_axis)
+        {
+            tvSelectedBankName.setText("AXIS");
+        } else if(v.getId()==R.id.iv_salary_sbi)
+        {
+            tvSelectedBankName.setText("SBI");
+        }else if (v.getId() == R.id.btnNext) {
             if (!tvSelectedBankName.getText().toString().equals("")) {
                 CommonStrings.cusEmpDetails.setSalaryAccount(tvSelectedBankName.getText().toString());
                 Intent intent = new Intent(this, CurrentOrganizationActivity.class);

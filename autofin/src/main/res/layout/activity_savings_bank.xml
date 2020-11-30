@@ -88,15 +88,17 @@
                     android:weightSum="2">
 
                     <ImageButton
+                        android:id="@+id/iv_savings_hdfc"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:background="@drawable/grey_box_1dp"
                         android:padding="@dimen/text_size10dp"
-                        app:srcCompat="@drawable/ic_camera" />
+                        app:srcCompat="@drawable/ic_hdfc_new" />
 
                     <ImageButton
+                        android:id="@+id/iv_savings_icici"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -104,7 +106,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/grey_box_1dp"
                         android:padding="@dimen/text_size10dp"
-                        app:srcCompat="@drawable/ic_camera" />
+                        app:srcCompat="@drawable/ic_icici_new" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -118,15 +120,17 @@
                     android:weightSum="2">
 
                     <ImageButton
+                        android:id="@+id/iv_savings_axis"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:background="@drawable/grey_box_1dp"
                         android:padding="@dimen/text_size10dp"
-                        app:srcCompat="@drawable/ic_camera" />
+                        app:srcCompat="@drawable/ic_axis_new" />
 
                     <ImageButton
+                        android:id="@+id/iv_savings_sbi"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -134,7 +138,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/grey_box_1dp"
                         android:padding="@dimen/text_size10dp"
-                        app:srcCompat="@drawable/ic_camera" />
+                        app:srcCompat="@drawable/ic_sbi_new" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

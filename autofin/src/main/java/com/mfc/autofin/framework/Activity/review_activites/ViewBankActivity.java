@@ -30,6 +30,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
+import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
 
@@ -46,6 +47,7 @@ public class ViewBankActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_bank);
         initView();
+        SpinnerManager.showSpinner(this);
         retrofitInterface.getFromWeb(getBankListReq(), CommonStrings.RECOMMENDED_BANK_URL).enqueue(this);
     }
 
@@ -86,6 +88,7 @@ public class ViewBankActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onResponse(Call<Object> call, Response<Object> response) {
+        SpinnerManager.hideSpinner(this);
         String strRes = new Gson().toJson(response.body());
         Log.i(TAG, "onResponse: " + strRes);
         BankListResponse bankListResponse = new Gson().fromJson(strRes, BankListResponse.class);
