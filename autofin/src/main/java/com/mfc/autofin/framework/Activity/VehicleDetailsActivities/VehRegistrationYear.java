@@ -73,8 +73,6 @@ public class VehRegistrationYear extends AppCompatActivity implements View.OnCli
                     strYear = "";
             }
 
-
-
         initView();
 
         if (CommonMethods.isInternetWorking(VehRegistrationYear.this)) {

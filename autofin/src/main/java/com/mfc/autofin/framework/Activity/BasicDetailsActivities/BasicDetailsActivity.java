@@ -62,7 +62,7 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
         if (CommonStrings.customLoanDetails.getLoanCategory().equals(getResources().getString(R.string.new_car))) {
             isNewCarFlow = true;
             if (!CommonStrings.customVehDetails.getVehicleSellingPrice().equals("")) {
-                strPreviousScreenVal = CommonMethods.getStringValueFromKey(this, CommonStrings.VEH_INSURED_AMOUNT);
+                strPreviousScreenVal = CommonStrings.customVehDetails.getInsuranceAmount();
             } else {
                 strPreviousScreenVal = "";
             }

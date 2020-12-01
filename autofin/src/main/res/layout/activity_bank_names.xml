@@ -90,7 +90,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/grey_box_1dp"
-                        app:srcCompat="@drawable/ic_hdfc_new"
+                        app:srcCompat="@drawable/ic_hdfc"
                         android:layout_gravity="center"
                         android:padding="@dimen/text_size10dp"
                         />
@@ -100,7 +100,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/grey_box_1dp"
-                        app:srcCompat="@drawable/ic_icici_new"
+                        app:srcCompat="@drawable/ic_icici"
                         android:layout_marginLeft="@dimen/text_size10dp"
                         android:layout_gravity="center"
                         android:padding="@dimen/text_size10dp" />
@@ -120,7 +120,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/grey_box_1dp"
-                        app:srcCompat="@drawable/ic_axis_new"
+                        app:srcCompat="@drawable/ic_axis"
                         android:layout_gravity="center"
                         android:padding="@dimen/text_size10dp"
                         />
@@ -130,7 +130,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/grey_box_1dp"
-                        app:srcCompat="@drawable/ic_sbi_new"
+                        app:srcCompat="@drawable/ic_sbi"
                         android:layout_marginLeft="@dimen/text_size10dp"
                         android:layout_gravity="center"
                         android:padding="@dimen/text_size10dp" />

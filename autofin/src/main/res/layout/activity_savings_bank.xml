@@ -95,7 +95,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/grey_box_1dp"
                         android:padding="@dimen/text_size10dp"
-                        app:srcCompat="@drawable/ic_hdfc_new" />
+                        app:srcCompat="@drawable/ic_hdfc" />
 
                     <ImageButton
                         android:id="@+id/iv_savings_icici"
@@ -106,7 +106,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/grey_box_1dp"
                         android:padding="@dimen/text_size10dp"
-                        app:srcCompat="@drawable/ic_icici_new" />
+                        app:srcCompat="@drawable/ic_icici" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -127,7 +127,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/grey_box_1dp"
                         android:padding="@dimen/text_size10dp"
-                        app:srcCompat="@drawable/ic_axis_new" />
+                        app:srcCompat="@drawable/ic_axis" />
 
                     <ImageButton
                         android:id="@+id/iv_savings_sbi"
@@ -138,7 +138,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/grey_box_1dp"
                         android:padding="@dimen/text_size10dp"
-                        app:srcCompat="@drawable/ic_sbi_new" />
+                        app:srcCompat="@drawable/ic_sbi" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
