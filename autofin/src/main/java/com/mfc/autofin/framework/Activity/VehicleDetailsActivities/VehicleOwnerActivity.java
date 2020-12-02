@@ -32,6 +32,7 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_vehicle_owner);
         strVariantVal = CommonStrings.customVehDetails.getVariant();
         initView();
+
     }
 
     private void initView() {

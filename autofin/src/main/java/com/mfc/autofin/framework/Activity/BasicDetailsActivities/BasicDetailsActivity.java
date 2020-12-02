@@ -80,6 +80,7 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
 
 
         }
+        SpinnerManager.showSpinner(this);
         retrofitInterface.getFromWeb(CommonStrings.GET_SALUTATION_URL).enqueue(this);
         initView();
     }
@@ -276,6 +277,7 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
                 vehicleDetails.setInsuranceAmount(CommonStrings.customVehDetails.getInsuranceAmount());
                 vehicleDetails.setInsuranceValidity(CommonStrings.customVehDetails.getInsuranceValidity());
             }
+            vehicleDetails.setLikelyPurchaseDate(CommonStrings.customVehDetails.getLikelyPurchaseDate());
 
         } catch (Exception exception) {
             exception.printStackTrace();

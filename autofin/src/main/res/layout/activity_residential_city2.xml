@@ -47,11 +47,12 @@
                             android:text="@string/lbl_res_city" />
 
                         <LinearLayout
-                            style="@style/select_veh_details_ll_style"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/text_size_24dp"
-                            android:paddingLeft="10dp"
+                            android:paddingLeft="@dimen/text_size_21dp"
+                            android:paddingTop="@dimen/text_size_24dp"
+                            android:paddingRight="@dimen/text_size_21dp"
                             android:orientation="horizontal"
                             android:weightSum="3">
                             <LinearLayout
@@ -104,7 +105,7 @@
                             android:orientation="vertical"
                             android:paddingLeft="@dimen/text_size_21dp"
                             android:paddingTop="@dimen/text_size_24dp"
-                            android:paddingRight="@dimen/text_size10dp"
+                            android:paddingRight="@dimen/text_size_21dp"
                             android:paddingBottom="@dimen/text_size_17dp">
 
                             <utility.RobotoMedium
@@ -138,7 +139,7 @@
                             android:orientation="vertical"
                             android:paddingLeft="@dimen/text_size_21dp"
                             android:paddingTop="@dimen/text_size_3dp"
-                            android:paddingRight="@dimen/text_size10dp"
+                            android:paddingRight="@dimen/text_size_21dp"
                             android:paddingBottom="@dimen/text_size_17dp">
 
                             <utility.RobotoMedium
@@ -171,7 +172,7 @@
                             android:orientation="vertical"
                             android:paddingLeft="@dimen/text_size_21dp"
                             android:paddingTop="@dimen/text_size_3dp"
-                            android:paddingRight="@dimen/text_size10dp"
+                            android:paddingRight="@dimen/text_size_21dp"
                             android:paddingBottom="@dimen/text_size_17dp">
 
                             <utility.RobotoMedium
@@ -207,7 +208,7 @@
                             android:orientation="vertical"
                             android:paddingLeft="@dimen/text_size_21dp"
                             android:paddingTop="@dimen/text_size_3dp"
-                            android:paddingRight="@dimen/text_size10dp"
+                            android:paddingRight="@dimen/text_size_21dp"
                             android:paddingBottom="@dimen/text_size_17dp">
 
                             <utility.RobotoMedium
@@ -244,7 +245,7 @@
                             android:orientation="vertical"
                             android:paddingLeft="@dimen/text_size_21dp"
                             android:paddingTop="@dimen/text_size_3dp"
-                            android:paddingRight="@dimen/text_size10dp">
+                            android:paddingRight="@dimen/text_size_21dp">
 
                             <utility.RobotoMedium
                                 android:id="@+id/tvLandMark"

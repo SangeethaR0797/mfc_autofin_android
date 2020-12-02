@@ -5,48 +5,59 @@ import com.google.gson.annotations.SerializedName;
 public class EmploymentDetails {
 
 
-    @SerializedName("EmploymentType")
+    @SerializedName("employmentType")
     @Expose
     private String employmentType;
-    @SerializedName("CompanyName")
+    @SerializedName("companyName")
     @Expose
     private String companyName;
-    @SerializedName("CompanyJoiningDate")
+    @SerializedName("companyJoiningDate")
     @Expose
     private String companyJoiningDate;
-    @SerializedName("TotalWorkExperience")
+    @SerializedName("totalWorkExperience")
     @Expose
     private String totalWorkExperience;
-    @SerializedName("SalaryMode")
+    @SerializedName("salaryMode")
     @Expose
     private String salaryMode;
-    @SerializedName("SalaryAccount")
+    @SerializedName("salaryAccount")
     @Expose
     private String salaryAccount;
-    @SerializedName("EmploymentRole")
+    @SerializedName("employmentRole")
     @Expose
     private String employmentRole;
-    @SerializedName("Profession")
+    @SerializedName("profession")
     @Expose
     private String profession;
-    @SerializedName("BusinessStartDate")
+    @SerializedName("businessStartDate")
     @Expose
     private String businessStartDate;
-    @SerializedName("LastYearTurnOver")
+    @SerializedName("lastYearTurnOver")
     @Expose
     private String lastYearTurnOver;
-    @SerializedName("LastYearDepreciation")
+    @SerializedName("lastYearDepreciation")
     @Expose
     private String lastYearDepreciation;
-    @SerializedName("IsLastestItraudited")
+    @SerializedName("isLastestItraudited")
     @Expose
     private Boolean isLastestItraudited;
-    @SerializedName("IndustryType")
+    @SerializedName("industryType")
     @Expose
     private String industryType;
     @SerializedName("ProfessionalQualification")
     @Expose
     private String professionalQualification;
+    @SerializedName("lastYearProfit")
+    @Expose
+    private Double lastYearProfit;
+
+    public Double getLastYearProfit() {
+        return lastYearProfit;
+    }
+
+    public void setLastYearProfit(Double lastYearProfit) {
+        this.lastYearProfit = lastYearProfit;
+    }
 
     public String getEmploymentType() {
         return employmentType;

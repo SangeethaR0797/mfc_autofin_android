@@ -30,9 +30,6 @@ public class VehicleDetails {
     @SerializedName("valuationPrice")
     @Expose
     private String valuationPrice;
-    @SerializedName("valuationreport")
-    @Expose
-    private String valuationreport;
     @SerializedName("insurance")
     @Expose
     private boolean insurance;
@@ -48,16 +45,16 @@ public class VehicleDetails {
     @SerializedName("vehicleNumber")
     @Expose
     private String vehicleNumber;
-    @SerializedName("OnRoadPrice")
+    @SerializedName("onRoadPrice")
     @Expose
     private String onRoadPrice;
-    @SerializedName("IsValuationDone")
+    @SerializedName("isValuationDone")
     @Expose
     private boolean isValuationDone;
-    @SerializedName("VehicleSellingPrice")
+    @SerializedName("vehicleSellingPrice")
     @Expose
     private String vehicleSellingPrice;
-    @SerializedName("LikelyPurchaseDate")
+    @SerializedName("likelyPurchaseDate")
     @Expose
     private String likelyPurchaseDate;
 
@@ -131,14 +128,6 @@ public class VehicleDetails {
 
     public void setValuationPrice(String valuationPrice) {
         this.valuationPrice = valuationPrice;
-    }
-
-    public String getValuationreport() {
-        return valuationreport;
-    }
-
-    public void setValuationreport(String valuationreport) {
-        this.valuationreport = valuationreport;
     }
 
     public boolean getInsurance() {

@@ -57,7 +57,7 @@ public class JODOCurrentOrgActivity extends AppCompatActivity implements View.On
         tvJODOCurrentOrgLbl = findViewById(R.id.tvJODOCurrentOrgLbl);
         llJODCalendarView = findViewById(R.id.llJODCalendarView);
         tvGivenLbl.setText(strPreviousLbl);
-        tvGivenPreviousVal.setText(strPreviousLbl);
+        tvGivenPreviousVal.setText(strPreviousVal);
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         tvGivenValEdit.setOnClickListener(this);
         tvJODOCurrentOrgLbl.setOnClickListener(this);

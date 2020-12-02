@@ -16,9 +16,20 @@ public class BasicDetails {
     @SerializedName("otp")
     @Expose
     private String otp;
-    @SerializedName("Salutation")
+    @SerializedName("salutation")
     @Expose
     private String salutation;
+    @SerializedName("isTandCChecked")
+    @Expose
+    private Boolean isTandCChecked;
+
+    public Boolean getIsTandCChecked() {
+        return isTandCChecked;
+    }
+
+    public void setIsTandCChecked(Boolean isTandCChecked) {
+        this.isTandCChecked = isTandCChecked;
+    }
 
     public String getFullName() {
         return fullName;

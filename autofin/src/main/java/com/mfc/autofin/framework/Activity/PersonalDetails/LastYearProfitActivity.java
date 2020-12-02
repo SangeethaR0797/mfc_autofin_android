@@ -72,8 +72,7 @@ public class LastYearProfitActivity extends AppCompatActivity implements View.On
             try{
                 if (!etLastYearProfitVal.getText().toString().isEmpty()) {
                     strLastYearSales = etLastYearProfitVal.getText().toString();
-                    CommonMethods.setValueAgainstKey(LastYearProfitActivity.this, CommonStrings.LAST_YEAR_PROFIT, strLastYearSales);
-                   // CommonStrings.cusEmpDetailsModel.setLastYearTurnOver(strLastYearSales);
+                    CommonStrings.cusEmpDetails.setLastYearProfit(Double.parseDouble(strLastYearSales));
                     Intent intent=new Intent(this, LastYearSalesOrTurnOver.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL,tvLastYearProfit.getText().toString());
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE,strLastYearSales);

@@ -9,17 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehRegistrationYear;
-import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehicleMakeActivity;
-import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehicleModelActivity;
-import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehicleOwnerActivity;
-import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehicleVariantActivity;
 import com.mfc.autofin.framework.R;
 
 import java.util.List;
 
-import utility.CommonMethods;
-import utility.CommonStrings;
 
 public class VehicleDetailsAdapter extends ArrayAdapter<String> {
 

@@ -71,7 +71,7 @@ public class DetailsUpdateActivity extends AppCompatActivity implements Callback
 
     private BasicVehDetails getVehicleDetails() {
         BasicVehDetails basicVehDetails = new BasicVehDetails();
-        basicVehDetails.setLikelyPurchaseDate(CommonMethods.getStringValueFromKey(this, CommonStrings.LIKELY_PURCHASE_DATE));
+        basicVehDetails.setLikelyPurchaseDate(CommonStrings.customVehDetails.getLikelyPurchaseDate());
         return basicVehDetails;
     }
 

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -33,6 +34,7 @@ public class CustomOrgDialog extends Dialog implements View.OnClickListener {
     private ListView alertDialogListView;
     Button btnSelect;
     private String strSelectedValue = "";
+    private String TAG=CustomOrgDialog.class.getSimpleName();
 
     public CustomOrgDialog(Context context, List<String> list, EditText editText,String searchString) {
         super(context);
@@ -70,6 +72,7 @@ public class CustomOrgDialog extends Dialog implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 strSelectedValue = "" + alertDialogListView.getItemAtPosition(position);
                 etSearchAlertDialog.setText(strSelectedValue);
+                Log.i(TAG, "onItemClick: "+strSelectedValue);
             }
         });
         dialog_cancel_btn.setOnClickListener(this);
