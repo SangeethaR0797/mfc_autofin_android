@@ -174,7 +174,14 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_gender), customPersonalDetails.getGender()));
         personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_education), customPersonalDetails.getEducation()));
         personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_monthly_income), String.valueOf(customPersonalDetails.getSalaryPerMonth())));
-        personalDetails.add(new ReviewData("NUMBER OF EXISTING LOAN", customLoanDetails.getNoOfExistingLoans()));
+        if(customLoanDetails.getNoOfExistingLoans().contains("."))
+        {
+            personalDetails.add(new ReviewData("NUMBER OF EXISTING LOAN", customLoanDetails.getNoOfExistingLoans().substring(1,1)));
+        }
+        else
+        {
+            personalDetails.add(new ReviewData("NUMBER OF EXISTING LOAN", customLoanDetails.getNoOfExistingLoans()));
+        }
         personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_loan_required), customLoanDetails.getRequiredLoanAmount()));
         personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_total_emi), String.valueOf(customPersonalDetails.getTotalEMIPaid())));
         personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_employment_type), String.valueOf(cusEmpDetails.getEmploymentType())));
@@ -321,7 +328,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_have_loan_qn), carHaveLoan));
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_insurance_on_vehicle), insuranceAmount));
         reviewDataList.add(new ReviewData("INSURANCE AMOUNT", customVehDetails.getInsuranceAmount()));
-        reviewDataList.add(new ReviewData("INSURANCE VALIDITY", customVehDetails.getInsuranceValidity()));
+        reviewDataList.add(new ReviewData("INSURANCE VALIDITY", CommonMethods.getFormattedDouble(Double.parseDouble(customVehDetails.getInsuranceValidity()))));
         reviewDataList.add(new ReviewData("INSURANCE TYPE", customVehDetails.getInsuranceType()));
         reviewDataList.add(new ReviewData("LIKELY PURCHASE DATE", customVehDetails.getLikelyPurchaseDate()));
         return reviewDataList;
@@ -477,56 +484,285 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
             valuationDone = "NO";
         }
         if (loanDetailsResList.getLoanCategory().equalsIgnoreCase("New Car")) {
-            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_reg_year), vehDetailsResList.getRegistrationYear()));
-            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_make), vehDetailsResList.getMake()));
-            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_model), vehDetailsResList.getModel()));
-            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_variant), vehDetailsResList.getVariant()));
-            reviewDataList.add(new ReviewData("INTERESTED VEHICLE AMOUNT", CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getOnRoadPrice()))));
-            reviewDataList.add(new ReviewData(getString(R.string.lbl_vehicle_purchase_amount), CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getVehicleSellingPrice()))));
-            reviewDataList.add(new ReviewData("INSURANCE AMOUNT", CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getInsuranceAmount()))));
+            if (vehDetailsResList.getRegistrationYear() != null && !vehDetailsResList.getRegistrationYear().isEmpty()) {
+                if (vehDetailsResList.getRegistrationYear().contains("."))
+                    reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_reg_year), vehDetailsResList.getRegistrationYear().substring(0,4)));
+                else
+                    reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_reg_year), vehDetailsResList.getRegistrationYear()));
+
+            } else {
+                reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_reg_year), "NA"));
+
+            }
+            if(isTheFieldHaveValue(vehDetailsResList.getMake()))
+            {
+                reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_make), vehDetailsResList.getMake()));
+            }else
+            {
+                reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_make), "NA"));
+            }
+            if(isTheFieldHaveValue(vehDetailsResList.getModel()))
+            {
+                reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_model), vehDetailsResList.getModel()));
+            }else
+            {
+                reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_model), "NA"));
+            }
+            if(isTheFieldHaveValue(vehDetailsResList.getVariant()))
+            {
+                reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_variant), vehDetailsResList.getVariant()));
+            }else
+            {
+                reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_variant), vehDetailsResList.getVariant()));
+            }
+            if(isTheFieldHaveValue(vehDetailsResList.getOnRoadPrice()))
+            {
+                reviewDataList.add(new ReviewData("INTERESTED VEHICLE AMOUNT", CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getOnRoadPrice()))));
+            }else
+            {
+                reviewDataList.add(new ReviewData("INTERESTED VEHICLE AMOUNT", CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getOnRoadPrice()))));
+            }
+            if(isTheFieldHaveValue(vehDetailsResList.getVehicleSellingPrice()))
+            {
+                reviewDataList.add(new ReviewData(getString(R.string.lbl_vehicle_purchase_amount), CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getVehicleSellingPrice()))));
+            }else
+            {
+                reviewDataList.add(new ReviewData(getString(R.string.lbl_vehicle_purchase_amount), CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getVehicleSellingPrice()))));
+            }
+            if(isTheFieldHaveValue(vehDetailsResList.getInsuranceAmount()))
+            {
+                reviewDataList.add(new ReviewData("INSURANCE AMOUNT", CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getInsuranceAmount()))));
+            }else
+            {
+                reviewDataList.add(new ReviewData("INSURANCE AMOUNT", CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getInsuranceAmount()))));
+            }
 
         } else {
+
             reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_reg_num_qn), vehHaveRegNo));
             reviewDataList.add(new ReviewData(CommonStrings.VEH_REG_NO_TITLE, vehRegNo));
 
-            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_reg_year), vehDetailsResList.getRegistrationYear()));
-            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_make), vehDetailsResList.getMake()));
-            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_model), vehDetailsResList.getModel()));
-            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_variant), vehDetailsResList.getVariant()));
-            reviewDataList.add(new ReviewData(getString(R.string.lbl_veh_ownership), String.valueOf(vehDetailsResList.getOwnership())));
-            reviewDataList.add(new ReviewData(getString(R.string.lbl_vehicle_purchase_amount), CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getVehicleSellingPrice()))));
-            reviewDataList.add(new ReviewData("VEHICLE VALUATION DONE", valuationDone));
-            reviewDataList.add(new ReviewData("VEHICLE VALUATION PRICE", vehDetailsResList.getValuationPrice()));
-            reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_have_loan_qn), carHaveLoan));
-            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_insurance_on_vehicle), insuranceAmount));
-            reviewDataList.add(new ReviewData("INSURANCE AMOUNT", CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getInsuranceAmount()))));
-            reviewDataList.add(new ReviewData("INSURANCE VALIDITY", vehDetailsResList.getInsuranceValidity()));
-            reviewDataList.add(new ReviewData("INSURANCE TYPE", vehDetailsResList.getInsuranceType()));
+            if (vehDetailsResList.getRegistrationYear() != null && !vehDetailsResList.getRegistrationYear().isEmpty()) {
+                if (vehDetailsResList.getRegistrationYear().contains("."))
+                    reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_reg_year), vehDetailsResList.getRegistrationYear().substring(0,4)));
+                else
+                    reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_reg_year), vehDetailsResList.getRegistrationYear()));
+
+            } else {
+                reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_reg_year), "NA"));
+
+            }
+            if(isTheFieldHaveValue(vehDetailsResList.getMake()))
+            {
+                reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_make), vehDetailsResList.getMake()));
+            }else
+            {
+                reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_make), "NA"));
+            }if(isTheFieldHaveValue(vehDetailsResList.getModel()))
+            {
+                reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_model), vehDetailsResList.getModel()));
+            }else
+            {
+                reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_model), "NA"));
+            }
+            if(isTheFieldHaveValue(vehDetailsResList.getVariant()))
+            {
+                reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_variant), vehDetailsResList.getVariant()));
+            }else
+            {
+                reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_variant), "NA"));
+            }if(isTheFieldHaveValue(String.valueOf(vehDetailsResList.getOwnership())))
+            {
+                reviewDataList.add(new ReviewData(getString(R.string.lbl_veh_ownership), String.valueOf(vehDetailsResList.getOwnership())));
+            }else
+            {
+                reviewDataList.add(new ReviewData(getString(R.string.lbl_veh_ownership), "NA"));
+            }if(isTheFieldHaveValue(vehDetailsResList.getVehicleSellingPrice()))
+            {
+                reviewDataList.add(new ReviewData(getString(R.string.lbl_vehicle_purchase_amount), CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getVehicleSellingPrice()))));
+            }else
+            {
+                reviewDataList.add(new ReviewData(getString(R.string.lbl_vehicle_purchase_amount), "NA"));
+            }
+            if(isTheFieldHaveValue(valuationDone))
+            {
+                reviewDataList.add(new ReviewData("VEHICLE VALUATION DONE", valuationDone));
+            }else
+            {
+                reviewDataList.add(new ReviewData("VEHICLE VALUATION DONE", "NA"));
+            }
+
+            if(isTheFieldHaveValue(vehDetailsResList.getValuationPrice()))
+            {
+                reviewDataList.add(new ReviewData("VEHICLE VALUATION PRICE", vehDetailsResList.getValuationPrice()));
+            }else
+            {
+                reviewDataList.add(new ReviewData("VEHICLE VALUATION PRICE", "NA"));
+            }
+
+            if(isTheFieldHaveValue(carHaveLoan))
+            {
+                reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_have_loan_qn), carHaveLoan));
+            }else
+            {
+                reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_have_loan_qn), "NA"));
+            }
+
+            if(isTheFieldHaveValue(insuranceAmount))
+            {
+                reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_insurance_on_vehicle), insuranceAmount));
+            }else
+            {
+                reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_insurance_on_vehicle), "NA"));
+            }
+
+            if(isTheFieldHaveValue(vehDetailsResList.getInsuranceAmount()))
+            {
+                reviewDataList.add(new ReviewData("INSURANCE AMOUNT", CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getInsuranceAmount()))));
+            }else
+            {
+                reviewDataList.add(new ReviewData("INSURANCE AMOUNT", "NA"));
+            }
+
+            if(isTheFieldHaveValue(vehDetailsResList.getInsuranceValidity()))
+            {
+                reviewDataList.add(new ReviewData("INSURANCE VALIDITY", String.valueOf(vehDetailsResList.getInsuranceValidity()).substring(0,10)));
+            }else
+            {
+                reviewDataList.add(new ReviewData("INSURANCE VALIDITY", "NA"));
+            }
+            if(isTheFieldHaveValue(vehDetailsResList.getInsuranceType()))
+            {
+                reviewDataList.add(new ReviewData("INSURANCE TYPE", vehDetailsResList.getInsuranceType()));
+            }else
+            {
+                reviewDataList.add(new ReviewData("INSURANCE TYPE", "NA"));
+            }
+
 
         }
-        reviewDataList.add(new ReviewData("LIKELY PURCHASE DATE", vehDetailsResList.getLikelyPurchaseDate()));
+        if(isTheFieldHaveValue(vehDetailsResList.getLikelyPurchaseDate()))
+        {
+            reviewDataList.add(new ReviewData("LIKELY PURCHASE DATE", vehDetailsResList.getLikelyPurchaseDate()));
+        }else
+        {
+            reviewDataList.add(new ReviewData("LIKELY PURCHASE DATE","NA"));
+        }
+
         return reviewDataList;
+    }
+
+    private boolean isTheFieldHaveValue(String givenVal)
+    {
+        if(givenVal !=null && !givenVal.isEmpty())
+            return true;
+        else
+            return false;
     }
 
     private List<ReviewData> prepareNewReviewBasicDataList() {
         ArrayList<ReviewData> reviewDataList = new ArrayList<>();
         Log.i(TAG, "prepareNewReviewBasicDataList: " + basicDetailsResList.getSalutation());
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_name), basicDetailsResList.getSalutation() + " " + basicDetailsResList.getFullName()));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_email), basicDetailsResList.getEmail()));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_phone_no), basicDetailsResList.getCustomerMobile()));
+        if(isTheFieldHaveValue(basicDetailsResList.getFullName()))
+        {
+            if(isTheFieldHaveValue(basicDetailsResList.getSalutation()))
+            {
+                reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_name), basicDetailsResList.getSalutation() + " " + basicDetailsResList.getFullName()));
+            }
+            else
+            {
+                reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_name), basicDetailsResList.getFullName()));
+            }
+        }else
+        {
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_name), "NA"));
+        }
+
+        if(isTheFieldHaveValue(basicDetailsResList.getEmail()))
+        {
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_email), basicDetailsResList.getEmail()));
+        }else
+        {
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_email), "NA"));
+        }
+
+        if(isTheFieldHaveValue(basicDetailsResList.getCustomerMobile()))
+        {
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_phone_no), basicDetailsResList.getCustomerMobile()));
+        }else
+        {
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_phone_no), "NA"));
+        }
+
         return reviewDataList;
     }
 
     private List<ReviewData> prepareNewResDataList() {
         ArrayList<ReviewData> reviewDataList = new ArrayList<>();
-        reviewDataList.add(new ReviewData("PINCODE", residentialDetailsResList.getPincode()));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.city_lbl), residentialDetailsResList.getCustomerCity()));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.address_one_lbl), residentialDetailsResList.getAddressLine1()));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.address_two_lbl), residentialDetailsResList.getAddressLine2()));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_landmark), residentialDetailsResList.getAddressLine3()));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_when_did_you_moved_to_the_city), residentialDetailsResList.getMoveInCityYear()));
-        reviewDataList.add(new ReviewData(getString(R.string.lbl_when_moved_to_current_residence), residentialDetailsResList.getMoveInResidenceYear()));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_residence_type), residentialDetailsResList.getResidenceType()));
+        if(isTheFieldHaveValue(residentialDetailsResList.getPincode()))
+        {
+            reviewDataList.add(new ReviewData("PINCODE", residentialDetailsResList.getPincode()));
+        }else
+        {
+            reviewDataList.add(new ReviewData("PINCODE","NA"));
+        }
+
+        if(isTheFieldHaveValue(residentialDetailsResList.getCustomerCity()))
+        {
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.city_lbl), residentialDetailsResList.getCustomerCity()));
+        }else
+        {
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.city_lbl), "NA"));
+        }
+
+        if(isTheFieldHaveValue(residentialDetailsResList.getAddressLine1()))
+        {
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.address_one_lbl), residentialDetailsResList.getAddressLine1()));
+        }else
+        {
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.address_one_lbl), "NA"));
+        }
+
+        if(isTheFieldHaveValue(residentialDetailsResList.getAddressLine2()))
+        {
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.address_two_lbl), residentialDetailsResList.getAddressLine2()));
+        }else
+        {
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.address_two_lbl), "NA"));
+        }
+
+        if(isTheFieldHaveValue(residentialDetailsResList.getAddressLine3()))
+        {
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_landmark), residentialDetailsResList.getAddressLine3()));
+        }else
+        {
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_landmark), "NA"));
+        }
+
+        if(isTheFieldHaveValue(residentialDetailsResList.getMoveInCityYear()))
+        {
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_when_did_you_moved_to_the_city), residentialDetailsResList.getMoveInCityYear()));
+        }else
+        {
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_when_did_you_moved_to_the_city), "NA"));
+        }
+
+        if(isTheFieldHaveValue(residentialDetailsResList.getMoveInResidenceYear()))
+        {
+            reviewDataList.add(new ReviewData(getString(R.string.lbl_when_moved_to_current_residence), residentialDetailsResList.getMoveInResidenceYear()));
+        }else
+        {
+            reviewDataList.add(new ReviewData(getString(R.string.lbl_when_moved_to_current_residence), "NA"));
+        }
+
+        if(isTheFieldHaveValue(residentialDetailsResList.getResidenceType()))
+        {
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_residence_type), residentialDetailsResList.getResidenceType()));
+        }else
+        {
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_residence_type), "NA"));
+        }
+
         return reviewDataList;
     }
 
@@ -535,13 +771,56 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         Log.i(TAG, "preparePersonalDetailsRes: " + personalDetailsResList.getGender());
         ArrayList<ReviewData> reviewPersonalDataList = new ArrayList<>();
         Log.i(TAG, "preparePersonalDetailsRes: " + personalDetailsResList.getGender());
-        reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_dob), personalDetailsResList.getBirthDate().substring(0, 10)));
-        reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_gender), personalDetailsResList.getGender()));
-        reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_education), personalDetailsResList.getEducation()));
-        reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_monthly_income), CommonMethods.getFormattedDouble(personalDetailsResList.getSalaryPerMonth())));
-        reviewPersonalDataList.add(new ReviewData("NUMBER OF EXISTING LOAN", loanDetailsResList.getNoOfExistingLoans()));
-        reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_loan_required), CommonMethods.getFormattedDouble(Double.parseDouble(loanDetailsResList.getRequiredLoanAmount()))));
-        reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_total_emi), CommonMethods.getFormattedDouble(personalDetailsResList.getTotalEMIPaid())));
+        if(isTheFieldHaveValue(residentialDetailsResList.getResidenceType()))
+        {
+            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_dob), personalDetailsResList.getBirthDate().substring(0, 10)));
+        }else
+        {
+            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_dob), personalDetailsResList.getBirthDate().substring(0, 10)));
+        }
+        if(isTheFieldHaveValue(residentialDetailsResList.getResidenceType()))
+        {
+            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_gender), personalDetailsResList.getGender()));
+        }else
+        {
+            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_gender), personalDetailsResList.getGender()));
+        }
+        if(isTheFieldHaveValue(residentialDetailsResList.getResidenceType()))
+        {
+            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_education), personalDetailsResList.getEducation()));
+        }else
+        {
+            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_education), personalDetailsResList.getEducation()));
+        }
+        if(isTheFieldHaveValue(residentialDetailsResList.getResidenceType()))
+        {
+            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_monthly_income), CommonMethods.getFormattedDouble(personalDetailsResList.getSalaryPerMonth())));
+        }else
+        {
+            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_monthly_income), CommonMethods.getFormattedDouble(personalDetailsResList.getSalaryPerMonth())));
+        }
+        if(isTheFieldHaveValue(residentialDetailsResList.getResidenceType()))
+        {
+            reviewPersonalDataList.add(new ReviewData("NUMBER OF EXISTING LOAN", loanDetailsResList.getNoOfExistingLoans()));
+        }else
+        {
+            reviewPersonalDataList.add(new ReviewData("NUMBER OF EXISTING LOAN", loanDetailsResList.getNoOfExistingLoans()));
+        }
+        if(isTheFieldHaveValue(residentialDetailsResList.getResidenceType()))
+        {
+            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_loan_required), CommonMethods.getFormattedDouble(Double.parseDouble(loanDetailsResList.getRequiredLoanAmount()))));
+        }else
+        {
+            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_loan_required), CommonMethods.getFormattedDouble(Double.parseDouble(loanDetailsResList.getRequiredLoanAmount()))));
+        }
+        if(isTheFieldHaveValue(residentialDetailsResList.getResidenceType()))
+        {
+            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_loan_required), CommonMethods.getFormattedDouble(Double.parseDouble(loanDetailsResList.getRequiredLoanAmount()))));
+        }else
+        {
+            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_loan_required), CommonMethods.getFormattedDouble(Double.parseDouble(loanDetailsResList.getRequiredLoanAmount()))));
+        }
+
         reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_employment_type), employmentResDetails.getEmploymentType()));
         Log.i(TAG, "preparePersonalDetailsRes: " + employmentResDetails.getEmploymentType());
         if (employmentResDetails.getEmploymentType().equalsIgnoreCase(getResources().getString(R.string.lbl_salaried))) {
