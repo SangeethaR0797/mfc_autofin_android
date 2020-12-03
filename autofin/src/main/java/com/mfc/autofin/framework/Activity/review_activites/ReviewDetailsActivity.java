@@ -19,6 +19,7 @@ import com.mfc.autofin.framework.Activity.ResidentialActivity.ResidentialCity;
 import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehicleCategory;
 import com.mfc.autofin.framework.R;
 
+import java.text.AttributedString;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +40,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
+import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
 import static utility.CommonStrings.*;
@@ -48,10 +50,10 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
     private TextView tvVehDetailsTitle, tvCommonAppBarTitle, tvBasicDetails, tvResidentialDetails, tvPersonalDetails;
     private RecyclerView rvVehDetails, rvBasicDetails, rvResidentialDetails, rvPersonalDetails;
     private LinearLayout llEditAndCloseReview;
-    private Button btnEditReview, btnCloseReview;
+    private Button btnRViewBankDetails;
     private Intent intent;
     private int customerId = 0;
-    private String userId = "", userType = "";
+    private String userId = "", userType = "", caseId = "";
     private VehicleDetails vehDetailsResList;
     private BasicDetails basicDetailsResList;
     private ResidentialDetails residentialDetailsResList;
@@ -71,6 +73,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
                 if (intent.getExtras() != null) {
                     Bundle bundle = intent.getExtras();
                     customerId = bundle.getInt(CUSTOMER_ID);
+                    caseId = bundle.getString(CASE_ID);
                     if (customerId != 0) {
                         flag = true;
                     } else {
@@ -87,6 +90,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         userType = CommonMethods.getStringValueFromKey(this, CommonStrings.USER_TYPE_VAL);
 
         if (flag) {
+            SpinnerManager.showSpinner(this);
             retrofitInterface.getFromWeb(getCustomerDetailsReq(), CUSTOMER_DETAILS_URL).enqueue(this);
         }
 
@@ -106,8 +110,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
     private void initView() {
         tvVehDetailsTitle = findViewById(R.id.tvVehDetailsTitle);
         tvVehDetailsTitle.setOnClickListener(this);
-        btnEditReview = findViewById(R.id.btnEditReview);
-        btnCloseReview = findViewById(R.id.btnCloseReview);
+        btnRViewBankDetails = findViewById(R.id.btnRViewBankDetails);
         rvVehDetails = findViewById(R.id.rvVehDetails);
         tvBasicDetails = findViewById(R.id.tvBasicDetails);
         iv_common_bar_backBtn = findViewById(R.id.iv_common_bar_backBtn);
@@ -119,12 +122,25 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         rvPersonalDetails = findViewById(R.id.rvPersonalDetails);
         rvBasicDetails = findViewById(R.id.rvBasicDetails);
         iv_common_bar_backBtn.setOnClickListener(this);
-        btnEditReview.setOnClickListener(this);
-        btnCloseReview.setOnClickListener(this);
+        btnRViewBankDetails.setOnClickListener(this);
         tvBasicDetails.setOnClickListener(this);
         tvResidentialDetails.setOnClickListener(this);
         tvPersonalDetails.setOnClickListener(this);
         tvCommonAppBarTitle.setText("REVIEW");
+        if (flag) {
+
+        } else {
+            if (customLoanDetails.getLoanCategory().equals(getResources().getString(R.string.new_car))) {
+                displayNewCarVehicleDetails();
+            } else if (customLoanDetails.getLoanCategory().equals(getResources().getString(R.string.old_car))) {
+                displayOldCarVehicleDetails();
+            }
+
+            displayBasicDetails();
+            displayResidentialDetails();
+            displayPersonalDetails();
+
+        }
     }
 
     @Override
@@ -132,75 +148,10 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
 
         if (v.getId() == R.id.iv_common_bar_backBtn) {
             finish();
-        } else if (v.getId() == R.id.tvVehDetailsTitle) {
-            llEditAndCloseReview.setVisibility(View.VISIBLE);
-            rvVehDetails.setVisibility(View.VISIBLE);
-            if (flag) {
-                displayReviewVehRes();
-            } else {
-                if (customLoanDetails.getLoanCategory().equals(getResources().getString(R.string.new_car))) {
-                    displayNewCarVehicleDetails();
-                } else if (customLoanDetails.getLoanCategory().equals(getResources().getString(R.string.old_car))) {
-                    displayOldCarVehicleDetails();
-                }
-            }
-
-        } else if (v.getId() == R.id.btnCloseReview) {
-            if (rvVehDetails.getVisibility() == View.VISIBLE) {
-                rvVehDetails.setVisibility(View.GONE);
-                llEditAndCloseReview.setVisibility(View.GONE);
-
-            } else if (rvBasicDetails.getVisibility() == View.VISIBLE) {
-                rvBasicDetails.setVisibility(View.GONE);
-                llEditAndCloseReview.setVisibility(View.GONE);
-            } else if (rvResidentialDetails.getVisibility() == View.VISIBLE) {
-                rvResidentialDetails.setVisibility(View.GONE);
-                llEditAndCloseReview.setVisibility(View.GONE);
-            } else if (rvPersonalDetails.getVisibility() == View.VISIBLE) {
-                rvPersonalDetails.setVisibility(View.GONE);
-                llEditAndCloseReview.setVisibility(View.GONE);
-            }
-
-        } else if (v.getId() == R.id.tvBasicDetails) {
-            llEditAndCloseReview.setVisibility(View.VISIBLE);
-            rvBasicDetails.setVisibility(View.VISIBLE);
-            btnEditReview.setVisibility(View.GONE);
-            if (flag) {
-                displayReviewBasicRes();
-            } else {
-                displayBasicDetails();
-            }
-        } else if (v.getId() == R.id.tvResidentialDetails) {
-            llEditAndCloseReview.setVisibility(View.VISIBLE);
-            rvResidentialDetails.setVisibility(View.VISIBLE);
-            btnEditReview.setVisibility(View.VISIBLE);
-            if (flag) {
-                displayReviewResidentialRes();
-            } else {
-                displayResidentialDetails();
-            }
-
-        } else if (v.getId() == R.id.tvReviewPersonalDetails) {
-            llEditAndCloseReview.setVisibility(View.VISIBLE);
-            rvPersonalDetails.setVisibility(View.VISIBLE);
-            btnEditReview.setVisibility(View.VISIBLE);
-            if (flag) {
-                displayReviewPersonalRes();
-            } else {
-                displayPersonalDetails();
-            }
-
-
-        } else if (v.getId() == R.id.btnEditReview) {
-            if (rvVehDetails.getVisibility() == View.VISIBLE)
-                startActivity(new Intent(this, VehicleCategory.class));
-            else if (rvBasicDetails.getVisibility() == View.VISIBLE)
-                CommonMethods.showToast(this, "Sorry! you cannot edit Basic details");
-                //startActivity(new Intent(this, BasicDetailsActivity.class));
-            else if (rvResidentialDetails.getVisibility() == View.VISIBLE)
-                startActivity(new Intent(this, ResidentialCity.class));
-            else if (rvPersonalDetails.getVisibility() == View.VISIBLE)
-                startActivity(new Intent(this, UserDOBActivity.class));
+        } else if (v.getId() == R.id.btnRViewBankDetails) {
+            CommonMethods.setValueAgainstKey(this, CommonStrings.CUSTOMER_ID, String.valueOf(customerId));
+            CommonMethods.setValueAgainstKey(this, CommonStrings.CASE_ID, caseId);
+            startActivity(new Intent(this, ViewBankActivity.class));
         }
     }
 
@@ -239,9 +190,9 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         } else if (cusEmpDetails.getEmploymentType().equalsIgnoreCase(getResources().getString(R.string.lbl_business_owner))) {
             personalDetails.add(new ReviewData("EMPLOYMENT ROLE", cusEmpDetails.getEmploymentRole()));
             personalDetails.add(new ReviewData("BUSINESS STARTED DATE", cusEmpDetails.getBusinessStartDate()));
-            personalDetails.add(new ReviewData("LAST YEARS PROFIT",String.valueOf(cusEmpDetails.getLastYearProfit())));
+            personalDetails.add(new ReviewData("LAST YEARS PROFIT", String.valueOf(cusEmpDetails.getLastYearProfit())));
             personalDetails.add(new ReviewData("LAST YEARS SALES", cusEmpDetails.getLastYearTurnOver()));
-            personalDetails.add(new ReviewData("INCOME AFTER TAX", CommonMethods.getStringValueFromKey(this, INCOME_AFTER_TAX)));
+            personalDetails.add(new ReviewData("INCOME AFTER TAX", cusEmpDetails.getIncomeAfterTax()));
             personalDetails.add(new ReviewData("LAST YEAR DEPRECIATION", cusEmpDetails.getLastYearDepreciation()));
             personalDetails.add(new ReviewData("WAS LAST YEAR ITR AUDITED", String.valueOf(cusEmpDetails.getIsLastestItraudited())));
             personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_industry_type), cusEmpDetails.getIndustryType()));
@@ -252,7 +203,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
             personalDetails.add(new ReviewData("PROFESSION STARTED DATE", cusEmpDetails.getBusinessStartDate()));
             personalDetails.add(new ReviewData("LAST YEARS PROFIT", String.valueOf(cusEmpDetails.getLastYearProfit())));
             personalDetails.add(new ReviewData("LAST YEARS SALES", cusEmpDetails.getLastYearTurnOver()));
-            personalDetails.add(new ReviewData("INCOME AFTER TAX", CommonMethods.getStringValueFromKey(this, INCOME_AFTER_TAX)));
+            personalDetails.add(new ReviewData("INCOME AFTER TAX", cusEmpDetails.getIncomeAfterTax()));
             personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_industry_type), cusEmpDetails.getIndustryType()));
 
         }
@@ -372,7 +323,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         reviewDataList.add(new ReviewData("INSURANCE AMOUNT", customVehDetails.getInsuranceAmount()));
         reviewDataList.add(new ReviewData("INSURANCE VALIDITY", customVehDetails.getInsuranceValidity()));
         reviewDataList.add(new ReviewData("INSURANCE TYPE", customVehDetails.getInsuranceType()));
-        reviewDataList.add(new ReviewData("LIKELY PURCHASE DATE", vehDetailsResList.getLikelyPurchaseDate()));
+        reviewDataList.add(new ReviewData("LIKELY PURCHASE DATE", customVehDetails.getLikelyPurchaseDate()));
         return reviewDataList;
     }
 
@@ -401,12 +352,13 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_road_price), customVehDetails.getOnRoadPrice()));
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_vehicle_purchase_amount), customVehDetails.getVehicleSellingPrice()));
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_insured_amount), customVehDetails.getInsuranceAmount()));
-        reviewDataList.add(new ReviewData("LIKELY PURCHASE DATE", vehDetailsResList.getLikelyPurchaseDate()));
+        reviewDataList.add(new ReviewData("LIKELY PURCHASE DATE", customVehDetails.getLikelyPurchaseDate()));
         return reviewDataList;
     }
 
     @Override
     public void onResponse(Call<Object> call, Response<Object> response) {
+        SpinnerManager.hideSpinner(this);
         String strRes = new Gson().toJson(response.body());
         Log.i(TAG, "onResponse: " + strRes);
         CustomerDetailsResponse customerDetailsRes = new Gson().fromJson(strRes, CustomerDetailsResponse.class);
@@ -418,16 +370,16 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
                     if (customerDetails.getCaseId() != null && !customerDetails.getCaseId().equals("")) {
                         CommonMethods.setValueAgainstKey(this, CommonStrings.CASE_ID, customerDetails.getCaseId());
                         CommonMethods.showToast(this, customerDetails.getCaseId());
-                        Log.i(TAG, "onResponse: " + customerDetails.getCaseId());
                         vehDetailsResList = customerDetails.getVehicleDetails();
                         basicDetailsResList = customerDetails.getBasicDetails();
-                        Log.i(TAG, "onResponse: "+basicDetailsResList.getSalutation());
                         residentialDetailsResList = customerDetails.getResidentialDetails();
                         personalDetailsResList = customerDetails.getPersonalDetails();
                         employmentResDetails = customerDetails.getEmploymentDetails();
                         loanDetailsResList = customerDetails.getLoanDetails();
-                        Log.i(TAG, "onResponse: "+employmentResDetails.getEmploymentType());
-
+                        displayReviewVehRes();
+                        displayReviewBasicRes();
+                        displayReviewResidentialRes();
+                        displayReviewPersonalRes();
                     } else {
                         CommonMethods.showToast(this, "No Case-Id found");
                     }
@@ -436,14 +388,13 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
-
         }
     }
 
 
     private void displayReviewVehRes() {
         try {
-            ReviewAdapter reviewAdapter = new ReviewAdapter(this, prepareNewReviewDataList(), getResources().getString(R.string.title_basic_details));
+            ReviewAdapter reviewAdapter = new ReviewAdapter(this, prepareNewReviewDataList(), getResources().getString(R.string.vehicle_details_title));
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             rvVehDetails.setLayoutManager(layoutManager);
             rvVehDetails.setAdapter(reviewAdapter);
@@ -525,29 +476,41 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         } else {
             valuationDone = "NO";
         }
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_reg_num_qn), vehHaveRegNo));
-        reviewDataList.add(new ReviewData(CommonStrings.VEH_REG_NO_TITLE, vehRegNo));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_reg_year), vehDetailsResList.getRegistrationYear()));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_make), vehDetailsResList.getMake()));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_model), vehDetailsResList.getModel()));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_variant), vehDetailsResList.getVariant()));
-        reviewDataList.add(new ReviewData(getString(R.string.lbl_veh_ownership), String.valueOf(vehDetailsResList.getOwnership())));
-        reviewDataList.add(new ReviewData(getString(R.string.lbl_vehicle_purchase_amount), vehDetailsResList.getVehicleSellingPrice()));
-        reviewDataList.add(new ReviewData("VEHICLE VALUATION DONE", valuationDone));
-        reviewDataList.add(new ReviewData("VEHICLE VALUATION PRICE", vehDetailsResList.getValuationPrice()));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_have_loan_qn), carHaveLoan));
-        reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_insurance_on_vehicle), insuranceAmount));
-        reviewDataList.add(new ReviewData("INSURANCE AMOUNT", vehDetailsResList.getInsuranceAmount()));
-        reviewDataList.add(new ReviewData("INSURANCE VALIDITY", vehDetailsResList.getInsuranceValidity()));
-        reviewDataList.add(new ReviewData("INSURANCE TYPE", vehDetailsResList.getInsuranceType()));
+        if (loanDetailsResList.getLoanCategory().equalsIgnoreCase("New Car")) {
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_reg_year), vehDetailsResList.getRegistrationYear()));
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_make), vehDetailsResList.getMake()));
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_model), vehDetailsResList.getModel()));
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_variant), vehDetailsResList.getVariant()));
+            reviewDataList.add(new ReviewData("INTERESTED VEHICLE AMOUNT", CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getOnRoadPrice()))));
+            reviewDataList.add(new ReviewData(getString(R.string.lbl_vehicle_purchase_amount), CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getVehicleSellingPrice()))));
+            reviewDataList.add(new ReviewData("INSURANCE AMOUNT", CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getInsuranceAmount()))));
+
+        } else {
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_reg_num_qn), vehHaveRegNo));
+            reviewDataList.add(new ReviewData(CommonStrings.VEH_REG_NO_TITLE, vehRegNo));
+
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_reg_year), vehDetailsResList.getRegistrationYear()));
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_make), vehDetailsResList.getMake()));
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_model), vehDetailsResList.getModel()));
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_variant), vehDetailsResList.getVariant()));
+            reviewDataList.add(new ReviewData(getString(R.string.lbl_veh_ownership), String.valueOf(vehDetailsResList.getOwnership())));
+            reviewDataList.add(new ReviewData(getString(R.string.lbl_vehicle_purchase_amount), CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getVehicleSellingPrice()))));
+            reviewDataList.add(new ReviewData("VEHICLE VALUATION DONE", valuationDone));
+            reviewDataList.add(new ReviewData("VEHICLE VALUATION PRICE", vehDetailsResList.getValuationPrice()));
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_have_loan_qn), carHaveLoan));
+            reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_insurance_on_vehicle), insuranceAmount));
+            reviewDataList.add(new ReviewData("INSURANCE AMOUNT", CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getInsuranceAmount()))));
+            reviewDataList.add(new ReviewData("INSURANCE VALIDITY", vehDetailsResList.getInsuranceValidity()));
+            reviewDataList.add(new ReviewData("INSURANCE TYPE", vehDetailsResList.getInsuranceType()));
+
+        }
         reviewDataList.add(new ReviewData("LIKELY PURCHASE DATE", vehDetailsResList.getLikelyPurchaseDate()));
-
         return reviewDataList;
-
     }
+
     private List<ReviewData> prepareNewReviewBasicDataList() {
         ArrayList<ReviewData> reviewDataList = new ArrayList<>();
-        Log.i(TAG, "prepareNewReviewBasicDataList: "+basicDetailsResList.getSalutation());
+        Log.i(TAG, "prepareNewReviewBasicDataList: " + basicDetailsResList.getSalutation());
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_name), basicDetailsResList.getSalutation() + " " + basicDetailsResList.getFullName()));
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_email), basicDetailsResList.getEmail()));
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_phone_no), basicDetailsResList.getCustomerMobile()));
@@ -569,50 +532,48 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
 
     private List<ReviewData> preparePersonalDetailsRes() {
 
-        Log.i(TAG, "preparePersonalDetailsRes: "+personalDetailsResList.getGender());
+        Log.i(TAG, "preparePersonalDetailsRes: " + personalDetailsResList.getGender());
         ArrayList<ReviewData> reviewPersonalDataList = new ArrayList<>();
-        Log.i(TAG, "preparePersonalDetailsRes: "+personalDetailsResList.getGender());
-        reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_dob), personalDetailsResList.getBirthDate()));
+        Log.i(TAG, "preparePersonalDetailsRes: " + personalDetailsResList.getGender());
+        reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_dob), personalDetailsResList.getBirthDate().substring(0, 10)));
         reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_gender), personalDetailsResList.getGender()));
         reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_education), personalDetailsResList.getEducation()));
-        reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_monthly_income), String.valueOf(personalDetailsResList.getSalaryPerMonth())));
+        reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_monthly_income), CommonMethods.getFormattedDouble(personalDetailsResList.getSalaryPerMonth())));
         reviewPersonalDataList.add(new ReviewData("NUMBER OF EXISTING LOAN", loanDetailsResList.getNoOfExistingLoans()));
-        reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_loan_required), loanDetailsResList.getRequiredLoanAmount()));
-        reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_total_emi), String.valueOf(personalDetailsResList.getTotalEMIPaid())));
+        reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_loan_required), CommonMethods.getFormattedDouble(Double.parseDouble(loanDetailsResList.getRequiredLoanAmount()))));
+        reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_total_emi), CommonMethods.getFormattedDouble(personalDetailsResList.getTotalEMIPaid())));
         reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_employment_type), employmentResDetails.getEmploymentType()));
-        Log.i(TAG, "preparePersonalDetailsRes: "+employmentResDetails.getEmploymentType());
-        if (employmentResDetails.getEmploymentType().equalsIgnoreCase(getResources().getString(R.string.lbl_salaried)))
-        {
-            Log.i(TAG, "preparePersonalDetailsRes: "+employmentResDetails.getEmploymentType());
+        Log.i(TAG, "preparePersonalDetailsRes: " + employmentResDetails.getEmploymentType());
+        if (employmentResDetails.getEmploymentType().equalsIgnoreCase(getResources().getString(R.string.lbl_salaried))) {
+            Log.i(TAG, "preparePersonalDetailsRes: " + employmentResDetails.getEmploymentType());
             reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_working_organization_name), employmentResDetails.getCompanyName()));
-            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_joining_date_of_your_current_org), employmentResDetails.getCompanyJoiningDate()));
+            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_joining_date_of_your_current_org), employmentResDetails.getCompanyJoiningDate().substring(0, 10)));
             reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_year_of_experience), employmentResDetails.getTotalWorkExperience()));
             reviewPersonalDataList.add(new ReviewData("SALARY ACCOUNT", employmentResDetails.getSalaryAccount()));
             reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_sal_mode), employmentResDetails.getSalaryMode()));
             reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_industry_type), employmentResDetails.getIndustryType()));
         } else if (employmentResDetails.getEmploymentType().equalsIgnoreCase(getResources().getString(R.string.lbl_business_owner))) {
-            Log.i(TAG, "preparePersonalDetailsRes: "+employmentResDetails.getEmploymentType());
+            Log.i(TAG, "preparePersonalDetailsRes: " + employmentResDetails.getEmploymentType());
 
             reviewPersonalDataList.add(new ReviewData("EMPLOYMENT ROLE", employmentResDetails.getEmploymentRole()));
             reviewPersonalDataList.add(new ReviewData("BUSINESS STARTED DATE", employmentResDetails.getBusinessStartDate()));
-            reviewPersonalDataList.add(new ReviewData("LAST YEARS PROFIT","0"));
-            reviewPersonalDataList.add(new ReviewData("LAST YEARS SALES", employmentResDetails.getLastYearTurnOver()));
-            reviewPersonalDataList.add(new ReviewData("INCOME AFTER TAX","0"));
-            reviewPersonalDataList.add(new ReviewData("LAST YEAR DEPRECIATION", employmentResDetails.getLastYearDepreciation()));
+            reviewPersonalDataList.add(new ReviewData("LAST YEAR PROFIT", CommonMethods.getFormattedDouble(employmentResDetails.getLastYearProfit())));
+            reviewPersonalDataList.add(new ReviewData("LAST YEARS SALES", CommonMethods.getFormattedDouble(Double.parseDouble(employmentResDetails.getLastYearTurnOver()))));
+            reviewPersonalDataList.add(new ReviewData("INCOME AFTER TAX", CommonMethods.getFormattedDouble(Double.parseDouble(employmentResDetails.getIncomeAfterTax()))));
+            reviewPersonalDataList.add(new ReviewData("LAST YEAR DEPRECIATION", CommonMethods.getFormattedDouble(Double.parseDouble(employmentResDetails.getLastYearDepreciation()))));
             reviewPersonalDataList.add(new ReviewData("WAS LAST YEAR ITR AUDITED", String.valueOf(employmentResDetails.getIsLastestItraudited())));
             reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_industry_type), employmentResDetails.getIndustryType()));
 
         } else if (employmentResDetails.getEmploymentType().equalsIgnoreCase(getResources().getString(R.string.lbl_self_employed_professional))) {
-            Log.i(TAG, "preparePersonalDetailsRes: "+employmentResDetails.getEmploymentType());
+            Log.i(TAG, "preparePersonalDetailsRes: " + employmentResDetails.getEmploymentType());
 
             reviewPersonalDataList.add(new ReviewData("EMPLOYMENT ROLE", employmentResDetails.getEmploymentRole()));
             reviewPersonalDataList.add(new ReviewData("PROFESSION", employmentResDetails.getProfession()));
             reviewPersonalDataList.add(new ReviewData("PROFESSION STARTED DATE", employmentResDetails.getBusinessStartDate()));
-            reviewPersonalDataList.add(new ReviewData("LAST YEARS PROFIT", String.valueOf(cusEmpDetails.getLastYearProfit())));
-            reviewPersonalDataList.add(new ReviewData("LAST YEARS SALES", employmentResDetails.getLastYearTurnOver()));
-            reviewPersonalDataList.add(new ReviewData("INCOME AFTER TAX", CommonMethods.getStringValueFromKey(this, INCOME_AFTER_TAX)));
+            reviewPersonalDataList.add(new ReviewData("LAST YEAR PROFIT", CommonMethods.getFormattedDouble(employmentResDetails.getLastYearProfit())));
+            reviewPersonalDataList.add(new ReviewData("LAST YEARS SALES", CommonMethods.getFormattedDouble(Double.parseDouble(employmentResDetails.getLastYearTurnOver()))));
+            reviewPersonalDataList.add(new ReviewData("INCOME AFTER TAX", CommonMethods.getFormattedDouble(Double.parseDouble(employmentResDetails.getIncomeAfterTax()))));
             reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_industry_type), employmentResDetails.getIndustryType()));
-
         }
         reviewPersonalDataList.add(new ReviewData("SAVINGS BANK ACCOUNT", personalDetailsResList.getSavingsAccount()));
         reviewPersonalDataList.add(new ReviewData("PANCARD NO.", personalDetailsResList.getPanNumber()));

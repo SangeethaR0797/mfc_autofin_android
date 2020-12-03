@@ -44,12 +44,23 @@ public class EmploymentDetails {
     @SerializedName("industryType")
     @Expose
     private String industryType;
-    @SerializedName("ProfessionalQualification")
+    @SerializedName("professionalQualification")
     @Expose
     private String professionalQualification;
     @SerializedName("lastYearProfit")
     @Expose
     private Double lastYearProfit;
+    @SerializedName("incomeAfterTax")
+    @Expose
+    private String incomeAfterTax;
+
+    public String getIncomeAfterTax() {
+        return incomeAfterTax;
+    }
+
+    public void setIncomeAfterTax(String incomeAfterTax) {
+        this.incomeAfterTax = incomeAfterTax;
+    }
 
     public Double getLastYearProfit() {
         return lastYearProfit;

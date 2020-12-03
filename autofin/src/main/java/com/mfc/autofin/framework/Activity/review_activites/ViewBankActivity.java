@@ -41,6 +41,7 @@ public class ViewBankActivity extends AppCompatActivity implements View.OnClickL
     private RecyclerView rvSelectBank;
     private ImageView iv_common_bar_backBtn;
     private List<BankListData> bankList = new ArrayList<BankListData>();
+    private Intent intent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

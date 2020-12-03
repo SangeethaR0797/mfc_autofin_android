@@ -278,7 +278,6 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
                 vehicleDetails.setInsuranceValidity(CommonStrings.customVehDetails.getInsuranceValidity());
             }
             vehicleDetails.setLikelyPurchaseDate(CommonStrings.customVehDetails.getLikelyPurchaseDate());
-
         } catch (Exception exception) {
             exception.printStackTrace();
         }

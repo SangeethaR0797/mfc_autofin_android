@@ -1,6 +1,7 @@
 package controller;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +10,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.mfc.autofin.framework.Activity.PersonalDetails.UserDOBActivity;
+import com.mfc.autofin.framework.Activity.ResidentialActivity.ResidentialCity;
+import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehicleCategory;
 import com.mfc.autofin.framework.R;
 
 import java.util.List;
 
 import model.custom_model.ReviewData;
+import utility.CommonMethods;
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder> {
 
@@ -52,6 +58,27 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
            */ holder.tvReviewValue.setText(reviewData.getStrFieldValue());
             Log.i(TAG, "onBindViewHolder: "+reviewData.getStrFieldValue());
         //}
+        holder.tvReviewGivenValEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(strKODetails.equalsIgnoreCase(activity.getResources().getString(R.string.vehicle_details_title)))
+                {
+                    activity.startActivity(new Intent(activity, VehicleCategory.class));
+                }
+                else if(strKODetails.equalsIgnoreCase(activity.getResources().getString(R.string.title_basic_details)))
+                {
+                    CommonMethods.showToast(activity, "Sorry! you cannot edit Basic details");
+                }
+                else if(strKODetails.equalsIgnoreCase(activity.getResources().getString(R.string.title_residential_details)))
+                {
+                    activity.startActivity(new Intent(activity, ResidentialCity.class));
+                }else if(strKODetails.equalsIgnoreCase(activity.getResources().getString(R.string.title_personal_details)))
+                {
+                    activity.startActivity(new Intent(activity, UserDOBActivity.class));
+                }
+            }
+        });
     }
 
 

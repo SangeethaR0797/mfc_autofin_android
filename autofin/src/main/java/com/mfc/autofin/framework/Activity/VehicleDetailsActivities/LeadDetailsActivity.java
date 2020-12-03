@@ -134,6 +134,8 @@ public class LeadDetailsActivity extends AppCompatActivity implements View.OnCli
         }else if (v.getId() == R.id.btnUpdateLeadDetails) {
             Intent intent=new Intent(this, ReviewDetailsActivity.class);
             intent.putExtra(CommonStrings.CUSTOMER_ID,customerId);
+            intent.putExtra(CommonStrings.CASE_ID,strCaseId);
+
             startActivity(intent);
         }
     }

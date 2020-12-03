@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.R;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -110,5 +111,14 @@ public class CommonMethods {
         activity.startActivity(intent);
     }
 
+    public static String getFormattedDouble(double givenVal)
+    {
+        double actualVal=givenVal;
+        int decimalPlaces = 2;
+        BigDecimal bd = new BigDecimal(actualVal);
+        bd = bd.setScale(decimalPlaces, BigDecimal.ROUND_HALF_UP);
+        actualVal = bd.doubleValue();
+        return String.valueOf(actualVal);
+    }
 
 }
