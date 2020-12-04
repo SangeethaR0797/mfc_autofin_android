@@ -78,7 +78,6 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
         {
             try{
                 Intent intent=new Intent(ReviewActivity.this,ReviewDetailsActivity.class);
-                intent.putExtra(CommonStrings.CUSTOMER_ID,0);
                 startActivity(intent);
             }
             catch (Exception exception)
@@ -91,11 +90,13 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
             if(isTAndCAgreed)
             {
                 try{
+                    CommonStrings.customBasicDetails.setIsTandCChecked(true);
                     startActivity(new Intent(this,DetailsUpdateActivity.class));
                 }catch (Exception exception){exception.printStackTrace();}
             }
             else
             {
+                CommonStrings.customBasicDetails.setIsTandCChecked(false);
                 CommonMethods.showToast(ReviewActivity.this,"Please check Terms and Conditions");
             }
         }

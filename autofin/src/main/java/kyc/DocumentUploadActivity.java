@@ -207,7 +207,9 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                 startActivity(new Intent(DocumentUploadActivity.this, AutoFinDashBoardActivity.class));
             }
         } else if (v.getId() == R.id.cbUploadDocsAgreeTAndC) {
-            if (cbUploadDocsAgreeTAndC.isChecked()) {
+            if (cbUploadDocsAgreeTAndC.isChecked())
+            {
+
             }
         } else if (v.getId() == R.id.btnUpdateDoc) {
             if (documentList.size() > 0 && cbUploadDocsAgreeTAndC.isChecked()) {

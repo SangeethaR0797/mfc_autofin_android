@@ -14,12 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mfc.autofin.framework.Activity.PersonalDetails.UserDOBActivity;
 import com.mfc.autofin.framework.Activity.ResidentialActivity.ResidentialCity;
 import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.VehicleCategory;
+import com.mfc.autofin.framework.Activity.review_activites.ReviewDetailsActivity;
 import com.mfc.autofin.framework.R;
 
 import java.util.List;
 
+import model.basic_details.BasicDetails;
 import model.custom_model.ReviewData;
 import utility.CommonMethods;
+import utility.CommonStrings;
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder> {
 
@@ -65,17 +68,24 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
                 if(strKODetails.equalsIgnoreCase(activity.getResources().getString(R.string.vehicle_details_title)))
                 {
                     activity.startActivity(new Intent(activity, VehicleCategory.class));
+                    CommonStrings.IS_OLD_LEAD=true;
                 }
                 else if(strKODetails.equalsIgnoreCase(activity.getResources().getString(R.string.title_basic_details)))
                 {
                     CommonMethods.showToast(activity, "Sorry! you cannot edit Basic details");
+                    CommonStrings.IS_OLD_LEAD=true;
+
                 }
                 else if(strKODetails.equalsIgnoreCase(activity.getResources().getString(R.string.title_residential_details)))
                 {
                     activity.startActivity(new Intent(activity, ResidentialCity.class));
+                    CommonStrings.IS_OLD_LEAD=true;
+
                 }else if(strKODetails.equalsIgnoreCase(activity.getResources().getString(R.string.title_personal_details)))
                 {
                     activity.startActivity(new Intent(activity, UserDOBActivity.class));
+                    CommonStrings.IS_OLD_LEAD=true;
+
                 }
             }
         });

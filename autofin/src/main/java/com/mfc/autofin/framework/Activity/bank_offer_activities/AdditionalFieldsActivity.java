@@ -28,6 +28,7 @@ import retrofit2.Response;
 import utility.AutoFinConstants;
 import utility.CommonMethods;
 import utility.CommonStrings;
+import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
 
@@ -44,6 +45,7 @@ public class AdditionalFieldsActivity extends AppCompatActivity implements View.
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_additional_fields);
+        SpinnerManager.showSpinner(this);
         retrofitInterface.getFromWeb(getAdditionalFieldReq(),CommonStrings.GET_ADDITIONAL_FIELDS).enqueue(this);
         Bundle data = getIntent().getExtras();
         if (data != null) {
@@ -94,6 +96,7 @@ public class AdditionalFieldsActivity extends AppCompatActivity implements View.
 
     @Override
     public void onResponse(Call<Object> call, Response<Object> response) {
+        SpinnerManager.hideSpinner(this);
         String strRes=new Gson().toJson(response.body());
         Log.i(TAG, "onResponse: "+strRes);
         try

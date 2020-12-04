@@ -612,7 +612,7 @@
                 android:text="@string/str_skip_now_and_do_it_later"
                 android:textColor="@color/very_dark_blue"
                 android:buttonTint="@color/very_dark_blue"
-                android:visibility="invisible"
+                android:visibility="visible"
                 android:textSize="16dp"/>
 
             <CheckBox

@@ -116,7 +116,6 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
                 CommonStrings.customVehDetails.setInsuranceValidity(dayOfMonth + " " + monthName + " " + year);
                 Intent intent = new Intent(VehInsuranceValidityActivity.this, BasicDetailsActivity.class);
                 startActivity(intent);
-
             }
         }, cYear, cMonth, cDay);
         vehInsuranceDate.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);

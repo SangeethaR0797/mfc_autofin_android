@@ -180,14 +180,18 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
 
         } else if (url.contains(CommonStrings.ADD_LEAD_URL_END)) {
 
-            AddLeadResponse addLeadResponse = new Gson().fromJson(strRes, AddLeadResponse.class);
             try {
+                AddLeadResponse addLeadResponse = new Gson().fromJson(strRes, AddLeadResponse.class);
+
                 if (addLeadResponse != null && addLeadResponse.getStatus()) {
-                    CommonMethods.setValueAgainstKey(activity, CommonStrings.CUSTOMER_ID, addLeadResponse.getData().toString());
+                    Log.i(TAG, "onResponse: "+addLeadResponse.getData());
+                    CommonMethods.setValueAgainstKey(activity, CommonStrings.CUSTOMER_ID, String.valueOf(addLeadResponse.getData()));
+                    Log.i(TAG, "onResponse: "+CommonMethods.getStringValueFromKey(activity, CommonStrings.CUSTOMER_ID));
                     Toast.makeText(activity, addLeadResponse.getMessage(), Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(activity, ResidentialCity.class);
                     startActivity(intent);
-                } else {
+                }
+                /*else {
                     if(addLeadResponse.getMessage()!=null)
                     {
                         CommonMethods.showToast(activity, addLeadResponse.getMessage());
@@ -197,7 +201,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
                         CommonMethods.showToast(activity, "Try Again");
                     }
 
-                }
+                }*/
 
             } catch (Exception exception) {
                 exception.printStackTrace();

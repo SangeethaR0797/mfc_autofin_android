@@ -106,6 +106,7 @@ public class CommonStrings {
     public static final String PREVIOUS_VALUE_LBL = "previous_value_lbl";
     public static final String PREVIOUS_VALUE = "previous_screen_value";
     public static final String LAST_YEAR_PROFIT = "last_year_profit";
+    public static  boolean IS_OLD_LEAD =false ;
     public static String IBB_PASSWORD = "dHk69ffu7ebP";
     public static String IBB_USERNAME = "mfc@ibb.com";
     public static String IBB_VEH_DETAILS_END_POINT = "MFC";

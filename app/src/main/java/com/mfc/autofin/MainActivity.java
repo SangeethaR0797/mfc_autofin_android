@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         mLaunchAutofin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Intent autodashboard = new Intent(MainActivity.this, DocumentUploadActivity.class);
+                //Intent autodashboard = new Intent(MainActivity.this, DocumentUploadActivity.class);
                 Intent autodashboard = new Intent(MainActivity.this, AutoFinDashBoardActivity.class);
                 // Intent autodashboard = new Intent(MainActivity.this, AdditionalFieldsActivity.class);
 

@@ -15,11 +15,13 @@ import com.mfc.autofin.framework.R;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.Format;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import model.add_lead_details.LoanDetails;
 import model.basic_details.BasicDetails;
@@ -104,32 +106,38 @@ public class CommonMethods {
         CommonStrings.customLoanDetails = new LoanDetails();
     }
 
-    public static void redirectToDashboard(Activity activity)
-    {
-        Intent intent=new Intent(activity, AutoFinDashBoardActivity.class);
-        intent.putExtra(AutoFinConstants.APP_NAME,"MFCBusiness");
-        intent.putExtra(AutoFinConstants.DEALER_ID,CommonMethods.getStringValueFromKey(activity,CommonStrings.DEALER_ID_VAL));
-        intent.putExtra(AutoFinConstants.USER_TYPE,CommonMethods.getStringValueFromKey(activity,CommonStrings.USER_TYPE_VAL));
+    public static void redirectToDashboard(Activity activity) {
+        Intent intent = new Intent(activity, AutoFinDashBoardActivity.class);
+        intent.putExtra(AutoFinConstants.APP_NAME, "MFCBusiness");
+        intent.putExtra(AutoFinConstants.DEALER_ID, CommonMethods.getStringValueFromKey(activity, CommonStrings.DEALER_ID_VAL));
+        intent.putExtra(AutoFinConstants.USER_TYPE, CommonMethods.getStringValueFromKey(activity, CommonStrings.USER_TYPE_VAL));
         activity.startActivity(intent);
     }
 
-    public static String removeDecimal(double givenVal)
-    {
-        double actualVal=givenVal;
+    public static String removeDecimal(double givenVal) {
+        double actualVal = givenVal;
         NumberFormat nf = DecimalFormat.getInstance();
         nf.setMaximumFractionDigits(0);
         String str = nf.format(actualVal);
         return str;
     }
 
-    public static String getFormattedDouble(double givenVal)
-    {
-        double actualVal=givenVal;
+    public static String getFormattedDouble(double givenVal) {
+        double actualVal = givenVal;
         int decimalPlaces = 2;
         BigDecimal bd = new BigDecimal(actualVal);
         bd = bd.setScale(decimalPlaces, BigDecimal.ROUND_HALF_UP);
         actualVal = bd.doubleValue();
+        Format format = NumberFormat.getCurrencyInstance(new Locale("en", "in"));
+        System.out.println(format.format(new BigDecimal(actualVal)));
         return String.valueOf(actualVal);
     }
 
+    public static String getFormattedAmount(String givenVal) {
+        /*DecimalFormat formatter = new DecimalFormat("#,###,###");
+        String yourFormattedString = formatter.format(100000);
+        */
+        String val = String.format("%.0f", givenVal);
+        return val;
+    }
 }

@@ -31,10 +31,11 @@ public class InterestedBankOfferDetailsActivity extends AppCompatActivity implem
 
 
     private static final String TAG = InterestedBankOfferDetailsActivity.class.getSimpleName();
-    ImageView iv_common_bar_backBtn;
+    ImageView iv_common_bar_backBtn,ivBankIcon;
     TextView tvCommonAppBarTitle, tvLoanAmountLbl, tvBankOfferedLoanAmount, tvEMILbl, tvBankOfferedEMIAmount, tvTenureLbl, tvTenurePeriod, tvRateOfInterestLbl, tvRateOfInterest, tvChangeBankLbl;
     Button btnApplyNow;
     String strBankName="";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +49,7 @@ public class InterestedBankOfferDetailsActivity extends AppCompatActivity implem
         interestedBankOfferReq.setUserId(CommonMethods.getStringValueFromKey(this, CommonStrings.DEALER_ID_VAL));
         interestedBankOfferReq.setUserType(CommonMethods.getStringValueFromKey(this, CommonStrings.USER_TYPE_VAL));
         InterestedBankOfferData interestedBankOfferData = new InterestedBankOfferData();
-        interestedBankOfferData.setCaseId("0242200203000002");
+        interestedBankOfferData.setCaseId(CommonMethods.getStringValueFromKey(this,CommonStrings.CASE_ID));
         interestedBankOfferReq.setData(interestedBankOfferData);
         return interestedBankOfferReq;
 
@@ -56,6 +57,7 @@ public class InterestedBankOfferDetailsActivity extends AppCompatActivity implem
 
     private void initView() {
         iv_common_bar_backBtn = findViewById(R.id.iv_common_bar_backBtn);
+        ivBankIcon=findViewById(R.id.ivBankIcon);
         tvCommonAppBarTitle = findViewById(R.id.tvCommonAppBarTitle);
         tvLoanAmountLbl = findViewById(R.id.tvLoanAmountLbl);
         tvBankOfferedLoanAmount = findViewById(R.id.tvBankOfferedLoanAmount);
@@ -89,6 +91,7 @@ public class InterestedBankOfferDetailsActivity extends AppCompatActivity implem
         if (interestedBankOfferRes != null && interestedBankOfferRes.getStatus()) {
             try {
            InterestedBankOfferResData resData=interestedBankOfferRes.getData();
+           setBankImage(resData.getBankName());
            tvBankOfferedEMIAmount.setText(getResources().getString(R.string.rupees_symbol)+" "+resData.getEmi());
            tvBankOfferedLoanAmount.setText(resData.getLoanAmount());
            tvTenurePeriod.setText(resData.getTenure()+" "+"Month");
@@ -100,6 +103,26 @@ public class InterestedBankOfferDetailsActivity extends AppCompatActivity implem
                     exception.printStackTrace();
                 }
 
+        }
+    }
+
+    private void setBankImage(String bankName)
+    {
+        if(bankName.contains("HDFC"))
+        {
+            ivBankIcon.setBackground(getResources().getDrawable(R.drawable.ic_hdfc));
+        }
+        else  if(bankName.contains("ICICI"))
+        {
+            ivBankIcon.setBackground(getResources().getDrawable(R.drawable.ic_icici));
+        }
+        else  if(bankName.contains("AXIS"))
+        {
+            ivBankIcon.setBackground(getResources().getDrawable(R.drawable.ic_axis));
+        }
+        else  if(bankName.contains("SBI"))
+        {
+            ivBankIcon.setBackground(getResources().getDrawable(R.drawable.ic_sbi));
         }
     }
 
