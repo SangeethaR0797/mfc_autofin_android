@@ -14,6 +14,8 @@ import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.R;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -109,6 +111,15 @@ public class CommonMethods {
         intent.putExtra(AutoFinConstants.DEALER_ID,CommonMethods.getStringValueFromKey(activity,CommonStrings.DEALER_ID_VAL));
         intent.putExtra(AutoFinConstants.USER_TYPE,CommonMethods.getStringValueFromKey(activity,CommonStrings.USER_TYPE_VAL));
         activity.startActivity(intent);
+    }
+
+    public static String removeDecimal(double givenVal)
+    {
+        double actualVal=givenVal;
+        NumberFormat nf = DecimalFormat.getInstance();
+        nf.setMaximumFractionDigits(0);
+        String str = nf.format(actualVal);
+        return str;
     }
 
     public static String getFormattedDouble(double givenVal)

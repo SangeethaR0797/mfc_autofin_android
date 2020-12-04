@@ -328,7 +328,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_have_loan_qn), carHaveLoan));
         reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_insurance_on_vehicle), insuranceAmount));
         reviewDataList.add(new ReviewData("INSURANCE AMOUNT", customVehDetails.getInsuranceAmount()));
-        reviewDataList.add(new ReviewData("INSURANCE VALIDITY", CommonMethods.getFormattedDouble(Double.parseDouble(customVehDetails.getInsuranceValidity()))));
+        reviewDataList.add(new ReviewData("INSURANCE VALIDITY", CommonMethods.removeDecimal(Double.parseDouble(customVehDetails.getInsuranceValidity()))));
         reviewDataList.add(new ReviewData("INSURANCE TYPE", customVehDetails.getInsuranceType()));
         reviewDataList.add(new ReviewData("LIKELY PURCHASE DATE", customVehDetails.getLikelyPurchaseDate()));
         return reviewDataList;
@@ -517,24 +517,24 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
             }
             if(isTheFieldHaveValue(vehDetailsResList.getOnRoadPrice()))
             {
-                reviewDataList.add(new ReviewData("INTERESTED VEHICLE AMOUNT", CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getOnRoadPrice()))));
+                reviewDataList.add(new ReviewData("INTERESTED VEHICLE AMOUNT", CommonMethods.removeDecimal(Double.parseDouble(vehDetailsResList.getOnRoadPrice()))));
             }else
             {
-                reviewDataList.add(new ReviewData("INTERESTED VEHICLE AMOUNT", CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getOnRoadPrice()))));
+                reviewDataList.add(new ReviewData("INTERESTED VEHICLE AMOUNT", CommonMethods.removeDecimal(Double.parseDouble(vehDetailsResList.getOnRoadPrice()))));
             }
             if(isTheFieldHaveValue(vehDetailsResList.getVehicleSellingPrice()))
             {
-                reviewDataList.add(new ReviewData(getString(R.string.lbl_vehicle_purchase_amount), CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getVehicleSellingPrice()))));
+                reviewDataList.add(new ReviewData(getString(R.string.lbl_vehicle_purchase_amount), CommonMethods.removeDecimal(Double.parseDouble(vehDetailsResList.getVehicleSellingPrice()))));
             }else
             {
-                reviewDataList.add(new ReviewData(getString(R.string.lbl_vehicle_purchase_amount), CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getVehicleSellingPrice()))));
+                reviewDataList.add(new ReviewData(getString(R.string.lbl_vehicle_purchase_amount), CommonMethods.removeDecimal(Double.parseDouble(vehDetailsResList.getVehicleSellingPrice()))));
             }
             if(isTheFieldHaveValue(vehDetailsResList.getInsuranceAmount()))
             {
-                reviewDataList.add(new ReviewData("INSURANCE AMOUNT", CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getInsuranceAmount()))));
+                reviewDataList.add(new ReviewData("INSURANCE AMOUNT", CommonMethods.removeDecimal(Double.parseDouble(vehDetailsResList.getInsuranceAmount()))));
             }else
             {
-                reviewDataList.add(new ReviewData("INSURANCE AMOUNT", CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getInsuranceAmount()))));
+                reviewDataList.add(new ReviewData("INSURANCE AMOUNT", CommonMethods.removeDecimal(Double.parseDouble(vehDetailsResList.getInsuranceAmount()))));
             }
 
         } else {
@@ -579,7 +579,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
                 reviewDataList.add(new ReviewData(getString(R.string.lbl_veh_ownership), "NA"));
             }if(isTheFieldHaveValue(vehDetailsResList.getVehicleSellingPrice()))
             {
-                reviewDataList.add(new ReviewData(getString(R.string.lbl_vehicle_purchase_amount), CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getVehicleSellingPrice()))));
+                reviewDataList.add(new ReviewData(getString(R.string.lbl_vehicle_purchase_amount), CommonMethods.removeDecimal(Double.parseDouble(vehDetailsResList.getVehicleSellingPrice()))));
             }else
             {
                 reviewDataList.add(new ReviewData(getString(R.string.lbl_vehicle_purchase_amount), "NA"));
@@ -594,7 +594,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
 
             if(isTheFieldHaveValue(vehDetailsResList.getValuationPrice()))
             {
-                reviewDataList.add(new ReviewData("VEHICLE VALUATION PRICE", vehDetailsResList.getValuationPrice()));
+                reviewDataList.add(new ReviewData("VEHICLE VALUATION PRICE", CommonMethods.removeDecimal(Double.parseDouble(vehDetailsResList.getValuationPrice()))));
             }else
             {
                 reviewDataList.add(new ReviewData("VEHICLE VALUATION PRICE", "NA"));
@@ -618,7 +618,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
 
             if(isTheFieldHaveValue(vehDetailsResList.getInsuranceAmount()))
             {
-                reviewDataList.add(new ReviewData("INSURANCE AMOUNT", CommonMethods.getFormattedDouble(Double.parseDouble(vehDetailsResList.getInsuranceAmount()))));
+                reviewDataList.add(new ReviewData("INSURANCE AMOUNT", CommonMethods.removeDecimal(Double.parseDouble(vehDetailsResList.getInsuranceAmount()))));
             }else
             {
                 reviewDataList.add(new ReviewData("INSURANCE AMOUNT", "NA"));
@@ -771,91 +771,248 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         Log.i(TAG, "preparePersonalDetailsRes: " + personalDetailsResList.getGender());
         ArrayList<ReviewData> reviewPersonalDataList = new ArrayList<>();
         Log.i(TAG, "preparePersonalDetailsRes: " + personalDetailsResList.getGender());
-        if(isTheFieldHaveValue(residentialDetailsResList.getResidenceType()))
+        if(isTheFieldHaveValue(personalDetailsResList.getBirthDate()))
         {
             reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_dob), personalDetailsResList.getBirthDate().substring(0, 10)));
         }else
         {
-            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_dob), personalDetailsResList.getBirthDate().substring(0, 10)));
+            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_dob), "NA"));
         }
-        if(isTheFieldHaveValue(residentialDetailsResList.getResidenceType()))
+        if(isTheFieldHaveValue(personalDetailsResList.getGender()))
         {
             reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_gender), personalDetailsResList.getGender()));
         }else
         {
-            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_gender), personalDetailsResList.getGender()));
+            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_gender), "NA"));
         }
-        if(isTheFieldHaveValue(residentialDetailsResList.getResidenceType()))
+        if(isTheFieldHaveValue(personalDetailsResList.getEducation()))
         {
             reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_education), personalDetailsResList.getEducation()));
         }else
         {
-            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_education), personalDetailsResList.getEducation()));
+            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_education), "NA"));
         }
-        if(isTheFieldHaveValue(residentialDetailsResList.getResidenceType()))
+        if(isTheFieldHaveValue(String.valueOf(personalDetailsResList.getSalaryPerMonth())))
         {
-            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_monthly_income), CommonMethods.getFormattedDouble(personalDetailsResList.getSalaryPerMonth())));
+            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_monthly_income), CommonMethods.removeDecimal(personalDetailsResList.getSalaryPerMonth())));
         }else
         {
-            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_monthly_income), CommonMethods.getFormattedDouble(personalDetailsResList.getSalaryPerMonth())));
+            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_monthly_income), "NA"));
         }
-        if(isTheFieldHaveValue(residentialDetailsResList.getResidenceType()))
+        if(isTheFieldHaveValue(loanDetailsResList.getNoOfExistingLoans()))
         {
-            reviewPersonalDataList.add(new ReviewData("NUMBER OF EXISTING LOAN", loanDetailsResList.getNoOfExistingLoans()));
+            reviewPersonalDataList.add(new ReviewData("NUMBER OF EXISTING LOAN", CommonMethods.removeDecimal(Double.parseDouble(loanDetailsResList.getNoOfExistingLoans()))));
         }else
         {
-            reviewPersonalDataList.add(new ReviewData("NUMBER OF EXISTING LOAN", loanDetailsResList.getNoOfExistingLoans()));
+            reviewPersonalDataList.add(new ReviewData("NUMBER OF EXISTING LOAN", "NA"));
         }
-        if(isTheFieldHaveValue(residentialDetailsResList.getResidenceType()))
+        if(isTheFieldHaveValue(loanDetailsResList.getRequiredLoanAmount()))
         {
-            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_loan_required), CommonMethods.getFormattedDouble(Double.parseDouble(loanDetailsResList.getRequiredLoanAmount()))));
+            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_loan_required), CommonMethods.removeDecimal(Double.parseDouble(loanDetailsResList.getRequiredLoanAmount()))));
         }else
         {
-            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_loan_required), CommonMethods.getFormattedDouble(Double.parseDouble(loanDetailsResList.getRequiredLoanAmount()))));
+            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_loan_required), "NA"));
         }
-        if(isTheFieldHaveValue(residentialDetailsResList.getResidenceType()))
+        if(isTheFieldHaveValue(loanDetailsResList.getRequiredLoanAmount()))
         {
-            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_loan_required), CommonMethods.getFormattedDouble(Double.parseDouble(loanDetailsResList.getRequiredLoanAmount()))));
+            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_loan_required), CommonMethods.removeDecimal(Double.parseDouble(loanDetailsResList.getRequiredLoanAmount()))));
         }else
         {
-            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_loan_required), CommonMethods.getFormattedDouble(Double.parseDouble(loanDetailsResList.getRequiredLoanAmount()))));
+            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_loan_required), "NA"));
         }
 
         reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_employment_type), employmentResDetails.getEmploymentType()));
         Log.i(TAG, "preparePersonalDetailsRes: " + employmentResDetails.getEmploymentType());
         if (employmentResDetails.getEmploymentType().equalsIgnoreCase(getResources().getString(R.string.lbl_salaried))) {
             Log.i(TAG, "preparePersonalDetailsRes: " + employmentResDetails.getEmploymentType());
-            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_working_organization_name), employmentResDetails.getCompanyName()));
-            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_joining_date_of_your_current_org), employmentResDetails.getCompanyJoiningDate().substring(0, 10)));
-            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_year_of_experience), employmentResDetails.getTotalWorkExperience()));
-            reviewPersonalDataList.add(new ReviewData("SALARY ACCOUNT", employmentResDetails.getSalaryAccount()));
-            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_sal_mode), employmentResDetails.getSalaryMode()));
-            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_industry_type), employmentResDetails.getIndustryType()));
+            if(isTheFieldHaveValue(employmentResDetails.getCompanyName()))
+            {
+                reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_working_organization_name), employmentResDetails.getCompanyName()));
+            }else
+            {
+                reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_working_organization_name), "NA"));
+            }
+
+            if(isTheFieldHaveValue(employmentResDetails.getCompanyJoiningDate()))
+            {
+                reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_joining_date_of_your_current_org), employmentResDetails.getCompanyJoiningDate().substring(0, 10)));
+            }else
+            {
+                reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_joining_date_of_your_current_org), "NA"));
+            }
+
+            if(isTheFieldHaveValue(employmentResDetails.getTotalWorkExperience()))
+            {
+                reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_year_of_experience), employmentResDetails.getTotalWorkExperience()));
+            }else
+            {
+                reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_year_of_experience), "NA"));
+            }
+
+            if(isTheFieldHaveValue(employmentResDetails.getSalaryAccount()))
+            {
+                reviewPersonalDataList.add(new ReviewData("SALARY ACCOUNT", employmentResDetails.getSalaryAccount()));
+            }else
+            {
+                reviewPersonalDataList.add(new ReviewData("SALARY ACCOUNT", "NA"));
+            }
+            if(isTheFieldHaveValue(employmentResDetails.getSalaryMode()))
+            {
+                reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_sal_mode), employmentResDetails.getSalaryMode()));
+            }else
+            {
+                reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_sal_mode), "NA"));
+            }
+
+            if(isTheFieldHaveValue(employmentResDetails.getIndustryType()))
+            {
+                reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_industry_type), employmentResDetails.getIndustryType()));
+            }else
+            {
+                reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_industry_type), "NA"));
+            }
         } else if (employmentResDetails.getEmploymentType().equalsIgnoreCase(getResources().getString(R.string.lbl_business_owner))) {
             Log.i(TAG, "preparePersonalDetailsRes: " + employmentResDetails.getEmploymentType());
 
-            reviewPersonalDataList.add(new ReviewData("EMPLOYMENT ROLE", employmentResDetails.getEmploymentRole()));
-            reviewPersonalDataList.add(new ReviewData("BUSINESS STARTED DATE", employmentResDetails.getBusinessStartDate()));
-            reviewPersonalDataList.add(new ReviewData("LAST YEAR PROFIT", CommonMethods.getFormattedDouble(employmentResDetails.getLastYearProfit())));
-            reviewPersonalDataList.add(new ReviewData("LAST YEARS SALES", CommonMethods.getFormattedDouble(Double.parseDouble(employmentResDetails.getLastYearTurnOver()))));
-            reviewPersonalDataList.add(new ReviewData("INCOME AFTER TAX", CommonMethods.getFormattedDouble(Double.parseDouble(employmentResDetails.getIncomeAfterTax()))));
-            reviewPersonalDataList.add(new ReviewData("LAST YEAR DEPRECIATION", CommonMethods.getFormattedDouble(Double.parseDouble(employmentResDetails.getLastYearDepreciation()))));
-            reviewPersonalDataList.add(new ReviewData("WAS LAST YEAR ITR AUDITED", String.valueOf(employmentResDetails.getIsLastestItraudited())));
-            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_industry_type), employmentResDetails.getIndustryType()));
+            if(isTheFieldHaveValue(employmentResDetails.getEmploymentRole()))
+            {
+                reviewPersonalDataList.add(new ReviewData("EMPLOYMENT ROLE", employmentResDetails.getEmploymentRole()));
+            }else
+            {
+                reviewPersonalDataList.add(new ReviewData("EMPLOYMENT ROLE", "NA"));
+            }
+
+            if(isTheFieldHaveValue(employmentResDetails.getBusinessStartDate()))
+            {
+                reviewPersonalDataList.add(new ReviewData("BUSINESS STARTED DATE", employmentResDetails.getBusinessStartDate()));
+            }else
+            {
+                reviewPersonalDataList.add(new ReviewData("BUSINESS STARTED DATE", "NA"));
+            }
+
+            if(isTheFieldHaveValue(String.valueOf(employmentResDetails.getLastYearProfit())))
+            {
+                reviewPersonalDataList.add(new ReviewData("LAST YEAR PROFIT", CommonMethods.removeDecimal(employmentResDetails.getLastYearProfit())));
+            }else
+            {
+                reviewPersonalDataList.add(new ReviewData("LAST YEAR PROFIT", "NA"));
+            }
+
+            if(isTheFieldHaveValue(String.valueOf(employmentResDetails.getLastYearTurnOver())))
+            {
+                reviewPersonalDataList.add(new ReviewData("LAST YEARS SALES", CommonMethods.removeDecimal(Double.parseDouble(employmentResDetails.getLastYearTurnOver()))));
+            }else
+            {
+                reviewPersonalDataList.add(new ReviewData("LAST YEARS SALES", "NA"));
+            }
+
+            if(isTheFieldHaveValue(String.valueOf(employmentResDetails.getIncomeAfterTax())))
+            {
+                reviewPersonalDataList.add(new ReviewData("INCOME AFTER TAX", CommonMethods.removeDecimal(Double.parseDouble(employmentResDetails.getIncomeAfterTax()))));
+            }else
+            {
+                reviewPersonalDataList.add(new ReviewData("INCOME AFTER TAX", "NA"));
+            }
+
+            if(isTheFieldHaveValue(String.valueOf(employmentResDetails.getLastYearDepreciation())))
+            {
+                reviewPersonalDataList.add(new ReviewData("LAST YEAR DEPRECIATION", CommonMethods.removeDecimal(Double.parseDouble(employmentResDetails.getLastYearDepreciation()))));
+            }else
+            {
+                reviewPersonalDataList.add(new ReviewData("LAST YEAR DEPRECIATION", "NA"));
+            }
+
+            if(isTheFieldHaveValue(String.valueOf(employmentResDetails.getIsLastestItraudited())))
+            {
+                reviewPersonalDataList.add(new ReviewData("WAS LAST YEAR ITR AUDITED", String.valueOf(employmentResDetails.getIsLastestItraudited())));
+            }else
+            {
+                reviewPersonalDataList.add(new ReviewData("WAS LAST YEAR ITR AUDITED", "NA"));
+            }
+
+            if(isTheFieldHaveValue(String.valueOf(employmentResDetails.getIndustryType())))
+            {
+                reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_industry_type), employmentResDetails.getIndustryType()));
+            }else
+            {
+                reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_industry_type), "NA"));
+            }
+
 
         } else if (employmentResDetails.getEmploymentType().equalsIgnoreCase(getResources().getString(R.string.lbl_self_employed_professional))) {
             Log.i(TAG, "preparePersonalDetailsRes: " + employmentResDetails.getEmploymentType());
 
-            reviewPersonalDataList.add(new ReviewData("EMPLOYMENT ROLE", employmentResDetails.getEmploymentRole()));
-            reviewPersonalDataList.add(new ReviewData("PROFESSION", employmentResDetails.getProfession()));
-            reviewPersonalDataList.add(new ReviewData("PROFESSION STARTED DATE", employmentResDetails.getBusinessStartDate()));
-            reviewPersonalDataList.add(new ReviewData("LAST YEAR PROFIT", CommonMethods.getFormattedDouble(employmentResDetails.getLastYearProfit())));
-            reviewPersonalDataList.add(new ReviewData("LAST YEARS SALES", CommonMethods.getFormattedDouble(Double.parseDouble(employmentResDetails.getLastYearTurnOver()))));
-            reviewPersonalDataList.add(new ReviewData("INCOME AFTER TAX", CommonMethods.getFormattedDouble(Double.parseDouble(employmentResDetails.getIncomeAfterTax()))));
-            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_industry_type), employmentResDetails.getIndustryType()));
+            if(isTheFieldHaveValue(String.valueOf(employmentResDetails.getEmploymentRole())))
+            {
+                reviewPersonalDataList.add(new ReviewData("EMPLOYMENT ROLE", employmentResDetails.getEmploymentRole()));
+            }else
+            {
+                reviewPersonalDataList.add(new ReviewData("EMPLOYMENT ROLE", "NA"));
+            }
+
+            if(isTheFieldHaveValue(String.valueOf(employmentResDetails.getProfession())))
+            {
+                reviewPersonalDataList.add(new ReviewData("PROFESSION", employmentResDetails.getProfession()));
+            }else
+            {
+                reviewPersonalDataList.add(new ReviewData("PROFESSION", "NA"));
+            }
+
+            if(isTheFieldHaveValue(String.valueOf(employmentResDetails.getBusinessStartDate())))
+            {
+                reviewPersonalDataList.add(new ReviewData("PROFESSION STARTED DATE", employmentResDetails.getBusinessStartDate()));
+            }else
+            {
+                reviewPersonalDataList.add(new ReviewData("PROFESSION STARTED DATE", "NA"));
+            }
+
+            if(isTheFieldHaveValue(String.valueOf(employmentResDetails.getLastYearProfit())))
+            {
+                reviewPersonalDataList.add(new ReviewData("LAST YEAR PROFIT", CommonMethods.removeDecimal(employmentResDetails.getLastYearProfit())));
+            }else
+            {
+                reviewPersonalDataList.add(new ReviewData("LAST YEAR PROFIT", "NA"));
+            }
+
+            if(isTheFieldHaveValue(String.valueOf(employmentResDetails.getLastYearTurnOver())))
+            {
+                reviewPersonalDataList.add(new ReviewData("LAST YEARS SALES", CommonMethods.removeDecimal(Double.parseDouble(employmentResDetails.getLastYearTurnOver()))));
+            }else
+            {
+                reviewPersonalDataList.add(new ReviewData("LAST YEARS SALES", "NA"));
+            }
+
+            if(isTheFieldHaveValue(String.valueOf(employmentResDetails.getIncomeAfterTax())))
+            {
+                reviewPersonalDataList.add(new ReviewData("INCOME AFTER TAX", CommonMethods.removeDecimal(Double.parseDouble(employmentResDetails.getIncomeAfterTax()))));
+            }else
+            {
+                reviewPersonalDataList.add(new ReviewData("INCOME AFTER TAX", "NA"));
+            }
+
+            if(isTheFieldHaveValue(employmentResDetails.getIndustryType()))
+            {
+                reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_industry_type), employmentResDetails.getIndustryType()));
+            }else
+            {
+                reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_industry_type),"NA"));
+            }
         }
-        reviewPersonalDataList.add(new ReviewData("SAVINGS BANK ACCOUNT", personalDetailsResList.getSavingsAccount()));
-        reviewPersonalDataList.add(new ReviewData("PANCARD NO.", personalDetailsResList.getPanNumber()));
+        if(isTheFieldHaveValue(personalDetailsResList.getSavingsAccount()))
+        {
+            reviewPersonalDataList.add(new ReviewData("SAVINGS BANK ACCOUNT", personalDetailsResList.getSavingsAccount()));
+        }else
+        {
+            reviewPersonalDataList.add(new ReviewData("SAVINGS BANK ACCOUNT", "NA"));
+        }
+
+        if(isTheFieldHaveValue(personalDetailsResList.getPanNumber()))
+        {
+            reviewPersonalDataList.add(new ReviewData("PANCARD NO.", personalDetailsResList.getPanNumber()));
+        }else
+        {
+            reviewPersonalDataList.add(new ReviewData("PANCARD NO.", "NA"));
+        }
         return reviewPersonalDataList;
 
     }

@@ -104,12 +104,12 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
             Log.i(TAG, "onBindViewHolder: Loan Amount is null");
 
         if (bankDetailsList.get(position).getRoi() != null)
-            holder.tvROIVal.setText(bankDetailsList.get(position).getRoi());
+            holder.tvROIVal.setText(CommonMethods.getFormattedDouble(Double.parseDouble(bankDetailsList.get(position).getRoi())));
         else
             Log.i(TAG, "onBindViewHolder: ROI is null");
 
         if (bankDetailsList.get(position).getEmi() != null)
-            holder.tvEMIVal.setText(bankDetailsList.get(position).getEmi());
+            holder.tvEMIVal.setText(CommonMethods.getFormattedDouble(Double.parseDouble(bankDetailsList.get(position).getEmi())));
         else
             Log.i(TAG, "onBindViewHolder: EMI AMount is null");
 
