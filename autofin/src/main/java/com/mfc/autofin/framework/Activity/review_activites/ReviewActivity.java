@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -18,6 +19,7 @@ import utility.CommonStrings;
 
 public class ReviewActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = ReviewActivity.class.getSimpleName();
     private TextView tvCommonAppBarTitle,tvReviewNav;
     private CheckBox cbAgreeTAndC;
     private Button btnReviewNext;
@@ -34,6 +36,7 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
         {
             exception.printStackTrace();
         }
+        Log.i(TAG, "onCreate: "+CommonMethods.getStringValueFromKey(this,CommonStrings.CUSTOMER_ID));
 
     }
 
@@ -90,13 +93,13 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
             if(isTAndCAgreed)
             {
                 try{
-                    CommonStrings.customBasicDetails.setIsTandCChecked(true);
+                  //  CommonStrings.customBasicDetails.setIsTandCChecked(true);
                     startActivity(new Intent(this,DetailsUpdateActivity.class));
                 }catch (Exception exception){exception.printStackTrace();}
             }
             else
             {
-                CommonStrings.customBasicDetails.setIsTandCChecked(false);
+               // CommonStrings.customBasicDetails.setIsTandCChecked(false);
                 CommonMethods.showToast(ReviewActivity.this,"Please check Terms and Conditions");
             }
         }

@@ -34,10 +34,10 @@ public class EmploymentDetails {
     private String businessStartDate;
     @SerializedName("lastYearTurnOver")
     @Expose
-    private String lastYearTurnOver;
+    private double lastYearTurnOver;
     @SerializedName("lastYearDepreciation")
     @Expose
-    private String lastYearDepreciation;
+    private double lastYearDepreciation;
     @SerializedName("isLastestItraudited")
     @Expose
     private Boolean isLastestItraudited;
@@ -49,24 +49,24 @@ public class EmploymentDetails {
     private String professionalQualification;
     @SerializedName("lastYearProfit")
     @Expose
-    private Double lastYearProfit;
+    private double lastYearProfit;
     @SerializedName("incomeAfterTax")
     @Expose
-    private String incomeAfterTax;
+    private double incomeAfterTax;
 
-    public String getIncomeAfterTax() {
+    public double getIncomeAfterTax() {
         return incomeAfterTax;
     }
 
-    public void setIncomeAfterTax(String incomeAfterTax) {
+    public void setIncomeAfterTax(double incomeAfterTax) {
         this.incomeAfterTax = incomeAfterTax;
     }
 
-    public Double getLastYearProfit() {
+    public double getLastYearProfit() {
         return lastYearProfit;
     }
 
-    public void setLastYearProfit(Double lastYearProfit) {
+    public void setLastYearProfit(double lastYearProfit) {
         this.lastYearProfit = lastYearProfit;
     }
 
@@ -142,19 +142,19 @@ public class EmploymentDetails {
         this.businessStartDate = businessStartDate;
     }
 
-    public String getLastYearTurnOver() {
+    public double getLastYearTurnOver() {
         return lastYearTurnOver;
     }
 
-    public void setLastYearTurnOver(String lastYearTurnOver) {
+    public void setLastYearTurnOver(double lastYearTurnOver) {
         this.lastYearTurnOver = lastYearTurnOver;
     }
 
-    public String getLastYearDepreciation() {
+    public double getLastYearDepreciation() {
         return lastYearDepreciation;
     }
 
-    public void setLastYearDepreciation(String lastYearDepreciation) {
+    public void setLastYearDepreciation(double lastYearDepreciation) {
         this.lastYearDepreciation = lastYearDepreciation;
     }
 

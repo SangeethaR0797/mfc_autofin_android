@@ -106,6 +106,7 @@ public class CommonStrings {
     public static final String PREVIOUS_VALUE_LBL = "previous_value_lbl";
     public static final String PREVIOUS_VALUE = "previous_screen_value";
     public static final String LAST_YEAR_PROFIT = "last_year_profit";
+    public static final String EDIT_LEAD_URL ="https://15.207.148.230:3007/api/customer/v2/edit-lead" ;
     public static  boolean IS_OLD_LEAD =false ;
     public static String IBB_PASSWORD = "dHk69ffu7ebP";
     public static String IBB_USERNAME = "mfc@ibb.com";

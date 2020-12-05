@@ -61,7 +61,7 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
             finish();
         } else if (v.getId() == R.id.btnNext) {
             if (!etPostInspectionAmount.getText().toString().equals("")) {
-               CommonStrings.customVehDetails.setValuationPrice(etPostInspectionAmount.getText().toString());
+               CommonStrings.customVehDetails.setValuationPrice(Double.parseDouble(etPostInspectionAmount.getText().toString()));
                 Intent intent = new Intent(VehPostInspectionActivity.this, VehValidInsuranceActivity.class);
                 startActivity(intent);
             } else {

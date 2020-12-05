@@ -67,7 +67,7 @@ public class IncomeAfterTaxActivity extends AppCompatActivity implements View.On
         } else if (v.getId() == R.id.btnNext) {
             if (!etIncomeAfterTax.getText().toString().isEmpty()) {
                 strIncomeAfterTax = etIncomeAfterTax.getText().toString();
-                    CommonStrings.cusEmpDetails.setIncomeAfterTax(strIncomeAfterTax);
+                    CommonStrings.cusEmpDetails.setIncomeAfterTax(Double.parseDouble(strIncomeAfterTax));
                     Intent intent = new Intent(this, LastYearDepreciationActivity.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvIncomeAfterTaxLbl.getText().toString());
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE, strIncomeAfterTax);

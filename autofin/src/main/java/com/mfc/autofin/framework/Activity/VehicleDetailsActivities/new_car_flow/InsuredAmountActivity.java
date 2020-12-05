@@ -32,8 +32,8 @@ public class InsuredAmountActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insured_amount);
-        if (!CommonStrings.customVehDetails.getVehicleSellingPrice().equals("")) {
-            strPurchaseAmount = CommonStrings.customVehDetails.getVehicleSellingPrice();
+        if (!String.valueOf(CommonStrings.customVehDetails.getVehicleSellingPrice()).equals("")) {
+            strPurchaseAmount = String.valueOf(CommonStrings.customVehDetails.getVehicleSellingPrice());
         }
         initView();
     }
@@ -62,7 +62,7 @@ public class InsuredAmountActivity extends AppCompatActivity implements View.OnC
         } else if (v.getId() == R.id.btnNext) {
             try {
                 if (!etInsuredAmount.getText().toString().equals("")) {
-                    CommonStrings.customVehDetails.setInsuranceAmount(etInsuredAmount.getText().toString());
+                    CommonStrings.customVehDetails.setInsuranceAmount(Double.parseDouble(etInsuredAmount.getText().toString()));
                     startActivity(new Intent(this, BasicDetailsActivity.class));
                 } else {
                     CommonMethods.showToast(this, "Please enter Insured Amount");

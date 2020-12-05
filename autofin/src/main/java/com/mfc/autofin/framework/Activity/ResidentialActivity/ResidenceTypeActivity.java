@@ -61,6 +61,7 @@ public class ResidenceTypeActivity extends AppCompatActivity implements View.OnC
             strCResidence = "";
         }
         retrofitInterface.getFromWeb(CommonStrings.RES_TYPE_URL).enqueue(this);
+        Log.i(TAG, "onCreate: "+CommonMethods.getStringValueFromKey(this,CommonStrings.CUSTOMER_ID));
         initView();
     }
 

@@ -40,8 +40,8 @@ public class VehiclePurchaseAmountActivity extends AppCompatActivity implements 
         }
         if(isNewCar)
         {
-            if (!CommonStrings.customVehDetails.getOnRoadPrice().equals("")) {
-                strPreviousVal = CommonStrings.customVehDetails.getOnRoadPrice();
+            if (!String.valueOf(CommonStrings.customVehDetails.getOnRoadPrice()).equals("")) {
+                strPreviousVal = String.valueOf(CommonStrings.customVehDetails.getOnRoadPrice());
             } else {
                 strPreviousVal = "";
             }
@@ -93,7 +93,7 @@ public class VehiclePurchaseAmountActivity extends AppCompatActivity implements 
                 if(isNewCar)
                 {
                     if (!etVehPurchaseAmount.getText().toString().equals("")) {
-                        CommonStrings.customVehDetails.setVehicleSellingPrice(etVehPurchaseAmount.getText().toString());
+                        CommonStrings.customVehDetails.setVehicleSellingPrice(Double.parseDouble(etVehPurchaseAmount.getText().toString()));
                         startActivity(new Intent(this, InsuredAmountActivity.class));
                     } else {
                         CommonMethods.showToast(this, "Please enter vehicle purchase amount");
@@ -102,7 +102,7 @@ public class VehiclePurchaseAmountActivity extends AppCompatActivity implements 
                 else
                     {
                         if (!etVehPurchaseAmount.getText().toString().equals("")) {
-                            CommonStrings.customVehDetails.setVehicleSellingPrice(etVehPurchaseAmount.getText().toString());
+                            CommonStrings.customVehDetails.setVehicleSellingPrice(Double.parseDouble(etVehPurchaseAmount.getText().toString()));
                             startActivity(new Intent(this, CarHaveLoanCurrentlyActivity.class));
                         } else {
                             CommonMethods.showToast(this, "Please enter vehicle purchase amount");

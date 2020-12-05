@@ -67,7 +67,7 @@ public class LoanRequiredActivity extends AppCompatActivity implements View.OnCl
         } else if (v.getId() == R.id.btnNext) {
             if (!etLoanRequiredAmount.getText().toString().isEmpty()) {
                 strLoanAmount = etLoanRequiredAmount.getText().toString();
-                CommonStrings.customLoanDetails.setRequiredLoanAmount(strLoanAmount);
+                CommonStrings.customLoanDetails.setRequiredLoanAmount(Double.parseDouble(strLoanAmount));
                 Intent intent = new Intent(this, EMIPayPerMonthActivity.class);
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLoanRequiredLbl.getText().toString());
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE, strLoanAmount);

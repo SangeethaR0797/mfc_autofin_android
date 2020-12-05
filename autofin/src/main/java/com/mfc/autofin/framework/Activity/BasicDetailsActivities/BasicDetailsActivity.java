@@ -16,10 +16,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.mfc.autofin.framework.Activity.ResidentialActivity.ResidentialCity;
 import com.mfc.autofin.framework.R;
 import java.util.ArrayList;
 import java.util.List;
 import fragments.OTPBottomSheetFragment;
+import model.add_lead_details.AddLeadDetails;
+import model.add_lead_details.AddLeadRequest;
+import model.add_lead_details.AddLeadResponse;
+import model.add_lead_details.EditLeadData;
+import model.add_lead_details.EditLeadRequest;
 import model.add_lead_details.LoanDetails;
 import model.basic_details.SalutationData;
 import model.basic_details.SalutationResponse;
@@ -61,8 +67,8 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_basic_details);
         if (CommonStrings.customLoanDetails.getLoanCategory().equals(getResources().getString(R.string.new_car))) {
             isNewCarFlow = true;
-            if (!CommonStrings.customVehDetails.getVehicleSellingPrice().equals("")) {
-                strPreviousScreenVal = CommonStrings.customVehDetails.getInsuranceAmount();
+            if (!String.valueOf(CommonStrings.customVehDetails.getVehicleSellingPrice()).equals("")) {
+                strPreviousScreenVal = String.valueOf(CommonStrings.customVehDetails.getInsuranceAmount());
             } else {
                 strPreviousScreenVal = "";
             }
@@ -80,9 +86,17 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
 
 
         }
-        SpinnerManager.showSpinner(this);
-        retrofitInterface.getFromWeb(CommonStrings.GET_SALUTATION_URL).enqueue(this);
-        initView();
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            SpinnerManager.showSpinner(this);
+            retrofitInterface.getFromWeb(getEditLeadRequest(), CommonStrings.EDIT_LEAD_URL).enqueue(this);
+            initView();
+        }
+        else {
+            SpinnerManager.showSpinner(this);
+            retrofitInterface.getFromWeb(CommonStrings.GET_SALUTATION_URL).enqueue(this);
+            initView();
+        }
     }
 
     private void initView() {
@@ -214,20 +228,16 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
                 if (salRes != null && salRes.getStatus()) {
 
                     if (salRes.getData() != null) {
-                        SalutationData salutationData=salRes.getData();
-                        if(salutationData.getTypes()!=null)
-                        {
-                            List<SalutationType> salTypeList=salutationData.getTypes();
-                            for(int i=0;i<salTypeList.size();i++)
-                            {
+                        SalutationData salutationData = salRes.getData();
+                        if (salutationData.getTypes() != null) {
+                            List<SalutationType> salTypeList = salutationData.getTypes();
+                            for (int i = 0; i < salTypeList.size(); i++) {
                                 salutationTypeList.add(salTypeList.get(i).getValue());
                             }
-                            adapter = new ArrayAdapter(BasicDetailsActivity.this,android.R.layout.simple_spinner_item,salutationTypeList);
+                            adapter = new ArrayAdapter(BasicDetailsActivity.this, android.R.layout.simple_spinner_item, salutationTypeList);
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             spSalutation.setAdapter(adapter);
-                        }
-                        else
-                        {
+                        } else {
                             Toast.makeText(this, "No Salutation found", Toast.LENGTH_LONG).show();
                         }
                     }
@@ -240,6 +250,35 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
                 exception.printStackTrace();
             }
         }
+            else if (url.contains(CommonStrings.EDIT_LEAD_URL)) {
+
+                try {
+                    AddLeadResponse addLeadResponse = new Gson().fromJson(strRes, AddLeadResponse.class);
+
+                    if (addLeadResponse != null && addLeadResponse.getStatus()) {
+                        Log.i(TAG, "onResponse: "+CommonMethods.getStringValueFromKey(this,CommonStrings.CUSTOMER_ID));
+                        Toast.makeText(this, addLeadResponse.getMessage(), Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(this, ResidentialCity.class);
+                        startActivity(intent);
+                    }
+                else {
+                    if(addLeadResponse.getMessage()!=null)
+                    {
+                        CommonMethods.showToast(this, addLeadResponse.getMessage());
+                    }
+                    else
+                    {
+                        CommonMethods.showToast(this, "Try Again");
+                    }
+
+                }
+
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+
+            }
+
 
 
     }
@@ -249,6 +288,22 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
 
     }
 
+    public EditLeadRequest getEditLeadRequest() {
+        EditLeadRequest editLeadRequest = new EditLeadRequest();
+        editLeadRequest.setData(getEditLeadDetails());
+        editLeadRequest.setUserId(CommonMethods.getStringValueFromKey(this, CommonStrings.DEALER_ID_VAL));
+        editLeadRequest.setUserType(CommonMethods.getStringValueFromKey(this, CommonStrings.USER_TYPE_VAL));
+        return editLeadRequest;
+    }
+
+    public EditLeadData getEditLeadDetails() {
+        EditLeadData editLeadData = new EditLeadData();
+        editLeadData.setCustomerId(Integer.parseInt(CommonMethods.getStringValueFromKey(this,CommonStrings.CUSTOMER_ID)));
+        editLeadData.setVehicleDetails(getVehicleDetails());
+        editLeadData.setLoanDetails(getLoanDetails());
+        editLeadData.setBasicDetails(CommonStrings.customBasicDetails);
+        return editLeadData;
+    }
     public VehicleDetails getVehicleDetails() {
         VehicleDetails vehicleDetails = new VehicleDetails();
         try {

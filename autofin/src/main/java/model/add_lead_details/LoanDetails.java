@@ -12,7 +12,7 @@ public class LoanDetails {
         private String loanCategory;
         @SerializedName("requiredLoanAmount")
         @Expose
-        private String requiredLoanAmount;
+        private double requiredLoanAmount;
         @SerializedName("noOfExistingLoans")
         @Expose
         private String noOfExistingLoans;
@@ -28,11 +28,11 @@ public class LoanDetails {
             this.loanCategory = loanCategory;
         }
 
-        public String getRequiredLoanAmount() {
+        public double getRequiredLoanAmount() {
             return requiredLoanAmount;
         }
 
-        public void setRequiredLoanAmount(String requiredLoanAmount) {
+        public void setRequiredLoanAmount(double requiredLoanAmount) {
             this.requiredLoanAmount = requiredLoanAmount;
         }
 

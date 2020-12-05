@@ -29,7 +29,7 @@ public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements V
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carhave_loan_currently);
-        purchaseAmount = CommonStrings.customVehDetails.getVehicleSellingPrice();
+        purchaseAmount = String.valueOf(CommonStrings.customVehDetails.getVehicleSellingPrice());
         initView();
     }
 

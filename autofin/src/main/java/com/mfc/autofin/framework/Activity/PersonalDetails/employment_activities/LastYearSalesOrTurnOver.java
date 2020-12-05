@@ -77,7 +77,7 @@ public class LastYearSalesOrTurnOver extends AppCompatActivity implements View.O
             try{
                 if (!etLastYearSalesVal.getText().toString().isEmpty()) {
                     strLastYearSales = etLastYearSalesVal.getText().toString();
-                    CommonStrings.cusEmpDetails.setLastYearTurnOver(strLastYearSales);
+                    CommonStrings.cusEmpDetails.setLastYearTurnOver(Double.parseDouble(strLastYearSales));
                     Intent intent=new Intent(this, IncomeAfterTaxActivity.class);
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL,tvLastYearSales.getText().toString());
                     intent.putExtra(CommonStrings.PREVIOUS_VALUE,strLastYearSales);

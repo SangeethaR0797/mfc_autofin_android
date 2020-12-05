@@ -29,13 +29,13 @@ public class VehicleDetails {
     private boolean doesCarHaveLoan;
     @SerializedName("valuationPrice")
     @Expose
-    private String valuationPrice;
+    private double valuationPrice;
     @SerializedName("insurance")
     @Expose
     private boolean insurance;
     @SerializedName("insuranceAmount")
     @Expose
-    private String insuranceAmount;
+    private double insuranceAmount;
     @SerializedName("insuranceValidity")
     @Expose
     private String insuranceValidity;
@@ -47,13 +47,13 @@ public class VehicleDetails {
     private String vehicleNumber;
     @SerializedName("onRoadPrice")
     @Expose
-    private String onRoadPrice;
+    private double onRoadPrice;
     @SerializedName("isValuationDone")
     @Expose
     private boolean isValuationDone;
     @SerializedName("vehicleSellingPrice")
     @Expose
-    private String vehicleSellingPrice;
+    private double vehicleSellingPrice;
     @SerializedName("likelyPurchaseDate")
     @Expose
     private String likelyPurchaseDate;
@@ -122,11 +122,11 @@ public class VehicleDetails {
         this.doesCarHaveLoan = doesCarHaveLoan;
     }
 
-    public String getValuationPrice() {
+    public double getValuationPrice() {
         return valuationPrice;
     }
 
-    public void setValuationPrice(String valuationPrice) {
+    public void setValuationPrice(double valuationPrice) {
         this.valuationPrice = valuationPrice;
     }
 
@@ -138,11 +138,11 @@ public class VehicleDetails {
         this.insurance = insurance;
     }
 
-    public String getInsuranceAmount() {
+    public double getInsuranceAmount() {
         return insuranceAmount;
     }
 
-    public void setInsuranceAmount(String insuranceAmount) {
+    public void setInsuranceAmount(double insuranceAmount) {
         this.insuranceAmount = insuranceAmount;
     }
 
@@ -170,11 +170,11 @@ public class VehicleDetails {
         this.vehicleNumber = vehicleNumber;
     }
 
-    public String getOnRoadPrice() {
+    public double getOnRoadPrice() {
         return onRoadPrice;
     }
 
-    public void setOnRoadPrice(String onRoadPrice) {
+    public void setOnRoadPrice(double onRoadPrice) {
         this.onRoadPrice = onRoadPrice;
     }
 
@@ -186,11 +186,11 @@ public class VehicleDetails {
         this.isValuationDone = isValuationDone;
     }
 
-    public String getVehicleSellingPrice() {
+    public double getVehicleSellingPrice() {
         return vehicleSellingPrice;
     }
 
-    public void setVehicleSellingPrice(String vehicleSellingPrice) {
+    public void setVehicleSellingPrice(double vehicleSellingPrice) {
         this.vehicleSellingPrice = vehicleSellingPrice;
     }
 }

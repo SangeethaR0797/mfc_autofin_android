@@ -8,10 +8,10 @@ public class PersonalDetailsData {
     private String birthDate;
     @SerializedName("salaryPerMonth")
     @Expose
-    private Double salaryPerMonth;
+    private double salaryPerMonth;
     @SerializedName("totalEMIPaid")
     @Expose
-    private Double totalEMIPaid;
+    private double totalEMIPaid;
     @SerializedName("panNumber")
     @Expose
     private String panNumber;
@@ -33,19 +33,19 @@ public class PersonalDetailsData {
         this.birthDate = birthDate;
     }
 
-    public Double getSalaryPerMonth() {
+    public double getSalaryPerMonth() {
         return salaryPerMonth;
     }
 
-    public void setSalaryPerMonth(Double salaryPerMonth) {
+    public void setSalaryPerMonth(double salaryPerMonth) {
         this.salaryPerMonth = salaryPerMonth;
     }
 
-    public Double getTotalEMIPaid() {
+    public double getTotalEMIPaid() {
         return totalEMIPaid;
     }
 
-    public void setTotalEMIPaid(Double totalEMIPaid) {
+    public void setTotalEMIPaid(double totalEMIPaid) {
         this.totalEMIPaid = totalEMIPaid;
     }
 

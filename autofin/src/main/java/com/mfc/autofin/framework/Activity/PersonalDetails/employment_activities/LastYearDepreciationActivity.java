@@ -66,7 +66,7 @@ public class LastYearDepreciationActivity extends AppCompatActivity implements V
         } else if (v.getId() == R.id.btnNext) {
             if (!etLastYearDepreciation.getText().toString().isEmpty()) {
                 strLastYearDepreciation = etLastYearDepreciation.getText().toString();
-                CommonStrings.cusEmpDetails.setLastYearDepreciation(strLastYearDepreciation);
+                CommonStrings.cusEmpDetails.setLastYearDepreciation(Double.parseDouble(strLastYearDepreciation));
                 Intent intent = new Intent(this, ITRAuditedActivity.class);
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL,tvLastYearDepreciationLbl.getText().toString() );
                 intent.putExtra(CommonStrings.PREVIOUS_VALUE, strLastYearDepreciation);

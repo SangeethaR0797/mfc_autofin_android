@@ -59,6 +59,7 @@ public class DetailsUpdateActivity extends AppCompatActivity implements Callback
 
     private BasicData getBasicData() {
         BasicData basicData = new BasicData();
+        Log.i(TAG, "getBasicData: "+CommonMethods.getStringValueFromKey(this, CommonStrings.CUSTOMER_ID));
         basicData.setCustomerId(Integer.parseInt(CommonMethods.getStringValueFromKey(this, CommonStrings.CUSTOMER_ID)));
         basicData.setEmploymentDetails(getEmploymentDetails());
         basicData.setLoanDetails(getLoanDetails());
@@ -77,14 +78,7 @@ public class DetailsUpdateActivity extends AppCompatActivity implements Callback
 
     private ResidentialDetails getResidentialDetails() {
         ResidentialDetails residentialDetails =CommonStrings.customResDetails;
-        /*residentialDetails.setPincode(CommonStrings.customResDetails.getPincode());
-        residentialDetails.setCustomerCity(CommonStrings.customResDetails.getCustomerCity());
-        residentialDetails.setAddressLine1(CommonStrings.customResDetails.getAddressLine1());
-        residentialDetails.setAddressLine2(CommonStrings.customResDetails.getAddressLine2());
-        residentialDetails.setMoveInCityYear(CommonStrings.customResDetails.getMoveInCityYear());
-        residentialDetails.setMoveInResidenceYear(CommonStrings.customResDetails.getMoveInResidenceYear());
-        residentialDetails.setResidenceType(CommonStrings.customResDetails.getResidenceType());
-        */return residentialDetails;
+        return residentialDetails;
     }
 
     private ReferenceDetails getReferenceDetails() {
@@ -97,22 +91,12 @@ public class DetailsUpdateActivity extends AppCompatActivity implements Callback
 
     private PersonalDetailsData getPersonalDetails() {
         PersonalDetailsData personalDetailsData = CommonStrings.customPersonalDetails;
-        /*personalDetailsData.setBirthDate(CommonMethods.getStringValueFromKey(this, CommonStrings.USER_DOB));
-        personalDetailsData.setEducation(CommonMethods.getStringValueFromKey(this, CommonStrings.EDUCATION));
-        personalDetailsData.setGender(CommonMethods.getStringValueFromKey(this, CommonStrings.GENDER));
-        personalDetailsData.setPANNumber(CommonMethods.getStringValueFromKey(this, CommonStrings.PAN_CARD_NUMBER));
-        personalDetailsData.setSalaryPerMonth(CommonMethods.getStringValueFromKey(this, CommonStrings.MONTHLY_INCOME));
-        personalDetailsData.setTotalEMIPaid(CommonMethods.getStringValueFromKey(this, CommonStrings.MONTHLY_EMI));
-        */return personalDetailsData;
+       return personalDetailsData;
     }
 
     private LoanDetails getLoanDetails() {
         LoanDetails loanDetails =CommonStrings.customLoanDetails;
-        /*LoanDetails loanDetails = new LoanDetails();
-        loanDetails.setLoanTenure("0");
-        loanDetails.setNoOfExistingLoans(CommonMethods.getStringValueFromKey(this, CommonStrings.NO_OF_EXISTING_LOAN));
-        loanDetails.setRequiredLoanAmount(CommonMethods.getStringValueFromKey(this, CommonStrings.LOAN_REQUIRED));
-        */return loanDetails;
+        return loanDetails;
     }
 
     private EmploymentDetails getEmploymentDetails() {

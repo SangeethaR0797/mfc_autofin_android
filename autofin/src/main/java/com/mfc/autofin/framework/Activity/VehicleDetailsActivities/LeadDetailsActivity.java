@@ -135,6 +135,7 @@ public class LeadDetailsActivity extends AppCompatActivity implements View.OnCli
             Intent intent=new Intent(this, ReviewDetailsActivity.class);
             intent.putExtra(CommonStrings.CUSTOMER_ID,customerId);
             intent.putExtra(CommonStrings.CASE_ID,strCaseId);
+            intent.putExtra(CommonStrings.KYC_STATUS,strKYCStatus);
 
             startActivity(intent);
         }

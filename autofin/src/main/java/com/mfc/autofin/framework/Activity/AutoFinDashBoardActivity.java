@@ -29,8 +29,11 @@ import model.CustomerData;
 import model.CustomerDetailsReq;
 import model.CustomerDetailsRes;
 import model.DealerData;
+import model.add_lead_details.LoanDetails;
+import model.basic_details.BasicDetails;
 import model.ibb_models.AccessTokenRequest;
 import model.ibb_models.AccessTokenRes;
+import model.vehicle_details.vehicle_category.VehicleDetails;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -215,6 +218,8 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
             retrofitInterface.getFromWeb(getCustomerDetailsReq(""), "customer-listing").enqueue(this);
             tvLeadTypeLabel.setText(R.string.lbl_all_leads);
         } else if (v.getId() == R.id.fab_add_lead) {
+            CommonStrings.IS_OLD_LEAD=false;
+            CommonMethods.clearData();
             Intent intent = new Intent(AutoFinDashBoardActivity.this, VehicleCategory.class);
             startActivity(intent);
         } else if (v.getId() == R.id.iv_app_bar_search) {

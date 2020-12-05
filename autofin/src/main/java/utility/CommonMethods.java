@@ -1,12 +1,14 @@
 package utility;
 
 import android.app.Activity;
+import android.app.Person;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ import java.util.Locale;
 import model.add_lead_details.LoanDetails;
 import model.basic_details.BasicDetails;
 import model.basic_details.EmploymentDetails;
+import model.basic_details.PersonalDetailsData;
 import model.basic_details.ResidentialDetails;
 import model.custom_model.CusEmpDetailsModel;
 import model.custom_model.CustomBasicDetailsModel;
@@ -33,6 +36,8 @@ import model.residential_models.CityData;
 import model.vehicle_details.vehicle_category.VehicleDetails;
 
 public class CommonMethods {
+    private static final String TAG = CommonMethods.class.getSimpleName();
+
     public static boolean isInternetWorking(Context context) {
         ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivity != null) {
@@ -104,6 +109,7 @@ public class CommonMethods {
         CommonStrings.customResDetails = new ResidentialDetails();
         CommonStrings.cusEmpDetails = new EmploymentDetails();
         CommonStrings.customLoanDetails = new LoanDetails();
+        CommonStrings.customPersonalDetails=new PersonalDetailsData();
     }
 
     public static void redirectToDashboard(Activity activity) {
@@ -133,11 +139,14 @@ public class CommonMethods {
         return String.valueOf(actualVal);
     }
 
-    public static String getFormattedAmount(String givenVal) {
-        /*DecimalFormat formatter = new DecimalFormat("#,###,###");
-        String yourFormattedString = formatter.format(100000);
-        */
+    public static String getFormattedAmount(double givenVal) {
+
         String val = String.format("%.0f", givenVal);
-        return val;
+        Log.i(TAG, "getFormattedAmount: "+val);
+        double cVal=Double.parseDouble(val);
+        DecimalFormat formatter = new DecimalFormat("#,##,###");
+        String yourFormattedString = formatter.format(givenVal);
+
+        return yourFormattedString;
     }
 }

@@ -35,8 +35,8 @@ public class InsuranceTypeActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_insurance_type);
         if (CommonStrings.customVehDetails.getInsurance()) {
             strInsurance = "Yes";
-            if (!CommonStrings.customVehDetails.getInsuranceAmount().equals("")) {
-                strInsuranceAmount = CommonStrings.customVehDetails.getInsuranceAmount();
+            if (!String.valueOf(CommonStrings.customVehDetails.getInsuranceAmount()).equals("")) {
+                strInsuranceAmount = String.valueOf(CommonStrings.customVehDetails.getInsuranceAmount());
             } else {
                 strInsurance = "No";
             }
