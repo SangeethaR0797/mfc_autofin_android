@@ -110,19 +110,28 @@ public class InterestedBankOfferDetailsActivity extends AppCompatActivity implem
     {
         if(bankName.contains("HDFC"))
         {
+            ivBankIcon.setBackground(null);
             ivBankIcon.setBackground(getResources().getDrawable(R.drawable.ic_hdfc));
         }
         else  if(bankName.contains("ICICI"))
         {
+            ivBankIcon.setBackground(null);
             ivBankIcon.setBackground(getResources().getDrawable(R.drawable.ic_icici));
         }
         else  if(bankName.contains("AXIS"))
         {
+            ivBankIcon.setBackground(null);
             ivBankIcon.setBackground(getResources().getDrawable(R.drawable.ic_axis));
         }
         else  if(bankName.contains("SBI"))
         {
+            ivBankIcon.setBackground(null);
             ivBankIcon.setBackground(getResources().getDrawable(R.drawable.ic_sbi));
+        }
+        else
+        {
+            ivBankIcon.setBackground(null);
+            ivBankIcon.setBackground(getResources().getDrawable(R.drawable.ic_outline_image_search_24));
         }
     }
 

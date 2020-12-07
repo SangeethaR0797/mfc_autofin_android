@@ -34,7 +34,7 @@ import model.addtional_fields.AdditionalFieldData;
 import model.addtional_fields.Field;
 import model.addtional_fields.SubmitAdditionalFieldData;
 import model.addtional_fields.SubmitAdditionalFldRes;
-import model.addtional_fields.SubmitAddtionFldsReq;
+import model.addtional_fields.SubmitAdditionalFldsReq;
 import model.residential_models.CityData;
 import model.residential_models.ResidentialPinCodeRes;
 import retrofit2.Call;
@@ -290,8 +290,8 @@ public class AdditionalFieldAdapter extends RecyclerView.Adapter<AdditionalField
         }
     }
 
-    private SubmitAddtionFldsReq getSubmitAddFieldsReq() {
-        SubmitAddtionFldsReq request = new SubmitAddtionFldsReq();
+    private SubmitAdditionalFldsReq getSubmitAddFieldsReq() {
+        SubmitAdditionalFldsReq request = new SubmitAdditionalFldsReq();
         request.setUserId(CommonMethods.getStringValueFromKey(activity, DEALER_ID_VAL));
         request.setUserType(CommonMethods.getStringValueFromKey(activity, USER_TYPE_VAL));
         SubmitAdditionalFieldData additionalFieldData = new SubmitAdditionalFieldData();

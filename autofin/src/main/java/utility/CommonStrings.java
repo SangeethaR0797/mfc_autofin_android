@@ -23,6 +23,7 @@ public class CommonStrings {
     public static final String GENDER_URL = "https://15.207.148.230:3004/api/masters/genders";
     public static final String EDUCATION_QUALIFICATION_URL = "https://15.207.148.230:3004/api/masters/educational-qualifications";
     public static final String UPLOAD_KYC_DOC_URL ="https://15.207.148.230:3003/api/kyc/upload-customer-kyc" ;
+    public static final String SELECT_RECOMMENDED_BANK_URL="https://15.207.148.230:3002/api/bank/select-recommended-bank";
     public static final String GET_KYC_DOC_URL ="https://15.207.148.230:3004/api/masters/kyc-documents";
     public static final String EMPLOYER_NAME_URL ="https://15.207.148.230:3004/api/masters/employer/employer-masters" ;
     public static final String INTERESTED_BANK_OFFER_URL = "https://15.207.148.230:3002/api/bank/get-selected-recommended-bank";
@@ -38,10 +39,6 @@ public class CommonStrings {
     public static final String RES_CITY_URL = "https://15.207.148.230:3004/api/pincode/city/";
     public static final String GET_ADDITIONAL_FIELDS ="https://15.207.148.230:3004/api/additionalfields/additional-fields";
     public static final String SUBMIT_ADDITIONAL_FIELDS_URL ="https://15.207.148.230:3007/api/customer/submit-additional-data";
-
-
-
-
 
     public static final String CUSTOMER_DETAILS_URL_END = "customer-listing";
     public static final String IBB_ACCESS_TOKEN_URL_END = "get_access_token";

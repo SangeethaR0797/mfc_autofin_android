@@ -124,7 +124,7 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
             @Override
             public void onClick(View v) {
 
-                if(bankDetailsList.get(position).getBankName().equalsIgnoreCase("HDFC Bank"))
+               /* if(bankDetailsList.get(position).getBankName().equalsIgnoreCase("HDFC Bank"))
                 {
                     activity.startActivity(new Intent(activity, AdditionalFieldsActivity.class));
                 }
@@ -132,8 +132,8 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
                 {
                     activity.startActivity(new Intent(activity, DocumentUploadActivity.class));
                 }
-
-               // invokeSelectedBankRequest(bankDetailsList.get(position).getBankId().toString());
+*/
+               invokeSelectedBankRequest(bankDetailsList.get(position).getBankId().toString());
 
             }
         });
@@ -147,11 +147,11 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
         selectRecBankReq.setUserId(CommonMethods.getStringValueFromKey(activity,CommonStrings.DEALER_ID_VAL));
         selectRecBankReq.setUserType(CommonMethods.getStringValueFromKey(activity,CommonMethods.getStringValueFromKey(activity,CommonStrings.USER_TYPE_VAL)));
         SelectedBankData selectedBankData=new SelectedBankData();
-        selectedBankData.setCaseId("0242201118000006");
-        selectedBankData.setCustomerId("6416");
+        selectedBankData.setCaseId(CommonMethods.getStringValueFromKey(activity,CommonStrings.CASE_ID));
+        selectedBankData.setCustomerId(CommonMethods.getStringValueFromKey(activity,CommonStrings.CUSTOMER_ID));
         selectedBankData.setRecommendedBankId(bankId);
         selectRecBankReq.setData(selectedBankData);
-        retrofitInterface.getFromWeb(selectRecBankReq, CommonStrings.UPLOAD_KYC_DOC_URL).enqueue(this);
+        retrofitInterface.getFromWeb(selectRecBankReq, CommonStrings.SELECT_RECOMMENDED_BANK_URL).enqueue(this);
 
     }
 

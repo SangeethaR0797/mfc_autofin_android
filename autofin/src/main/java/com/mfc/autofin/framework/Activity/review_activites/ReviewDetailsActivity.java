@@ -772,11 +772,6 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         } else {
             reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_loan_required), "NA"));
         }
-        if (isTheFieldHaveValue(String.valueOf(loanDetailsResList.getRequiredLoanAmount()))) {
-            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_loan_required), CommonMethods.getFormattedAmount(loanDetailsResList.getRequiredLoanAmount())));
-        } else {
-            reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_loan_required), "NA"));
-        }
 
         reviewPersonalDataList.add(new ReviewData(getResources().getString(R.string.lbl_employment_type), employmentResDetails.getEmploymentType()));
         Log.i(TAG, "preparePersonalDetailsRes: " + employmentResDetails.getEmploymentType());
