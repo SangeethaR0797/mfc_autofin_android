@@ -31,6 +31,7 @@ import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
 import utility.CustomOrgDialog;
+import utility.Global;
 import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
@@ -41,7 +42,7 @@ public class ProfessionActivity extends AppCompatActivity implements View.OnClic
     EditText etProfessionalVal;
     private Button btnNext;
     ImageView iv_personal_details_backBtn;
-    String strEmpType = "", strPreviousLbl = "", strEmpRole = "";
+    String strEmpType = "", strPreviousLbl = "", strEmpRole = "",profession="";
     ArrayList<String> professionList= new ArrayList<>();;
     private Intent intent;
     private String strOnET="";
@@ -58,6 +59,13 @@ public class ProfessionActivity extends AppCompatActivity implements View.OnClic
             exception.printStackTrace();
         }
 
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.cusEmpDetails.getProfession()!=null && !CommonStrings.cusEmpDetails.getProfession().isEmpty())
+            {
+                profession=CommonStrings.cusEmpDetails.getProfession();
+            }
+        }
         initView();
 
 
@@ -73,6 +81,10 @@ public class ProfessionActivity extends AppCompatActivity implements View.OnClic
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strEmpRole);
         tvGivenValEdit.setOnClickListener(this);
+        if(!profession.isEmpty())
+        {
+            etProfessionalVal.setText(profession);
+        }
         etProfessionalVal.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
 
@@ -87,12 +99,12 @@ public class ProfessionActivity extends AppCompatActivity implements View.OnClic
                     if (temp.equalsIgnoreCase("dev")) {
                         strOnET=temp;
                         SpinnerManager.showSpinner(ProfessionActivity.this);
-                        retrofitInterface.getFromWeb(CommonStrings.PROFESSION_FILTER_URL).enqueue(ProfessionActivity.this);
+                        retrofitInterface.getFromWeb(Global.customerAPI_Master_URL+CommonStrings.PROFESSION_FILTER_URL).enqueue(ProfessionActivity.this);
 
                     } else {
                         strOnET=temp;
                         SpinnerManager.showSpinner(ProfessionActivity.this);
-                        retrofitInterface.getFromWeb(CommonStrings.PROFESSION_URL).enqueue(ProfessionActivity.this);
+                        retrofitInterface.getFromWeb(Global.customerAPI_Master_URL+CommonStrings.PROFESSION_URL).enqueue(ProfessionActivity.this);
                     }
                 }
             }

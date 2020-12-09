@@ -7,7 +7,7 @@ public class VehVariantRes
 {
         @SerializedName("status")
         @Expose
-        private Integer status;
+        private int status;
         @SerializedName("variant")
         @Expose
         private List<String> variant = null;

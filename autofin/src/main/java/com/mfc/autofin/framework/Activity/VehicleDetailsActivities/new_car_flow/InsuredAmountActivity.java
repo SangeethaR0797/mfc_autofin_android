@@ -26,7 +26,7 @@ public class InsuredAmountActivity extends AppCompatActivity implements View.OnC
     private EditText etInsuredAmount;
     private ImageView iv_vehDetails_back;
     private Button btnNext;
-    private String strPurchaseAmount = "";
+    private String strPurchaseAmount = "",strInsurance="",insuranceAmount="";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,6 +34,22 @@ public class InsuredAmountActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_insured_amount);
         if (!String.valueOf(CommonStrings.customVehDetails.getVehicleSellingPrice()).equals("")) {
             strPurchaseAmount = String.valueOf(CommonStrings.customVehDetails.getVehicleSellingPrice());
+        }
+
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.customVehDetails.getInsurance()) {
+                strInsurance="Yes";
+                if (CommonStrings.customVehDetails.getInsuranceAmount() != 0) {
+                    double insAmount = CommonStrings.customVehDetails.getInsuranceAmount();
+                    String result = CommonMethods.getFormattedDouble(insAmount);
+                    insuranceAmount = result.replaceAll("[-+.^:,]", "");
+                }
+            }
+            else
+            {
+                strInsurance="No";
+            }
         }
         initView();
     }
@@ -49,6 +65,11 @@ public class InsuredAmountActivity extends AppCompatActivity implements View.OnC
         iv_vehDetails_back.setVisibility(View.INVISIBLE);
         tvGivenLbl.setText(getResources().getString(R.string.lbl_vehicle_purchase_amount));
         tvGivenPreviousVal.setText(strPurchaseAmount);
+
+        if(!insuranceAmount.isEmpty())
+        {
+            etInsuredAmount.setText(insuranceAmount);
+        }
         tvGivenValEdit.setOnClickListener(this);
         tvInsuredAmount.setTypeface(CustomFonts.getRobotoRegularTF(this));
         btnNext.setOnClickListener(this);

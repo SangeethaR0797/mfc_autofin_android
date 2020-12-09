@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,21 +16,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.R;
 
 import java.util.List;
 
 import controller.VehicleDetailsAdapter;
 import model.ibb_models.IBBVehDetailsReq;
-import model.ibb_models.VehMakeRes;
 import model.ibb_models.VehModelRes;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
-import utility.Global_URLs;
+import utility.CommonURLs;
+import utility.Global;
 import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
@@ -57,18 +55,24 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
         strVehMake = CommonStrings.customVehDetails.getMake();
 
         if (CommonStrings.stockResData != null) {
-            if (CommonStrings.stockResData.getModel() != null) {
-                strModel = CommonStrings.stockResData.getModel();
+            if (CommonStrings.stockResData.getIbbModel() != null) {
+                strModel = CommonStrings.stockResData.getIbbModel();
             }
         } else {
             strModel = "";
         }
+        if (CommonStrings.IS_OLD_LEAD) {
+            if (CommonStrings.customVehDetails.getModel() != null && CommonStrings.customVehDetails.getModel() != null) {
+                strModel = CommonStrings.customVehDetails.getModel();
+            }
+        }
+
         initView();
 
         if (CommonMethods.isInternetWorking(VehicleModelActivity.this)) {
             SpinnerManager.showSpinner(this);
             IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_MODEL, CommonMethods.getStringValueFromKey(VehicleModelActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, strYear, "0", strVehMake);
-            retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
+            retrofitInterface.getFromWeb(ibbVehDetailsReq, Global.ibb_base_url + IBB_VEH_DETAILS_END_POINT).enqueue(this);
         } else {
             Toast.makeText(VehicleModelActivity.this, "Please check your Internet Connection", Toast.LENGTH_LONG).show();
         }
@@ -151,7 +155,7 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
             if (CommonMethods.isInternetWorking(VehicleModelActivity.this)) {
                 SpinnerManager.showSpinner(this);
                 IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_MODEL, CommonMethods.getStringValueFromKey(VehicleModelActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, strYear, "0", strVehMake);
-                retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
+                retrofitInterface.getFromWeb(ibbVehDetailsReq, Global.ibb_base_url + IBB_VEH_DETAILS_END_POINT).enqueue(this);
             } else {
                 Toast.makeText(VehicleModelActivity.this, "Please check your Internet Connection", Toast.LENGTH_LONG).show();
             }

@@ -6,6 +6,7 @@ import model.add_lead_details.LoanDetails;
 import model.basic_details.BasicDetails;
 import model.basic_details.EmploymentDetails;
 import model.basic_details.PersonalDetailsData;
+import model.basic_details.ReferenceDetails;
 import model.basic_details.ResidentialDetails;
 import model.custom_model.CusEmpDetailsModel;
 import model.custom_model.CustomBasicDetailsModel;
@@ -15,36 +16,34 @@ import model.vehicle_details.vehicle_category.stock_details.StockResponseData;
 
 public class CommonStrings {
 
-
-    public static final String RES_TYPE_URL = "https://15.207.148.230:3004/api/masters/resident-type";
-    public static final String EMP_TYPE_URL = "https://15.207.148.230:3004/api/masters/employee-type";
-    public static final String ORG_NAME_LIST_URL ="https://15.207.148.230:3004/api/masters/employer/employer-masters";
-    public static final String BANK_NAME_URL = "https://15.207.148.230:3004/api/bank/get-banks";
-    public static final String GENDER_URL = "https://15.207.148.230:3004/api/masters/genders";
-    public static final String EDUCATION_QUALIFICATION_URL = "https://15.207.148.230:3004/api/masters/educational-qualifications";
-    public static final String UPLOAD_KYC_DOC_URL ="https://15.207.148.230:3003/api/kyc/upload-customer-kyc" ;
-    public static final String SELECT_RECOMMENDED_BANK_URL="https://15.207.148.230:3002/api/bank/select-recommended-bank";
-    public static final String GET_KYC_DOC_URL ="https://15.207.148.230:3004/api/masters/kyc-documents";
-    public static final String EMPLOYER_NAME_URL ="https://15.207.148.230:3004/api/masters/employer/employer-masters" ;
-    public static final String INTERESTED_BANK_OFFER_URL = "https://15.207.148.230:3002/api/bank/get-selected-recommended-bank";
-    public static final String RECOMMENDED_BANK_URL = "https://15.207.148.230:3002/api/bank/get-recommended-bank";
-    public static final String ADD_BASIC_DETAILS_URL = "https://15.207.148.230:3007/api/customer/v2/add-basic-details";
-    public static final String CUSTOMER_DETAILS_URL = "https://15.207.148.230:3007/api/customer/v2/customer-details";
-    public static final String INDUSTRY_TYPE_URL ="https://15.207.148.230:3004/api/masters/industry-type";
-    public static final String MAHINDRA_FILTER_URL ="https://15.207.148.230:3004/api/masters/employer/filter-by-name/mahind" ;
-    public static final String GET_SALUTATION_URL = "https://15.207.148.230:3004/api/masters/salutations";
-    public static final String PROFESSION_URL ="https://15.207.148.230:3004/api/masters/professions";
-    public static final String PROFESSION_FILTER_URL ="https://15.207.148.230:3004/api/masters/professions/deve";
-    public static final String VEH_CATEGORY_URL = "https://15.207.148.230:3004/api/masters/vehicle-category";
-    public static final String RES_CITY_URL = "https://15.207.148.230:3004/api/pincode/city/";
-    public static final String GET_ADDITIONAL_FIELDS ="https://15.207.148.230:3004/api/additionalfields/additional-fields";
-    public static final String SUBMIT_ADDITIONAL_FIELDS_URL ="https://15.207.148.230:3007/api/customer/submit-additional-data";
+    public static final String TOKEN_URL_END = "token/generate-token";
+    public static final String RES_TYPE_URL_END = "resident-type";
+    public static final String EMP_TYPE_URL_END = "employee-type";
+    public static final String ORG_NAME_LIST_URL ="employer/employer-masters";
+    public static final String BANK_NAME_URL = "bank/get-banks";
+    public static final String GENDER_URL = "genders";
+    public static final String EDUCATION_QUALIFICATION_URL = "educational-qualifications";
+    public static final String UPLOAD_KYC_DOC_URL ="kyc/upload-customer-kyc";
+    public static final String SELECT_RECOMMENDED_BANK_URL="select-recommended-bank";
+    public static final String INTERESTED_BANK_OFFER_URL = "get-selected-recommended-bank";
+    public static final String RECOMMENDED_BANK_URL = "get-recommended-bank";
+    public static final String ADD_BASIC_DETAILS_URL = "v2/add-basic-details";
+    public static final String EDIT_LEAD_URL ="v2/edit-lead" ;
+    public static final String CUSTOMER_DETAILS_URL = "v2/customer-details";
+    public static final String INDUSTRY_TYPE_URL ="industry-type";
+    public static final String MAHINDRA_FILTER_URL ="employer/filter-by-name/mahind" ;
+    public static final String GET_SALUTATION_URL = "salutations";
+    public static final String PROFESSION_URL ="professions";
+    public static final String PROFESSION_FILTER_URL ="professions/deve";
+    public static final String RES_CITY_URL = "pincode/city/";
+    public static final String GET_ADDITIONAL_FIELDS ="additionalfields/additional-fields";
+    public static final String SUBMIT_ADDITIONAL_FIELDS_URL ="submit-additional-data";
 
     public static final String CUSTOMER_DETAILS_URL_END = "customer-listing";
     public static final String IBB_ACCESS_TOKEN_URL_END = "get_access_token";
     public static final String VEH_OWNER_STRING = "veh_no_of_owners";
     public static final String VEH_INSURANCE_TYPE = "veh_insurance_type";
-    public static final String STOCK_DETAILS_URL_END = "stock-details";
+    public static final String STOCK_DETAILS_URL_END = "MMV/stock-details";
     public static final String VEH_REG_NO = "veh_registration_number";
     public static final String VEH_MFG_YEAR = "veh_mfg_year";
     public static final String VEH_MFG_MAKE = "veh_mfg_make";
@@ -103,7 +102,10 @@ public class CommonStrings {
     public static final String PREVIOUS_VALUE_LBL = "previous_value_lbl";
     public static final String PREVIOUS_VALUE = "previous_screen_value";
     public static final String LAST_YEAR_PROFIT = "last_year_profit";
-    public static final String EDIT_LEAD_URL ="https://15.207.148.230:3007/api/customer/v2/edit-lead" ;
+    public static final String PROCESS_WITH_BANK_URL_END = "process-customer-with-bank";
+    public static final String CUSTOMER_ADDITIONAL_FIELDS ="customer-additional-data" ;
+    public static String TOKEN_VALUE = "";
+
     public static  boolean IS_OLD_LEAD =false ;
     public static String IBB_PASSWORD = "dHk69ffu7ebP";
     public static String IBB_USERNAME = "mfc@ibb.com";
@@ -121,5 +123,6 @@ public class CommonStrings {
     public static ResidentialDetails customResDetails = new ResidentialDetails();
     public static PersonalDetailsData customPersonalDetails = new PersonalDetailsData();
     public static EmploymentDetails cusEmpDetails = new EmploymentDetails();
+    public static ReferenceDetails referenceDetails=new ReferenceDetails();
 
 }

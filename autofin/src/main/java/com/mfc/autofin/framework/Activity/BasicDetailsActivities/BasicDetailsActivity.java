@@ -41,6 +41,7 @@ import utility.AutoFinConstants;
 import utility.CommonMethods;
 import utility.CommonStrings;
 import utility.CustomFonts;
+import utility.Global;
 import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
@@ -89,12 +90,12 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
         if(CommonStrings.IS_OLD_LEAD)
         {
             SpinnerManager.showSpinner(this);
-            retrofitInterface.getFromWeb(getEditLeadRequest(), CommonStrings.EDIT_LEAD_URL).enqueue(this);
+            retrofitInterface.getFromWeb(getEditLeadRequest(),Global.customerAPI_BaseURL+CommonStrings.EDIT_LEAD_URL).enqueue(this);
             initView();
         }
         else {
             SpinnerManager.showSpinner(this);
-            retrofitInterface.getFromWeb(CommonStrings.GET_SALUTATION_URL).enqueue(this);
+            retrofitInterface.getFromWeb(Global.customerAPI_Master_URL+CommonStrings.GET_SALUTATION_URL).enqueue(this);
             initView();
         }
     }

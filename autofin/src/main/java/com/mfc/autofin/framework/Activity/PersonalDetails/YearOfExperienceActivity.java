@@ -40,6 +40,13 @@ public class YearOfExperienceActivity extends AppCompatActivity implements View.
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.cusEmpDetails.getTotalWorkExperience()!=null && !CommonStrings.cusEmpDetails.getTotalWorkExperience().isEmpty())
+            {
+                strYearsOfExperience=CommonStrings.cusEmpDetails.getTotalWorkExperience();
+            }
+        }
         initView();
     }
 
@@ -58,6 +65,10 @@ public class YearOfExperienceActivity extends AppCompatActivity implements View.
         tvGivenPreviousVal.setText(strPreviousVal);
         tvYears.setTypeface(CustomFonts.getRobotoRegularTF(this));
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
+        if(!strYearsOfExperience.isEmpty())
+        {
+            tvYears.setText(strYearsOfExperience);
+        }
         tvGivenValEdit.setOnClickListener(this);
         etNOOfYears.setOnClickListener(this);
         btnNext.setOnClickListener(this);

@@ -30,6 +30,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
+import utility.Global;
 import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
@@ -49,10 +50,10 @@ public class ViewBankActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_view_bank);
         initView();
         SpinnerManager.showSpinner(this);
-        retrofitInterface.getFromWeb(getBankListReq(), CommonStrings.RECOMMENDED_BANK_URL).enqueue(this);
+        retrofitInterface.getFromWeb(getBankListReq(), Global.customer_bank_baseURL+CommonStrings.RECOMMENDED_BANK_URL).enqueue(this);
     }
 
-    private Object getBankListReq() {
+    private RecBankListReq getBankListReq() {
         RecBankListReq bankListReq = new RecBankListReq();
         bankListReq.setUserId(CommonMethods.getStringValueFromKey(this, CommonStrings.DEALER_ID_VAL));
         bankListReq.setUserType(CommonMethods.getStringValueFromKey(this, CommonStrings.USER_TYPE_VAL));

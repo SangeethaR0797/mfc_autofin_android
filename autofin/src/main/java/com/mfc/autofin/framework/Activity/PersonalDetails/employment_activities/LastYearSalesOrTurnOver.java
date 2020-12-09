@@ -24,7 +24,7 @@ public class LastYearSalesOrTurnOver extends AppCompatActivity implements View.O
     private EditText  etLastYearSalesVal;
     private View belowETYearsOE;
     private Button btnNext;
-    private String strPreviousLbl="",strPreviousVal="", strLastYearSales = "";
+    private String strPreviousLbl="",strPreviousVal="", strLastYearSales = "",lastYrTurnOver="";
     private Intent intent;
 
     @Override
@@ -38,6 +38,13 @@ public class LastYearSalesOrTurnOver extends AppCompatActivity implements View.O
             strPreviousVal=intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
         }catch (Exception exception){exception.printStackTrace();}
 
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.cusEmpDetails.getLastYearTurnOver()!=0)
+            {
+                lastYrTurnOver=CommonMethods.removeDecimal(CommonStrings.cusEmpDetails.getLastYearTurnOver());
+            }
+        }
         initView();
     }
 
@@ -65,6 +72,10 @@ public class LastYearSalesOrTurnOver extends AppCompatActivity implements View.O
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strPreviousVal);
         tvGivenValEdit.setOnClickListener(this);
+        if(!lastYrTurnOver.isEmpty())
+        {
+            etLastYearSalesVal.setText(lastYrTurnOver);
+        }
         btnNext.setOnClickListener(this);
 
     }

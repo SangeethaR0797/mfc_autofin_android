@@ -39,6 +39,14 @@ public class LastYearDepreciationActivity extends AppCompatActivity implements V
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.cusEmpDetails.getLastYearDepreciation()!=0)
+            {
+                strLastYearDepreciation=CommonMethods.removeDecimal(CommonStrings.cusEmpDetails.getLastYearDepreciation());
+            }
+        }
         initView();
     }
 
@@ -56,6 +64,10 @@ public class LastYearDepreciationActivity extends AppCompatActivity implements V
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strPreviousVal);
         tvGivenValEdit.setOnClickListener(this);
+        if(!strLastYearDepreciation.isEmpty())
+        {
+            etLastYearDepreciation.setText(strLastYearDepreciation);
+        }
         btnNext.setOnClickListener(this);
     }
 

@@ -21,6 +21,8 @@ import java.util.List;
 
 import kyc.DocumentUploadActivity;
 import model.add_lead_details.AddLeadResponse;
+import model.addtional_fields.BankName;
+import model.addtional_fields.GetAdditionFieldsReq;
 import model.bank_models.BankListData;
 import model.bank_models.BankListResponse;
 import model.bank_models.SelectBankData;
@@ -32,6 +34,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import utility.CommonMethods;
 import utility.CommonStrings;
+import utility.Global;
+import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
 
@@ -41,6 +45,7 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
     private String TAG = SelectBankAdapter.class.getSimpleName();
     private Activity activity;
     private List<BankListData> bankDetailsList;
+    String bankName="";
 
     public SelectBankAdapter(Activity activity, List<BankListData> bankDetailsList) {
         this.activity = activity;
@@ -61,6 +66,7 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (bankDetailsList.get(position).getBankId() != null)
         {
+            bankName=bankDetailsList.get(position).getBankName();
             if(bankDetailsList.get(position).getBankId()==27)
             {
                 holder.tvBankStatus.setText("Recommended");
@@ -98,9 +104,11 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
         else
             Log.i(TAG, "onBindViewHolder: BankStatus is null");
 
-        if (bankDetailsList.get(position).getLoanAmount() != null)
-            holder.tvLoanAmountVal.setText(bankDetailsList.get(position).getLoanAmount());
-        else
+        if (bankDetailsList.get(position).getLoanAmount() != null) {
+            String loanAmount=activity.getResources().getString(R.string.rupees_symbol) + " " + CommonMethods.getFormattedAmount(Double.parseDouble(bankDetailsList.get(position).getLoanAmount()));
+            holder.tvLoanAmountVal.setText(loanAmount);
+
+        }else
             Log.i(TAG, "onBindViewHolder: Loan Amount is null");
 
         if (bankDetailsList.get(position).getRoi() != null)
@@ -108,9 +116,10 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
         else
             Log.i(TAG, "onBindViewHolder: ROI is null");
 
-        if (bankDetailsList.get(position).getEmi() != null)
-            holder.tvEMIVal.setText(CommonMethods.getFormattedDouble(Double.parseDouble(bankDetailsList.get(position).getEmi())));
-        else
+        if (bankDetailsList.get(position).getEmi() != null) {
+            String emiVal=activity.getResources().getString(R.string.rupees_symbol) + " " + CommonMethods.getFormattedDouble(Double.parseDouble(bankDetailsList.get(position).getEmi()));
+            holder.tvEMIVal.setText(emiVal);
+        }else
             Log.i(TAG, "onBindViewHolder: EMI AMount is null");
 
         if (bankDetailsList.get(position).getTenure() != null)
@@ -151,7 +160,8 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
         selectedBankData.setCustomerId(CommonMethods.getStringValueFromKey(activity,CommonStrings.CUSTOMER_ID));
         selectedBankData.setRecommendedBankId(bankId);
         selectRecBankReq.setData(selectedBankData);
-        retrofitInterface.getFromWeb(selectRecBankReq, CommonStrings.SELECT_RECOMMENDED_BANK_URL).enqueue(this);
+        SpinnerManager.showSpinner(activity);
+        retrofitInterface.getFromWeb(selectRecBankReq, Global.customer_bank_baseURL+CommonStrings.SELECT_RECOMMENDED_BANK_URL).enqueue(this);
 
     }
 
@@ -163,6 +173,7 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
     @Override
     public void onResponse(Call<Object> call, Response<Object> response)
     {
+        SpinnerManager.hideSpinner(activity);
         String strRes = new Gson().toJson(response.body());
         Log.i(TAG, "onResponse: " + strRes);
         AddLeadResponse selectedBankRes=new Gson().fromJson(strRes,AddLeadResponse.class);
@@ -172,7 +183,9 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
             if(selectedBankRes!=null && selectedBankRes.getStatus())
             {
                 CommonMethods.showToast(activity,selectedBankRes.getMessage());
-                activity.startActivity(new Intent(activity,AdditionalFieldsActivity.class));
+                CommonMethods.setValueAgainstKey(activity,CommonStrings.BANK_NAME,bankName);
+                retrofitInterface.getFromWeb(getAdditionalFieldReq(), Global.customerDetails_BaseURL + CommonStrings.CUSTOMER_ADDITIONAL_FIELDS).enqueue(this);
+            activity.startActivity(new Intent(activity,AdditionalFieldsActivity.class));
             }
             else
             {
@@ -209,4 +222,13 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
         }
 
     }
+        private GetAdditionFieldsReq getAdditionalFieldReq() {
+            GetAdditionFieldsReq additionFieldsReq = new GetAdditionFieldsReq();
+            additionFieldsReq.setUserId(CommonMethods.getStringValueFromKey(activity,CommonStrings.DEALER_ID_VAL));
+            additionFieldsReq.setUserType(CommonMethods.getStringValueFromKey(activity,CommonStrings.USER_TYPE_VAL));
+            BankName bankName = new BankName();
+            bankName.setBankName(CommonMethods.getStringValueFromKey(activity,CommonStrings.BANK_NAME));
+            additionFieldsReq.setData(bankName);
+            return additionFieldsReq;
+        }
 }

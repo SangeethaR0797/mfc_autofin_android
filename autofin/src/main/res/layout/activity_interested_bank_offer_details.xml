@@ -32,11 +32,10 @@
                     android:layout_marginRight="@dimen/text_size_21dp">
                     <ImageView
                         android:id="@+id/ivBankIcon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="100dp"
+                        android:layout_height="24dp"
                         android:layout_marginTop="@dimen/text_size_16sp"
                         android:layout_marginLeft="@dimen/text_size_4dp"
-                        app:srcCompat="@drawable/ic_outline_image_search_24"
                         android:layout_marginBottom="@dimen/text_size_26dp"/>
                     <View
                         android:layout_width="match_parent"
@@ -146,6 +145,7 @@
             android:textSize="@dimen/text_size_16sp"
             android:drawableRight="@drawable/ic_forward_arrow"
             android:paddingRight="7dp"
+            android:visibility="gone"
             android:layout_gravity="center"/>
     </LinearLayout>
     <Button

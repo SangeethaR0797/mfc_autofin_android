@@ -23,11 +23,12 @@ import utility.CustomFonts;
 public class VehiclePurchaseAmountActivity extends AppCompatActivity implements View.OnClickListener {
 
     private boolean isNewCar=false;
-    private String strPreviousVal = "";
+    private String strPreviousVal = "",strPurchaseAmount="";
     private ImageView iv_vehDetails_back;
     private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvVehPurchaseAmount;
     private EditText etVehPurchaseAmount;
     private Button btnNext;
+    private double purchaseAmount=0;
 
 
     @Override
@@ -54,7 +55,16 @@ public class VehiclePurchaseAmountActivity extends AppCompatActivity implements 
                 strPreviousVal = "";
             }
         }
-               initView();
+
+        if (CommonStrings.IS_OLD_LEAD) {
+            if (CommonStrings.customVehDetails.getVehicleSellingPrice() != 0) {
+                purchaseAmount = CommonStrings.customVehDetails.getVehicleSellingPrice();
+                String result =CommonMethods.getFormattedDouble(purchaseAmount);
+                strPurchaseAmount=result.replaceAll("[-+.^:,]","");
+            }
+        }
+
+        initView();
     }
 
     private void initView() {
@@ -72,6 +82,11 @@ public class VehiclePurchaseAmountActivity extends AppCompatActivity implements 
         else
         {
             tvGivenLbl.setText(getResources().getString(R.string.lbl_veh_ownership));
+        }
+        if(!strPurchaseAmount.isEmpty())
+        {
+            etVehPurchaseAmount.setText(strPurchaseAmount);
+
         }
         tvVehPurchaseAmount.setTypeface(CustomFonts.getRobotoRegularTF(this));
         tvGivenPreviousVal.setText(strPreviousVal);

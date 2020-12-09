@@ -23,11 +23,21 @@ public class InterestedVehiclePriceActivity extends AppCompatActivity implements
     private EditText etOnRoadPrice;
     private ImageView iv_vehDetails_back;
     private Button btnNext;
+    private double roadPrice=0;
+    private String strRoadPrice="";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interested_vehicle_price);
+        if (CommonStrings.IS_OLD_LEAD) {
+            if (CommonStrings.customVehDetails.getOnRoadPrice() != 0) {
+                roadPrice = CommonStrings.customVehDetails.getOnRoadPrice();
+                String result =CommonMethods.getFormattedDouble(roadPrice);
+                strRoadPrice= result.replaceAll("[-+.^:,]","");
+            }
+        }
+
         initView();
     }
 
@@ -40,6 +50,10 @@ public class InterestedVehiclePriceActivity extends AppCompatActivity implements
         btnNext=findViewById(R.id.btnNext);
         tvGivenLbl.setText("VARIANT");
         etOnRoadPrice=findViewById(R.id.etOnRoadPrice);
+        if(!strRoadPrice.isEmpty())
+        {
+            etOnRoadPrice.setText(strRoadPrice);
+        }
         tvRoadPriceLbl.setTypeface(CustomFonts.getRobotoRegularTF(this));
         tvGivenPreviousVal.setText(CommonStrings.customVehDetails.getVariant());
         iv_vehDetails_back.setVisibility(View.INVISIBLE);

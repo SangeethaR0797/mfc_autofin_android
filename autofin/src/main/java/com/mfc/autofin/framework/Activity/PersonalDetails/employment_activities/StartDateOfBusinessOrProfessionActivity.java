@@ -59,6 +59,14 @@ public class StartDateOfBusinessOrProfessionActivity extends AppCompatActivity i
         if (CommonStrings.cusEmpDetails.getEmploymentType() != null && !CommonStrings.cusEmpDetails.getEmploymentType().isEmpty()) {
             strEmpType = CommonStrings.cusEmpDetails.getEmploymentType();
         }
+
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.cusEmpDetails.getBusinessStartDate()!=null && !CommonStrings.cusEmpDetails.getBusinessStartDate().isEmpty())
+            {
+                strStartedDate=CommonStrings.cusEmpDetails.getBusinessStartDate();
+            }
+        }
         initView();
     }
 
@@ -81,6 +89,10 @@ public class StartDateOfBusinessOrProfessionActivity extends AppCompatActivity i
         tvGivenPreviousVal.setText(strPreviousVal);
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         tvGivenValEdit.setOnClickListener(this);
+        if(!strStartedDate.isEmpty())
+        {
+            tvStartDateOfBOPVal.setText(strStartedDate);
+        }
         tvStartDateOfBOPLbl.setOnClickListener(this);
 
     }

@@ -47,6 +47,7 @@ import retrofit2.Response;
 import utility.AutoFinConstants;
 import utility.CommonMethods;
 import utility.CommonStrings;
+import utility.Global;
 import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
@@ -54,8 +55,8 @@ import static retrofit_config.RetroBase.retrofitInterface;
 public class DocumentUploadActivity extends AppCompatActivity implements View.OnClickListener, ImageUploadCompleted, Callback<Object> {
 
     private static final String TAG = DocumentUploadActivity.class.getSimpleName();
-    private LinearLayout llPhotoIDProof, llPanCard, llAadharCard, llVoterIdCard, llPassport, llResidenceProof, llRentAgreement, llElectricityBill, llResAadharCard, llBankDocs, llBankStatement, llSalarySlip, llForm16, llITR;
-    private TextView tvSkipPhotoIdProof, tvPanCardURL, tvAadharCardURL, tvVoterIdURL, tvPassportURL, tvSkipResidenceProof, tvRentAgreementURL, tvElectricityBillURL, tvResAadharURL, tvBankStatementURL, tvSalarySlipURL, tvForm16URL, tvITRURL;
+    private LinearLayout llPhotoIDProof, llPanCard, llAadharCard, llVoterIdCard, llPassport, llResidenceProof, llRentAgreement, llElectricityBill, llResAadharCard, llBankDocs, llBankStatement, llSalarySlip, llForm16, llITR,llAdditionalDoc;
+    private TextView tvSkipPhotoIdProof, tvPanCardURL, tvAadharCardURL, tvVoterIdURL, tvPassportURL, tvSkipResidenceProof, tvRentAgreementURL, tvElectricityBillURL, tvResAadharURL, tvBankStatementURL, tvSalarySlipURL, tvForm16URL, tvITRURL,tvAdditionalDocURL;
     private CheckBox cbSkipBankDocs, cbUploadDocsAgreeTAndC;
     private CaptureImage captureImage;
     private Button btnUpdateDoc;
@@ -67,6 +68,10 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
     private File file;
     private Uri fileUri;
     private List<Doc> documentList = new ArrayList<>();
+    private List<Doc> photoIDProofList = new ArrayList<>();
+    private List<Doc> residenceProofList = new ArrayList<>();
+    private List<Doc> bankStmtList = new ArrayList<>();
+
     private String mDealerID, mCaseID;
 
     @Override
@@ -97,6 +102,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         llSalarySlip = findViewById(R.id.llSalarySlip);
         llForm16 = findViewById(R.id.llForm16);
         llITR = findViewById(R.id.llITR);
+        llAdditionalDoc=findViewById(R.id.llAdditionalDoc);
         tvSkipPhotoIdProof = findViewById(R.id.tvSkipPhotoIdProof);
         tvPanCardURL = findViewById(R.id.tvPanCardURL);
         tvAadharCardURL = findViewById(R.id.tvAadharCardURL);
@@ -110,6 +116,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         tvSalarySlipURL = findViewById(R.id.tvSalarySlipURL);
         tvForm16URL = findViewById(R.id.tvForm16URL);
         tvITRURL = findViewById(R.id.tvITRURL);
+        tvAdditionalDocURL=findViewById(R.id.tvAdditionalDocURL);
         cbSkipBankDocs = findViewById(R.id.cbSkipBankDocs);
         cbUploadDocsAgreeTAndC = findViewById(R.id.cbUploadDocsAgreeTAndC);
         btnUpdateDoc = findViewById(R.id.btnUpdateDoc);
@@ -127,6 +134,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         llSalarySlip.setOnClickListener(this);
         llForm16.setOnClickListener(this);
         llITR.setOnClickListener(this);
+        llAdditionalDoc.setOnClickListener(this);
         cbSkipBankDocs.setOnClickListener(this);
         cbUploadDocsAgreeTAndC.setOnClickListener(this);
         btnUpdateDoc.setOnClickListener(this);
@@ -202,7 +210,14 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             } else {
                 Callpermissions(DocumentUploadActivity.this);
             }
-        } else if (v.getId() == R.id.cbSkipBankDocs) {
+        }
+        else if (v.getId() == R.id.llAdditionalDoc) {
+            if (checkPermissions(DocumentUploadActivity.this)) {
+                captureImage.chooseImage(DocumentUploadActivity.this, AutoFinConstants.ADDITIONAL_DOCS);
+            } else {
+                Callpermissions(DocumentUploadActivity.this);
+            }
+        }else if (v.getId() == R.id.cbSkipBankDocs) {
             if (cbSkipBankDocs.isChecked()) {
                 CommonMethods.redirectToDashboard(this);
             }
@@ -212,9 +227,18 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
             }
         } else if (v.getId() == R.id.btnUpdateDoc) {
-            if (documentList.size() > 0 && cbUploadDocsAgreeTAndC.isChecked()) {
-                SpinnerManager.showSpinner(this);
-                retrofitInterface.getFromWeb(getUploadKYCRequest(), CommonStrings.UPLOAD_KYC_DOC_URL).enqueue(this);
+            if (cbUploadDocsAgreeTAndC.isChecked()) {
+                if(!photoIDProofList.isEmpty() && !residenceProofList.isEmpty() && !bankStmtList.isEmpty() && !documentList.isEmpty())
+                {
+                    Log.i(TAG, "onClick: "+photoIDProofList.size()+" "+residenceProofList.size()+" "+bankStmtList.size()+" ");
+                    SpinnerManager.showSpinner(this);
+                    retrofitInterface.getFromWeb(getUploadKYCRequest(), Global.document_upload_baseURL+CommonStrings.UPLOAD_KYC_DOC_URL).enqueue(this);
+                }
+                else
+                {
+                    Toast.makeText(this,"Please select at least one document for each section",Toast.LENGTH_LONG).show();
+                }
+
             } else {
                 CommonMethods.showToast(this, "Please select image and check T&C");
             }
@@ -222,6 +246,9 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
     }
 
     private UploadDocRequest getUploadKYCRequest() {
+        documentList.addAll(photoIDProofList);
+        documentList.addAll(residenceProofList);
+        documentList.addAll(bankStmtList);
         UploadDocRequest uploadDocRequest = new UploadDocRequest();
         uploadDocRequest.setUserId(CommonMethods.getStringValueFromKey(this, CommonStrings.DEALER_ID_VAL));
         uploadDocRequest.setUserType(CommonMethods.getStringValueFromKey(this, CommonStrings.USER_TYPE_VAL));
@@ -327,7 +354,8 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                 Doc doc = new Doc();
                 doc.setKey("PanCard");
                 doc.setUrl(imageURL);
-                documentList.add(doc);
+                photoIDProofList.add(doc);
+                Log.i(TAG, "onImageUploadCompleted: "+photoIDProofList.size());
             } else {
                 CommonMethods.showToast(this, "Image URL is null");
             }
@@ -337,70 +365,96 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             Doc doc = new Doc();
             doc.setKey("AdhaarCard");
             doc.setUrl(imageURL);
-            documentList.add(doc);
+            photoIDProofList.add(doc);
+            Log.i(TAG, "onImageUploadCompleted: "+photoIDProofList.size());
+
         } else if (statusCode == AutoFinConstants.VOTERIDCARD) {
             voterIdURL = imageURL;
             setFileOnTextView(imageURL, tvVoterIdURL);
             Doc doc = new Doc();
             doc.setKey("VoterId");
             doc.setUrl(imageURL);
-            documentList.add(doc);
+            photoIDProofList.add(doc);
+            Log.i(TAG, "onImageUploadCompleted: "+photoIDProofList.size());
+
         } else if (statusCode == AutoFinConstants.PASSPORT) {
             passportURL = imageURL;
             setFileOnTextView(imageURL, tvPassportURL);
             Doc doc = new Doc();
             doc.setKey("Passport");
             doc.setUrl(imageURL);
-            documentList.add(doc);
+            photoIDProofList.add(doc);
+            Log.i(TAG, "onImageUploadCompleted: "+photoIDProofList.size());
+
         } else if (statusCode == AutoFinConstants.RENTAL_AGREEMENT) {
             rentalAgreementURL = imageURL;
             setFileOnTextView(imageURL, tvRentAgreementURL);
             Doc doc = new Doc();
             doc.setKey("RentAgreement");
             doc.setUrl(imageURL);
-            documentList.add(doc);
+            residenceProofList.add(doc);
+            Log.i(TAG, "onImageUploadCompleted: "+residenceProofList.size());
+
         } else if (statusCode == AutoFinConstants.ELECTRICITY_BILL) {
             ebBillURL = imageURL;
             setFileOnTextView(imageURL, tvElectricityBillURL);
             Doc doc = new Doc();
             doc.setKey("ElectricityBill");
             doc.setUrl(imageURL);
-            documentList.add(doc);
+            residenceProofList.add(doc);
+            Log.i(TAG, "onImageUploadCompleted: "+residenceProofList.size());
+
         } else if (statusCode == AutoFinConstants.RES_AADHAR_CARD) {
             resAadhaarURL = imageURL;
             setFileOnTextView(imageURL, tvResAadharURL);
             Doc doc = new Doc();
             doc.setKey("AdhaarCard");
             doc.setUrl(imageURL);
-            documentList.add(doc);
+            residenceProofList.add(doc);
+            Log.i(TAG, "onImageUploadCompleted: "+residenceProofList.size());
+
         } else if (statusCode == AutoFinConstants.BANK_STATEMENT) {
             bankStmtURL = imageURL;
             setFileOnTextView(imageURL, tvBankStatementURL);
             Doc doc = new Doc();
             doc.setKey("BankStatement");
             doc.setUrl(imageURL);
-            documentList.add(doc);
+            bankStmtList.add(doc);
+            Log.i(TAG, "onImageUploadCompleted: "+bankStmtList.size());
+
         } else if (statusCode == AutoFinConstants.SALARY_SLIP) {
             salSlip = imageURL;
             setFileOnTextView(imageURL, tvSalarySlipURL);
             Doc doc = new Doc();
             doc.setKey("SalarySlip");
             doc.setUrl(imageURL);
-            documentList.add(doc);
+            bankStmtList.add(doc);
+            Log.i(TAG, "onImageUploadCompleted: "+bankStmtList.size());
         } else if (statusCode == AutoFinConstants.FORM_16) {
             form16URL = imageURL;
             setFileOnTextView(imageURL, tvForm16URL);
             Doc doc = new Doc();
             doc.setKey("Form16");
             doc.setUrl(imageURL);
-            documentList.add(doc);
+            bankStmtList.add(doc);
+            Log.i(TAG, "onImageUploadCompleted: "+bankStmtList.size());
         } else if (statusCode == AutoFinConstants.ITR) {
             itrURL = imageURL;
             setFileOnTextView(imageURL, tvITRURL);
             Doc doc = new Doc();
             doc.setKey("ITRReturn");
             doc.setUrl(imageURL);
+            bankStmtList.add(doc);
+            Log.i(TAG, "onImageUploadCompleted: "+bankStmtList.size());
+        }
+        else if (statusCode == AutoFinConstants.ADDITIONAL_DOCS) {
+            itrURL = imageURL;
+            setFileOnTextView(imageURL, tvAdditionalDocURL);
+            Doc doc = new Doc();
+            doc.setKey("ITRReturn");
+            doc.setUrl(imageURL);
             documentList.add(doc);
+            Log.i(TAG, "onImageUploadCompleted: "+documentList.size());
         }
 
     }
@@ -429,6 +483,9 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                 return "FORM_16";
             case AutoFinConstants.ITR:
                 return "ITR";
+            case AutoFinConstants.ADDITIONAL_DOCS:
+                return "ApplicationForm";
+
         }
         return "";
     }

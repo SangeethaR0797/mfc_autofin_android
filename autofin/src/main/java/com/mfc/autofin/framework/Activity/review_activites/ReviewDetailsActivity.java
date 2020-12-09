@@ -37,6 +37,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
+import utility.Global;
 import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
@@ -92,7 +93,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
 
         if (flag) {
             SpinnerManager.showSpinner(this);
-            retrofitInterface.getFromWeb(getCustomerDetailsReq(), CUSTOMER_DETAILS_URL).enqueue(this);
+            retrofitInterface.getFromWeb(getCustomerDetailsReq(), Global.customerAPI_BaseURL+CUSTOMER_DETAILS_URL).enqueue(this);
         }
 
 
@@ -241,7 +242,6 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
         }
         personalDetails.add(new ReviewData("SAVINGS BANK ACCOUNT", customPersonalDetails.getSavingsAccount()));
         personalDetails.add(new ReviewData("PANCARD NO.", customPersonalDetails.getPanNumber()));
-        personalDetails.add(new ReviewData("LIKELY PURCHASE DATE", customVehDetails.getLikelyPurchaseDate()));
         return personalDetails;
     }
 
@@ -408,7 +408,12 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
                         personalDetailsResList = customerDetails.getPersonalDetails();
                         employmentResDetails = customerDetails.getEmploymentDetails();
                         loanDetailsResList = customerDetails.getLoanDetails();
+                        customVehDetails=vehDetailsResList;
                         customBasicDetails = basicDetailsResList;
+                        customPersonalDetails=personalDetailsResList;
+                        customResDetails=residentialDetailsResList;
+                        cusEmpDetails=employmentResDetails;
+                        customLoanDetails=loanDetailsResList;
                         if (kycStatus.equalsIgnoreCase("Basic Details Pending")) {
                             displayReviewVehRes();
                             displayReviewBasicRes();
@@ -516,6 +521,12 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
             valuationDone = "NO";
         }
         if (loanDetailsResList.getLoanCategory().equalsIgnoreCase("New Car")) {
+
+            if (loanDetailsResList.getLoanCategory() != null && !loanDetailsResList.getLoanCategory().isEmpty()) {
+                    reviewDataList.add(new ReviewData("VEHICLE CATEGORY", loanDetailsResList.getLoanCategory()));
+            } else {
+                reviewDataList.add(new ReviewData("VEHICLE CATEGORY", "NA"));
+            }
             if (vehDetailsResList.getRegistrationYear() != null && !vehDetailsResList.getRegistrationYear().isEmpty()) {
                 if (vehDetailsResList.getRegistrationYear().contains("."))
                     reviewDataList.add(new ReviewData(getResources().getString(R.string.lbl_veh_reg_year), vehDetailsResList.getRegistrationYear().substring(0, 4)));
@@ -558,7 +569,11 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
             }
 
         } else {
-
+            if (loanDetailsResList.getLoanCategory() != null && !loanDetailsResList.getLoanCategory().isEmpty()) {
+                    reviewDataList.add(new ReviewData("VEHICLE CATEGORY", loanDetailsResList.getLoanCategory()));
+            } else {
+                reviewDataList.add(new ReviewData("VEHICLE CATEGORY", "NA"));
+            }
             reviewDataList.add(new ReviewData(getResources().getString(R.string.vehicle_reg_num_qn), vehHaveRegNo));
             reviewDataList.add(new ReviewData(CommonStrings.VEH_REG_NO_TITLE, vehRegNo));
 

@@ -40,13 +40,13 @@ public class StockResponseData {
     private String city;
     @SerializedName("ibbMake")
     @Expose
-    private Object ibbMake;
+    private String ibbMake;
     @SerializedName("ibbModel")
     @Expose
-    private Object ibbModel;
+    private String ibbModel;
     @SerializedName("ibbVariant")
     @Expose
-    private Object ibbVariant;
+    private String ibbVariant;
 
     public Integer getStockId() {
         return stockId;
@@ -136,27 +136,27 @@ public class StockResponseData {
         this.city = city;
     }
 
-    public Object getIbbMake() {
+    public String getIbbMake() {
         return ibbMake;
     }
 
-    public void setIbbMake(Object ibbMake) {
+    public void setIbbMake(String ibbMake) {
         this.ibbMake = ibbMake;
     }
 
-    public Object getIbbModel() {
+    public String getIbbModel() {
         return ibbModel;
     }
 
-    public void setIbbModel(Object ibbModel) {
+    public void setIbbModel(String ibbModel) {
         this.ibbModel = ibbModel;
     }
 
-    public Object getIbbVariant() {
+    public String getIbbVariant() {
         return ibbVariant;
     }
 
-    public void setIbbVariant(Object ibbVariant) {
+    public void setIbbVariant(String ibbVariant) {
         this.ibbVariant = ibbVariant;
     }
 

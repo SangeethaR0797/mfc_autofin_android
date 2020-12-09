@@ -26,6 +26,7 @@ import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
 import utility.CustomSearchDialog;
+import utility.Global;
 import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
@@ -36,7 +37,7 @@ public class SavingsBankAccountActivity extends AppCompatActivity implements Vie
     private ImageView iv_app_savings_bank_search, iv_savings_hdfc, iv_savings_icici, iv_savings_axis, iv_savings_sbi;
     private List<String> bankNameList;
     private Button btnNext;
-    private String strPreviousLbl = "", strPreviousVal = "";
+    private String strPreviousLbl = "", strPreviousVal = "",strSavingsAccBank="";
     private LinearLayout llSelectSavingsBank;
     private Intent intent;
 
@@ -50,6 +51,14 @@ public class SavingsBankAccountActivity extends AppCompatActivity implements Vie
             strPreviousVal = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
         } catch (Exception exception) {
             exception.printStackTrace();
+        }
+
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.customPersonalDetails.getSavingsAccount()!=null && !CommonStrings.customPersonalDetails.getSavingsAccount().isEmpty())
+            {
+                strSavingsAccBank=CommonStrings.customPersonalDetails.getSavingsAccount();
+            }
         }
         initView();
     }
@@ -69,6 +78,11 @@ public class SavingsBankAccountActivity extends AppCompatActivity implements Vie
         btnNext = findViewById(R.id.btnNext);
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strPreviousVal);
+        if(!strSavingsAccBank.isEmpty())
+        {
+            tvSelectSavingsBank.setText(strSavingsAccBank);
+        }
+
         tvGivenValEdit.setOnClickListener(this);
         llSelectSavingsBank.setOnClickListener(this);
         iv_savings_hdfc.setOnClickListener(this);
@@ -84,7 +98,7 @@ public class SavingsBankAccountActivity extends AppCompatActivity implements Vie
         if (v.getId() == R.id.llSelectSavingsBank) {
             if (CommonMethods.isInternetWorking(this)) {
                 SpinnerManager.showSpinner(this);
-                retrofitInterface.getFromWeb(CommonStrings.BANK_NAME_URL).enqueue(this);
+                retrofitInterface.getFromWeb(Global.customerDetails_BaseURL+CommonStrings.BANK_NAME_URL).enqueue(this);
             } else {
                 CommonMethods.showToast(this, "Please check your Internet Connection");
             }

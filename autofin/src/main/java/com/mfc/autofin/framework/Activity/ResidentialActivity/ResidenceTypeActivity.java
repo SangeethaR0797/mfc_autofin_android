@@ -1,26 +1,18 @@
 package com.mfc.autofin.framework.Activity.ResidentialActivity;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.Activity.PersonalDetails.UserDOBActivity;
 import com.mfc.autofin.framework.R;
 
@@ -34,18 +26,16 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
-import utility.Global_URLs;
+import utility.Global;
 
-import static retrofit_config.RetroBase.retrofit;
 import static retrofit_config.RetroBase.retrofitInterface;
-import static utility.CommonStrings.IBB_VEH_DETAILS_END_POINT;
 
 public class ResidenceTypeActivity extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
 
     private static final String TAG = ResidenceTypeActivity.class.getSimpleName();
     TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvResidenceTypeLbl;
     ImageView iv_residential_details_backBtn;
-    String strCResidence = "";
+    String strCResidence = "",strResType="";
     LinearLayout llRadioGroup;
     List<ResidenceType> residenceTypeList;
     RadioGroup customRG;
@@ -60,8 +50,15 @@ public class ResidenceTypeActivity extends AppCompatActivity implements View.OnC
         } else {
             strCResidence = "";
         }
-        retrofitInterface.getFromWeb(CommonStrings.RES_TYPE_URL).enqueue(this);
+        retrofitInterface.getFromWeb(Global.customerAPI_Master_URL+CommonStrings.RES_TYPE_URL_END).enqueue(this);
         Log.i(TAG, "onCreate: "+CommonMethods.getStringValueFromKey(this,CommonStrings.CUSTOMER_ID));
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.customResDetails.getResidenceType()!=null && !CommonStrings.customResDetails.getResidenceType().isEmpty())
+            {
+                strResType= String.valueOf(CommonStrings.customResDetails.getResidenceType());
+            }
+        }
         initView();
     }
 
@@ -86,11 +83,109 @@ public class ResidenceTypeActivity extends AppCompatActivity implements View.OnC
         tvGivenPreviousVal.setText(strCResidence);
         iv_residential_details_backBtn.setVisibility(View.INVISIBLE);
         tvGivenValEdit.setOnClickListener(this);
+        if(!strResType.isEmpty())
+        {
+            if(strResType.equalsIgnoreCase(rbOwnedBySelfOrSpouse.getText().toString()))
+            {
+                rbOwnedBySelfOrSpouse.setChecked(true);
+                rbOwnedByParent.setChecked(false);
+                rbRentedWithFamily.setChecked(false);
+                rbRentedWithFriends.setChecked(false);
+                rbRentedStayingAlone.setChecked(false);
+                rbPayingGuest.setChecked(false);
+                rbHostel.setChecked(false);
+                rbCompanyProvided.setChecked(false);
+
+            }
+            else if(strResType.equalsIgnoreCase(rbOwnedByParent.getText().toString()))
+            {
+                rbOwnedBySelfOrSpouse.setChecked(false);
+                rbOwnedByParent.setChecked(true);
+                rbRentedWithFamily.setChecked(false);
+                rbRentedWithFriends.setChecked(false);
+                rbRentedStayingAlone.setChecked(false);
+                rbPayingGuest.setChecked(false);
+                rbHostel.setChecked(false);
+                rbCompanyProvided.setChecked(false);
+
+            }
+            else if(strResType.equalsIgnoreCase(rbRentedWithFamily.getText().toString()))
+            {
+                rbRentedWithFamily.setChecked(true);
+                rbOwnedBySelfOrSpouse.setChecked(false);
+                rbOwnedByParent.setChecked(false);
+                rbRentedWithFriends.setChecked(false);
+                rbRentedStayingAlone.setChecked(false);
+                rbPayingGuest.setChecked(false);
+                rbHostel.setChecked(false);
+                rbCompanyProvided.setChecked(false);
+
+            }
+            else if(strResType.equalsIgnoreCase(rbRentedWithFriends.getText().toString()))
+            {
+                rbRentedWithFriends.setChecked(true);
+                rbRentedWithFamily.setChecked(false);
+                rbOwnedBySelfOrSpouse.setChecked(false);
+                rbOwnedByParent.setChecked(false);
+                rbRentedStayingAlone.setChecked(false);
+                rbPayingGuest.setChecked(false);
+                rbHostel.setChecked(false);
+                rbCompanyProvided.setChecked(false);
+
+            }
+            else if(strResType.equalsIgnoreCase(rbRentedStayingAlone.getText().toString()))
+            {
+                rbRentedStayingAlone.setChecked(true);
+                rbRentedWithFriends.setChecked(false);
+                rbRentedWithFamily.setChecked(false);
+                rbOwnedBySelfOrSpouse.setChecked(false);
+                rbOwnedByParent.setChecked(false);
+                rbPayingGuest.setChecked(false);
+                rbHostel.setChecked(false);
+                rbCompanyProvided.setChecked(false);
+
+            }
+            else if(strResType.equalsIgnoreCase(rbPayingGuest.getText().toString()))
+            {
+                rbPayingGuest.setChecked(true);
+                rbRentedStayingAlone.setChecked(true);
+                rbRentedWithFriends.setChecked(false);
+                rbRentedWithFamily.setChecked(false);
+                rbOwnedBySelfOrSpouse.setChecked(false);
+                rbOwnedByParent.setChecked(false);
+                rbHostel.setChecked(false);
+                rbCompanyProvided.setChecked(false);
+
+            }
+            else if(strResType.equalsIgnoreCase(rbHostel.getText().toString()))
+            {
+                rbHostel.setChecked(true);
+                rbRentedStayingAlone.setChecked(false);
+                rbRentedWithFriends.setChecked(false);
+                rbRentedWithFamily.setChecked(false);
+                rbOwnedBySelfOrSpouse.setChecked(false);
+                rbOwnedByParent.setChecked(false);
+                rbPayingGuest.setChecked(false);
+                rbCompanyProvided.setChecked(false);
+
+            }
+            else if(strResType.equalsIgnoreCase(rbCompanyProvided.getText().toString()))
+            {
+                rbCompanyProvided.setChecked(true);
+                rbRentedStayingAlone.setChecked(false);
+                rbRentedWithFriends.setChecked(false);
+                rbRentedWithFamily.setChecked(false);
+                rbOwnedBySelfOrSpouse.setChecked(false);
+                rbOwnedByParent.setChecked(false);
+                rbPayingGuest.setChecked(false);
+                rbHostel.setChecked(false);
+
+            }
+        }
         rbOwnedBySelfOrSpouse.setOnClickListener(this);
         rbOwnedByParent.setOnClickListener(this);
         rbRentedWithFamily.setOnClickListener(this);
         rbRentedWithFriends.setOnClickListener(this);
-        rbRentedStayingAlone.setOnClickListener(this);
         rbRentedStayingAlone.setOnClickListener(this);
         rbPayingGuest.setOnClickListener(this);
         rbHostel.setOnClickListener(this);

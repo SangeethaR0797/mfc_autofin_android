@@ -22,7 +22,7 @@ public class LikelyPurchaseActivity extends AppCompatActivity implements View.On
     private TextView tvLikePurchaseTitle, tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit;
     private RadioGroup rgLikelyPurchase;
     private RadioButton rbWithinAWeek, rbWithinAMonth, rbAfterAMonth;
-    private String strPreviousLbl = "", strPreviousVal = "";
+    private String strPreviousLbl = "", strPreviousVal = "",likelyPurchaseDate="";
     private Intent intent;
     private ImageView iv_personal_details_backBtn;
 
@@ -36,6 +36,14 @@ public class LikelyPurchaseActivity extends AppCompatActivity implements View.On
             strPreviousVal = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
         } catch (Exception exception) {
             exception.printStackTrace();
+        }
+
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.customVehDetails.getLikelyPurchaseDate()!=null && !CommonStrings.customVehDetails.getLikelyPurchaseDate().isEmpty())
+            {
+                likelyPurchaseDate=CommonStrings.customVehDetails.getLikelyPurchaseDate();
+            }
         }
         initView();
     }
@@ -56,6 +64,27 @@ public class LikelyPurchaseActivity extends AppCompatActivity implements View.On
         rbAfterAMonth.setOnClickListener(this);
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strPreviousVal);
+        if(!likelyPurchaseDate.isEmpty())
+        {
+            if(likelyPurchaseDate.equalsIgnoreCase(rbWithinAWeek.getText().toString()))
+            {
+                rbWithinAWeek.setChecked(true);
+                rbWithinAMonth.setChecked(false);
+                rbAfterAMonth.setChecked(false);
+            }
+            else if(likelyPurchaseDate.equalsIgnoreCase(rbWithinAMonth.getText().toString()))
+            {
+                rbWithinAWeek.setChecked(false);
+                rbWithinAMonth.setChecked(true);
+                rbAfterAMonth.setChecked(false);
+            }
+            else if(likelyPurchaseDate.equalsIgnoreCase(rbAfterAMonth.getText().toString()))
+            {
+                rbWithinAWeek.setChecked(false);
+                rbWithinAMonth.setChecked(false);
+                rbAfterAMonth.setChecked(true);
+            }
+        }
         tvGivenValEdit.setOnClickListener(this);
     }
 

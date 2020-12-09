@@ -15,17 +15,20 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit_services.RetrofitInterface;
+import utility.CommonMethods;
+import utility.CommonStrings;
+import utility.Global;
 
 public class RetroBase {
 
-    public static final String BASE_URL = "https://15.207.148.230:3007/api/customer/";
+    public static final String BASE_URL = Global.baseURL;
 
     private static HttpLoggingInterceptor logging = new HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY);
     protected static TokenInterceptor tokenInterceptor = new TokenInterceptor();
     protected static OkHttpClient client = new OkHttpClient
             .Builder()
-            .addInterceptor(logging)
+            .addInterceptor(logging) // Comment for Prod
             .addInterceptor(tokenInterceptor)
             .connectTimeout(1, TimeUnit.MINUTES)
             .readTimeout(180, TimeUnit.SECONDS)
@@ -59,8 +62,8 @@ public class RetroBase {
             String sToken = "";
             if (sToken != null) {
                 initialRequest = initialRequest.newBuilder()
-                        // .addHeader("Accept", "application/json; charset=utf-8")
-                        //.addHeader("token", "token")
+                         .addHeader("Accept", "application/json; charset=utf-8")
+                        .addHeader("token", CommonStrings.TOKEN_VALUE)
                         .build();
             }
 

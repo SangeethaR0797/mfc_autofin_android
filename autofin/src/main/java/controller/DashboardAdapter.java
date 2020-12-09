@@ -92,7 +92,8 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
         else
             Log.i(TAG, "onBindViewHolder: Customer Email is null");
 
-        if (holder.tvStatus.getText().equals("open") || holder.tvStatus.getText().equals("Open")) {
+        if (holder.tvStatus.getText().toString().equalsIgnoreCase("open") || holder.tvKYCStatus.getText().toString().equalsIgnoreCase("KYC Documents Pending"))
+        {
             holder.tvViewDetails.setVisibility(View.VISIBLE);
         } else {
             holder.tvViewDetails.setVisibility(View.GONE);

@@ -219,11 +219,6 @@
 
 
         <activity
-            android:name=".Activity.PersonalDetails.employment_activities.EmployerNameActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
-
-        <activity
             android:name=".Activity.PersonalDetails.SavingsBankAccountActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
 

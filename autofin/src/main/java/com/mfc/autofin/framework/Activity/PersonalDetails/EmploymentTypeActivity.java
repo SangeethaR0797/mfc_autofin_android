@@ -30,6 +30,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
+import utility.Global;
 
 import static retrofit_config.RetroBase.retrofitInterface;
 
@@ -43,7 +44,7 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
     RadioButton rbSalaried, rbBusinessOwner, rbSelfEmployedProfessional, rbIndependentWorker, rbStudent, rbRetired, rbHomeMaker;
     List<EmpTypeList> empTypeList;
     private Intent intent;
-    private String strPreviousLbl="",strPreviousVal="";
+    private String strPreviousLbl="",strPreviousVal="",empType="";
 
 
     @Override
@@ -57,8 +58,15 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.cusEmpDetails.getEmploymentType()!=null && !CommonStrings.cusEmpDetails.getEmploymentType().isEmpty())
+            {
+                empType=CommonStrings.cusEmpDetails.getEmploymentType();
+            }
+        }
 
-        retrofitInterface.getFromWeb(CommonStrings.EMP_TYPE_URL).enqueue(this);
+        retrofitInterface.getFromWeb(Global.customerAPI_Master_URL+CommonStrings.EMP_TYPE_URL_END).enqueue(this);
         initView();
     }
 
@@ -81,6 +89,46 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
         rbHomeMaker = findViewById(R.id.rbHomeMaker);
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         tvGivenValEdit.setOnClickListener(this);
+        if(empType.equalsIgnoreCase(rbSalaried.getText().toString()))
+        {
+            rbSalaried.setChecked(true);
+            rbBusinessOwner.setChecked(false);
+            rbSelfEmployedProfessional.setChecked(false);
+            rbIndependentWorker.setChecked(false);
+            rbRetired.setChecked(false);
+        }
+        else if(empType.equalsIgnoreCase(rbBusinessOwner.getText().toString()))
+        {
+            rbSalaried.setChecked(false);
+            rbBusinessOwner.setChecked(true);
+            rbSelfEmployedProfessional.setChecked(false);
+            rbIndependentWorker.setChecked(false);
+            rbRetired.setChecked(false);
+        }
+        else if(empType.equalsIgnoreCase(rbSelfEmployedProfessional.getText().toString()))
+        {
+            rbSalaried.setChecked(false);
+            rbBusinessOwner.setChecked(false);
+            rbSelfEmployedProfessional.setChecked(true);
+            rbIndependentWorker.setChecked(false);
+            rbRetired.setChecked(false);
+        }
+        else if(empType.equalsIgnoreCase(rbIndependentWorker.getText().toString()))
+        {
+            rbSalaried.setChecked(false);
+            rbBusinessOwner.setChecked(false);
+            rbSelfEmployedProfessional.setChecked(false);
+            rbIndependentWorker.setChecked(true);
+            rbRetired.setChecked(false);
+        }
+        else if(empType.equalsIgnoreCase(rbRetired.getText().toString()))
+        {
+            rbSalaried.setChecked(false);
+            rbBusinessOwner.setChecked(false);
+            rbSelfEmployedProfessional.setChecked(false);
+            rbIndependentWorker.setChecked(false);
+            rbRetired.setChecked(true);
+        }
         rbSalaried.setOnClickListener(this);
         rbBusinessOwner.setOnClickListener(this);
         rbSelfEmployedProfessional.setOnClickListener(this);

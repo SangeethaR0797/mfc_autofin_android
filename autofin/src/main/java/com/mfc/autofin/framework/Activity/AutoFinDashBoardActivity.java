@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,11 +31,10 @@ import model.CustomerData;
 import model.CustomerDetailsReq;
 import model.CustomerDetailsRes;
 import model.DealerData;
-import model.add_lead_details.LoanDetails;
-import model.basic_details.BasicDetails;
 import model.ibb_models.AccessTokenRequest;
 import model.ibb_models.AccessTokenRes;
-import model.vehicle_details.vehicle_category.VehicleDetails;
+import model.token.GetTokenReq;
+import model.token.TokenResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,7 +42,9 @@ import utility.AutoFinConstants;
 import utility.CommonMethods;
 import utility.CommonStrings;
 import utility.CustomFonts;
-import utility.Global_URLs;
+import utility.CommonURLs;
+import utility.DataEncrypt;
+import utility.Global;
 import utility.RobotoMedium;
 import utility.SpinnerManager;
 
@@ -61,7 +64,7 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
     DashboardAdapter dashboardAdapter;
     private static String TAG = AutoFinDashBoardActivity.class.getSimpleName();
     private ImageView exitAutofin;
-
+    private static final String UTF_8 = "UTF-8";
     private String mUserId = "";
     private String mUserType = "";
     private String mAppName = "";
@@ -75,15 +78,24 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
         fetchIntentData();
-        initViews();
+
         if (CommonMethods.isInternetWorking(this)) {
             SpinnerManager.showSpinner(this);
-            retrofitInterface.getFromWeb(getCustomerDetailsReq(""), CommonStrings.CUSTOMER_DETAILS_URL_END).enqueue(this);
-            retrofitInterface.getFromWeb(getIBBAccessTokenReq(), Global_URLs.IBB_BASE_URL + CommonStrings.IBB_ACCESS_TOKEN_URL_END).enqueue(this);
-
+            retrofitInterface.getFromWeb(getTokenRequest(), Global.customerDetails_BaseURL+CommonStrings.TOKEN_URL_END).enqueue(this);
         } else {
             Toast.makeText(this, "Please check your Internet Connection", Toast.LENGTH_LONG).show();
         }
+        initViews();
+    }
+
+    private GetTokenReq getTokenRequest()
+    {
+        GetTokenReq getTokenReq=new GetTokenReq();
+        getTokenReq.setUserId(mUserId);
+        getTokenReq.setUserType(mUserType);
+        getTokenReq.setRequestFrom("OMS");
+        getTokenReq.setData("GenerateToken");
+        return getTokenReq;
     }
 
     private void fetchIntentData() {
@@ -242,6 +254,7 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
         textView1.setTextColor(getResources().getColor(R.color.very_dark_blue));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onResponse(Call<Object> call, Response<Object> response) {
         SpinnerManager.hideSpinner(this);
@@ -249,7 +262,30 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
         Log.i(TAG, "onResponse: URL " + url);
         String strRes = new Gson().toJson(response.body());
         Log.i(TAG, "onResponse: " + strRes);
-        if (url.contains(CommonStrings.CUSTOMER_DETAILS_URL_END)) {
+        if (url.contains(CommonStrings.TOKEN_URL_END)) {
+            TokenResponse tokenRes = new Gson().fromJson(strRes, TokenResponse.class);
+            try {
+                if (tokenRes != null && tokenRes.getStatus()) {
+                    if (tokenRes.getData() != null) {
+                        CommonMethods.setValueAgainstKey(AutoFinDashBoardActivity.this, "encrypt_token", tokenRes.getData());
+                        Log.i(TAG, "onResponse: " + tokenRes.getData());
+                        storeToken(tokenRes.getData());
+                        SpinnerManager.showSpinner(this);
+                        retrofitInterface.getFromWeb(getCustomerDetailsReq(""), Global.customerAPI_BaseURL+CommonStrings.CUSTOMER_DETAILS_URL_END).enqueue(this);
+                        retrofitInterface.getFromWeb(getIBBAccessTokenReq(), Global.ibb_base_url+CommonStrings.IBB_ACCESS_TOKEN_URL_END).enqueue(this);
+
+                    } else {
+                        Toast.makeText(this, "No access token available", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Error occurred", Toast.LENGTH_LONG).show();
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+
+        }
+        else if (url.contains(CommonStrings.CUSTOMER_DETAILS_URL_END)) {
             CustomerDetailsRes customerDetailsRes = new Gson().fromJson(strRes, CustomerDetailsRes.class);
             try {
                 if (customerDetailsRes != null && customerDetailsRes.getStatus().toString().equals("true")) {
@@ -277,7 +313,8 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
                 exception.printStackTrace();
             }
 
-        } else if (url.contains(CommonStrings.IBB_ACCESS_TOKEN_URL_END)) {
+        }
+        else if (url.contains(CommonStrings.IBB_ACCESS_TOKEN_URL_END)) {
             AccessTokenRes accessTokenRes = new Gson().fromJson(strRes, AccessTokenRes.class);
             try {
                 if (accessTokenRes != null && accessTokenRes.getStatus().equalsIgnoreCase("success")) {
@@ -296,6 +333,22 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
 
         }
 
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void storeToken(String data)
+    {
+        DataEncrypt dataEncrypt=new DataEncrypt();
+        try {
+            /*final String decryptedToken = new String(dataEncrypt.decrypt(data),UTF_8).trim();*/
+            /*CommonMethods.setValueAgainstKey(this,"token",decryptedToken);*/
+            String decValue=dataEncrypt.decrypt(data);
+            //String decryptedData = String.valueOf(Base64.decode(decValue, Base64.NO_WRAP));
+            CommonStrings.TOKEN_VALUE=decValue;
+            Log.i(TAG, "storeToken: "+CommonStrings.TOKEN_VALUE);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 
 

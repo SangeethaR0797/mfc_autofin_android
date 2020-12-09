@@ -30,7 +30,7 @@ public class EmploymentRole extends AppCompatActivity implements Callback<Object
     TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvEmploymentRoleVal;
     private Button btnNext;
     ImageView iv_personal_details_backBtn;
-    String strEmpType="",strPreviousLbl="",strPreviousVal="";
+    String strEmpType="",strPreviousLbl="",strPreviousVal="",empRole="";
     ArrayList<String> employmentRoleList;
     private Intent intent;
     @Override
@@ -44,6 +44,15 @@ public class EmploymentRole extends AppCompatActivity implements Callback<Object
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.cusEmpDetails.getEmploymentRole()!=null && !CommonStrings.cusEmpDetails.getEmploymentRole().isEmpty())
+            {
+                empRole=CommonStrings.cusEmpDetails.getEmploymentRole();
+            }
+        }
+
         employmentRoleList=new ArrayList<>();
         employmentRoleList.add("Proprietor");
         employmentRoleList.add("Partner Applying as an Individual");
@@ -61,6 +70,10 @@ public class EmploymentRole extends AppCompatActivity implements Callback<Object
         iv_personal_details_backBtn=findViewById(R.id.iv_personal_details_backBtn);
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strPreviousVal);
+        if(!empRole.isEmpty())
+        {
+            tvEmploymentRoleVal.setText(empRole);
+        }
         tvGivenValEdit.setOnClickListener(this);
         tvEmploymentRoleVal.setOnClickListener(this);
         btnNext.setOnClickListener(this);

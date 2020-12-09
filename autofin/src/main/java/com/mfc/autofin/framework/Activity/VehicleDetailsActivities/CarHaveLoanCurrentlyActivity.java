@@ -23,13 +23,21 @@ public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements V
     TextView tvGivenVehOwnership, tvGivenVehOwnershipVal, tvGivenVehOwnershipEdit;
     Button btnCarHaveLoan, btnCarHaveNoLoan;
     ImageView iv_vehDetails_back;
-    String purchaseAmount = "";
+    String purchaseAmount = "", strCarHaveLoan = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carhave_loan_currently);
         purchaseAmount = String.valueOf(CommonStrings.customVehDetails.getVehicleSellingPrice());
+        if (CommonStrings.IS_OLD_LEAD) {
+            if (CommonStrings.customVehDetails.getDoesCarHaveLoan()) {
+                strCarHaveLoan = "YES";
+            } else {
+                strCarHaveLoan = "NO";
+            }
+        }
+
         initView();
     }
 
@@ -42,6 +50,17 @@ public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements V
         iv_vehDetails_back = findViewById(R.id.iv_vehDetails_back);
         tvGivenVehOwnershipVal.setText(purchaseAmount);
         iv_vehDetails_back.setVisibility(View.INVISIBLE);
+        if (!strCarHaveLoan.isEmpty()) {
+            if (strCarHaveLoan.equalsIgnoreCase("YES")) {
+                CommonMethods.highLightSelectedButton(this, btnCarHaveLoan);
+                CommonMethods.deHighLightButton(this, btnCarHaveNoLoan);
+            } else if (strCarHaveLoan.equalsIgnoreCase("NO")) {
+                CommonMethods.highLightSelectedButton(this, btnCarHaveNoLoan);
+                CommonMethods.deHighLightButton(this, btnCarHaveLoan);
+            }
+        } else {
+
+        }
         tvGivenVehOwnershipEdit.setOnClickListener(this);
         btnCarHaveLoan.setOnClickListener(this);
         btnCarHaveNoLoan.setOnClickListener(this);

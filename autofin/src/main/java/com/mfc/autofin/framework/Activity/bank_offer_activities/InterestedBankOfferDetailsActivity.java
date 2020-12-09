@@ -24,6 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
+import utility.Global;
 
 import static retrofit_config.RetroBase.retrofitInterface;
 
@@ -40,11 +41,11 @@ public class InterestedBankOfferDetailsActivity extends AppCompatActivity implem
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interested_bank_offer_details);
-        retrofitInterface.getFromWeb(getInterestedBankOfferReq(), CommonStrings.INTERESTED_BANK_OFFER_URL).enqueue(this);
+        retrofitInterface.getFromWeb(getInterestedBankOfferReq(), Global.customer_bank_baseURL+CommonStrings.INTERESTED_BANK_OFFER_URL).enqueue(this);
         initView();
     }
 
-    private Object getInterestedBankOfferReq() {
+    private InterestedBankOfferReq getInterestedBankOfferReq() {
         InterestedBankOfferReq interestedBankOfferReq = new InterestedBankOfferReq();
         interestedBankOfferReq.setUserId(CommonMethods.getStringValueFromKey(this, CommonStrings.DEALER_ID_VAL));
         interestedBankOfferReq.setUserType(CommonMethods.getStringValueFromKey(this, CommonStrings.USER_TYPE_VAL));
@@ -92,10 +93,22 @@ public class InterestedBankOfferDetailsActivity extends AppCompatActivity implem
             try {
            InterestedBankOfferResData resData=interestedBankOfferRes.getData();
            setBankImage(resData.getBankName());
-           tvBankOfferedEMIAmount.setText(getResources().getString(R.string.rupees_symbol)+" "+resData.getEmi());
-           tvBankOfferedLoanAmount.setText(resData.getLoanAmount());
-           tvTenurePeriod.setText(resData.getTenure()+" "+"Month");
-           tvRateOfInterest.setText(resData.getRateOfIntrest()+" %");
+           String strEMI="",strTenure="",strROI="",strLoanAmount="";
+           strEMI=getResources().getString(R.string.rupees_symbol)+" "+CommonMethods.getFormattedAmount(Double.parseDouble(resData.getEmi()));
+           strLoanAmount=getResources().getString(R.string.rupees_symbol)+" "+CommonMethods.getFormattedAmount(Double.parseDouble(resData.getLoanAmount()));
+           if(Integer.parseInt(resData.getTenure())>1)
+           {
+               strTenure=resData.getTenure()+" "+"Months";
+           }
+           else
+           {
+               strTenure=resData.getTenure()+" "+"Month";
+           }
+           strROI=CommonMethods.getFormattedDouble(Double.parseDouble(resData.getRateOfIntrest()))+" %";
+           tvBankOfferedEMIAmount.setText(strEMI);
+           tvBankOfferedLoanAmount.setText(strLoanAmount);
+           tvTenurePeriod.setText(strTenure);
+           tvRateOfInterest.setText(strROI);
            strBankName=resData.getBankName();
             }
                 catch(Exception exception)

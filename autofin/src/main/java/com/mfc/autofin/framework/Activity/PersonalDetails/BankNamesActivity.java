@@ -27,6 +27,7 @@ import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
 import utility.CustomSearchDialog;
+import utility.Global;
 import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
@@ -40,7 +41,7 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
     private ListView listView;
     private ArrayAdapter<String> arrayAdapter;
     private Button btnNext;
-    private String strEmployeeType = "", strPreviousLbl = "", strPreviousVal = "";
+    private String strEmployeeType = "", strPreviousLbl = "", strPreviousVal = "",strBankName="";
     private LinearLayout llSelectBank;
     private Intent intent;
 
@@ -55,6 +56,15 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.customPersonalDetails.getSavingsAccount()!=null && !CommonStrings.customPersonalDetails.getSavingsAccount().isEmpty())
+            {
+                strBankName=CommonStrings.customPersonalDetails.getSavingsAccount();
+            }
+        }
+
         initView();
 
     }
@@ -75,6 +85,10 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
         tvSelectedBankName = findViewById(R.id.tvSelectedBankName);
         iv_app_bank_search = findViewById(R.id.iv_app_bank_search);
         btnNext = findViewById(R.id.btnNext);
+        if(!strBankName.isEmpty())
+        {
+            tvSelectedBankName.setText(strBankName);
+        }
         iv_salary_hdfc.setOnClickListener(this);
         iv_salary_icici.setOnClickListener(this);
         iv_salary_axis.setOnClickListener(this);
@@ -90,7 +104,7 @@ public class BankNamesActivity extends AppCompatActivity implements View.OnClick
         if (v.getId() == R.id.llSelectBank) {
             if (CommonMethods.isInternetWorking(this)) {
                 SpinnerManager.showSpinner(this);
-                retrofitInterface.getFromWeb(CommonStrings.BANK_NAME_URL).enqueue(this);
+                retrofitInterface.getFromWeb(Global.customerDetails_BaseURL+CommonStrings.BANK_NAME_URL).enqueue(this);
             } else {
                 CommonMethods.showToast(this, "Please check your Internet Connection");
             }

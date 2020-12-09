@@ -23,13 +23,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
+import utility.Global;
 
 import static retrofit_config.RetroBase.retrofitInterface;
 
 public class GenderActivity extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
 
     private static final String TAG =GenderActivity.class.getSimpleName() ;
-    private String strUserDOB = "";
+    private String strUserDOB = "",strGender="";
     TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvGenderVal;
     private Button btnNext;
     ImageView iv_personal_details_backBtn;
@@ -45,13 +46,19 @@ public class GenderActivity extends AppCompatActivity implements View.OnClickLis
             } else {
                 strUserDOB = "";
             }
-            initView();
         }catch(Exception exception)
         {
             exception.printStackTrace();
         }
-        retrofitInterface.getFromWeb(CommonStrings.GENDER_URL).enqueue(this);
-
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.customPersonalDetails.getGender()!=null && !CommonStrings.customPersonalDetails.getGender().isEmpty())
+            {
+                strGender= CommonStrings.customPersonalDetails.getGender();
+            }
+        }
+        retrofitInterface.getFromWeb(Global.customerAPI_Master_URL+CommonStrings.GENDER_URL).enqueue(this);
+        initView();
     }
 
     private void initView() {
@@ -64,6 +71,10 @@ public class GenderActivity extends AppCompatActivity implements View.OnClickLis
         btnNext=findViewById(R.id.btnNext);
         iv_personal_details_backBtn=findViewById(R.id.iv_personal_details_backBtn);
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
+        if(!strGender.isEmpty())
+        {
+            tvGenderVal.setText(strGender);
+        }
         btnNext.setOnClickListener(this);
         tvGivenValEdit.setOnClickListener(this);
         tvGenderVal.setOnClickListener(this);
@@ -108,7 +119,7 @@ public class GenderActivity extends AppCompatActivity implements View.OnClickLis
             }
             else
             {
-                retrofitInterface.getFromWeb(CommonStrings.GENDER_URL).enqueue(this);
+                retrofitInterface.getFromWeb(Global.customerAPI_Master_URL+CommonStrings.GENDER_URL).enqueue(this);
             }
         }
         else if(v.getId()==R.id.tvGivenValEdit)

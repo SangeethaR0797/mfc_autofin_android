@@ -24,7 +24,7 @@ public class LastYearProfitActivity extends AppCompatActivity implements View.On
     private EditText etLastYearProfitVal;
     private View belowETYearsOE;
     private Button btnNext;
-    private String strPreviousLbl="",strPreviousVal="", strLastYearSales = "";
+    private String strPreviousLbl="",strPreviousVal="", strLastYearSales = "",strLastYearProfit="";
     private Intent intent;
 
     @Override
@@ -37,7 +37,13 @@ public class LastYearProfitActivity extends AppCompatActivity implements View.On
             strPreviousLbl=intent.getStringExtra(CommonStrings.PREVIOUS_VALUE_LBL);
             strPreviousVal=intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
         }catch (Exception exception){exception.printStackTrace();}
-
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.cusEmpDetails.getLastYearProfit()!=0)
+            {
+                strLastYearProfit=CommonMethods.removeDecimal(CommonStrings.cusEmpDetails.getLastYearProfit());
+            }
+        }
         initView();
     }
 
@@ -56,6 +62,10 @@ public class LastYearProfitActivity extends AppCompatActivity implements View.On
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strPreviousVal);
+        if(!strLastYearProfit.isEmpty())
+        {
+            etLastYearProfitVal.setText(strLastYearProfit);
+        }
         tvGivenValEdit.setOnClickListener(this);
         btnNext.setOnClickListener(this);
 

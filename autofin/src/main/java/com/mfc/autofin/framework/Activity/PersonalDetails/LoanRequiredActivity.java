@@ -37,6 +37,16 @@ public class LoanRequiredActivity extends AppCompatActivity implements View.OnCl
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.customLoanDetails.getRequiredLoanAmount()!=0)
+            {
+                double loanReq = CommonStrings.customLoanDetails.getRequiredLoanAmount();
+                String result =CommonMethods.getFormattedDouble(loanReq);
+                strLoanAmount=result.replaceAll("[-+.^:,]","");
+            }
+        }
+
         initView();
     }
 
@@ -53,6 +63,10 @@ public class LoanRequiredActivity extends AppCompatActivity implements View.OnCl
         btnNext = findViewById(R.id.btnNext);
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strPreviousVal);
+        if (!strLoanAmount.isEmpty())
+        {
+            etLoanRequiredAmount.setText(strLoanAmount);
+        }
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         tvGivenValEdit.setOnClickListener(this);
         etLoanRequiredAmount.setOnClickListener(this);

@@ -34,7 +34,15 @@ public class MonthlyIncome extends AppCompatActivity implements View.OnClickList
         } else {
             strEducation = "";
         }
-
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.customPersonalDetails.getSalaryPerMonth()!=0)
+            {
+                double monthlyIncome = CommonStrings.customPersonalDetails.getSalaryPerMonth();
+                String result =CommonMethods.getFormattedDouble(monthlyIncome);
+                strMonthlyIncome=result.replaceAll("[-+.^:,]","");
+            }
+        }
         initView();
     }
 
@@ -52,6 +60,10 @@ public class MonthlyIncome extends AppCompatActivity implements View.OnClickList
         tvErrorMessage = findViewById(R.id.tvErrorMessage);
         tvGivenLbl.setText(getResources().getString(R.string.lbl_education));
         tvGivenPreviousVal.setText(strEducation);
+        if(!strMonthlyIncome.isEmpty())
+        {
+            etMonthlyIncomeAmount.setText(strMonthlyIncome);
+        }
         tvGivenValEdit.setOnClickListener(this);
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         btnNext.setOnClickListener(this);

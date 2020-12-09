@@ -29,7 +29,7 @@ public class CityMonthAndYearActivity extends AppCompatActivity implements View.
     TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvMovedToCity, tvWhenMovedToCityLbl;
     ImageView iv_residential_details_backBtn;
     LinearLayout llMonthAndYear;
-    String strCity = "", strYear = "";
+    String strCity = "", strYear = "",strMovedToCCity;
     DatePicker datePicker;
 
 
@@ -39,6 +39,14 @@ public class CityMonthAndYearActivity extends AppCompatActivity implements View.
         setContentView(R.layout.activity_moved_to_city_m_y);
         if (CommonStrings.customResDetails.getCustomerCity() != null)
             strCity = CommonStrings.customResDetails.getCustomerCity();
+
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.customResDetails.getMoveInCityYear()!=null && !CommonStrings.customResDetails.getMoveInCityYear().isEmpty())
+            {
+                strMovedToCCity= String.valueOf(CommonStrings.customResDetails.getMoveInCityYear()).substring(0, 10);
+            }
+        }
         initView();
     }
 
@@ -55,6 +63,10 @@ public class CityMonthAndYearActivity extends AppCompatActivity implements View.
         iv_residential_details_backBtn.setVisibility(View.INVISIBLE);
         tvGivenValEdit.setOnClickListener(this);
         tvWhenMovedToCityLbl.setOnClickListener(this);
+        if(!strMovedToCCity.isEmpty())
+        {
+            tvMovedToCity.setText(strMovedToCCity);
+        }
         tvMovedToCity.setOnClickListener(this);
     }
 

@@ -51,6 +51,12 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_insurance);
 
+
+        if (CommonStrings.stockResData != null) {
+            if (CommonStrings.stockResData.getInsuranceValidity() != null) {
+                strInsuranceValidity = CommonStrings.stockResData.getInsurance();
+            }
+        }
         if (CommonStrings.customVehDetails != null) {
             if (CommonStrings.customVehDetails.getInsuranceType() != null) {
                 strInsuranceType = CommonStrings.customVehDetails.getInsuranceType();
@@ -59,14 +65,13 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
             strInsuranceType = "";
         }
 
-        if (CommonStrings.stockResData != null) {
-            if (CommonStrings.stockResData.getInsuranceValidity() != null) {
-                strInsuranceValidity = CommonStrings.stockResData.getInsurance();
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if (!CommonStrings.customVehDetails.getInsuranceValidity().isEmpty())
+            {
+                strInsuranceValidity=CommonStrings.customVehDetails.getInsuranceValidity();
             }
-        } else {
-            strInsuranceValidity = "dd / mm / yyyy";
         }
-
         initView();
     }
 
@@ -85,8 +90,10 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
         iv_vehDetails_backBtn.setVisibility(View.INVISIBLE);
         tvGivenInsuranceAmountEdit.setOnClickListener(this);
         tvInsuranceValidityLbl.setOnClickListener(this);
-        tvInsuranceValidityDate.setText(strInsuranceValidity);
-
+        if(!strInsuranceValidity.isEmpty())
+        {
+            tvInsuranceValidityDate.setText(strInsuranceValidity);
+        }
     }
 
     @Override

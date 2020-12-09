@@ -29,7 +29,7 @@ public class CurrentResidenceMonthAndYearActivity extends AppCompatActivity impl
     TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvMovedToCRes, tvWhenMovedToCurrentCityLbl;
     LinearLayout llMonthAndYearMovedToCRes;
     ImageView iv_residential_details_backBtn;
-    String strMYofCCity = "", strYOfCCity = "";
+    String strMYofCCity = "", strYOfCCity = "",strMovedToCResidence="";
     int crYear = 0000;
 
     @Override
@@ -41,6 +41,14 @@ public class CurrentResidenceMonthAndYearActivity extends AppCompatActivity impl
             strYOfCCity = getMYear(strMYofCCity);
         } else {
             strMYofCCity = "";
+        }
+
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.customResDetails.getMoveInResidenceYear()!=null && !CommonStrings.customResDetails.getMoveInResidenceYear().isEmpty())
+            {
+                strMovedToCResidence= String.valueOf(CommonStrings.customResDetails.getMoveInResidenceYear()).substring(0, 10);
+            }
         }
         initView();
     }
@@ -62,6 +70,10 @@ public class CurrentResidenceMonthAndYearActivity extends AppCompatActivity impl
         iv_residential_details_backBtn = findViewById(R.id.iv_residential_details_backBtn);
         tvGivenPreviousVal.setText(strMYofCCity);
         iv_residential_details_backBtn.setVisibility(View.INVISIBLE);
+        if (!strMovedToCResidence.isEmpty())
+        {
+            tvWhenMovedToCurrentCityLbl.setText(strMovedToCResidence);
+        }
         tvGivenValEdit.setOnClickListener(this);
         tvWhenMovedToCurrentCityLbl.setOnClickListener(this);
 

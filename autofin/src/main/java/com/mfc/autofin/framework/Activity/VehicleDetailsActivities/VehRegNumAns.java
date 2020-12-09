@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +24,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
-import utility.Global_URLs;
+import utility.CommonURLs;
+import utility.Global;
 import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
@@ -37,11 +37,17 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
     TextView tvVehCategoryQn, tvRegNoLbl;
     EditText etVehRegNo;
     Button btnNext;
+    private String cVehRegNo = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_veh_reg_num_ans);
+        if (CommonStrings.IS_OLD_LEAD) {
+            if (CommonStrings.customVehDetails.getVehicleNumber() != null && CommonStrings.customVehDetails.getVehicleNumber() != null) {
+                cVehRegNo = CommonStrings.customVehDetails.getVehicleNumber();
+            }
+        }
         initView();
     }
 
@@ -51,6 +57,9 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
         tvRegNoLbl = findViewById(R.id.tvRegNoLbl);
         etVehRegNo = findViewById(R.id.etVehRegNo);
         btnNext = findViewById(R.id.btnNext);
+        if (!cVehRegNo.isEmpty()) {
+            etVehRegNo.setText(cVehRegNo);
+        }
         iv_vehDetails_backBtn.setOnClickListener(this);
         btnNext.setOnClickListener(this);
 
@@ -61,7 +70,13 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
         if (v.getId() == R.id.iv_vehDetails_back) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
-            validate();
+            if (CommonStrings.IS_OLD_LEAD) {
+                Intent intent = new Intent(VehRegNumAns.this, VehRegistrationYear.class);
+                startActivity(intent);
+            } else {
+                validate();
+            }
+
         }
 
     }
@@ -85,7 +100,7 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
 
         if (CommonMethods.isInternetWorking(this)) {
             SpinnerManager.showSpinner(this);
-            retrofitInterface.getFromWeb(stockDetailsReq, Global_URLs.STOCK_DETAILS_BASE_URL + CommonStrings.STOCK_DETAILS_URL_END).enqueue(this);
+            retrofitInterface.getFromWeb(stockDetailsReq, Global.stock_details_base_url + CommonStrings.STOCK_DETAILS_URL_END).enqueue(this);
         } else {
             Toast.makeText(this, getString(R.string.please_check_internet_connection), Toast.LENGTH_LONG).show();
         }

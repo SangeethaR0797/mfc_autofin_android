@@ -27,6 +27,7 @@ import utility.CommonStrings;
 import utility.CustomFonts;
 import utility.CustomOrgDialog;
 import utility.CustomSearchDialog;
+import utility.Global;
 import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
@@ -55,6 +56,15 @@ public class CurrentOrganizationActivity extends AppCompatActivity implements Vi
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.cusEmpDetails.getCompanyName()!=null && !CommonStrings.cusEmpDetails.getCompanyName().isEmpty())
+            {
+                strOrgName=CommonStrings.cusEmpDetails.getCompanyName();
+            }
+        }
+
         initView();
     }
 
@@ -77,6 +87,10 @@ public class CurrentOrganizationActivity extends AppCompatActivity implements Vi
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strPreviousVal);
         btnNext.setOnClickListener(this);
+        if(!strOrgName.isEmpty())
+        {
+            etOrganizationName.setText(strOrgName);
+        }
         etOrganizationName.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
             }
@@ -90,12 +104,12 @@ public class CurrentOrganizationActivity extends AppCompatActivity implements Vi
                     if (temp.equalsIgnoreCase("mah")) {
                         strOnET=temp;
                         SpinnerManager.showSpinner(CurrentOrganizationActivity.this);
-                        retrofitInterface.getFromWeb(CommonStrings.MAHINDRA_FILTER_URL).enqueue(CurrentOrganizationActivity.this);
+                        retrofitInterface.getFromWeb(Global.customerAPI_Master_URL+CommonStrings.MAHINDRA_FILTER_URL).enqueue(CurrentOrganizationActivity.this);
 
                     } else {
                         strOnET=temp;
                         SpinnerManager.showSpinner(CurrentOrganizationActivity.this);
-                        retrofitInterface.getFromWeb(CommonStrings.ORG_NAME_LIST_URL).enqueue(CurrentOrganizationActivity.this);
+                        retrofitInterface.getFromWeb(Global.customerAPI_Master_URL+CommonStrings.ORG_NAME_LIST_URL).enqueue(CurrentOrganizationActivity.this);
                     }
                 }
             }
@@ -126,7 +140,7 @@ public class CurrentOrganizationActivity extends AppCompatActivity implements Vi
             if (etOrganizationName.getText().toString().length() > 3) {
                 strOnET=etOrganizationName.getText().toString();
                 SpinnerManager.showSpinner(CurrentOrganizationActivity.this);
-                retrofitInterface.getFromWeb(CommonStrings.ORG_NAME_LIST_URL).enqueue(CurrentOrganizationActivity.this);
+                retrofitInterface.getFromWeb(Global.customerAPI_Master_URL+CommonStrings.ORG_NAME_LIST_URL).enqueue(CurrentOrganizationActivity.this);
             }
 
         }

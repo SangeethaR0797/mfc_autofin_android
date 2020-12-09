@@ -43,6 +43,13 @@ public class PanCardNumberActivity extends AppCompatActivity implements View.OnC
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.customPersonalDetails.getPanNumber()!=null && !CommonStrings.customPersonalDetails.getPanNumber().isEmpty())
+            {
+                strPanNumber=CommonStrings.customPersonalDetails.getPanNumber();
+            }
+        }
         initView();
     }
 
@@ -60,6 +67,10 @@ public class PanCardNumberActivity extends AppCompatActivity implements View.OnC
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strPreviousVal);
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
+        if(!strPanNumber.isEmpty())
+        {
+            etPanCardNumber.setText(strPanNumber);
+        }
         tvGivenValEdit.setOnClickListener(this);
         etPanCardNumber.setOnClickListener(this);
         btnNext.setOnClickListener(this);

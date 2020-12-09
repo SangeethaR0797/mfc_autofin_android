@@ -21,7 +21,7 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
     private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvNumOfExistingLoanLbl;
     private RadioButton rbLoan01, rbLoan02, rbLoan03, rbLoan04, rbLoan05, rbLoan06, rbNoPendingLoan;
     private Intent intent;
-    private String strPreviousLbl, strPreviousVal;
+    private String strPreviousLbl="", strPreviousVal="",strExistingLoan="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +34,14 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.customLoanDetails.getNoOfExistingLoans()!=null && !CommonStrings.customLoanDetails.getNoOfExistingLoans().isEmpty())
+            {
+                strExistingLoan=CommonMethods.removeDecimal(Double.parseDouble(CommonStrings.customLoanDetails.getNoOfExistingLoans()));
+            }
+        }
+
         initView();
     }
 
@@ -54,8 +62,80 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strPreviousVal);
         tvGivenValEdit.setOnClickListener(this);
-        rbLoan01.setOnCheckedChangeListener(this);
+        if(strExistingLoan.equalsIgnoreCase("0"))
+        {
+            rbNoPendingLoan.setChecked(true);
+            rbLoan01.setChecked(false);
+            rbLoan02.setChecked(false);
+            rbLoan03.setChecked(false);
+            rbLoan04.setChecked(false);
+            rbLoan05.setChecked(false);
+            rbLoan06.setChecked(false);
+        }
+        else if(strExistingLoan.equalsIgnoreCase("1") || strExistingLoan.equalsIgnoreCase("01"))
+        {
+
+            rbNoPendingLoan.setChecked(false);
+            rbLoan01.setChecked(true);
+            rbLoan02.setChecked(false);
+            rbLoan03.setChecked(false);
+            rbLoan04.setChecked(false);
+            rbLoan05.setChecked(false);
+            rbLoan06.setChecked(false);
+        }
+        else if(strExistingLoan.equalsIgnoreCase("2")|| strExistingLoan.equalsIgnoreCase("02"))
+        {
+            rbLoan02.setChecked(true);
+            rbNoPendingLoan.setChecked(false);
+            rbLoan01.setChecked(false);
+            rbLoan03.setChecked(false);
+            rbLoan04.setChecked(false);
+            rbLoan05.setChecked(false);
+            rbLoan06.setChecked(false);
+        }
+        else if(strExistingLoan.equalsIgnoreCase("3")|| strExistingLoan.equalsIgnoreCase("03"))
+        {
+            rbLoan03.setChecked(true);
+            rbLoan02.setChecked(false);
+            rbNoPendingLoan.setChecked(false);
+            rbLoan01.setChecked(false);
+            rbLoan04.setChecked(false);
+            rbLoan05.setChecked(false);
+            rbLoan06.setChecked(false);
+        }
+        else if(strExistingLoan.equalsIgnoreCase("4")|| strExistingLoan.equalsIgnoreCase("04"))
+        {
+            rbLoan04.setChecked(true);
+            rbLoan02.setChecked(false);
+            rbNoPendingLoan.setChecked(false);
+            rbLoan01.setChecked(false);
+            rbLoan03.setChecked(false);
+            rbLoan05.setChecked(false);
+            rbLoan06.setChecked(false);
+        }
+        else if(strExistingLoan.equalsIgnoreCase("5")|| strExistingLoan.equalsIgnoreCase("05"))
+        {
+            rbLoan02.setChecked(false);
+            rbNoPendingLoan.setChecked(false);
+            rbLoan01.setChecked(false);
+            rbLoan03.setChecked(false);
+            rbLoan04.setChecked(false);
+            rbLoan05.setChecked(true);
+            rbLoan06.setChecked(false);
+        }
+        else if(strExistingLoan.equalsIgnoreCase("6")|| strExistingLoan.equalsIgnoreCase("06"))
+        {
+
+            rbLoan02.setChecked(false);
+            rbNoPendingLoan.setChecked(false);
+            rbLoan01.setChecked(false);
+            rbLoan03.setChecked(false);
+            rbLoan04.setChecked(false);
+            rbLoan05.setChecked(false);
+            rbLoan06.setChecked(true);
+        }
         rbLoan02.setOnCheckedChangeListener(this);
+        rbLoan01.setOnCheckedChangeListener(this);
         rbLoan03.setOnCheckedChangeListener(this);
         rbLoan04.setOnCheckedChangeListener(this);
         rbLoan05.setOnCheckedChangeListener(this);

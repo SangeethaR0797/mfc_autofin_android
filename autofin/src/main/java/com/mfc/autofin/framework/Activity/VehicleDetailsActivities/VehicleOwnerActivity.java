@@ -24,13 +24,21 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
     TextView tvGivenVehVariantVal, tvGivenVehVariantEdit;
     RadioButton radioBtn01, radioBtn02, radioBtn03, radioBtn04, radioBtn05;
     ImageView iv_vehDetails_backBtn;
-    String strVariantVal = "";
+    String strVariantVal = "",strOwnership="";
+    private double noOfOwner=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_owner);
         strVariantVal = CommonStrings.customVehDetails.getVariant();
+        if (CommonStrings.IS_OLD_LEAD) {
+            if (CommonStrings.customVehDetails.getOwnership() != 0) {
+                noOfOwner = CommonStrings.customVehDetails.getOwnership();
+                strOwnership=CommonMethods.getFormattedAmount(noOfOwner);
+            }
+        }
+
         initView();
 
     }
@@ -47,6 +55,46 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
         tvGivenVehVariantVal.setText(strVariantVal);
         tvGivenVehVariantEdit.setOnClickListener(this);
         iv_vehDetails_backBtn.setVisibility(View.INVISIBLE);
+        if(noOfOwner==1)
+        {
+            radioBtn01.setChecked(true);
+            radioBtn02.setChecked(false);
+            radioBtn03.setChecked(false);
+            radioBtn04.setChecked(false);
+            radioBtn05.setChecked(false);
+        }
+        else if(noOfOwner==2)
+        {
+            radioBtn02.setChecked(true);
+            radioBtn01.setChecked(false);
+            radioBtn03.setChecked(false);
+            radioBtn04.setChecked(false);
+            radioBtn05.setChecked(false);
+        }
+        else if(noOfOwner==3)
+        {
+            radioBtn03.setChecked(true);
+            radioBtn02.setChecked(false);
+            radioBtn01.setChecked(false);
+            radioBtn04.setChecked(false);
+            radioBtn05.setChecked(false);
+        }
+        else if(noOfOwner==4)
+        {
+            radioBtn04.setChecked(true);
+            radioBtn03.setChecked(false);
+            radioBtn02.setChecked(false);
+            radioBtn01.setChecked(false);
+            radioBtn05.setChecked(false);
+        }
+        else if(noOfOwner==5)
+        {
+            radioBtn05.setChecked(true);
+            radioBtn03.setChecked(false);
+            radioBtn02.setChecked(false);
+            radioBtn01.setChecked(false);
+            radioBtn04.setChecked(false);
+        }
         radioBtn01.setOnCheckedChangeListener(this);
         radioBtn02.setOnCheckedChangeListener(this);
         radioBtn03.setOnCheckedChangeListener(this);

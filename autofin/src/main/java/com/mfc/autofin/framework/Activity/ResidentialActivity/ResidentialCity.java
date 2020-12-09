@@ -22,6 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
+import utility.Global;
 import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
@@ -33,7 +34,7 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
     EditText etResPinCode, etAddressLine1, etAddressLine2, etLandmark;
     Button btnPinCodeCheck, btnNext;
     ImageView iv_residential_details_backBtn;
-    String basicDetailsVal = "", strPinCode = "", strCity;
+    String basicDetailsVal = "", strPinCode = "", strCity="",strState="",strAdd1="",strAdd2="",strLandMark="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,33 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_residential_city2);
         if (CommonStrings.customBasicDetails.getOtp() != "") {
             basicDetailsVal = CommonStrings.customBasicDetails.getSalutation()+" "+CommonStrings.customBasicDetails.getFullName() + " | " + CommonStrings.customBasicDetails.getEmail() + " | " + CommonStrings.customBasicDetails.getCustomerMobile();
+        }
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.customResDetails.getPincode()!=null && !CommonStrings.customResDetails.getPincode().isEmpty())
+            {
+                strPinCode=CommonStrings.customResDetails.getPincode();
+            }
+            if(CommonStrings.customResDetails.getCustomerCity()!=null && !CommonStrings.customResDetails.getCustomerCity().isEmpty())
+            {
+                strCity=CommonStrings.customResDetails.getCustomerCity();
+            }
+            if(CommonStrings.customResDetails.getCustomerState()!=null && !CommonStrings.customResDetails.getCustomerState().isEmpty())
+            {
+                strState=CommonStrings.customResDetails.getCustomerState();
+            }
+            if(CommonStrings.customResDetails.getAddressLine1()!=null && !CommonStrings.customResDetails.getAddressLine1().isEmpty())
+            {
+                strAdd1=CommonStrings.customResDetails.getAddressLine1();
+            }
+            if(CommonStrings.customResDetails.getAddressLine2()!=null && !CommonStrings.customResDetails.getAddressLine2().isEmpty())
+            {
+                strAdd2=CommonStrings.customResDetails.getAddressLine2();
+            }
+            if(CommonStrings.customResDetails.getAddressLine3()!=null && !CommonStrings.customResDetails.getAddressLine3().isEmpty())
+            {
+                strLandMark=CommonStrings.customResDetails.getAddressLine3();
+            }
         }
         initViews();
     }
@@ -64,6 +92,30 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
         btnNext = findViewById(R.id.btnNext);
         tvGivenLbl.setText(getString(R.string.title_basic_details));
         tvGivenPreviousVal.setText(basicDetailsVal);
+        if(!strPinCode.isEmpty())
+        {
+            etResPinCode.setText(strPinCode);
+        }
+        if(!strCity.isEmpty())
+        {
+            tvCityName.setText(strCity);
+        }
+        if(!strState.isEmpty())
+        {
+            tvStateName.setText(strState);
+        }
+        if(!strAdd1.isEmpty())
+        {
+            etAddressLine1.setText(strAdd1);
+        }
+        if(!strAdd2.isEmpty())
+        {
+            etAddressLine2.setText(strAdd2);
+        }
+        if(!strLandMark.isEmpty())
+        {
+            etLandmark.setText(strLandMark);
+        }
         tvGivenValEdit.setOnClickListener(this);
         iv_residential_details_backBtn.setOnClickListener(this);
         btnPinCodeCheck.setOnClickListener(this);
@@ -81,7 +133,7 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
             strPinCode = etResPinCode.getText().toString();
             if (strPinCode != "") {
                 SpinnerManager.showSpinner(this);
-                retrofitInterface.getFromWeb(RES_CITY_URL + etResPinCode.getText().toString()).enqueue(this);
+                retrofitInterface.getFromWeb(Global.stock_details_base_url+RES_CITY_URL + etResPinCode.getText().toString()).enqueue(this);
             } else if (strPinCode != "") {
                 Toast.makeText(this, getResources().getString(R.string.please_enter_pincode), Toast.LENGTH_SHORT).show();
             } else if (strPinCode.length() != 6) {

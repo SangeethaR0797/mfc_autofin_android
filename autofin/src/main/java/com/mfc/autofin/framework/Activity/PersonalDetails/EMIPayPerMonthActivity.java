@@ -37,6 +37,16 @@ public class EMIPayPerMonthActivity extends AppCompatActivity implements View.On
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.customPersonalDetails.getTotalEMIPaid()!=0)
+            {
+                double emi = CommonStrings.customPersonalDetails.getTotalEMIPaid();
+                String result =CommonMethods.getFormattedDouble(emi);
+                strMonthlyEMI=result.replaceAll("[-+.^:,]","");
+            }
+        }
+
         initView();
     }
 
@@ -49,6 +59,10 @@ public class EMIPayPerMonthActivity extends AppCompatActivity implements View.On
         tvMonthlyEMI=findViewById(R.id.tvMonthlyEMI);
         tvErrorMessage=findViewById(R.id.tvErrorMessage);
         etMonthlyEMIAmount=findViewById(R.id.etMonthlyEMIAmount);
+        if(!strMonthlyEMI.isEmpty())
+        {
+            etMonthlyEMIAmount.setText(strMonthlyEMI);
+        }
         belowETViewEMI=findViewById(R.id.belowETViewEMI);
         iv_personal_details_backBtn=findViewById(R.id.iv_personal_details_backBtn);
         btnNext=findViewById(R.id.btnNext);

@@ -35,6 +35,7 @@ import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
 import utility.CustomSearchDialog;
+import utility.Global;
 import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
@@ -61,6 +62,14 @@ public class IndustryTypeActivity extends AppCompatActivity implements View.OnCl
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.cusEmpDetails.getIndustryType()!=null && !CommonStrings.cusEmpDetails.getIndustryType().isEmpty())
+            {
+                strIndustryType=CommonStrings.cusEmpDetails.getIndustryType();
+            }
+        }
         initView();
     }
 
@@ -77,6 +86,10 @@ public class IndustryTypeActivity extends AppCompatActivity implements View.OnCl
         tvGivenPreviousVal.setText(strPreviousVal);
         llIndustryType.setOnClickListener(this);
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
+        if(!strIndustryType.isEmpty())
+        {
+            tvSelectedIndustryType.setText(strIndustryType);
+        }
         tvSelectedIndustryType.setOnClickListener(this);
         tvGivenValEdit.setOnClickListener(this);
         btnNext.setOnClickListener(this);
@@ -89,7 +102,7 @@ public class IndustryTypeActivity extends AppCompatActivity implements View.OnCl
         } else*/
         if (v.getId() == R.id.llIndustryType) {
             SpinnerManager.showSpinner(IndustryTypeActivity.this);
-            retrofitInterface.getFromWeb(CommonStrings.INDUSTRY_TYPE_URL).enqueue(this);
+            retrofitInterface.getFromWeb(Global.customerAPI_Master_URL+CommonStrings.INDUSTRY_TYPE_URL).enqueue(this);
         } else if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {

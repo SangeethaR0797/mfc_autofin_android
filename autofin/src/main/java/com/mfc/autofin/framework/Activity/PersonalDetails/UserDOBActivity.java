@@ -36,7 +36,7 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
     DatePickerDialog dobDatePicker;
     DatePicker datePicker;
     CalendarView cvUserDOB;
-    String strResidenceType = "";
+    String strResidenceType = "",strDOB="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,14 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_user_d_o_b);
         if (!CommonStrings.customResDetails.getResidenceType().isEmpty()) {
             strResidenceType = CommonStrings.customResDetails.getResidenceType();
+        }
+
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.customPersonalDetails.getBirthDate()!=null && !CommonStrings.customPersonalDetails.getBirthDate().isEmpty())
+            {
+                strDOB= CommonStrings.customPersonalDetails.getBirthDate().substring(0, 10);
+            }
         }
         initView();
     }
@@ -59,6 +67,10 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
         llDOBCalendarView = findViewById(R.id.llDOBCalendarView);
         tvDOB = findViewById(R.id.tvDOB);
         iv_personal_details_backBtn = findViewById(R.id.iv_personal_details_backBtn);
+        if(!strDOB.isEmpty())
+        {
+            tvDOB.setText(strDOB);
+        }
         iv_personal_details_backBtn.setOnClickListener(this);
         tvDOBLbl.setOnClickListener(this);
         tvGivenValEdit.setOnClickListener(this);

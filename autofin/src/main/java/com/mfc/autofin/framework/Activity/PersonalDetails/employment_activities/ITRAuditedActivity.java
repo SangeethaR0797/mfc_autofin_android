@@ -31,6 +31,17 @@ public class ITRAuditedActivity extends AppCompatActivity implements View.OnClic
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.cusEmpDetails.getIsLastestItraudited())
+            {
+                strIsITRAudited="Yes";
+            }
+            else
+            {
+                strIsITRAudited="No";
+            }
+        }
         initView();
     }
 
@@ -47,6 +58,19 @@ public class ITRAuditedActivity extends AppCompatActivity implements View.OnClic
         tvGivenPreviousVal.setText(strPreviousVal);
         iv_personal_details_backBtn.setOnClickListener(this);
         tvGivenValEdit.setOnClickListener(this);
+        if(!strIsITRAudited.isEmpty())
+        {
+            if(strIsITRAudited.equalsIgnoreCase("Yes"))
+            {
+                CommonMethods.highLightSelectedButton(this,btnItrAuditedYes);
+                CommonMethods.deHighLightButton(this,btnItrAuditedNo);
+            }
+            else
+            {
+                CommonMethods.highLightSelectedButton(this,btnItrAuditedNo);
+                CommonMethods.deHighLightButton(this,btnItrAuditedYes);
+            }
+        }
         btnItrAuditedYes.setOnClickListener(this);
         btnItrAuditedNo.setOnClickListener(this);
 

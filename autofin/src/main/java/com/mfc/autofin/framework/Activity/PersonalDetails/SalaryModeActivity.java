@@ -24,7 +24,7 @@ public class SalaryModeActivity extends AppCompatActivity implements View.OnClic
     private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit,tvSalaryModeLbl;
     private RadioGroup rgSalMode;
     private RadioButton rbCashSalary, rbChequeSal, rbTransferAndDeposit;
-    private String strYearOfExperience = "", strPreviousLbl = "", strPreviousVal = "";
+    private String strYearOfExperience = "", strPreviousLbl = "", strPreviousVal = "",salMode="";
     private LinearLayout llBankSelectionInSalMode;
     private Intent intent;
 
@@ -38,6 +38,13 @@ public class SalaryModeActivity extends AppCompatActivity implements View.OnClic
             strPreviousVal = intent.getStringExtra(CommonStrings.PREVIOUS_VALUE);
         } catch (Exception exception) {
             exception.printStackTrace();
+        }
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.cusEmpDetails.getSalaryMode()!=null && !CommonStrings.cusEmpDetails.getSalaryMode().isEmpty())
+            {
+                salMode=CommonStrings.cusEmpDetails.getSalaryMode();
+            }
         }
         initView();
     }
@@ -56,6 +63,27 @@ public class SalaryModeActivity extends AppCompatActivity implements View.OnClic
         tvGivenLbl.setText(strPreviousLbl);
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         tvGivenPreviousVal.setText(strPreviousVal);
+        if(!salMode.isEmpty())
+        {
+            if(salMode.equalsIgnoreCase(rbCashSalary.getText().toString()))
+            {
+                rbCashSalary.setChecked(true);
+                rbChequeSal.setChecked(false);
+                rbTransferAndDeposit.setChecked(false);
+            }
+            else if(salMode.equalsIgnoreCase(rbChequeSal.getText().toString()))
+            {
+                rbCashSalary.setChecked(false);
+                rbChequeSal.setChecked(true);
+                rbTransferAndDeposit.setChecked(false);
+            }
+            else if(salMode.equalsIgnoreCase(rbTransferAndDeposit.getText().toString()))
+            {
+                rbCashSalary.setChecked(false);
+                rbChequeSal.setChecked(false);
+                rbTransferAndDeposit.setChecked(true);
+            }
+        }
         tvGivenValEdit.setOnClickListener(this);
         rbCashSalary.setOnClickListener(this);
         rbChequeSal.setOnClickListener(this);

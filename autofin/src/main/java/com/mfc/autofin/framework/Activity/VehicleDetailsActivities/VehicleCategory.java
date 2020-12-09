@@ -19,6 +19,7 @@ import model.vehicle_details.vehicle_category.Category;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import utility.CommonMethods;
 import utility.CommonStrings;
 
 public class VehicleCategory extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
@@ -30,15 +31,23 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
     private List<Category> vehicleCategoryList;
 
     private String TAG = VehicleCategory.class.getSimpleName();
+    private String vehCategory="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.autofin_vehicle_category);
         Log.i(TAG, "onCreate: ");
-        initView();
-         //retrofitInterface.getFromWeb(VEH_CATEGORY_URL).enqueue(this);
 
+
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            Log.i(TAG, "onCreate: "+CommonStrings.customLoanDetails.getLoanCategory());
+            vehCategory=CommonStrings.customLoanDetails.getLoanCategory();
+            Log.i(TAG, "initView: "+vehCategory);
+        }
+
+        initView();
     }
 
     private void initView() {
@@ -49,10 +58,26 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
         iv_vehDetails_back = findViewById(R.id.iv_vehDetails_back);
         iv_vehDetails_back.setOnClickListener(this);
         rbNewCar = findViewById(R.id.rbNewCar);
+        Log.i(TAG, "initView: "+vehCategory);
+
+        if(!vehCategory.isEmpty())
+        {
+            if(vehCategory.equalsIgnoreCase(rbNewCar.getText().toString()))
+            {
+                Log.i(TAG, "initView: 2"+vehCategory);
+                rbNewCar.setChecked(true);
+
+            }
+            else if(vehCategory.equalsIgnoreCase(rbOldCar.getText().toString()))
+            {
+                Log.i(TAG, "initView: 3"+vehCategory);
+                rbOldCar.setChecked(true);
+
+            }
+
+        }
         rbOldCar.setOnClickListener(this);
         rbNewCar.setOnClickListener(this);
-
-
     }
 
 

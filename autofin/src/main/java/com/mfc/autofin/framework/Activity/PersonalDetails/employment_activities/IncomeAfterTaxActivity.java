@@ -40,6 +40,14 @@ public class IncomeAfterTaxActivity extends AppCompatActivity implements View.On
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.cusEmpDetails.getIncomeAfterTax()!=0)
+            {
+                strIncomeAfterTax=CommonMethods.removeDecimal(CommonStrings.cusEmpDetails.getIncomeAfterTax());
+            }
+        }
         initView();
     }
 
@@ -57,6 +65,10 @@ public class IncomeAfterTaxActivity extends AppCompatActivity implements View.On
         tvGivenPreviousVal.setText(strPreviousVal);
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         tvGivenValEdit.setOnClickListener(this);
+        if(!strIncomeAfterTax.isEmpty())
+        {
+            etIncomeAfterTax.setText(strIncomeAfterTax);
+        }
         btnNext.setOnClickListener(this);
     }
 

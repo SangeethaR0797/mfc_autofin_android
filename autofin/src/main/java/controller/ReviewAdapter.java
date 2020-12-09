@@ -29,19 +29,17 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     private static final String TAG = ReviewAdapter.class.getSimpleName();
     private Activity activity;
     private List<ReviewData> dataList;
-    private String strKODetails="";
+    private String strKODetails = "";
 
-    public ReviewAdapter(Activity activity, List<ReviewData> dataList,String strKODetails)
-    {
-        this.activity=activity;
-        this.dataList=dataList;
-        this.strKODetails=strKODetails;
+    public ReviewAdapter(Activity activity, List<ReviewData> dataList, String strKODetails) {
+        this.activity = activity;
+        this.dataList = dataList;
+        this.strKODetails = strKODetails;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
-    {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View listItem = layoutInflater.inflate(R.layout.review_ladapter_row_item, parent, false);
         Log.i(TAG, "onCreateViewHolder: ");
@@ -49,48 +47,45 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ReviewAdapter.ViewHolder holder, int position)
-    {
-        ReviewData reviewData=dataList.get(position);
-        if(!reviewData.getStrTitleLbl().equals("") && reviewData.getStrTitleLbl()!=null)
-        {
+    public void onBindViewHolder(@NonNull ReviewAdapter.ViewHolder holder, int position) {
+        ReviewData reviewData = dataList.get(position);
+        if (!reviewData.getStrTitleLbl().equals("") && reviewData.getStrTitleLbl() != null) {
             holder.tvReviewTitleLbl.setText(reviewData.getStrTitleLbl());
         }
         /*else if(!reviewData.getStrFieldValue().equals("") && reviewData.getStrFieldValue()!=null)
         {
-           */ holder.tvReviewValue.setText(reviewData.getStrFieldValue());
-            Log.i(TAG, "onBindViewHolder: "+reviewData.getStrFieldValue());
+           */
+        holder.tvReviewValue.setText(reviewData.getStrFieldValue());
+        Log.i(TAG, "onBindViewHolder: " + reviewData.getStrFieldValue());
         //}
         holder.tvReviewGivenValEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(strKODetails.equalsIgnoreCase(activity.getResources().getString(R.string.vehicle_details_title)))
-                {
+                if (strKODetails.equalsIgnoreCase(activity.getResources().getString(R.string.vehicle_details_title))) {
+                    CommonStrings.IS_OLD_LEAD = true;
+                    Log.i(TAG, "onClick: "+CommonStrings.IS_OLD_LEAD);
                     activity.startActivity(new Intent(activity, VehicleCategory.class));
-                    CommonStrings.IS_OLD_LEAD=true;
-                }
-                else if(strKODetails.equalsIgnoreCase(activity.getResources().getString(R.string.title_basic_details)))
-                {
+
+                } else if (strKODetails.equalsIgnoreCase(activity.getResources().getString(R.string.title_basic_details))) {
+                    CommonStrings.IS_OLD_LEAD = true;
                     CommonMethods.showToast(activity, "Sorry! you cannot edit Basic details");
-                    CommonStrings.IS_OLD_LEAD=true;
 
-                }
-                else if(strKODetails.equalsIgnoreCase(activity.getResources().getString(R.string.title_residential_details)))
-                {
+
+                } else if (strKODetails.equalsIgnoreCase(activity.getResources().getString(R.string.title_residential_details))) {
+                    CommonStrings.IS_OLD_LEAD = true;
                     activity.startActivity(new Intent(activity, ResidentialCity.class));
-                    CommonStrings.IS_OLD_LEAD=true;
 
-                }else if(strKODetails.equalsIgnoreCase(activity.getResources().getString(R.string.title_personal_details)))
-                {
+
+                } else if (strKODetails.equalsIgnoreCase(activity.getResources().getString(R.string.title_personal_details))) {
+                    CommonStrings.IS_OLD_LEAD = true;
                     activity.startActivity(new Intent(activity, UserDOBActivity.class));
-                    CommonStrings.IS_OLD_LEAD=true;
+
 
                 }
             }
         });
     }
-
 
 
     @Override
@@ -100,12 +95,13 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvReviewTitleLbl,tvReviewValue,tvReviewGivenValEdit;
+        TextView tvReviewTitleLbl, tvReviewValue, tvReviewGivenValEdit;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvReviewTitleLbl=itemView.findViewById(R.id.tvReviewTitleLbl);
-            tvReviewValue=itemView.findViewById(R.id.tvReviewValue);
-            tvReviewGivenValEdit=itemView.findViewById(R.id.tvReviewGivenValEdit);
+            tvReviewTitleLbl = itemView.findViewById(R.id.tvReviewTitleLbl);
+            tvReviewValue = itemView.findViewById(R.id.tvReviewValue);
+            tvReviewGivenValEdit = itemView.findViewById(R.id.tvReviewGivenValEdit);
         }
     }
 }

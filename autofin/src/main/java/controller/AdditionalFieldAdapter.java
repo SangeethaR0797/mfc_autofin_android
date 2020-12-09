@@ -31,10 +31,12 @@ import java.util.List;
 import kyc.DocumentUploadActivity;
 import model.addtional_fields.AdditionFields;
 import model.addtional_fields.AdditionalFieldData;
+import model.addtional_fields.CustAdditionalData;
 import model.addtional_fields.Field;
 import model.addtional_fields.SubmitAdditionalFieldData;
 import model.addtional_fields.SubmitAdditionalFldRes;
 import model.addtional_fields.SubmitAdditionalFldsReq;
+import model.basic_details.ReferenceDetails;
 import model.residential_models.CityData;
 import model.residential_models.ResidentialPinCodeRes;
 import retrofit2.Call;
@@ -42,6 +44,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
+import utility.Global;
 import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
@@ -65,10 +68,18 @@ public class AdditionalFieldAdapter extends RecyclerView.Adapter<AdditionalField
     List<String> relLabel = new ArrayList<>();
     List<String> relValue = new ArrayList<>();
     List<AdditionalFieldData> spinnerData = new ArrayList<>();
-
+    List<CustAdditionalData> custAdditionalList=new ArrayList<>();
     public AdditionalFieldAdapter(Activity activity, List<AdditionFields> additionalFields, Button btnNext) {
         this.activity = activity;
         this.additionalFields = additionalFields;
+        this.btnNext = btnNext;
+
+    }
+
+    public AdditionalFieldAdapter(Activity activity, List<AdditionFields> additionalFields, List<CustAdditionalData> custAdditionalList , Button btnNext) {
+        this.activity = activity;
+        this.additionalFields = additionalFields;
+        this.custAdditionalList.addAll(custAdditionalList);
         this.btnNext = btnNext;
     }
 
@@ -84,203 +95,294 @@ public class AdditionalFieldAdapter extends RecyclerView.Adapter<AdditionalField
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        String fieldName = "";
-        if (additionalFields.get(position).getBankId() != null && !additionalFields.get(position).getBankId().isEmpty()) {
-            bankName = additionalFields.get(position).getBankId().toString();
-        }
+                    String fieldName = "";
+            if (additionalFields.get(position).getBankId() != null && !additionalFields.get(position).getBankId().isEmpty()) {
+                bankName = additionalFields.get(position).getBankId().toString();
+            }
 
-        if (additionalFields.get(position).getFieldName() != null && !additionalFields.get(position).getFieldName().isEmpty()) {
-            fieldName = additionalFields.get(position).getFieldName();
-            if (additionalFields.get(position).getIsMandatory()) {
-                isCurrentMandatory = additionalFields.get(position).getIsMandatory();
-                setMandatoryLbl(holder.tvTextLbl, fieldName);
+            if (additionalFields.get(position).getFieldName() != null && !additionalFields.get(position).getFieldName().isEmpty()) {
+                fieldName = additionalFields.get(position).getFieldName();
+                if (additionalFields.get(position).getIsMandatory()) {
+                    isCurrentMandatory = additionalFields.get(position).getIsMandatory();
+                    setMandatoryLbl(holder.tvTextLbl, fieldName);
+                } else {
+                    isCurrentMandatory = additionalFields.get(position).getIsMandatory();
+                    holder.tvTextLbl.setText(fieldName);
+                }
+            }
+            if (fieldName.equalsIgnoreCase("Reference First Name")) {
+                isFNameMandatory = isCurrentMandatory;
+                holder.llRFirstName.setVisibility(View.VISIBLE);
+                holder.llRLastName.setVisibility(View.GONE);
+                holder.llRPhoneNo.setVisibility(View.GONE);
+                holder.llRelationShip.setVisibility(View.GONE);
+                holder.llAFPinCode.setVisibility(View.GONE);
+                holder.llState.setVisibility(View.GONE);
+                holder.llCity.setVisibility(View.GONE);
+                holder.llWorkAddress1.setVisibility(View.GONE);
+                holder.llWorkAddress2.setVisibility(View.GONE);
+                holder.llCommon.setVisibility(View.GONE);
+                if(CommonStrings.IS_OLD_LEAD)
+                {
+                    if(additionalFields.get(position).getApiKeyName().equalsIgnoreCase(custAdditionalList.get(position).getKey()))
+                    {
+                        holder.etRFirstName.setText(custAdditionalList.get(position).getValue());
+                    }
+                }
+                else
+                {
+                    this.etRFirstName = holder.etRFirstName;
+                    fNameAPIKey = additionalFields.get(position).getApiKeyName();
+                }
+
+            } else if (fieldName.equalsIgnoreCase("Reference Last Name")) {
+                isLNameMandatory = isCurrentMandatory;
+                holder.llRFirstName.setVisibility(View.GONE);
+                holder.llRLastName.setVisibility(View.VISIBLE);
+                holder.llRPhoneNo.setVisibility(View.GONE);
+                holder.llRelationShip.setVisibility(View.GONE);
+                holder.llAFPinCode.setVisibility(View.GONE);
+                holder.llState.setVisibility(View.GONE);
+                holder.llCity.setVisibility(View.GONE);
+                holder.llWorkAddress1.setVisibility(View.GONE);
+                holder.llWorkAddress2.setVisibility(View.GONE);
+                holder.llCommon.setVisibility(View.GONE);
+                if(CommonStrings.IS_OLD_LEAD)
+                {
+                    if(additionalFields.get(position).getApiKeyName().equalsIgnoreCase(custAdditionalList.get(position).getKey()))
+                    {
+                        holder.etRLastName.setText(custAdditionalList.get(position).getValue());
+                    }
+                    else
+                    {
+                        holder.etRLastName.setText("");
+                    }
+                }
+
+                this.etRLastName = holder.etRLastName;
+                lNameAPIKey = additionalFields.get(position).getApiKeyName();
+
+            } else if (fieldName.equalsIgnoreCase("Reference Mobile")) {
+                isMNUmMandatory = isCurrentMandatory;
+                holder.llRFirstName.setVisibility(View.GONE);
+                holder.llRLastName.setVisibility(View.GONE);
+                holder.llRPhoneNo.setVisibility(View.VISIBLE);
+                holder.llRelationShip.setVisibility(View.GONE);
+                holder.llAFPinCode.setVisibility(View.GONE);
+                holder.llState.setVisibility(View.GONE);
+                holder.llCity.setVisibility(View.GONE);
+                holder.llWorkAddress1.setVisibility(View.GONE);
+                holder.llWorkAddress2.setVisibility(View.GONE);
+                holder.llCommon.setVisibility(View.GONE);
+                if(CommonStrings.IS_OLD_LEAD)
+                {
+                    if(additionalFields.get(position).getApiKeyName().equalsIgnoreCase(custAdditionalList.get(position).getKey()))
+                    {
+                        holder.etRPhoneNo.setText(custAdditionalList.get(position).getValue());
+                    }
+                    else
+                    {
+                        holder.etRPhoneNo.setText("");
+                    }
+                }
+                this.etRPhoneNo = holder.etRPhoneNo;
+                mobNumAPIKey = additionalFields.get(position).getApiKeyName();
+
+            } else if (fieldName.equalsIgnoreCase("Relation")) {
+                isRelMandatory = isCurrentMandatory;
+                holder.llRFirstName.setVisibility(View.GONE);
+                holder.llRLastName.setVisibility(View.GONE);
+                holder.llRPhoneNo.setVisibility(View.GONE);
+                holder.llRelationShip.setVisibility(View.VISIBLE);
+                holder.llAFPinCode.setVisibility(View.GONE);
+                holder.llState.setVisibility(View.GONE);
+                holder.llCity.setVisibility(View.GONE);
+                holder.llWorkAddress1.setVisibility(View.GONE);
+                holder.llWorkAddress2.setVisibility(View.GONE);
+                holder.llCommon.setVisibility(View.GONE);
+                relationshipAPIKey = additionalFields.get(position).getApiKeyName();
+                if (additionalFields.get(position).getData() != null) {
+                    spinnerData.addAll(additionalFields.get(position).getData());
+                    addListData();
+                }
+                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, relLabel);
+                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                holder.addFieldSpinner.setAdapter(dataAdapter);
+                holder.addFieldSpinner.setOnItemSelectedListener(this);
+
+            } else if (fieldName.equalsIgnoreCase("Work Pin Code")) {
+                isPinCodeMandatory = isCurrentMandatory;
+                holder.llRFirstName.setVisibility(View.GONE);
+                holder.llRLastName.setVisibility(View.GONE);
+                holder.llRPhoneNo.setVisibility(View.GONE);
+                holder.llRelationShip.setVisibility(View.GONE);
+                holder.llAFPinCode.setVisibility(View.VISIBLE);
+                holder.llState.setVisibility(View.GONE);
+                holder.llCity.setVisibility(View.GONE);
+                holder.llWorkAddress1.setVisibility(View.GONE);
+                holder.llWorkAddress2.setVisibility(View.GONE);
+                holder.llCommon.setVisibility(View.GONE);
+                if(CommonStrings.IS_OLD_LEAD)
+                {
+                    if(additionalFields.get(position).getApiKeyName().equalsIgnoreCase(custAdditionalList.get(position).getKey()))
+                    {
+                        holder.etAFResPinCode.setText(custAdditionalList.get(position).getValue());
+                    }
+                    else
+                    {
+                        holder.etAFResPinCode.setText("");
+                    }
+                }
+
+                this.etAFResPinCode = holder.etAFResPinCode;
+                pinCodeAPIKey = additionalFields.get(position).getApiKeyName();
+
+            } else if (fieldName.equalsIgnoreCase("State")) {
+                isStateMandatory = isCurrentMandatory;
+                holder.llRFirstName.setVisibility(View.GONE);
+                holder.llRLastName.setVisibility(View.GONE);
+                holder.llRPhoneNo.setVisibility(View.GONE);
+                holder.llRelationShip.setVisibility(View.GONE);
+                holder.llAFPinCode.setVisibility(View.GONE);
+                holder.llState.setVisibility(View.VISIBLE);
+                holder.llCity.setVisibility(View.GONE);
+                holder.llWorkAddress1.setVisibility(View.GONE);
+                holder.llWorkAddress2.setVisibility(View.GONE);
+                tvState = holder.tvAddFState;
+                if(CommonStrings.IS_OLD_LEAD)
+                {
+                    if(additionalFields.get(position).getApiKeyName().equalsIgnoreCase(custAdditionalList.get(position).getKey()))
+                    {
+                        holder.tvAddFState.setText(custAdditionalList.get(position).getValue());
+                    }
+                    else
+                    {
+                        holder.tvAddFState.setText("");
+                    }
+                }
+                holder.llCommon.setVisibility(View.GONE);
+                stateAPIKey = additionalFields.get(position).getApiKeyName();
+
+            } else if (fieldName.equalsIgnoreCase("City")) {
+                isCityMandatory = isCurrentMandatory;
+                holder.llRFirstName.setVisibility(View.GONE);
+                holder.llRLastName.setVisibility(View.GONE);
+                holder.llRPhoneNo.setVisibility(View.GONE);
+                holder.llRelationShip.setVisibility(View.GONE);
+                holder.llAFPinCode.setVisibility(View.GONE);
+                holder.llState.setVisibility(View.GONE);
+                holder.llCity.setVisibility(View.VISIBLE);
+                holder.llWorkAddress1.setVisibility(View.GONE);
+                holder.llWorkAddress2.setVisibility(View.GONE);
+                if(CommonStrings.IS_OLD_LEAD)
+                {
+                    if(additionalFields.get(position).getApiKeyName().equalsIgnoreCase(custAdditionalList.get(position).getKey()))
+                    {
+                        holder.tvAddFCity.setText(custAdditionalList.get(position).getValue());
+                    }
+                    else
+                    {
+                        holder.tvAddFCity.setText("");
+                    }
+                }
+                tvCity = holder.tvAddFCity;
+                holder.llCommon.setVisibility(View.GONE);
+                cityAPIKey = additionalFields.get(position).getApiKeyName();
+
+            } else if (fieldName.equalsIgnoreCase("Work Address Line 1")) {
+                isWorkAdd1Mandatory = isCurrentMandatory;
+                holder.llRFirstName.setVisibility(View.GONE);
+                holder.llRLastName.setVisibility(View.GONE);
+                holder.llRPhoneNo.setVisibility(View.GONE);
+                holder.llRelationShip.setVisibility(View.GONE);
+                holder.llAFPinCode.setVisibility(View.GONE);
+                holder.llState.setVisibility(View.GONE);
+                holder.llCity.setVisibility(View.GONE);
+                holder.llWorkAddress1.setVisibility(View.VISIBLE);
+                holder.llWorkAddress2.setVisibility(View.GONE);
+                holder.llCommon.setVisibility(View.GONE);
+                if(CommonStrings.IS_OLD_LEAD)
+                {
+                    if(additionalFields.get(position).getApiKeyName().equalsIgnoreCase(custAdditionalList.get(position).getKey()))
+                    {
+                        holder.etWorkAddress1.setText(custAdditionalList.get(position).getValue());
+                    }
+                    else
+                    {
+                        holder.etWorkAddress1.setText("");
+                    }
+                }
+                this.etWorkAddress1 = holder.etWorkAddress1;
+                address1APIKey = additionalFields.get(position).getApiKeyName();
+
+            } else if (fieldName.equalsIgnoreCase("Work Address Line 2")) {
+                isWorkAdd2Mandatory = isCurrentMandatory;
+                holder.llRFirstName.setVisibility(View.GONE);
+                holder.llRLastName.setVisibility(View.GONE);
+                holder.llRPhoneNo.setVisibility(View.GONE);
+                holder.llRelationShip.setVisibility(View.GONE);
+                holder.llAFPinCode.setVisibility(View.GONE);
+                holder.llState.setVisibility(View.GONE);
+                holder.llCity.setVisibility(View.GONE);
+                holder.llWorkAddress1.setVisibility(View.GONE);
+                holder.llWorkAddress2.setVisibility(View.VISIBLE);
+                holder.llCommon.setVisibility(View.GONE);
+                if(CommonStrings.IS_OLD_LEAD)
+                {
+                    if(additionalFields.get(position).getApiKeyName().equalsIgnoreCase(custAdditionalList.get(position).getKey()))
+                    {
+                        holder.etWorkAddress2.setText(custAdditionalList.get(position).getValue());
+                    }
+                    else
+                    {
+                        holder.etWorkAddress2.setText("");
+                    }
+                }
+
+                this.etWorkAddress2 = holder.etWorkAddress2;
+                address2APIKey = additionalFields.get(position).getApiKeyName();
+
             } else {
-                isCurrentMandatory = additionalFields.get(position).getIsMandatory();
-                holder.tvTextLbl.setText(fieldName);
+                holder.llRFirstName.setVisibility(View.GONE);
+                holder.llRLastName.setVisibility(View.GONE);
+                holder.llRPhoneNo.setVisibility(View.GONE);
+                holder.llRelationShip.setVisibility(View.GONE);
+                holder.llAFPinCode.setVisibility(View.GONE);
+                holder.llState.setVisibility(View.GONE);
+                holder.llCity.setVisibility(View.GONE);
+                holder.llWorkAddress1.setVisibility(View.GONE);
+                holder.llWorkAddress2.setVisibility(View.GONE);
+                holder.llCommon.setVisibility(View.VISIBLE);
             }
-        }
-        if (fieldName.equalsIgnoreCase("Reference First Name")) {
-            isFNameMandatory = isCurrentMandatory;
-            holder.llRFirstName.setVisibility(View.VISIBLE);
-            holder.llRLastName.setVisibility(View.GONE);
-            holder.llRPhoneNo.setVisibility(View.GONE);
-            holder.llRelationShip.setVisibility(View.GONE);
-            holder.llAFPinCode.setVisibility(View.GONE);
-            holder.llState.setVisibility(View.GONE);
-            holder.llCity.setVisibility(View.GONE);
-            holder.llWorkAddress1.setVisibility(View.GONE);
-            holder.llWorkAddress2.setVisibility(View.GONE);
-            holder.llCommon.setVisibility(View.GONE);
-            this.etRFirstName = holder.etRFirstName;
-            fNameAPIKey = additionalFields.get(position).getApiKeyName();
 
-        } else if (fieldName.equalsIgnoreCase("Reference Last Name")) {
-            isLNameMandatory = isCurrentMandatory;
-            holder.llRFirstName.setVisibility(View.GONE);
-            holder.llRLastName.setVisibility(View.VISIBLE);
-            holder.llRPhoneNo.setVisibility(View.GONE);
-            holder.llRelationShip.setVisibility(View.GONE);
-            holder.llAFPinCode.setVisibility(View.GONE);
-            holder.llState.setVisibility(View.GONE);
-            holder.llCity.setVisibility(View.GONE);
-            holder.llWorkAddress1.setVisibility(View.GONE);
-            holder.llWorkAddress2.setVisibility(View.GONE);
-            holder.llCommon.setVisibility(View.GONE);
-            this.etRLastName = holder.etRLastName;
-            lNameAPIKey = additionalFields.get(position).getApiKeyName();
-
-        } else if (fieldName.equalsIgnoreCase("Reference Mobile")) {
-            isMNUmMandatory = isCurrentMandatory;
-            holder.llRFirstName.setVisibility(View.GONE);
-            holder.llRLastName.setVisibility(View.GONE);
-            holder.llRPhoneNo.setVisibility(View.VISIBLE);
-            holder.llRelationShip.setVisibility(View.GONE);
-            holder.llAFPinCode.setVisibility(View.GONE);
-            holder.llState.setVisibility(View.GONE);
-            holder.llCity.setVisibility(View.GONE);
-            holder.llWorkAddress1.setVisibility(View.GONE);
-            holder.llWorkAddress2.setVisibility(View.GONE);
-            holder.llCommon.setVisibility(View.GONE);
-            this.etRPhoneNo = holder.etRPhoneNo;
-            mobNumAPIKey = additionalFields.get(position).getApiKeyName();
-
-        } else if (fieldName.equalsIgnoreCase("Relation")) {
-            isRelMandatory = isCurrentMandatory;
-            holder.llRFirstName.setVisibility(View.GONE);
-            holder.llRLastName.setVisibility(View.GONE);
-            holder.llRPhoneNo.setVisibility(View.GONE);
-            holder.llRelationShip.setVisibility(View.VISIBLE);
-            holder.llAFPinCode.setVisibility(View.GONE);
-            holder.llState.setVisibility(View.GONE);
-            holder.llCity.setVisibility(View.GONE);
-            holder.llWorkAddress1.setVisibility(View.GONE);
-            holder.llWorkAddress2.setVisibility(View.GONE);
-            holder.llCommon.setVisibility(View.GONE);
-            relationshipAPIKey = additionalFields.get(position).getApiKeyName();
-            if (additionalFields.get(position).getData() != null) {
-                spinnerData.addAll(additionalFields.get(position).getData());
-                addListData();
+            if (holder.llAFPinCode.getVisibility() == View.VISIBLE) {
+                holder.btnAFPinCodeCheck.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String strPinCode = holder.etAFResPinCode.getText().toString();
+                        if (strPinCode != "") {
+                            SpinnerManager.showSpinner(activity);
+                            retrofitInterface.getFromWeb(Global.stock_details_base_url + RES_CITY_URL + holder.etAFResPinCode.getText().toString()).enqueue(AdditionalFieldAdapter.this);
+                        } else if (strPinCode != "") {
+                            Toast.makeText(activity, activity.getResources().getString(R.string.please_enter_pincode), Toast.LENGTH_SHORT).show();
+                        } else if (strPinCode.length() != 6) {
+                            Toast.makeText(activity, activity.getResources().getString(R.string.please_enter_proper_pincode), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
-            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, relLabel);
-            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            holder.addFieldSpinner.setAdapter(dataAdapter);
-            holder.addFieldSpinner.setOnItemSelectedListener(this);
 
-        } else if (fieldName.equalsIgnoreCase("Work Pin Code")) {
-            isPinCodeMandatory = isCurrentMandatory;
-            holder.llRFirstName.setVisibility(View.GONE);
-            holder.llRLastName.setVisibility(View.GONE);
-            holder.llRPhoneNo.setVisibility(View.GONE);
-            holder.llRelationShip.setVisibility(View.GONE);
-            holder.llAFPinCode.setVisibility(View.VISIBLE);
-            holder.llState.setVisibility(View.GONE);
-            holder.llCity.setVisibility(View.GONE);
-            holder.llWorkAddress1.setVisibility(View.GONE);
-            holder.llWorkAddress2.setVisibility(View.GONE);
-            holder.llCommon.setVisibility(View.GONE);
-            this.etAFResPinCode = holder.etAFResPinCode;
-            pinCodeAPIKey = additionalFields.get(position).getApiKeyName();
-
-        } else if (fieldName.equalsIgnoreCase("State")) {
-            isStateMandatory = isCurrentMandatory;
-            holder.llRFirstName.setVisibility(View.GONE);
-            holder.llRLastName.setVisibility(View.GONE);
-            holder.llRPhoneNo.setVisibility(View.GONE);
-            holder.llRelationShip.setVisibility(View.GONE);
-            holder.llAFPinCode.setVisibility(View.GONE);
-            holder.llState.setVisibility(View.VISIBLE);
-            holder.llCity.setVisibility(View.GONE);
-            holder.llWorkAddress1.setVisibility(View.GONE);
-            holder.llWorkAddress2.setVisibility(View.GONE);
-            tvState = holder.tvAddFState;
-            holder.llCommon.setVisibility(View.GONE);
-            stateAPIKey = additionalFields.get(position).getApiKeyName();
-
-        } else if (fieldName.equalsIgnoreCase("City")) {
-            isCityMandatory = isCurrentMandatory;
-            holder.llRFirstName.setVisibility(View.GONE);
-            holder.llRLastName.setVisibility(View.GONE);
-            holder.llRPhoneNo.setVisibility(View.GONE);
-            holder.llRelationShip.setVisibility(View.GONE);
-            holder.llAFPinCode.setVisibility(View.GONE);
-            holder.llState.setVisibility(View.GONE);
-            holder.llCity.setVisibility(View.VISIBLE);
-            holder.llWorkAddress1.setVisibility(View.GONE);
-            holder.llWorkAddress2.setVisibility(View.GONE);
-            tvCity = holder.tvAddFCity;
-            holder.llCommon.setVisibility(View.GONE);
-            cityAPIKey = additionalFields.get(position).getApiKeyName();
-
-        } else if (fieldName.equalsIgnoreCase("Work Address Line 1")) {
-            isWorkAdd1Mandatory = isCurrentMandatory;
-            holder.llRFirstName.setVisibility(View.GONE);
-            holder.llRLastName.setVisibility(View.GONE);
-            holder.llRPhoneNo.setVisibility(View.GONE);
-            holder.llRelationShip.setVisibility(View.GONE);
-            holder.llAFPinCode.setVisibility(View.GONE);
-            holder.llState.setVisibility(View.GONE);
-            holder.llCity.setVisibility(View.GONE);
-            holder.llWorkAddress1.setVisibility(View.VISIBLE);
-            holder.llWorkAddress2.setVisibility(View.GONE);
-            holder.llCommon.setVisibility(View.GONE);
-            this.etWorkAddress1 = holder.etWorkAddress1;
-            address1APIKey = additionalFields.get(position).getApiKeyName();
-
-        } else if (fieldName.equalsIgnoreCase("Work Address Line 2")) {
-            isWorkAdd2Mandatory = isCurrentMandatory;
-            holder.llRFirstName.setVisibility(View.GONE);
-            holder.llRLastName.setVisibility(View.GONE);
-            holder.llRPhoneNo.setVisibility(View.GONE);
-            holder.llRelationShip.setVisibility(View.GONE);
-            holder.llAFPinCode.setVisibility(View.GONE);
-            holder.llState.setVisibility(View.GONE);
-            holder.llCity.setVisibility(View.GONE);
-            holder.llWorkAddress1.setVisibility(View.GONE);
-            holder.llWorkAddress2.setVisibility(View.VISIBLE);
-            holder.llCommon.setVisibility(View.GONE);
-            this.etWorkAddress2 = holder.etWorkAddress2;
-            address2APIKey = additionalFields.get(position).getApiKeyName();
-
-        } else {
-            holder.llRFirstName.setVisibility(View.GONE);
-            holder.llRLastName.setVisibility(View.GONE);
-            holder.llRPhoneNo.setVisibility(View.GONE);
-            holder.llRelationShip.setVisibility(View.GONE);
-            holder.llAFPinCode.setVisibility(View.GONE);
-            holder.llState.setVisibility(View.GONE);
-            holder.llCity.setVisibility(View.GONE);
-            holder.llWorkAddress1.setVisibility(View.GONE);
-            holder.llWorkAddress2.setVisibility(View.GONE);
-            holder.llCommon.setVisibility(View.VISIBLE);
-        }
-
-        if (holder.llAFPinCode.getVisibility() == View.VISIBLE) {
-            holder.btnAFPinCodeCheck.setOnClickListener(new View.OnClickListener() {
+            btnNext.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String strPinCode = holder.etAFResPinCode.getText().toString();
-                    if (strPinCode != "") {
-                        SpinnerManager.showSpinner(activity);
-                        retrofitInterface.getFromWeb(RES_CITY_URL + holder.etAFResPinCode.getText().toString()).enqueue(AdditionalFieldAdapter.this);
-                    } else if (strPinCode != "") {
-                        Toast.makeText(activity, activity.getResources().getString(R.string.please_enter_pincode), Toast.LENGTH_SHORT).show();
-                    } else if (strPinCode.length() != 6) {
-                        Toast.makeText(activity, activity.getResources().getString(R.string.please_enter_proper_pincode), Toast.LENGTH_SHORT).show();
+                    if (validate()) {
+                        retrofitInterface.getFromWeb(getSubmitAddFieldsReq(), Global.customerAPI_BaseURL + CommonStrings.SUBMIT_ADDITIONAL_FIELDS_URL).enqueue(AdditionalFieldAdapter.this);
+                    } else {
+                        CommonMethods.showToast(activity, "Please fill all mandatory fields");
                     }
                 }
             });
-        }
 
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (validate()) {
-                    retrofitInterface.getFromWeb(getSubmitAddFieldsReq(), CommonStrings.SUBMIT_ADDITIONAL_FIELDS_URL).enqueue(AdditionalFieldAdapter.this);
-                } else {
-                    CommonMethods.showToast(activity, "Please fill all mandatory fields");
-                }
-            }
-        });
     }
 
     private void addListData() {
@@ -291,6 +393,10 @@ public class AdditionalFieldAdapter extends RecyclerView.Adapter<AdditionalField
     }
 
     private SubmitAdditionalFldsReq getSubmitAddFieldsReq() {
+
+        CommonStrings.referenceDetails.setReferenceName(fName);
+        CommonStrings.referenceDetails.setRelationship(relationship);
+        CommonStrings.referenceDetails.setRefMobileNumber(mobNum);
         SubmitAdditionalFldsReq request = new SubmitAdditionalFldsReq();
         request.setUserId(CommonMethods.getStringValueFromKey(activity, DEALER_ID_VAL));
         request.setUserType(CommonMethods.getStringValueFromKey(activity, USER_TYPE_VAL));
@@ -379,6 +485,7 @@ public class AdditionalFieldAdapter extends RecyclerView.Adapter<AdditionalField
                         Toast.makeText(activity, submitAdditionalFldRes.getMessage().toString(), Toast.LENGTH_LONG).show();
                     }
                     else {
+                        CommonStrings.referenceDetails=new ReferenceDetails();
                         Toast.makeText(activity, "Please try again", Toast.LENGTH_LONG).show();
                     }
                 }
@@ -398,11 +505,16 @@ public class AdditionalFieldAdapter extends RecyclerView.Adapter<AdditionalField
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String item = parent.getItemAtPosition(position).toString();
-        if(relValue.size()>0)
-        relationship=relValue.get(position);
-        else
-        relationship = item;
-
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+         relationship=CommonStrings.referenceDetails.getRelationship();
+        }
+        else {
+            if (relValue.size() > 0)
+                relationship = relValue.get(position);
+            else
+                relationship = item;
+        }
     }
 
     @Override

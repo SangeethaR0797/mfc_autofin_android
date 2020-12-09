@@ -30,7 +30,7 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
     Button btnValidInsurance, btnValidInsuranceNo, btnNext;
     ImageView iv_vehDetails_backBtn;
     LinearLayout llVehInsuranceAmount;
-    String strPostInspectionVal = "", strInsurance = "";
+    String strPostInspectionVal = "", strInsurance = "",strInsuranceAmount="";
 
 
     @Override
@@ -50,6 +50,21 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
             }
         } else {
             strInsurance = "";
+        }
+        if (CommonStrings.IS_OLD_LEAD) {
+            if (CommonStrings.customVehDetails.getInsurance()) {
+                strInsurance = "YES";
+                {
+                    if(CommonStrings.customVehDetails.getInsuranceAmount()!=0)
+                    {
+                        double insAmount = CommonStrings.customVehDetails.getInsuranceAmount();
+                        String result =CommonMethods.getFormattedDouble(insAmount);
+                        strInsuranceAmount=result.replaceAll("[-+.^:,]","");
+                    }
+                }
+            } else {
+                strInsurance = "NO";
+            }
         }
 
         initView();
@@ -73,6 +88,7 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
             CommonMethods.highLightSelectedButton(VehValidInsuranceActivity.this, btnValidInsurance);
             CommonMethods.deHighLightButton(VehValidInsuranceActivity.this, btnValidInsuranceNo);
             llVehInsuranceAmount.setVisibility(View.VISIBLE);
+            etInsuranceAmount.setText(strInsuranceAmount);
         } else {
             CommonMethods.highLightSelectedButton(VehValidInsuranceActivity.this, btnValidInsuranceNo);
             CommonMethods.deHighLightButton(VehValidInsuranceActivity.this, btnValidInsurance);

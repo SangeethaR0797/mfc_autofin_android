@@ -16,4 +16,5 @@ public static final int PANCARD = 101;
     public static final int SALARY_SLIP =109 ;
     public static final int FORM_16 = 110;
     public static final int ITR =111 ;
+    public static final int ADDITIONAL_DOCS =112 ;
 }

@@ -16,21 +16,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.R;
 
 import java.util.List;
 
 import controller.VehicleDetailsAdapter;
 import model.ibb_models.IBBVehDetailsReq;
-import model.ibb_models.VehRegYearRes;
 import model.ibb_models.VehVariantRes;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
-import utility.Global_URLs;
+import utility.CommonURLs;
+import utility.Global;
 import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
@@ -56,12 +55,18 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
         strYear = CommonStrings.customVehDetails.getRegistrationYear();
         strVehMake = CommonStrings.customVehDetails.getMake();
         strVehModel = CommonStrings.customVehDetails.getModel();
+
         if (CommonStrings.stockResData != null) {
-            if (CommonStrings.stockResData.getVariant() != null) {
-                strVariant = CommonStrings.stockResData.getVariant();
+            if (CommonStrings.stockResData.getIbbVariant() != null) {
+                strVariant = CommonStrings.stockResData.getIbbVariant();
             }
         } else {
             strVariant = "";
+        }
+        if (CommonStrings.IS_OLD_LEAD) {
+            if (CommonStrings.customVehDetails.getVariant() != null && CommonStrings.customVehDetails.getVariant() != null) {
+                strVariant = CommonStrings.customVehDetails.getVariant();
+            }
         }
 
         initView();
@@ -69,7 +74,7 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
         if (CommonMethods.isInternetWorking(VehicleVariantActivity.this)) {
             SpinnerManager.showSpinner(this);
             IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_VARIANT, CommonMethods.getStringValueFromKey(VehicleVariantActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, strYear, "0", strVehMake, strVehModel);
-            retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
+            retrofitInterface.getFromWeb(ibbVehDetailsReq, Global.ibb_base_url + IBB_VEH_DETAILS_END_POINT).enqueue(this);
         } else {
             Toast.makeText(VehicleVariantActivity.this, "Please check your Internet Connection", Toast.LENGTH_LONG).show();
         }
@@ -150,7 +155,7 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
             if (CommonMethods.isInternetWorking(VehicleVariantActivity.this)) {
                 SpinnerManager.showSpinner(this);
                 IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_VARIANT, CommonMethods.getStringValueFromKey(VehicleVariantActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, strYear, "0", strVehMake, strVehModel);
-                retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
+                retrofitInterface.getFromWeb(ibbVehDetailsReq, Global.ibb_base_url + IBB_VEH_DETAILS_END_POINT).enqueue(this);
             } else {
                 Toast.makeText(VehicleVariantActivity.this, "Please check your Internet Connection", Toast.LENGTH_LONG).show();
             }
@@ -193,13 +198,13 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
         try {
             {
                 VehVariantRes variantRes = new Gson().fromJson(strVariantRes, VehVariantRes.class);
-                if (variantRes.getStatus() == 200) {
+                /*if (variantRes.getStatus() == 200) {*/
                     if (variantRes.getVariant() != null) {
                         generateListView(variantRes.getVariant());
                     } else {
                         Log.i(TAG, "onResponse: No Variants found");
                     }
-                }
+                /*}*/
             }
         } catch (Exception exception) {
             exception.printStackTrace();

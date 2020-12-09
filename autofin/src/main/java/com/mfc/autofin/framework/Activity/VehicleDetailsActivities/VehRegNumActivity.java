@@ -23,11 +23,23 @@ public class VehRegNumActivity extends AppCompatActivity implements View.OnClick
     TextView tvUserHaveVehNumQn;
     ImageView iv_vehDetails_backBtn;
     Button btnVehNumYes, btnVehNumNo;
+    String vehRegNum="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_veh_reg_num);
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.customVehDetails.getHaveVehicleNumber())
+            {
+                vehRegNum="Yes";
+            }
+            else
+            {
+                vehRegNum="No";
+            }
+        }
         initView();
     }
 
@@ -36,6 +48,18 @@ public class VehRegNumActivity extends AppCompatActivity implements View.OnClick
         tvUserHaveVehNumQn = findViewById(R.id.tvUserHaveVehNumQn);
         btnVehNumYes = findViewById(R.id.btnVehNumYes);
         btnVehNumNo = findViewById(R.id.btnVehNumNo);
+        if(vehRegNum.equalsIgnoreCase("Yes"))
+        {
+            CommonMethods.highLightSelectedButton(VehRegNumActivity.this, btnVehNumYes);
+            CommonMethods.deHighLightButton(VehRegNumActivity.this, btnVehNumNo);
+
+        }
+        else if(vehRegNum.equalsIgnoreCase("No"))
+        {
+            CommonMethods.highLightSelectedButton(VehRegNumActivity.this,btnVehNumNo);
+            CommonMethods.deHighLightButton(VehRegNumActivity.this,btnVehNumYes);
+
+        }
         iv_vehDetails_backBtn.setOnClickListener(this);
         btnVehNumYes.setOnClickListener(this);
         btnVehNumNo.setOnClickListener(this);

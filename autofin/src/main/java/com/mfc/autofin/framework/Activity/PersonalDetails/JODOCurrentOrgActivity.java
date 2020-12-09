@@ -45,6 +45,15 @@ public class JODOCurrentOrgActivity extends AppCompatActivity implements View.On
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.cusEmpDetails.getCompanyJoiningDate()!=null && !CommonStrings.cusEmpDetails.getCompanyJoiningDate().isEmpty())
+            {
+                strJoiningDate=CommonStrings.cusEmpDetails.getCompanyJoiningDate();
+            }
+        }
+
         initView();
     }
 
@@ -59,6 +68,10 @@ public class JODOCurrentOrgActivity extends AppCompatActivity implements View.On
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strPreviousVal);
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
+        if(!strJoiningDate.isEmpty())
+        {
+            tvCurrentOrgJoiningDate.setText(strJoiningDate);
+        }
         tvGivenValEdit.setOnClickListener(this);
         tvJODOCurrentOrgLbl.setOnClickListener(this);
 

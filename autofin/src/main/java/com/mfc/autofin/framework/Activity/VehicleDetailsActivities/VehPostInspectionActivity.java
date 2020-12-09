@@ -25,7 +25,7 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
     Button btnNext;
     LinearLayout llVehPostInspection;
     ImageView iv_vehDetails_backBtn;
-    String strDoesCarHaveLoan = "";
+    String strDoesCarHaveLoan = "",strInspectionAmount="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,14 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
             strDoesCarHaveLoan = "Yes";
         } else {
             strDoesCarHaveLoan = "No";
+        }
+        if (CommonStrings.IS_OLD_LEAD) {
+            if (CommonStrings.customVehDetails.getValuationPrice()!=0)
+            {
+                double insAmount = CommonStrings.customVehDetails.getValuationPrice();
+                String result =CommonMethods.getFormattedDouble(insAmount);
+                strInspectionAmount=result.replaceAll("[-+.^:,]","");
+            }
         }
         initView();
     }
@@ -51,6 +59,10 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
         iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
         iv_vehDetails_backBtn.setVisibility(View.INVISIBLE);
         tvGivenVehLoanVal.setText(strDoesCarHaveLoan);
+        if(!strInspectionAmount.isEmpty())
+        {
+            etPostInspectionAmount.setText(strInspectionAmount);
+        }
         tvGivenVehLoanEdit.setOnClickListener(this);
         btnNext.setOnClickListener(this);
     }

@@ -24,13 +24,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
+import utility.Global;
 
 import static retrofit_config.RetroBase.retrofitInterface;
 
 public class EducationActivity extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
 
     private static final String TAG = EducationActivity.class.getSimpleName();
-    private String strGender = "";
+    private String strGender = "",strEducation="";
     TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvEducationVal;
     private Button btnNext;
     ImageView iv_personal_details_backBtn;
@@ -46,13 +47,21 @@ public class EducationActivity extends AppCompatActivity implements View.OnClick
             } else {
                 strGender = "";
             }
-            initView();
+
         }catch(Exception exception)
         {
             exception.printStackTrace();
         }
-        retrofitInterface.getFromWeb(CommonStrings.EDUCATION_QUALIFICATION_URL).enqueue(this);
+        retrofitInterface.getFromWeb(Global.customerAPI_Master_URL+CommonStrings.EDUCATION_QUALIFICATION_URL).enqueue(this);
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            if(CommonStrings.customPersonalDetails.getEducation()!=null && !CommonStrings.customPersonalDetails.getEducation().isEmpty())
+            {
+                strEducation= CommonStrings.customPersonalDetails.getEducation();
+            }
+        }
 
+        initView();
     }
 
     private void initView()
@@ -68,6 +77,10 @@ public class EducationActivity extends AppCompatActivity implements View.OnClick
         tvEducationVal.setOnClickListener(this);
         iv_personal_details_backBtn=findViewById(R.id.iv_personal_details_backBtn);
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
+        if(!strEducation.isEmpty())
+        {
+            tvEducationVal.setText(strEducation);
+        }
         btnNext.setOnClickListener(this);
 
     }
@@ -117,7 +130,7 @@ public class EducationActivity extends AppCompatActivity implements View.OnClick
                 bSDListItemFragment.show(getSupportFragmentManager(),"EducationList");
             }
             else
-            {retrofitInterface.getFromWeb(CommonStrings.EDUCATION_QUALIFICATION_URL).enqueue(this);}
+            {retrofitInterface.getFromWeb(Global.customerAPI_Master_URL+CommonStrings.EDUCATION_QUALIFICATION_URL).enqueue(this);}
         }
         else if(v.getId()==R.id.btnNext)
         {

@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.R;
 
 import java.util.List;
@@ -24,19 +23,17 @@ import java.util.List;
 import controller.VehicleDetailsAdapter;
 import model.ibb_models.IBBVehDetailsReq;
 import model.ibb_models.VehMakeRes;
-import model.ibb_models.VehRegYearRes;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
-import utility.Global_URLs;
+import utility.CommonURLs;
+import utility.Global;
 import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
 import static utility.CommonStrings.IBB_VEH_DETAILS_END_POINT;
-import static utility.CommonStrings.VEH_MFG_MAKE;
-import static utility.CommonStrings.VEH_MFG_YEAR;
 
 public class VehicleMakeActivity extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
 
@@ -56,19 +53,24 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
         strYear = CommonStrings.customVehDetails.getRegistrationYear();
 
         if (CommonStrings.stockResData != null) {
-            if (CommonStrings.stockResData.getMake() != null) {
-                strMake = CommonStrings.stockResData.getMake();
+            if (CommonStrings.stockResData.getIbbMake() != null) {
+                strMake = CommonStrings.stockResData.getIbbMake();
             }
         } else {
             strMake = "";
         }
+        if (CommonStrings.IS_OLD_LEAD) {
+            if (CommonStrings.customVehDetails.getMake() != null && CommonStrings.customVehDetails.getMake() != null) {
+                strMake = CommonStrings.customVehDetails.getMake();
+            }
+        }
+
 
         initView();
-
         if (CommonMethods.isInternetWorking(VehicleMakeActivity.this)) {
             SpinnerManager.showSpinner(this);
             IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_MAKE, CommonMethods.getStringValueFromKey(VehicleMakeActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, strYear, "0");
-            retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
+            retrofitInterface.getFromWeb(ibbVehDetailsReq, Global.ibb_base_url+ IBB_VEH_DETAILS_END_POINT).enqueue(this);
 
         } else {
             Toast.makeText(VehicleMakeActivity.this, "Please check your Internet Connection", Toast.LENGTH_LONG).show();
@@ -144,7 +146,7 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
             if (CommonMethods.isInternetWorking(VehicleMakeActivity.this)) {
                 SpinnerManager.showSpinner(this);
                 IBBVehDetailsReq ibbVehDetailsReq = new IBBVehDetailsReq(CommonStrings.IBB_MAKE, CommonMethods.getStringValueFromKey(VehicleMakeActivity.this, "ibb_access_token"), CommonStrings.IBB_TAG, strYear, "0");
-                retrofitInterface.getFromWeb(ibbVehDetailsReq, Global_URLs.IBB_BASE_URL + IBB_VEH_DETAILS_END_POINT).enqueue(this);
+                retrofitInterface.getFromWeb(ibbVehDetailsReq, Global.ibb_base_url + IBB_VEH_DETAILS_END_POINT).enqueue(this);
 
             } else {
                 Toast.makeText(VehicleMakeActivity.this, "Please check your Internet Connection", Toast.LENGTH_LONG).show();

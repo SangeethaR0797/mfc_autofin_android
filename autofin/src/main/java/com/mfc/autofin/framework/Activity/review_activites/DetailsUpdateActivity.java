@@ -29,6 +29,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
+import utility.Global;
 
 import static retrofit_config.RetroBase.retrofitInterface;
 
@@ -45,7 +46,7 @@ public class DetailsUpdateActivity extends AppCompatActivity implements Callback
         tvCommonAppBarTitle.setText("UPDATING...");
         userId = CommonMethods.getStringValueFromKey(this, CommonStrings.DEALER_ID_VAL);
         userType = CommonMethods.getStringValueFromKey(this, CommonStrings.USER_TYPE_VAL);
-        retrofitInterface.getFromWeb(getBasicDetailsRequest(), CommonStrings.ADD_BASIC_DETAILS_URL).enqueue(this);
+        retrofitInterface.getFromWeb(getBasicDetailsRequest(), Global.customerAPI_BaseURL+CommonStrings.ADD_BASIC_DETAILS_URL).enqueue(this);
         initView();
     }
 
@@ -122,7 +123,7 @@ public class DetailsUpdateActivity extends AppCompatActivity implements Callback
                 try {
                     CommonMethods.showToast(this, updateDetailsRes.getMessage());
                     CommonMethods.setValueAgainstKey(this, CommonStrings.CUSTOMER_ID, updateDetailsRes.getData().toString());
-                    retrofitInterface.getFromWeb(getCustomerDetailsReq(), CommonStrings.CUSTOMER_DETAILS_URL).enqueue(this);
+                    retrofitInterface.getFromWeb(getCustomerDetailsReq(),Global.customerAPI_BaseURL+ CommonStrings.CUSTOMER_DETAILS_URL).enqueue(this);
 
                 } catch (Exception exception) {
                     exception.printStackTrace();
@@ -160,7 +161,7 @@ public class DetailsUpdateActivity extends AppCompatActivity implements Callback
 
     }
 
-    private Object getCustomerDetailsReq() {
+    private CustomerDetailsRequest getCustomerDetailsReq() {
         CustomerDetailsRequest customerDetailsReq = new CustomerDetailsRequest();
         customerDetailsReq.setUserId(userId);
         customerDetailsReq.setUserType(userType);

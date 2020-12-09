@@ -1,6 +1,7 @@
 package utility;
 
 import android.app.Activity;
+import android.app.Application;
 import android.app.Person;
 import android.content.Context;
 import android.content.Intent;
@@ -37,6 +38,7 @@ import model.vehicle_details.vehicle_category.VehicleDetails;
 
 public class CommonMethods {
     private static final String TAG = CommonMethods.class.getSimpleName();
+    public static Activity appContext;
 
     public static boolean isInternetWorking(Context context) {
         ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -148,5 +150,14 @@ public class CommonMethods {
         String yourFormattedString = formatter.format(givenVal);
 
         return yourFormattedString;
+    }
+
+    public static String getToken()
+    {
+        SharedPreferences preference = PreferenceManager
+                .getDefaultSharedPreferences(appContext.getApplicationContext());
+
+        return preference.getString("token", "");
+
     }
 }
