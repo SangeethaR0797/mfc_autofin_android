@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,8 +30,9 @@ public class CityMonthAndYearActivity extends AppCompatActivity implements View.
     TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvMovedToCity, tvWhenMovedToCityLbl;
     ImageView iv_residential_details_backBtn;
     LinearLayout llMonthAndYear;
-    String strCity = "", strYear = "",strMovedToCCity;
+    String strCity = "", strYear = "",strMovedToCCity="";
     DatePicker datePicker;
+    Button btnNext;
 
 
     @Override
@@ -44,7 +46,7 @@ public class CityMonthAndYearActivity extends AppCompatActivity implements View.
         {
             if(CommonStrings.customResDetails.getMoveInCityYear()!=null && !CommonStrings.customResDetails.getMoveInCityYear().isEmpty())
             {
-                strMovedToCCity= String.valueOf(CommonStrings.customResDetails.getMoveInCityYear()).substring(0, 10);
+                strMovedToCCity= CommonStrings.customResDetails.getMoveInCityYear();
             }
         }
         initView();
@@ -62,10 +64,17 @@ public class CityMonthAndYearActivity extends AppCompatActivity implements View.
         tvGivenLbl.setText(getResources().getString(R.string.lbl_residential_city));
         iv_residential_details_backBtn.setVisibility(View.INVISIBLE);
         tvGivenValEdit.setOnClickListener(this);
+        btnNext=findViewById(R.id.btnNext);
         tvWhenMovedToCityLbl.setOnClickListener(this);
         if(!strMovedToCCity.isEmpty())
         {
             tvMovedToCity.setText(strMovedToCCity);
+        }
+        if (CommonStrings.IS_OLD_LEAD) {
+            btnNext.setVisibility(View.VISIBLE);
+            btnNext.setOnClickListener(this);
+        } else {
+            btnNext.setVisibility(View.GONE);
         }
         tvMovedToCity.setOnClickListener(this);
     }
@@ -77,6 +86,13 @@ public class CityMonthAndYearActivity extends AppCompatActivity implements View.
             finish();
         } else if (v.getId() == R.id.tvWhenMovedToCityLbl) {
             showDatePickerDialog();
+        }
+        else if (v.getId() == R.id.btnNext) {
+            if (tvGivenPreviousVal.getText().toString() != "" && tvMovedToCity.getText().toString() != "") {
+                moveToNextScreen();
+            } else {
+                CommonMethods.showToast(this, "Please select Month and Year");
+            }
         }
     }
 
@@ -110,12 +126,8 @@ public class CityMonthAndYearActivity extends AppCompatActivity implements View.
     }
 
     private void moveToNextScreen() {
-        if (tvGivenPreviousVal.getText().toString() != "" && tvMovedToCity.getText().toString() != "") {
             CommonStrings.customResDetails.setMoveInCityYear(tvMovedToCity.getText().toString());
             startActivity(new Intent(this, CurrentResidenceMonthAndYearActivity.class));
-        } else {
-            CommonMethods.showToast(this, "Please select Month and Year");
-        }
     }
 
     @Override

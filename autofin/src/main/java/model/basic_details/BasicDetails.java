@@ -3,7 +3,14 @@ package model.basic_details;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
+import model.add_lead_details.Document;
+
 public class BasicDetails {
+    @SerializedName("documents")
+    @Expose
+    private List<Document> documents = null;
     @SerializedName("fullName")
     @Expose
     private String fullName;
@@ -19,16 +26,13 @@ public class BasicDetails {
     @SerializedName("salutation")
     @Expose
     private String salutation;
-    @SerializedName("isTandCChecked")
-    @Expose
-    private Boolean isTandCChecked;
 
-    public Boolean getIsTandCChecked() {
-        return isTandCChecked;
+    public List<Document> getDocuments() {
+        return documents;
     }
 
-    public void setIsTandCChecked(Boolean isTandCChecked) {
-        this.isTandCChecked = isTandCChecked;
+    public void setDocuments(List<Document> documents) {
+        this.documents = documents;
     }
 
     public String getFullName() {
@@ -70,6 +74,7 @@ public class BasicDetails {
     public void setSalutation(String salutation) {
         this.salutation = salutation;
     }
+
 }
 
 

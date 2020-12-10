@@ -21,7 +21,7 @@ import utility.Global;
 
 public class RetroBase {
 
-    public static final String BASE_URL = Global.baseURL;
+    public static final String BASE_URL = Global.currentBaseURL;
 
     private static HttpLoggingInterceptor logging = new HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY);

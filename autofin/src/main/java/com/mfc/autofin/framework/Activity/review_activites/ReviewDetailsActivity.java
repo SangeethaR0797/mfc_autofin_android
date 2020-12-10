@@ -25,12 +25,14 @@ import model.add_lead_details.CustomerDetails;
 import model.add_lead_details.CustomerDetailsRequest;
 import model.add_lead_details.CustomerDetailsResponse;
 import model.add_lead_details.CustomerID;
+import model.add_lead_details.Document;
 import model.add_lead_details.LoanDetails;
 import model.basic_details.BasicDetails;
 import model.basic_details.EmploymentDetails;
 import model.basic_details.PersonalDetailsData;
 import model.basic_details.ResidentialDetails;
 import model.custom_model.ReviewData;
+import model.kyc_model.Doc;
 import model.vehicle_details.vehicle_category.VehicleDetails;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -73,6 +75,7 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
                     customerId = bundle.getInt(CUSTOMER_ID);
                     caseId = bundle.getString(CASE_ID);
                     kycStatus = bundle.getString(KYC_STATUS);
+                    IS_OLD_LEAD=true;
                     if (customerId != 0) {
                         flag = true;
                         CommonMethods.setValueAgainstKey(this, CommonStrings.CUSTOMER_ID, String.valueOf(customerId));
@@ -414,6 +417,11 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
                         customResDetails=residentialDetailsResList;
                         cusEmpDetails=employmentResDetails;
                         customLoanDetails=loanDetailsResList;
+                        if(customerDetails.getBasicDetails().getDocuments()!=null && !customerDetails.getBasicDetails().getDocuments().isEmpty())
+                        {
+                        addDocumentsToList(customerDetails.getBasicDetails().getDocuments());
+                        }
+
                         if (kycStatus.equalsIgnoreCase("Basic Details Pending")) {
                             displayReviewVehRes();
                             displayReviewBasicRes();
@@ -432,6 +440,24 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
+        }
+    }
+
+    private void addDocumentsToList(List<Document> documents)
+    {
+        Log.i(TAG, "addDocumentsToList: "+documents.size());
+        for(int i=0;i<documents.size();i++)
+        {
+            Log.i(TAG, "addDocumentsToList: "+i);
+            String data = documents.get(i).getDocPath().get(0);
+            Log.e("url data","url"+data);
+           // List<String> data1 = documents.get(i).getDocPath();
+
+            Log.e("data","dataaaa" +documents.get(i).getDocPath().get(0));
+            String docPath="";
+            Log.i(TAG, "addDocumentsToList: "+documents.get(i).getDocPath().get(0));
+            documentList.add(new Doc(documents.get(i).getKeyName(),data));
+            Log.i(TAG, "addDocumentsToList: "+documentList.size());
         }
     }
 

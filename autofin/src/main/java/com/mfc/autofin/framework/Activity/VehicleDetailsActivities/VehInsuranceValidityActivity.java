@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -44,6 +45,7 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
     DatePickerDialog vehInsuranceDate;
     DatePicker vehInsurancePicker;
     String strInsuranceValidity = "", strInsuranceType = "";
+    Button btnNext;
 
 
     @Override
@@ -69,7 +71,7 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
         {
             if (!CommonStrings.customVehDetails.getInsuranceValidity().isEmpty())
             {
-                strInsuranceValidity=CommonStrings.customVehDetails.getInsuranceValidity();
+                strInsuranceValidity=CommonStrings.customVehDetails.getInsuranceValidity().substring(0, 10);
             }
         }
         initView();
@@ -85,6 +87,7 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
         iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
         llCalendarView = findViewById(R.id.llCalendarView);
         vehInsurancePicker = findViewById(R.id.vehInsurancePicker);
+        btnNext=findViewById(R.id.btnNext);
         tvGivenVehInsuranceVal.setText(strInsuranceType);
         llCalendarView.setOnClickListener(this);
         iv_vehDetails_backBtn.setVisibility(View.INVISIBLE);
@@ -93,6 +96,12 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
         if(!strInsuranceValidity.isEmpty())
         {
             tvInsuranceValidityDate.setText(strInsuranceValidity);
+        }
+        if (CommonStrings.IS_OLD_LEAD) {
+            btnNext.setVisibility(View.VISIBLE);
+            btnNext.setOnClickListener(this);
+        } else {
+            btnNext.setVisibility(View.GONE);
         }
     }
 
@@ -103,8 +112,16 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
         } else if (v.getId() == R.id.tvInsuranceValidityLbl) {
             showDatePickerDialog();
         }
+        else if (v.getId() == R.id.btnNext) {
+            if (!strInsuranceValidity.isEmpty()) {
+                moveToNextPage();
+            }
+            else
+            {
+                CommonMethods.showToast(this,"Please select anyone option");
+            }
+        }
     }
-
     private void showDatePickerDialog() {
         Date todayDate = Calendar.getInstance().getTime();
 
@@ -120,15 +137,23 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
                 String monthName = new DateFormatSymbols().getMonths()[month];
                 String insValidityDate = dayOfMonth + "-" + monthName + "-" + year;
                 tvInsuranceValidityDate.setText(insValidityDate);
-                CommonStrings.customVehDetails.setInsuranceValidity(dayOfMonth + " " + monthName + " " + year);
-                Intent intent = new Intent(VehInsuranceValidityActivity.this, BasicDetailsActivity.class);
-                startActivity(intent);
+                strInsuranceValidity=dayOfMonth + " " + monthName + " " + year;
             }
         }, cYear, cMonth, cDay);
         vehInsuranceDate.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         vehInsuranceDate.show();
     }
+
     @Override
     public void onBackPressed() {
     }
+
+    private void moveToNextPage()
+    {
+            CommonStrings.customVehDetails.setInsuranceValidity(strInsuranceValidity);
+            Intent intent = new Intent(VehInsuranceValidityActivity.this, BasicDetailsActivity.class);
+            startActivity(intent);
+
+    }
+
 }

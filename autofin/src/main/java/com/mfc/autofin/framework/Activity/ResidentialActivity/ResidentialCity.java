@@ -98,7 +98,7 @@ public class ResidentialCity extends AppCompatActivity implements View.OnClickLi
         }
         if(!strCity.isEmpty())
         {
-            tvCityName.setText(strCity);
+            tvSelectedCity.setText(strCity);
         }
         if(!strState.isEmpty())
         {

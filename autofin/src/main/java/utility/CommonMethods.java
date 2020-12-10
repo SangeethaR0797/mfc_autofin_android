@@ -160,4 +160,10 @@ public class CommonMethods {
         return preference.getString("token", "");
 
     }
+
+
+    public static String getFormattedString(double d)
+    {
+        return String.format("%.0f\n",d);
+    }
 }

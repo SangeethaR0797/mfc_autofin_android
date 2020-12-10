@@ -40,7 +40,7 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
         Log.i(TAG, "onCreate: ");
 
         if (!String.valueOf(CommonStrings.customVehDetails.getValuationPrice()).equals("")) {
-            strPostInspectionVal = getString(R.string.rupees_symbol) + " "+CommonStrings.customVehDetails.getValuationPrice();
+            strPostInspectionVal = getString(R.string.rupees_symbol) + " "+CommonMethods.getFormattedString(CommonStrings.customVehDetails.getValuationPrice());
         } else {
             strPostInspectionVal = "";
         }
@@ -58,7 +58,7 @@ public class VehValidInsuranceActivity extends AppCompatActivity implements View
                     if(CommonStrings.customVehDetails.getInsuranceAmount()!=0)
                     {
                         double insAmount = CommonStrings.customVehDetails.getInsuranceAmount();
-                        String result =CommonMethods.getFormattedDouble(insAmount);
+                        String result =CommonMethods.getFormattedString(insAmount);
                         strInsuranceAmount=result.replaceAll("[-+.^:,]","");
                     }
                 }

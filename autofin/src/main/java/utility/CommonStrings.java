@@ -2,7 +2,11 @@ package utility;
 
 import com.mfc.autofin.framework.Activity.ResidentialActivity.ResidentialCity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import model.add_lead_details.LoanDetails;
+import model.addtional_fields.AdditionFields;
 import model.basic_details.BasicDetails;
 import model.basic_details.EmploymentDetails;
 import model.basic_details.PersonalDetailsData;
@@ -10,6 +14,7 @@ import model.basic_details.ReferenceDetails;
 import model.basic_details.ResidentialDetails;
 import model.custom_model.CusEmpDetailsModel;
 import model.custom_model.CustomBasicDetailsModel;
+import model.kyc_model.Doc;
 import model.residential_models.CityData;
 import model.vehicle_details.vehicle_category.VehicleDetails;
 import model.vehicle_details.vehicle_category.stock_details.StockResponseData;
@@ -106,7 +111,7 @@ public class CommonStrings {
     public static final String CUSTOMER_ADDITIONAL_FIELDS ="customer-additional-data" ;
     public static String TOKEN_VALUE = "";
 
-    public static  boolean IS_OLD_LEAD =false ;
+    public static boolean IS_OLD_LEAD =false ;
     public static String IBB_PASSWORD = "dHk69ffu7ebP";
     public static String IBB_USERNAME = "mfc@ibb.com";
     public static String IBB_VEH_DETAILS_END_POINT = "MFC";
@@ -124,5 +129,7 @@ public class CommonStrings {
     public static PersonalDetailsData customPersonalDetails = new PersonalDetailsData();
     public static EmploymentDetails cusEmpDetails = new EmploymentDetails();
     public static ReferenceDetails referenceDetails=new ReferenceDetails();
+    public static List<AdditionFields> additionFieldsList = new ArrayList<AdditionFields>();
+    public static List<Doc> documentList = new ArrayList<>();
 
 }

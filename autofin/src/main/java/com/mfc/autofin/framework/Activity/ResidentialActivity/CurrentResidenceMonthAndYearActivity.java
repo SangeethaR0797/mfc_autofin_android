@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,8 +30,9 @@ public class CurrentResidenceMonthAndYearActivity extends AppCompatActivity impl
     TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvMovedToCRes, tvWhenMovedToCurrentCityLbl;
     LinearLayout llMonthAndYearMovedToCRes;
     ImageView iv_residential_details_backBtn;
-    String strMYofCCity = "", strYOfCCity = "",strMovedToCResidence="";
+    String strMYofCCity = "", strYOfCCity = "", strMovedToCResidence = "";
     int crYear = 0000;
+    Button btnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +45,9 @@ public class CurrentResidenceMonthAndYearActivity extends AppCompatActivity impl
             strMYofCCity = "";
         }
 
-        if(CommonStrings.IS_OLD_LEAD)
-        {
-            if(CommonStrings.customResDetails.getMoveInResidenceYear()!=null && !CommonStrings.customResDetails.getMoveInResidenceYear().isEmpty())
-            {
-                strMovedToCResidence= String.valueOf(CommonStrings.customResDetails.getMoveInResidenceYear()).substring(0, 10);
+        if (CommonStrings.IS_OLD_LEAD) {
+            if (CommonStrings.customResDetails.getMoveInResidenceYear() != null && !CommonStrings.customResDetails.getMoveInResidenceYear().isEmpty()) {
+                strMovedToCResidence = CommonStrings.customResDetails.getMoveInResidenceYear();
             }
         }
         initView();
@@ -69,14 +69,19 @@ public class CurrentResidenceMonthAndYearActivity extends AppCompatActivity impl
         llMonthAndYearMovedToCRes = findViewById(R.id.llMonthAndYearMovedToCRes);
         iv_residential_details_backBtn = findViewById(R.id.iv_residential_details_backBtn);
         tvGivenPreviousVal.setText(strMYofCCity);
+        btnNext = findViewById(R.id.btnNext);
         iv_residential_details_backBtn.setVisibility(View.INVISIBLE);
-        if (!strMovedToCResidence.isEmpty())
-        {
-            tvWhenMovedToCurrentCityLbl.setText(strMovedToCResidence);
+        if (!strMovedToCResidence.isEmpty()) {
+            tvMovedToCRes.setText(strMovedToCResidence);
         }
         tvGivenValEdit.setOnClickListener(this);
         tvWhenMovedToCurrentCityLbl.setOnClickListener(this);
-
+        if (CommonStrings.IS_OLD_LEAD) {
+            btnNext.setVisibility(View.VISIBLE);
+            btnNext.setOnClickListener(this);
+        } else {
+            btnNext.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -86,7 +91,32 @@ public class CurrentResidenceMonthAndYearActivity extends AppCompatActivity impl
             finish();
         } else if (v.getId() == R.id.tvWhenMovedToCurrentCityLbl) {
             showDatePickerDialog();
+        } else if (v.getId() == R.id.btnNext) {
+            if (tvGivenPreviousVal.getText().toString() != "" && tvMovedToCRes.getText().toString() != "") {
+                try {
+                    if(CommonStrings.IS_OLD_LEAD)
+                    {
+                        moveToNextScreen();
+                    }
+                    else
+                    {
+                        if (crYear >= Integer.parseInt(strYOfCCity)) {
+                        moveToNextScreen();
+                    } else {
+                        CommonMethods.showToast(this, "Selected Year should be Same or Later");
+                    }
+                    }
+                } catch (NullPointerException exception) {
+                    exception.printStackTrace();
+                } catch (Exception exception) {
+
+                }
+
+            } else {
+                CommonMethods.showToast(this, "Please select Month and Year");
+            }
         }
+
     }
 
     private void showDatePickerDialog() {
@@ -120,24 +150,11 @@ public class CurrentResidenceMonthAndYearActivity extends AppCompatActivity impl
     }
 
     private void moveToNextScreen() {
-        if (tvGivenPreviousVal.getText().toString() != "" && tvMovedToCRes.getText().toString() != "") {
-            try {
-                if (crYear >= Integer.parseInt(strYOfCCity)) {
-                    CommonStrings.customResDetails.setMoveInResidenceYear(tvMovedToCRes.getText().toString());
-                    startActivity(new Intent(this, ResidenceTypeActivity.class));
-                } else {
-                    CommonMethods.showToast(this, "Selected Year should be Same or Later");
-                }
-            } catch (NullPointerException exception) {
-                exception.printStackTrace();
-            } catch (Exception exception) {
+        CommonStrings.customResDetails.setMoveInResidenceYear(tvMovedToCRes.getText().toString());
+        startActivity(new Intent(this, ResidenceTypeActivity.class));
 
-            }
-
-        } else {
-            CommonMethods.showToast(this, "Please select Month and Year");
-        }
     }
+
     @Override
     public void onBackPressed() {
 

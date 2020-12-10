@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
+import com.mfc.autofin.framework.Activity.PersonalDetails.InterestedBankOfferActivity;
 import com.mfc.autofin.framework.Activity.bank_offer_activities.AdditionalFieldsActivity;
 import com.mfc.autofin.framework.R;
 
@@ -21,6 +22,7 @@ import java.util.List;
 
 import kyc.DocumentUploadActivity;
 import model.add_lead_details.AddLeadResponse;
+import model.addtional_fields.AdditionalFieldResponse;
 import model.addtional_fields.BankName;
 import model.addtional_fields.GetAdditionFieldsReq;
 import model.bank_models.BankListData;
@@ -174,28 +176,64 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
     public void onResponse(Call<Object> call, Response<Object> response)
     {
         SpinnerManager.hideSpinner(activity);
+        String url = response.raw().request().url().toString();
+        Log.i(TAG, "onResponse: URL " + url);
         String strRes = new Gson().toJson(response.body());
         Log.i(TAG, "onResponse: " + strRes);
-        AddLeadResponse selectedBankRes=new Gson().fromJson(strRes,AddLeadResponse.class);
 
-        try
+        if(url.contains(CommonStrings.SELECT_RECOMMENDED_BANK_URL))
         {
-            if(selectedBankRes!=null && selectedBankRes.getStatus())
+            AddLeadResponse selectedBankRes=new Gson().fromJson(strRes,AddLeadResponse.class);
+
+            try
             {
-                CommonMethods.showToast(activity,selectedBankRes.getMessage());
-                CommonMethods.setValueAgainstKey(activity,CommonStrings.BANK_NAME,bankName);
-                retrofitInterface.getFromWeb(getAdditionalFieldReq(), Global.customerDetails_BaseURL + CommonStrings.CUSTOMER_ADDITIONAL_FIELDS).enqueue(this);
-            activity.startActivity(new Intent(activity,AdditionalFieldsActivity.class));
+                if(selectedBankRes!=null && selectedBankRes.getStatus())
+                {
+                    CommonMethods.showToast(activity,selectedBankRes.getMessage());
+                    CommonMethods.setValueAgainstKey(activity,CommonStrings.BANK_NAME,bankName);
+                    retrofitInterface.getFromWeb(getAdditionalFieldReq(), Global.customerDetails_BaseURL+CommonStrings.GET_ADDITIONAL_FIELDS).enqueue(this);
+                }
+                else
+                {
+                    CommonMethods.showToast(activity,"Please try again");
+                }
             }
-            else
+            catch(Exception exception)
             {
-                CommonMethods.showToast(activity,"Please try again");
+                exception.printStackTrace();
             }
         }
-        catch(Exception exception)
+        else if(url.contains(CommonStrings.GET_ADDITIONAL_FIELDS))
         {
-            exception.printStackTrace();
+            try {
+                AdditionalFieldResponse additionalFieldResponse = new Gson().fromJson(strRes, AdditionalFieldResponse.class);
+                if (additionalFieldResponse.getStatus() && additionalFieldResponse != null) {
+                    if (additionalFieldResponse.getData() != null) {
+                        Log.i(TAG, "onResponse: "+additionalFieldResponse.getData().toString());
+                        CommonStrings.additionFieldsList=additionalFieldResponse.getData();
+                       Log.i(TAG, "onResponse: "+CommonStrings.additionFieldsList.toString());
+                      activity.startActivity(new Intent(activity,AdditionalFieldsActivity.class));
+                        //activity.startActivity(new Intent(activity,DocumentUploadActivity.class));
+                    } else {
+                        additionalFieldResponse.getMessage();
+                    }
+                } else if(!additionalFieldResponse.getStatus()) {
+
+                    if(additionalFieldResponse.getMessage().equalsIgnoreCase("Additional Field not found for this Bank ID"))
+                    {
+                        activity.startActivity(new Intent(activity, InterestedBankOfferActivity.class));
+                    }
+                    else
+                    {
+                        CommonMethods.showToast(activity,"No data found");
+                    }
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+
         }
+
 
 
     }

@@ -28,20 +28,22 @@ public class InsuranceTypeActivity extends AppCompatActivity implements View.OnC
     RadioButton radioBtnComprehensive, radioBtnThirdParty;
     ImageView iv_vehDetails_backBtn;
     String strInsurance = "", strInsuranceAmount = "", strInsuranceType = "";
+    Button btnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insurance_type);
-        /*if (CommonStrings.stockResData != null) {
-            if ((CommonStrings.stockResData.getInsuranceType()!=null && !CommonStrings.stockResData.getInsuranceType().isEmpty()) {
-                strInsurance = CommonStrings.stockResData.getInsuranceType();
+        if (CommonStrings.stockResData != null) {
+            if ((CommonStrings.stockResData.getInsuranceType()!=null && !CommonStrings.stockResData.getInsuranceType().isEmpty()))
+            {
+                strInsuranceType = CommonStrings.stockResData.getInsuranceType();
             }
-        }*/
+        }
         if (CommonStrings.customVehDetails.getInsurance()) {
             strInsurance = "Yes";
             if (!String.valueOf(CommonStrings.customVehDetails.getInsuranceAmount()).equals("")) {
-                strInsuranceAmount = String.valueOf(CommonStrings.customVehDetails.getInsuranceAmount());
+                strInsuranceAmount = CommonMethods.getFormattedString(CommonStrings.customVehDetails.getInsuranceAmount());
             } else {
                 strInsurance = "No";
             }
@@ -50,8 +52,7 @@ public class InsuranceTypeActivity extends AppCompatActivity implements View.OnC
         }
 
         if (CommonStrings.IS_OLD_LEAD) {
-            if (CommonStrings.customVehDetails.getInsuranceType()!=null && !CommonStrings.customVehDetails.getInsuranceType().isEmpty())
-            {
+            if (CommonStrings.customVehDetails.getInsuranceType() != null && !CommonStrings.customVehDetails.getInsuranceType().isEmpty()) {
                 strInsuranceType = CommonStrings.customVehDetails.getInsuranceType();
             }
         }
@@ -68,6 +69,7 @@ public class InsuranceTypeActivity extends AppCompatActivity implements View.OnC
         radioBtnComprehensive = findViewById(R.id.radioBtnComprehensive);
         radioBtnThirdParty = findViewById(R.id.radioBtnThirdParty);
         iv_vehDetails_backBtn = findViewById(R.id.iv_vehDetails_back);
+        btnNext = findViewById(R.id.btnNext);
         if (strInsuranceAmount != "") {
             tvGivenInsValidityVal.setText(strInsurance + " ( " + getString(R.string.rupees_symbol) + " " + strInsuranceAmount + " ) ");
         } else {
@@ -80,6 +82,15 @@ public class InsuranceTypeActivity extends AppCompatActivity implements View.OnC
             radioBtnThirdParty.setChecked(true);
             radioBtnComprehensive.setChecked(false);
         }
+        if (CommonStrings.IS_OLD_LEAD) {
+            btnNext.setVisibility(View.VISIBLE);
+        } else {
+            btnNext.setVisibility(View.GONE);
+        }
+        if (btnNext.getVisibility() == View.VISIBLE) {
+            btnNext.setOnClickListener(this);
+        }
+
         iv_vehDetails_backBtn.setVisibility(View.INVISIBLE);
         tvGivenInsValidityEdit.setOnClickListener(this);
         radioBtnComprehensive.setOnClickListener(this);
@@ -92,15 +103,25 @@ public class InsuranceTypeActivity extends AppCompatActivity implements View.OnC
         if (v.getId() == R.id.tvGivenInsValidityEdit) {
             finish();
         } else if (v.getId() == R.id.radioBtnComprehensive) {
-            CommonStrings.customVehDetails.setInsuranceType(radioBtnComprehensive.getText().toString());
+            strInsuranceType = radioBtnComprehensive.getText().toString();
+            CommonStrings.customVehDetails.setInsuranceType(strInsuranceType);
             Intent intent = new Intent(InsuranceTypeActivity.this, VehInsuranceValidityActivity.class);
             startActivity(intent);
         } else if (v.getId() == R.id.radioBtnThirdParty) {
-            CommonStrings.customVehDetails.setInsuranceType(radioBtnThirdParty.getText().toString());
+            strInsuranceType = radioBtnThirdParty.getText().toString();
+            CommonStrings.customVehDetails.setInsuranceType(strInsuranceType);
             Intent intent = new Intent(InsuranceTypeActivity.this, VehInsuranceValidityActivity.class);
             startActivity(intent);
+        } else if (v.getId() == R.id.btnNext) {
+            if (!strInsuranceType.isEmpty()) {
+                Intent intent = new Intent(InsuranceTypeActivity.this, VehInsuranceValidityActivity.class);
+                startActivity(intent);
+            } else {
+                CommonMethods.showToast(this, "Please select Insurance Validity");
+            }
         }
     }
+
 
     @Override
     public void onBackPressed() {

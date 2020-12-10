@@ -54,16 +54,30 @@ public class VehicleModelActivity extends AppCompatActivity implements View.OnCl
         strYear = CommonStrings.customVehDetails.getRegistrationYear();
         strVehMake = CommonStrings.customVehDetails.getMake();
 
-        if (CommonStrings.stockResData != null) {
-            if (CommonStrings.stockResData.getIbbModel() != null) {
-                strModel = CommonStrings.stockResData.getIbbModel();
-            }
-        } else {
-            strModel = "";
-        }
+
         if (CommonStrings.IS_OLD_LEAD) {
             if (CommonStrings.customVehDetails.getModel() != null && CommonStrings.customVehDetails.getModel() != null) {
                 strModel = CommonStrings.customVehDetails.getModel();
+            }
+            else
+            {
+                if (CommonStrings.stockResData != null) {
+                    if (CommonStrings.stockResData.getIbbModel() != null) {
+                        strModel = CommonStrings.stockResData.getIbbModel();
+                    }
+                } else {
+                    strModel = "";
+                }
+            }
+        }
+        else
+        {
+            if (CommonStrings.stockResData != null) {
+                if (CommonStrings.stockResData.getIbbModel() != null) {
+                    strModel = CommonStrings.stockResData.getIbbModel();
+                }
+            } else {
+                strModel = "";
             }
         }
 

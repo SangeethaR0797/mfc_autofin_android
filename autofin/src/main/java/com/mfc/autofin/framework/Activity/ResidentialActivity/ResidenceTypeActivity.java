@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -39,6 +40,7 @@ public class ResidenceTypeActivity extends AppCompatActivity implements View.OnC
     LinearLayout llRadioGroup;
     List<ResidenceType> residenceTypeList;
     RadioGroup customRG;
+    Button btnNext;
     RadioButton rbOwnedBySelfOrSpouse, rbOwnedByParent, rbRentedWithFamily, rbRentedWithFriends, rbRentedStayingAlone, rbPayingGuest, rbHostel, rbCompanyProvided;
 
     @Override
@@ -69,6 +71,7 @@ public class ResidenceTypeActivity extends AppCompatActivity implements View.OnC
         tvGivenValEdit = findViewById(R.id.tvGivenValEdit);
         customRG = findViewById(R.id.customRG);
         llRadioGroup = findViewById(R.id.llRadioGroup);
+        btnNext=findViewById(R.id.btnNext);
         customRG.setOnClickListener(this);
         iv_residential_details_backBtn = findViewById(R.id.iv_residential_details_backBtn);
         rbOwnedBySelfOrSpouse = findViewById(R.id.rbOwnedBySelfOrSpouse);
@@ -191,6 +194,16 @@ public class ResidenceTypeActivity extends AppCompatActivity implements View.OnC
         rbHostel.setOnClickListener(this);
         rbCompanyProvided.setOnClickListener(this);
 
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            btnNext.setVisibility(View.VISIBLE);
+            btnNext.setOnClickListener(this);
+        }
+        else
+        {
+            btnNext.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -199,7 +212,7 @@ public class ResidenceTypeActivity extends AppCompatActivity implements View.OnC
         Log.i(TAG, "onResponse: " + strRes);
         ResidenceTypeRes residenceTypeRes = new Gson().fromJson(strRes, ResidenceTypeRes.class);
         try {
-            if (residenceTypeRes.getStatus() && residenceTypeRes.getData() != null) {
+                if (residenceTypeRes.getStatus() && residenceTypeRes.getData() != null) {
                 residenceTypeList = residenceTypeRes.getData().getTypes();
             } else {
                 CommonMethods.showToast(this, "No type available!");
@@ -218,34 +231,69 @@ public class ResidenceTypeActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
+
         if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.rbOwnedBySelfOrSpouse) {
-            CommonStrings.customResDetails.setResidenceType(rbOwnedBySelfOrSpouse.getText().toString());
-            startActivity(new Intent(ResidenceTypeActivity.this, UserDOBActivity.class));
+            strResType=rbOwnedBySelfOrSpouse.getText().toString();
+            if(!CommonStrings.IS_OLD_LEAD)
+            {
+                moveToNextPage();
+            }
         } else if (v.getId() == R.id.rbOwnedByParent) {
-            CommonStrings.customResDetails.setResidenceType(rbOwnedByParent.getText().toString());
-            startActivity(new Intent(ResidenceTypeActivity.this, UserDOBActivity.class));
+            strResType=rbOwnedByParent.getText().toString();
+            if(!CommonStrings.IS_OLD_LEAD)
+            {
+                moveToNextPage();
+            }
         } else if (v.getId() == R.id.rbRentedWithFamily) {
-            CommonStrings.customResDetails.setResidenceType(rbRentedWithFamily.getText().toString());
-            startActivity(new Intent(ResidenceTypeActivity.this, UserDOBActivity.class));
+            strResType=rbRentedWithFamily.getText().toString();
+            if(!CommonStrings.IS_OLD_LEAD)
+            {
+                moveToNextPage();
+            }
         } else if (v.getId() == R.id.rbRentedWithFriends) {
-            CommonStrings.customResDetails.setResidenceType(rbRentedWithFriends.getText().toString());
-            CommonMethods.setValueAgainstKey(ResidenceTypeActivity.this, CommonStrings.RESIDENCE_TYPE, rbRentedWithFriends.getText().toString());
-            startActivity(new Intent(ResidenceTypeActivity.this, UserDOBActivity.class));
+            strResType=rbRentedWithFriends.getText().toString();
+            if(!CommonStrings.IS_OLD_LEAD)
+            {
+                moveToNextPage();
+            }
         } else if (v.getId() == R.id.rbRentedStayingAlone) {
-            CommonStrings.customResDetails.setResidenceType(rbRentedStayingAlone.getText().toString());
-            startActivity(new Intent(ResidenceTypeActivity.this, UserDOBActivity.class));
+            strResType=rbRentedStayingAlone.getText().toString();
+            if(!CommonStrings.IS_OLD_LEAD)
+            {
+                moveToNextPage();
+            }
         } else if (v.getId() == R.id.rbPayingGuest) {
-            CommonStrings.customResDetails.setResidenceType(rbPayingGuest.getText().toString());
-            startActivity(new Intent(ResidenceTypeActivity.this, UserDOBActivity.class));
+            strResType=rbPayingGuest.getText().toString();
+            if(!CommonStrings.IS_OLD_LEAD)
+            {
+                moveToNextPage();
+            }
         } else if (v.getId() == R.id.rbHostel) {
-            CommonStrings.customResDetails.setResidenceType(rbHostel.getText().toString());
-            startActivity(new Intent(ResidenceTypeActivity.this, UserDOBActivity.class));
+            strResType=rbHostel.getText().toString();
+            if(!CommonStrings.IS_OLD_LEAD)
+            {
+                moveToNextPage();
+            }
         } else if (v.getId() == R.id.rbCompanyProvided) {
-            CommonStrings.customResDetails.setResidenceType(rbCompanyProvided.getText().toString());
-            startActivity(new Intent(ResidenceTypeActivity.this, UserDOBActivity.class));
+            strResType=rbCompanyProvided.getText().toString();
+            if(!CommonStrings.IS_OLD_LEAD)
+            {
+                moveToNextPage();
+            }
+        }else if(v.getId()==R.id.btnNext)
+        { if(!strResType.isEmpty())
+            {
+                moveToNextPage();
+            }
         }
+    }
+
+    private void moveToNextPage()
+    {
+        CommonStrings.customResDetails.setResidenceType(strResType);
+        startActivity(new Intent(ResidenceTypeActivity.this, UserDOBActivity.class));
     }
 
     @Override

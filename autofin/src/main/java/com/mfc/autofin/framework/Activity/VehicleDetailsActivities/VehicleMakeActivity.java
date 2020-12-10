@@ -52,19 +52,33 @@ public class VehicleMakeActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_vehicle_make);
         strYear = CommonStrings.customVehDetails.getRegistrationYear();
 
-        if (CommonStrings.stockResData != null) {
-            if (CommonStrings.stockResData.getIbbMake() != null) {
-                strMake = CommonStrings.stockResData.getIbbMake();
-            }
-        } else {
-            strMake = "";
-        }
+
+
         if (CommonStrings.IS_OLD_LEAD) {
             if (CommonStrings.customVehDetails.getMake() != null && CommonStrings.customVehDetails.getMake() != null) {
                 strMake = CommonStrings.customVehDetails.getMake();
             }
+            else
+            {
+                if (CommonStrings.stockResData != null) {
+                    if (CommonStrings.stockResData.getIbbMake() != null) {
+                        strMake = CommonStrings.stockResData.getIbbMake();
+                    }
+                } else {
+                    strMake = "";
+                }
+            }
         }
-
+        else
+        {
+            if (CommonStrings.stockResData != null) {
+                if (CommonStrings.stockResData.getIbbMake() != null) {
+                    strMake = CommonStrings.stockResData.getIbbMake();
+                }
+            } else {
+                strMake = "";
+            }
+        }
 
         initView();
         if (CommonMethods.isInternetWorking(VehicleMakeActivity.this)) {

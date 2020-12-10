@@ -56,16 +56,27 @@ public class VehicleVariantActivity extends AppCompatActivity implements View.On
         strVehMake = CommonStrings.customVehDetails.getMake();
         strVehModel = CommonStrings.customVehDetails.getModel();
 
-        if (CommonStrings.stockResData != null) {
-            if (CommonStrings.stockResData.getIbbVariant() != null) {
-                strVariant = CommonStrings.stockResData.getIbbVariant();
-            }
-        } else {
-            strVariant = "";
-        }
+
         if (CommonStrings.IS_OLD_LEAD) {
             if (CommonStrings.customVehDetails.getVariant() != null && CommonStrings.customVehDetails.getVariant() != null) {
                 strVariant = CommonStrings.customVehDetails.getVariant();
+            }
+            else if (CommonStrings.stockResData != null) {
+                if (CommonStrings.stockResData.getIbbVariant() != null) {
+                    strVariant = CommonStrings.stockResData.getIbbVariant();
+                }
+            } else {
+                strVariant = "";
+            }
+        }
+        else
+        {
+            if (CommonStrings.stockResData != null) {
+                if (CommonStrings.stockResData.getIbbVariant() != null) {
+                    strVariant = CommonStrings.stockResData.getIbbVariant();
+                }
+            } else {
+                strVariant = "";
             }
         }
 

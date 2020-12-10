@@ -48,7 +48,6 @@ public class AdditionalFieldsActivity extends AppCompatActivity implements View.
     private TextView tvCommonAppBarTitle, tvReferenceLbl;
     private LinearLayout llRefContent;
     private RecyclerView rvAdditionalFields;
-    private List<AdditionFields> additionFieldsList = new ArrayList<AdditionFields>();
     private List<CustAdditionalData> custAdditionalList = new ArrayList<CustAdditionalData>();
     private Button btnNext;
     private String mUserId = "", mUserType = "", mAppName = "";
@@ -57,26 +56,17 @@ public class AdditionalFieldsActivity extends AppCompatActivity implements View.
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_additional_fields);
-        Bundle data = getIntent().getExtras();
-        if (data != null) {
-            mUserId = data.getString(AutoFinConstants.DEALER_ID);
-            mUserType = data.getString(AutoFinConstants.USER_TYPE);
-            mAppName = data.getString(AutoFinConstants.APP_NAME);
-
-            CommonMethods.setValueAgainstKey(this, CommonStrings.DEALER_ID_VAL, mUserId);
-            CommonMethods.setValueAgainstKey(this, CommonStrings.USER_TYPE_VAL, mUserType);
-            CommonMethods.setValueAgainstKey(this, CommonStrings.APP_NAME_VAL, mAppName);
-
-        }
-
-        retrofitInterface.getFromWeb(getCustomerAdditionalReq(), Global.customerDetails_BaseURL + CommonStrings.CUSTOMER_ADDITIONAL_FIELDS).enqueue(this);
+        initView();
 
         if (CommonStrings.IS_OLD_LEAD) {
-                     retrofitInterface.getFromWeb(getAdditionalFieldReq(), Global.customerDetails_BaseURL + CommonStrings.GET_ADDITIONAL_FIELDS).enqueue(this);
+            retrofitInterface.getFromWeb(getCustomerAdditionalReq(), Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_ADDITIONAL_FIELDS).enqueue(this);
+        }
+        else
+        {
+            if(CommonStrings.additionFieldsList!=null && !CommonStrings.additionFieldsList.isEmpty())
+                attachToAdapter(CommonStrings.additionFieldsList);
 
-        } else {
-            retrofitInterface.getFromWeb(getAdditionalFieldReq(), Global.customerDetails_BaseURL + CommonStrings.CUSTOMER_ADDITIONAL_FIELDS).enqueue(this);}
-        initView();
+        }
     }
 
     private CustomerDetailsRequest getCustomerAdditionalReq() {
@@ -89,15 +79,6 @@ public class AdditionalFieldsActivity extends AppCompatActivity implements View.
         return customerDetailsReq;
     }
 
-    private GetAdditionFieldsReq getAdditionalFieldReq() {
-        GetAdditionFieldsReq additionFieldsReq = new GetAdditionFieldsReq();
-        additionFieldsReq.setUserId(mUserId);
-        additionFieldsReq.setUserType(mUserType);
-        BankName bankName = new BankName();
-        bankName.setBankName("HDFC Bank");
-        additionFieldsReq.setData(bankName);
-        return additionFieldsReq;
-    }
 
     private void initView() {
         iv_common_bar_backBtn = findViewById(R.id.iv_common_bar_backBtn);
@@ -127,29 +108,14 @@ public class AdditionalFieldsActivity extends AppCompatActivity implements View.
 
         String strRes = new Gson().toJson(response.body());
         Log.i(TAG, "onResponse: " + strRes);
-        if (url.contains(CommonStrings.GET_ADDITIONAL_FIELDS)) {
-            try {
-                AdditionalFieldResponse additionalFieldResponse = new Gson().fromJson(strRes, AdditionalFieldResponse.class);
-                if (additionalFieldResponse.getStatus() && additionalFieldResponse != null) {
-                    if (additionalFieldResponse.getData() != null) {
-                        additionFieldsList.addAll(additionalFieldResponse.getData());
-                        attachToAdapter();
-                    } else {
-                        additionalFieldResponse.getMessage();
-                    }
-                } else {
-                    CommonMethods.showToast(this, "No data found,Please try again!");
-                }
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-
-        } else if (url.contains(CommonStrings.CUSTOMER_ADDITIONAL_FIELDS)) {
+         if (url.contains(CommonStrings.CUSTOMER_ADDITIONAL_FIELDS)) {
             try {
                 CustAdditionalResponse custAdditionalResponse = new Gson().fromJson(strRes, CustAdditionalResponse.class);
                 if (custAdditionalResponse.getStatus() && custAdditionalResponse != null) {
                     if (custAdditionalResponse.getData() != null) {
                         custAdditionalList.addAll(custAdditionalResponse.getData());
+                        if(CommonStrings.additionFieldsList!=null && !CommonStrings.additionFieldsList.isEmpty())
+                            attachToAdapter(CommonStrings.additionFieldsList);
 
                     } else {
                         custAdditionalResponse.getMessage();
@@ -165,25 +131,29 @@ public class AdditionalFieldsActivity extends AppCompatActivity implements View.
         }
     }
 
-    private void attachToAdapter() {
-
-        AdditionalFieldAdapter additionalFieldAdapter;
-        if(CommonStrings.IS_OLD_LEAD)
-        {
-            additionalFieldAdapter = new AdditionalFieldAdapter(AdditionalFieldsActivity.this, additionFieldsList,custAdditionalList,btnNext);
-        }
-        else
-        {
-            additionalFieldAdapter = new AdditionalFieldAdapter(AdditionalFieldsActivity.this, additionFieldsList,btnNext);
-
-        }
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        rvAdditionalFields.setLayoutManager(layoutManager);
-        rvAdditionalFields.setAdapter(additionalFieldAdapter);
-    }
-
     @Override
     public void onFailure(Call<Object> call, Throwable t) {
 
     }
+
+    private void attachToAdapter(List<AdditionFields> additionalFieldDataList) {
+
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            AdditionalFieldAdapter additionalFieldAdapter = new AdditionalFieldAdapter(AdditionalFieldsActivity.this, additionalFieldDataList,custAdditionalList,btnNext);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            rvAdditionalFields.setLayoutManager(layoutManager);
+            rvAdditionalFields.setAdapter(additionalFieldAdapter);
+        }
+        else
+        {
+            AdditionalFieldAdapter additionalFieldAdapter = new AdditionalFieldAdapter(AdditionalFieldsActivity.this, additionalFieldDataList,btnNext);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            rvAdditionalFields.setLayoutManager(layoutManager);
+            rvAdditionalFields.setAdapter(additionalFieldAdapter);
+        }
+
+    }
+
+
 }

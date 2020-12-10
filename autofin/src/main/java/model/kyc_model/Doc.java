@@ -2,6 +2,8 @@ package model.kyc_model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Doc
 {
      @SerializedName("Key")
@@ -11,7 +13,16 @@ public class Doc
         @Expose
         private String url;
 
-        public String getKey() {
+    public Doc(String keyName, String docPath) {
+        key=keyName;
+        url=docPath;
+    }
+
+    public Doc() {
+
+    }
+
+    public String getKey() {
             return key;
         }
 

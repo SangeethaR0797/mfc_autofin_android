@@ -2,6 +2,7 @@ package com.mfc.autofin.framework.Activity.VehicleDetailsActivities.new_car_flow
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,12 +17,15 @@ import com.mfc.autofin.framework.Activity.PersonalDetails.MonthlyIncome;
 import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.CarHaveLoanCurrentlyActivity;
 import com.mfc.autofin.framework.R;
 
+import java.text.Normalizer;
+
 import utility.CommonMethods;
 import utility.CommonStrings;
 import utility.CustomFonts;
 
 public class VehiclePurchaseAmountActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = VehiclePurchaseAmountActivity.class.getSimpleName();
     private boolean isNewCar=false;
     private String strPreviousVal = "",strPurchaseAmount="";
     private ImageView iv_vehDetails_back;
@@ -59,8 +63,7 @@ public class VehiclePurchaseAmountActivity extends AppCompatActivity implements 
         if (CommonStrings.IS_OLD_LEAD) {
             if (CommonStrings.customVehDetails.getVehicleSellingPrice() != 0) {
                 purchaseAmount = CommonStrings.customVehDetails.getVehicleSellingPrice();
-                String result =CommonMethods.getFormattedDouble(purchaseAmount);
-                strPurchaseAmount=result.replaceAll("[-+.^:,]","");
+                strPurchaseAmount =CommonMethods.removeDecimal(purchaseAmount);
             }
         }
 
@@ -117,7 +120,17 @@ public class VehiclePurchaseAmountActivity extends AppCompatActivity implements 
                 else
                     {
                         if (!etVehPurchaseAmount.getText().toString().equals("")) {
-                            CommonStrings.customVehDetails.setVehicleSellingPrice(Double.parseDouble(etVehPurchaseAmount.getText().toString()));
+                            if(etVehPurchaseAmount.getText().toString().contains(","))
+                            {
+                                String purchaseAmount= etVehPurchaseAmount.getText().toString().replaceAll("[^\\d.]", "");
+                                Log.i(TAG, "onClick: "+purchaseAmount);
+                                CommonStrings.customVehDetails.setVehicleSellingPrice(Double.parseDouble(purchaseAmount));
+                            }
+                            else
+                            {
+                                String purchaseAmount=etVehPurchaseAmount.getText().toString();
+                                CommonStrings.customVehDetails.setVehicleSellingPrice(Double.parseDouble(purchaseAmount));
+                            }
                             startActivity(new Intent(this, CarHaveLoanCurrentlyActivity.class));
                         } else {
                             CommonMethods.showToast(this, "Please enter vehicle purchase amount");

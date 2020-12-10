@@ -3,6 +3,7 @@ package utility;
 public class Global
 {
     public static CommonURLs commonURLs=new CommonURLs("Stage");
+    public static String currentBaseURL=commonURLs.customerAPI_BaseURL;
     public static String baseURL = commonURLs.baseURL;
     public static String ibb_base_url = commonURLs.ibb_base_url;
     public static String stock_details_base_url = commonURLs.stock_details_base_url;

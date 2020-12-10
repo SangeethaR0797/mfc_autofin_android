@@ -55,7 +55,7 @@ public class InterestedBankOfferActivity extends AppCompatActivity implements Vi
         tv_hi_cname.setText(CommonStrings.customBasicDetails.getFullName());
         tvInterestedBankOfferCaseId.setText("Your Case Id is " + CommonMethods.getStringValueFromKey(this, CommonStrings.CASE_ID));
         tvCommonAppBarTitle.setText("INTERESTED BANK OFFER");
-        iv_common_bar_backBtn.setOnClickListener(this);
+        iv_common_bar_backBtn.setVisibility(View.INVISIBLE);
         btnUpdate.setOnClickListener(this);
         btnTrackLoan.setOnClickListener(this);
     }
@@ -63,11 +63,12 @@ public class InterestedBankOfferActivity extends AppCompatActivity implements Vi
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_common_bar_backBtn) {
-            finish();
+
         } else if (v.getId() == R.id.btnUpdate) {
             CommonMethods.showToast(this, "Yet to implement");
         } else if (v.getId() == R.id.btnTrackLoan) {
-            retrofitInterface.getFromWeb(getCustomerDetailsReq(), Global.customer_bank_baseURL+ CommonStrings.PROCESS_WITH_BANK_URL_END).enqueue(this);
+           // retrofitInterface.getFromWeb(getCustomerDetailsReq(), Global.customer_bank_baseURL+ CommonStrings.PROCESS_WITH_BANK_URL_END).enqueue(this);
+            CommonMethods.redirectToDashboard(this);
         }
     }
     private CustomerDetailsRequest getCustomerDetailsReq() {
@@ -111,6 +112,11 @@ public class InterestedBankOfferActivity extends AppCompatActivity implements Vi
 
     @Override
     public void onFailure(Call<Object> call, Throwable t) {
+
+    }
+
+    @Override
+    public void onBackPressed() {
 
     }
 }

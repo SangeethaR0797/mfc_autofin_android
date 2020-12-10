@@ -91,6 +91,7 @@ public class ViewBankActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onResponse(Call<Object> call, Response<Object> response) {
         SpinnerManager.hideSpinner(this);
+
         String strRes = new Gson().toJson(response.body());
         Log.i(TAG, "onResponse: " + strRes);
         BankListResponse bankListResponse = new Gson().fromJson(strRes, BankListResponse.class);

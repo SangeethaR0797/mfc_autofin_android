@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,10 +7,17 @@
     android:background="@color/g_white"
     android:orientation="vertical"
     tools:context=".Activity.VehicleDetailsActivities.VehRegNumActivity">
+    <LinearLayout
+        android:id="@+id/veh_reg_appLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <include layout="@layout/vehicle_details_app_bar" />
+        <include layout="@layout/vehicle_details_app_bar" />
+    </LinearLayout>
 
     <androidx.cardview.widget.CardView
+        android:layout_below="@+id/veh_reg_appLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/text_size10dp"
@@ -67,4 +74,12 @@
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <include layout="@layout/autofin_next_btn" />
+    </LinearLayout>
+
+</RelativeLayout>

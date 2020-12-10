@@ -67,7 +67,7 @@ public class YearOfExperienceActivity extends AppCompatActivity implements View.
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         if(!strYearsOfExperience.isEmpty())
         {
-            tvYears.setText(strYearsOfExperience);
+            etNOOfYears.setText(strYearsOfExperience);
         }
         tvGivenValEdit.setOnClickListener(this);
         etNOOfYears.setOnClickListener(this);

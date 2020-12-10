@@ -69,7 +69,7 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
         if (CommonStrings.customLoanDetails.getLoanCategory().equals(getResources().getString(R.string.new_car))) {
             isNewCarFlow = true;
             if (!String.valueOf(CommonStrings.customVehDetails.getVehicleSellingPrice()).equals("")) {
-                strPreviousScreenVal = String.valueOf(CommonStrings.customVehDetails.getInsuranceAmount());
+                strPreviousScreenVal = CommonMethods.getFormattedString(CommonStrings.customVehDetails.getInsuranceAmount());
             } else {
                 strPreviousScreenVal = "";
             }
@@ -150,7 +150,7 @@ public class BasicDetailsActivity extends AppCompatActivity implements View.OnCl
                 CommonStrings.customBasicDetails.setCustomerMobile(strPhoneNum);
                 CommonStrings.customBasicDetails.setSalutation(salutation);
                 SpinnerManager.showSpinner(this);
-                retrofitInterface.getFromWeb(getOTPRequest(), CommonStrings.OTP_URL_END).enqueue(this);
+                retrofitInterface.getFromWeb(getOTPRequest(), Global.customerAPI_BaseURL+CommonStrings.OTP_URL_END).enqueue(this);
             }
         } else if (v.getId() == R.id.iv_basic_details_backBtn) {
             CommonMethods.redirectToDashboard(BasicDetailsActivity.this);

@@ -38,6 +38,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import utility.CommonMethods;
 import utility.CommonStrings;
+import utility.Global;
 import utility.SpinnerManager;
 
 import static retrofit_config.RetroBase.retrofitInterface;
@@ -133,7 +134,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
                 otpTimer.cancel();
                 CommonStrings.customBasicDetails.setOtp(etOTPVal.getText().toString());
                 SpinnerManager.showSpinner(activity);
-                retrofitInterface.getFromWeb(getAddLeadRequest(), CommonStrings.ADD_LEAD_URL_END).enqueue(this);
+                retrofitInterface.getFromWeb(getAddLeadRequest(), Global.customerAPI_BaseURL+CommonStrings.ADD_LEAD_URL_END).enqueue(this);
             } else {
                 Toast.makeText(activity, getString(R.string.wrong_otp), Toast.LENGTH_LONG).show();
                 etOTPVal.setText("");

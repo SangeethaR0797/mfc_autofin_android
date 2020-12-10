@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -29,9 +30,10 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
     RadioButton rbNewCar, rbOldCar;
     ImageView iv_vehDetails_back;
     private List<Category> vehicleCategoryList;
+    Button btnNext;
 
     private String TAG = VehicleCategory.class.getSimpleName();
-    private String vehCategory="";
+    private String vehCategory = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +42,10 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
         Log.i(TAG, "onCreate: ");
 
 
-        if(CommonStrings.IS_OLD_LEAD)
-        {
-            Log.i(TAG, "onCreate: "+CommonStrings.customLoanDetails.getLoanCategory());
-            vehCategory=CommonStrings.customLoanDetails.getLoanCategory();
-            Log.i(TAG, "initView: "+vehCategory);
+        if (CommonStrings.IS_OLD_LEAD) {
+            Log.i(TAG, "onCreate: " + CommonStrings.customLoanDetails.getLoanCategory());
+            vehCategory = CommonStrings.customLoanDetails.getLoanCategory();
+            Log.i(TAG, "initView: " + vehCategory);
         }
 
         initView();
@@ -58,23 +59,28 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
         iv_vehDetails_back = findViewById(R.id.iv_vehDetails_back);
         iv_vehDetails_back.setOnClickListener(this);
         rbNewCar = findViewById(R.id.rbNewCar);
-        Log.i(TAG, "initView: "+vehCategory);
+        btnNext = findViewById(R.id.btnNext);
+        Log.i(TAG, "initView: " + vehCategory);
 
-        if(!vehCategory.isEmpty())
-        {
-            if(vehCategory.equalsIgnoreCase(rbNewCar.getText().toString()))
-            {
-                Log.i(TAG, "initView: 2"+vehCategory);
+        if (CommonStrings.IS_OLD_LEAD) {
+            btnNext.setVisibility(View.VISIBLE);
+        } else {
+            btnNext.setVisibility(View.INVISIBLE);
+        }
+        if (!vehCategory.isEmpty()) {
+            if (vehCategory.equalsIgnoreCase(rbNewCar.getText().toString())) {
+                Log.i(TAG, "initView: 2" + vehCategory);
                 rbNewCar.setChecked(true);
 
-            }
-            else if(vehCategory.equalsIgnoreCase(rbOldCar.getText().toString()))
-            {
-                Log.i(TAG, "initView: 3"+vehCategory);
+            } else if (vehCategory.equalsIgnoreCase(rbOldCar.getText().toString())) {
+                Log.i(TAG, "initView: 3" + vehCategory);
                 rbOldCar.setChecked(true);
 
             }
 
+        }
+        if (btnNext.getVisibility() == View.VISIBLE) {
+            btnNext.setOnClickListener(this);
         }
         rbOldCar.setOnClickListener(this);
         rbNewCar.setOnClickListener(this);
@@ -86,26 +92,42 @@ public class VehicleCategory extends AppCompatActivity implements View.OnClickLi
         if (v.getId() == R.id.iv_vehDetails_back) {
             finish();
         } else if (v.getId() == R.id.rbNewCar) {
-           try{
-               if (rbNewCar.isChecked()) {
-                   CommonStrings.customLoanDetails.setLoanCategory(rbNewCar.getText().toString());
-                   CommonStrings.customVehDetails.setHaveVehicleNumber(false);
-                   CommonStrings.customVehDetails.setVehicleNumber("NA");
-                   Intent intent = new Intent(VehicleCategory.this, VehRegistrationYear.class);
-                   startActivity(intent);
-               }
-           }catch(Exception exception){exception.printStackTrace();}
+            try {
+                if (rbNewCar.isChecked()) {
+                    vehCategory = rbNewCar.getText().toString();
+                    CommonStrings.customLoanDetails.setLoanCategory(vehCategory);
+                    CommonStrings.customVehDetails.setHaveVehicleNumber(false);
+                    CommonStrings.customVehDetails.setVehicleNumber("NA");
+                    Intent intent = new Intent(VehicleCategory.this, VehRegistrationYear.class);
+                    startActivity(intent);
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
         } else if (v.getId() == R.id.rbOldCar) {
 
-            try
-            {
+            try {
                 if (rbOldCar.isChecked()) {
-                    CommonStrings.customLoanDetails.setLoanCategory(rbOldCar.getText().toString());
+                    vehCategory = rbOldCar.getText().toString();
+                    CommonStrings.customLoanDetails.setLoanCategory(vehCategory);
                     Intent intent = new Intent(VehicleCategory.this, VehRegNumActivity.class);
                     startActivity(intent);
                 }
-            }catch (Exception exception){exception.printStackTrace();}
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        } else if (v.getId() == R.id.btnNext) {
+            if (!vehCategory.isEmpty()) {
+                CommonStrings.customLoanDetails.setLoanCategory(vehCategory);
+                Intent intent = new Intent(VehicleCategory.this, VehRegNumActivity.class);
+                startActivity(intent);
+            }
+            else
+            {
+               CommonMethods.showToast(this,"Please select anyone value");
+            }
         }
+
 
     }
 

@@ -40,8 +40,7 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
             if (CommonStrings.customVehDetails.getValuationPrice()!=0)
             {
                 double insAmount = CommonStrings.customVehDetails.getValuationPrice();
-                String result =CommonMethods.getFormattedDouble(insAmount);
-                strInspectionAmount=result.replaceAll("[-+.^:,]","");
+                strInspectionAmount =CommonMethods.removeDecimal(insAmount);
             }
         }
         initView();
@@ -73,7 +72,10 @@ public class VehPostInspectionActivity extends AppCompatActivity implements View
             finish();
         } else if (v.getId() == R.id.btnNext) {
             if (!etPostInspectionAmount.getText().toString().equals("")) {
-               CommonStrings.customVehDetails.setValuationPrice(Double.parseDouble(etPostInspectionAmount.getText().toString()));
+
+                String postInsAmount= etPostInspectionAmount.getText().toString().replaceAll("[^\\d.]", "");
+                double dPAMount=Double.parseDouble(postInsAmount);
+                CommonStrings.customVehDetails.setValuationPrice(dPAMount);
                 Intent intent = new Intent(VehPostInspectionActivity.this, VehValidInsuranceActivity.class);
                 startActivity(intent);
             } else {
