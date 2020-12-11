@@ -68,7 +68,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
     private String panCardURL = "", aadhaarCardURL = "", voterIdURL = "", passportURL = "",
             rentalAgreementURL = "", ebBillURL = "", resAadhaarURL = "",
-            bankStmtURL = "", salSlip = "", form16URL = "", itrURL = "";
+            bankStmtURL = "", salSlip = "", form16URL = "", itrURL = "",additionalDocURL="";
 
     private File file;
     private Uri fileUri;
@@ -165,35 +165,53 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         for (int i = 0; i < documentList.size(); i++) {
             if (documentList.get(i).getKey().equalsIgnoreCase("PanCard")) {
                 setFileOnTextView(documentList.get(i).getUrl(), tvPanCardURL);
+                photoIDProofList.add(CommonStrings.documentList.get(i));
                 Log.i(TAG, "prefillDocURLs: "+documentList.get(i).getKey());
             } else if (documentList.get(i).getKey().equalsIgnoreCase("AdhaarCard")) {
+                photoIDProofList.add(CommonStrings.documentList.get(i));
                 setFileOnTextView(documentList.get(i).getUrl(), tvAadharCardURL);
                 Log.i(TAG, "prefillDocURLs: "+documentList.get(i).getKey());
             } else if (documentList.get(i).getKey().equalsIgnoreCase("VoterId")) {
+                photoIDProofList.add(CommonStrings.documentList.get(i));
                 setFileOnTextView(documentList.get(i).getUrl(), tvVoterIdURL);
                 Log.i(TAG, "prefillDocURLs: "+documentList.get(i).getKey());
             } else if (documentList.get(i).getKey().equalsIgnoreCase("Passport")) {
+                photoIDProofList.add(CommonStrings.documentList.get(i));
                 setFileOnTextView(documentList.get(i).getUrl(), tvPassportURL);
                 Log.i(TAG, "prefillDocURLs: "+documentList.get(i).getKey());
+            }
+            else if (documentList.get(i).getKey().equalsIgnoreCase("RentAgreement")) {
+                residenceProofList.add(CommonStrings.documentList.get(i));
+                setFileOnTextView(documentList.get(i).getUrl(), tvRentAgreementURL);
+                Log.i(TAG, "prefillDocURLs: "+documentList.get(i).getKey());
             } else if (documentList.get(i).getKey().equalsIgnoreCase("ElectricityBill")) {
+                residenceProofList.add(CommonStrings.documentList.get(i));
+                residenceProofList.add(CommonStrings.documentList.get(i));
+                photoIDProofList.add(CommonStrings.documentList.get(i));
                 setFileOnTextView(documentList.get(i).getUrl(), tvElectricityBillURL);
                 Log.i(TAG, "prefillDocURLs: "+documentList.get(i).getKey());
             } else if (documentList.get(i).getKey().equalsIgnoreCase("AdhaarCard")) {
+                residenceProofList.add(CommonStrings.documentList.get(i));
                 setFileOnTextView(documentList.get(i).getUrl(), tvResAadharURL);
                 Log.i(TAG, "prefillDocURLs: "+documentList.get(i).getKey());
             } else if (documentList.get(i).getKey().equalsIgnoreCase("BankStatement")) {
+                bankStmtList.add(CommonStrings.documentList.get(i));
                 setFileOnTextView(documentList.get(i).getUrl(), tvBankStatementURL);
                 Log.i(TAG, "prefillDocURLs: "+documentList.get(i).getKey());
             } else if (documentList.get(i).getKey().equalsIgnoreCase("SalarySlip")) {
+                bankStmtList.add(CommonStrings.documentList.get(i));
                 setFileOnTextView(documentList.get(i).getUrl(), tvSalarySlipURL);
                 Log.i(TAG, "prefillDocURLs: "+documentList.get(i).getKey());
             } else if (documentList.get(i).getKey().equalsIgnoreCase("Form16")) {
+                bankStmtList.add(CommonStrings.documentList.get(i));
                 setFileOnTextView(documentList.get(i).getUrl(), tvForm16URL);
                 Log.i(TAG, "prefillDocURLs: "+documentList.get(i).getKey());
             } else if (documentList.get(i).getKey().equalsIgnoreCase("ITRReturn")) {
+                bankStmtList.add(CommonStrings.documentList.get(i));
                 setFileOnTextView(documentList.get(i).getUrl(), tvITRURL);
                 Log.i(TAG, "prefillDocURLs: "+documentList.get(i).getKey());
-            } else if (documentList.get(i).getKey().equalsIgnoreCase("ITRReturn")) {
+            } else if (documentList.get(i).getKey().equalsIgnoreCase("ApplicationForm")) {
+                documentList.add(CommonStrings.documentList.get(i));
                 setFileOnTextView(documentList.get(i).getUrl(), tvITRURL);
                 Log.i(TAG, "prefillDocURLs: "+documentList.get(i).getKey());
             }
@@ -499,11 +517,11 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             bankStmtList.add(doc);
             Log.i(TAG, "onImageUploadCompleted: " + bankStmtList.size());
         } else if (statusCode == AutoFinConstants.ADDITIONAL_DOCS) {
-            itrURL = imageURL;
+            additionalDocURL = imageURL;
             setFileOnTextView(imageURL, tvAdditionalDocURL);
             Doc doc = new Doc();
             doc.setKey("ApplicationForm");
-            doc.setUrl(imageURL);
+            doc.setUrl(additionalDocURL);
             documentList.add(doc);
             Log.i(TAG, "onImageUploadCompleted: " + documentList.size());
         }
@@ -575,7 +593,8 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
     private boolean isBankDetailsFilled() {
         if (!tvBankStatementURL.getText().toString().equalsIgnoreCase(getResources().getString(R.string.add_doc_lbl)) &&
-                !tvBankStatementURL.getText().toString().equals("") && !bankStmtList.isEmpty()) {
+                !tvBankStatementURL.getText().toString().equals("") && !bankStmtList.isEmpty() && (!tvAdditionalDocURL.getText().toString().equalsIgnoreCase(getResources().getString(R.string.add_doc_lbl))) && (!tvAdditionalDocURL.getText().toString().isEmpty()))
+        {
             return true;
         } else {
             return false;

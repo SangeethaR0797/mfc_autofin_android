@@ -122,6 +122,10 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
                 radioBtn04.setChecked(false);
                 radioBtn05.setChecked(false);
                 strOwnership=radioBtn01.getText().toString();
+                if(!CommonStrings.IS_OLD_LEAD)
+                {
+                    moveToNextPage();
+                }
             }
             if (button.getId() == R.id.radioBtn02) {
                 radioBtn01.setChecked(false);
@@ -129,6 +133,10 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
                 radioBtn04.setChecked(false);
                 radioBtn05.setChecked(false);
                 strOwnership=radioBtn02.getText().toString();
+                if(!CommonStrings.IS_OLD_LEAD)
+                {
+                    moveToNextPage();
+                }
             }
             if (button.getId() == R.id.radioBtn03) {
                 radioBtn02.setChecked(false);
@@ -136,6 +144,10 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
                 radioBtn04.setChecked(false);
                 radioBtn05.setChecked(false);
                 strOwnership=radioBtn03.getText().toString();
+                if(!CommonStrings.IS_OLD_LEAD)
+                {
+                    moveToNextPage();
+                }
             }
             if (button.getId() == R.id.radioBtn04) {
                 radioBtn02.setChecked(false);
@@ -143,6 +155,10 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
                 radioBtn01.setChecked(false);
                 radioBtn05.setChecked(false);
                 strOwnership=radioBtn04.getText().toString();
+                if(!CommonStrings.IS_OLD_LEAD)
+                {
+                    moveToNextPage();
+                }
             }
             if (button.getId() == R.id.radioBtn05) {
                 radioBtn02.setChecked(false);
@@ -150,6 +166,10 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
                 radioBtn04.setChecked(false);
                 radioBtn01.setChecked(false);
                 strOwnership=radioBtn05.getText().toString();
+                if(!CommonStrings.IS_OLD_LEAD)
+                {
+                    moveToNextPage();
+                }
             }
         }
 
@@ -162,7 +182,7 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
         }else if (v.getId() == R.id.btnNext) {
             if(!strOwnership.isEmpty())
             {
-                moveToNextPage(strOwnership);
+                moveToNextPage();
             }
             else
             {
@@ -172,8 +192,8 @@ public class VehicleOwnerActivity extends AppCompatActivity implements View.OnCl
     }
 
 
-    private void moveToNextPage(String strOwner) {
-        CommonStrings.customVehDetails.setOwnership(Integer.valueOf(strOwner));
+    private void moveToNextPage() {
+        CommonStrings.customVehDetails.setOwnership(Integer.valueOf(strOwnership));
         CommonStrings.customVehDetails.setOnRoadPrice(Double.parseDouble("0"));
         Intent intent = new Intent(VehicleOwnerActivity.this, VehiclePurchaseAmountActivity.class);
         startActivity(intent);

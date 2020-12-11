@@ -234,7 +234,6 @@ public class ReviewDetailsActivity extends AppCompatActivity implements View.OnC
             personalDetails.add(new ReviewData(getResources().getString(R.string.lbl_industry_type), cusEmpDetails.getIndustryType()));
 
         } else if (cusEmpDetails.getEmploymentType().equalsIgnoreCase(getResources().getString(R.string.lbl_self_employed_professional))) {
-            personalDetails.add(new ReviewData("EMPLOYMENT ROLE", cusEmpDetails.getEmploymentRole()));
             personalDetails.add(new ReviewData("PROFESSION", cusEmpDetails.getProfession()));
             personalDetails.add(new ReviewData("PROFESSION STARTED DATE", cusEmpDetails.getBusinessStartDate()));
             personalDetails.add(new ReviewData("LAST YEARS PROFIT", CommonMethods.getFormattedAmount(cusEmpDetails.getLastYearProfit())));

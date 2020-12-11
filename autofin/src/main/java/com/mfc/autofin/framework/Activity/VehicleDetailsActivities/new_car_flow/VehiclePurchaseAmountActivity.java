@@ -26,33 +26,29 @@ import utility.CustomFonts;
 public class VehiclePurchaseAmountActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = VehiclePurchaseAmountActivity.class.getSimpleName();
-    private boolean isNewCar=false;
-    private String strPreviousVal = "",strPurchaseAmount="";
+    private boolean isNewCar = false;
+    private String strPreviousVal = "", strPurchaseAmount = "";
     private ImageView iv_vehDetails_back;
     private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvVehPurchaseAmount;
     private EditText etVehPurchaseAmount;
     private Button btnNext;
-    private double purchaseAmount=0;
+    private double purchaseAmount = 0;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_purchase_amount);
-        if(CommonStrings.customLoanDetails.getLoanCategory().equals(getResources().getString(R.string.new_car)))
-        {
-            isNewCar=true;
+        if (CommonStrings.customLoanDetails.getLoanCategory().equals(getResources().getString(R.string.new_car))) {
+            isNewCar = true;
         }
-        if(isNewCar)
-        {
+        if (isNewCar) {
             if (!String.valueOf(CommonStrings.customVehDetails.getOnRoadPrice()).equals("")) {
                 strPreviousVal = String.valueOf(CommonStrings.customVehDetails.getOnRoadPrice());
             } else {
                 strPreviousVal = "";
             }
-        }
-        else
-        {
+        } else {
             if (!String.valueOf(CommonStrings.customVehDetails.getOwnership()).equals("")) {
                 strPreviousVal = String.valueOf(CommonStrings.customVehDetails.getOwnership());
             } else {
@@ -63,7 +59,8 @@ public class VehiclePurchaseAmountActivity extends AppCompatActivity implements 
         if (CommonStrings.IS_OLD_LEAD) {
             if (CommonStrings.customVehDetails.getVehicleSellingPrice() != 0) {
                 purchaseAmount = CommonStrings.customVehDetails.getVehicleSellingPrice();
-                strPurchaseAmount =CommonMethods.removeDecimal(purchaseAmount);
+                strPurchaseAmount = CommonMethods.getFormattedString(purchaseAmount);
+                Log.i(TAG, "onCreate: "+strPurchaseAmount);
             }
         }
 
@@ -78,16 +75,12 @@ public class VehiclePurchaseAmountActivity extends AppCompatActivity implements 
         tvVehPurchaseAmount = findViewById(R.id.tvVehPurchaseAmount);
         etVehPurchaseAmount = findViewById(R.id.etVehPurchaseAmount);
         btnNext = findViewById(R.id.btnNext);
-        if(isNewCar)
-        {
+        if (isNewCar) {
             tvGivenLbl.setText(getResources().getString(R.string.lbl_interested_vehicle_price));
-        }
-        else
-        {
+        } else {
             tvGivenLbl.setText(getResources().getString(R.string.lbl_veh_ownership));
         }
-        if(!strPurchaseAmount.isEmpty())
-        {
+        if (!strPurchaseAmount.isEmpty()) {
             etVehPurchaseAmount.setText(strPurchaseAmount);
 
         }
@@ -102,44 +95,43 @@ public class VehiclePurchaseAmountActivity extends AppCompatActivity implements 
     @Override
     public void onClick(View v) {
 
-       if (v.getId() == R.id.tvGivenValEdit) {
+        if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.btnNext) {
 
-            try{
+            try {
 
-                if(isNewCar)
-                {
+                if (isNewCar) {
                     if (!etVehPurchaseAmount.getText().toString().equals("")) {
-                        CommonStrings.customVehDetails.setVehicleSellingPrice(Double.parseDouble(etVehPurchaseAmount.getText().toString()));
+                            strPurchaseAmount=etVehPurchaseAmount.getText().toString();
+                            CommonStrings.customVehDetails.setVehicleSellingPrice(Double.parseDouble(strPurchaseAmount));
+                            Log.i(TAG, "onClick: "+purchaseAmount);
                         startActivity(new Intent(this, InsuredAmountActivity.class));
                     } else {
                         CommonMethods.showToast(this, "Please enter vehicle purchase amount");
                     }
-                }
-                else
-                    {
-                        if (!etVehPurchaseAmount.getText().toString().equals("")) {
-                            if(etVehPurchaseAmount.getText().toString().contains(","))
-                            {
-                                String purchaseAmount= etVehPurchaseAmount.getText().toString().replaceAll("[^\\d.]", "");
-                                Log.i(TAG, "onClick: "+purchaseAmount);
-                                CommonStrings.customVehDetails.setVehicleSellingPrice(Double.parseDouble(purchaseAmount));
-                            }
-                            else
-                            {
-                                String purchaseAmount=etVehPurchaseAmount.getText().toString();
-                                CommonStrings.customVehDetails.setVehicleSellingPrice(Double.parseDouble(purchaseAmount));
-                            }
-                            startActivity(new Intent(this, CarHaveLoanCurrentlyActivity.class));
+                } else {
+                    if (!etVehPurchaseAmount.getText().toString().equals("")) {
+                        if (etVehPurchaseAmount.getText().toString().contains(",")) {
+                            strPurchaseAmount= CommonMethods.getFormattedString(Double.parseDouble(etVehPurchaseAmount.getText().toString()));
+                            Log.i(TAG, "onClick: " + purchaseAmount);
+                            CommonStrings.customVehDetails.setVehicleSellingPrice(Double.parseDouble(strPurchaseAmount));
                         } else {
-                            CommonMethods.showToast(this, "Please enter vehicle purchase amount");
+                            strPurchaseAmount = etVehPurchaseAmount.getText().toString();
+                            CommonStrings.customVehDetails.setVehicleSellingPrice(Double.parseDouble(strPurchaseAmount));
                         }
+                        startActivity(new Intent(this, CarHaveLoanCurrentlyActivity.class));
+                    } else {
+                        CommonMethods.showToast(this, "Please enter vehicle purchase amount");
                     }
+                }
 
-            }catch(Exception exception){exception.printStackTrace();}
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
         }
     }
+
     @Override
     public void onBackPressed() {
     }

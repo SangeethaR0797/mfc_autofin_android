@@ -12,6 +12,12 @@
         android:orientation="vertical">
         <include layout="@layout/personal_details_app_bar" />
         <include layout="@layout/layout_previous_screen_values" />
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true">
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,5 +91,14 @@
                 </RadioGroup>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+        </ScrollView>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <include layout="@layout/autofin_next_btn" />
+    </LinearLayout>
+
 </RelativeLayout>

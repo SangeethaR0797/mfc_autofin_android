@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -21,7 +22,8 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
     private TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvNumOfExistingLoanLbl;
     private RadioButton rbLoan01, rbLoan02, rbLoan03, rbLoan04, rbLoan05, rbLoan06, rbNoPendingLoan;
     private Intent intent;
-    private String strPreviousLbl="", strPreviousVal="",strExistingLoan="";
+    private String strPreviousLbl = "", strPreviousVal = "", strExistingLoan = "";
+    private Button btnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +36,9 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-        if(CommonStrings.IS_OLD_LEAD)
-        {
-            if(CommonStrings.customLoanDetails.getNoOfExistingLoans()!=null && !CommonStrings.customLoanDetails.getNoOfExistingLoans().isEmpty())
-            {
-                strExistingLoan=CommonMethods.removeDecimal(Double.parseDouble(CommonStrings.customLoanDetails.getNoOfExistingLoans()));
+        if (CommonStrings.IS_OLD_LEAD) {
+            if (CommonStrings.customLoanDetails.getNoOfExistingLoans() != null && !CommonStrings.customLoanDetails.getNoOfExistingLoans().isEmpty()) {
+                strExistingLoan = CommonMethods.removeDecimal(Double.parseDouble(CommonStrings.customLoanDetails.getNoOfExistingLoans()));
             }
         }
 
@@ -52,6 +52,7 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
         tvGivenPreviousVal = findViewById(R.id.tvGivenPreviousVal);
         tvGivenValEdit = findViewById(R.id.tvGivenValEdit);
         tvNumOfExistingLoanLbl = findViewById(R.id.tvNumOfExistingLoanLbl);
+        btnNext = findViewById(R.id.btnNext);
         rbLoan01 = findViewById(R.id.rbLoan01);
         rbLoan02 = findViewById(R.id.rbLoan02);
         rbLoan03 = findViewById(R.id.rbLoan03);
@@ -62,8 +63,7 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strPreviousVal);
         tvGivenValEdit.setOnClickListener(this);
-        if(strExistingLoan.equalsIgnoreCase("0"))
-        {
+        if (strExistingLoan.equalsIgnoreCase("0")) {
             rbNoPendingLoan.setChecked(true);
             rbLoan01.setChecked(false);
             rbLoan02.setChecked(false);
@@ -71,9 +71,7 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
             rbLoan04.setChecked(false);
             rbLoan05.setChecked(false);
             rbLoan06.setChecked(false);
-        }
-        else if(strExistingLoan.equalsIgnoreCase("1") || strExistingLoan.equalsIgnoreCase("01"))
-        {
+        } else if (strExistingLoan.equalsIgnoreCase("1") || strExistingLoan.equalsIgnoreCase("01")) {
 
             rbNoPendingLoan.setChecked(false);
             rbLoan01.setChecked(true);
@@ -82,9 +80,7 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
             rbLoan04.setChecked(false);
             rbLoan05.setChecked(false);
             rbLoan06.setChecked(false);
-        }
-        else if(strExistingLoan.equalsIgnoreCase("2")|| strExistingLoan.equalsIgnoreCase("02"))
-        {
+        } else if (strExistingLoan.equalsIgnoreCase("2") || strExistingLoan.equalsIgnoreCase("02")) {
             rbLoan02.setChecked(true);
             rbNoPendingLoan.setChecked(false);
             rbLoan01.setChecked(false);
@@ -92,9 +88,7 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
             rbLoan04.setChecked(false);
             rbLoan05.setChecked(false);
             rbLoan06.setChecked(false);
-        }
-        else if(strExistingLoan.equalsIgnoreCase("3")|| strExistingLoan.equalsIgnoreCase("03"))
-        {
+        } else if (strExistingLoan.equalsIgnoreCase("3") || strExistingLoan.equalsIgnoreCase("03")) {
             rbLoan03.setChecked(true);
             rbLoan02.setChecked(false);
             rbNoPendingLoan.setChecked(false);
@@ -102,9 +96,7 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
             rbLoan04.setChecked(false);
             rbLoan05.setChecked(false);
             rbLoan06.setChecked(false);
-        }
-        else if(strExistingLoan.equalsIgnoreCase("4")|| strExistingLoan.equalsIgnoreCase("04"))
-        {
+        } else if (strExistingLoan.equalsIgnoreCase("4") || strExistingLoan.equalsIgnoreCase("04")) {
             rbLoan04.setChecked(true);
             rbLoan02.setChecked(false);
             rbNoPendingLoan.setChecked(false);
@@ -112,9 +104,7 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
             rbLoan03.setChecked(false);
             rbLoan05.setChecked(false);
             rbLoan06.setChecked(false);
-        }
-        else if(strExistingLoan.equalsIgnoreCase("5")|| strExistingLoan.equalsIgnoreCase("05"))
-        {
+        } else if (strExistingLoan.equalsIgnoreCase("5") || strExistingLoan.equalsIgnoreCase("05")) {
             rbLoan02.setChecked(false);
             rbNoPendingLoan.setChecked(false);
             rbLoan01.setChecked(false);
@@ -122,9 +112,7 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
             rbLoan04.setChecked(false);
             rbLoan05.setChecked(true);
             rbLoan06.setChecked(false);
-        }
-        else if(strExistingLoan.equalsIgnoreCase("6")|| strExistingLoan.equalsIgnoreCase("06"))
-        {
+        } else if (strExistingLoan.equalsIgnoreCase("6") || strExistingLoan.equalsIgnoreCase("06")) {
 
             rbLoan02.setChecked(false);
             rbNoPendingLoan.setChecked(false);
@@ -141,6 +129,13 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
         rbLoan05.setOnCheckedChangeListener(this);
         rbLoan06.setOnCheckedChangeListener(this);
         rbNoPendingLoan.setOnCheckedChangeListener(this);
+        if (CommonStrings.IS_OLD_LEAD) {
+            btnNext.setVisibility(View.VISIBLE);
+            btnNext.setOnClickListener(this);
+        } else {
+            btnNext.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -148,6 +143,10 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
 
         if (v.getId() == R.id.tvGivenValEdit) {
             finish();
+        } else if (v.getId() == R.id.btnNext) {
+            if (!strExistingLoan.isEmpty()) {
+                moveToNextPage();
+            }
         }
     }
 
@@ -161,8 +160,9 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
                 rbLoan05.setChecked(false);
                 rbLoan06.setChecked(false);
                 rbNoPendingLoan.setChecked(false);
-                moveToNextPage(rbLoan01.getText().toString());
-
+                strExistingLoan = rbLoan01.getText().toString();
+                if (!CommonStrings.IS_OLD_LEAD)
+                    moveToNextPage();
             } else if (button.getId() == R.id.rbLoan02) {
                 rbLoan01.setChecked(false);
                 rbLoan03.setChecked(false);
@@ -170,8 +170,9 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
                 rbLoan05.setChecked(false);
                 rbLoan06.setChecked(false);
                 rbNoPendingLoan.setChecked(false);
-                moveToNextPage(rbLoan02.getText().toString());
-
+                strExistingLoan = rbLoan02.getText().toString();
+                if (!CommonStrings.IS_OLD_LEAD)
+                    moveToNextPage();
             } else if (button.getId() == R.id.rbLoan03) {
                 rbLoan01.setChecked(false);
                 rbLoan02.setChecked(false);
@@ -179,8 +180,9 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
                 rbLoan05.setChecked(false);
                 rbLoan06.setChecked(false);
                 rbNoPendingLoan.setChecked(false);
-                moveToNextPage(rbLoan03.getText().toString());
-
+                strExistingLoan = rbLoan03.getText().toString();
+                if (!CommonStrings.IS_OLD_LEAD)
+                    moveToNextPage();
             } else if (button.getId() == R.id.rbLoan04) {
                 rbLoan01.setChecked(false);
                 rbLoan02.setChecked(false);
@@ -188,8 +190,9 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
                 rbLoan05.setChecked(false);
                 rbLoan06.setChecked(false);
                 rbNoPendingLoan.setChecked(false);
-                moveToNextPage(rbLoan04.getText().toString());
-
+                strExistingLoan = rbLoan04.getText().toString();
+                if (!CommonStrings.IS_OLD_LEAD)
+                    moveToNextPage();
             } else if (button.getId() == R.id.rbLoan05) {
                 rbLoan01.setChecked(false);
                 rbLoan02.setChecked(false);
@@ -197,8 +200,9 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
                 rbLoan04.setChecked(false);
                 rbLoan06.setChecked(false);
                 rbNoPendingLoan.setChecked(false);
-                moveToNextPage(rbLoan05.getText().toString());
-
+                strExistingLoan = rbLoan05.getText().toString();
+                if (!CommonStrings.IS_OLD_LEAD)
+                    moveToNextPage();
             } else if (button.getId() == R.id.rbLoan06) {
                 rbLoan01.setChecked(false);
                 rbLoan02.setChecked(false);
@@ -206,7 +210,9 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
                 rbLoan04.setChecked(false);
                 rbLoan05.setChecked(false);
                 rbNoPendingLoan.setChecked(false);
-                moveToNextPage(rbLoan06.getText().toString());
+                strExistingLoan = rbLoan06.getText().toString();
+                if (!CommonStrings.IS_OLD_LEAD)
+                    moveToNextPage();
             } else if (button.getId() == R.id.rbNoPendingLoan) {
                 rbLoan01.setChecked(false);
                 rbLoan02.setChecked(false);
@@ -214,17 +220,18 @@ public class NumOFExistingLoanActivity extends AppCompatActivity implements View
                 rbLoan04.setChecked(false);
                 rbLoan05.setChecked(false);
                 rbLoan06.setChecked(false);
-                moveToNextPage("0");
-
+                strExistingLoan = "0";
+                if (!CommonStrings.IS_OLD_LEAD)
+                    moveToNextPage();
             }
         }
     }
 
-    private void moveToNextPage(String existingLoan) {
-        CommonStrings.customLoanDetails.setNoOfExistingLoans(existingLoan);
+    private void moveToNextPage() {
+        CommonStrings.customLoanDetails.setNoOfExistingLoans(strExistingLoan);
         Intent intent = new Intent(this, LoanRequiredActivity.class);
         intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvNumOfExistingLoanLbl.getText().toString());
-        intent.putExtra(CommonStrings.PREVIOUS_VALUE, existingLoan);
+        intent.putExtra(CommonStrings.PREVIOUS_VALUE, strExistingLoan);
         startActivity(intent);
     }
 

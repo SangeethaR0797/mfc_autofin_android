@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -37,14 +38,15 @@ import static retrofit_config.RetroBase.retrofitInterface;
 public class EmploymentTypeActivity extends AppCompatActivity implements View.OnClickListener, Callback<Object> {
 
     private static final String TAG = EmploymentTypeActivity.class.getSimpleName();
-    TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit,tvEmpTypeLbl;
+    TextView tvGivenLbl, tvGivenPreviousVal, tvGivenValEdit, tvEmpTypeLbl;
     LinearLayout llEmpTypeRadioGroup;
     ImageView iv_personal_details_backBtn;
     ViewGroup customEmpTypeRG;
     RadioButton rbSalaried, rbBusinessOwner, rbSelfEmployedProfessional, rbIndependentWorker, rbStudent, rbRetired, rbHomeMaker;
     List<EmpTypeList> empTypeList;
     private Intent intent;
-    private String strPreviousLbl="",strPreviousVal="",empType="";
+    private String strPreviousLbl = "", strPreviousVal = "", empType = "";
+    Button btnNext;
 
 
     @Override
@@ -58,15 +60,13 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-        if(CommonStrings.IS_OLD_LEAD)
-        {
-            if(CommonStrings.cusEmpDetails.getEmploymentType()!=null && !CommonStrings.cusEmpDetails.getEmploymentType().isEmpty())
-            {
-                empType=CommonStrings.cusEmpDetails.getEmploymentType();
+        if (CommonStrings.IS_OLD_LEAD) {
+            if (CommonStrings.cusEmpDetails.getEmploymentType() != null && !CommonStrings.cusEmpDetails.getEmploymentType().isEmpty()) {
+                empType = CommonStrings.cusEmpDetails.getEmploymentType();
             }
         }
 
-        retrofitInterface.getFromWeb(Global.customerAPI_Master_URL+CommonStrings.EMP_TYPE_URL_END).enqueue(this);
+        retrofitInterface.getFromWeb(Global.customerAPI_Master_URL + CommonStrings.EMP_TYPE_URL_END).enqueue(this);
         initView();
     }
 
@@ -79,7 +79,7 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
         tvGivenLbl.setText(strPreviousLbl);
         llEmpTypeRadioGroup = findViewById(R.id.llEmpTypeRadioGroup);
         tvGivenPreviousVal.setText(strPreviousVal);
-        tvEmpTypeLbl=findViewById(R.id.tvEmpTypeLbl);
+        tvEmpTypeLbl = findViewById(R.id.tvEmpTypeLbl);
         rbSalaried = findViewById(R.id.rbSalaried);
         rbBusinessOwner = findViewById(R.id.rbBusinessOwner);
         rbSelfEmployedProfessional = findViewById(R.id.rbSelfEmployedProfessional);
@@ -88,41 +88,33 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
         rbRetired = findViewById(R.id.rbRetired);
         rbHomeMaker = findViewById(R.id.rbHomeMaker);
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
+        btnNext=findViewById(R.id.btnNext);
         tvGivenValEdit.setOnClickListener(this);
-        if(empType.equalsIgnoreCase(rbSalaried.getText().toString()))
-        {
+        if (empType.equalsIgnoreCase(rbSalaried.getText().toString())) {
             rbSalaried.setChecked(true);
             rbBusinessOwner.setChecked(false);
             rbSelfEmployedProfessional.setChecked(false);
             rbIndependentWorker.setChecked(false);
             rbRetired.setChecked(false);
-        }
-        else if(empType.equalsIgnoreCase(rbBusinessOwner.getText().toString()))
-        {
+        } else if (empType.equalsIgnoreCase(rbBusinessOwner.getText().toString())) {
             rbSalaried.setChecked(false);
             rbBusinessOwner.setChecked(true);
             rbSelfEmployedProfessional.setChecked(false);
             rbIndependentWorker.setChecked(false);
             rbRetired.setChecked(false);
-        }
-        else if(empType.equalsIgnoreCase(rbSelfEmployedProfessional.getText().toString()))
-        {
+        } else if (empType.equalsIgnoreCase(rbSelfEmployedProfessional.getText().toString())) {
             rbSalaried.setChecked(false);
             rbBusinessOwner.setChecked(false);
             rbSelfEmployedProfessional.setChecked(true);
             rbIndependentWorker.setChecked(false);
             rbRetired.setChecked(false);
-        }
-        else if(empType.equalsIgnoreCase(rbIndependentWorker.getText().toString()))
-        {
+        } else if (empType.equalsIgnoreCase(rbIndependentWorker.getText().toString())) {
             rbSalaried.setChecked(false);
             rbBusinessOwner.setChecked(false);
             rbSelfEmployedProfessional.setChecked(false);
             rbIndependentWorker.setChecked(true);
             rbRetired.setChecked(false);
-        }
-        else if(empType.equalsIgnoreCase(rbRetired.getText().toString()))
-        {
+        } else if (empType.equalsIgnoreCase(rbRetired.getText().toString())) {
             rbSalaried.setChecked(false);
             rbBusinessOwner.setChecked(false);
             rbSelfEmployedProfessional.setChecked(false);
@@ -136,6 +128,13 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
         rbStudent.setVisibility(View.GONE);
         rbRetired.setOnClickListener(this);
         rbHomeMaker.setVisibility(View.GONE);
+        if (CommonStrings.IS_OLD_LEAD) {
+            btnNext.setVisibility(View.VISIBLE);
+            btnNext.setOnClickListener(this);
+        } else {
+            btnNext.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -147,34 +146,72 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
         if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.rbSalaried) {
-            CommonStrings.cusEmpDetails.setEmploymentType(rbSalaried.getText().toString());
+            empType = rbSalaried.getText().toString();
+            if (!CommonStrings.IS_OLD_LEAD) {
+                moveToNextPage();
+            }
+        } else if (v.getId() == R.id.rbBusinessOwner) {
+            empType = rbBusinessOwner.getText().toString();
+            if (!CommonStrings.IS_OLD_LEAD) {
+                moveToNextPage();
+            }
+        } else if (v.getId() == R.id.rbSelfEmployedProfessional) {
+            empType = rbSelfEmployedProfessional.getText().toString();
+            if (!CommonStrings.IS_OLD_LEAD) {
+                moveToNextPage();
+            }
+        } else if (v.getId() == R.id.rbIndependentWorker) {
+            empType = rbIndependentWorker.getText().toString();
+            if (!CommonStrings.IS_OLD_LEAD) {
+                moveToNextPage();
+            }
+        } else if (v.getId() == R.id.rbRetired) {
+            empType = rbRetired.getText().toString();
+            if (!CommonStrings.IS_OLD_LEAD) {
+                moveToNextPage();
+            }
+        } else if (v.getId() == R.id.btnNext) {
+            if(!empType.isEmpty())
+            moveToNextPage();
+        }
+    }
+
+    private void moveToNextPage() {
+        if (empType.equalsIgnoreCase(rbSalaried.getText().toString())) {
+            CommonStrings.cusEmpDetails.setEmploymentType(empType);
             Intent intent = new Intent(this, BankNamesActivity.class);
             intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
-            intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbSalaried.getText().toString());
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE, empType);
             startActivity(intent);
-        } else if (v.getId() == R.id.rbBusinessOwner) {
-            CommonStrings.cusEmpDetails.setEmploymentType(rbBusinessOwner.getText().toString());
+        } else if (empType.equalsIgnoreCase(rbBusinessOwner.getText().toString())) {
+            CommonStrings.cusEmpDetails.setEmploymentType(empType);
             Intent intent = new Intent(this, EmploymentRole.class);
             intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
-            intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbBusinessOwner.getText().toString());
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE, empType);
             startActivity(intent);
-        } else if (v.getId() == R.id.rbSelfEmployedProfessional) {
-            CommonStrings.cusEmpDetails.setEmploymentType(rbSelfEmployedProfessional.getText().toString());
+        }else if(empType.equalsIgnoreCase(rbSelfEmployedProfessional.getText().toString()))
+        {
+            CommonStrings.cusEmpDetails.setEmploymentType(empType);
             Intent intent = new Intent(this, ProfessionActivity.class);
             intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
-            intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbSelfEmployedProfessional.getText().toString());
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE, empType);
             startActivity(intent);
-        } else if (v.getId() == R.id.rbIndependentWorker) {
-            CommonStrings.cusEmpDetails.setEmploymentType(rbIndependentWorker.getText().toString());
+        }
+        else if(empType.equalsIgnoreCase(rbIndependentWorker.getText().toString()))
+        {
+            CommonStrings.cusEmpDetails.setEmploymentType(empType);
             Intent intent = new Intent(this, SavingsBankAccountActivity.class);
             intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
-            intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbIndependentWorker.getText().toString());
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE, empType);
             startActivity(intent);
-        } else if (v.getId() == R.id.rbRetired) {
-            CommonStrings.cusEmpDetails.setEmploymentType(rbRetired.getText().toString());
+
+        }
+        else if(empType.equalsIgnoreCase(rbRetired.getText().toString()))
+        {
+            CommonStrings.cusEmpDetails.setEmploymentType(empType);
             Intent intent = new Intent(this, SavingsBankAccountActivity.class);
             intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvEmpTypeLbl.getText().toString());
-            intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbRetired.getText().toString());
+            intent.putExtra(CommonStrings.PREVIOUS_VALUE, empType);
             startActivity(intent);
         }
     }
@@ -228,6 +265,7 @@ public class EmploymentTypeActivity extends AppCompatActivity implements View.On
         }
         return strResult;
     }
+
     @Override
     public void onBackPressed() {
 

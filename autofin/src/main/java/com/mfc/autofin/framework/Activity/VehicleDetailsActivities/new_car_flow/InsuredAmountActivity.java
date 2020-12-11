@@ -42,7 +42,10 @@ public class InsuredAmountActivity extends AppCompatActivity implements View.OnC
                 strInsurance="Yes";
                 if (CommonStrings.customVehDetails.getInsuranceAmount() != 0) {
                     double insAmount = CommonStrings.customVehDetails.getInsuranceAmount();
+                    if(!CommonMethods.getFormattedString(insAmount).isEmpty())
                     insuranceAmount =CommonMethods.getFormattedString(insAmount);
+                    else
+                        insuranceAmount="0";
                 }
             }
             else
@@ -82,7 +85,7 @@ public class InsuredAmountActivity extends AppCompatActivity implements View.OnC
         } else if (v.getId() == R.id.btnNext) {
             try {
                 if (!etInsuredAmount.getText().toString().equals("")) {
-                    String insuranceAmount= etInsuredAmount.getText().toString().replaceAll("[^\\d.]", "");
+                    String insuranceAmount= etInsuredAmount.getText().toString();
                     CommonStrings.customVehDetails.setInsuranceAmount(Double.parseDouble(insuranceAmount));
                     startActivity(new Intent(this, BasicDetailsActivity.class));
                 } else {

@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -37,6 +38,7 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
     DatePicker datePicker;
     CalendarView cvUserDOB;
     String strResidenceType = "",strDOB="";
+    Button btnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
         datePicker = findViewById(R.id.dobDatePicker);
         llDOBCalendarView = findViewById(R.id.llDOBCalendarView);
         tvDOB = findViewById(R.id.tvDOB);
+        btnNext=findViewById(R.id.btnNext);
         iv_personal_details_backBtn = findViewById(R.id.iv_personal_details_backBtn);
         if(!strDOB.isEmpty())
         {
@@ -74,6 +77,15 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
         iv_personal_details_backBtn.setOnClickListener(this);
         tvDOBLbl.setOnClickListener(this);
         tvGivenValEdit.setOnClickListener(this);
+        if(CommonStrings.IS_OLD_LEAD)
+        {
+            btnNext.setVisibility(View.VISIBLE);
+            btnNext.setOnClickListener(this);
+        }
+        else
+        {
+            btnNext.setVisibility(View.GONE);
+        }
 
     }
 
@@ -86,6 +98,11 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
             finish();
         } else if (v.getId() == R.id.tvDOBLbl) {
             showDatePickerDialog();
+        }else if (v.getId() == R.id.btnNext) {
+            if(!strDOB.isEmpty())
+            {
+                moveToNextScreen();
+            }
         }
     }
 
@@ -114,6 +131,8 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
                     CommonMethods.showToast(UserDOBActivity.this, "Please enter proper Date of Birth");
                 } else {
                     tvDOB.setText(dayOfMonth + " " + monthName + " " + year);
+                    strDOB=tvDOB.getText().toString();
+                    if(!CommonStrings.IS_OLD_LEAD)
                     moveToNextScreen();
                 }
 
@@ -126,7 +145,7 @@ public class UserDOBActivity extends AppCompatActivity implements View.OnClickLi
 
 
     private void moveToNextScreen() {
-        CommonStrings.customPersonalDetails.setBirthDate(tvDOB.getText().toString());
+        CommonStrings.customPersonalDetails.setBirthDate(strDOB);
         Intent intent = new Intent(this, GenderActivity.class);
         //intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL,tvDOBLbl.getText());
         //intent.putExtra(CommonStrings.PREVIOUS_VALUE,tvDOB.getText());

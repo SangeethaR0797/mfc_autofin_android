@@ -88,10 +88,18 @@ public class CarHaveLoanCurrentlyActivity extends AppCompatActivity implements V
             CommonMethods.highLightSelectedButton(this, btnCarHaveLoan);
             CommonMethods.deHighLightButton(this, btnCarHaveNoLoan);
             strCarHaveLoan=btnCarHaveLoan.getText().toString();
+            if(!CommonStrings.IS_OLD_LEAD)
+            {
+                moveToNextPage();
+            }
         } else if (v.getId() == R.id.btnCarHaveNoLoan) {
             CommonMethods.highLightSelectedButton(this, btnCarHaveNoLoan);
             CommonMethods.deHighLightButton(this, btnCarHaveLoan);
             strCarHaveLoan=btnCarHaveNoLoan.getText().toString();
+            if(!CommonStrings.IS_OLD_LEAD)
+            {
+                moveToNextPage();
+            }
         } else if (v.getId() == R.id.btnNext) {
             if(!strCarHaveLoan.isEmpty())
             moveToNextPage();

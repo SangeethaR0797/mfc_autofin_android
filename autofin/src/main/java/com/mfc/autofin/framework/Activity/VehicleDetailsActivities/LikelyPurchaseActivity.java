@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.mfc.autofin.framework.Activity.PersonalDetails.PanCardNumberActivity;
 import com.mfc.autofin.framework.Activity.PersonalDetails.SalaryModeActivity;
 import com.mfc.autofin.framework.Activity.review_activites.ReviewActivity;
 import com.mfc.autofin.framework.R;
@@ -25,6 +27,7 @@ public class LikelyPurchaseActivity extends AppCompatActivity implements View.On
     private String strPreviousLbl = "", strPreviousVal = "",likelyPurchaseDate="";
     private Intent intent;
     private ImageView iv_personal_details_backBtn;
+    private Button btnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,7 @@ public class LikelyPurchaseActivity extends AppCompatActivity implements View.On
         rbWithinAWeek = findViewById(R.id.rbWithinAWeek);
         rbWithinAMonth = findViewById(R.id.rbWithinAMonth);
         rbAfterAMonth = findViewById(R.id.rbAfterAMonth);
+        btnNext = findViewById(R.id.btnNext);
         rbWithinAWeek.setOnClickListener(this);
         rbWithinAMonth.setOnClickListener(this);
         rbAfterAMonth.setOnClickListener(this);
@@ -85,6 +89,12 @@ public class LikelyPurchaseActivity extends AppCompatActivity implements View.On
                 rbAfterAMonth.setChecked(true);
             }
         }
+        if (CommonStrings.IS_OLD_LEAD) {
+            btnNext.setVisibility(View.VISIBLE);
+            btnNext.setOnClickListener(this);
+        } else {
+            btnNext.setVisibility(View.GONE);
+        }
         tvGivenValEdit.setOnClickListener(this);
     }
 
@@ -94,31 +104,36 @@ public class LikelyPurchaseActivity extends AppCompatActivity implements View.On
             startActivity(new Intent(this, VehicleVariantActivity.class));
         } else if (v.getId() == R.id.rbWithinAWeek) {
             if (rbWithinAWeek.isChecked()) {
-               CommonStrings.customVehDetails.setLikelyPurchaseDate(rbWithinAWeek.getText().toString());
-                    Intent intent = new Intent(LikelyPurchaseActivity.this, ReviewActivity.class);
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLikePurchaseTitle.getText().toString());
-                    intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbWithinAWeek.getText().toString());
-                    startActivity(intent);
-
+                likelyPurchaseDate=rbWithinAWeek.getText().toString();
+                if (!CommonStrings.IS_OLD_LEAD) {
+                    moveToNextPage();
+                }
             }
         } else if (v.getId() == R.id.rbWithinAMonth) {
-            if (rbWithinAMonth.isChecked()) {
-                CommonStrings.customVehDetails.setLikelyPurchaseDate(rbWithinAMonth.getText().toString());
-                Intent intent = new Intent(LikelyPurchaseActivity.this, ReviewActivity.class);
-                intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLikePurchaseTitle.getText().toString());
-                intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbWithinAMonth.getText().toString());
-                startActivity(intent);
-
+            likelyPurchaseDate=rbWithinAMonth.getText().toString();
+            if (!CommonStrings.IS_OLD_LEAD) {
+                moveToNextPage();
             }
         } else if (v.getId() == R.id.rbAfterAMonth) {
-            if (rbAfterAMonth.isChecked()) {
-                CommonStrings.customVehDetails.setLikelyPurchaseDate(rbAfterAMonth.getText().toString());
-                Intent intent = new Intent(LikelyPurchaseActivity.this, ReviewActivity.class);
-                intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLikePurchaseTitle.getText().toString());
-                intent.putExtra(CommonStrings.PREVIOUS_VALUE, rbAfterAMonth.getText().toString());
-                startActivity(intent);
+            likelyPurchaseDate=rbAfterAMonth.getText().toString();
+            if (!CommonStrings.IS_OLD_LEAD) {
+                moveToNextPage();
             }
         }
+        else if(v.getId()==R.id.btnNext)
+        {
+            if(!likelyPurchaseDate.isEmpty())
+            {
+                moveToNextPage();
+            }
+        }
+    }
+    private void moveToNextPage() {
+        CommonStrings.customVehDetails.setLikelyPurchaseDate(likelyPurchaseDate);
+        Intent intent = new Intent(this, ReviewActivity.class);
+        intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvLikePurchaseTitle.getText().toString());
+        intent.putExtra(CommonStrings.PREVIOUS_VALUE, likelyPurchaseDate);
+        startActivity(intent);
     }
     @Override
     public void onBackPressed() {

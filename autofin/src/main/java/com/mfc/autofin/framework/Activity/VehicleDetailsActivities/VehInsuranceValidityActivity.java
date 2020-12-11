@@ -138,6 +138,8 @@ public class VehInsuranceValidityActivity extends AppCompatActivity implements V
                 String insValidityDate = dayOfMonth + "-" + monthName + "-" + year;
                 tvInsuranceValidityDate.setText(insValidityDate);
                 strInsuranceValidity=dayOfMonth + " " + monthName + " " + year;
+                if(!CommonStrings.IS_OLD_LEAD)
+                    moveToNextPage();
             }
         }, cYear, cMonth, cDay);
         vehInsuranceDate.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);

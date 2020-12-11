@@ -104,24 +104,27 @@ public class InsuranceTypeActivity extends AppCompatActivity implements View.OnC
             finish();
         } else if (v.getId() == R.id.radioBtnComprehensive) {
             strInsuranceType = radioBtnComprehensive.getText().toString();
-            CommonStrings.customVehDetails.setInsuranceType(strInsuranceType);
-            Intent intent = new Intent(InsuranceTypeActivity.this, VehInsuranceValidityActivity.class);
-            startActivity(intent);
+            if(!CommonStrings.IS_OLD_LEAD)
+                moveToNextPage();
         } else if (v.getId() == R.id.radioBtnThirdParty) {
             strInsuranceType = radioBtnThirdParty.getText().toString();
-            CommonStrings.customVehDetails.setInsuranceType(strInsuranceType);
-            Intent intent = new Intent(InsuranceTypeActivity.this, VehInsuranceValidityActivity.class);
-            startActivity(intent);
+            if(!CommonStrings.IS_OLD_LEAD)
+            moveToNextPage();
         } else if (v.getId() == R.id.btnNext) {
             if (!strInsuranceType.isEmpty()) {
-                Intent intent = new Intent(InsuranceTypeActivity.this, VehInsuranceValidityActivity.class);
-                startActivity(intent);
+                moveToNextPage();
             } else {
                 CommonMethods.showToast(this, "Please select Insurance Validity");
             }
         }
     }
 
+    private void moveToNextPage()
+    {
+            CommonStrings.customVehDetails.setInsuranceType(strInsuranceType);
+            Intent intent = new Intent(InsuranceTypeActivity.this, VehInsuranceValidityActivity.class);
+            startActivity(intent);
+    }
 
     @Override
     public void onBackPressed() {

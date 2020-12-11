@@ -42,8 +42,12 @@ public class EMIPayPerMonthActivity extends AppCompatActivity implements View.On
             if(CommonStrings.customPersonalDetails.getTotalEMIPaid()!=0)
             {
                 double emi = CommonStrings.customPersonalDetails.getTotalEMIPaid();
-                String result =CommonMethods.getFormattedDouble(emi);
-                strMonthlyEMI=result.replaceAll("[-+.^:,]","");
+                strMonthlyEMI=CommonMethods.getFormattedString(emi);
+
+            }
+            else
+            {
+                    strMonthlyEMI="0";
             }
         }
 

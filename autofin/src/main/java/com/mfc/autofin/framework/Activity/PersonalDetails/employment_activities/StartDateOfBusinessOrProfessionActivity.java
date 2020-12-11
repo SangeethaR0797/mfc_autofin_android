@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -42,6 +43,7 @@ public class StartDateOfBusinessOrProfessionActivity extends AppCompatActivity i
     LinearLayout llStartDateOfBOP, llBusinessCalendarView;
     private Intent intent;
     DatePickerDialog startDateOfBOP;
+    Button btnNext;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,11 +62,9 @@ public class StartDateOfBusinessOrProfessionActivity extends AppCompatActivity i
             strEmpType = CommonStrings.cusEmpDetails.getEmploymentType();
         }
 
-        if(CommonStrings.IS_OLD_LEAD)
-        {
-            if(CommonStrings.cusEmpDetails.getBusinessStartDate()!=null && !CommonStrings.cusEmpDetails.getBusinessStartDate().isEmpty())
-            {
-                strStartedDate=CommonStrings.cusEmpDetails.getBusinessStartDate();
+        if (CommonStrings.IS_OLD_LEAD) {
+            if (CommonStrings.cusEmpDetails.getBusinessStartDate() != null && !CommonStrings.cusEmpDetails.getBusinessStartDate().isEmpty()) {
+                strStartedDate = CommonStrings.cusEmpDetails.getBusinessStartDate();
             }
         }
         initView();
@@ -80,6 +80,7 @@ public class StartDateOfBusinessOrProfessionActivity extends AppCompatActivity i
         tvStartDateOfBOPVal = findViewById(R.id.tvStartDateOfBOPValue);
         llStartDateOfBOP = findViewById(R.id.llStartDateOfBOP);
         llBusinessCalendarView = findViewById(R.id.llBusinessCalendarView);
+        btnNext = findViewById(R.id.btnNext);
         if (strEmpType.equals(getResources().getString(R.string.lbl_business_owner))) {
             tvStartDateOfBOPLbl.setText(getResources().getString(R.string.lbl_starting_date_of_business));
         } else {
@@ -89,24 +90,40 @@ public class StartDateOfBusinessOrProfessionActivity extends AppCompatActivity i
         tvGivenPreviousVal.setText(strPreviousVal);
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
         tvGivenValEdit.setOnClickListener(this);
-        if(!strStartedDate.isEmpty())
-        {
+        if (!strStartedDate.isEmpty()) {
             tvStartDateOfBOPVal.setText(strStartedDate);
         }
         tvStartDateOfBOPLbl.setOnClickListener(this);
+
+        if(!CommonStrings.IS_OLD_LEAD)
+        {
+            btnNext.setVisibility(View.VISIBLE);
+            if(btnNext.getVisibility()==View.VISIBLE)
+            {
+                btnNext.setOnClickListener(this);
+            }
+        }
+        else
+        {
+            btnNext.setVisibility(View.GONE);
+        }
 
     }
 
     @Override
     public void onClick(View v) {
-        /*if (v.getId() == R.id.iv_personal_details_backBtn) {
-            startActivity(new Intent(this, AutoFinDashBoardActivity.class));
-        } else*/
+
         if (v.getId() == R.id.tvGivenValEdit) {
             finish();
         } else if (v.getId() == R.id.tvStartDateOfBOPLbl) {
-            //llBusinessCalendarView.setVisibility(View.VISIBLE);
             showDatePickerDialog();
+        }
+        else if(v.getId()==R.id.btnNext)
+        {
+            if(!strStartedDate.isEmpty())
+            {
+                moveToNextPage();
+            }
         }
 
     }
@@ -131,19 +148,24 @@ public class StartDateOfBusinessOrProfessionActivity extends AppCompatActivity i
                 String monthName = new DateFormatSymbols().getMonths()[month];
                 strStartedDate = dayOfMonth + " " + monthName + " " + year;
                 tvStartDateOfBOPVal.setText(strStartedDate);
-                //CommonMethods.setValueAgainstKey(this,CommonStrings.BUSINESS_OR_PROFESSION_START_DATE,dayOfMonth + " " + monthName + " " + year);
-                CommonStrings.cusEmpDetails.setBusinessStartDate(dayOfMonth + " " + monthName + " " + year);
-                Intent intent = new Intent(StartDateOfBusinessOrProfessionActivity.this, LastYearProfitActivity.class);
-                intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvStartDateOfBOPLbl.getText().toString());
-                intent.putExtra(CommonStrings.PREVIOUS_VALUE, CommonStrings.cusEmpDetails.getBusinessStartDate());
-                startActivity(intent);
-
+                if (!CommonStrings.IS_OLD_LEAD) {
+                    moveToNextPage();
+                }
             }
         }, cYear, cMonth, cDay);
 
         startDateOfBOP.getDatePicker().setMaxDate(System.currentTimeMillis() - 1000);
         startDateOfBOP.show();
     }
+
+    private void moveToNextPage() {
+        CommonStrings.cusEmpDetails.setBusinessStartDate(strStartedDate);
+        Intent intent = new Intent(StartDateOfBusinessOrProfessionActivity.this, LastYearProfitActivity.class);
+        intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvStartDateOfBOPLbl.getText().toString());
+        intent.putExtra(CommonStrings.PREVIOUS_VALUE, strStartedDate);
+        startActivity(intent);
+    }
+
     @Override
     public void onBackPressed() {
 

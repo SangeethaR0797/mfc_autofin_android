@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,6 +34,7 @@ public class JODOCurrentOrgActivity extends AppCompatActivity implements View.On
     LinearLayout llJODCalendarView;
     DatePickerDialog jodoCurrentOrg;
     private Intent intent;
+    private Button btnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,7 @@ public class JODOCurrentOrgActivity extends AppCompatActivity implements View.On
         {
             if(CommonStrings.cusEmpDetails.getCompanyJoiningDate()!=null && !CommonStrings.cusEmpDetails.getCompanyJoiningDate().isEmpty())
             {
-                strJoiningDate=CommonStrings.cusEmpDetails.getCompanyJoiningDate();
+                strJoiningDate=CommonStrings.cusEmpDetails.getCompanyJoiningDate().substring(0,10);
             }
         }
 
@@ -65,6 +67,7 @@ public class JODOCurrentOrgActivity extends AppCompatActivity implements View.On
         tvCurrentOrgJoiningDate = findViewById(R.id.tvCurrentOrgJoiningDate);
         tvJODOCurrentOrgLbl = findViewById(R.id.tvJODOCurrentOrgLbl);
         llJODCalendarView = findViewById(R.id.llJODCalendarView);
+        btnNext=findViewById(R.id.btnNext);
         tvGivenLbl.setText(strPreviousLbl);
         tvGivenPreviousVal.setText(strPreviousVal);
         iv_personal_details_backBtn.setVisibility(View.INVISIBLE);
@@ -74,6 +77,12 @@ public class JODOCurrentOrgActivity extends AppCompatActivity implements View.On
         }
         tvGivenValEdit.setOnClickListener(this);
         tvJODOCurrentOrgLbl.setOnClickListener(this);
+        if (CommonStrings.IS_OLD_LEAD) {
+            btnNext.setVisibility(View.VISIBLE);
+            btnNext.setOnClickListener(this);
+        } else {
+            btnNext.setVisibility(View.GONE);
+        }
 
     }
 
@@ -86,6 +95,11 @@ public class JODOCurrentOrgActivity extends AppCompatActivity implements View.On
             finish();
         } else if (v.getId() == R.id.tvJODOCurrentOrgLbl) {
             showDatePickerDialog();
+        }else if (v.getId() == R.id.btnNext) {
+            if(!strJoiningDate.isEmpty())
+            {
+                moveToNextPage();
+            }
         }
 
     }
@@ -105,16 +119,23 @@ public class JODOCurrentOrgActivity extends AppCompatActivity implements View.On
                 String monthName = new DateFormatSymbols().getMonths()[month];
                 strJoiningDate = dayOfMonth + " " + monthName + " " + year;
                 tvCurrentOrgJoiningDate.setText(strJoiningDate);
-                CommonStrings.cusEmpDetails.setCompanyJoiningDate(dayOfMonth + " " + monthName + " " + year);
-                Intent intent = new Intent(JODOCurrentOrgActivity.this, IndustryTypeActivity.class);
-                intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvJODOCurrentOrgLbl.getText().toString());
-                intent.putExtra(CommonStrings.PREVIOUS_VALUE, strJoiningDate);
-                startActivity(intent);
+                if(!CommonStrings.IS_OLD_LEAD)
+                {
+                    moveToNextPage();
+                }
             }
         }, cYear, cMonth, cDay);
 
         jodoCurrentOrg.getDatePicker().setMaxDate(System.currentTimeMillis() - 1000);
         jodoCurrentOrg.show();
+    }
+    private void moveToNextPage()
+    {
+        CommonStrings.cusEmpDetails.setCompanyJoiningDate(strJoiningDate);
+        Intent intent = new Intent(JODOCurrentOrgActivity.this, IndustryTypeActivity.class);
+        intent.putExtra(CommonStrings.PREVIOUS_VALUE_LBL, tvJODOCurrentOrgLbl.getText().toString());
+        intent.putExtra(CommonStrings.PREVIOUS_VALUE, strJoiningDate);
+        startActivity(intent);
     }
 
 }

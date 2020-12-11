@@ -417,8 +417,8 @@ public class AdditionalFieldAdapter extends RecyclerView.Adapter<AdditionalField
                             city = cityData.getCity();
                             state = cityData.getState();
                             pinCode = etAFResPinCode.getText().toString();
-                            tvState.setText(state);
-                            tvCity.setText(city);
+                            this.tvState.setText(state);
+                            this.tvCity.setText(city);
                         } else {
                             Toast.makeText(activity, pinCodeRes.getMessage(), Toast.LENGTH_LONG).show();
                         }
@@ -534,8 +534,8 @@ public class AdditionalFieldAdapter extends RecyclerView.Adapter<AdditionalField
                                     }
                                     if (!tvState.getText().toString().isEmpty()) {
                                         state = tvState.getText().toString();
-                                        if (!tvCity.getText().toString().isEmpty()) {
-                                            city = tvCity.getText().toString();
+                                        if (!this.tvCity.getText().toString().isEmpty()) {
+                                            city = this.tvCity.getText().toString();
                                             if (!etWorkAddress1.getText().toString().isEmpty()) {
                                                 address1 = etWorkAddress1.getText().toString();
                                                 if (!etWorkAddress2.getText().toString().isEmpty()) {
