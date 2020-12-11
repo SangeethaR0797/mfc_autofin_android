@@ -437,7 +437,9 @@ public class AdditionalFieldAdapter extends RecyclerView.Adapter<AdditionalField
             SubmitAdditionalFldRes submitAdditionalFldRes = new Gson().fromJson(strRes, SubmitAdditionalFldRes.class);
             try {
                 if (submitAdditionalFldRes != null && submitAdditionalFldRes.getStatus()) {
+                    CommonStrings.IS_ADDITIONAL_DETAILS_FILLED=true;
                     Toast.makeText(activity, "Success", Toast.LENGTH_LONG).show();
+                    SpinnerManager.showSpinner(activity);
                     activity.startActivity(new Intent(activity, DocumentUploadActivity.class));
                 } else {
                     if (submitAdditionalFldRes.getMessage() != null) {

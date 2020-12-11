@@ -112,6 +112,7 @@ public class CommonStrings {
     public static String TOKEN_VALUE = "";
 
     public static boolean IS_OLD_LEAD =false ;
+    public static boolean IS_ADDITIONAL_DETAILS_FILLED =false ;
     public static String IBB_PASSWORD = "dHk69ffu7ebP";
     public static String IBB_USERNAME = "mfc@ibb.com";
     public static String IBB_VEH_DETAILS_END_POINT = "MFC";
@@ -131,5 +132,6 @@ public class CommonStrings {
     public static ReferenceDetails referenceDetails=new ReferenceDetails();
     public static List<AdditionFields> additionFieldsList = new ArrayList<AdditionFields>();
     public static List<Doc> documentList = new ArrayList<>();
+
 
 }

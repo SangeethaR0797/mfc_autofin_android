@@ -47,7 +47,7 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
     private String TAG = SelectBankAdapter.class.getSimpleName();
     private Activity activity;
     private List<BankListData> bankDetailsList;
-    String bankName="";
+    String bankName = "";
 
     public SelectBankAdapter(Activity activity, List<BankListData> bankDetailsList) {
         this.activity = activity;
@@ -66,51 +66,39 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (bankDetailsList.get(position).getBankId() != null)
-        {
-            bankName=bankDetailsList.get(position).getBankName();
-            if(bankDetailsList.get(position).getBankId()==27)
-            {
+        if (bankDetailsList.get(position).getBankId() != null) {
+            bankName = bankDetailsList.get(position).getBankName();
+            if (bankDetailsList.get(position).getBankId() == 27) {
                 holder.tvBankStatus.setText("Recommended");
                 holder.ivBankName.setBackground(activity.getResources().getDrawable(R.drawable.ic_hdfc));
                 holder.tvBankStatus.setTextColor(activity.getResources().getColor(R.color.light_green));
-            }
-            else if(bankDetailsList.get(position).getBankName().contains("ICICI"))
-            {
+            } else if (bankDetailsList.get(position).getBankName().contains("ICICI")) {
                 holder.tvBankStatus.setText("Popular");
                 holder.ivBankName.setBackground(activity.getResources().getDrawable(R.drawable.ic_icici));
                 holder.tvBankStatus.setTextColor(activity.getResources().getColor(R.color.grey_color));
-            }
-            else if(bankDetailsList.get(position).getBankName().contains("AXIS"))
-            {
+            } else if (bankDetailsList.get(position).getBankName().contains("AXIS")) {
                 holder.tvBankStatus.setText("Popular");
                 holder.ivBankName.setBackground(activity.getResources().getDrawable(R.drawable.ic_axis));
                 holder.tvBankStatus.setTextColor(activity.getResources().getColor(R.color.grey_color));
-            }
-            else if(bankDetailsList.get(position).getBankName().contains("SBI"))
-            {
+            } else if (bankDetailsList.get(position).getBankName().contains("SBI")) {
                 holder.tvBankStatus.setText("Popular");
                 holder.ivBankName.setBackground(activity.getResources().getDrawable(R.drawable.ic_sbi));
                 holder.tvBankStatus.setTextColor(activity.getResources().getColor(R.color.grey_color));
-            }
-
-            else
-            {
+            } else {
                 holder.tvBankStatus.setText("Popular");
                 holder.ivBankName.setBackground(activity.getResources().getDrawable(0));
                 holder.tvBankStatus.setTextColor(activity.getResources().getColor(R.color.grey_color));
             }
 
 
-        }
-        else
+        } else
             Log.i(TAG, "onBindViewHolder: BankStatus is null");
 
         if (bankDetailsList.get(position).getLoanAmount() != null) {
-            String loanAmount=activity.getResources().getString(R.string.rupees_symbol) + " " + CommonMethods.getFormattedAmount(Double.parseDouble(bankDetailsList.get(position).getLoanAmount()));
+            String loanAmount = activity.getResources().getString(R.string.rupees_symbol) + " " + CommonMethods.getFormattedAmount(Double.parseDouble(bankDetailsList.get(position).getLoanAmount()));
             holder.tvLoanAmountVal.setText(loanAmount);
 
-        }else
+        } else
             Log.i(TAG, "onBindViewHolder: Loan Amount is null");
 
         if (bankDetailsList.get(position).getRoi() != null)
@@ -119,9 +107,9 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
             Log.i(TAG, "onBindViewHolder: ROI is null");
 
         if (bankDetailsList.get(position).getEmi() != null) {
-            String emiVal=activity.getResources().getString(R.string.rupees_symbol) + " " + CommonMethods.getFormattedDouble(Double.parseDouble(bankDetailsList.get(position).getEmi()));
+            String emiVal = activity.getResources().getString(R.string.rupees_symbol) + " " + CommonMethods.getFormattedDouble(Double.parseDouble(bankDetailsList.get(position).getEmi()));
             holder.tvEMIVal.setText(emiVal);
-        }else
+        } else
             Log.i(TAG, "onBindViewHolder: EMI AMount is null");
 
         if (bankDetailsList.get(position).getTenure() != null)
@@ -144,7 +132,7 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
                     activity.startActivity(new Intent(activity, DocumentUploadActivity.class));
                 }
 */
-               invokeSelectedBankRequest(bankDetailsList.get(position).getBankId().toString());
+                invokeSelectedBankRequest(bankDetailsList.get(position).getBankId().toString());
 
             }
         });
@@ -152,18 +140,17 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
 
     }
 
-    private void invokeSelectedBankRequest(String bankId)
-    {
-        SelectRecBankReq selectRecBankReq=new SelectRecBankReq();
-        selectRecBankReq.setUserId(CommonMethods.getStringValueFromKey(activity,CommonStrings.DEALER_ID_VAL));
-        selectRecBankReq.setUserType(CommonMethods.getStringValueFromKey(activity,CommonMethods.getStringValueFromKey(activity,CommonStrings.USER_TYPE_VAL)));
-        SelectedBankData selectedBankData=new SelectedBankData();
-        selectedBankData.setCaseId(CommonMethods.getStringValueFromKey(activity,CommonStrings.CASE_ID));
-        selectedBankData.setCustomerId(CommonMethods.getStringValueFromKey(activity,CommonStrings.CUSTOMER_ID));
+    private void invokeSelectedBankRequest(String bankId) {
+        SelectRecBankReq selectRecBankReq = new SelectRecBankReq();
+        selectRecBankReq.setUserId(CommonMethods.getStringValueFromKey(activity, CommonStrings.DEALER_ID_VAL));
+        selectRecBankReq.setUserType(CommonMethods.getStringValueFromKey(activity, CommonMethods.getStringValueFromKey(activity, CommonStrings.USER_TYPE_VAL)));
+        SelectedBankData selectedBankData = new SelectedBankData();
+        selectedBankData.setCaseId(CommonMethods.getStringValueFromKey(activity, CommonStrings.CASE_ID));
+        selectedBankData.setCustomerId(CommonMethods.getStringValueFromKey(activity, CommonStrings.CUSTOMER_ID));
         selectedBankData.setRecommendedBankId(bankId);
         selectRecBankReq.setData(selectedBankData);
         SpinnerManager.showSpinner(activity);
-        retrofitInterface.getFromWeb(selectRecBankReq, Global.customer_bank_baseURL+CommonStrings.SELECT_RECOMMENDED_BANK_URL).enqueue(this);
+        retrofitInterface.getFromWeb(selectRecBankReq, Global.customer_bank_baseURL + CommonStrings.SELECT_RECOMMENDED_BANK_URL).enqueue(this);
 
     }
 
@@ -173,59 +160,46 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
     }
 
     @Override
-    public void onResponse(Call<Object> call, Response<Object> response)
-    {
+    public void onResponse(Call<Object> call, Response<Object> response) {
         SpinnerManager.hideSpinner(activity);
         String url = response.raw().request().url().toString();
         Log.i(TAG, "onResponse: URL " + url);
         String strRes = new Gson().toJson(response.body());
         Log.i(TAG, "onResponse: " + strRes);
 
-        if(url.contains(CommonStrings.SELECT_RECOMMENDED_BANK_URL))
-        {
-            AddLeadResponse selectedBankRes=new Gson().fromJson(strRes,AddLeadResponse.class);
+        if (url.contains(CommonStrings.SELECT_RECOMMENDED_BANK_URL)) {
+            AddLeadResponse selectedBankRes = new Gson().fromJson(strRes, AddLeadResponse.class);
 
-            try
-            {
-                if(selectedBankRes!=null && selectedBankRes.getStatus())
-                {
-                    CommonMethods.showToast(activity,selectedBankRes.getMessage());
-                    CommonMethods.setValueAgainstKey(activity,CommonStrings.BANK_NAME,bankName);
-                    retrofitInterface.getFromWeb(getAdditionalFieldReq(), Global.customerDetails_BaseURL+CommonStrings.GET_ADDITIONAL_FIELDS).enqueue(this);
+            try {
+                if (selectedBankRes != null && selectedBankRes.getStatus()) {
+                    CommonMethods.showToast(activity, selectedBankRes.getMessage());
+                    CommonMethods.setValueAgainstKey(activity, CommonStrings.BANK_NAME, bankName);
+                    SpinnerManager.showSpinner(activity);
+                    retrofitInterface.getFromWeb(getAdditionalFieldReq(), Global.customerDetails_BaseURL + CommonStrings.GET_ADDITIONAL_FIELDS).enqueue(this);
+                } else {
+                    CommonMethods.showToast(activity, "Please try again");
                 }
-                else
-                {
-                    CommonMethods.showToast(activity,"Please try again");
-                }
-            }
-            catch(Exception exception)
-            {
+            } catch (Exception exception) {
                 exception.printStackTrace();
             }
-        }
-        else if(url.contains(CommonStrings.GET_ADDITIONAL_FIELDS))
-        {
+        } else if (url.contains(CommonStrings.GET_ADDITIONAL_FIELDS)) {
             try {
                 AdditionalFieldResponse additionalFieldResponse = new Gson().fromJson(strRes, AdditionalFieldResponse.class);
                 if (additionalFieldResponse.getStatus() && additionalFieldResponse != null) {
                     if (additionalFieldResponse.getData() != null) {
-                        Log.i(TAG, "onResponse: "+additionalFieldResponse.getData().toString());
-                        CommonStrings.additionFieldsList=additionalFieldResponse.getData();
-                       Log.i(TAG, "onResponse: "+CommonStrings.additionFieldsList.toString());
-                      activity.startActivity(new Intent(activity,AdditionalFieldsActivity.class));
-                        //activity.startActivity(new Intent(activity,DocumentUploadActivity.class));
+                        Log.i(TAG, "onResponse: " + additionalFieldResponse.getData().toString());
+                        CommonStrings.additionFieldsList = additionalFieldResponse.getData();
+                        Log.i(TAG, "onResponse: " + CommonStrings.additionFieldsList.toString());
+                        activity.startActivity(new Intent(activity, AdditionalFieldsActivity.class));
                     } else {
                         additionalFieldResponse.getMessage();
                     }
-                } else if(!additionalFieldResponse.getStatus()) {
+                } else if (!additionalFieldResponse.getStatus()) {
 
-                    if(additionalFieldResponse.getMessage().equalsIgnoreCase("Additional Field not found for this Bank ID"))
-                    {
+                    if (additionalFieldResponse.getMessage().equalsIgnoreCase("Additional Field not found for this Bank ID")) {
                         activity.startActivity(new Intent(activity, InterestedBankOfferActivity.class));
-                    }
-                    else
-                    {
-                        CommonMethods.showToast(activity,"No data found");
+                    } else {
+                        CommonMethods.showToast(activity, "No data found");
                     }
                 }
             } catch (Exception exception) {
@@ -233,7 +207,6 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
             }
 
         }
-
 
 
     }
@@ -249,7 +222,7 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ivBankName=itemView.findViewById(R.id.ivBankName);
+            ivBankName = itemView.findViewById(R.id.ivBankName);
             tvBankStatus = itemView.findViewById(R.id.tvBankStatus);
             tvLoanAmountVal = itemView.findViewById(R.id.tvLoanAmountVal);
             tvROIVal = itemView.findViewById(R.id.tvROIVal);
@@ -260,13 +233,14 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
         }
 
     }
-        private GetAdditionFieldsReq getAdditionalFieldReq() {
-            GetAdditionFieldsReq additionFieldsReq = new GetAdditionFieldsReq();
-            additionFieldsReq.setUserId(CommonMethods.getStringValueFromKey(activity,CommonStrings.DEALER_ID_VAL));
-            additionFieldsReq.setUserType(CommonMethods.getStringValueFromKey(activity,CommonStrings.USER_TYPE_VAL));
-            BankName bankName = new BankName();
-            bankName.setBankName(CommonMethods.getStringValueFromKey(activity,CommonStrings.BANK_NAME));
-            additionFieldsReq.setData(bankName);
-            return additionFieldsReq;
-        }
+
+    private GetAdditionFieldsReq getAdditionalFieldReq() {
+        GetAdditionFieldsReq additionFieldsReq = new GetAdditionFieldsReq();
+        additionFieldsReq.setUserId(CommonMethods.getStringValueFromKey(activity, CommonStrings.DEALER_ID_VAL));
+        additionFieldsReq.setUserType(CommonMethods.getStringValueFromKey(activity, CommonStrings.USER_TYPE_VAL));
+        BankName bankName = new BankName();
+        bankName.setBankName(CommonMethods.getStringValueFromKey(activity, CommonStrings.BANK_NAME));
+        additionFieldsReq.setData(bankName);
+        return additionFieldsReq;
+    }
 }

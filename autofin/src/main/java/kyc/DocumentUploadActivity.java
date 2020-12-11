@@ -83,6 +83,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doc_upload);
+        SpinnerManager.hideSpinner(this);
         initViews();
 
         Callpermissions(DocumentUploadActivity.this);

@@ -58,7 +58,7 @@ public class AdditionalFieldsActivity extends AppCompatActivity implements View.
         setContentView(R.layout.activity_additional_fields);
         initView();
 
-        if (CommonStrings.IS_OLD_LEAD) {
+        if (CommonStrings.IS_OLD_LEAD && CommonStrings.IS_ADDITIONAL_DETAILS_FILLED) {
             retrofitInterface.getFromWeb(getCustomerAdditionalReq(), Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_ADDITIONAL_FIELDS).enqueue(this);
         }
         else
@@ -115,6 +115,7 @@ public class AdditionalFieldsActivity extends AppCompatActivity implements View.
                     if (custAdditionalResponse.getData() != null) {
                         custAdditionalList.addAll(custAdditionalResponse.getData());
                         if(CommonStrings.additionFieldsList!=null && !CommonStrings.additionFieldsList.isEmpty())
+                            SpinnerManager.hideSpinner(this);
                             attachToAdapter(CommonStrings.additionFieldsList);
 
                     } else {
@@ -147,6 +148,7 @@ public class AdditionalFieldsActivity extends AppCompatActivity implements View.
         }
         else
         {
+            SpinnerManager.hideSpinner(this);
             AdditionalFieldAdapter additionalFieldAdapter = new AdditionalFieldAdapter(AdditionalFieldsActivity.this, additionalFieldDataList,btnNext);
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             rvAdditionalFields.setLayoutManager(layoutManager);

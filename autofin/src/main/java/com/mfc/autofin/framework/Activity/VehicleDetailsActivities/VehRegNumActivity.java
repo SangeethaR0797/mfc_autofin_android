@@ -66,10 +66,11 @@ public class VehRegNumActivity extends AppCompatActivity implements View.OnClick
         btnVehNumNo.setOnClickListener(this);
         if (CommonStrings.IS_OLD_LEAD) {
             btnNext.setVisibility(View.VISIBLE);
+            btnNext.setOnClickListener(this);
         } else {
             btnNext.setVisibility(View.GONE);
         }
-        btnNext.setOnClickListener(this);
+
     }
 
     @Override
@@ -89,6 +90,7 @@ public class VehRegNumActivity extends AppCompatActivity implements View.OnClick
         } else if (v.getId() == R.id.btnVehNumNo) {
             CommonMethods.highLightSelectedButton(VehRegNumActivity.this, btnVehNumNo);
             CommonMethods.deHighLightButton(VehRegNumActivity.this, btnVehNumYes);
+            vehRegNum=btnVehNumNo.getText().toString();
             if(!CommonStrings.IS_OLD_LEAD)
             {
                 moveToNextPage();
