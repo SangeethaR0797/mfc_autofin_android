@@ -1,0 +1,29 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/dashboardFragment"
+    tools:context="v2.view.DashboardFragment">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <Button
+        android:id="@+id/btnRegisteredList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Registered"
+        android:layout_margin="10dp"
+        android:background="@color/navy_blue"
+        android:textColor="@color/white"/>
+    <Button
+        android:id="@+id/btnNewVehicle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New Vehicle"
+        android:layout_margin="10dp"
+        android:background="@color/pale_grey"
+        android:textColor="@color/black"/>
+</LinearLayout>
+
+</FrameLayout>

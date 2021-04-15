@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_navigation"
+    app:startDestination="@id/dashboardFragment">
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="v2.view.DashboardFragment"
+        android:label="fragment_dashboard">
+        <action
+            android:id="@+id/action_dashboardFragment_to_registeredListFragment"
+            app:destination="@id/registeredListFragmentNav" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_newVehicleFragment"
+            app:destination="@id/newVehicleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registeredListFragmentNav"
+        android:name="v2.view.RegisteredListFragment"
+        android:label="fragment_registered_list"
+        tools:layout="@layout/fragment_registered_list" >
+    </fragment>
+    <fragment
+        android:id="@+id/newVehicleFragment"
+        android:name="com.mfc.autofin.framework.NewVehicleFragment"
+        android:label="fragment_new_vehicle"
+        tools:layout="@layout/fragment_new_vehicle" />
+
+</navigation>

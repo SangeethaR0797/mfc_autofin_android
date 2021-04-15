@@ -12,6 +12,7 @@ import com.mfc.autofin.framework.Activity.bank_offer_activities.AdditionalFields
 
 import kyc.DocumentUploadActivity;
 import utility.AutoFinConstants;
+import v2.view.HostActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,9 +27,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Intent autodashboard = new Intent(MainActivity.this, DocumentUploadActivity.class);
-                Intent autodashboard = new Intent(MainActivity.this, AutoFinDashBoardActivity.class);
+                // Intent autodashboard = new Intent(MainActivity.this, AutoFinDashBoardActivity.class);
                 // Intent autodashboard = new Intent(MainActivity.this, AdditionalFieldsActivity.class);
 
+                Intent autodashboard = new Intent(MainActivity.this, HostActivity.class);
                 autodashboard.putExtra(AutoFinConstants.APP_NAME, "MFCBusiness");
                 autodashboard.putExtra(AutoFinConstants.DEALER_ID, "242");
                 autodashboard.putExtra(AutoFinConstants.USER_TYPE, "Dealer");

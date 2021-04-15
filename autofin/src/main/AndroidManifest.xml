@@ -25,8 +25,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.VehicleDetailsActivities.LikelyPurchaseActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"/>
+        <activity android:name="v2.view.HostActivity"></activity>
+        <activity
+            android:name=".Activity.VehicleDetailsActivities.LikelyPurchaseActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
             android:name=".Activity.review_activites.ReviewActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
@@ -134,94 +136,66 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
         <activity
             android:name=".Activity.VehicleDetailsActivities.InterestedVehiclePriceActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
-
         <activity
             android:name=".Activity.VehicleDetailsActivities.new_car_flow.VehiclePurchaseAmountActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
         <activity
             android:name=".Activity.VehicleDetailsActivities.new_car_flow.InsuredAmountActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
-
         <activity
             android:name=".Activity.PersonalDetails.GenderActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
-
         <activity
             android:name=".Activity.review_activites.ViewBankActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
         <activity
             android:name=".Activity.review_activites.ReviewDetailsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
         <activity
             android:name=".Activity.PersonalDetails.EducationActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
         <activity
             android:name=".Activity.VehicleDetailsActivities.LeadDetailsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
-
         <activity
             android:name=".Activity.PersonalDetails.InterestedBankOfferActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
         <activity
             android:name=".Activity.bank_offer_activities.InterestedBankOfferDetailsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
-
         <activity
             android:name=".Activity.PersonalDetails.EmploymentRole"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
         <activity
             android:name=".Activity.PersonalDetails.employment_activities.ProfessionActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
         <activity
             android:name=".Activity.PersonalDetails.employment_activities.StartDateOfBusinessOrProfessionActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
         <activity
             android:name=".Activity.PersonalDetails.employment_activities.LastYearSalesOrTurnOver"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
         <activity
             android:name=".Activity.PersonalDetails.employment_activities.LastYearDepreciationActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
         <activity
             android:name=".Activity.PersonalDetails.employment_activities.ITRAuditedActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
         <activity
             android:name=".Activity.PersonalDetails.employment_activities.IndustryTypeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
         <activity
             android:name=".Activity.review_activites.DetailsUpdateActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
-
         <activity
             android:name=".Activity.PersonalDetails.employment_activities.IncomeAfterTaxActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
-
         <activity
             android:name=".Activity.PersonalDetails.SavingsBankAccountActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-
         <activity
             android:name=".Activity.bank_offer_activities.AdditionalFieldsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />

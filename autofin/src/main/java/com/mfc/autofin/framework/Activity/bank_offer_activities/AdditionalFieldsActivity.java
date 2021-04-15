@@ -108,7 +108,8 @@ public class AdditionalFieldsActivity extends AppCompatActivity implements View.
 
         String strRes = new Gson().toJson(response.body());
         Log.i(TAG, "onResponse: " + strRes);
-         if (url.contains(CommonStrings.CUSTOMER_ADDITIONAL_FIELDS)) {
+         if (url.contains(CommonStrings.CUSTOMER_ADDITIONAL_FIELDS))
+         {
             try {
                 CustAdditionalResponse custAdditionalResponse = new Gson().fromJson(strRes, CustAdditionalResponse.class);
                 if (custAdditionalResponse.getStatus() && custAdditionalResponse != null) {
@@ -117,7 +118,6 @@ public class AdditionalFieldsActivity extends AppCompatActivity implements View.
                         if(CommonStrings.additionFieldsList!=null && !CommonStrings.additionFieldsList.isEmpty())
                             SpinnerManager.hideSpinner(this);
                             attachToAdapter(CommonStrings.additionFieldsList);
-
                     } else {
                         custAdditionalResponse.getMessage();
                     }
