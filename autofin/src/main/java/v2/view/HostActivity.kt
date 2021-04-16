@@ -1,7 +1,6 @@
 package v2.view
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.mfc.autofin.framework.R
@@ -10,7 +9,7 @@ import utility.CommonStrings
 import utility.Global
 import v2.model.request.GetTokenDetailsRequest
 import v2.model.response.TokenDetailsResponse
-import v2.model_view.Base.AuthenticationViewModel
+import v2.model_view.AuthenticationViewModel
 import v2.service.utility.ApiResponse
 
 
