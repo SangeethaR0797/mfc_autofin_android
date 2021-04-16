@@ -1,4 +1,4 @@
-package v2.service.utility.unused
+package v2.service.unused
 
 import retrofit2.Call
 import retrofit2.http.*
