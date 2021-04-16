@@ -5,7 +5,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.mfc.autofin.framework.R
-import model.token.GetTokenReq
+import utility.CommonMethods
 import utility.CommonStrings
 import utility.Global
 import v2.model.request.GetTokenDetailsRequest
@@ -51,8 +51,8 @@ class HostActivity : AppCompatActivity() {
             }
             ApiResponse.Status.SUCCESS -> {
                 val tokenResponse: TokenDetailsResponse? = mApiResponse.data as TokenDetailsResponse?
-                Toast.makeText(this@HostActivity, tokenResponse!!.data.toString(), Toast.LENGTH_LONG)
-                        .show()
+                CommonMethods.setValueAgainstKey(this@HostActivity, CommonStrings.PREFF_ENCRYPT_TOKEN, tokenResponse!!.data.toString())
+                CommonStrings.TOKEN_VALUE = tokenResponse!!.data.toString()
 
 
             }

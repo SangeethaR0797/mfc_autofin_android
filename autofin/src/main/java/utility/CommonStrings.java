@@ -134,4 +134,7 @@ public class CommonStrings {
     public static List<Doc> documentList = new ArrayList<>();
 
 
+    public static final String PREFF_ENCRYPT_TOKEN = "encrypt_token";
+
+
 }
