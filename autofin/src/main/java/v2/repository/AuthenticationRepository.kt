@@ -2,10 +2,9 @@ package v2.repository
 
 import io.reactivex.Observable
 import model.token.GetTokenReq
-import retrofit2.http.Body
-import retrofit2.http.Url
 import v2.end_point.AuthenticationEndPoint
-import v2.model.TokenDetails
+import v2.model.request.GetTokenDetailsRequest
+import v2.model.response.TokenDetailsResponse
 import v2.service.ApiServiceGenerator
 
 class AuthenticationRepository {
@@ -16,7 +15,7 @@ class AuthenticationRepository {
         )
     }
 
-    fun getToken(request: GetTokenReq, url: String): Observable<TokenDetails?>? {
+    fun getToken(request: GetTokenDetailsRequest, url: String): Observable<TokenDetailsResponse?>? {
         return authenticationEndPoint.getToken(request, url)
     }
 

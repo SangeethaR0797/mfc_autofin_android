@@ -8,7 +8,8 @@ import com.mfc.autofin.framework.R
 import model.token.GetTokenReq
 import utility.CommonStrings
 import utility.Global
-import v2.model.TokenDetails
+import v2.model.request.GetTokenDetailsRequest
+import v2.model.response.TokenDetailsResponse
 import v2.model_view.Base.AuthenticationViewModel
 import v2.service.utility.ApiResponse
 
@@ -35,13 +36,13 @@ class HostActivity : AppCompatActivity() {
 
     }
 
-    private fun getTokenRequest(): GetTokenReq? {
-        val getTokenReq = GetTokenReq()
-        getTokenReq.userId = "242"
-        getTokenReq.userType = "Dealer"
-        getTokenReq.requestFrom = "Dealer"
-        getTokenReq.data = "Token"
-        return getTokenReq
+    private fun getTokenRequest(): GetTokenDetailsRequest? {
+        return GetTokenDetailsRequest(
+                "242",
+                "Dealer",
+                "Dealer",
+                "Token")
+
     }
 
     private fun onTokenDetails(mApiResponse: ApiResponse) {
@@ -49,8 +50,8 @@ class HostActivity : AppCompatActivity() {
             ApiResponse.Status.LOADING -> {
             }
             ApiResponse.Status.SUCCESS -> {
-                val token: TokenDetails? = mApiResponse.data as TokenDetails?
-                Toast.makeText(this@HostActivity, token!!.data.toString(), Toast.LENGTH_LONG)
+                val tokenResponse: TokenDetailsResponse? = mApiResponse.data as TokenDetailsResponse?
+                Toast.makeText(this@HostActivity, tokenResponse!!.data.toString(), Toast.LENGTH_LONG)
                         .show()
 
 

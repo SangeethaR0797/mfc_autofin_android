@@ -1,4 +1,4 @@
-package v2.model
+package v2.model.response
 
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 
 
 @Parcelize
-data class TokenDetails(
+data class TokenDetailsResponse(
         @Expose
         @SerializedName("status")
         var status: Boolean,
