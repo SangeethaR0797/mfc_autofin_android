@@ -71,6 +71,9 @@ dependencies {
 
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation "androidx.exifinterface:exifinterface:1.1.0"
+/*RxJava lib*/
+    api "io.reactivex.rxjava2:rxandroid:2.1.1"
+    api "io.reactivex.rxjava2:rxjava:2.2.6"
 }
 
 def libraryGroupId = 'com.mfc.sdc'
