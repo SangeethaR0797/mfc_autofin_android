@@ -10,7 +10,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import utility.CommonStrings
 import utility.Global
-import v2.service.utility.unused.RetroBaseService
+
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.HostnameVerifier
@@ -27,7 +27,7 @@ object ApiServiceGenerator {
     var retrofit = builder.build()
         private set
     private val logging = HttpLoggingInterceptor()
-    private var tokenInterceptor = RetroBaseService.TokenInterceptor()
+    private var tokenInterceptor = TokenInterceptor()
 
     private val httpClient: OkHttpClient.Builder = OkHttpClient.Builder()
             .addInterceptor(tokenInterceptor)
