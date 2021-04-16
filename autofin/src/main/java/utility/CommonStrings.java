@@ -110,6 +110,7 @@ public class CommonStrings {
     public static final String PROCESS_WITH_BANK_URL_END = "process-customer-with-bank";
     public static final String CUSTOMER_ADDITIONAL_FIELDS ="customer-additional-data" ;
     public static String TOKEN_VALUE = "";
+    public static String IBB_TOKEN_VALUE = "";
 
     public static boolean IS_OLD_LEAD =false ;
     public static boolean IS_ADDITIONAL_DETAILS_FILLED =false ;
@@ -135,6 +136,7 @@ public class CommonStrings {
 
 
     public static final String PREFF_ENCRYPT_TOKEN = "encrypt_token";
+    public static final String PREFF_ENCRYPT_IBB_TOKEN = "ibb_encrypt_token";
 
 
 }

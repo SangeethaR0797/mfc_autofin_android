@@ -6,6 +6,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import model.ibb_models.IBBVehDetailsReq
 import v2.model.request.GetTokenDetailsRequest
+import v2.model.request.Get_IBB_TokenRequest
 import v2.model_view.Base.BaseViewModel
 import v2.repository.AuthenticationRepository
 import v2.service.utility.ApiResponse
@@ -56,23 +57,23 @@ class AuthenticationViewModel(application: Application) : BaseViewModel(applicat
     }
 
 
-    public fun getIBBToken(request: IBBVehDetailsReq, url: String) {
-        repository.getToken(request, url)?.subscribeOn(Schedulers.io())
+    public fun getIBBToken(request: Get_IBB_TokenRequest, url: String) {
+        repository.getIBBToken(request, url)?.subscribeOn(Schedulers.io())
                 ?.observeOn(AndroidSchedulers.mainThread())
-                ?.doOnSubscribe { d -> mTokenDetailsLiveData.setValue(ApiResponse.loading()) }
+                ?.doOnSubscribe { d -> mIBB_TokenDetailsLiveData.setValue(ApiResponse.loading()) }
                 ?.let {
                     disposables.add(
                             it
                                     .subscribe(
                                             { result ->
-                                                mTokenDetailsLiveData.setValue(result?.let {
+                                                mIBB_TokenDetailsLiveData.setValue(result?.let {
                                                     ApiResponse.success(
                                                             it
                                                     )
                                                 })
                                             }
                                     ) { throwable ->
-                                        mTokenDetailsLiveData.setValue(
+                                        mIBB_TokenDetailsLiveData.setValue(
                                                 ApiResponse.error(
                                                         throwable
                                                 )
