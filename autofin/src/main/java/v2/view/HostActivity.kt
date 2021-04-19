@@ -1,11 +1,10 @@
 package v2.view
 
 import android.os.Bundle
-import android.widget.FrameLayout
+import android.view.Window
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
+import androidx.core.content.ContextCompat
 import com.mfc.autofin.framework.R
 
 

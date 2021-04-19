@@ -1,0 +1,107 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/vehSelectionFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/vtwo_pale_grey"
+    android:orientation="vertical"
+    tools:context="v2.view.VehicleSelectionFrag">
+
+    <LinearLayout
+        style="@style/v2_toolbar_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/text_size_8dp"
+            app:srcCompat="@drawable/ic_vtwo_back_arrow" />
+<utility.RobotoMedium
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/vtwo_select_vehicle_tb_title"
+    android:textColor="@color/white"
+    android:textSize="@dimen/text_size_18dp"
+    android:layout_marginLeft="@dimen/text_size_5dp"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/text_size_16sp"
+            android:padding="@dimen/text_size_12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/vehicle_details_container"
+                android:orientation="vertical"
+                android:padding="@dimen/text_size_16sp">
+
+                <utility.RobotoMedium
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_4dp"
+                    android:layout_marginTop="@dimen/text_size_12dp"
+                    android:text="@string/vtwo_veh_reg_num_title"
+                    android:textColor="@color/vtwo_black"
+                    android:textSize="@dimen/text_size_16sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etVehRegNum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_size_16sp"
+                    android:layout_marginBottom="@dimen/text_size40dp"
+                    android:background="@drawable/vtwo_input_bg"
+                    android:hint="@string/vtwo_veh_reg_no_hint"
+                    android:inputType="textCapCharacters"
+                    android:maxLength="11"
+                    android:padding="@dimen/text_size_15dp"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnVehicleReg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="55dp"
+                android:background="@drawable/vtwo_next_btn_bg"
+                android:paddingLeft="85dp"
+                android:paddingRight="85dp"
+                android:text="@string/next"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_16sp"
+                android:textStyle="bold" />
+
+            <utility.RobotoMedium
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="35dp"
+                android:text="@string/vtwo_search_veh_hint"
+                android:textColor="@color/vtwo_light_grey" />
+
+            <utility.RobotoMedium
+                android:id="@+id/tvSearchCar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/vtwo_search_car_lbl"
+                android:textColor="@color/vtwo_blue"
+                android:textSize="@dimen/text_size_16sp" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

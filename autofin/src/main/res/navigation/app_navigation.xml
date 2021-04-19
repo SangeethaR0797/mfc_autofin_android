@@ -12,8 +12,8 @@
             android:id="@+id/action_dashboardFragment_to_registeredListFragment"
             app:destination="@id/registeredListFragmentNav" />
         <action
-            android:id="@+id/action_dashboardFragment_to_newVehicleFragment"
-            app:destination="@id/newVehicleFragment" />
+            android:id="@+id/action_dashboardFragment_to_vehicleSelectionFrag2"
+            app:destination="@id/vehicleSelectionFrag2" />
     </fragment>
     <fragment
         android:id="@+id/registeredListFragmentNav"
@@ -22,9 +22,26 @@
         tools:layout="@layout/fragment_registered_list" >
     </fragment>
     <fragment
-        android:id="@+id/newVehicleFragment"
-        android:name="com.mfc.autofin.framework.NewVehicleFragment"
-        android:label="fragment_new_vehicle"
-        tools:layout="@layout/fragment_new_vehicle" />
+        android:id="@+id/vehMakeFragNav"
+        android:name="v2.view.VehMakeFrag"
+        android:label="v2_fragment_veh_make"
+        tools:layout="@layout/v2_fragment_veh_make" />
+    <fragment
+        android:id="@+id/vehicleDetailsFragNav"
+        android:name="v2.view.VehicleDetailsFrag"
+        android:label="v2_fragment_vehicle_details"
+        tools:layout="@layout/v2_fragment_vehicle_details" />
+    <fragment
+        android:id="@+id/vehicleSelectionFrag2"
+        android:name="v2.view.VehicleSelectionFrag"
+        android:label="fragment_vehicle_selection"
+        tools:layout="@layout/fragment_vehicle_selection" >
+        <action
+            android:id="@+id/action_vehicleSelectionFrag2_to_vehicleDetailsFragNav"
+            app:destination="@id/vehicleDetailsFragNav" />
+        <action
+            android:id="@+id/action_vehicleSelectionFrag2_to_vehMakeFragNav"
+            app:destination="@id/vehMakeFragNav" />
+    </fragment>
 
 </navigation>
