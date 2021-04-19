@@ -1,6 +1,9 @@
 package v2.view.other_activity
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -32,7 +35,7 @@ class CarBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
     lateinit var etSearch: EditText
     lateinit var llSearch: LinearLayout
     lateinit var rvResult: RecyclerView
-
+    var reviewAdapter: StringDataRecyclerViewAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +55,26 @@ class CarBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
             manageBackpress()
         })
 
+        etSearch.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int,
+                                       count: Int) {
+                if (s != "") {
+                    //do your work here
+                }
+            }
 
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
+                                           after: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                if (TextUtils.isEmpty(etSearch.text)) {
+                    reviewAdapter?.filter?.filter("")
+                } else {
+                    reviewAdapter?.filter?.filter(etSearch.text)
+                }
+            }
+        })
 
 
         iBB_MasterViewModel = ViewModelProvider(this@CarBasicDetailsActivity).get(
@@ -161,7 +183,7 @@ class CarBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
                     dataValue = masterResponse!!.variant
                 }
 
-                val reviewAdapter = StringDataRecyclerViewAdapter(dataValue, this@CarBasicDetailsActivity)
+                reviewAdapter = StringDataRecyclerViewAdapter(dataValue, this@CarBasicDetailsActivity)
                 val layoutManager = LinearLayoutManager(this)
                 rvResult.setLayoutManager(layoutManager)
                 rvResult.setAdapter(reviewAdapter)
