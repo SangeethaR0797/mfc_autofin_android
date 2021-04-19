@@ -70,6 +70,10 @@ class CarBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
         callYearApiData()
     }
 
+    override fun onBackPressed() {
+        manageBackpress()
+    }
+
     private fun callYearApiData() {
         tvSelectedText.text = ""
         tvSelectLabel.text = "Select Registration Year"

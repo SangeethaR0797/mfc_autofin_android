@@ -4,6 +4,8 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
@@ -11,11 +13,13 @@ import controller.ReviewAdapter
 import model.custom_model.ReviewData
 import v2.view.callBackInterface.itemClickCallBack
 
-class StringDataRecyclerViewAdapter(dataListValue: List<String>?, itemClick: itemClickCallBack?) : RecyclerView.Adapter<StringDataRecyclerViewAdapter.MyViewHolder>() {
+class StringDataRecyclerViewAdapter(var dataListValue: List<String>?, itemClick: itemClickCallBack?) : RecyclerView.Adapter<StringDataRecyclerViewAdapter.MyViewHolder>(), Filterable {
 
-    private var dataList: List<String>? = dataListValue
+    public var dataListFilter: List<String>?
     private var itemCallBack: itemClickCallBack = itemClick!!
-
+    init {
+        dataListFilter = dataListValue as List<String>
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -25,9 +29,9 @@ class StringDataRecyclerViewAdapter(dataListValue: List<String>?, itemClick: ite
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.tvItem.text = dataList!!.get(position).toString()
+        holder.tvItem.text = dataListFilter!!.get(position).toString()
         holder.tvItem.setOnClickListener(View.OnClickListener {
-            itemCallBack.itemClick(dataList!!.get(position), position)
+            itemCallBack.itemClick(dataListFilter!!.get(position), position)
         })
     }
 
@@ -41,7 +45,34 @@ class StringDataRecyclerViewAdapter(dataListValue: List<String>?, itemClick: ite
     }
 
     override fun getItemCount(): Int {
-        return dataList!!.size
+        return dataListFilter!!.size
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charSearch = constraint.toString()
+                if (charSearch.isEmpty()) {
+                    dataListFilter = dataListValue as ArrayList<String>
+                } else {
+                    val resultList = ArrayList<String>()
+                    for (row in dataListValue!!) {
+                        if (row.toLowerCase().contains(constraint.toString().toLowerCase())) {
+                            resultList.add(row)
+                        }
+                    }
+                    dataListFilter = resultList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = dataListFilter
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                dataListFilter = results?.values as ArrayList<String>
+                notifyDataSetChanged()
+            }
+        }
     }
 
 
