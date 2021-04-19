@@ -138,6 +138,11 @@ public class CommonStrings {
     public static final String PREFF_ENCRYPT_TOKEN = "encrypt_token";
     public static final String PREFF_ENCRYPT_IBB_TOKEN = "ibb_encrypt_token";
 
+    public static final String YEAR = "year";
+    public static final String MAKE = "make";
+    public static final String MODEL = "model";
+    public static final String VARIANT = "variant";
+
 
     public static final int CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE = 500;
 
