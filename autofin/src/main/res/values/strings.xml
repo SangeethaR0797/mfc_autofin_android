@@ -272,5 +272,7 @@
     <string name="vtwo_search_veh_hint">If you don\'t have vehicle registration no. please click belowto enter your vehicle details.</string>
     <string name="vtwo_search_car_lbl">Search Car</string>
     <string name="vtwo_select_vehicle_tb_title">Select Vehicle</string>
+    <string name="search_car">Search Car</string>
+    <string name="search">Search</string>
 
 </resources>
