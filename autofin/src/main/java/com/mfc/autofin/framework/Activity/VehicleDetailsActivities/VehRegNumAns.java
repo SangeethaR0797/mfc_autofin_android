@@ -141,6 +141,5 @@ public class VehRegNumAns extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onFailure(Call<Object> call, Throwable t) {
         Toast.makeText(this, getString(R.string.please_try_again), Toast.LENGTH_LONG).show();
-
     }
 }

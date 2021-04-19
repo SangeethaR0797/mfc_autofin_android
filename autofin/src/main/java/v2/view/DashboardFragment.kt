@@ -38,7 +38,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
                     Navigation.findNavController(v).navigate(R.id.registeredListFragmentNav)
                 }
                 R.id.btnNewVehicle -> {
-                    Navigation.findNavController(v).navigate(R.id.newVehicleFragment)
+                    Navigation.findNavController(v).navigate(R.id.vehicleSelectionFrag2)
                 }
             }
         }
