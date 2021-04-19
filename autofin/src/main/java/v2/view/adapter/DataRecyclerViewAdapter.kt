@@ -1,7 +1,10 @@
 package v2.view.adapter
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.opengl.Visibility
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,11 +20,12 @@ import v2.model.dto.DataSelectionDTO
 import v2.view.callBackInterface.itemClickCallBack
 import kotlin.coroutines.coroutineContext
 
-class DataRecyclerViewAdapter(var context:Activity, var dataListValue: List<DataSelectionDTO>?, itemClick: itemClickCallBack?) : RecyclerView.Adapter<DataRecyclerViewAdapter.MyViewHolder>(), Filterable {
+class DataRecyclerViewAdapter(var context: Activity, var dataListValue: List<DataSelectionDTO>?, itemClick: itemClickCallBack?) : RecyclerView.Adapter<DataRecyclerViewAdapter.MyViewHolder>(), Filterable {
 
     public var dataListFilter: List<DataSelectionDTO>?
     private var itemCallBack: itemClickCallBack = itemClick!!
-    private var mContext:Activity=context
+    private var mContext: Activity = context
+
     init {
         dataListFilter = dataListValue as List<DataSelectionDTO>
     }
@@ -33,21 +37,32 @@ class DataRecyclerViewAdapter(var context:Activity, var dataListValue: List<Data
         return MyViewHolder(listItem)
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.tvItem.text = dataListFilter!!.get(position).displayValue
-        holder.tvItemSmall.text = dataListFilter!!.get(position).displayValuePostFix
+        if (TextUtils.isEmpty(dataListFilter!!.get(position).displayValuePostFix)) {
+            holder.tvItemSmall.visibility = View.GONE
+        } else {
+            holder.tvItemSmall.visibility = View.VISIBLE
+            holder.tvItemSmall.text = dataListFilter!!.get(position).displayValuePostFix
+        }
         holder.llMainLayout.setOnClickListener(View.OnClickListener {
             itemCallBack.itemClick(dataListFilter!!.get(position), position)
         })
 
         holder.llMainLayout.setBackgroundResource(R.drawable.vtwo_input_bg)
-        holder.tvItem.setTextAppearance(mContext,R.style.RobotoRegular)
-        holder.tvItemSmall.setTextAppearance(mContext,R.style.RobotoRegular)
+        holder.tvItem.setTextAppearance(mContext, R.style.RobotoRegular)
+        holder.tvItemSmall.setTextAppearance(mContext, R.style.RobotoRegular)
+        holder.tvItem.setTextColor(R.color.vtwo_light_grey)
+        holder.tvItemSmall.setTextColor(R.color.vtwo_light_grey)
 
         if (dataListFilter!!.get(position).selected) {
             holder.llMainLayout.setBackgroundResource(R.drawable.vtwo_input_yellow)
-            holder.tvItem.setTextAppearance(mContext,R.style.RobotoMedium)
-            holder.tvItemSmall.setTextAppearance(mContext,R.style.RobotoMedium)
+            holder.tvItem.setTextAppearance(mContext, R.style.RobotoMedium)
+            holder.tvItemSmall.setTextAppearance(mContext, R.style.RobotoMedium)
+
+            holder.tvItem.setTextColor(R.color.vtwo_black)
+            holder.tvItemSmall.setTextColor(R.color.vtwo_black)
         }
     }
 

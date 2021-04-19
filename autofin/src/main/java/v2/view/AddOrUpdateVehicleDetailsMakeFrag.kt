@@ -49,7 +49,8 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
     lateinit var rvOwnership: RecyclerView
     lateinit var rvKilometresDriven: RecyclerView
     lateinit var rvFuleType: RecyclerView
-    lateinit var reviewAdapter: DataRecyclerViewAdapter
+    lateinit var ownershipDetailsAdapter: DataRecyclerViewAdapter
+    lateinit var fuleDetailsAdapter: DataRecyclerViewAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -80,8 +81,9 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
         btnNext = view.findViewById(R.id.btn_next)
 
 
-        addEvent();
-        addData();
+        addEvent()
+        addOwnershipDetails()
+        addFuleDetails()
         return view
     }
 
@@ -92,7 +94,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
 
     }
 
-    fun addData() {
+    private fun addOwnershipDetails() {
 
         val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
 
@@ -102,11 +104,11 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
         list.add(DataSelectionDTO("4", "th", "4", false))
         list.add(DataSelectionDTO("5", "th", "5", false))
 
-        reviewAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+        ownershipDetailsAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
             override fun itemClick(item: Any?, position: Int) {
 
 
-                reviewAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                ownershipDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
                     run {
                         if (index == position) {
                             item.selected = true
@@ -115,7 +117,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
                         }
                     }
                 }
-                reviewAdapter.notifyDataSetChanged()
+                ownershipDetailsAdapter.notifyDataSetChanged()
             }
         })
 
@@ -127,7 +129,45 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
 
         rvOwnership.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
 
-        rvOwnership.setAdapter(reviewAdapter)
+        rvOwnership.setAdapter(ownershipDetailsAdapter)
+    }
+
+    private fun addFuleDetails() {
+
+        val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
+
+        list.add(DataSelectionDTO("Petrol", null, "Petrol", false))
+        list.add(DataSelectionDTO("Diesel", null, "Diesel", false))
+        list.add(DataSelectionDTO("Electric", null, "Electric", false))
+        list.add(DataSelectionDTO("CNG", null, "CNG", false))
+        list.add(DataSelectionDTO("LPG", null, "LPG", false))
+
+        fuleDetailsAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+            override fun itemClick(item: Any?, position: Int) {
+
+
+                fuleDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                    run {
+                        if (index == position) {
+                            item.selected = true
+                        } else {
+                            item.selected = false
+                        }
+                    }
+                }
+                fuleDetailsAdapter.notifyDataSetChanged()
+            }
+        })
+
+
+        val layoutManagerStaggeredGridLayoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManagerGridLayoutManager = GridLayoutManager(activity, 3)
+
+        rvFuleType.addItemDecoration(GridItemDecoration(25, 3))
+
+        rvFuleType.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+
+        rvFuleType.setAdapter(fuleDetailsAdapter)
     }
 
 
