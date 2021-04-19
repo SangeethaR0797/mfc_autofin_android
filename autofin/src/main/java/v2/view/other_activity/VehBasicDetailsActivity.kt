@@ -21,7 +21,7 @@ import v2.view.adapter.StringDataRecyclerViewAdapter
 import v2.view.callBackInterface.itemClickCallBack
 
 
-class CarBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
+class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
     var mCurrentCalFor: String = ""
     var mSelectedYear: String = ""
 
@@ -77,7 +77,7 @@ class CarBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
         })
 
 
-        iBB_MasterViewModel = ViewModelProvider(this@CarBasicDetailsActivity).get(
+        iBB_MasterViewModel = ViewModelProvider(this@VehBasicDetailsActivity).get(
                 IBB_MasterViewModel::class.java
         )
 
@@ -183,7 +183,7 @@ class CarBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
                     dataValue = masterResponse!!.variant
                 }
 
-                reviewAdapter = StringDataRecyclerViewAdapter(dataValue, this@CarBasicDetailsActivity)
+                reviewAdapter = StringDataRecyclerViewAdapter(dataValue, this@VehBasicDetailsActivity)
                 val layoutManager = LinearLayoutManager(this)
                 rvResult.setLayoutManager(layoutManager)
                 rvResult.setAdapter(reviewAdapter)

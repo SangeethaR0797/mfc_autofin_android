@@ -26,7 +26,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name="v2.view.other_activity.CarBasicDetailsActivity"
+            android:name="v2.view.other_activity.VehBasicDetailsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
 
         <activity
