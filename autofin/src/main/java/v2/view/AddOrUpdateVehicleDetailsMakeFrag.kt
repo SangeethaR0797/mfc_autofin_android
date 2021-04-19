@@ -1,7 +1,7 @@
 package v2.view
 
+import android.app.Activity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +9,17 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mfc.autofin.framework.R
+import v2.model.dto.DataSelectionDTO
+import v2.view.adapter.DataRecyclerViewAdapter
+import v2.view.callBackInterface.itemClickCallBack
+import v2.view.utility_view.GridItemDecoration
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -40,7 +49,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
     lateinit var rvOwnership: RecyclerView
     lateinit var rvKilometresDriven: RecyclerView
     lateinit var rvFuleType: RecyclerView
-
+    lateinit var reviewAdapter: DataRecyclerViewAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -72,6 +81,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
 
 
         addEvent();
+        addData();
         return view
     }
 
@@ -81,6 +91,45 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
         btnNext.setOnClickListener(View.OnClickListener { })
 
     }
+
+    fun addData() {
+
+        val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
+
+        list.add(DataSelectionDTO("1", "st", "1", false))
+        list.add(DataSelectionDTO("2", "nd", "2", false))
+        list.add(DataSelectionDTO("3", "rd", "3", false))
+        list.add(DataSelectionDTO("4", "th", "4", false))
+        list.add(DataSelectionDTO("5", "th", "5", false))
+
+        reviewAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+            override fun itemClick(item: Any?, position: Int) {
+
+
+                reviewAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                    run {
+                        if (index == position) {
+                            item.selected = true
+                        } else {
+                            item.selected = false
+                        }
+                    }
+                }
+                reviewAdapter.notifyDataSetChanged()
+            }
+        })
+
+
+        val layoutManagerStaggeredGridLayoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManagerGridLayoutManager = GridLayoutManager(activity, 3)
+
+        rvOwnership.addItemDecoration(GridItemDecoration(25, 3))
+
+        rvOwnership.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+
+        rvOwnership.setAdapter(reviewAdapter)
+    }
+
 
     companion object {
         /**

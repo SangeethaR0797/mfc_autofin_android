@@ -5,6 +5,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class DataSelectionDTO(
-        var displayValue: String? = null,
-        var selected: Boolean
+        public var displayValue: String? = null,
+        public var displayValuePostFix: String? = null,
+        public var value: String? = null,
+        public var selected: Boolean
 ) : Parcelable

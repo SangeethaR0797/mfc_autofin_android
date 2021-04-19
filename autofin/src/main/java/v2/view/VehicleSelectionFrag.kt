@@ -59,8 +59,8 @@ public class VehicleSelectionFrag : Fragment(), View.OnClickListener {
 
                     val carBasicDetailsActivity = Intent(activity, VehBasicDetailsActivity::class.java)
 
-                    startActivityForResult(carBasicDetailsActivity, CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE)
-
+                   // startActivityForResult(carBasicDetailsActivity, CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE)
+                    call(v)
                 }
 
             }
