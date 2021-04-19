@@ -8,21 +8,29 @@ import utility.CommonMethods
 import utility.CommonStrings
 import utility.Global
 import v2.model.request.GetTokenDetailsRequest
+import v2.model.request.Get_IBB_MasterDetailsRequest
 import v2.model.request.Get_IBB_TokenRequest
+import v2.model.response.Get_IBB_MasterDetailsResponse
 import v2.model.response.IBB_TokenResponse
 import v2.model.response.TokenDetailsResponse
 import v2.model_view.AuthenticationViewModel
+import v2.model_view.IBB.IBB_MasterViewModel
 import v2.service.utility.ApiResponse
 
 
 class HostActivity : AppCompatActivity() {
     var authenticationViewModel: AuthenticationViewModel? = null
+    var iBB_MasterViewModel: IBB_MasterViewModel? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_host)
 
         authenticationViewModel = ViewModelProvider(this@HostActivity).get(
                 AuthenticationViewModel::class.java
+        )
+
+        iBB_MasterViewModel = ViewModelProvider(this@HostActivity).get(
+                IBB_MasterViewModel::class.java
         )
 
         authenticationViewModel!!.getTokenDetailsLiveDataData()
@@ -43,7 +51,20 @@ class HostActivity : AppCompatActivity() {
 
         authenticationViewModel!!.getIBBToken(getIBB_TokenRequest()!!, Global.ibb_base_url + CommonStrings.IBB_ACCESS_TOKEN_URL_END)
 
+        iBB_MasterViewModel!!.getIBB_MasterDetailsLiveData()
+                .observe(this, { mApiResponse: ApiResponse? ->
+                    onIBB_MasterDetails(
+                            mApiResponse!!
+                    )
+                })
 
+
+
+
+    }
+
+    private fun get_IBB_MasterDetailsRequest(): Get_IBB_MasterDetailsRequest? {
+        return Get_IBB_MasterDetailsRequest(CommonStrings.IBB_TOKEN_VALUE, "year", "0", "app", null, null, null, null)
     }
 
     private fun getTokenRequest(): GetTokenDetailsRequest? {
@@ -87,6 +108,22 @@ class HostActivity : AppCompatActivity() {
                 val tokenResponse: IBB_TokenResponse? = mApiResponse.data as IBB_TokenResponse?
                 CommonMethods.setValueAgainstKey(this@HostActivity, CommonStrings.PREFF_ENCRYPT_IBB_TOKEN, tokenResponse!!.access_token.toString())
                 CommonStrings.IBB_TOKEN_VALUE = tokenResponse!!.access_token.toString()
+                iBB_MasterViewModel!!.getIBB_MasterDetails(get_IBB_MasterDetailsRequest()!!, Global.ibb_base_url + CommonStrings.IBB_VEH_DETAILS_END_POINT)
+
+
+            }
+            ApiResponse.Status.ERROR -> {
+
+            }
+        }
+    }
+
+    private fun onIBB_MasterDetails(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+            }
+            ApiResponse.Status.SUCCESS -> {
+                val masterResponse: Get_IBB_MasterDetailsResponse? = mApiResponse.data as Get_IBB_MasterDetailsResponse?
 
 
             }

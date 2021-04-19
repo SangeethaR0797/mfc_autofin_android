@@ -7,13 +7,13 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class Get_IBB_MasterDetailsRequest(
-        @SerializedName("for")
-        @Expose
-        private var mfor: String? = null,
-
         @SerializedName("access_token")
         @Expose
         private var access_token: String? = null,
+
+        @SerializedName("for")
+        @Expose
+        private var mfor: String? = null,
 
         @SerializedName("pricefor")
         @Expose

@@ -18,7 +18,7 @@ class IBB_MasterViewModel(application: Application) : BaseViewModel(application)
 
     //region getIBB_MasterDetails
     private val mIBB_MasterDetailsLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
-    public fun getTokenDetailsLiveDataData(): MutableLiveData<ApiResponse> {
+    public fun getIBB_MasterDetailsLiveData(): MutableLiveData<ApiResponse> {
         return mIBB_MasterDetailsLiveData
     }
 
