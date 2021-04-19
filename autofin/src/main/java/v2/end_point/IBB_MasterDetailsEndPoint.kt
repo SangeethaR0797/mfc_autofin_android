@@ -14,7 +14,7 @@ import v2.model.response.Get_IBB_MasterDetailsResponse
 import v2.model.response.IBB_TokenResponse
 import v2.model.response.TokenDetailsResponse
 
-interface IBB_EndPoint {
+interface IBB_MasterDetailsEndPoint {
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST
     fun getIBB_MasterDetails(@Body request: Get_IBB_MasterDetailsRequest?, @Url url: String?): Observable<Get_IBB_MasterDetailsResponse?>?
