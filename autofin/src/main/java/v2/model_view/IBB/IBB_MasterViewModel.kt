@@ -23,8 +23,8 @@ class IBB_MasterViewModel(application: Application) : BaseViewModel(application)
     }
 
 
-    public fun getIBB_MasterDetails(request: Get_IBB_MasterDetailsRequest, url: String) {
-        repository.getIBB_MasterDetails(request, url)?.subscribeOn(Schedulers.io())
+    public fun getIBB_MasterDetails(request: Get_IBB_MasterDetailsRequest?, url: String) {
+        repository.getIBB_MasterDetails(request!!, url)?.subscribeOn(Schedulers.io())
                 ?.observeOn(AndroidSchedulers.mainThread())
                 ?.doOnSubscribe { d -> mIBB_MasterDetailsLiveData.setValue(ApiResponse.loading()) }
                 ?.let {

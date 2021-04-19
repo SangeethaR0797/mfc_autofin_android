@@ -139,4 +139,9 @@ public class CommonStrings {
     public static final String PREFF_ENCRYPT_IBB_TOKEN = "ibb_encrypt_token";
 
 
+    public static final int CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE = 500;
+
+
+
+
 }

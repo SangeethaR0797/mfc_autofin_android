@@ -108,7 +108,7 @@ class HostActivity : AppCompatActivity() {
                 val tokenResponse: IBB_TokenResponse? = mApiResponse.data as IBB_TokenResponse?
                 CommonMethods.setValueAgainstKey(this@HostActivity, CommonStrings.PREFF_ENCRYPT_IBB_TOKEN, tokenResponse!!.access_token.toString())
                 CommonStrings.IBB_TOKEN_VALUE = tokenResponse!!.access_token.toString()
-                iBB_MasterViewModel!!.getIBB_MasterDetails(get_IBB_MasterDetailsRequest()!!, Global.ibb_base_url + CommonStrings.IBB_VEH_DETAILS_END_POINT)
+             //   iBB_MasterViewModel!!.getIBB_MasterDetails(get_IBB_MasterDetailsRequest()!!, Global.ibb_base_url + CommonStrings.IBB_VEH_DETAILS_END_POINT)
 
 
             }
