@@ -20,7 +20,7 @@ class IBB_MasterDetailsRepository {
         )
     }
 
-    fun getToken(request: Get_IBB_MasterDetailsRequest, url: String): Observable<Get_IBB_MasterDetailsResponse?>? {
+    fun getIBB_MasterDetails(request: Get_IBB_MasterDetailsRequest, url: String): Observable<Get_IBB_MasterDetailsResponse?>? {
         return masterDetailsEndPoint.getIBB_MasterDetails(request, url)
     }
 
