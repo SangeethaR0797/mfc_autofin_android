@@ -2,25 +2,23 @@ package v2.view.other_activity
 
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
 import v2.model.request.Get_IBB_MasterDetailsRequest
 import v2.model.response.Get_IBB_MasterDetailsResponse
-import v2.model.response.TokenDetailsResponse
-import v2.model_view.AuthenticationViewModel
 import v2.model_view.IBB.IBB_MasterViewModel
 import v2.service.utility.ApiResponse
+import v2.view.adapter.StringDataRecyclerViewAdapter
+import v2.view.callBackInterface.itemClickCallBack
 
 
-class CarBasicDetailsActivity : AppCompatActivity() {
+class CarBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
     var mCurrentCalFor: String = ""
     var mSelectedYear: String = ""
 
@@ -98,7 +96,7 @@ class CarBasicDetailsActivity : AppCompatActivity() {
 
     private fun callVariantApiData() {
         tvSelectedText.text = mSelectedYear + "-" + mSelectedMake + "-" + mSelectedModel
-        tvSelectLabel.text = "Select Model"
+        tvSelectLabel.text = "Select Variant"
         var request = getIBBMasterDetailsRequest(CommonStrings.IBB_TOKEN_VALUE, CommonStrings.VARIANT, "0", "app", mSelectedYear, null, mSelectedMake, mSelectedModel)
         iBB_MasterViewModel!!.getIBB_MasterDetails(request, Global.ibb_base_url + CommonStrings.IBB_VEH_DETAILS_END_POINT)
 
@@ -145,13 +143,50 @@ class CarBasicDetailsActivity : AppCompatActivity() {
             ApiResponse.Status.LOADING -> {
             }
             ApiResponse.Status.SUCCESS -> {
+
                 val masterResponse: Get_IBB_MasterDetailsResponse? = mApiResponse.data as Get_IBB_MasterDetailsResponse?
+                var dataValue: List<String> = listOf()
 
+                if (mCurrentCalFor.equals(CommonStrings.YEAR)) {
+                    dataValue = masterResponse!!.year
+                } else if (mCurrentCalFor.equals(CommonStrings.MAKE)) {
+                    dataValue = masterResponse!!.make
+                } else if (mCurrentCalFor.equals(CommonStrings.MODEL)) {
+                    dataValue = masterResponse!!.model
+                } else if (mCurrentCalFor.equals(CommonStrings.VARIANT)) {
+                    dataValue = masterResponse!!.variant
+                }
 
+                val reviewAdapter = StringDataRecyclerViewAdapter(dataValue, this@CarBasicDetailsActivity)
+                val layoutManager = LinearLayoutManager(this)
+                rvResult.setLayoutManager(layoutManager)
+                rvResult.setAdapter(reviewAdapter)
             }
             ApiResponse.Status.ERROR -> {
 
             }
         }
+    }
+
+    override fun itemClick(item: Any?, position: Int) {
+        var value: String = item as String
+
+        if (mCurrentCalFor.equals(CommonStrings.YEAR)) {
+            mSelectedYear = value
+            callMakeApiData()
+
+        } else if (mCurrentCalFor.equals(CommonStrings.MAKE)) {
+            mSelectedMake = value
+            callModelApiData()
+
+        } else if (mCurrentCalFor.equals(CommonStrings.MODEL)) {
+            mSelectedModel = value
+            callVariantApiData()
+        } else if (mCurrentCalFor.equals(CommonStrings.VARIANT)) {
+            mSelectedVariant = value
+            //Call Back Result
+        }
+
+
     }
 }
