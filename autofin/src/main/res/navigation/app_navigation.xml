@@ -22,8 +22,8 @@
         tools:layout="@layout/fragment_registered_list" >
     </fragment>
     <fragment
-        android:id="@+id/vehMakeFragNav"
-        android:name="v2.view.VehMakeFrag"
+        android:id="@+id/addOrUpdateVehicleDetailsMakeFrag"
+        android:name="v2.view.AddOrUpdateVehicleDetailsMakeFrag"
         android:label="v2_fragment_veh_make"
         tools:layout="@layout/v2_fragment_veh_make" />
     <fragment
@@ -40,8 +40,8 @@
             android:id="@+id/action_vehicleSelectionFrag2_to_vehicleDetailsFragNav"
             app:destination="@id/vehicleDetailsFragNav" />
         <action
-            android:id="@+id/action_vehicleSelectionFrag2_to_vehMakeFragNav"
-            app:destination="@id/vehMakeFragNav" />
+            android:id="@+id/action_vehicleSelectionFrag2_to_addOrUpdateVehicleDetailsMakeFrag"
+            app:destination="@id/addOrUpdateVehicleDetailsMakeFrag" />
     </fragment>
 
 </navigation>

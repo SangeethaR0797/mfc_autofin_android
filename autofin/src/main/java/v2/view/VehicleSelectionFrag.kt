@@ -55,7 +55,7 @@ public class VehicleSelectionFrag : Fragment(), View.OnClickListener {
                     }
                 }
                 R.id.tvSearchCar -> {
-                    Navigation.findNavController(v).navigate(R.id.vehMakeFragNav)
+
 
                     val carBasicDetailsActivity = Intent(activity, VehBasicDetailsActivity::class.java)
 
@@ -83,5 +83,8 @@ public class VehicleSelectionFrag : Fragment(), View.OnClickListener {
         return Regex(pattern = "[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$/n").matches(regNoVal)
     }
 
+    fun call(v: View) {
+        Navigation.findNavController(v).navigate(R.id.addOrUpdateVehicleDetailsMakeFrag)
+    }
 
 }
