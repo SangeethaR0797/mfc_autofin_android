@@ -274,5 +274,10 @@
     <string name="vtwo_select_vehicle_tb_title">Select Vehicle</string>
     <string name="search_car">Search Car</string>
     <string name="search">Search</string>
+    <string name="ownership">Ownership</string>
+    <string name="kilometres_driven">Kilometres Driven</string>
+    <string name="fule_type">Fule Type</string>
+    <string name="enter_vehicle_price">Enter vehicle price</string>
+    <string name="enter_price">Enter Price</string>
 
 </resources>
