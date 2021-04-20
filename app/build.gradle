@@ -44,6 +44,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation project(path: ':autofin')
     implementation 'com.android.support:multidex:2.0.0'
+    implementation 'wu.seal.jsontokotlin:library:3.6.1'
 
 
 }

@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
+import v2.model.dto.VehicleAddUpdateDTO
 import v2.view.other_activity.VehBasicDetailsActivity
 
 public class VehicleSelectionFrag : Fragment(), View.OnClickListener {
@@ -62,8 +63,8 @@ public class VehicleSelectionFrag : Fragment(), View.OnClickListener {
 
                     val carBasicDetailsActivity = Intent(activity, VehBasicDetailsActivity::class.java)
 
-                   // startActivityForResult(carBasicDetailsActivity, CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE)
-                    call(v)
+                    startActivityForResult(carBasicDetailsActivity, CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE)
+
                 }
 
             }
@@ -86,8 +87,16 @@ public class VehicleSelectionFrag : Fragment(), View.OnClickListener {
         return Regex(pattern = "([a-z]{2}-\\d{2}[ ,][a-z0-9]{1,2}[a-z]-\\d{4})|([a-z]{2} \\d{2}[ ,][a-z0-9]{1,2}[a-z] \\d{4})\n").matches(regNoVal)
     }
 
-    fun call(v: View) {
-        Navigation.findNavController(v).navigate(R.id.addOrUpdateVehicleDetailsMakeFrag)
-    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE && resultCode == CommonStrings.RESULT_CODE) {
+            var vehicleAddUpdateDTO: VehicleAddUpdateDTO? = data?.getParcelableExtra(CommonStrings.VEHICLE_DATA)
+            val directions = VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(vehicleAddUpdateDTO!!)
+            view?.let {
+                Navigation.findNavController(it).navigate(directions)
+            }
+
+        }
+    }
 }

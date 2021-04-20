@@ -32,7 +32,7 @@ class DataRecyclerViewAdapter(var context: Activity, var dataListValue: List<Dat
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val listItem = layoutInflater.inflate(R.layout.v2_string_item_layout, parent, false)
+        val listItem = layoutInflater.inflate(R.layout.v2_data_item_layout, parent, false)
 
         return MyViewHolder(listItem)
     }
@@ -53,16 +53,16 @@ class DataRecyclerViewAdapter(var context: Activity, var dataListValue: List<Dat
         holder.llMainLayout.setBackgroundResource(R.drawable.vtwo_input_bg)
         holder.tvItem.setTextAppearance(mContext, R.style.RobotoRegular)
         holder.tvItemSmall.setTextAppearance(mContext, R.style.RobotoRegular)
-        holder.tvItem.setTextColor(R.color.vtwo_light_grey)
-        holder.tvItemSmall.setTextColor(R.color.vtwo_light_grey)
+        holder.tvItem.setTextColor(mContext.resources.getColor(R.color.vtwo_light_grey) )
+        holder.tvItemSmall.setTextColor(mContext.resources.getColor(R.color.vtwo_light_grey))
 
         if (dataListFilter!!.get(position).selected) {
             holder.llMainLayout.setBackgroundResource(R.drawable.vtwo_input_yellow)
             holder.tvItem.setTextAppearance(mContext, R.style.RobotoMedium)
             holder.tvItemSmall.setTextAppearance(mContext, R.style.RobotoMedium)
 
-            holder.tvItem.setTextColor(R.color.vtwo_black)
-            holder.tvItemSmall.setTextColor(R.color.vtwo_black)
+            holder.tvItem.setTextColor(mContext.resources.getColor(R.color.vtwo_black) )
+            holder.tvItemSmall.setTextColor(mContext.resources.getColor(R.color.vtwo_black))
         }
     }
 

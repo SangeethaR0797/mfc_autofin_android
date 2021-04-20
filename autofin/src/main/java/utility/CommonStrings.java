@@ -24,25 +24,25 @@ public class CommonStrings {
     public static final String TOKEN_URL_END = "token/generate-token";
     public static final String RES_TYPE_URL_END = "resident-type";
     public static final String EMP_TYPE_URL_END = "employee-type";
-    public static final String ORG_NAME_LIST_URL ="employer/employer-masters";
+    public static final String ORG_NAME_LIST_URL = "employer/employer-masters";
     public static final String BANK_NAME_URL = "bank/get-banks";
     public static final String GENDER_URL = "genders";
     public static final String EDUCATION_QUALIFICATION_URL = "educational-qualifications";
-    public static final String UPLOAD_KYC_DOC_URL ="kyc/upload-customer-kyc";
-    public static final String SELECT_RECOMMENDED_BANK_URL="select-recommended-bank";
+    public static final String UPLOAD_KYC_DOC_URL = "kyc/upload-customer-kyc";
+    public static final String SELECT_RECOMMENDED_BANK_URL = "select-recommended-bank";
     public static final String INTERESTED_BANK_OFFER_URL = "get-selected-recommended-bank";
     public static final String RECOMMENDED_BANK_URL = "get-recommended-bank";
     public static final String ADD_BASIC_DETAILS_URL = "v2/add-basic-details";
-    public static final String EDIT_LEAD_URL ="v2/edit-lead" ;
+    public static final String EDIT_LEAD_URL = "v2/edit-lead";
     public static final String CUSTOMER_DETAILS_URL = "v2/customer-details";
-    public static final String INDUSTRY_TYPE_URL ="industry-type";
-    public static final String MAHINDRA_FILTER_URL ="employer/filter-by-name/mahind" ;
+    public static final String INDUSTRY_TYPE_URL = "industry-type";
+    public static final String MAHINDRA_FILTER_URL = "employer/filter-by-name/mahind";
     public static final String GET_SALUTATION_URL = "salutations";
-    public static final String PROFESSION_URL ="professions";
-    public static final String PROFESSION_FILTER_URL ="professions/deve";
+    public static final String PROFESSION_URL = "professions";
+    public static final String PROFESSION_FILTER_URL = "professions/deve";
     public static final String RES_CITY_URL = "pincode/city/";
-    public static final String GET_ADDITIONAL_FIELDS ="additionalfields/additional-fields";
-    public static final String SUBMIT_ADDITIONAL_FIELDS_URL ="submit-additional-data";
+    public static final String GET_ADDITIONAL_FIELDS = "additionalfields/additional-fields";
+    public static final String SUBMIT_ADDITIONAL_FIELDS_URL = "submit-additional-data";
 
     public static final String CUSTOMER_DETAILS_URL_END = "customer-listing";
     public static final String IBB_ACCESS_TOKEN_URL_END = "get_access_token";
@@ -95,25 +95,27 @@ public class CommonStrings {
     public static final String LEAD_STATUS = "lead_status";
     public static final String KYC_STATUS = "kyc_status";
     public static final String CUSTOMER_ID = "customer_id";
-    public static final String EMPLOYMENT_ROLE_VAL ="employment_role" ;
+    public static final String EMPLOYMENT_ROLE_VAL = "employment_role";
     public static final String PROFESSION_VAL = "profession_role";
     public static final String BUSINESS_OR_PROFESSION_START_DATE = "business_or_profession_started_date";
     public static final String LAST_YEAR_TURN_OVER = "last_year_turn_over_or_sales";
     public static final String INCOME_AFTER_TAX = "income_after_tax";
     public static final String ITR_AUDITERD_OR_NOT = "was_last_year_itr_audited_or_not";
-    public static final String EMPLOYER_NAME ="employer_name" ;
-    public static final String CASE_ID ="case_id" ;
-    public static final String INDUSTRY_TYPE ="industry_type" ;
+    public static final String EMPLOYER_NAME = "employer_name";
+    public static final String CASE_ID = "case_id";
+    public static final String INDUSTRY_TYPE = "industry_type";
     public static final String PREVIOUS_VALUE_LBL = "previous_value_lbl";
     public static final String PREVIOUS_VALUE = "previous_screen_value";
     public static final String LAST_YEAR_PROFIT = "last_year_profit";
     public static final String PROCESS_WITH_BANK_URL_END = "process-customer-with-bank";
-    public static final String CUSTOMER_ADDITIONAL_FIELDS ="customer-additional-data" ;
+    public static final String CUSTOMER_ADDITIONAL_FIELDS = "customer-additional-data";
+    public static final String KMS_DRIVEN = "Masters/kms-driven";
+
     public static String TOKEN_VALUE = "";
     public static String IBB_TOKEN_VALUE = "";
 
-    public static boolean IS_OLD_LEAD =false ;
-    public static boolean IS_ADDITIONAL_DETAILS_FILLED =false ;
+    public static boolean IS_OLD_LEAD = false;
+    public static boolean IS_ADDITIONAL_DETAILS_FILLED = false;
     public static String IBB_PASSWORD = "dHk69ffu7ebP";
     public static String IBB_USERNAME = "mfc@ibb.com";
     public static String IBB_VEH_DETAILS_END_POINT = "MFC";
@@ -130,7 +132,7 @@ public class CommonStrings {
     public static ResidentialDetails customResDetails = new ResidentialDetails();
     public static PersonalDetailsData customPersonalDetails = new PersonalDetailsData();
     public static EmploymentDetails cusEmpDetails = new EmploymentDetails();
-    public static ReferenceDetails referenceDetails=new ReferenceDetails();
+    public static ReferenceDetails referenceDetails = new ReferenceDetails();
     public static List<AdditionFields> additionFieldsList = new ArrayList<AdditionFields>();
     public static List<Doc> documentList = new ArrayList<>();
 
@@ -143,10 +145,10 @@ public class CommonStrings {
     public static final String MODEL = "model";
     public static final String VARIANT = "variant";
 
+    public static final String VEHICLE_DATA = "vehicleData";
 
-    public static final int CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE = 500;
-
-
+    public static final int RESULT_CODE = 500;
+    public static final int CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE = 501;
 
 
 }

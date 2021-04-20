@@ -279,5 +279,6 @@
     <string name="fule_type">Fule Type</string>
     <string name="enter_vehicle_price">Enter vehicle price</string>
     <string name="enter_price">Enter Price</string>
+    <string name="enter_vehicle_registration_no">Enter vehicle registration No</string>
 
 </resources>
