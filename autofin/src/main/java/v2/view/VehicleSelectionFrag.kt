@@ -49,6 +49,9 @@ public class VehicleSelectionFrag : Fragment(), View.OnClickListener {
                 R.id.btnVehicleReg -> {
                     if (etVehRegNum.text.isNotEmpty()) {
                         regNoVal = etVehRegNum.text.toString()
+
+                        Navigation.findNavController(v).navigate(R.id.stockAPIFragment)
+
                         checkRegNoAvailable()
                     } else {
                         Toast.makeText(activity, "Please enter Vehicle Registration Number", Toast.LENGTH_SHORT).show()
@@ -70,17 +73,17 @@ public class VehicleSelectionFrag : Fragment(), View.OnClickListener {
 
     private fun checkRegNoAvailable() {
         if (isValidRegNo()) {
-            Toast.makeText(activity, "Valid RegNo", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, isValidRegNo().toString(), Toast.LENGTH_SHORT).show()
             // need to write API call to check given reg no is available
 
         } else {
-            Toast.makeText(activity, "Please enter valid Registration Number", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity,isValidRegNo().toString(), Toast.LENGTH_SHORT).show()
         }
 
     }
 
     private fun isValidRegNo(): Boolean {
-        return Regex(pattern = "[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$/n").matches(regNoVal)
+        return Regex(pattern = "([a-z]{2}-\\d{2}[ ,][a-z0-9]{1,2}[a-z]-\\d{4})|([a-z]{2} \\d{2}[ ,][a-z0-9]{1,2}[a-z] \\d{4})\n").matches(regNoVal)
     }
 
     fun call(v: View) {

@@ -65,7 +65,7 @@
                     android:background="@drawable/vtwo_input_bg"
                     android:hint="@string/vtwo_veh_reg_no_hint"
                     android:inputType="textCapCharacters"
-                    android:maxLength="11"
+                    android:maxLength="15"
                     android:padding="@dimen/text_size_15dp"
                     android:singleLine="true" />
             </LinearLayout>
