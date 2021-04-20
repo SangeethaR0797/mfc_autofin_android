@@ -14,9 +14,10 @@ import androidx.navigation.Navigation
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import v2.model.dto.VehicleAddUpdateDTO
+import v2.view.base.BaseFragment
 import v2.view.other_activity.VehBasicDetailsActivity
 
-public class VehicleSelectionFrag : Fragment(), View.OnClickListener {
+public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
 
     lateinit var etVehRegNum: EditText
     lateinit var btnVehicleReg: Button
@@ -92,9 +93,8 @@ public class VehicleSelectionFrag : Fragment(), View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE && resultCode == CommonStrings.RESULT_CODE) {
             var vehicleAddUpdateDTO: VehicleAddUpdateDTO? = data?.getParcelableExtra(CommonStrings.VEHICLE_DATA)
-            val directions = VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(vehicleAddUpdateDTO!!)
-            view?.let {
-                Navigation.findNavController(it).navigate(directions)
+            if (vehicleAddUpdateDTO != null) {
+                navigateToAddOrUpdateVehicleDetails(vehicleAddUpdateDTO)
             }
 
         }
