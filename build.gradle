@@ -2,6 +2,7 @@
 buildscript {
     ext {
         kotlin_version = '1.4.21'
+        nav_version = "2.3.0"
     }
     repositories {
         google()
@@ -15,6 +16,8 @@ buildscript {
         // in the individual module build.gradle files
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.7.3"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
+
     }
 }
 
