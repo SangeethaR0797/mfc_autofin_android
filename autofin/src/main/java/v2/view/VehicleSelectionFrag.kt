@@ -91,7 +91,7 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
         if (requestCode == CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE && resultCode == CommonStrings.RESULT_CODE) {
             var vehicleAddUpdateDTO: VehicleAddUpdateDTO? = data?.getParcelableExtra(CommonStrings.VEHICLE_DATA)
             if (vehicleAddUpdateDTO != null) {
-                navigateAddOrUpdateVehicleDetails(vehicleAddUpdateDTO)
+                navigateToAddOrUpdateVehicleDetails(vehicleAddUpdateDTO)
             }
 
         }

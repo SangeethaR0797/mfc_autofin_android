@@ -160,7 +160,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
         llAddVehicleNumber.setOnClickListener(View.OnClickListener { etVehicleNumber.requestFocus() })
 
         btnNext.setOnClickListener(View.OnClickListener {
-            AppUtility.hideSoftKeyboard(activity)
+            hideSoftKeyboard()
             if (vehicleAddUpdateDTO.price == null) {
 
                 showToast("Please enter price details.")
