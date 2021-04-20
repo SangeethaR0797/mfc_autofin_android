@@ -162,13 +162,14 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
         btnNext.setOnClickListener(View.OnClickListener {
             AppUtility.hideSoftKeyboard(activity)
             if (vehicleAddUpdateDTO.price == null) {
-                Toast.makeText(activity, "Please enter price details.", Toast.LENGTH_LONG).show()
+
+                showToast("Please enter price details.")
             } else if (vehicleAddUpdateDTO.registrationNumber == null && llVehicleNumber.visibility.equals(View.GONE)) {
                 llVehicleNumber.visibility = View.VISIBLE
             } else if (vehicleAddUpdateDTO.registrationNumber == null && llVehicleNumber.visibility.equals(View.VISIBLE)) {
-                Toast.makeText(activity, "Please enter vehicle registration No.", Toast.LENGTH_LONG).show()
+                showToast("Please enter vehicle registration No.")
             } else {
-                Toast.makeText(activity, "Save Data", Toast.LENGTH_LONG).show()
+                showToast("Save Data")
             }
         })
 
