@@ -32,7 +32,7 @@ class DataRecyclerViewAdapter(var context: Activity, var dataListValue: List<Dat
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val listItem = layoutInflater.inflate(R.layout.v2_string_item_layout, parent, false)
+        val listItem = layoutInflater.inflate(R.layout.v2_data_item_layout, parent, false)
 
         return MyViewHolder(listItem)
     }
