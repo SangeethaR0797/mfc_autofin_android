@@ -29,6 +29,7 @@ import v2.model_view.IBB.IBB_MasterViewModel
 import v2.model_view.MasterViewModel
 import v2.service.utility.ApiResponse
 import v2.view.adapter.DataRecyclerViewAdapter
+import v2.view.base.BaseFragment
 import v2.view.callBackInterface.itemClickCallBack
 import v2.view.utility_view.GridItemDecoration
 
@@ -43,7 +44,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [AddOrUpdateVehicleDetailsMakeFrag.newInstance] factory method to
  * create an instance of this fragment.
  */
-class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
+class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
 
 
     // TODO: Rename and change types of parameters
