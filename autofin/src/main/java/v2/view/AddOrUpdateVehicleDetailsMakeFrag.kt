@@ -10,12 +10,21 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mfc.autofin.framework.R
+import utility.CommonStrings
+import utility.Global
 import v2.model.dto.DataSelectionDTO
+import v2.model.response.Get_IBB_MasterDetailsResponse
+import v2.model.response.master.KmsDrivenResponse
+import v2.model.response.master.Types
+import v2.model_view.IBB.IBB_MasterViewModel
+import v2.model_view.MasterViewModel
+import v2.service.utility.ApiResponse
 import v2.view.adapter.DataRecyclerViewAdapter
 import v2.view.callBackInterface.itemClickCallBack
 import v2.view.utility_view.GridItemDecoration
@@ -51,12 +60,36 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
     lateinit var rvFuleType: RecyclerView
     lateinit var ownershipDetailsAdapter: DataRecyclerViewAdapter
     lateinit var fuleDetailsAdapter: DataRecyclerViewAdapter
+    lateinit var kmsDrivenAdapter: DataRecyclerViewAdapter
+
+    lateinit var masterViewModel: MasterViewModel
+
+    companion object {
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+                AddOrUpdateVehicleDetailsMakeFrag().apply {
+                    arguments = Bundle().apply {
+                        putString(ARG_PARAM1, param1)
+                        putString(ARG_PARAM2, param2)
+                    }
+                }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        masterViewModel = ViewModelProvider(this@AddOrUpdateVehicleDetailsMakeFrag).get(
+                MasterViewModel::class.java
+        )
+        masterViewModel!!.getKmsDrivenLiveData()
+                .observe(this@AddOrUpdateVehicleDetailsMakeFrag, { mApiResponse: ApiResponse? ->
+                    onKmsDrivenResponse(
+                            mApiResponse!!
+                    )
+                })
 
 
     }
@@ -84,6 +117,8 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
         addEvent()
         addOwnershipDetails()
         addFuleDetails()
+
+        masterViewModel.getKmsDrivenDetails(Global.customerDetails_BaseURL + CommonStrings.KMS_DRIVEN)
         return view
     }
 
@@ -170,24 +205,57 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
         rvFuleType.setAdapter(fuleDetailsAdapter)
     }
 
+    private fun onKmsDrivenResponse(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+            }
+            ApiResponse.Status.SUCCESS -> {
+                val masterResponse: KmsDrivenResponse? = mApiResponse.data as KmsDrivenResponse?
+                setKmsDrivenData(masterResponse!!.data.types)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment VehMakeFrag.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-                AddOrUpdateVehicleDetailsMakeFrag().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
+            }
+            ApiResponse.Status.ERROR -> {
+
+            }
+        }
+    }
+
+    private fun setKmsDrivenData(types: List<Types>) {
+        val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
+
+        types.forEachIndexed { index, types ->
+            list.add(DataSelectionDTO(types.displayLabel, null, types.value, false))
+        }
+
+
+
+        kmsDrivenAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+            override fun itemClick(item: Any?, position: Int) {
+
+
+                kmsDrivenAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                    run {
+                        if (index == position) {
+                            item.selected = true
+                        } else {
+                            item.selected = false
+                        }
                     }
                 }
+                kmsDrivenAdapter.notifyDataSetChanged()
+            }
+        })
+
+
+        val layoutManagerStaggeredGridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
+
+        rvKilometresDriven.addItemDecoration(GridItemDecoration(25, 2))
+
+        rvKilometresDriven.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+
+        rvKilometresDriven.setAdapter(kmsDrivenAdapter)
     }
+
+
 }

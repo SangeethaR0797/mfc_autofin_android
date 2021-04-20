@@ -61,6 +61,7 @@ object ApiServiceGenerator {
                 initialRequest = initialRequest.newBuilder()
                         .addHeader("Accept", "application/json; charset=utf-8")
                         .addHeader("token", CommonStrings.TOKEN_VALUE)
+                        .addHeader("Authorization", " Bearer " + CommonStrings.TOKEN_VALUE)
                         .build()
             }
             return chain.proceed(initialRequest)

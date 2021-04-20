@@ -4,19 +4,19 @@
     android:id="@+id/ll_main_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="center"
     android:layout_marginBottom="@dimen/text_size_15dp"
+    android:gravity="center"
+    android:orientation="horizontal"
     android:paddingLeft="@dimen/text_size25dp"
-    android:paddingTop="@dimen/text_size_8dp"
+    android:paddingTop="@dimen/text_size10dp"
     android:paddingRight="@dimen/text_size25dp"
-    android:paddingBottom="@dimen/text_size_8dp">
+    android:paddingBottom="@dimen/text_size10dp">
 
     <TextView
         android:id="@+id/tv_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:maxLines="1"
         android:textAppearance="@style/RobotoMedium"
         android:textColor="@color/vtwo_light_grey"
         android:textSize="@dimen/text_size_16sp"
@@ -28,6 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/text_size_3dp"
         android:layout_marginTop="-5dp"
+        android:maxLines="1"
         android:textAppearance="@style/RobotoMedium"
         android:textColor="@color/vtwo_light_grey"
         android:textSize="@dimen/text_size10dp"
