@@ -25,7 +25,11 @@
         android:id="@+id/addOrUpdateVehicleDetailsMakeFrag"
         android:name="v2.view.AddOrUpdateVehicleDetailsMakeFrag"
         android:label="v2_fragment_veh_make"
-        tools:layout="@layout/v2_fragment_veh_make" />
+        tools:layout="@layout/v2_fragment_veh_make" >
+        <argument
+            android:name="vehicleDetails"
+            app:argType="v2.model.dto.VehicleAddUpdateDTO" />
+    </fragment>
     <fragment
         android:id="@+id/vehicleDetailsFragNav"
         android:name="v2.view.VehicleDetailsFrag"

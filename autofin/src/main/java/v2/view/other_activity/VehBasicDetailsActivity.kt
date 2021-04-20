@@ -1,5 +1,6 @@
 package v2.view.other_activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
+import v2.model.dto.VehicleAddUpdateDTO
 import v2.model.request.Get_IBB_MasterDetailsRequest
 import v2.model.response.Get_IBB_MasterDetailsResponse
 import v2.model_view.IBB.IBB_MasterViewModel
@@ -211,6 +213,17 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
         } else if (mCurrentCalFor.equals(CommonStrings.VARIANT)) {
             mSelectedVariant = value
             //Call Back Result
+
+            var vehicleAddUpdateDTO: VehicleAddUpdateDTO? = null
+            vehicleAddUpdateDTO?.year = mSelectedYear
+            vehicleAddUpdateDTO?.make = mSelectedMake
+            vehicleAddUpdateDTO?.model = mSelectedModel
+            vehicleAddUpdateDTO?.variant = mSelectedVariant
+
+            val intent = Intent()
+            intent.putExtra(CommonStrings.VEHICLE_DATA, vehicleAddUpdateDTO)
+            setResult(CommonStrings.RESULT_CODE, intent)
+            finish()
         }
 
 
