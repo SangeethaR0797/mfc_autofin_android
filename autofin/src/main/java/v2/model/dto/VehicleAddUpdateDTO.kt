@@ -5,6 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 public class VehicleAddUpdateDTO(
+        public var transactionId: String? = null,
         public var registrationNumber: String? = null,
         public var year: String? = null,
         public var make: String? = null,

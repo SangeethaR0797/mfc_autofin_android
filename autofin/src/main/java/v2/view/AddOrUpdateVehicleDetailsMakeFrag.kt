@@ -2,12 +2,17 @@ package v2.view
 
 import android.app.Activity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavArgs
+import androidx.navigation.NavArgument
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +21,7 @@ import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
 import v2.model.dto.DataSelectionDTO
+import v2.model.dto.VehicleAddUpdateDTO
 import v2.model.response.Get_IBB_MasterDetailsResponse
 import v2.model.response.master.KmsDrivenResponse
 import v2.model.response.master.Types
@@ -38,6 +44,8 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
+
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -68,6 +76,8 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
     lateinit var kmsDrivenAdapter: DataRecyclerViewAdapter
 
     lateinit var masterViewModel: MasterViewModel
+
+    lateinit var vehicleAddUpdateDTO: VehicleAddUpdateDTO
 
     companion object {
         @JvmStatic
@@ -102,6 +112,13 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.v2_fragment_veh_make, container, false)
+
+        arguments?.let {
+            val safeArgs = AddOrUpdateVehicleDetailsMakeFragArgs.fromBundle(it)
+            vehicleAddUpdateDTO = safeArgs.vehicleDetails
+
+        }
+
         ivBack = view.findViewById(R.id.iv_back)
         tvTitle = view.findViewById(R.id.tv_title)
         tvSelectedText = view.findViewById(R.id.tv_selected_text)
@@ -126,7 +143,8 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
         etPrice = view.findViewById(R.id.et_price)
         etVehicleNumber = view.findViewById(R.id.et_vehicle_number)
 
-
+        tvTitle.text = vehicleAddUpdateDTO.make
+        tvSelectedText.text = vehicleAddUpdateDTO.year + "-" + vehicleAddUpdateDTO.make + "-" + vehicleAddUpdateDTO.model + "-" + vehicleAddUpdateDTO.variant
         addEvent()
         addOwnershipDetails()
         addFuleDetails()
@@ -140,13 +158,66 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
         llPrice.setOnClickListener(View.OnClickListener { etPrice.requestFocus() })
         llAddVehicleNumber.setOnClickListener(View.OnClickListener { etVehicleNumber.requestFocus() })
 
-        btnNext.setOnClickListener(View.OnClickListener { })
+        btnNext.setOnClickListener(View.OnClickListener {
+            AppUtility.hideSoftKeyboard(activity)
+            if (vehicleAddUpdateDTO.price == null) {
+                Toast.makeText(activity, "Please enter price details.", Toast.LENGTH_LONG).show()
+            } else if (vehicleAddUpdateDTO.registrationNumber == null && llVehicleNumber.visibility.equals(View.GONE)) {
+                llVehicleNumber.visibility = View.VISIBLE
+            } else if (vehicleAddUpdateDTO.registrationNumber == null && llVehicleNumber.visibility.equals(View.VISIBLE)) {
+                Toast.makeText(activity, "Please enter vehicle registration No.", Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(activity, "Save Data", Toast.LENGTH_LONG).show()
+            }
+        })
+
+        etPrice.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int,
+                                       count: Int) {
+                if (s != "") {
+                    //do your work here
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
+                                           after: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                if (TextUtils.isEmpty(etPrice.text)) {
+                    vehicleAddUpdateDTO.price = null
+                } else {
+                    vehicleAddUpdateDTO.price = etPrice.text.toString()
+                }
+            }
+        })
+
+        etVehicleNumber.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int,
+                                       count: Int) {
+                if (s != "") {
+                    //do your work here
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
+                                           after: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                if (TextUtils.isEmpty(etVehicleNumber.text)) {
+                    vehicleAddUpdateDTO.registrationNumber = null
+                } else {
+                    vehicleAddUpdateDTO.registrationNumber = etVehicleNumber.text.toString()
+                }
+            }
+        })
 
         llKilometresDriven.visibility = View.GONE
         llFuleType.visibility = View.GONE
         llVehiclePrice.visibility = View.GONE
         llVehicleNumber.visibility = View.GONE
-        btnNext.visibility=View.GONE
+        btnNext.visibility = View.GONE
 
     }
 
@@ -168,6 +239,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
                     run {
                         if (index == position) {
                             item.selected = true
+                            vehicleAddUpdateDTO.ownership = item.value
                             llKilometresDriven.visibility = View.VISIBLE
                         } else {
                             item.selected = false
@@ -208,8 +280,8 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
                         if (index == position) {
                             item.selected = true
                             llVehiclePrice.visibility = View.VISIBLE
-                            llVehicleNumber.visibility = View.VISIBLE
                             btnNext.visibility = View.VISIBLE
+                            vehicleAddUpdateDTO.fule_type = item.value
                         } else {
                             item.selected = false
                         }
@@ -263,6 +335,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
                         if (index == position) {
                             item.selected = true
                             llFuleType.visibility = View.VISIBLE
+                            vehicleAddUpdateDTO.kilometres_driven = item.value
                         } else {
                             item.selected = false
                         }

@@ -2,7 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply plugin: 'kotlin-android'
-apply plugin: "androidx.navigation.safeargs"
+
+apply plugin: "androidx.navigation.safeargs.kotlin"
 android {
     compileSdkVersion 29
 

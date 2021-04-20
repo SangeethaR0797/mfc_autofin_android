@@ -85,13 +85,15 @@ public class VehicleSelectionFrag : Fragment(), View.OnClickListener {
     }
 
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE && resultCode == CommonStrings.RESULT_CODE) {
             var vehicleAddUpdateDTO: VehicleAddUpdateDTO? = data?.getParcelableExtra(CommonStrings.VEHICLE_DATA)
-            view?.let { Navigation.findNavController(it).navigate(R.id.addOrUpdateVehicleDetailsMakeFrag) }
-        }
+            val directions = VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(vehicleAddUpdateDTO!!)
+            view?.let {
+                Navigation.findNavController(it).navigate(directions)
+            }
 
+        }
     }
 }
