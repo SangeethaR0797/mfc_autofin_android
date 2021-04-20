@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class VehicleAddUpdateDTO(
+public class VehicleAddUpdateDTO(
         public var registrationNumber: String? = null,
         public var year: String? = null,
         public var make: String? = null,
@@ -14,4 +14,4 @@ class VehicleAddUpdateDTO(
         public var kilometres_driven: String? = null,
         public var fule_type: String? = null,
         public var price: String? = null
-):Parcelable
+) : Parcelable

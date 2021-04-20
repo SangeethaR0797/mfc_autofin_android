@@ -214,7 +214,7 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
             mSelectedVariant = value
             //Call Back Result
 
-            var vehicleAddUpdateDTO: VehicleAddUpdateDTO? = null
+            var vehicleAddUpdateDTO= VehicleAddUpdateDTO()
             vehicleAddUpdateDTO?.year = mSelectedYear
             vehicleAddUpdateDTO?.make = mSelectedMake
             vehicleAddUpdateDTO?.model = mSelectedModel

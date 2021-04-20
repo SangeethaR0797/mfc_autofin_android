@@ -90,10 +90,6 @@ public class VehicleSelectionFrag : Fragment(), View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE && resultCode == CommonStrings.RESULT_CODE) {
             var vehicleAddUpdateDTO: VehicleAddUpdateDTO? = data?.getParcelableExtra(CommonStrings.VEHICLE_DATA)
-
-            var year: String? = vehicleAddUpdateDTO?.year
-
-
             view?.let { Navigation.findNavController(it).navigate(R.id.addOrUpdateVehicleDetailsMakeFrag) }
         }
 
