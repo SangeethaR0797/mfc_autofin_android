@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -53,6 +50,14 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
     lateinit var llFuleType: LinearLayout
 
     lateinit var llVehiclePrice: LinearLayout
+    lateinit var llPrice: LinearLayout
+
+    lateinit var llAddVehicleNumber: LinearLayout
+    lateinit var llVehicleNumber: LinearLayout
+
+    lateinit var etPrice: EditText
+    lateinit var etVehicleNumber: EditText
+
     lateinit var btnNext: Button
 
     lateinit var rvOwnership: RecyclerView
@@ -113,6 +118,14 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
 
         btnNext = view.findViewById(R.id.btn_next)
 
+        llPrice = view.findViewById(R.id.ll_price)
+
+        llAddVehicleNumber = view.findViewById(R.id.ll_add_vehicle_number)
+        llVehicleNumber = view.findViewById(R.id.ll_vehicle_number)
+
+        etPrice = view.findViewById(R.id.et_price)
+        etVehicleNumber = view.findViewById(R.id.et_vehicle_number)
+
 
         addEvent()
         addOwnershipDetails()
@@ -124,8 +137,16 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
 
     fun addEvent() {
         ivBack.setOnClickListener(View.OnClickListener { activity?.onBackPressed() })
+        llPrice.setOnClickListener(View.OnClickListener { etPrice.requestFocus() })
+        llAddVehicleNumber.setOnClickListener(View.OnClickListener { etVehicleNumber.requestFocus() })
 
         btnNext.setOnClickListener(View.OnClickListener { })
+
+        llKilometresDriven.visibility = View.GONE
+        llFuleType.visibility = View.GONE
+        llVehiclePrice.visibility = View.GONE
+        llVehicleNumber.visibility = View.GONE
+        btnNext.visibility=View.GONE
 
     }
 
@@ -147,6 +168,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
                     run {
                         if (index == position) {
                             item.selected = true
+                            llKilometresDriven.visibility = View.VISIBLE
                         } else {
                             item.selected = false
                         }
@@ -185,6 +207,9 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
                     run {
                         if (index == position) {
                             item.selected = true
+                            llVehiclePrice.visibility = View.VISIBLE
+                            llVehicleNumber.visibility = View.VISIBLE
+                            btnNext.visibility = View.VISIBLE
                         } else {
                             item.selected = false
                         }
@@ -237,6 +262,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : Fragment() {
                     run {
                         if (index == position) {
                             item.selected = true
+                            llFuleType.visibility = View.VISIBLE
                         } else {
                             item.selected = false
                         }
