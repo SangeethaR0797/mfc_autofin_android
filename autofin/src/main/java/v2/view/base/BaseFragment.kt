@@ -1,6 +1,7 @@
 package v2.view.base
 
 import android.app.Activity
+import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -10,9 +11,30 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import v2.model.dto.AddLeadRequest
 import v2.view.VehicleSelectionFragDirections
+import java.text.NumberFormat
+import java.util.*
 
 
 public open class BaseFragment : Fragment() {
+    //region utility function
+    public fun formatAmount(value: String): String {
+        if (!TextUtils.isEmpty(value)) {
+            var format: NumberFormat? = NumberFormat.getInstance(Locale.US)
+            return format!!.format(value.toLong())
+        } else {
+            return ""
+        }
+    }
+
+    public fun unformatAmount(value: String): String {
+        if (!TextUtils.isEmpty(value)) {
+            return value.replace(",", "")
+        } else {
+            return ""
+        }
+    }
+    //endregion utility function
+
     //region screen Navigation
     public fun navigateToAddOrUpdateVehicleDetails(addLeadRequest: AddLeadRequest) {
         val directions = VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(addLeadRequest!!)

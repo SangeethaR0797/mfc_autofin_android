@@ -2,6 +2,7 @@ package v2.view
 
 import android.app.Activity
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -17,8 +18,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
-import v2.model.dto.DataSelectionDTO
 import v2.model.dto.AddLeadRequest
+import v2.model.dto.DataSelectionDTO
 import v2.model.response.master.KmsDrivenResponse
 import v2.model.response.master.Types
 import v2.model_view.MasterViewModel
@@ -27,6 +28,7 @@ import v2.view.adapter.DataRecyclerViewAdapter
 import v2.view.base.BaseFragment
 import v2.view.callBackInterface.itemClickCallBack
 import v2.view.utility_view.GridItemDecoration
+import java.util.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -167,13 +169,15 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                 showToast("Save Data")
             }
         })
-
+        var timer: Timer? = null
+        var allowEdit: Boolean = true
         etPrice.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int,
-                                       count: Int) {
-                if (s != "") {
-                    //do your work here
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if (timer != null) {
+                    timer!!.cancel();
+
                 }
+
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
@@ -181,11 +185,32 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
             }
 
             override fun afterTextChanged(s: Editable) {
-                if (TextUtils.isEmpty(etPrice.text)) {
-                    addLeadRequest.Data?.vehicleDetails?.VehicleSellingPrice = null
-                } else {
-                    addLeadRequest.Data?.vehicleDetails?.VehicleSellingPrice = etPrice.text.toString()
+                if (!unformatAmount(etPrice.text.toString()).equals(addLeadRequest.Data?.vehicleDetails?.VehicleSellingPrice) || TextUtils.isEmpty(etPrice.text.toString()) || TextUtils.isEmpty(addLeadRequest.Data?.vehicleDetails?.VehicleSellingPrice)) {
+                    allowEdit = true
                 }
+                if (allowEdit == true) {
+                    timer = Timer()
+                    timer!!.schedule(object : TimerTask() {
+                        override fun run() {
+
+                            if (TextUtils.isEmpty(etPrice.text)) {
+                                addLeadRequest.Data?.vehicleDetails?.VehicleSellingPrice = null
+                            } else {
+
+                                addLeadRequest.Data?.vehicleDetails?.VehicleSellingPrice = unformatAmount(etPrice.text.toString())
+                            }
+                            allowEdit = false
+                            etPrice.setText(formatAmount(unformatAmount(etPrice.text.toString())))
+                            if (!TextUtils.isEmpty(etPrice.text.toString())) {
+                                etPrice.setSelection(etPrice.text.toString().length)
+                            }
+
+
+                        }
+                    }, 600)
+                }
+
+
             }
         })
 
