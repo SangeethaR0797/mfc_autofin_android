@@ -3,6 +3,7 @@ package v2.view.base
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
@@ -15,19 +16,22 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.mfc.autofin.framework.R
+import utility.CommonStrings
 
 import v2.model.dto.AddLeadRequest
 import v2.view.VehicleSelectionFragDirections
+import v2.view.other_activity.VehBasicDetailsActivity
 import java.text.NumberFormat
 import java.util.*
 
 
 public open class BaseFragment : Fragment() {
     //region validation
+
     public fun isValidVehicleRegNo(vehicleRegNo: String): Boolean {
         return Regex(pattern = "[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}").matches(vehicleRegNo)
     }
-    //
+    //endregion validation
 
     //region utility function
     public fun formatAmount(value: String): String {
@@ -49,6 +53,11 @@ public open class BaseFragment : Fragment() {
     //endregion utility function
 
     //region screen Navigation
+    public fun navigateVehBasicDetailsActivity(requestCode: Int) {
+        val carBasicDetailsActivity = Intent(activity, VehBasicDetailsActivity::class.java)
+        startActivityForResult(carBasicDetailsActivity, requestCode)
+    }
+
     public fun navigateToAddOrUpdateVehicleDetails(addLeadRequest: AddLeadRequest) {
         val directions = VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(addLeadRequest!!)
         view?.let {

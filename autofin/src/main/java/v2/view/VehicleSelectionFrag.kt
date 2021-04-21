@@ -55,12 +55,7 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
                     }
                 }
                 R.id.tvSearchCar -> {
-
-
-                    val carBasicDetailsActivity = Intent(activity, VehBasicDetailsActivity::class.java)
-
-                    startActivityForResult(carBasicDetailsActivity, CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE)
-
+                    navigateVehBasicDetailsActivity(CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE)
                 }
 
             }
