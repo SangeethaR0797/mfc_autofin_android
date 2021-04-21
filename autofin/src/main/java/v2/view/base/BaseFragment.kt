@@ -8,14 +8,14 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import v2.model.dto.VehicleAddUpdateDTO
+import v2.model.dto.AddLeadRequest
 import v2.view.VehicleSelectionFragDirections
 
 
 public open class BaseFragment : Fragment() {
     //region screen Navigation
-    public fun navigateToAddOrUpdateVehicleDetails(vehicleAddUpdateDTO: VehicleAddUpdateDTO) {
-        val directions = VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(vehicleAddUpdateDTO!!)
+    public fun navigateToAddOrUpdateVehicleDetails(addLeadRequest: AddLeadRequest) {
+        val directions = VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(addLeadRequest!!)
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }
