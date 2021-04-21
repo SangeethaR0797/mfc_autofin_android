@@ -106,8 +106,6 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                             mApiResponse!!
                     )
                 })
-
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

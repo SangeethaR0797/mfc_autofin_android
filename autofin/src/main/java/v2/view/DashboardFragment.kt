@@ -9,9 +9,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.mfc.autofin.framework.R
+import v2.view.base.BaseFragment
 
 
-class DashboardFragment : Fragment(), View.OnClickListener {
+class DashboardFragment : BaseFragment(), View.OnClickListener {
 
     lateinit var btnRegisteredList:Button
     lateinit var btnNewVehicle:Button
@@ -35,10 +36,10 @@ class DashboardFragment : Fragment(), View.OnClickListener {
         if (v != null) {
             when (v.id) {
                 R.id.btnRegisteredList -> {
-                    Navigation.findNavController(v).navigate(R.id.registeredListFragmentNav)
+                    navigateFromDashBoard(R.id.registeredListFragmentNav)
                 }
                 R.id.btnNewVehicle -> {
-                    Navigation.findNavController(v).navigate(R.id.vehicleSelectionFrag2)
+                    navigateFromDashBoard(R.id.vehicleSelectionFrag2)
                 }
             }
         }

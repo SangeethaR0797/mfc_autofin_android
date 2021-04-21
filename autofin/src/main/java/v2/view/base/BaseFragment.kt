@@ -8,12 +8,29 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.mfc.autofin.framework.R
 import v2.model.dto.VehicleAddUpdateDTO
 import v2.view.VehicleSelectionFragDirections
 
 
 public open class BaseFragment : Fragment() {
+
     //region screen Navigation
+
+    public fun navigateFromDashBoard(id:Int)
+    {
+        view?.let {
+                Navigation.findNavController(it).navigate(id)
+        }
+    }
+
+    public fun navigateToStockResFrag()
+    {
+        view?.let {
+            Navigation.findNavController(it).navigate(R.id.stockAPIFragment)
+        }
+    }
+
     public fun navigateToAddOrUpdateVehicleDetails(vehicleAddUpdateDTO: VehicleAddUpdateDTO) {
         val directions = VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(vehicleAddUpdateDTO!!)
         view?.let {
@@ -23,12 +40,15 @@ public open class BaseFragment : Fragment() {
 
     //endregion screen Navigation
 
+
     //region message
+
     fun showToast(message: String) {
         val toast = Toast.makeText(activity, message, Toast.LENGTH_LONG)
         toast.setGravity(Gravity.CENTER, 0, 0)
         toast.show()
     }
+
     //endregion message
 
     //region keyboard function

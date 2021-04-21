@@ -3,7 +3,9 @@ package v2.repository
 import io.reactivex.Observable
 import v2.end_point.IBB_MasterDetailsEndPoint
 import v2.end_point.MasterEndPoint
+import v2.model.dto.VehicleAddUpdateDTO
 import v2.model.request.Get_IBB_MasterDetailsRequest
+import v2.model.request.StockDetailsReq
 import v2.model.response.Get_IBB_MasterDetailsResponse
 import v2.model.response.master.KmsDrivenResponse
 import v2.service.ApiServiceGenerator
@@ -21,5 +23,8 @@ class MasterRepository {
         return masterEndPoint.getKmsDrivenDetails(url)
     }
 
+    fun getStockDetails(request:StockDetailsReq,url: String): Observable<VehicleAddUpdateDTO?>? {
+        return masterEndPoint.getStockDetails(request,url)
+    }
 
 }

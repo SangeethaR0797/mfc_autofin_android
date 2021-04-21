@@ -1,5 +1,6 @@
 package v2.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,11 +10,18 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
+import androidx.lifecycle.MutableLiveData
 import com.mfc.autofin.framework.R
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import retrofit_config.RetroBase
 import utility.CommonStrings
+import utility.Global
 import v2.model.dto.VehicleAddUpdateDTO
+import v2.model.request.Get_IBB_MasterDetailsRequest
+import v2.model.request.StockDetailsReq
+import v2.repository.MasterRepository
+import v2.service.utility.ApiResponse
 import v2.view.base.BaseFragment
 import v2.view.other_activity.VehBasicDetailsActivity
 
@@ -24,6 +32,7 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
     lateinit var tvSearchCar: TextView
 
     var regNoVal: String = ""
+    private val stockDetailsData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,21 +60,14 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
                 R.id.btnVehicleReg -> {
                     if (etVehRegNum.text.isNotEmpty()) {
                         regNoVal = etVehRegNum.text.toString()
-
-                        Navigation.findNavController(v).navigate(R.id.stockAPIFragment)
-
                         checkRegNoAvailable()
                     } else {
                         Toast.makeText(activity, "Please enter Vehicle Registration Number", Toast.LENGTH_SHORT).show()
                     }
                 }
                 R.id.tvSearchCar -> {
-
-
                     val carBasicDetailsActivity = Intent(activity, VehBasicDetailsActivity::class.java)
-
                     startActivityForResult(carBasicDetailsActivity, CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE)
-
                 }
 
             }
@@ -73,19 +75,27 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
 
     }
 
+    @SuppressLint("CheckResult")
     private fun checkRegNoAvailable() {
         if (isValidRegNo()) {
-            Toast.makeText(activity, isValidRegNo().toString(), Toast.LENGTH_SHORT).show()
-            // need to write API call to check given reg no is available
+            var stockDetailsReq= StockDetailsReq()
+            stockDetailsReq.vehicleNumber=regNoVal
 
+            val repository=MasterRepository()
+            repository.getStockDetails(stockDetailsReq!!, Global.stock_details_base_url + CommonStrings.STOCK_DETAILS_URL_END)?.subscribeOn(Schedulers.io())
+                        ?.observeOn(AndroidSchedulers.mainThread())
+                        ?.doOnSubscribe { d -> stockDetailsData.setValue(ApiResponse.loading()) }
+
+            showToast(isValidRegNo().toString())
+            navigateToStockResFrag()
         } else {
-            Toast.makeText(activity,isValidRegNo().toString(), Toast.LENGTH_SHORT).show()
+            showToast(isValidRegNo().toString())
         }
 
     }
 
     private fun isValidRegNo(): Boolean {
-        return Regex(pattern = "([a-z]{2}-\\d{2}[ ,][a-z0-9]{1,2}[a-z]-\\d{4})|([a-z]{2} \\d{2}[ ,][a-z0-9]{1,2}[a-z] \\d{4})\n").matches(regNoVal)
+        return regNoVal.length>10
     }
 
 

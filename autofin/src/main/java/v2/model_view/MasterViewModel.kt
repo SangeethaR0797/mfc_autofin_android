@@ -32,8 +32,7 @@ class MasterViewModel(application: Application) : BaseViewModel(application) {
                 ?.doOnSubscribe { d -> mKmsDrivenLiveData.setValue(ApiResponse.loading()) }
                 ?.let {
                     disposables.add(
-                            it
-                                    .subscribe(
+                            it.subscribe(
                                             { result ->
                                                 mKmsDrivenLiveData.setValue(result?.let {
                                                     ApiResponse.success(

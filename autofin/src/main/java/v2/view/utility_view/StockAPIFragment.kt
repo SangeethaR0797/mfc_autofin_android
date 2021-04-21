@@ -11,8 +11,9 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.navigation.Navigation
 import com.mfc.autofin.framework.R
+import v2.view.base.BaseFragment
 
-class StockAPIFragment : Fragment(),View.OnClickListener {
+class StockAPIFragment : BaseFragment(), View.OnClickListener {
 
     lateinit var tvVehMake: TextView
     lateinit var tvVehModelVariant: TextView
@@ -25,18 +26,18 @@ class StockAPIFragment : Fragment(),View.OnClickListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view= inflater.inflate(R.layout.stock_a_p_i_fragment, container, false)
+        val view = inflater.inflate(R.layout.stock_a_p_i_fragment, container, false)
         initViews(view)
         return view
     }
 
     private fun initViews(view: View?) {
-        tvVehMake= view?.findViewById(R.id.tvVehMake)!!
-        tvVehModelVariant= view?.findViewById(R.id.tvVehModelVariant)!!
-        tvVehDetailsDesc= view?.findViewById(R.id.tvVehDetailsDesc)!!
-        tvVehRegNum= view?.findViewById(R.id.tvVehRegNum)!!
-        ibEditVehDetails= view?.findViewById(R.id.ibEditVehDetails)!!
-        btnVehicleReg= view?.findViewById(R.id.btnVehicleReg)!!
+        tvVehMake = view?.findViewById(R.id.tvVehMake)!!
+        tvVehModelVariant = view?.findViewById(R.id.tvVehModelVariant)!!
+        tvVehDetailsDesc = view?.findViewById(R.id.tvVehDetailsDesc)!!
+        tvVehRegNum = view?.findViewById(R.id.tvVehRegNum)!!
+        ibEditVehDetails = view?.findViewById(R.id.ibEditVehDetails)!!
+        btnVehicleReg = view?.findViewById(R.id.btnVehicleReg)!!
 
         ibEditVehDetails.setOnClickListener(this)
         btnVehicleReg.setOnClickListener(this)
@@ -48,21 +49,17 @@ class StockAPIFragment : Fragment(),View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-if(v!=null)
-{
-    when(v.id)
-    {
-        R.id.ibEditVehDetails->
-        {
-            Navigation.findNavController(v).navigate(R.id.registeredListFragmentNav)
-        }
-        R.id.btnVehicleReg->
-        {
-            Navigation.findNavController(v).navigate(R.id.registeredListFragmentNav)
-        }
+        if (v != null) {
+            when (v.id) {
+                R.id.ibEditVehDetails -> {
+                    showToast("Development is in progress")
+                }
+                R.id.btnVehicleReg -> {
+                    showToast("Development is in progress")
+                }
 
-    }
-}
+            }
+        }
     }
 
 }
