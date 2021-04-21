@@ -1,35 +1,39 @@
 package v2.view
 
-import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.mfc.autofin.framework.R
+import utility.AutoFinConstants
 import utility.CommonMethods
 import utility.CommonStrings
 import utility.Global
 import v2.model.request.GetTokenDetailsRequest
 import v2.model.request.Get_IBB_MasterDetailsRequest
 import v2.model.request.Get_IBB_TokenRequest
-import v2.model.response.Get_IBB_MasterDetailsResponse
 import v2.model.response.IBB_TokenResponse
 import v2.model.response.TokenDetailsResponse
 import v2.model_view.AuthenticationViewModel
-import v2.model_view.IBB.IBB_MasterViewModel
 import v2.service.utility.ApiResponse
 
 
 class HostActivity : AppCompatActivity() {
     var authenticationViewModel: AuthenticationViewModel? = null
-
+    lateinit var APP_NAME: String
+    lateinit var DEALER_ID: String
+    lateinit var USER_TYPE: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_host)
+
+        APP_NAME = intent.getStringExtra(AutoFinConstants.APP_NAME)
+        DEALER_ID = intent.getStringExtra(AutoFinConstants.DEALER_ID)
+        USER_TYPE = intent.getStringExtra(AutoFinConstants.USER_TYPE)
+
 
         authenticationViewModel = ViewModelProvider(this@HostActivity).get(
                 AuthenticationViewModel::class.java
@@ -56,8 +60,6 @@ class HostActivity : AppCompatActivity() {
         authenticationViewModel!!.getIBBToken(getIBB_TokenRequest()!!, Global.ibb_base_url + CommonStrings.IBB_ACCESS_TOKEN_URL_END)
 
 
-
-
     }
 
     private fun get_IBB_MasterDetailsRequest(): Get_IBB_MasterDetailsRequest? {
@@ -66,17 +68,17 @@ class HostActivity : AppCompatActivity() {
 
     private fun getTokenRequest(): GetTokenDetailsRequest? {
         return GetTokenDetailsRequest(
-                "242",
-                "Dealer",
-                "Dealer",
+                DEALER_ID,
+                USER_TYPE,
+                USER_TYPE,
                 "Token")
 
     }
 
     private fun getIBB_TokenRequest(): Get_IBB_TokenRequest? {
         return Get_IBB_TokenRequest(
-                "dHk69ffu7ebP",
-                "mfc@ibb.com")
+                CommonStrings.IBB_PASSWORD,
+                CommonStrings.IBB_USERNAME)
 
     }
 
@@ -115,7 +117,6 @@ class HostActivity : AppCompatActivity() {
     }
 
 
-
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {
             val v: View? = currentFocus
@@ -123,9 +124,9 @@ class HostActivity : AppCompatActivity() {
                 val outRect = Rect()
                 v.getGlobalVisibleRect(outRect)
                 if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
-                   /* v.clearFocus()
-                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0)*/
+                    /* v.clearFocus()
+                     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0)*/
 
                 }
             }
