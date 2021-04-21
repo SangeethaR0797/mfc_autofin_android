@@ -1,14 +1,21 @@
 package v2.view.base
 
+
 import android.app.Activity
+import android.content.Context
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.mfc.autofin.framework.R
+
 import v2.model.dto.AddLeadRequest
 import v2.view.VehicleSelectionFragDirections
 import java.text.NumberFormat
@@ -53,8 +60,23 @@ public open class BaseFragment : Fragment() {
 
     //region message
     fun showToast(message: String) {
-        val toast = Toast.makeText(activity, message, Toast.LENGTH_LONG)
+        hideSoftKeyboard()
+        /*  val toast = Toast.makeText(activity, message, Toast.LENGTH_LONG)
+          toast.setGravity(Gravity.CENTER, 0, 0)
+          toast.show()*/
+
+        val inflater = layoutInflater
+        val layout: View = inflater.inflate(R.layout.v2_toast_layout, activity?.findViewById(R.id.toast_layout_root) as ViewGroup?)
+
+        val image: ImageView = layout.findViewById<View>(R.id.image) as ImageView
+        image.visibility = View.GONE
+        val text = layout.findViewById<View>(R.id.text) as TextView
+        text.text = message
+
+        val toast = Toast(activity)
         toast.setGravity(Gravity.CENTER, 0, 0)
+        toast.duration = Toast.LENGTH_LONG
+        toast.view = layout
         toast.show()
     }
     //endregion message
