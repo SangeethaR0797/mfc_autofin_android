@@ -69,18 +69,14 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
     }
 
     private fun checkRegNoAvailable() {
-        if (isValidRegNo()) {
-            Toast.makeText(activity, "Valid RegNo", Toast.LENGTH_SHORT).show()
+        if (isValidVehicleRegNo(regNoVal)) {
+            showToast("Valid RegNo")
             // need to write API call to check given reg no is available
 
         } else {
-            Toast.makeText(activity, "Please enter valid Registration Number", Toast.LENGTH_SHORT).show()
+            showToast("Please enter valid Registration Number")
         }
 
-    }
-
-    private fun isValidRegNo(): Boolean {
-        return Regex(pattern = "[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$/n").matches(regNoVal)
     }
 
 

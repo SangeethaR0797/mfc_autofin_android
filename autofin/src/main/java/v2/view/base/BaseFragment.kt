@@ -16,6 +16,12 @@ import java.util.*
 
 
 public open class BaseFragment : Fragment() {
+    //region validation
+    public fun isValidVehicleRegNo(vehicleRegNo: String): Boolean {
+        return Regex(pattern = "[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}").matches(vehicleRegNo)
+    }
+    //
+
     //region utility function
     public fun formatAmount(value: String): String {
         if (!TextUtils.isEmpty(value)) {
