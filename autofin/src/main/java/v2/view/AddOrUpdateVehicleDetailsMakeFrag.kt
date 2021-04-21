@@ -165,6 +165,8 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                 llVehicleNumber.visibility = View.VISIBLE
             } else if (addLeadRequest.Data?.vehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(View.VISIBLE)) {
                 showToast("Please enter vehicle registration No.")
+            } else if (addLeadRequest.Data?.vehicleDetails?.VehicleNumber != null && !isValidVehicleRegNo(addLeadRequest.Data?.vehicleDetails?.VehicleNumber!!)) {
+                showToast("Please enter valid vehicle registration No.")
             } else {
                 showToast("Save Data")
             }
