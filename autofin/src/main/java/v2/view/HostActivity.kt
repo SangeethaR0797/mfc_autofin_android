@@ -1,37 +1,45 @@
 package v2.view
 
+import android.graphics.Rect
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.View
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.mfc.autofin.framework.R
+import utility.AutoFinConstants
 import utility.CommonMethods
 import utility.CommonStrings
 import utility.Global
 import v2.model.request.GetTokenDetailsRequest
 import v2.model.request.Get_IBB_MasterDetailsRequest
 import v2.model.request.Get_IBB_TokenRequest
-import v2.model.response.Get_IBB_MasterDetailsResponse
 import v2.model.response.IBB_TokenResponse
 import v2.model.response.TokenDetailsResponse
 import v2.model_view.AuthenticationViewModel
-import v2.model_view.IBB.IBB_MasterViewModel
 import v2.service.utility.ApiResponse
 
 
 class HostActivity : AppCompatActivity() {
     var authenticationViewModel: AuthenticationViewModel? = null
-    var iBB_MasterViewModel: IBB_MasterViewModel? = null
+    lateinit var APP_NAME: String
+    lateinit var DEALER_ID: String
+    lateinit var USER_TYPE: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_host)
+
+        APP_NAME = intent.getStringExtra(AutoFinConstants.APP_NAME)
+        DEALER_ID = intent.getStringExtra(AutoFinConstants.DEALER_ID)
+        USER_TYPE = intent.getStringExtra(AutoFinConstants.USER_TYPE)
+
 
         authenticationViewModel = ViewModelProvider(this@HostActivity).get(
                 AuthenticationViewModel::class.java
         )
 
-        iBB_MasterViewModel = ViewModelProvider(this@HostActivity).get(
-                IBB_MasterViewModel::class.java
-        )
+
 
         authenticationViewModel!!.getTokenDetailsLiveDataData()
                 .observe(this, { mApiResponse: ApiResponse? ->
@@ -51,15 +59,6 @@ class HostActivity : AppCompatActivity() {
 
         authenticationViewModel!!.getIBBToken(getIBB_TokenRequest()!!, Global.ibb_base_url + CommonStrings.IBB_ACCESS_TOKEN_URL_END)
 
-        iBB_MasterViewModel!!.getIBB_MasterDetailsLiveData()
-                .observe(this, { mApiResponse: ApiResponse? ->
-                    onIBB_MasterDetails(
-                            mApiResponse!!
-                    )
-                })
-
-
-
 
     }
 
@@ -69,17 +68,17 @@ class HostActivity : AppCompatActivity() {
 
     private fun getTokenRequest(): GetTokenDetailsRequest? {
         return GetTokenDetailsRequest(
-                "242",
-                "Dealer",
-                "Dealer",
+                DEALER_ID,
+                USER_TYPE,
+                USER_TYPE,
                 "Token")
 
     }
 
     private fun getIBB_TokenRequest(): Get_IBB_TokenRequest? {
         return Get_IBB_TokenRequest(
-                "dHk69ffu7ebP",
-                "mfc@ibb.com")
+                CommonStrings.IBB_PASSWORD,
+                CommonStrings.IBB_USERNAME)
 
     }
 
@@ -108,7 +107,6 @@ class HostActivity : AppCompatActivity() {
                 val tokenResponse: IBB_TokenResponse? = mApiResponse.data as IBB_TokenResponse?
                 CommonMethods.setValueAgainstKey(this@HostActivity, CommonStrings.PREFF_ENCRYPT_IBB_TOKEN, tokenResponse!!.access_token.toString())
                 CommonStrings.IBB_TOKEN_VALUE = tokenResponse!!.access_token.toString()
-             //   iBB_MasterViewModel!!.getIBB_MasterDetails(get_IBB_MasterDetailsRequest()!!, Global.ibb_base_url + CommonStrings.IBB_VEH_DETAILS_END_POINT)
 
 
             }
@@ -118,18 +116,22 @@ class HostActivity : AppCompatActivity() {
         }
     }
 
-    private fun onIBB_MasterDetails(mApiResponse: ApiResponse) {
-        when (mApiResponse.status) {
-            ApiResponse.Status.LOADING -> {
-            }
-            ApiResponse.Status.SUCCESS -> {
-                val masterResponse: Get_IBB_MasterDetailsResponse? = mApiResponse.data as Get_IBB_MasterDetailsResponse?
 
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        if (event.action == MotionEvent.ACTION_DOWN) {
+            val v: View? = currentFocus
+            if (v is EditText) {
+                val outRect = Rect()
+                v.getGlobalVisibleRect(outRect)
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    /* v.clearFocus()
+                     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0)*/
 
-            }
-            ApiResponse.Status.ERROR -> {
-
+                }
             }
         }
+        return super.dispatchTouchEvent(event)
     }
+
 }

@@ -16,6 +16,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import retrofit_config.RetroBase
 import utility.CommonStrings
+import v2.model.dto.AddLeadRequest
 import utility.Global
 import v2.model.dto.VehicleAddUpdateDTO
 import v2.model.request.Get_IBB_MasterDetailsRequest
@@ -62,10 +63,11 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
                         regNoVal = etVehRegNum.text.toString()
                         checkRegNoAvailable()
                     } else {
-                        Toast.makeText(activity, "Please enter Vehicle Registration Number", Toast.LENGTH_SHORT).show()
+                        showToast("Please enter Vehicle Registration Number")
                     }
                 }
                 R.id.tvSearchCar -> {
+                    navigateVehBasicDetailsActivity(CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE)
                     val carBasicDetailsActivity = Intent(activity, VehBasicDetailsActivity::class.java)
                     startActivityForResult(carBasicDetailsActivity, CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE)
                 }
@@ -80,31 +82,29 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
         if (isValidRegNo()) {
             var stockDetailsReq= StockDetailsReq()
             stockDetailsReq.vehicleNumber=regNoVal
+        if (isValidVehicleRegNo(regNoVal)) {
+            showToast("Valid RegNo")
+            // need to write API call to check given reg no is available
 
             val repository=MasterRepository()
             repository.getStockDetails(stockDetailsReq!!, Global.stock_details_base_url + CommonStrings.STOCK_DETAILS_URL_END)?.subscribeOn(Schedulers.io())
                         ?.observeOn(AndroidSchedulers.mainThread())
                         ?.doOnSubscribe { d -> stockDetailsData.setValue(ApiResponse.loading()) }
 
-            showToast(isValidRegNo().toString())
             navigateToStockResFrag()
         } else {
-            showToast(isValidRegNo().toString())
+            showToast("Please enter valid Registration Number")
         }
 
-    }
-
-    private fun isValidRegNo(): Boolean {
-        return regNoVal.length>10
     }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE && resultCode == CommonStrings.RESULT_CODE) {
-            var vehicleAddUpdateDTO: VehicleAddUpdateDTO? = data?.getParcelableExtra(CommonStrings.VEHICLE_DATA)
-            if (vehicleAddUpdateDTO != null) {
-                navigateToAddOrUpdateVehicleDetails(vehicleAddUpdateDTO)
+            var addLeadRequest: AddLeadRequest? = data?.getParcelableExtra(CommonStrings.VEHICLE_DATA)
+            if (addLeadRequest != null) {
+                navigateToAddOrUpdateVehicleDetails(addLeadRequest)
             }
 
         }

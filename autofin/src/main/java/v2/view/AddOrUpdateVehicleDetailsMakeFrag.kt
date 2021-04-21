@@ -2,6 +2,7 @@ package v2.view
 
 import android.app.Activity
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -11,27 +12,23 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavArgs
-import androidx.navigation.NavArgument
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
+import v2.model.dto.AddLeadRequest
 import v2.model.dto.DataSelectionDTO
-import v2.model.dto.VehicleAddUpdateDTO
-import v2.model.response.Get_IBB_MasterDetailsResponse
 import v2.model.response.master.KmsDrivenResponse
 import v2.model.response.master.Types
-import v2.model_view.IBB.IBB_MasterViewModel
 import v2.model_view.MasterViewModel
 import v2.service.utility.ApiResponse
 import v2.view.adapter.DataRecyclerViewAdapter
 import v2.view.base.BaseFragment
 import v2.view.callBackInterface.itemClickCallBack
 import v2.view.utility_view.GridItemDecoration
+import java.util.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -78,7 +75,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
 
     lateinit var masterViewModel: MasterViewModel
 
-    lateinit var vehicleAddUpdateDTO: VehicleAddUpdateDTO
+    lateinit var addLeadRequest: AddLeadRequest
 
     companion object {
         @JvmStatic
@@ -114,7 +111,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
 
         arguments?.let {
             val safeArgs = AddOrUpdateVehicleDetailsMakeFragArgs.fromBundle(it)
-            vehicleAddUpdateDTO = safeArgs.vehicleDetails
+            addLeadRequest = safeArgs.addLeadRequestDetails
 
         }
 
@@ -142,8 +139,8 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
         etPrice = view.findViewById(R.id.et_price)
         etVehicleNumber = view.findViewById(R.id.et_vehicle_number)
 
-        tvTitle.text = vehicleAddUpdateDTO.make
-        tvSelectedText.text = vehicleAddUpdateDTO.year + "-" + vehicleAddUpdateDTO.make + "-" + vehicleAddUpdateDTO.model + "-" + vehicleAddUpdateDTO.variant
+        tvTitle.text = addLeadRequest.Data?.vehicleDetails?.Make
+        tvSelectedText.text = "" + addLeadRequest.Data?.vehicleDetails?.RegistrationYear + "-" + addLeadRequest.Data?.vehicleDetails?.Make + "-" + addLeadRequest.Data?.vehicleDetails?.Model + "-" + addLeadRequest.Data?.vehicleDetails?.Variant
         addEvent()
         addOwnershipDetails()
         addFuleDetails()
@@ -159,24 +156,28 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
 
         btnNext.setOnClickListener(View.OnClickListener {
             hideSoftKeyboard()
-            if (vehicleAddUpdateDTO.price == null) {
+            if (addLeadRequest.Data?.vehicleDetails?.VehicleSellingPrice == null) {
 
                 showToast("Please enter price details.")
-            } else if (vehicleAddUpdateDTO.registrationNumber == null && llVehicleNumber.visibility.equals(View.GONE)) {
+            } else if (addLeadRequest.Data?.vehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(View.GONE)) {
                 llVehicleNumber.visibility = View.VISIBLE
-            } else if (vehicleAddUpdateDTO.registrationNumber == null && llVehicleNumber.visibility.equals(View.VISIBLE)) {
+            } else if (addLeadRequest.Data?.vehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(View.VISIBLE)) {
                 showToast("Please enter vehicle registration No.")
+            } else if (addLeadRequest.Data?.vehicleDetails?.VehicleNumber != null && !isValidVehicleRegNo(addLeadRequest.Data?.vehicleDetails?.VehicleNumber!!)) {
+                showToast("Please enter valid vehicle registration No.")
             } else {
                 showToast("Save Data")
             }
         })
-
+        var timer: Timer? = null
+        var allowEdit: Boolean = true
         etPrice.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int,
-                                       count: Int) {
-                if (s != "") {
-                    //do your work here
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if (timer != null) {
+                    timer!!.cancel();
+
                 }
+
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
@@ -184,11 +185,32 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
             }
 
             override fun afterTextChanged(s: Editable) {
-                if (TextUtils.isEmpty(etPrice.text)) {
-                    vehicleAddUpdateDTO.price = null
-                } else {
-                    vehicleAddUpdateDTO.price = etPrice.text.toString()
+                if (!unformatAmount(etPrice.text.toString()).equals(addLeadRequest.Data?.vehicleDetails?.VehicleSellingPrice) || TextUtils.isEmpty(etPrice.text.toString()) || TextUtils.isEmpty(addLeadRequest.Data?.vehicleDetails?.VehicleSellingPrice)) {
+                    allowEdit = true
                 }
+                if (allowEdit == true) {
+                    timer = Timer()
+                    timer!!.schedule(object : TimerTask() {
+                        override fun run() {
+
+                            if (TextUtils.isEmpty(etPrice.text)) {
+                                addLeadRequest.Data?.vehicleDetails?.VehicleSellingPrice = null
+                            } else {
+
+                                addLeadRequest.Data?.vehicleDetails?.VehicleSellingPrice = unformatAmount(etPrice.text.toString())
+                            }
+                            allowEdit = false
+                            etPrice.setText(formatAmount(unformatAmount(etPrice.text.toString())))
+                            if (!TextUtils.isEmpty(etPrice.text.toString())) {
+                                etPrice.setSelection(etPrice.text.toString().length)
+                            }
+
+
+                        }
+                    }, 600)
+                }
+
+
             }
         })
 
@@ -206,9 +228,9 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
 
             override fun afterTextChanged(s: Editable) {
                 if (TextUtils.isEmpty(etVehicleNumber.text)) {
-                    vehicleAddUpdateDTO.registrationNumber = null
+                    addLeadRequest.Data?.vehicleDetails?.VehicleNumber = null
                 } else {
-                    vehicleAddUpdateDTO.registrationNumber = etVehicleNumber.text.toString()
+                    addLeadRequest.Data?.vehicleDetails?.VehicleNumber = etVehicleNumber.text.toString()
                 }
             }
         })
@@ -239,7 +261,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                     run {
                         if (index == position) {
                             item.selected = true
-                            vehicleAddUpdateDTO.ownership = item.value
+                            addLeadRequest.Data?.vehicleDetails?.Ownership = item.value?.toInt()
                             llKilometresDriven.visibility = View.VISIBLE
                         } else {
                             item.selected = false
@@ -281,7 +303,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                             item.selected = true
                             llVehiclePrice.visibility = View.VISIBLE
                             btnNext.visibility = View.VISIBLE
-                            vehicleAddUpdateDTO.fule_type = item.value
+                            addLeadRequest.Data?.vehicleDetails?.FuelType = item.value
                         } else {
                             item.selected = false
                         }
@@ -335,7 +357,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                         if (index == position) {
                             item.selected = true
                             llFuleType.visibility = View.VISIBLE
-                            vehicleAddUpdateDTO.kilometres_driven = item.value
+                            addLeadRequest?.Data?.vehicleDetails?.KMs = item.value
                         } else {
                             item.selected = false
                         }

@@ -14,8 +14,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
-import v2.model.dto.VehicleAddUpdateDTO
+
+import v2.model.dto.AddLeadRequest
+
 import v2.model.request.Get_IBB_MasterDetailsRequest
+import v2.model.request.add_lead.AddLeadData
+import v2.model.request.add_lead.VehicleDetails
 import v2.model.response.Get_IBB_MasterDetailsResponse
 import v2.model_view.IBB.IBB_MasterViewModel
 import v2.service.utility.ApiResponse
@@ -214,12 +218,17 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
             mSelectedVariant = value
             //Call Back Result
 
-            var vehicleAddUpdateDTO= VehicleAddUpdateDTO()
-            vehicleAddUpdateDTO?.year = mSelectedYear
-            vehicleAddUpdateDTO?.make = mSelectedMake
-            vehicleAddUpdateDTO?.model = mSelectedModel
-            vehicleAddUpdateDTO?.variant = mSelectedVariant
+            var vehicleAddUpdateDTO = AddLeadRequest()
+            var vehicleDetails = VehicleDetails()
 
+            vehicleDetails!!.RegistrationYear = mSelectedYear.toInt()
+            vehicleDetails!!.Make = mSelectedMake
+            vehicleDetails!!.Model = mSelectedModel
+            vehicleDetails!!.Variant = mSelectedVariant
+            var data = AddLeadData()
+
+            data!!.vehicleDetails = vehicleDetails
+            vehicleAddUpdateDTO.Data = data
             val intent = Intent()
             intent.putExtra(CommonStrings.VEHICLE_DATA, vehicleAddUpdateDTO)
             setResult(CommonStrings.RESULT_CODE, intent)
