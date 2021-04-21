@@ -51,7 +51,7 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
                         regNoVal = etVehRegNum.text.toString()
                         checkRegNoAvailable()
                     } else {
-                        Toast.makeText(activity, "Please enter Vehicle Registration Number", Toast.LENGTH_SHORT).show()
+                        showToast("Please enter Vehicle Registration Number")
                     }
                 }
                 R.id.tvSearchCar -> {
