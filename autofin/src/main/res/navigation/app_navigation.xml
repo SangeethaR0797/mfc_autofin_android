@@ -46,6 +46,12 @@
         android:id="@+id/stockAPIFragment"
         android:name="v2.view.utility_view.StockAPIFragment"
         android:label="stock_a_p_i_fragment"
-        tools:layout="@layout/stock_a_p_i_fragment" />
+        tools:layout="@layout/stock_a_p_i_fragment">
+        <argument
+            android:name="stockResArgs"
+            app:argType="v2.model.response.StockResponse" />
+    </fragment>
+
+
 
 </navigation>

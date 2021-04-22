@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 public class StockDetailsReq
 {
-    @SerializedName("UserId")
+    @SerializedName("vehicleNumber")
     @Expose
     public var vehicleNumber: String? = ""
 

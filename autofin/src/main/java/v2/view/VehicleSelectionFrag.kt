@@ -11,16 +11,21 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import com.mfc.autofin.framework.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import retrofit_config.RetroBase
+import utility.CommonMethods
 import utility.CommonStrings
 import v2.model.dto.AddLeadRequest
 import utility.Global
-import v2.model.dto.VehicleAddUpdateDTO
 import v2.model.request.Get_IBB_MasterDetailsRequest
 import v2.model.request.StockDetailsReq
+import v2.model.response.IBB_TokenResponse
+import v2.model.response.StockResponse
+import v2.model_view.AuthenticationViewModel
+import v2.model_view.StockAPIViewModel
 import v2.repository.MasterRepository
 import v2.service.utility.ApiResponse
 import v2.view.base.BaseFragment
@@ -33,17 +38,20 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
     lateinit var tvSearchCar: TextView
 
     var regNoVal: String = ""
-    private val stockDetailsData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+    var stockAPIViewModel: StockAPIViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_vehicle_selection, container, false)
         initViews(view)
+
+        stockAPIViewModel = ViewModelProvider(requireActivity()).get(
+                StockAPIViewModel::class.java)
+
         return view
     }
 
@@ -79,25 +87,41 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
 
     @SuppressLint("CheckResult")
     private fun checkRegNoAvailable() {
-        if (isValidRegNo()) {
-            var stockDetailsReq= StockDetailsReq()
-            stockDetailsReq.vehicleNumber=regNoVal
         if (isValidVehicleRegNo(regNoVal)) {
             showToast("Valid RegNo")
             // need to write API call to check given reg no is available
+            var stockDetailsReq= StockDetailsReq()
+            stockDetailsReq.vehicleNumber=regNoVal
 
-            val repository=MasterRepository()
-            repository.getStockDetails(stockDetailsReq!!, Global.stock_details_base_url + CommonStrings.STOCK_DETAILS_URL_END)?.subscribeOn(Schedulers.io())
-                        ?.observeOn(AndroidSchedulers.mainThread())
-                        ?.doOnSubscribe { d -> stockDetailsData.setValue(ApiResponse.loading()) }
 
-            navigateToStockResFrag()
+            stockAPIViewModel!!.getStockDetails(stockDetailsReq,Global.stock_details_base_url+CommonStrings.STOCK_DETAILS_URL_END)
+            stockAPIViewModel!!.getStockDetailsLiveDataData()
+                    .observe(this, { mApiResponse: ApiResponse? ->
+                        onStockDetailsRes(
+                                mApiResponse!!
+                        )
+                    })
         } else {
             showToast("Please enter valid Registration Number")
         }
 
     }
 
+    private fun onStockDetailsRes(apiResponse: ApiResponse)
+    {
+        when (apiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+            }
+            ApiResponse.Status.SUCCESS -> {
+                val stockResponse: StockResponse? = apiResponse.data as StockResponse?
+                navigateToStockResFrag(stockResponse!!)
+            }
+            ApiResponse.Status.ERROR -> {
+            }
+            else -> showToast("There is no Data for entered Register number")
+        }
+
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -106,7 +130,7 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
             if (addLeadRequest != null) {
                 navigateToAddOrUpdateVehicleDetails(addLeadRequest)
             }
-
         }
     }
+
 }

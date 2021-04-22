@@ -18,6 +18,7 @@ import javax.net.ssl.SSLSession
 
 
 object ApiServiceGenerator {
+
     val BASE_URL = Global.currentBaseURL
 
     private val builder = Retrofit.Builder()

@@ -19,6 +19,7 @@ import v2.model.response.IBB_TokenResponse
 import v2.model.response.TokenDetailsResponse
 import v2.model_view.AuthenticationViewModel
 import v2.service.utility.ApiResponse
+import v2.view.base.BaseFragment
 
 
 class HostActivity : AppCompatActivity() {
@@ -29,6 +30,7 @@ class HostActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_host)
+
 
         APP_NAME = intent.getStringExtra(AutoFinConstants.APP_NAME)
         DEALER_ID = intent.getStringExtra(AutoFinConstants.DEALER_ID)
@@ -107,11 +109,8 @@ class HostActivity : AppCompatActivity() {
                 val tokenResponse: IBB_TokenResponse? = mApiResponse.data as IBB_TokenResponse?
                 CommonMethods.setValueAgainstKey(this@HostActivity, CommonStrings.PREFF_ENCRYPT_IBB_TOKEN, tokenResponse!!.access_token.toString())
                 CommonStrings.IBB_TOKEN_VALUE = tokenResponse!!.access_token.toString()
-
-
             }
             ApiResponse.Status.ERROR -> {
-
             }
         }
     }

@@ -1,7 +1,6 @@
 package v2.view.base
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
 import android.view.Gravity
@@ -15,11 +14,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.mfc.autofin.framework.R
-import v2.model.dto.VehicleAddUpdateDTO
-import com.mfc.autofin.framework.R
-import utility.CommonStrings
-
 import v2.model.dto.AddLeadRequest
+import v2.model.response.StockResponse
 import v2.view.VehicleSelectionFragDirections
 import v2.view.other_activity.VehBasicDetailsActivity
 import java.text.NumberFormat
@@ -27,6 +23,7 @@ import java.util.*
 
 
 public open class BaseFragment : Fragment() {
+
 
     //region validation
 
@@ -63,15 +60,14 @@ public open class BaseFragment : Fragment() {
         }
     }
 
-    public fun navigateToStockResFrag()
+    public fun navigateToStockResFrag(stockDetails:StockResponse)
     {
+        val stockDirection=VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToStockAPIFragment(stockDetails)
         view?.let {
-            Navigation.findNavController(it).navigate(R.id.stockAPIFragment)
+            Navigation.findNavController(it).navigate(stockDirection)
         }
     }
 
-    public fun navigateToAddOrUpdateVehicleDetails(vehicleAddUpdateDTO: VehicleAddUpdateDTO) {
-        val directions = VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(vehicleAddUpdateDTO!!)
     public fun navigateVehBasicDetailsActivity(requestCode: Int) {
         val carBasicDetailsActivity = Intent(activity, VehBasicDetailsActivity::class.java)
         startActivityForResult(carBasicDetailsActivity, requestCode)

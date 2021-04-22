@@ -17,8 +17,10 @@ class AuthenticationViewModel(application: Application) : BaseViewModel(applicat
     init {
         repository = AuthenticationRepository()
     }
-//region getDealer Token
+
+    //region getDealer Token
     private val mTokenDetailsLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+
     public fun getTokenDetailsLiveDataData(): MutableLiveData<ApiResponse> {
         return mTokenDetailsLiveData
     }
