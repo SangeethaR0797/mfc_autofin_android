@@ -3,6 +3,7 @@ package v2.view.other_activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputType
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
@@ -103,6 +104,7 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
     }
 
     private fun callYearApiData() {
+        etSearch.inputType=(InputType.TYPE_CLASS_NUMBER)
         tvSelectedText.text = ""
         tvSelectLabel.text = "Select Registration Year"
         var request = getIBBMasterDetailsRequest(CommonStrings.IBB_TOKEN_VALUE, CommonStrings.YEAR, "0", "app", null, null, null, null)
@@ -111,6 +113,7 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
     }
 
     private fun callMakeApiData() {
+         etSearch.inputType=(InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
         tvSelectedText.text = mSelectedYear
         tvSelectLabel.text = "Select Make"
         var request = getIBBMasterDetailsRequest(CommonStrings.IBB_TOKEN_VALUE, CommonStrings.MAKE, "0", "app", mSelectedYear, null, null, null)
@@ -119,6 +122,7 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
     }
 
     private fun callModelApiData() {
+         etSearch.inputType=(InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
         tvSelectedText.text = mSelectedYear + "-" + mSelectedMake
         tvSelectLabel.text = "Select Model"
         var request = getIBBMasterDetailsRequest(CommonStrings.IBB_TOKEN_VALUE, CommonStrings.MODEL, "0", "app", mSelectedYear, null, mSelectedMake, null)
@@ -127,6 +131,7 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
     }
 
     private fun callVariantApiData() {
+         etSearch.inputType=(InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
         tvSelectedText.text = mSelectedYear + "-" + mSelectedMake + "-" + mSelectedModel
         tvSelectLabel.text = "Select Variant"
         var request = getIBBMasterDetailsRequest(CommonStrings.IBB_TOKEN_VALUE, CommonStrings.VARIANT, "0", "app", mSelectedYear, null, mSelectedMake, mSelectedModel)
@@ -137,21 +142,25 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
 
     private fun manageBackpress() {
         if (mCurrentCalFor.equals(CommonStrings.YEAR)) {
+             etSearch.inputType=(InputType.TYPE_CLASS_NUMBER)
             mSelectedYear = "";
             mSelectedMake = "";
             mSelectedModel = "";
             mSelectedVariant = "";
             onBackPressed()
         } else if (mCurrentCalFor.equals(CommonStrings.MAKE)) {
+             etSearch.inputType=(InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
             mSelectedMake = "";
             mSelectedModel = "";
             mSelectedVariant = "";
             callYearApiData()
         } else if (mCurrentCalFor.equals(CommonStrings.MODEL)) {
+             etSearch.inputType=(InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
             mSelectedModel = "";
             mSelectedVariant = "";
             callMakeApiData()
         } else if (mCurrentCalFor.equals(CommonStrings.VARIANT)) {
+             etSearch.inputType=(InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
             mSelectedVariant = "";
             callModelApiData()
         }
