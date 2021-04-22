@@ -36,7 +36,7 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
     lateinit var etVehRegNum: EditText
     lateinit var btnVehicleReg: Button
     lateinit var tvSearchCar: TextView
-    lateinit var ivBackToDashBoard:ImageView
+    lateinit var ivBackToDashBoard: ImageView
 
     var regNoVal: String = ""
     var stockAPIViewModel: StockAPIViewModel? = null
@@ -60,7 +60,7 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
         etVehRegNum = view?.findViewById(R.id.etVehRegNum)!!
         btnVehicleReg = view.findViewById(R.id.btnVehicleReg)
         tvSearchCar = view.findViewById(R.id.tvSearchCar)
-        ivBackToDashBoard=view.findViewById(R.id.ivBackToDashBoard)
+        ivBackToDashBoard = view.findViewById(R.id.ivBackToDashBoard)
         ivBackToDashBoard.setOnClickListener(this)
         tvSearchCar.setOnClickListener(this)
         btnVehicleReg.setOnClickListener(this)
@@ -69,8 +69,7 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         if (v != null) {
             when (v.id) {
-                R.id.ivBackToDashBoard->
-                {
+                R.id.ivBackToDashBoard -> {
                     activity?.onBackPressed()
                 }
                 R.id.btnVehicleReg -> {
@@ -95,19 +94,10 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
     @SuppressLint("CheckResult")
     private fun checkRegNoAvailable() {
         if (isValidVehicleRegNo(regNoVal)) {
+
             showToast("Valid RegNo")
 
-
-            // need to write API call to check given reg no is available
-            var stockDetailsReq = StockDetailsReq()
-            stockDetailsReq.UserId = "242"
-            stockDetailsReq.UserType = "Dealer"
-            stockDetailsReq.RequestFrom = "Dealer"
-            var vehicleNum = VehicleRegNum()
-            vehicleNum.vehicleNumber = regNoVal
-            stockDetailsReq.data = vehicleNum
-
-            stockAPIViewModel!!.getStockDetails(stockDetailsReq, Global.stock_details_base_url + CommonStrings.STOCK_DETAILS_URL_END)
+            stockAPIViewModel!!.getStockDetails(getStockRequest(), Global.stock_details_base_url + CommonStrings.STOCK_DETAILS_URL_END)
             stockAPIViewModel!!.getStockDetailsLiveDataData()
                     .observe(this, { mApiResponse: ApiResponse? ->
                         onStockDetailsRes(
@@ -118,6 +108,17 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
             showToast("Please enter valid Registration Number")
         }
 
+    }
+
+    private fun getStockRequest(): StockDetailsReq {
+        var stockDetailsReq = StockDetailsReq()
+        stockDetailsReq.UserId = "242"
+        stockDetailsReq.UserType = "Dealer"
+        stockDetailsReq.RequestFrom = "Dealer"
+        var vehicleNum = VehicleRegNum()
+        vehicleNum.vehicleNumber = regNoVal
+        stockDetailsReq.data = vehicleNum
+        return stockDetailsReq
     }
 
     private fun onStockDetailsRes(apiResponse: ApiResponse) {
