@@ -147,7 +147,7 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
             mSelectedMake = "";
             mSelectedModel = "";
             mSelectedVariant = "";
-            onBackPressed()
+            finish()
         } else if (mCurrentCalFor.equals(CommonStrings.MAKE)) {
              etSearch.inputType=(InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
             mSelectedMake = "";
