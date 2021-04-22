@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid
-        android:color="@color/vtwo_input_field_grey" >
-    </solid>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:color="#7EFFFFFF"
+    tools:ignore="NewApi">
+    <item>
+        <shape>
+            <solid android:color="@color/vtwo_input_field_grey"></solid>
 
-    <padding
-        android:left="5dp"
-        android:top="5dp"
-        android:right="5dp"
-        android:bottom="5dp"    >
-    </padding>
+            <padding
+                android:bottom="5dp"
+                android:left="5dp"
+                android:right="5dp"
+                android:top="5dp"></padding>
 
-    <corners
-        android:radius="8dp"   >
-    </corners>
+            <corners android:radius="8dp"></corners>
 
-</shape>
+        </shape>
+    </item>
+</ripple>
