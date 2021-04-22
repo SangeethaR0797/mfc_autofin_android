@@ -49,7 +49,7 @@
         tools:layout="@layout/stock_a_p_i_fragment">
         <argument
             android:name="stockResArgs"
-            app:argType="v2.model.response.StockResponse" />
+            app:argType="v2.model.response.StockDetails" />
     </fragment>
 
 

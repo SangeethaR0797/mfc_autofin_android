@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.mfc.autofin.framework.R
 import v2.model.dto.AddLeadRequest
-import v2.model.response.StockResponse
+import v2.model.response.StockDetails
 import v2.view.VehicleSelectionFragDirections
 import v2.view.other_activity.VehBasicDetailsActivity
 import java.text.NumberFormat
@@ -60,7 +60,7 @@ public open class BaseFragment : Fragment() {
         }
     }
 
-    public fun navigateToStockResFrag(stockDetails:StockResponse)
+    public fun navigateToStockResFrag(stockDetails:StockDetails)
     {
         val stockDirection=VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToStockAPIFragment(stockDetails)
         view?.let {

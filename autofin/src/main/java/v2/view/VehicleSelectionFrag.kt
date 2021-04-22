@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.mfc.autofin.framework.R
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.newSingleThreadContext
 import retrofit_config.RetroBase
 import utility.CommonMethods
 import utility.CommonStrings
@@ -22,7 +23,9 @@ import v2.model.dto.AddLeadRequest
 import utility.Global
 import v2.model.request.Get_IBB_MasterDetailsRequest
 import v2.model.request.StockDetailsReq
+import v2.model.request.VehicleRegNum
 import v2.model.response.IBB_TokenResponse
+import v2.model.response.StockDetails
 import v2.model.response.StockResponse
 import v2.model_view.AuthenticationViewModel
 import v2.model_view.StockAPIViewModel
@@ -89,12 +92,18 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
     private fun checkRegNoAvailable() {
         if (isValidVehicleRegNo(regNoVal)) {
             showToast("Valid RegNo")
+
+
             // need to write API call to check given reg no is available
-            var stockDetailsReq= StockDetailsReq()
-            stockDetailsReq.vehicleNumber=regNoVal
+            var stockDetailsReq = StockDetailsReq()
+            stockDetailsReq.UserId = "242"
+            stockDetailsReq.UserType = "Dealer"
+            stockDetailsReq.RequestFrom = "Dealer"
+            var vehicleNum = VehicleRegNum()
+            vehicleNum.vehicleNumber = regNoVal
+            stockDetailsReq.data = vehicleNum
 
-
-            stockAPIViewModel!!.getStockDetails(stockDetailsReq,Global.stock_details_base_url+CommonStrings.STOCK_DETAILS_URL_END)
+            stockAPIViewModel!!.getStockDetails(stockDetailsReq, Global.stock_details_base_url + CommonStrings.STOCK_DETAILS_URL_END)
             stockAPIViewModel!!.getStockDetailsLiveDataData()
                     .observe(this, { mApiResponse: ApiResponse? ->
                         onStockDetailsRes(
@@ -107,14 +116,17 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
 
     }
 
-    private fun onStockDetailsRes(apiResponse: ApiResponse)
-    {
+    private fun onStockDetailsRes(apiResponse: ApiResponse) {
         when (apiResponse.status) {
             ApiResponse.Status.LOADING -> {
             }
             ApiResponse.Status.SUCCESS -> {
-                val stockResponse: StockResponse? = apiResponse.data as StockResponse?
-                navigateToStockResFrag(stockResponse!!)
+                var stockResponse: StockResponse? = apiResponse.data as StockResponse?
+                if (stockResponse?.status == true && stockResponse?.data != null) {
+                    navigateToStockResFrag(stockResponse?.data!!)
+                } else {
+                    showToast(stockResponse?.message.toString())
+                }
             }
             ApiResponse.Status.ERROR -> {
             }

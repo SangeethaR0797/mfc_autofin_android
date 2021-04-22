@@ -3,6 +3,7 @@ package  v2.view.utility_view
 import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +36,7 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.stock_a_p_i_fragment, container, false)
+        Log.i("StockAPIFragment", "onCreateView: "+args.stockResArgs.stockId)
         initViews(view)
         return view
     }
@@ -49,7 +51,7 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
         btnVehicleReg = view?.findViewById(R.id.btnVehicleReg)!!
 
         val modelVariantVal = args.stockResArgs.ibbModel + " " + args.stockResArgs.ibbVariant
-        val vehDetailsDesVal=args.stockResArgs.owner + separator + args.stockResArgs.vehicleSellingPrice + separator + args.stockResArgs.fuelType + args.stockResArgs.year
+        val vehDetailsDesVal=args.stockResArgs.owner + separator + formatAmount(args.stockResArgs.vehicleSellingPrice) + separator + args.stockResArgs.fuelType +separator+ args.stockResArgs.year
         tvVehMake.text = args.stockResArgs.ibbMake
         tvVehModelVariant.text = modelVariantVal
         tvVehDetailsDesc.text = vehDetailsDesVal
