@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.fragment.navArgs
 import com.mfc.autofin.framework.R
@@ -27,6 +28,7 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
     lateinit var tvVehModelVariant: TextView
     lateinit var tvVehDetailsDesc: TextView
     lateinit var tvVehRegNum: TextView
+    lateinit var ivBackToVehSelection: ImageView
     lateinit var ibEditVehDetails: ImageButton
     lateinit var btnVehicleReg: Button
     val separator = " | "
@@ -36,7 +38,7 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.stock_a_p_i_fragment, container, false)
-        Log.i("StockAPIFragment", "onCreateView: "+args.stockResArgs.stockId)
+        Log.i("StockAPIFragment", "onCreateView: " + args.stockResArgs.stockId)
         initViews(view)
         return view
     }
@@ -47,20 +49,22 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
         tvVehModelVariant = view?.findViewById(R.id.tvVehModelVariant)!!
         tvVehDetailsDesc = view?.findViewById(R.id.tvVehDetailsDesc)!!
         tvVehRegNum = view?.findViewById(R.id.tvVehRegNum)!!
+        ivBackToVehSelection = view?.findViewById(R.id.ivBackToVehSelection)
         ibEditVehDetails = view?.findViewById(R.id.ibEditVehDetails)!!
         btnVehicleReg = view?.findViewById(R.id.btnVehicleReg)!!
 
         val modelVariantVal = args.stockResArgs.ibbModel + " " + args.stockResArgs.ibbVariant
-        val owner=formatOwner(args.stockResArgs.owner)
-        val price=resources.getString(R.string.rupees_symbol)+" "+formatAmount(args.stockResArgs.vehicleSellingPrice)
-        val kms=formatAmount(args.stockResArgs.kMs)
-        val vehRegNo=formatVehNum(args.stockResArgs.registrationNumber)
-        val vehDetailsDesVal=owner+separator + price + separator+kms+separator + args.stockResArgs.fuelType +separator+ args.stockResArgs.year
+        val owner = formatOwner(args.stockResArgs.owner)
+        val price = resources.getString(R.string.rupees_symbol) + " " + formatAmount(args.stockResArgs.vehicleSellingPrice)
+        val kms = formatAmount(args.stockResArgs.kMs)
+        val vehRegNo = formatVehNum(args.stockResArgs.registrationNumber)
+        val vehDetailsDesVal = owner + separator + price + separator + kms + separator + args.stockResArgs.fuelType + separator + args.stockResArgs.year
         tvVehMake.text = args.stockResArgs.ibbMake
         tvVehModelVariant.text = modelVariantVal
         tvVehDetailsDesc.text = vehDetailsDesVal
         tvVehRegNum.text = vehRegNo
 
+        ivBackToVehSelection.setOnClickListener(this)
         ibEditVehDetails.setOnClickListener(this)
         btnVehicleReg.setOnClickListener(this)
 
@@ -74,6 +78,9 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         if (v != null) {
             when (v.id) {
+                R.id.ivBackToVehSelection -> {
+                    activity?.onBackPressed()
+                }
                 R.id.ibEditVehDetails -> {
                     navigateVehBasicDetailsActivity(CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE)
                     val carBasicDetailsActivity = Intent(activity, VehBasicDetailsActivity::class.java)

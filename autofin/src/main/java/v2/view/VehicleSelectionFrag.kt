@@ -6,10 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import com.mfc.autofin.framework.R
@@ -39,6 +36,7 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
     lateinit var etVehRegNum: EditText
     lateinit var btnVehicleReg: Button
     lateinit var tvSearchCar: TextView
+    lateinit var ivBackToDashBoard:ImageView
 
     var regNoVal: String = ""
     var stockAPIViewModel: StockAPIViewModel? = null
@@ -62,6 +60,8 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
         etVehRegNum = view?.findViewById(R.id.etVehRegNum)!!
         btnVehicleReg = view.findViewById(R.id.btnVehicleReg)
         tvSearchCar = view.findViewById(R.id.tvSearchCar)
+        ivBackToDashBoard=view.findViewById(R.id.ivBackToDashBoard)
+        ivBackToDashBoard.setOnClickListener(this)
         tvSearchCar.setOnClickListener(this)
         btnVehicleReg.setOnClickListener(this)
     }
@@ -69,6 +69,10 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         if (v != null) {
             when (v.id) {
+                R.id.ivBackToDashBoard->
+                {
+                    activity?.onBackPressed()
+                }
                 R.id.btnVehicleReg -> {
                     if (etVehRegNum.text.isNotEmpty()) {
                         regNoVal = etVehRegNum.text.toString()
