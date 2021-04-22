@@ -51,11 +51,15 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
         btnVehicleReg = view?.findViewById(R.id.btnVehicleReg)!!
 
         val modelVariantVal = args.stockResArgs.ibbModel + " " + args.stockResArgs.ibbVariant
-        val vehDetailsDesVal=args.stockResArgs.owner + separator + formatAmount(args.stockResArgs.vehicleSellingPrice) + separator + args.stockResArgs.fuelType +separator+ args.stockResArgs.year
+        val owner=formatOwner(args.stockResArgs.owner)
+        val price=resources.getString(R.string.rupees_symbol)+" "+formatAmount(args.stockResArgs.vehicleSellingPrice)
+        val kms=formatAmount(args.stockResArgs.kMs)
+        val vehRegNo=formatVehNum(args.stockResArgs.registrationNumber)
+        val vehDetailsDesVal=owner+separator + price + separator+kms+separator + args.stockResArgs.fuelType +separator+ args.stockResArgs.year
         tvVehMake.text = args.stockResArgs.ibbMake
         tvVehModelVariant.text = modelVariantVal
         tvVehDetailsDesc.text = vehDetailsDesVal
-        tvVehRegNum.text = args.stockResArgs.registrationNumber
+        tvVehRegNum.text = vehRegNo
 
         ibEditVehDetails.setOnClickListener(this)
         btnVehicleReg.setOnClickListener(this)

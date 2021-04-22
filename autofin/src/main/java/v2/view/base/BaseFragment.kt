@@ -49,20 +49,41 @@ public open class BaseFragment : Fragment() {
             return ""
         }
     }
+
+    public fun formatOwner(owner: String): String {
+        return when {
+            owner == "1" -> {
+                "1st"
+            }
+            owner == "2" -> {
+                "2nd"
+            }
+            owner == "3" -> {
+                "3rd"
+            }
+            else -> owner + "th"
+        }
+    }
+
+    public fun formatVehNum(regNo: String): String {
+        val separator = "-"
+        var formattedRegNum = regNo.substring(0, 2) + separator + regNo.substring(2, 4) + separator + regNo.substring(4, 6) + separator + regNo.substring(6, 10)
+        return formattedRegNum
+    }
+
+
     //endregion utility function
 
     //region screen Navigation
 
-    public fun navigateFromDashBoard(id:Int)
-    {
+    public fun navigateFromDashBoard(id: Int) {
         view?.let {
-                Navigation.findNavController(it).navigate(id)
+            Navigation.findNavController(it).navigate(id)
         }
     }
 
-    public fun navigateToStockResFrag(stockDetails:StockDetails)
-    {
-        val stockDirection=VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToStockAPIFragment(stockDetails)
+    public fun navigateToStockResFrag(stockDetails: StockDetails) {
+        val stockDirection = VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToStockAPIFragment(stockDetails)
         view?.let {
             Navigation.findNavController(it).navigate(stockDirection)
         }
