@@ -1,5 +1,6 @@
 package v2.service
 
+import android.text.TextUtils
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -41,7 +42,7 @@ object ApiServiceGenerator {
             serviceClass: Class<S>?
     ): S {
         logging.level = HttpLoggingInterceptor.Level.BODY
-       // httpClient.interceptors().clear()
+        // httpClient.interceptors().clear()
         if (!httpClient.interceptors().contains(logging)) {
             httpClient.addInterceptor(logging)
             builder.client(httpClient.build())
@@ -58,7 +59,7 @@ object ApiServiceGenerator {
         @Throws(IOException::class)
         override fun intercept(chain: Interceptor.Chain): Response {
             var initialRequest: Request = chain.request()
-            if (CommonStrings.TOKEN_VALUE != null) {
+            if (!TextUtils.isEmpty(CommonStrings.TOKEN_VALUE)) {
                 initialRequest = initialRequest.newBuilder()
                         .addHeader("Accept", "application/json; charset=utf-8")
                         .addHeader("token", CommonStrings.TOKEN_VALUE)
