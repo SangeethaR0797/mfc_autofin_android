@@ -47,6 +47,9 @@
         android:name="v2.view.utility_view.StockAPIFragment"
         android:label="stock_a_p_i_fragment"
         tools:layout="@layout/stock_a_p_i_fragment">
+        <action
+            android:id="@+id/action_vehicleSelectionFrag2_to_addOrUpdateVehicleDetailsMakeFrag"
+            app:destination="@id/addOrUpdateVehicleDetailsMakeFrag" />
         <argument
             android:name="stockResArgs"
             app:argType="v2.model.response.StockDetails" />
