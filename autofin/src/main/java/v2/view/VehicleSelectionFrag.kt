@@ -7,26 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import com.mfc.autofin.framework.R
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.newSingleThreadContext
-import retrofit_config.RetroBase
-import utility.CommonMethods
 import utility.CommonStrings
 import v2.model.dto.AddLeadRequest
 import utility.Global
-import v2.model.request.Get_IBB_MasterDetailsRequest
 import v2.model.request.StockDetailsReq
 import v2.model.request.VehicleRegNum
-import v2.model.response.IBB_TokenResponse
-import v2.model.response.StockDetails
 import v2.model.response.StockResponse
-import v2.model_view.AuthenticationViewModel
 import v2.model_view.StockAPIViewModel
-import v2.repository.MasterRepository
 import v2.service.utility.ApiResponse
 import v2.view.base.BaseFragment
 import v2.view.other_activity.VehBasicDetailsActivity
@@ -127,8 +116,8 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
             }
             ApiResponse.Status.SUCCESS -> {
                 var stockResponse: StockResponse? = apiResponse.data as StockResponse?
-                if (stockResponse?.status == true && stockResponse?.data != null) {
-                    navigateToStockResFrag(stockResponse?.data!!)
+                if (stockResponse?.status  == true && stockResponse.data != null) {
+                    navigateToStockResFrag(stockResponse.data!!)
                 } else {
                     showToast(stockResponse?.message.toString())
                 }

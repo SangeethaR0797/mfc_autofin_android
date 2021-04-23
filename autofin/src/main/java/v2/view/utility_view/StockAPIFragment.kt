@@ -53,6 +53,15 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
         ibEditVehDetails = view?.findViewById(R.id.ibEditVehDetails)!!
         btnVehicleReg = view?.findViewById(R.id.btnVehicleReg)!!
 
+        ivBackToVehSelection.setOnClickListener(this)
+        ibEditVehDetails.setOnClickListener(this)
+        btnVehicleReg.setOnClickListener(this)
+
+        displayStockDetails()
+    }
+
+    private fun displayStockDetails() {
+
         val modelVariantVal = args.stockResArgs.ibbModel + " " + args.stockResArgs.ibbVariant
         val owner = formatOwner(args.stockResArgs.owner)
         val price = resources.getString(R.string.rupees_symbol) + " " + formatAmount(args.stockResArgs.vehicleSellingPrice)
@@ -63,10 +72,6 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
         tvVehModelVariant.text = modelVariantVal
         tvVehDetailsDesc.text = vehDetailsDesVal
         tvVehRegNum.text = vehRegNo
-
-        ivBackToVehSelection.setOnClickListener(this)
-        ibEditVehDetails.setOnClickListener(this)
-        btnVehicleReg.setOnClickListener(this)
 
     }
 
