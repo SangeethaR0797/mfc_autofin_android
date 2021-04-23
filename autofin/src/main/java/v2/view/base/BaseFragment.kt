@@ -114,7 +114,7 @@ public open class BaseFragment : Fragment() {
         val layout: View = inflater.inflate(R.layout.v2_toast_layout, activity?.findViewById(R.id.toast_layout_root) as ViewGroup?)
 
         val image: ImageView = layout.findViewById<View>(R.id.image) as ImageView
-        image.visibility = View.GONE
+       // image.visibility = View.GONE
         val text = layout.findViewById<View>(R.id.text) as TextView
         text.text = message
 
