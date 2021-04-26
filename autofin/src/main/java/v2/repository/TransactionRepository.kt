@@ -5,7 +5,7 @@ import v2.end_point.TransactionEndPoint
 import v2.model.dto.AddLeadRequest
 import v2.model.request.GenerateOTPRequest
 import v2.model.response.AddLeadResponse
-import v2.model.response.GenerateOTPResponse
+import v2.model.response.OTPResponse
 import v2.service.ApiServiceGenerator
 
 class TransactionRepository {
@@ -21,7 +21,7 @@ class TransactionRepository {
         return transactionEndPoint.addLead(request, url)
     }
 
-    fun generateOTP(request: GenerateOTPRequest, url: String?): Observable<GenerateOTPResponse?>? {
+    fun generateOTP(request: GenerateOTPRequest, url: String?): Observable<OTPResponse?>? {
         return transactionEndPoint.generateOTP(request, url)
     }
 

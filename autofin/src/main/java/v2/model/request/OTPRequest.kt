@@ -7,5 +7,6 @@ data class GenerateOTPRequest(
 )
 
 data class Data(
-        var CustomerMobile: String?
+        var CustomerMobile: String?,
+        var OTP: String?
 )

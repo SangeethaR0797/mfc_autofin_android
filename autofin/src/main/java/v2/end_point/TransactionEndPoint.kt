@@ -4,11 +4,8 @@ import io.reactivex.Observable
 import retrofit2.http.*
 import v2.model.dto.AddLeadRequest
 import v2.model.request.GenerateOTPRequest
-import v2.model.request.Get_IBB_MasterDetailsRequest
 import v2.model.response.AddLeadResponse
-import v2.model.response.GenerateOTPResponse
-import v2.model.response.Get_IBB_MasterDetailsResponse
-import v2.model.response.master.KmsDrivenResponse
+import v2.model.response.OTPResponse
 
 interface TransactionEndPoint {
     @Headers("Content-Type: application/json; charset=utf-8")
@@ -17,6 +14,6 @@ interface TransactionEndPoint {
 
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST
-    fun generateOTP( @Body request: GenerateOTPRequest,@Url url: String?): Observable<GenerateOTPResponse?>?
+    fun generateOTP( @Body request: GenerateOTPRequest,@Url url: String?): Observable<OTPResponse?>?
 
 }

@@ -1,6 +1,6 @@
 package v2.model.response
 
-data class GenerateOTPResponse(
+data class OTPResponse(
         var data: String?,
         var message: String?,
         var status: Boolean?,
