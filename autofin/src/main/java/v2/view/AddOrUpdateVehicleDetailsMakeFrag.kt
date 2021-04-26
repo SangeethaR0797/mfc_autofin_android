@@ -2,7 +2,6 @@ package v2.view
 
 import android.app.Activity
 import android.os.Bundle
-import android.os.Handler
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -20,7 +19,7 @@ import utility.CommonStrings
 import utility.Global
 import v2.model.dto.AddLeadRequest
 import v2.model.dto.DataSelectionDTO
-import v2.model.response.master.KmsDrivenResponse
+import v2.model.response.master.MasterResponse
 import v2.model.response.master.Types
 import v2.model_view.MasterViewModel
 import v2.service.utility.ApiResponse
@@ -329,7 +328,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
             ApiResponse.Status.LOADING -> {
             }
             ApiResponse.Status.SUCCESS -> {
-                val masterResponse: KmsDrivenResponse? = mApiResponse.data as KmsDrivenResponse?
+                val masterResponse: MasterResponse? = mApiResponse.data as MasterResponse?
                 setKmsDrivenData(masterResponse!!.data.types)
 
             }
