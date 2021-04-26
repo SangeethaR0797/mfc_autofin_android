@@ -4,21 +4,16 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import model.ibb_models.IBBVehDetailsReq
 import v2.model.dto.AddLeadRequest
-import v2.model.request.GetTokenDetailsRequest
-import v2.model.request.Get_IBB_TokenRequest
 import v2.model_view.Base.BaseViewModel
-import v2.repository.AuthenticationRepository
-import v2.repository.MasterRepository
-import v2.repository.VehicleTransactionRepository
+import v2.repository.TransactionRepository
 import v2.service.utility.ApiResponse
 
-class VehicleTransactionViewModel(application: Application) : BaseViewModel(application) {
-    val repository: VehicleTransactionRepository
+class TransactionViewModel(application: Application) : BaseViewModel(application) {
+    val repository: TransactionRepository
 
     init {
-        repository = VehicleTransactionRepository()
+        repository = TransactionRepository()
     }
 
     //region addLead
