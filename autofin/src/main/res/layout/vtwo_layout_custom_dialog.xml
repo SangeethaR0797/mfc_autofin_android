@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="@dimen/text_size_12dp"
+    android:layout_gravity="center"
+    android:background="@drawable/vtwo_alert_dialog_bg"
+    android:paddingLeft="@dimen/text_size_17dp"
+    android:paddingTop="@dimen/text_size_26dp"
+    android:paddingRight="@dimen/text_size_17dp"
+    android:paddingBottom="@dimen/text_size_30dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivCloseDialogV2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/text_size_14dp"
+            android:layout_marginEnd="13dp"
+            android:layout_marginRight="13dp"
+            app:srcCompat="@drawable/ic_vtwo_personal_details"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/ivAlertImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/text_size_22dp"
+            app:srcCompat="@drawable/ic_vtwo_alert_dialog"
+            tools:ignore="ContentDescription" />
+    </RelativeLayout>
+
+    <utility.RobotoMedium
+        android:id="@+id/tvAlertDialogText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="58dp"
+        android:layout_marginTop="@dimen/text_size_48dp"
+        android:layout_marginRight="58dp"
+        android:paddingBottom="@dimen/text_size10dp"
+        android:text="@string/vtwo_mobile_num_already_reg_hint"
+        android:textColor="@color/vtwo_light_black"
+        android:textSize="@dimen/text_size_18dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/btnStartNewFlowV2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@drawable/vtwo_grey_outline"
+            android:text="@string/startNew"
+            android:textColor="@color/vtwo_black"
+            android:textSize="@dimen/text_size_16sp" />
+
+        <Button
+            android:id="@+id/btnExistingFlowV2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/vtwo_next_btn_bg"
+            android:text="@string/vtwo_proceed"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_16sp" />
+
+    </LinearLayout>
+</LinearLayout>

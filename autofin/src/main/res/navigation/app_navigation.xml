@@ -29,6 +29,9 @@
         <argument
             android:name="addLeadRequestDetails"
             app:argType="v2.model.dto.AddLeadRequest" />
+        <action
+            android:id="@+id/action_addOrUpdateVehicleDetailsMakeFrag_to_addLeadDetailsFrag"
+            app:destination="@id/addLeadDetailsFrag" />
     </fragment>
     <fragment
         android:id="@+id/vehicleSelectionFrag2"
@@ -54,7 +57,11 @@
             android:name="stockResArgs"
             app:argType="v2.model.response.StockDetails" />
     </fragment>
-
+    <fragment
+        android:id="@+id/addLeadDetailsFrag"
+        android:name="v2.view.AddLeadDetailsFrag"
+        android:label="fragment_add_lead_details"
+        tools:layout="@layout/fragment_add_lead_details" />
 
 
 </navigation>

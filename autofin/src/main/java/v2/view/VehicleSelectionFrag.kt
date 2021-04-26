@@ -18,7 +18,6 @@ import v2.model.response.StockResponse
 import v2.model_view.StockAPIViewModel
 import v2.service.utility.ApiResponse
 import v2.view.base.BaseFragment
-import v2.view.other_activity.VehBasicDetailsActivity
 
 public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
 
