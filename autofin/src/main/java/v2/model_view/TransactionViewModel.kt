@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import v2.model.dto.AddLeadRequest
-import v2.model.request.GenerateOTPRequest
+import v2.model.request.OTPRequest
 import v2.model_view.Base.BaseViewModel
 import v2.repository.TransactionRepository
 import v2.service.utility.ApiResponse
@@ -57,7 +57,7 @@ class TransactionViewModel(application: Application) : BaseViewModel(application
     }
 
 
-    public fun generateOTP(request: GenerateOTPRequest, url: String?) {
+    public fun generateOTP(request: OTPRequest, url: String?) {
         repository.generateOTP(request, url)?.subscribeOn(Schedulers.io())
                 ?.observeOn(AndroidSchedulers.mainThread())
                 ?.doOnSubscribe { d -> mGenerateOTPLiveData.setValue(ApiResponse.loading()) }
@@ -82,6 +82,39 @@ class TransactionViewModel(application: Application) : BaseViewModel(application
                 }
     }
 //endregion GenerateOTP
+
+    //region ValidateOTP
+    private val mValidateOTPLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+    public fun getValidateOTPLiveData(): MutableLiveData<ApiResponse> {
+        return mValidateOTPLiveData
+    }
+
+
+    public fun validateOTP(request: OTPRequest, url: String?) {
+        repository.validateOTP(request, url)?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe { d -> mValidateOTPLiveData.setValue(ApiResponse.loading()) }
+                ?.let {
+                    disposables.add(
+                            it
+                                    .subscribe(
+                                            { result ->
+                                                mValidateOTPLiveData.setValue(result?.let {
+                                                    ApiResponse.success(
+                                                            it
+                                                    )
+                                                })
+                                            }
+                                    ) { throwable ->
+                                        mValidateOTPLiveData.setValue(
+                                                ApiResponse.error(
+                                                        throwable
+                                                )
+                                        )
+                                    })
+                }
+    }
+//endregion ValidateOTP
 
 
 }

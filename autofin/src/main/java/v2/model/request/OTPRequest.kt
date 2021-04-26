@@ -1,6 +1,6 @@
 package v2.model.request
 
-data class GenerateOTPRequest(
+data class OTPRequest(
         var Data: Data?,
         var UserId: String?,
         var UserType: String?
