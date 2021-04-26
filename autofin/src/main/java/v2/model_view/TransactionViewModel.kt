@@ -6,6 +6,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import v2.model.dto.AddLeadRequest
 import v2.model.request.OTPRequest
+import v2.model.request.ResetCustomerJourneyRequest
 import v2.model.request.ValidateLeadRequest
 import v2.model_view.Base.BaseViewModel
 import v2.repository.TransactionRepository
@@ -151,5 +152,37 @@ class TransactionViewModel(application: Application) : BaseViewModel(application
     }
 //endregion ValidateLead
 
+    //region ResetCustomerJourney
+    private val mResetCustomerJourneyLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+    public fun getResetCustomerJourneyLiveData(): MutableLiveData<ApiResponse> {
+        return mResetCustomerJourneyLiveData
+    }
+
+
+    public fun resetCustomerJourney(request: ResetCustomerJourneyRequest, url: String?) {
+        repository.resetCustomerJourney(request, url)?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe { d -> mResetCustomerJourneyLiveData.setValue(ApiResponse.loading()) }
+                ?.let {
+                    disposables.add(
+                            it
+                                    .subscribe(
+                                            { result ->
+                                                mResetCustomerJourneyLiveData.setValue(result?.let {
+                                                    ApiResponse.success(
+                                                            it
+                                                    )
+                                                })
+                                            }
+                                    ) { throwable ->
+                                        mResetCustomerJourneyLiveData.setValue(
+                                                ApiResponse.error(
+                                                        throwable
+                                                )
+                                        )
+                                    })
+                }
+    }
+//endregion ResetCustomerJourney
 
 }
