@@ -83,6 +83,38 @@ class MasterViewModel(application: Application) : BaseViewModel(application) {
     }
 //endregion SalutationsDetails
 
+    //region ResidentTypeDetails
+    private val mResidentTypeLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+    public fun getResidentTypeLiveData(): MutableLiveData<ApiResponse> {
+        return mResidentTypeLiveData
+    }
+
+
+    public fun getResidentType(url: String) {
+        repository.getResidentType(url)?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe { d -> mResidentTypeLiveData.setValue(ApiResponse.loading()) }
+                ?.let {
+                    disposables.add(
+                            it.subscribe(
+                                    { result ->
+                                        mResidentTypeLiveData.setValue(result?.let {
+                                            ApiResponse.success(
+                                                    it
+                                            )
+                                        })
+                                    }
+                            ) { throwable ->
+                                mResidentTypeLiveData.setValue(
+                                        ApiResponse.error(
+                                                throwable
+                                        )
+                                )
+                            })
+                }
+    }
+    //endregion ResidentTypeDetails
+
     //region ResidentYearsDetails
     private val mResidentYearsLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
     public fun getResidentYearsLiveData(): MutableLiveData<ApiResponse> {
@@ -114,5 +146,37 @@ class MasterViewModel(application: Application) : BaseViewModel(application) {
                 }
     }
 //endregion ResidentYearsDetails
+
+    //region EmploymentTypeDetails
+    private val mEmploymentTypeLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+    public fun getEmploymentTypeLiveData(): MutableLiveData<ApiResponse> {
+        return mEmploymentTypeLiveData
+    }
+
+
+    public fun getEmploymentTypeDetails(url: String) {
+        repository.getEmploymentType(url)?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe { d -> mEmploymentTypeLiveData.setValue(ApiResponse.loading()) }
+                ?.let {
+                    disposables.add(
+                            it.subscribe(
+                                    { result ->
+                                        mEmploymentTypeLiveData.setValue(result?.let {
+                                            ApiResponse.success(
+                                                    it
+                                            )
+                                        })
+                                    }
+                            ) { throwable ->
+                                mEmploymentTypeLiveData.setValue(
+                                        ApiResponse.error(
+                                                throwable
+                                        )
+                                )
+                            })
+                }
+    }
+//endregion EmploymentTypeDetails
 
 }

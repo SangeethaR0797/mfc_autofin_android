@@ -15,5 +15,14 @@ interface MasterEndPoint {
 
     @Headers("Content-Type: application/json; charset=utf-8")
     @GET
+    fun getResidentType( @Url url: String?): Observable<MasterResponse?>?
+
+
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @GET
     fun getResidentYears( @Url url: String?): Observable<MasterResponse?>?
+
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @GET
+    fun getEmploymentType( @Url url: String?): Observable<MasterResponse?>?
 }

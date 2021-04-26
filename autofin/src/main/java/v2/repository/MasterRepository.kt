@@ -24,9 +24,19 @@ class MasterRepository {
         return masterEndPoint.getSalutations(url)
     }
 
+    fun getResidentType(url: String): Observable<MasterResponse?>?
+    {
+        return masterEndPoint.getResidentType(url)
+    }
+
     fun getResidentYears(url: String): Observable<MasterResponse?>?
     {
         return masterEndPoint.getResidentYears(url)
+    }
+
+    fun getEmploymentType(url: String): Observable<MasterResponse?>?
+    {
+        return masterEndPoint.getEmploymentType(url)
     }
 
 }
