@@ -19,4 +19,14 @@ class MasterRepository {
         return masterEndPoint.getKmsDrivenDetails(url)
     }
 
+    fun getSalutations(url: String): Observable<MasterResponse?>?
+    {
+        return masterEndPoint.getSalutations(url)
+    }
+
+    fun getResidentYears(url: String): Observable<MasterResponse?>?
+    {
+        return masterEndPoint.getResidentYears(url)
+    }
+
 }

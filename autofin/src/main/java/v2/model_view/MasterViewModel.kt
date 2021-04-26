@@ -19,7 +19,7 @@ class MasterViewModel(application: Application) : BaseViewModel(application) {
         repository = MasterRepository()
     }
 
-    //region getDealer Token
+    //region KmsDrivenDetails
     private val mKmsDrivenLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
     public fun getKmsDrivenLiveData(): MutableLiveData<ApiResponse> {
         return mKmsDrivenLiveData
@@ -33,23 +33,86 @@ class MasterViewModel(application: Application) : BaseViewModel(application) {
                 ?.let {
                     disposables.add(
                             it.subscribe(
-                                            { result ->
-                                                mKmsDrivenLiveData.setValue(result?.let {
-                                                    ApiResponse.success(
-                                                            it
-                                                    )
-                                                })
-                                            }
-                                    ) { throwable ->
-                                        mKmsDrivenLiveData.setValue(
-                                                ApiResponse.error(
-                                                        throwable
-                                                )
+                                    { result ->
+                                        mKmsDrivenLiveData.setValue(result?.let {
+                                            ApiResponse.success(
+                                                    it
+                                            )
+                                        })
+                                    }
+                            ) { throwable ->
+                                mKmsDrivenLiveData.setValue(
+                                        ApiResponse.error(
+                                                throwable
                                         )
-                                    })
+                                )
+                            })
                 }
     }
-    //endregion getDealer Token
+    //endregion KmsDrivenDetails
 
+    //region SalutationsDetails
+    private val mSalutationsLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+    public fun getSalutationsLiveData(): MutableLiveData<ApiResponse> {
+        return mSalutationsLiveData
+    }
+
+
+    public fun getSalutations(url: String) {
+        repository.getSalutations(url)?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe { d -> mSalutationsLiveData.setValue(ApiResponse.loading()) }
+                ?.let {
+                    disposables.add(
+                            it.subscribe(
+                                    { result ->
+                                        mSalutationsLiveData.setValue(result?.let {
+                                            ApiResponse.success(
+                                                    it
+                                            )
+                                        })
+                                    }
+                            ) { throwable ->
+                                mSalutationsLiveData.setValue(
+                                        ApiResponse.error(
+                                                throwable
+                                        )
+                                )
+                            })
+                }
+    }
+//endregion SalutationsDetails
+
+    //region ResidentYearsDetails
+    private val mResidentYearsLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+    public fun getResidentYearsLiveData(): MutableLiveData<ApiResponse> {
+        return mResidentYearsLiveData
+    }
+
+
+    public fun getResidentYears(url: String) {
+        repository.getResidentYears(url)?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe { d -> mResidentYearsLiveData.setValue(ApiResponse.loading()) }
+                ?.let {
+                    disposables.add(
+                            it.subscribe(
+                                    { result ->
+                                        mResidentYearsLiveData.setValue(result?.let {
+                                            ApiResponse.success(
+                                                    it
+                                            )
+                                        })
+                                    }
+                            ) { throwable ->
+                                mResidentYearsLiveData.setValue(
+                                        ApiResponse.error(
+                                                throwable
+                                        )
+                                )
+                            })
+                }
+    }
+//endregion ResidentYearsDetails
 
 }

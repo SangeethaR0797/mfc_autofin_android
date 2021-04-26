@@ -8,4 +8,12 @@ interface MasterEndPoint {
     @Headers("Content-Type: application/json; charset=utf-8")
     @GET
     fun getKmsDrivenDetails( @Url url: String?): Observable<MasterResponse?>?
+
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @GET
+    fun getSalutations( @Url url: String?): Observable<MasterResponse?>?
+
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @GET
+    fun getResidentYears( @Url url: String?): Observable<MasterResponse?>?
 }
