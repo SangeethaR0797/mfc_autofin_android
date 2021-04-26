@@ -4,5 +4,5 @@ data class ResetCustomerJourneyResponse(
         var data: String?,
         var message: String?,
         var status: Boolean?,
-        var statusCode: Any?
+        var statusCode: String?
 )
