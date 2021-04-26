@@ -16,7 +16,7 @@ public class CommonURLs {
         if (this.environment.equalsIgnoreCase("Stage")) {
             baseURL="https://15.207.148.230:3004/api/";
             customerDetails_BaseURL = "https://15.207.148.230:3004/api/";
-            customerAPI_BaseURL = "https://15.207.148.230:3007/api/customer/";
+            customerAPI_BaseURL = "https://15.207.148.230:3007/api/v3/customer/";
             ibb_base_url = "https://api2.stageibb.com/api/";
             stock_details_base_url = "https://15.207.148.230:3004/api/";
             customer_bank_baseURL = "https://15.207.148.230:3002/api/bank/";

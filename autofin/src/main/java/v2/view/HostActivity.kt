@@ -112,7 +112,7 @@ class HostActivity : AppCompatActivity() {
                 val tokenResponse: TokenDetailsResponse? = mApiResponse.data as TokenDetailsResponse?
                 CommonMethods.setValueAgainstKey(this@HostActivity, CommonStrings.PREFF_ENCRYPT_TOKEN, tokenResponse!!.data.toString())
                 CommonStrings.TOKEN_VALUE = tokenResponse!!.data.toString()
-                transactionViewModel!!.generateOTP(getOtpRequest(null, "9764401180"), "https://15.207.148.230:3007/api/v3/customer/generate-otp")
+                transactionViewModel!!.generateOTP(getOtpRequest(null, "9764401180"), Global.customerAPI_BaseURL + CommonStrings.OTP_URL_END)
 
 
             }
@@ -161,7 +161,7 @@ class HostActivity : AppCompatActivity() {
             }
             ApiResponse.Status.SUCCESS -> {
                 val otpResponse: OTPResponse? = mApiResponse.data as OTPResponse?
-                transactionViewModel!!.validateOTP(getOtpRequest(otpResponse?.data, "9764401180"), "https://15.207.148.230:3007/api/v3/customer/validate-otp")
+                transactionViewModel!!.validateOTP(getOtpRequest(otpResponse?.data, "9764401180"), Global.customerAPI_BaseURL + CommonStrings.VALIDATE_OTP_URL_END)
 
 
             }
