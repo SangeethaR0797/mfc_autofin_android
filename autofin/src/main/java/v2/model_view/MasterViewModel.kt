@@ -179,4 +179,36 @@ class MasterViewModel(application: Application) : BaseViewModel(application) {
     }
 //endregion EmploymentTypeDetails
 
+    //region BankListDetails
+    private val mBankListLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+    public fun getBankListLiveData(): MutableLiveData<ApiResponse> {
+        return mBankListLiveData
+    }
+
+
+    public fun getBankList(url: String) {
+        repository.getBankList(url)?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe { d -> mBankListLiveData.setValue(ApiResponse.loading()) }
+                ?.let {
+                    disposables.add(
+                            it.subscribe(
+                                    { result ->
+                                        mBankListLiveData.setValue(result?.let {
+                                            ApiResponse.success(
+                                                    it
+                                            )
+                                        })
+                                    }
+                            ) { throwable ->
+                                mBankListLiveData.setValue(
+                                        ApiResponse.error(
+                                                throwable
+                                        )
+                                )
+                            })
+                }
+    }
+//endregion BankListDetails
+
 }
