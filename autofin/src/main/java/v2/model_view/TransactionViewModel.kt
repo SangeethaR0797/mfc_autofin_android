@@ -185,4 +185,38 @@ class TransactionViewModel(application: Application) : BaseViewModel(application
     }
 //endregion ResetCustomerJourney
 
+    //region getCustomerDetails
+    private val mGetCustomerDetailsLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+    public fun getCustomerDetailsLiveData(): MutableLiveData<ApiResponse> {
+        return mGetCustomerDetailsLiveData
+    }
+
+
+    public fun getCustomerDetails(request: CustomerRequest, url: String?) {
+        repository.getCustomerDetails(request, url)?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe { d -> mGetCustomerDetailsLiveData.setValue(ApiResponse.loading()) }
+                ?.let {
+                    disposables.add(
+                            it
+                                    .subscribe(
+                                            { result ->
+                                                mGetCustomerDetailsLiveData.setValue(result?.let {
+                                                    ApiResponse.success(
+                                                            it
+                                                    )
+                                                })
+                                            }
+                                    ) { throwable ->
+                                        mGetCustomerDetailsLiveData.setValue(
+                                                ApiResponse.error(
+                                                        throwable
+                                                )
+                                        )
+                                    })
+                }
+    }
+//endregion getCustomerDetails
+
+
 }

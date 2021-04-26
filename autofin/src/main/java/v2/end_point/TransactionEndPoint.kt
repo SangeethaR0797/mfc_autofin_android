@@ -29,4 +29,8 @@ interface TransactionEndPoint {
     @POST
     fun resetCustomerJourney(@Body request: CustomerRequest, @Url url: String?): Observable<ResetCustomerJourneyResponse?>?
 
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST
+    fun getCustomerDetails(@Body request: CustomerRequest, @Url url: String?): Observable<CustomerDetailsResponse?>?
+
 }
