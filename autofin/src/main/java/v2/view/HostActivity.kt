@@ -26,17 +26,15 @@ import v2.view.base.BaseFragment
 class HostActivity : AppCompatActivity() {
     var authenticationViewModel: AuthenticationViewModel? = null
     var transactionViewModel: TransactionViewModel? = null
-    lateinit var APP_NAME: String
-    lateinit var DEALER_ID: String
-    lateinit var USER_TYPE: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_host)
 
 
-        APP_NAME = intent.getStringExtra(AutoFinConstants.APP_NAME)
-        DEALER_ID = intent.getStringExtra(AutoFinConstants.DEALER_ID)
-        USER_TYPE = intent.getStringExtra(AutoFinConstants.USER_TYPE)
+        CommonStrings.APP_NAME = intent.getStringExtra(AutoFinConstants.APP_NAME)
+        CommonStrings.DEALER_ID = intent.getStringExtra(AutoFinConstants.DEALER_ID)
+        CommonStrings.USER_TYPE = intent.getStringExtra(AutoFinConstants.USER_TYPE)
 
 
         authenticationViewModel = ViewModelProvider(this@HostActivity).get(
@@ -90,9 +88,9 @@ class HostActivity : AppCompatActivity() {
 
     private fun getTokenRequest(): GetTokenDetailsRequest? {
         return GetTokenDetailsRequest(
-                DEALER_ID,
-                USER_TYPE,
-                USER_TYPE,
+                CommonStrings.DEALER_ID,
+                CommonStrings.USER_TYPE,
+                CommonStrings.USER_TYPE,
                 "Token")
 
     }
@@ -144,8 +142,8 @@ class HostActivity : AppCompatActivity() {
 
     private fun getOtpRequest(otp: String?, mobile: String): OTPRequest {
         var otpRequest = OTPRequest()
-        otpRequest.UserType = USER_TYPE
-        otpRequest.UserId = DEALER_ID
+        otpRequest.UserType = CommonStrings.USER_TYPE
+        otpRequest.UserId = CommonStrings.DEALER_ID
 
         var otpRequestData = OTPRequestData()
         otpRequestData.CustomerMobile = mobile

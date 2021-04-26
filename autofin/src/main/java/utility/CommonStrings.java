@@ -115,6 +115,10 @@ public class CommonStrings {
     public static String TOKEN_VALUE = "";
     public static String IBB_TOKEN_VALUE = "";
 
+    public static String APP_NAME = "";
+    public static String DEALER_ID = "";
+    public static String USER_TYPE = "";
+
     public static boolean IS_OLD_LEAD = false;
     public static boolean IS_ADDITIONAL_DETAILS_FILLED = false;
     public static String IBB_PASSWORD = "dHk69ffu7ebP";
