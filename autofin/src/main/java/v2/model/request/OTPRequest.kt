@@ -1,12 +1,12 @@
 package v2.model.request
 
 data class OTPRequest(
-        var Data: Data?,
-        var UserId: String?,
-        var UserType: String?
+        var Data: OTPRequestData?=null,
+        var UserId: String?=null,
+        var UserType: String?=null
 )
 
-data class Data(
-        var CustomerMobile: String?,
-        var OTP: String?
+data class OTPRequestData(
+        var CustomerMobile: String?=null,
+        var OTP: String?=null
 )
