@@ -59,6 +59,7 @@ public class CommonStrings {
     public static final String USER_TYPE_VAL = "user_type_val";
     public static final String APP_NAME_VAL = "app_name_val";
     public static final String OTP_URL_END = "generate-otp";
+    public static final String VALIDATE_OTP_URL_END = "validate-otp";
     public static final String ADD_LEAD_URL_END = "v2/add-lead";
     public static final String MOVED_TO_CCITY = "moved_to_CurrentCity";
     public static final String MOVED_TO_CRESIDENCE = "moved_to_current_residence";
@@ -113,6 +114,10 @@ public class CommonStrings {
 
     public static String TOKEN_VALUE = "";
     public static String IBB_TOKEN_VALUE = "";
+
+    public static String APP_NAME = "";
+    public static String DEALER_ID = "";
+    public static String USER_TYPE = "";
 
     public static boolean IS_OLD_LEAD = false;
     public static boolean IS_ADDITIONAL_DETAILS_FILLED = false;

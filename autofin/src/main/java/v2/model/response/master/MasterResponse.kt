@@ -3,14 +3,14 @@ package v2.model.response.master
 import com.google.gson.annotations.SerializedName
 
 
-data class KmsDrivenResponse(
+data class MasterResponse(
         @SerializedName("status") var status: Boolean,
         @SerializedName("message") var message: String,
         @SerializedName("statusCode") var statusCode: String,
-        @SerializedName("data") var data: Data
+        @SerializedName("data") var data: MasterData
 )
 
-data class Data(
+data class MasterData(
         @SerializedName("types") var types: List<Types>
 )
 
