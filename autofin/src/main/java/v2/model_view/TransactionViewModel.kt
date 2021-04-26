@@ -6,7 +6,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import v2.model.dto.AddLeadRequest
 import v2.model.request.OTPRequest
-import v2.model.request.ResetCustomerJourneyRequest
+import v2.model.request.CustomerRequest
 import v2.model.request.ValidateLeadRequest
 import v2.model_view.Base.BaseViewModel
 import v2.repository.TransactionRepository
@@ -159,7 +159,7 @@ class TransactionViewModel(application: Application) : BaseViewModel(application
     }
 
 
-    public fun resetCustomerJourney(request: ResetCustomerJourneyRequest, url: String?) {
+    public fun resetCustomerJourney(request: CustomerRequest, url: String?) {
         repository.resetCustomerJourney(request, url)?.subscribeOn(Schedulers.io())
                 ?.observeOn(AndroidSchedulers.mainThread())
                 ?.doOnSubscribe { d -> mResetCustomerJourneyLiveData.setValue(ApiResponse.loading()) }
