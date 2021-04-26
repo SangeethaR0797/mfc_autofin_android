@@ -6,6 +6,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import v2.model.dto.AddLeadRequest
 import v2.model.request.OTPRequest
+import v2.model.request.ValidateLeadRequest
 import v2.model_view.Base.BaseViewModel
 import v2.repository.TransactionRepository
 import v2.service.utility.ApiResponse
@@ -115,6 +116,40 @@ class TransactionViewModel(application: Application) : BaseViewModel(application
                 }
     }
 //endregion ValidateOTP
+
+
+    //region ValidateLead
+    private val mValidateLeadLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+    public fun getValidateLeadLiveData(): MutableLiveData<ApiResponse> {
+        return mValidateLeadLiveData
+    }
+
+
+    public fun validateLead(request: ValidateLeadRequest, url: String?) {
+        repository.validateLead(request, url)?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe { d -> mValidateLeadLiveData.setValue(ApiResponse.loading()) }
+                ?.let {
+                    disposables.add(
+                            it
+                                    .subscribe(
+                                            { result ->
+                                                mValidateLeadLiveData.setValue(result?.let {
+                                                    ApiResponse.success(
+                                                            it
+                                                    )
+                                                })
+                                            }
+                                    ) { throwable ->
+                                        mValidateLeadLiveData.setValue(
+                                                ApiResponse.error(
+                                                        throwable
+                                                )
+                                        )
+                                    })
+                }
+    }
+//endregion ValidateLead
 
 
 }
