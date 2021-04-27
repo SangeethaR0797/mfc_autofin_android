@@ -25,6 +25,10 @@
     <color name="vtwo_light_grey">#8a9ab4</color>
     <color name="vtwo_blue">#006dff</color>
     <color name="yello">#ffc62a</color>
+    <color name="vtwo_yellow">#ffbb00</color>
+    <color name="vtwo_disabled_grey">#8c90b5</color>
+    <color name="vtwo_light_black">#25262b</color>
+    <color name="vtwo_silver">#e0e1eb</color>
 
 
 

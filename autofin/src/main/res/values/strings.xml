@@ -280,5 +280,19 @@
     <string name="enter_vehicle_price">Enter vehicle price</string>
     <string name="enter_price">Enter Price</string>
     <string name="enter_vehicle_registration_no">Enter vehicle registration No</string>
+    <string name="vtwo_car_info">Car Info</string>
+    <string name="vtwo_personal_info">Personal Info</string>
+    <string name="vtwo_bank_details">Bank Info</string>
+    <string name="vtwo_reg_title">Registration</string>
+    <string name="vtwo_enter_mob_no">Enter mobile no</string>
+    <string name="vtwo_otp_hint">OTP Will be send to this Number</string>
+    <string name="vtwo_mobile_num_hint">Mobile No</string>
+    <string name="vtwo_country_code">+91</string>
+    <string name="otp_timer_hint">30Sec</string>
+    <string name="vtwo_resend_otp">Resend OTP</string>
+    <string name="vtwo_t_and_c_hint">I Agree to the terms and conditions and privacy policy</string>
+    <string name="vtwo_mobile_num_already_reg_hint">00000 00000 no is already registered. Do you want to proceed the same?</string>
+    <string name="startNew">Start New</string>
+    <string name="vtwo_proceed">Proceed</string>
 
 </resources>
