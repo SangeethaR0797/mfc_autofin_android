@@ -111,6 +111,7 @@ public class CommonStrings {
     public static final String PROCESS_WITH_BANK_URL_END = "process-customer-with-bank";
     public static final String CUSTOMER_ADDITIONAL_FIELDS = "customer-additional-data";
     public static final String KMS_DRIVEN = "Masters/kms-driven";
+    public static final String EMPLOYEEMENT_END_POINT = "Masters/employee-type";
 
     public static String TOKEN_VALUE = "";
     public static String IBB_TOKEN_VALUE = "";

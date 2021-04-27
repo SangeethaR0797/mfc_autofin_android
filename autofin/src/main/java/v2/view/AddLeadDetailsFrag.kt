@@ -1,5 +1,6 @@
 package v2.view
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,17 +8,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
 import v2.model.dto.AddLeadRequest
+import v2.model.dto.DataSelectionDTO
 import v2.model.request.OTPRequest
 import v2.model.request.OTPRequestData
 import v2.model.response.OTPResponse
+import v2.model.response.master.MasterResponse
+import v2.model.response.master.Types
+import v2.model_view.MasterViewModel
 import v2.model_view.TransactionViewModel
 import v2.service.utility.ApiResponse
+import v2.view.adapter.DataRecyclerViewAdapter
 import v2.view.base.BaseFragment
 import v2.view.callBackInterface.DatePickerCallBack
+import v2.view.callBackInterface.itemClickCallBack
+import v2.view.utility_view.GridItemDecoration
+import java.util.ArrayList
 
 
 public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
@@ -26,17 +38,38 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var etMobileNumberV2: EditText
     lateinit var etOTPV2: EditText
     lateinit var etBirthDate: EditText
-    lateinit var llBirthDate: LinearLayout
+    lateinit var etWorkExpriance: EditText
     lateinit var cbTermsAndConditions: CheckBox
+    lateinit var rvEmploymentType: RecyclerView
+    lateinit var llBirthDate: LinearLayout
+    lateinit var llWorkExpriance: LinearLayout
+
     lateinit var tvResendOTPV2: TextView
     lateinit var tvOTPTimerV2: TextView
     lateinit var btnMobileNum: Button
     lateinit var ll_otp_v2: LinearLayout
+    lateinit var cbMoreThanOneYearInCurrentOrganization: CheckBox
+
     lateinit var transactionViewModel: TransactionViewModel
     lateinit var addLeadRequest: AddLeadRequest
+    lateinit var masterViewModel: MasterViewModel
+    lateinit var employmentDetailsAdapter: DataRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        masterViewModel = ViewModelProvider(this@AddLeadDetailsFrag).get(
+                MasterViewModel::class.java
+        )
+        masterViewModel!!.getEmploymentTypeLiveData()
+                .observe(this@AddLeadDetailsFrag, { mApiResponse: ApiResponse? ->
+                    onEmploymentDetails(
+                            mApiResponse!!
+                    )
+                })
+
+        masterViewModel.getEmploymentTypeDetails(Global.customerDetails_BaseURL + CommonStrings.EMPLOYEEMENT_END_POINT)
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -71,10 +104,22 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         llBirthDate = view.findViewById(R.id.ll_date)
         etBirthDate = view.findViewById(R.id.et_date)
 
+
+        rvEmploymentType = view.findViewById(R.id.rv_employment_type)
+        llWorkExpriance = view.findViewById(R.id.ll_work_expriance)
+        etWorkExpriance = view.findViewById(R.id.et_work_expriance)
+        cbMoreThanOneYearInCurrentOrganization = view.findViewById(R.id.cb_more_than_one_year_in_current_organization)
+
         tvResendOTPV2.setOnClickListener(this)
         btnMobileNum.setOnClickListener(this)
         llBirthDate.setOnClickListener(this)
         etBirthDate.setOnClickListener(this)
+
+        val layoutManagerStaggeredGridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
+
+        rvEmploymentType.addItemDecoration(GridItemDecoration(25, 2))
+        llWorkExpriance.visibility = View.GONE
 
     }
 
@@ -188,6 +233,65 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
             }
         }
+    }
+
+    private fun onEmploymentDetails(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+            }
+            ApiResponse.Status.SUCCESS -> {
+                val masterResponse: MasterResponse? = mApiResponse.data as MasterResponse?
+                setEmploymentDetails(masterResponse!!.data.types)
+
+            }
+            ApiResponse.Status.ERROR -> {
+
+            }
+        }
+    }
+
+    private fun setEmploymentDetails(types: List<Types>) {
+        val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
+
+        types.forEachIndexed { index, types ->
+            list.add(DataSelectionDTO(types.displayLabel, null, types.value, false))
+        }
+
+
+
+        employmentDetailsAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+            override fun itemClick(item: Any?, position: Int) {
+
+
+                employmentDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                    run {
+                        if (index == position) {
+                            item.selected = true
+                            if (item.value.equals("Self Employed")) {
+                                llWorkExpriance.visibility = View.GONE
+                            } else {
+                                llWorkExpriance.visibility = View.VISIBLE
+                            }
+
+                        } else {
+                            item.selected = false
+                        }
+
+                    }
+                }
+                employmentDetailsAdapter.notifyDataSetChanged()
+            }
+        })
+
+
+        val layoutManagerStaggeredGridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
+
+        rvEmploymentType.addItemDecoration(GridItemDecoration(25, 2))
+
+        rvEmploymentType.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+
+        rvEmploymentType.setAdapter(employmentDetailsAdapter)
     }
 
 }

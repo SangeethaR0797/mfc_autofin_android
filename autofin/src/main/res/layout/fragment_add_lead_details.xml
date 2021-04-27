@@ -107,7 +107,7 @@
                         android:background="@drawable/vtwo_input_bg"
                         android:hint="@string/enter_years"
                         android:inputType="number"
-                        android:maxLength="11"
+                        android:maxLength="2"
                         android:padding="@dimen/text_size_14dp"
                         android:singleLine="true"
                         android:textAppearance="@style/RobotoMedium"
@@ -115,14 +115,14 @@
                         android:textSize="@dimen/text_size_16sp" />
 
                     <CheckBox
-                        android:id="@+id/cbTermsAndConditions"
+                        android:id="@+id/cb_more_than_one_year_in_current_organization"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/text_size_30dp"
                         android:gravity="center_vertical"
                         android:paddingLeft="@dimen/text_size_8dp"
 
-                        android:text="More than one year in current organization"
+                        android:text="@string/more_than_one_year_in_current_organization"
                         android:textAppearance="@style/RobotoMedium"
                         android:textColor="@color/vtwo_black"
                         android:textSize="@dimen/text_size_16sp" />
