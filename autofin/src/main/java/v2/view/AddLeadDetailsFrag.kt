@@ -18,6 +18,7 @@ import v2.model.dto.AddLeadRequest
 import v2.model.dto.DataSelectionDTO
 import v2.model.request.OTPRequest
 import v2.model.request.OTPRequestData
+import v2.model.response.BankListResponse
 import v2.model.response.OTPResponse
 import v2.model.response.master.MasterResponse
 import v2.model.response.master.Types
@@ -50,10 +51,18 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var ll_otp_v2: LinearLayout
     lateinit var cbMoreThanOneYearInCurrentOrganization: CheckBox
 
+
+    lateinit var llBirthDateSection: LinearLayout
+    lateinit var llEmploymentSection: LinearLayout
+    lateinit var llAccoutDetailsSection: LinearLayout
+    lateinit var etSearchBank: EditText
+    lateinit var rvBankList: RecyclerView
+
     lateinit var transactionViewModel: TransactionViewModel
     lateinit var addLeadRequest: AddLeadRequest
     lateinit var masterViewModel: MasterViewModel
     lateinit var employmentDetailsAdapter: DataRecyclerViewAdapter
+    lateinit var bankListDetailsAdapter: DataRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +77,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     )
                 })
 
-        masterViewModel.getEmploymentTypeDetails(Global.customerDetails_BaseURL + CommonStrings.EMPLOYEEMENT_END_POINT)
+        masterViewModel!!.getBankListLiveData()
+                .observe(this@AddLeadDetailsFrag, { mApiResponse: ApiResponse? ->
+                    onBankList(
+                            mApiResponse!!
+                    )
+                })
+
 
     }
 
@@ -108,18 +123,45 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         rvEmploymentType = view.findViewById(R.id.rv_employment_type)
         llWorkExpriance = view.findViewById(R.id.ll_work_expriance)
         etWorkExpriance = view.findViewById(R.id.et_work_expriance)
+
+        llBirthDateSection = view.findViewById(R.id.ll_birth_date_section)
+        llEmploymentSection = view.findViewById(R.id.ll_employment_section)
+        llAccoutDetailsSection = view.findViewById(R.id.ll_accout_details_section)
+
+        etSearchBank = view.findViewById(R.id.et_search_bank)
+        rvBankList = view.findViewById(R.id.rv_bank_list)
+
         cbMoreThanOneYearInCurrentOrganization = view.findViewById(R.id.cb_more_than_one_year_in_current_organization)
 
         tvResendOTPV2.setOnClickListener(this)
         btnMobileNum.setOnClickListener(this)
         llBirthDate.setOnClickListener(this)
         etBirthDate.setOnClickListener(this)
+        setEploymentDetailsAdapter()
+        setBankDetailsAdapter()
 
+    }
+
+    fun setEploymentDetailsAdapter() {
         val layoutManagerStaggeredGridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
 
         rvEmploymentType.addItemDecoration(GridItemDecoration(25, 2))
         llWorkExpriance.visibility = View.GONE
+        rvEmploymentType.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+        masterViewModel.getEmploymentTypeDetails(Global.customerDetails_BaseURL + CommonStrings.EMPLOYEEMENT_END_POINT)
+
+    }
+
+    fun setBankDetailsAdapter() {
+        val layoutManagerStaggeredGridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
+
+        rvBankList.addItemDecoration(GridItemDecoration(25, 2))
+        rvBankList.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+
+        masterViewModel.getBankList(Global.customerDetails_BaseURL + CommonStrings.BANK_LIST_END_POINT)
+
 
     }
 
@@ -284,14 +326,53 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         })
 
 
-        val layoutManagerStaggeredGridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
-
-        rvEmploymentType.addItemDecoration(GridItemDecoration(25, 2))
-
-        rvEmploymentType.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
-
         rvEmploymentType.setAdapter(employmentDetailsAdapter)
+    }
+
+    private fun onBankList(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+            }
+            ApiResponse.Status.SUCCESS -> {
+                val response: BankListResponse? = mApiResponse.data as BankListResponse?
+                setBankListDetails(response!!)
+
+            }
+            ApiResponse.Status.ERROR -> {
+
+            }
+        }
+    }
+
+    private fun setBankListDetails(bankListResponse: BankListResponse) {
+        val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
+
+        bankListResponse.data!!.forEachIndexed { index, types ->
+            list.add(DataSelectionDTO(types, null, types, false))
+        }
+
+        bankListDetailsAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+            override fun itemClick(item: Any?, position: Int) {
+
+
+                bankListDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                    run {
+                        if (index == position) {
+                            item.selected = true
+
+
+                        } else {
+                            item.selected = false
+                        }
+
+                    }
+                }
+                bankListDetailsAdapter.notifyDataSetChanged()
+            }
+        })
+
+
+        rvBankList.setAdapter(bankListDetailsAdapter)
     }
 
 }
