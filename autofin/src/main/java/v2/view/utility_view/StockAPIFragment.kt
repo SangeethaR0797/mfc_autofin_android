@@ -91,7 +91,7 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
 
                 }
                 R.id.btnVehicleReg -> {
-                    showToast("Development is in progress")
+                    navigateToMobileNumber()
                 }
 
             }
