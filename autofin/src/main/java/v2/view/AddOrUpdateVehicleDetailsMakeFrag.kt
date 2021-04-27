@@ -169,8 +169,8 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
             } else if (addLeadRequest.Data?.vehicleDetails?.VehicleNumber != null && !isValidVehicleRegNo(addLeadRequest.Data?.vehicleDetails?.VehicleNumber!!)) {
                 showToast("Please enter valid vehicle registration No.")
             } else {
-                navigateToMobileNumber()
-                showToast("Save Data")
+
+                navigateToAddLeadFragment(addLeadRequest)
             }
         })
         var timer: Timer? = null

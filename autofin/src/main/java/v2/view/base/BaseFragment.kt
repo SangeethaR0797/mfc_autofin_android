@@ -17,6 +17,7 @@ import com.mfc.autofin.framework.R
 import v2.help.CurrencyData
 import v2.model.dto.AddLeadRequest
 import v2.model.response.StockDetails
+import v2.view.AddOrUpdateVehicleDetailsMakeFragDirections
 import v2.view.VehicleSelectionFragDirections
 import v2.view.other_activity.VehBasicDetailsActivity
 import java.text.NumberFormat
@@ -115,6 +116,12 @@ public open class BaseFragment : Fragment() {
     public fun navigateToMobileNumber() {
         view?.let {
             Navigation.findNavController(it).navigate(R.id.action_addOrUpdateVehicleDetailsMakeFrag_to_addLeadDetailsFrag)
+        }
+    }
+    public fun navigateToAddLeadFragment(addLeadRequest: AddLeadRequest) {
+        val directions = AddOrUpdateVehicleDetailsMakeFragDirections.actionAddOrUpdateVehicleDetailsMakeFragToAddLeadDetailsFrag(addLeadRequest!!)
+        view?.let {
+            Navigation.findNavController(it).navigate(directions)
         }
     }
 
