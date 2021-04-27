@@ -88,15 +88,35 @@
                     android:layout_marginTop="@dimen/text_size_5dp"
                     android:orientation="vertical">
 
-                    <TextView
-
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/text_size_5dp"
-                        android:text="@string/total_work_experiences"
-                        android:textAppearance="@style/RobotoBold"
-                        android:textColor="@color/vtwo_black"
-                        android:textSize="@dimen/text_size_16sp" />
+                        android:orientation="horizontal">
+
+                        <TextView
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/text_size_5dp"
+                            android:layout_weight="1"
+                            android:text="@string/total_work_experiences"
+                            android:textAppearance="@style/RobotoBold"
+                            android:textColor="@color/vtwo_black"
+                            android:textSize="@dimen/text_size_16sp" />
+
+                        <RelativeLayout
+                            android:id="@+id/rl_edit_year_of_experience"
+                            android:layout_width="@dimen/text_size_29dp"
+                            android:layout_height="@dimen/text_size_29dp"
+                            android:background="@drawable/vtwo_input_bg"
+                            android:padding="@dimen/text_size_5dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/ic_edit" />
+                        </RelativeLayout>
+                    </LinearLayout>
 
                     <EditText
                         android:id="@+id/et_work_expriance"

@@ -57,6 +57,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var llAccoutDetailsSection: LinearLayout
     lateinit var etSearchBank: EditText
     lateinit var rvBankList: RecyclerView
+    lateinit var rlEditYearOfExperience: RelativeLayout
 
     lateinit var transactionViewModel: TransactionViewModel
     lateinit var addLeadRequest: AddLeadRequest
@@ -132,6 +133,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         rvBankList = view.findViewById(R.id.rv_bank_list)
 
         cbMoreThanOneYearInCurrentOrganization = view.findViewById(R.id.cb_more_than_one_year_in_current_organization)
+
+        rlEditYearOfExperience = view.findViewById(R.id.rl_edit_year_of_experience)
 
         tvResendOTPV2.setOnClickListener(this)
         btnMobileNum.setOnClickListener(this)
