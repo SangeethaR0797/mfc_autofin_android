@@ -349,7 +349,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         bankListResponse.data!!.forEachIndexed { index, types ->
             if (index < 4) {
-                list.add(DataSelectionDTO(types, null, types, false))
+                list.add(DataSelectionDTO(types, null, types, false,"https://www.pikpng.com/pngl/m/71-719828_axis-bank-png-axis-bank-logo-download-clipart.png"))
             }
         }
 
