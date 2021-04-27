@@ -54,20 +54,6 @@ class HostActivity : AppCompatActivity() {
                     )
                 })
 
-        transactionViewModel!!.getGenerateOTPLiveData()
-                .observe(this, { mApiResponse: ApiResponse? ->
-                    onGenerateOTP(
-                            mApiResponse!!
-                    )
-                })
-
-        transactionViewModel!!.getValidateOTPLiveData()
-                .observe(this, { mApiResponse: ApiResponse? ->
-                    onValidateOTP(
-                            mApiResponse!!
-                    )
-                })
-
         authenticationViewModel!!.getToken(getTokenRequest()!!, Global.customerDetails_BaseURL + CommonStrings.TOKEN_URL_END)
 
         authenticationViewModel!!.getIBB_TokenDetailsLiveDataData()
@@ -110,7 +96,6 @@ class HostActivity : AppCompatActivity() {
                 val tokenResponse: TokenDetailsResponse? = mApiResponse.data as TokenDetailsResponse?
                 CommonMethods.setValueAgainstKey(this@HostActivity, CommonStrings.PREFF_ENCRYPT_TOKEN, tokenResponse!!.data.toString())
                 CommonStrings.TOKEN_VALUE = tokenResponse!!.data.toString()
-                transactionViewModel!!.generateOTP(getOtpRequest(null, "9764401180"), Global.customerAPI_BaseURL + CommonStrings.OTP_URL_END)
 
 
             }
@@ -140,34 +125,6 @@ class HostActivity : AppCompatActivity() {
         }
     }
 
-    private fun getOtpRequest(otp: String?, mobile: String): OTPRequest {
-        var otpRequest = OTPRequest()
-        otpRequest.UserType = CommonStrings.USER_TYPE
-        otpRequest.UserId = CommonStrings.DEALER_ID
-
-        var otpRequestData = OTPRequestData()
-        otpRequestData.CustomerMobile = mobile
-        otpRequestData.OTP = otp
-        otpRequest.Data = otpRequestData
-
-        return otpRequest;
-    }
-
-    private fun onGenerateOTP(mApiResponse: ApiResponse) {
-        when (mApiResponse.status) {
-            ApiResponse.Status.LOADING -> {
-            }
-            ApiResponse.Status.SUCCESS -> {
-                val otpResponse: OTPResponse? = mApiResponse.data as OTPResponse?
-                transactionViewModel!!.validateOTP(getOtpRequest(otpResponse?.data, "9764401180"), Global.customerAPI_BaseURL + CommonStrings.VALIDATE_OTP_URL_END)
-
-
-            }
-            ApiResponse.Status.ERROR -> {
-
-            }
-        }
-    }
 
     private fun onIBB_TokenDetails(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
