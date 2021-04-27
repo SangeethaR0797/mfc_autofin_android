@@ -14,8 +14,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.mfc.autofin.framework.R
+import v2.help.CurrencyData
 import v2.model.dto.AddLeadRequest
 import v2.model.response.StockDetails
+import v2.view.AddOrUpdateVehicleDetailsMakeFragDirections
 import v2.view.VehicleSelectionFragDirections
 import v2.view.other_activity.VehBasicDetailsActivity
 import java.text.NumberFormat
@@ -33,6 +35,15 @@ public open class BaseFragment : Fragment() {
     //endregion validation
 
     //region utility function
+
+    public fun getAmountInWords(value: String): String {
+        if (!TextUtils.isEmpty(value)) {
+            return CurrencyData.convertToIndianCurrency(value)
+        } else {
+            return ""
+        }
+    }
+
     public fun formatAmount(value: String): String {
         if (!TextUtils.isEmpty(value)) {
             var format: NumberFormat? = NumberFormat.getInstance(Locale.US)
@@ -107,6 +118,12 @@ public open class BaseFragment : Fragment() {
             Navigation.findNavController(it).navigate(R.id.action_addOrUpdateVehicleDetailsMakeFrag_to_addLeadDetailsFrag)
         }
     }
+    public fun navigateToAddLeadFragment(addLeadRequest: AddLeadRequest) {
+        val directions = AddOrUpdateVehicleDetailsMakeFragDirections.actionAddOrUpdateVehicleDetailsMakeFragToAddLeadDetailsFrag(addLeadRequest!!)
+        view?.let {
+            Navigation.findNavController(it).navigate(directions)
+        }
+    }
 
     //endregion screen Navigation
 
@@ -121,7 +138,7 @@ public open class BaseFragment : Fragment() {
         val layout: View = inflater.inflate(R.layout.v2_toast_layout, activity?.findViewById(R.id.toast_layout_root) as ViewGroup?)
 
         val image: ImageView = layout.findViewById<View>(R.id.image) as ImageView
-       // image.visibility = View.GONE
+        // image.visibility = View.GONE
         val text = layout.findViewById<View>(R.id.text) as TextView
         text.text = message
 

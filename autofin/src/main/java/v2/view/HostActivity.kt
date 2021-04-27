@@ -25,7 +25,7 @@ import v2.view.base.BaseFragment
 
 class HostActivity : AppCompatActivity() {
     var authenticationViewModel: AuthenticationViewModel? = null
-    var transactionViewModel: TransactionViewModel? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,9 +41,6 @@ class HostActivity : AppCompatActivity() {
                 AuthenticationViewModel::class.java
         )
 
-        transactionViewModel = ViewModelProvider(this@HostActivity).get(
-                TransactionViewModel::class.java
-        )
 
 
 
@@ -98,25 +95,6 @@ class HostActivity : AppCompatActivity() {
                 CommonStrings.TOKEN_VALUE = tokenResponse!!.data.toString()
 
 
-            }
-            ApiResponse.Status.ERROR -> {
-
-            }
-        }
-    }
-
-    private fun onValidateOTP(mApiResponse: ApiResponse) {
-        when (mApiResponse.status) {
-            ApiResponse.Status.LOADING -> {
-            }
-            ApiResponse.Status.SUCCESS -> {
-                val otpResponse: OTPResponse? = mApiResponse.data as OTPResponse?
-                if (otpResponse?.status!!) {
-                    Toast.makeText(this@HostActivity, "OTP Validate", Toast.LENGTH_LONG).show()
-                } else {
-                    Toast.makeText(this@HostActivity, "invalid Validate", Toast.LENGTH_LONG).show()
-                }
-
 
             }
             ApiResponse.Status.ERROR -> {
@@ -124,7 +102,6 @@ class HostActivity : AppCompatActivity() {
             }
         }
     }
-
 
     private fun onIBB_TokenDetails(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {

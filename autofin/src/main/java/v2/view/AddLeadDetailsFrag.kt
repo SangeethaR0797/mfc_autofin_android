@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
+import v2.model.dto.AddLeadRequest
 import v2.model.request.OTPRequest
 import v2.model.request.OTPRequestData
 import v2.model.response.OTPResponse
@@ -18,18 +19,18 @@ import v2.service.utility.ApiResponse
 import v2.view.base.BaseFragment
 
 
-public class AddLeadDetailsFrag : BaseFragment(),View.OnClickListener {
+public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
-    lateinit var etMobileNumberV2:EditText
-    lateinit var etOTPV2:EditText
-    lateinit var cbTermsAndConditions:CheckBox
+    lateinit var etMobileNumberV2: EditText
+    lateinit var etOTPV2: EditText
+    lateinit var cbTermsAndConditions: CheckBox
     lateinit var tvResendOTPV2: TextView
-    lateinit var tvOTPTimerV2:TextView
-    lateinit var btnMobileNum:Button
-    lateinit var ll_otp_v2:LinearLayout
+    lateinit var tvOTPTimerV2: TextView
+    lateinit var btnMobileNum: Button
+    lateinit var ll_otp_v2: LinearLayout
     lateinit var transactionViewModel: TransactionViewModel
-
+    lateinit var addLeadRequest: AddLeadRequest
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +38,12 @@ public class AddLeadDetailsFrag : BaseFragment(),View.OnClickListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view=inflater.inflate(R.layout.fragment_add_lead_details, container, false)
+        val view = inflater.inflate(R.layout.fragment_add_lead_details, container, false)
+        arguments?.let {
+            val safeArgs = AddLeadDetailsFragArgs.fromBundle(it)
+            addLeadRequest = safeArgs.addLeadRequestDetails
+
+        }
         initViews(view)
         transactionViewModel = ViewModelProvider(requireActivity()).get(
                 TransactionViewModel::class.java
@@ -49,13 +55,13 @@ public class AddLeadDetailsFrag : BaseFragment(),View.OnClickListener {
     }
 
     private fun initViews(view: View?) {
-        etMobileNumberV2= view?.findViewById(R.id.etMobileNumberV2)!!
-        etOTPV2=view.findViewById(R.id.etOTPV2)
-        cbTermsAndConditions=view.findViewById(R.id.cbTermsAndConditions)
-        tvResendOTPV2=view.findViewById(R.id.tvResendOTPV2)
-        tvOTPTimerV2=view.findViewById(R.id.tvOTPTimerV2)
-        btnMobileNum=view.findViewById(R.id.btnMobileNum)
-        ll_otp_v2=view.findViewById(R.id.ll_otp_v2)
+        etMobileNumberV2 = view?.findViewById(R.id.etMobileNumberV2)!!
+        etOTPV2 = view.findViewById(R.id.etOTPV2)
+        cbTermsAndConditions = view.findViewById(R.id.cbTermsAndConditions)
+        tvResendOTPV2 = view.findViewById(R.id.tvResendOTPV2)
+        tvOTPTimerV2 = view.findViewById(R.id.tvOTPTimerV2)
+        btnMobileNum = view.findViewById(R.id.btnMobileNum)
+        ll_otp_v2 = view.findViewById(R.id.ll_otp_v2)
         tvResendOTPV2.setOnClickListener(this)
         btnMobileNum.setOnClickListener(this)
 
@@ -63,16 +69,11 @@ public class AddLeadDetailsFrag : BaseFragment(),View.OnClickListener {
 
     override fun onClick(v: View?) {
 
-        when(v?.id)
-        {
-            R.id.btnMobileNum->
-            {
-                if(ll_otp_v2.visibility==View.GONE)
-                {
+        when (v?.id) {
+            R.id.btnMobileNum -> {
+                if (ll_otp_v2.visibility == View.GONE) {
                     sendOTP()
-                }
-                else
-                {
+                } else {
                     validateOTP()
 
                 }
@@ -124,6 +125,7 @@ public class AddLeadDetailsFrag : BaseFragment(),View.OnClickListener {
             showToast("Please enter Valid Mobile Number")
         }
     }
+
     private fun getOtpRequest(otp: String?, mobile: String): OTPRequest {
         val otpRequest = OTPRequest()
         otpRequest.UserType = CommonStrings.USER_TYPE

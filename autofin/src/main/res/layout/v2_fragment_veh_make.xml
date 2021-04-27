@@ -204,6 +204,17 @@
 
 
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_vehicle_price_in_words"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_size10dp"
+
+                    android:textAppearance="@style/RobotoRegular"
+                    android:textColor="@color/vtwo_grey"
+                    android:textSize="@dimen/text_size_14dp"
+                    android:textStyle="italic" />
             </LinearLayout>
 
             <LinearLayout
@@ -249,8 +260,8 @@
                         android:background="@android:color/transparent"
                         android:hint="eg : KA01AB4123"
 
-                        android:maxLength="10"
                         android:inputType="textCapCharacters|textPostalAddress"
+                        android:maxLength="10"
                         android:singleLine="true"
                         android:textAppearance="@style/RobotoRegular"
                         android:textColorHint="@color/vtwo_grey"
