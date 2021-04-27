@@ -348,7 +348,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
 
         bankListResponse.data!!.forEachIndexed { index, types ->
-            list.add(DataSelectionDTO(types, null, types, false))
+            if (index < 4) {
+                list.add(DataSelectionDTO(types, null, types, false))
+            }
         }
 
         bankListDetailsAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
