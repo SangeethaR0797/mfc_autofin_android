@@ -101,6 +101,13 @@ public open class BaseFragment : Fragment() {
         }
     }
 
+
+    public fun navigateToMobileNumber() {
+        view?.let {
+            Navigation.findNavController(it).navigate(R.id.action_addOrUpdateVehicleDetailsMakeFrag_to_addLeadDetailsFrag)
+        }
+    }
+
     //endregion screen Navigation
 
     //region message
