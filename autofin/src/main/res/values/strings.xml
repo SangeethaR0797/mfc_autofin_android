@@ -294,5 +294,9 @@
     <string name="vtwo_mobile_num_already_reg_hint">00000 00000 no is already registered. Do you want to proceed the same?</string>
     <string name="startNew">Start New</string>
     <string name="vtwo_proceed">Proceed</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="employment_type_small">Employment Type</string>
+    <string name="total_work_experiences">Total Work Experiences</string>
+    <string name="enter_years">Enter Years</string>
 
 </resources>

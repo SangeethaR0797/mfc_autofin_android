@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/vtwo_pale_grey"
+    android:orientation="vertical"
     tools:context="v2.view.AddLeadDetailsFrag">
 
     <ScrollView
@@ -23,10 +23,113 @@
                 android:id="@+id/llMobileNum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_12dp"
+                android:layout_marginTop="@dimen/text_size_16sp"
+                android:layout_marginRight="@dimen/text_size_12dp">
+
+                <include layout="@layout/vtwo_mobile_num_layout" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_birth_date_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_12dp"
                 android:layout_marginTop="@dimen/text_size_16sp"
                 android:layout_marginRight="@dimen/text_size_12dp"
-                android:layout_marginLeft="@dimen/text_size_12dp">
-                <include layout="@layout/vtwo_mobile_num_layout" />
+                android:background="@drawable/white_corner"
+                android:orientation="vertical"
+                android:padding="@dimen/text_size_14sp">
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_size_5dp"
+                    android:text="@string/date_of_birth"
+                    android:textAppearance="@style/RobotoBold"
+                    android:textColor="@color/vtwo_black"
+                    android:textSize="@dimen/text_size_16sp" />
+
+                <include layout="@layout/v2_date_layout" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_employment_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_12dp"
+                android:layout_marginTop="@dimen/text_size_15dp"
+                android:layout_marginRight="@dimen/text_size_12dp"
+                android:background="@drawable/white_corner"
+                android:orientation="vertical"
+                android:padding="@dimen/text_size_14sp">
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_size_5dp"
+                    android:text="@string/employment_type_small"
+                    android:textAppearance="@style/RobotoBold"
+                    android:textColor="@color/vtwo_black"
+                    android:textSize="@dimen/text_size_16sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_employment_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_size_20dp" />
+
+                <LinearLayout
+                    android:id="@+id/ll_work_expriance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_size_5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/text_size_5dp"
+                        android:text="@string/total_work_experiences"
+                        android:textAppearance="@style/RobotoBold"
+                        android:textColor="@color/vtwo_black"
+                        android:textSize="@dimen/text_size_16sp" />
+
+                    <EditText
+                        android:id="@+id/et_work_expriance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/text_size_15dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/vtwo_input_bg"
+                        android:hint="@string/enter_years"
+                        android:inputType="number"
+                        android:maxLength="11"
+                        android:padding="@dimen/text_size_14dp"
+                        android:singleLine="true"
+                        android:textAppearance="@style/RobotoMedium"
+                        android:textColorHint="@color/vtwo_grey"
+                        android:textSize="@dimen/text_size_16sp" />
+
+                    <CheckBox
+                        android:id="@+id/cbTermsAndConditions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/text_size_30dp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/text_size_8dp"
+
+                        android:text="More than one year in current organization"
+                        android:textAppearance="@style/RobotoMedium"
+                        android:textColor="@color/vtwo_black"
+                        android:textSize="@dimen/text_size_16sp" />
+
+                </LinearLayout>
+
+
             </LinearLayout>
 
             <Button
