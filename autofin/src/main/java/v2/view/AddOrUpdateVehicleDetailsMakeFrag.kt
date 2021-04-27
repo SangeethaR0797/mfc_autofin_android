@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
@@ -49,6 +50,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
     lateinit var ivBack: ImageView
     lateinit var tvTitle: TextView
     lateinit var tvSelectedText: TextView
+    lateinit var tvVehiclePriceInWords: TextView
 
     lateinit var llOwnership: LinearLayout
     lateinit var llKilometresDriven: LinearLayout
@@ -117,6 +119,8 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
         ivBack = view.findViewById(R.id.iv_back)
         tvTitle = view.findViewById(R.id.tv_title)
         tvSelectedText = view.findViewById(R.id.tv_selected_text)
+
+        tvVehiclePriceInWords = view.findViewById(R.id.tv_vehicle_price_in_words)
 
         llOwnership = view.findViewById(R.id.ll_ownership)
         llKilometresDriven = view.findViewById(R.id.ll_kilometres_driven)
@@ -199,14 +203,21 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                                 addLeadRequest.Data?.vehicleDetails?.VehicleSellingPrice = unformatAmount(etPrice.text.toString())
                             }
                             allowEdit = false
-                            etPrice.setText(formatAmount(unformatAmount(etPrice.text.toString())))
-                            if (!TextUtils.isEmpty(etPrice.text.toString())) {
-                                etPrice.setSelection(etPrice.text.toString().length)
-                            }
+                            ThreadUtils.runOnUiThread(Runnable {
+                                etPrice.setText(formatAmount(unformatAmount(etPrice.text.toString())))
+                                tvVehiclePriceInWords.text = (getAmountInWords(unformatAmount(etPrice.text.toString())))
+                                if (!TextUtils.isEmpty(etPrice.text.toString())) {
+                                    etPrice.setSelection(etPrice.text.toString().length)
+                                }
+                            })
+
+
 
 
                         }
                     }, 600)
+                } else {
+                    tvVehiclePriceInWords.setText("")
                 }
 
 

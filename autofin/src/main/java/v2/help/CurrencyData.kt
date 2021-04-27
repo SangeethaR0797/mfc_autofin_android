@@ -5,7 +5,7 @@ import java.math.BigDecimal
 import java.util.*
 //Reff https://zatackcoder.com/convert-number-to-indian-currency-in-java/
 
-object Currency {
+object CurrencyData {
     @SuppressLint("NewApi")
     fun convertToIndianCurrency(num: String?): String {
         val bd = BigDecimal(num)
