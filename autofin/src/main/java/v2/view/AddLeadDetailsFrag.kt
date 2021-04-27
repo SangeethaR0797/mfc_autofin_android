@@ -74,6 +74,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         tvResendOTPV2.setOnClickListener(this)
         btnMobileNum.setOnClickListener(this)
         llBirthDate.setOnClickListener(this)
+        etBirthDate.setOnClickListener(this)
 
     }
 
@@ -94,19 +95,23 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                 sendOTP()
             }
+            R.id.et_date -> {
+                openDatePicker()
+            }
             R.id.ll_date -> {
-
-                callDatePickerDialog(object : DatePickerCallBack {
-                    override fun dateSelected(dateValue: String) {
-                        etBirthDate.setText(dateValue)
-                    }
-                })
-
+                openDatePicker()
             }
         }
 
     }
 
+    private fun openDatePicker() {
+        callDatePickerDialog(object : DatePickerCallBack {
+            override fun dateSelected(dateValue: String) {
+                etBirthDate.setText(dateValue)
+            }
+        })
+    }
 
     private fun validateOTP() {
         if (etOTPV2.text.length == 6) {
