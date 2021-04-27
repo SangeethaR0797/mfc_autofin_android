@@ -69,35 +69,54 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
 
-        when (v?.id) {
-            R.id.btnMobileNum -> {
-                if (ll_otp_v2.visibility == View.GONE) {
+        when(v?.id)
+        {
+            R.id.btnMobileNum->
+            {
+                if(ll_otp_v2.visibility==View.GONE)
+                {
                     sendOTP()
-                } else {
+                }
+                else
+                {
                     validateOTP()
 
                 }
+            }
+            R.id.tvResendOTPV2->
+            {
+                if(etOTPV2.text.isNotEmpty())
+                    etOTPV2.text.clear()
+
+                sendOTP()
             }
         }
 
     }
 
     private fun validateOTP() {
-        if (tvOTPTimerV2.text.length == 4) {
+        if(etOTPV2.text.length==6)
+        {
+            transactionViewModel!!.validateOTP(getOtpRequest(etOTPV2.text.toString(), etMobileNumberV2.text.toString()), Global.customerAPI_BaseURL + CommonStrings.VALIDATE_OTP_URL_END)
+
             transactionViewModel!!.getValidateOTPLiveData()
                     .observe(requireActivity(), { mApiResponse: ApiResponse? ->
                         onValidateOTP(
                                 mApiResponse!!
                         )
                     })
-        } else {
+        }else
+        {
             showToast("Please enter valid OTP")
         }
 
     }
 
     private fun sendOTP() {
-        if (etMobileNumberV2.text.length == 10) {
+        if(etMobileNumberV2.text.length==10)
+        {
+            transactionViewModel!!.generateOTP(getOtpRequest(null, etMobileNumberV2.text.toString()), Global.customerAPI_BaseURL + CommonStrings.OTP_URL_END)
+
             transactionViewModel!!.getGenerateOTPLiveData()
                     .observe(requireActivity(), { mApiResponse: ApiResponse? ->
                         onGenerateOTP(
@@ -105,17 +124,19 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         )
                     })
 
-        } else {
+        }
+        else
+        {
             showToast("Please enter Valid Mobile Number")
         }
     }
 
     private fun getOtpRequest(otp: String?, mobile: String): OTPRequest {
-        var otpRequest = OTPRequest()
+        val otpRequest = OTPRequest()
         otpRequest.UserType = CommonStrings.USER_TYPE
         otpRequest.UserId = CommonStrings.DEALER_ID
 
-        var otpRequestData = OTPRequestData()
+        val otpRequestData = OTPRequestData()
         otpRequestData.CustomerMobile = mobile
         otpRequestData.OTP = otp
         otpRequest.Data = otpRequestData
@@ -129,8 +150,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
             ApiResponse.Status.SUCCESS -> {
                 val otpResponse: OTPResponse? = mApiResponse.data as OTPResponse?
-                transactionViewModel!!.validateOTP(getOtpRequest(otpResponse?.data, etMobileNumberV2.text.toString()), Global.customerAPI_BaseURL + CommonStrings.VALIDATE_OTP_URL_END)
-                ll_otp_v2.visibility = View.VISIBLE
+                ll_otp_v2.visibility=View.VISIBLE
             }
             ApiResponse.Status.ERROR -> {
 
