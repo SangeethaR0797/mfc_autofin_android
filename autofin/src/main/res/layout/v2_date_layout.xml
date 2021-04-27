@@ -17,8 +17,7 @@
         android:id="@+id/et_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/text_size_14dp"
-        android:layout_marginLeft="@dimen/text_size_14dp"
+
         android:layout_weight="1"
         android:background="@android:color/transparent"
         android:hint="dd/mm/yyyy"

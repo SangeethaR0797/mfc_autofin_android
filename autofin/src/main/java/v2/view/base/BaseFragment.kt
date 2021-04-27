@@ -1,6 +1,7 @@
 package v2.view.base
 
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.text.TextUtils
 import android.view.Gravity
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.DatePicker
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -19,14 +21,46 @@ import v2.model.dto.AddLeadRequest
 import v2.model.response.StockDetails
 import v2.view.AddOrUpdateVehicleDetailsMakeFragDirections
 import v2.view.VehicleSelectionFragDirections
+import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.other_activity.VehBasicDetailsActivity
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 
 public open class BaseFragment : Fragment() {
+    var cal = Calendar.getInstance()
+    private lateinit var datePickerCallBack: DatePickerCallBack
 
+    //region DatePicker
+    val dateSetListener = object : DatePickerDialog.OnDateSetListener {
+        override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int,
+                               dayOfMonth: Int) {
+            cal.set(Calendar.YEAR, year)
+            cal.set(Calendar.MONTH, monthOfYear)
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            val myFormat = "dd/MM/yyyy" // mention the format you need
+            val sdf = SimpleDateFormat(myFormat, Locale.US)
+            var dateValue: String = sdf.format(cal.getTime())
 
+            if(datePickerCallBack!=null)
+            {
+                datePickerCallBack.dateSelected(dateValue)
+            }
+        }
+    }
+
+    public fun callDatePickerDialog(datepickerCallBack: DatePickerCallBack) {
+        datePickerCallBack = datepickerCallBack
+        context?.let {
+            DatePickerDialog(it,
+                    dateSetListener,
+                    cal.get(Calendar.YEAR),
+                    cal.get(Calendar.MONTH),
+                    cal.get(Calendar.DAY_OF_MONTH)).show()
+        }
+    }
+    //endregion DatePicker
     //region validation
 
     public fun isValidVehicleRegNo(vehicleRegNo: String): Boolean {
@@ -118,6 +152,7 @@ public open class BaseFragment : Fragment() {
             Navigation.findNavController(it).navigate(R.id.action_addOrUpdateVehicleDetailsMakeFrag_to_addLeadDetailsFrag)
         }
     }
+
     public fun navigateToAddLeadFragment(addLeadRequest: AddLeadRequest) {
         val directions = AddOrUpdateVehicleDetailsMakeFragDirections.actionAddOrUpdateVehicleDetailsMakeFragToAddLeadDetailsFrag(addLeadRequest!!)
         view?.let {

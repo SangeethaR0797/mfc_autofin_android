@@ -17,6 +17,7 @@ import v2.model.response.OTPResponse
 import v2.model_view.TransactionViewModel
 import v2.service.utility.ApiResponse
 import v2.view.base.BaseFragment
+import v2.view.callBackInterface.DatePickerCallBack
 
 
 public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
@@ -24,6 +25,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     lateinit var etMobileNumberV2: EditText
     lateinit var etOTPV2: EditText
+    lateinit var etBirthDate: EditText
+    lateinit var llBirthDate: LinearLayout
     lateinit var cbTermsAndConditions: CheckBox
     lateinit var tvResendOTPV2: TextView
     lateinit var tvOTPTimerV2: TextView
@@ -57,46 +60,56 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     private fun initViews(view: View?) {
         etMobileNumberV2 = view?.findViewById(R.id.etMobileNumberV2)!!
         etOTPV2 = view.findViewById(R.id.etOTPV2)
+
         cbTermsAndConditions = view.findViewById(R.id.cbTermsAndConditions)
         tvResendOTPV2 = view.findViewById(R.id.tvResendOTPV2)
         tvOTPTimerV2 = view.findViewById(R.id.tvOTPTimerV2)
         btnMobileNum = view.findViewById(R.id.btnMobileNum)
         ll_otp_v2 = view.findViewById(R.id.ll_otp_v2)
+
+
+        llBirthDate = view.findViewById(R.id.ll_date)
+        etBirthDate = view.findViewById(R.id.et_date)
+
         tvResendOTPV2.setOnClickListener(this)
         btnMobileNum.setOnClickListener(this)
+        llBirthDate.setOnClickListener(this)
 
     }
 
     override fun onClick(v: View?) {
 
-        when(v?.id)
-        {
-            R.id.btnMobileNum->
-            {
-                if(ll_otp_v2.visibility==View.GONE)
-                {
+        when (v?.id) {
+            R.id.btnMobileNum -> {
+                if (ll_otp_v2.visibility == View.GONE) {
                     sendOTP()
-                }
-                else
-                {
+                } else {
                     validateOTP()
 
                 }
             }
-            R.id.tvResendOTPV2->
-            {
-                if(etOTPV2.text.isNotEmpty())
+            R.id.tvResendOTPV2 -> {
+                if (etOTPV2.text.isNotEmpty())
                     etOTPV2.text.clear()
 
                 sendOTP()
+            }
+            R.id.ll_date -> {
+
+                callDatePickerDialog(object : DatePickerCallBack {
+                    override fun dateSelected(dateValue: String) {
+                        etBirthDate.setText(dateValue)
+                    }
+                })
+
             }
         }
 
     }
 
+
     private fun validateOTP() {
-        if(etOTPV2.text.length==6)
-        {
+        if (etOTPV2.text.length == 6) {
             transactionViewModel!!.validateOTP(getOtpRequest(etOTPV2.text.toString(), etMobileNumberV2.text.toString()), Global.customerAPI_BaseURL + CommonStrings.VALIDATE_OTP_URL_END)
 
             transactionViewModel!!.getValidateOTPLiveData()
@@ -105,16 +118,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                 mApiResponse!!
                         )
                     })
-        }else
-        {
+        } else {
             showToast("Please enter valid OTP")
         }
 
     }
 
     private fun sendOTP() {
-        if(etMobileNumberV2.text.length==10)
-        {
+        if (etMobileNumberV2.text.length == 10) {
             transactionViewModel!!.generateOTP(getOtpRequest(null, etMobileNumberV2.text.toString()), Global.customerAPI_BaseURL + CommonStrings.OTP_URL_END)
 
             transactionViewModel!!.getGenerateOTPLiveData()
@@ -124,9 +135,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         )
                     })
 
-        }
-        else
-        {
+        } else {
             showToast("Please enter Valid Mobile Number")
         }
     }
@@ -150,7 +159,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
             ApiResponse.Status.SUCCESS -> {
                 val otpResponse: OTPResponse? = mApiResponse.data as OTPResponse?
-                ll_otp_v2.visibility=View.VISIBLE
+                ll_otp_v2.visibility = View.VISIBLE
             }
             ApiResponse.Status.ERROR -> {
 
