@@ -65,6 +65,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var rvBankList: RecyclerView
     lateinit var rlEditYearOfExperience: RelativeLayout
 
+    lateinit var llNetIncomeSection: LinearLayout
+    lateinit var llNetIncome: LinearLayout
+    lateinit var etNetIncome: EditText
+    lateinit var tvNetIncomeErrorMessage: TextView
+    lateinit var tvNetIncomeInWords: TextView
+
     lateinit var transactionViewModel: TransactionViewModel
     lateinit var addLeadRequest: AddLeadRequest
     lateinit var masterViewModel: MasterViewModel
@@ -133,6 +139,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         llWorkExpriance = view.findViewById(R.id.ll_work_expriance)
         etWorkExpriance = view.findViewById(R.id.et_work_expriance)
         tvWorkExprianceErrorMessage = view.findViewById(R.id.tv_work_expriance_error_message)
+        tvWorkExprianceErrorMessage.visibility = View.GONE
 
         llBirthDateSection = view.findViewById(R.id.ll_birth_date_section)
         llEmploymentSection = view.findViewById(R.id.ll_employment_section)
@@ -144,6 +151,16 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         cbMoreThanOneYearInCurrentOrganization = view.findViewById(R.id.cb_more_than_one_year_in_current_organization)
 
         rlEditYearOfExperience = view.findViewById(R.id.rl_edit_year_of_experience)
+
+        llNetIncomeSection = view.findViewById(R.id.ll_net_income_section)
+        llNetIncome = view.findViewById(R.id.ll_net_income)
+        etNetIncome = view.findViewById(R.id.et_net_income)
+        tvNetIncomeErrorMessage = view.findViewById(R.id.tv_net_income_error_message)
+        tvNetIncomeInWords = view.findViewById(R.id.tv_net_income_in_words)
+
+        tvNetIncomeErrorMessage.visibility = View.GONE
+        tvNetIncomeInWords.visibility = View.GONE
+
 
         tvResendOTPV2.setOnClickListener(this)
         btnMobileNum.setOnClickListener(this)
@@ -169,8 +186,63 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
             }
         })
+        var timer: Timer? = null
+        var allowEdit: Boolean = true
+        etNetIncome.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                tvNetIncomeErrorMessage.visibility = View.GONE
+                llNetIncome.setBackgroundResource(R.drawable.vtwo_input_bg)
+                etNetIncome.setTextColor(resources.getColor(R.color.vtwo_black))
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
+                                           after: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                if (timer != null) {
+                    timer!!.cancel();
+
+                }
+                if (TextUtils.isEmpty(etNetIncome.text.toString())) {
+                    allowEdit = true
+                }
+                if (allowEdit == true) {
+                    timer = Timer()
+                    timer!!.schedule(object : TimerTask() {
+                        override fun run() {
+
+                            if (TextUtils.isEmpty(etNetIncome.text)) {
+                                //Set Null Income
+                            } else {
+                                //Set Null Income
+
+                            }
+                            allowEdit = false
+                            ThreadUtils.runOnUiThread(Runnable {
+
+                                if (!TextUtils.isEmpty(etNetIncome.text.toString())) {
+                                    etNetIncome.setText(formatAmount(unformatAmount(etNetIncome.text.toString())))
+                                    tvNetIncomeInWords.text = (getAmountInWords(unformatAmount(etNetIncome.text.toString())))
+                                    etNetIncome.setSelection(etNetIncome.text.toString().length)
+                                } else {
+                                    tvNetIncomeInWords.text = ""
+                                }
+                            })
+
+
+                        }
+                    }, 600)
+                } else {
+                    tvNetIncomeInWords.setText("")
+                }
+
+            }
+        })
 
     }
+
 
     fun setEploymentDetailsAdapter() {
         val layoutManagerStaggeredGridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -204,16 +276,21 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 } else if (ll_otp_v2.visibility == View.VISIBLE) {
                     validateOTP()
 
-                } else if (TextUtils.isEmpty(etBirthDate.text)) {
+                } else if (llBirthDateSection.visibility == View.VISIBLE && TextUtils.isEmpty(etBirthDate.text)) {
                     tvBirthErrorMessage.visibility = View.VISIBLE
                     tvBirthErrorMessage.text = "Please add date of birth."
                     llBirthDate.setBackgroundResource(R.drawable.v2_error_input_bg)
                     etBirthDate.setTextColor(resources.getColor(R.color.error_red))
-                } else if (llWorkExpriance.visibility == View.VISIBLE && TextUtils.isEmpty(etWorkExpriance.text)) {
+                } else if (llEmploymentSection.visibility == View.VISIBLE && llWorkExpriance.visibility == View.VISIBLE && TextUtils.isEmpty(etWorkExpriance.text)) {
                     tvWorkExprianceErrorMessage.visibility = View.VISIBLE
                     tvWorkExprianceErrorMessage.text = "Please enter total years of work experiences."
                     etWorkExpriance.setBackgroundResource(R.drawable.v2_error_input_bg)
                     etWorkExpriance.setTextColor(resources.getColor(R.color.error_red))
+                } else if (llNetIncomeSection.visibility == View.VISIBLE && TextUtils.isEmpty(etNetIncome.text)) {
+                    tvNetIncomeErrorMessage.visibility = View.VISIBLE
+                    tvNetIncomeErrorMessage.text = "Please enter net annual income."
+                    llNetIncome.setBackgroundResource(R.drawable.v2_error_input_bg)
+                    etNetIncome.setTextColor(resources.getColor(R.color.error_red))
                 }
             }
             R.id.tvResendOTPV2 -> {
