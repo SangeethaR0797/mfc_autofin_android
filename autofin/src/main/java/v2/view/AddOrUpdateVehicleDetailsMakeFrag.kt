@@ -1,5 +1,6 @@
 package v2.view
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
@@ -41,6 +42,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [AddOrUpdateVehicleDetailsMakeFrag.newInstance] factory method to
  * create an instance of this fragment.
  */
+@SuppressLint("ResourceAsColor")
 class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
 
 
@@ -51,6 +53,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
     lateinit var tvTitle: TextView
     lateinit var tvSelectedText: TextView
     lateinit var tvVehiclePriceInWords: TextView
+    lateinit var tvVehiclePriceErrorMessage: TextView
 
     lateinit var llOwnership: LinearLayout
     lateinit var llKilometresDriven: LinearLayout
@@ -121,6 +124,8 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
         tvSelectedText = view.findViewById(R.id.tv_selected_text)
 
         tvVehiclePriceInWords = view.findViewById(R.id.tv_vehicle_price_in_words)
+        tvVehiclePriceErrorMessage = view.findViewById(R.id.tv_vehicle_price_error_message)
+        tvVehiclePriceErrorMessage.visibility=View.GONE
 
         llOwnership = view.findViewById(R.id.ll_ownership)
         llKilometresDriven = view.findViewById(R.id.ll_kilometres_driven)
@@ -152,6 +157,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
         return view
     }
 
+
     fun addEvent() {
         ivBack.setOnClickListener(View.OnClickListener { activity?.onBackPressed() })
         llPrice.setOnClickListener(View.OnClickListener { etPrice.requestFocus() })
@@ -160,8 +166,10 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
         btnNext.setOnClickListener(View.OnClickListener {
             hideSoftKeyboard()
             if (addLeadRequest.Data?.vehicleDetails?.VehicleSellingPrice == null) {
-
-                showToast("Please enter price details.")
+                llPrice.setBackgroundResource(R.drawable.v2_error_input_bg)
+                etPrice.setTextColor(resources.getColor(R.color.error_red))
+                tvVehiclePriceErrorMessage.visibility=View.VISIBLE
+                tvVehiclePriceErrorMessage.text=("Please enter price details.")
             } else if (addLeadRequest.Data?.vehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(View.GONE)) {
                 llVehicleNumber.visibility = View.VISIBLE
             } else if (addLeadRequest.Data?.vehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(View.VISIBLE)) {
@@ -177,10 +185,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
         var allowEdit: Boolean = true
         etPrice.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if (timer != null) {
-                    timer!!.cancel();
 
-                }
 
             }
 
@@ -189,6 +194,13 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
             }
 
             override fun afterTextChanged(s: Editable) {
+                llPrice.setBackgroundResource(R.drawable.vtwo_input_bg)
+                etPrice.setTextColor(resources.getColor(R.color.vtwo_black))
+                tvVehiclePriceErrorMessage.visibility=View.GONE
+                if (timer != null) {
+                    timer!!.cancel();
+
+                }
                 if (!unformatAmount(etPrice.text.toString()).equals(addLeadRequest.Data?.vehicleDetails?.VehicleSellingPrice) || TextUtils.isEmpty(etPrice.text.toString()) || TextUtils.isEmpty(addLeadRequest.Data?.vehicleDetails?.VehicleSellingPrice)) {
                     allowEdit = true
                 }
@@ -205,14 +217,15 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                             }
                             allowEdit = false
                             ThreadUtils.runOnUiThread(Runnable {
-                                etPrice.setText(formatAmount(unformatAmount(etPrice.text.toString())))
-                                tvVehiclePriceInWords.text = (getAmountInWords(unformatAmount(etPrice.text.toString())))
+
                                 if (!TextUtils.isEmpty(etPrice.text.toString())) {
+                                    etPrice.setText(formatAmount(unformatAmount(etPrice.text.toString())))
+                                    tvVehiclePriceInWords.text = (getAmountInWords(unformatAmount(etPrice.text.toString())))
                                     etPrice.setSelection(etPrice.text.toString().length)
+                                } else {
+                                    tvVehiclePriceInWords.text = ""
                                 }
                             })
-
-
 
 
                         }
