@@ -91,6 +91,16 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var tvNetIncomeErrorMessage: TextView
     lateinit var tvNetIncomeInWords: TextView
 
+
+    lateinit var llEMISection: LinearLayout
+    lateinit var llEMI: LinearLayout
+    lateinit var etEMI: EditText
+    lateinit var tvEMIErrorMessage: TextView
+    lateinit var tvEMIInWords: TextView
+    lateinit var rvEMIList: RecyclerView
+    lateinit var llEmiDetails: LinearLayout
+    lateinit var eMIDetailsAdapter: DataRecyclerViewAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -140,6 +150,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         btnMobileNum = view.findViewById(R.id.btnMobileNum)
         ll_otp_v2 = view.findViewById(R.id.ll_otp_v2)
 
+        rv_salutation = view.findViewById(R.id.rv_salutation)
+        llNameAndEmailV2 = view.findViewById(R.id.llNameAndEmailV2)
+        etFirstName = view.findViewById(R.id.et_first_name)
+
 
         llBirthDate = view.findViewById(R.id.ll_date)
         etBirthDate = view.findViewById(R.id.et_date)
@@ -163,6 +177,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         cbMoreThanOneYearInCurrentOrganization = view.findViewById(R.id.cb_more_than_one_year_in_current_organization)
 
         rlEditYearOfExperience = view.findViewById(R.id.rl_edit_year_of_experience)
+        rlEditYearOfExperience.visibility = View.GONE
 
         llNetIncomeSection = view.findViewById(R.id.ll_net_income_section)
         llNetIncome = view.findViewById(R.id.ll_net_income)
@@ -175,9 +190,20 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
 
-        rv_salutation = view.findViewById(R.id.rv_salutation)
-        llNameAndEmailV2 = view.findViewById(R.id.llNameAndEmailV2)
-        etFirstName = view.findViewById(R.id.et_first_name)
+
+
+
+
+        llEMISection = view.findViewById(R.id.ll_emi_section)
+        llEMI = view.findViewById(R.id.ll_emi)
+        etEMI = view.findViewById(R.id.et_emi)
+        tvEMIErrorMessage = view.findViewById(R.id.tv_emi_error_message)
+        tvEMIInWords = view.findViewById(R.id.tv_emi_in_words)
+        rvEMIList = view.findViewById(R.id.rv_emi_list)
+        llEmiDetails = view.findViewById(R.id.ll_emi_details)
+        llEmiDetails.visibility = View.GONE
+
+        tvEMIErrorMessage.visibility = View.GONE
 
         masterViewModel = ViewModelProvider(this).get(
                 MasterViewModel::class.java
@@ -191,12 +217,22 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         setBankDetailsAdapter()
 
         //Hide All Section
-        llNameAndEmailV2.visibility=View.GONE
-        llBirthDateSection.visibility=View.GONE
-        llEmploymentSection.visibility=View.GONE
-        llAccoutDetailsSection.visibility=View.GONE
-        llNetIncomeSection.visibility=View.GONE
+        llNameAndEmailV2.visibility = View.GONE
+        llBirthDateSection.visibility = View.GONE
+        llEmploymentSection.visibility = View.GONE
+        llAccoutDetailsSection.visibility = View.GONE
+        llNetIncomeSection.visibility = View.GONE
+        llEMISection.visibility = View.GONE
 
+        setTextChangeOfWorkExpirance()
+        setTextChangeOfNetIncome()
+        setTextChangeOfEMI()
+        setEMIDetailsAdapter()
+
+    }
+//region setTextChangeEvent
+
+    fun setTextChangeOfWorkExpirance() {
         etWorkExpriance.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 tvWorkExprianceErrorMessage.visibility = View.GONE
@@ -214,6 +250,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
             }
         })
+    }
+
+    fun setTextChangeOfNetIncome() {
         var timer: Timer? = null
         var allowEdit: Boolean = true
         etNetIncome.addTextChangedListener(object : TextWatcher {
@@ -268,9 +307,105 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
             }
         })
-
     }
 
+    fun setTextChangeOfEMI() {
+        var timer: Timer? = null
+        var allowEdit: Boolean = true
+        etEMI.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                tvEMIErrorMessage.visibility = View.GONE
+                llEMI.setBackgroundResource(R.drawable.vtwo_input_bg)
+                etEMI.setTextColor(resources.getColor(R.color.vtwo_black))
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
+                                           after: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                if (timer != null) {
+                    timer!!.cancel();
+
+                }
+                if (TextUtils.isEmpty(etEMI.text.toString())) {
+                    allowEdit = true
+                }
+                if (allowEdit == true) {
+                    timer = Timer()
+                    timer!!.schedule(object : TimerTask() {
+                        override fun run() {
+
+                            if (TextUtils.isEmpty(etEMI.text)) {
+                                //Set Null Income
+                            } else {
+                                //Set Null Income
+
+                            }
+                            allowEdit = false
+                            ThreadUtils.runOnUiThread(Runnable {
+
+                                if (!TextUtils.isEmpty(etEMI.text.toString())) {
+                                    etEMI.setText(formatAmount(unformatAmount(etEMI.text.toString())))
+                                    tvEMIInWords.text = (getAmountInWords(unformatAmount(etEMI.text.toString())))
+                                    etEMI.setSelection(etEMI.text.toString().length)
+                                } else {
+                                    tvEMIInWords.text = ""
+                                }
+                            })
+
+
+                        }
+                    }, 600)
+                } else {
+                    tvEMIInWords.setText("")
+                }
+
+            }
+        })
+    }
+
+    //endregion setTextChangeEvent
+    private fun setEMIDetailsAdapter() {
+        val layoutManagerStaggeredGridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
+
+        rvEMIList.addItemDecoration(GridItemDecoration(25, 2))
+        rvEMIList.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+
+        val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
+        list.add(DataSelectionDTO("Yes", null, "Yes", false))
+        list.add(DataSelectionDTO("No", null, "No", false))
+
+
+        eMIDetailsAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+            override fun itemClick(item: Any?, position: Int) {
+
+
+                eMIDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                    run {
+                        if (index == position) {
+                            item.selected = true
+                            if (item.value.equals("Yes")) {
+                                llEmiDetails.visibility = View.VISIBLE
+                            } else {
+                                llEmiDetails.visibility = View.GONE
+                            }
+
+                        } else {
+                            item.selected = false
+                        }
+
+                    }
+                }
+                eMIDetailsAdapter.notifyDataSetChanged()
+            }
+        })
+
+
+        rvEMIList.setAdapter(eMIDetailsAdapter)
+    }
 
     fun setEploymentDetailsAdapter() {
         val layoutManagerStaggeredGridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -328,6 +463,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         llNetIncome.setBackgroundResource(R.drawable.v2_error_input_bg)
                         etNetIncome.setTextColor(resources.getColor(R.color.error_red))
                     }
+                    llEMISection.visibility == View.VISIBLE && llEmiDetails.visibility == View.VISIBLE && TextUtils.isEmpty(etEMI.text) -> {
+                        tvEMIErrorMessage.visibility = View.VISIBLE
+                        tvEMIErrorMessage.text = "Please enter EMI amount."
+                        llEMI.setBackgroundResource(R.drawable.v2_error_input_bg)
+                        etEMI.setTextColor(resources.getColor(R.color.error_red))
+                    }
                 }
             }
             R.id.tvResendOTPV2 -> {
@@ -374,7 +515,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         }
     }
 
-// API call region starts
+//region API call region starts
 
     private fun validateOTP() {
         if (etOTPV2.text.length == 6) {
@@ -427,9 +568,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             showToast("Please enter all fields to proceed further!")
     }
 
-// API call region ends
+//endregion API call region ends
 
-// OnResponse Region starts
+//region OnResponse Region starts
 
     private fun onGenerateOTP(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
@@ -472,6 +613,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         }
     }
 
+    //endregion OnResponse Region starts
     private fun onEmploymentDetails(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
