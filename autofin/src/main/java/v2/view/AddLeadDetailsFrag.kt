@@ -283,7 +283,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     fun setTextChangeOfNetIncome() {
-        var timer: Timer? = null
+        var timerNeftIncome: Timer? = null
         var allowEdit: Boolean = true
         etNetIncome.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -299,16 +299,16 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
 
             override fun afterTextChanged(s: Editable) {
-                if (timer != null) {
-                    timer!!.cancel();
+                if (timerNeftIncome != null) {
+                    timerNeftIncome!!.cancel();
 
                 }
                 if (TextUtils.isEmpty(etNetIncome.text.toString())) {
                     allowEdit = true
                 }
                 if (allowEdit == true) {
-                    timer = Timer()
-                    timer!!.schedule(object : TimerTask() {
+                    timerNeftIncome = Timer()
+                    timerNeftIncome!!.schedule(object : TimerTask() {
                         override fun run() {
 
                             if (TextUtils.isEmpty(etNetIncome.text)) {
@@ -343,7 +343,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     fun setTextChangeOfEMI() {
-        var timer: Timer? = null
+        var timerEMI: Timer? = null
         var allowEdit: Boolean = true
         etEMI.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -358,16 +358,16 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
 
             override fun afterTextChanged(s: Editable) {
-                if (timer != null) {
-                    timer!!.cancel();
+                if (timerEMI != null) {
+                    timerEMI!!.cancel();
 
                 }
                 if (TextUtils.isEmpty(etEMI.text.toString())) {
                     allowEdit = true
                 }
                 if (allowEdit == true) {
-                    timer = Timer()
-                    timer!!.schedule(object : TimerTask() {
+                    timerEMI = Timer()
+                    timerEMI!!.schedule(object : TimerTask() {
                         override fun run() {
 
                             if (TextUtils.isEmpty(etEMI.text)) {
