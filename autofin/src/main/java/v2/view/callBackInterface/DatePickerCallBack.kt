@@ -1,5 +1,5 @@
 package v2.view.callBackInterface
 
 interface DatePickerCallBack {
-    fun dateSelected(dateValue: String)
+    fun dateSelected(dateDisplayValue: String,dateValue: String)
 }

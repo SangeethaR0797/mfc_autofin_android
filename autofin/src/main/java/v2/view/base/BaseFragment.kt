@@ -31,7 +31,7 @@ import java.util.regex.Pattern
 
 
 public open class BaseFragment : Fragment() {
-    public var caseId=""
+    public var caseId = ""
     var cal = Calendar.getInstance()
     private lateinit var datePickerCallBack: DatePickerCallBack
 
@@ -42,13 +42,15 @@ public open class BaseFragment : Fragment() {
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, monthOfYear)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            val myFormat = "dd/MM/yyyy" // mention the format you need
-            val sdf = SimpleDateFormat(myFormat, Locale.US)
-            var dateValue: String = sdf.format(cal.getTime())
+            val myFormatDisplay = "dd/MM/yyyy"
+            val myFormatValue = "yyyy-MM-dd"
+            val sdf = SimpleDateFormat(myFormatDisplay, Locale.US)
+            val sdfValue = SimpleDateFormat(myFormatValue, Locale.US)
+            var dateDisplayValue: String = sdf.format(cal.getTime())
+            var dateValue: String = sdfValue.format(cal.getTime())
 
-            if(datePickerCallBack!=null)
-            {
-                datePickerCallBack.dateSelected(dateValue)
+            if (datePickerCallBack != null) {
+                datePickerCallBack.dateSelected(dateDisplayValue, dateValue)
             }
         }
     }
@@ -69,6 +71,7 @@ public open class BaseFragment : Fragment() {
     public fun isValidVehicleRegNo(vehicleRegNo: String): Boolean {
         return Regex(pattern = "[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}").matches(vehicleRegNo)
     }
+
     public fun validName(name: String): Boolean {
         val expression = "[a-zA-Z]"
         val pattern: Pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)

@@ -105,6 +105,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        transactionViewModel = ViewModelProvider(requireActivity()).get(
+                TransactionViewModel::class.java
+        )
+
 
         masterViewModel = ViewModelProvider(this@AddLeadDetailsFrag).get(
                 MasterViewModel::class.java
@@ -122,6 +126,19 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                             mApiResponse!!
                     )
                 })
+        masterViewModel!!.getSalutationsLiveData()
+                .observe(this, { mApiResponse: ApiResponse? ->
+                    onSalutationRes(
+                            mApiResponse!!
+                    )
+                })
+
+        transactionViewModel!!.getAddEmploymentDetailsLiveData()
+                .observe(requireActivity(), { mApiResponse: ApiResponse? ->
+                    onAddEmploymentDetails(
+                            mApiResponse!!
+                    )
+                })
 
 
     }
@@ -134,9 +151,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             addLeadRequest = safeArgs.addLeadRequestDetails
         }
         initViews(view)
-        transactionViewModel = ViewModelProvider(requireActivity()).get(
-                TransactionViewModel::class.java
-        )
+
 
 
 
@@ -460,7 +475,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     ll_otp_v2.visibility == View.VISIBLE && llNameAndEmailV2.visibility == View.GONE -> {
                         validateOTP()
                     }
-                    llNameAndEmailV2.visibility == View.VISIBLE -> {
+                    TextUtils.isEmpty(caseId) && llNameAndEmailV2.visibility == View.VISIBLE -> {
                         addLead()
                     }
 
@@ -482,14 +497,19 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     llAccoutDetailsSection.visibility == View.GONE -> {
                         llAccoutDetailsSection.visibility = View.VISIBLE
                     }
-                    llAccoutDetailsSection.visibility == View.VISIBLE && llNetIncomeSection.visibility == View.VISIBLE && TextUtils.isEmpty(etNetIncome.text) -> {
+                    llNetIncomeSection.visibility == View.GONE -> {
+                        llNetIncomeSection.visibility = View.VISIBLE
+                    }
+                    llNetIncomeSection.visibility == View.VISIBLE && TextUtils.isEmpty(etNetIncome.text) -> {
                         tvNetIncomeErrorMessage.visibility = View.VISIBLE
                         tvNetIncomeErrorMessage.text = "Please enter net annual income."
                         llNetIncome.setBackgroundResource(R.drawable.v2_error_input_bg)
                         etNetIncome.setTextColor(resources.getColor(R.color.error_red))
                     }
                     addEmploymentDataApiCalled == false -> {
-                        //Call Add Employment Api
+                        //Call Add EmploymentDetails Api
+                        transactionViewModel.addEmploymentDetails(addEmploymentDetailsRequest, Global.customerAPI_BaseURL + CommonStrings.ADD_EMPLOYMENT_URL_END)
+
                     }
 
                     llEMISection.visibility == View.GONE -> {
@@ -521,9 +541,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     private fun openDatePicker() {
         callDatePickerDialog(object : DatePickerCallBack {
-            override fun dateSelected(dateValue: String) {
+            override fun dateSelected(dateDisplayValue: String, dateValue: String) {
                 addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate = dateValue
-                etBirthDate.setText(dateValue)
+                etBirthDate.setText(dateDisplayValue)
                 tvBirthErrorMessage.visibility = View.GONE
                 llBirthDate.setBackgroundResource(R.drawable.vtwo_input_bg)
                 etBirthDate.setTextColor(resources.getColor(R.color.vtwo_black))
@@ -789,7 +809,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     showToast(addLeadResponse!!.message.toString())
                     llBirthDateSection.visibility = View.VISIBLE
                     //Create Request of Add Employment Details
-                    createAddEmploymentDetailsRequest(addLeadResponse.mData!!)
+                    addEmploymentDetailsRequest = createAddEmploymentDetailsRequest(addLeadResponse.mData!!)
                 }
                 showToast(addLeadResponse?.message.toString())
 
@@ -804,8 +824,31 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     }
 
-    fun createAddEmploymentDetailsRequest(customerId: Int) {
-        addEmploymentDetailsRequest = AddEmploymentDetailsRequest()
+    private fun onAddEmploymentDetails(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+            }
+            ApiResponse.Status.SUCCESS -> {
+                val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
+                if (addLeadResponse?.mData!! > 0) {
+                    var addEmploymentDetailsId = addLeadResponse?.mData.toString()
+                    addEmploymentDataApiCalled = true
+                }
+                showToast(addLeadResponse?.message.toString())
+
+            }
+            ApiResponse.Status.ERROR -> {
+
+            }
+            else -> {
+                showToast("Please enter valid details")
+            }
+        }
+
+    }
+
+    fun createAddEmploymentDetailsRequest(customerId: Int): AddEmploymentDetailsRequest {
+        var addEmploymentDetailsRequest = AddEmploymentDetailsRequest()
         addEmploymentDetailsRequest.UserId = CommonStrings.DEALER_ID
         addEmploymentDetailsRequest.UserType = CommonStrings.USER_TYPE
 
@@ -814,6 +857,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         var addEmploymentData = AddEmploymentData(customerId, addEmploymentEmploymentDetails, addEmploymentPersonalDetails)
         addEmploymentDetailsRequest.Data = addEmploymentData
+        return addEmploymentDetailsRequest
+
     }
 
 // OnResponse region ends
@@ -827,12 +872,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         llNameAndEmailV2.visibility = View.VISIBLE
 
         masterViewModel!!.getSalutations(Global.customerDetails_BaseURL + CommonStrings.SALUTATION_END_POINT)
-        masterViewModel!!.getSalutationsLiveData()
-                .observe(this, { mApiResponse: ApiResponse? ->
-                    onSalutationRes(
-                            mApiResponse!!
-                    )
-                })
+
     }
 
 
