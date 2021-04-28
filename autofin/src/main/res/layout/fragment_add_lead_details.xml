@@ -144,6 +144,17 @@
                         android:textColorHint="@color/vtwo_grey"
                         android:textSize="@dimen/text_size_16sp" />
 
+                    <TextView
+                        android:id="@+id/tv_work_expriance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/text_size_12dp"
+                        android:textAppearance="@style/RobotoRegular"
+                        android:textColor="@color/error_red"
+                        android:textSize="@dimen/text_size_12dp"
+                        android:textStyle="italic"
+                        tools:text="error message" />
+
                     <CheckBox
                         android:id="@+id/cb_more_than_one_year_in_current_organization"
                         android:layout_width="wrap_content"
