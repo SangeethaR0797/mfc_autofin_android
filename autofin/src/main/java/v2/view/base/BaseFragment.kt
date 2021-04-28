@@ -29,6 +29,7 @@ import java.util.*
 
 
 public open class BaseFragment : Fragment() {
+    public var caseId=""
     var cal = Calendar.getInstance()
     private lateinit var datePickerCallBack: DatePickerCallBack
 

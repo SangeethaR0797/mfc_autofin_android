@@ -60,7 +60,7 @@ public class CommonStrings {
     public static final String APP_NAME_VAL = "app_name_val";
     public static final String OTP_URL_END = "generate-otp";
     public static final String VALIDATE_OTP_URL_END = "validate-otp";
-    public static final String ADD_LEAD_URL_END = "v2/add-lead";
+    public static final String ADD_LEAD_URL_END = "add-lead";
     public static final String MOVED_TO_CCITY = "moved_to_CurrentCity";
     public static final String MOVED_TO_CRESIDENCE = "moved_to_current_residence";
     public static final String USER_DOB = "user_dob";
@@ -113,6 +113,7 @@ public class CommonStrings {
     public static final String KMS_DRIVEN = "Masters/kms-driven";
     public static final String EMPLOYEEMENT_END_POINT = "Masters/employee-type";
     public static final String BANK_LIST_END_POINT = "Bank/get-banks";
+    public static final String SALUTATION_END_POINT="Masters/salutations";
 
     public static String TOKEN_VALUE = "";
     public static String IBB_TOKEN_VALUE = "";

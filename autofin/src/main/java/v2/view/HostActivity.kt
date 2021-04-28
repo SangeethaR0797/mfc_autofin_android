@@ -95,13 +95,13 @@ class HostActivity : AppCompatActivity() {
                 CommonStrings.TOKEN_VALUE = tokenResponse!!.data.toString()
 
 
+
             }
             ApiResponse.Status.ERROR -> {
 
             }
         }
     }
-
 
     private fun onIBB_TokenDetails(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
