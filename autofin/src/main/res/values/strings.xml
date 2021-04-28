@@ -300,6 +300,7 @@
     <string name="enter_years">Enter Years</string>
     <string name="more_than_one_year_in_current_organization">More than one year in current organization</string>
     <string name="salary_bank_account">Salary Bank Account</string>
+    <string name="primary_bank_account">Primary Bank Account</string>
     <string name="net_annual_income">Net Annual Income</string>
     <string name="enter_first_name_vtwo">Enter First Name</string>
     <string name="enter_last_name_vtwo">Enter Last Name</string>

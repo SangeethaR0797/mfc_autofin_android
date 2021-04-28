@@ -22,8 +22,7 @@ import utility.CommonStrings
 import utility.Global
 import v2.model.dto.AddLeadRequest
 import v2.model.dto.DataSelectionDTO
-import v2.model.request.OTPRequest
-import v2.model.request.OTPRequestData
+import v2.model.request.*
 import v2.model.request.add_lead.BasicDetails
 import v2.model.response.AddLeadResponse
 import v2.model.response.BankListResponse
@@ -83,6 +82,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var llAccoutDetailsSection: LinearLayout
     lateinit var etSearchBank: EditText
     lateinit var rvBankList: RecyclerView
+    lateinit var tvBankTitle: TextView
     lateinit var rlEditYearOfExperience: RelativeLayout
 
     lateinit var llNetIncomeSection: LinearLayout
@@ -100,7 +100,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var rvEMIList: RecyclerView
     lateinit var llEmiDetails: LinearLayout
     lateinit var eMIDetailsAdapter: DataRecyclerViewAdapter
-
+    lateinit var addEmploymentDetailsRequest: AddEmploymentDetailsRequest
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -173,6 +173,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         etSearchBank = view.findViewById(R.id.et_search_bank)
         rvBankList = view.findViewById(R.id.rv_bank_list)
+        tvBankTitle = view.findViewById(R.id.tv_bank_title)
 
         cbMoreThanOneYearInCurrentOrganization = view.findViewById(R.id.cb_more_than_one_year_in_current_organization)
 
@@ -225,9 +226,16 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         llEMISection.visibility = View.GONE
 
         setTextChangeOfWorkExpirance()
+        setCheckBoxEvent()
         setTextChangeOfNetIncome()
         setTextChangeOfEMI()
         setEMIDetailsAdapter()
+
+    }
+
+    fun setCheckBoxEvent() {
+        cbMoreThanOneYearInCurrentOrganization.setOnCheckedChangeListener(null)
+        cbMoreThanOneYearInCurrentOrganization.setOnClickListener { addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne = cbMoreThanOneYearInCurrentOrganization.isChecked }
 
     }
 //region setTextChangeEvent
@@ -238,6 +246,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 tvWorkExprianceErrorMessage.visibility = View.GONE
                 etWorkExpriance.setBackgroundResource(R.drawable.vtwo_input_bg)
                 etWorkExpriance.setTextColor(resources.getColor(R.color.vtwo_black))
+                if (TextUtils.isEmpty(etWorkExpriance.text)) {
+                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.TotalWorkExperience = null
+                } else {
+                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.TotalWorkExperience = etWorkExpriance.text.toString()
+                }
 
             }
 
@@ -434,6 +447,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         when (v?.id) {
             R.id.btnMobileNum -> {
+                hideSoftKeyboard()
                 when {
                     ll_otp_v2.visibility == View.GONE && llNameAndEmailV2.visibility == View.GONE -> {
                         sendOTP()
@@ -450,6 +464,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         tvBirthErrorMessage.text = "Please add date of birth."
                         llBirthDate.setBackgroundResource(R.drawable.v2_error_input_bg)
                         etBirthDate.setTextColor(resources.getColor(R.color.error_red))
+                    }
+                    llEmploymentSection.visibility == View.GONE -> {
+                        llEmploymentSection.visibility = View.VISIBLE
                     }
                     llEmploymentSection.visibility == View.VISIBLE && llWorkExpriance.visibility == View.VISIBLE && TextUtils.isEmpty(etWorkExpriance.text) -> {
                         tvWorkExprianceErrorMessage.visibility = View.VISIBLE
@@ -490,10 +507,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     private fun openDatePicker() {
         callDatePickerDialog(object : DatePickerCallBack {
             override fun dateSelected(dateValue: String) {
+                addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate = dateValue
                 etBirthDate.setText(dateValue)
                 tvBirthErrorMessage.visibility = View.GONE
                 llBirthDate.setBackgroundResource(R.drawable.vtwo_input_bg)
                 etBirthDate.setTextColor(resources.getColor(R.color.vtwo_black))
+                llEmploymentSection.visibility = View.VISIBLE
             }
         })
     }
@@ -646,10 +665,16 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     run {
                         if (index == position) {
                             item.selected = true
+                            addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType = item.value
                             if (item.value.equals("Self Employed")) {
                                 llWorkExpriance.visibility = View.GONE
+                                etWorkExpriance.setText("")
+                                llAccoutDetailsSection.visibility = View.VISIBLE
+                                tvBankTitle.setText(getString(R.string.primary_bank_account))
+
                             } else {
                                 llWorkExpriance.visibility = View.VISIBLE
+                                tvBankTitle.setText(getString(R.string.salary_bank_account))
                             }
 
                         } else {
@@ -736,9 +761,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
             ApiResponse.Status.SUCCESS -> {
                 val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
-                if (addLeadResponse?.statusCode.equals("200")) {
+                if (addLeadResponse?.statusCode.equals("200") || addLeadResponse?.mData!! > 0) {
                     caseId = addLeadResponse?.mData.toString()
                     showToast(addLeadResponse!!.message.toString())
+                    llBirthDateSection.visibility = View.VISIBLE
+                    //Create Request of Add Employment Details
+                    createAddEmploymentDetailsRequest(addLeadResponse.mData!!)
                 }
                 showToast(addLeadResponse?.message.toString())
 
@@ -751,6 +779,18 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
         }
 
+    }
+
+    fun createAddEmploymentDetailsRequest(customerId: Int) {
+        addEmploymentDetailsRequest = AddEmploymentDetailsRequest()
+        addEmploymentDetailsRequest.UserId = CommonStrings.DEALER_ID
+        addEmploymentDetailsRequest.UserType = CommonStrings.USER_TYPE
+
+        var addEmploymentEmploymentDetails = AddEmploymentEmploymentDetails()
+        var addEmploymentPersonalDetails = AddEmploymentPersonalDetails()
+
+        var addEmploymentData = AddEmploymentData(customerId, addEmploymentEmploymentDetails, addEmploymentPersonalDetails)
+        addEmploymentDetailsRequest.Data = addEmploymentData
     }
 
 // OnResponse region ends

@@ -8,11 +8,11 @@ data class AddEmploymentDetailsRequest(
 
 data class AddEmploymentData(
         var CustomerId: Int? = null,
-        var employmentDetails: EmploymentDetails? = null,
-        var personalDetails: PersonalDetails? = null
+        var employmentDetails: AddEmploymentEmploymentDetails? = null,
+        var personalDetails: AddEmploymentPersonalDetails? = null
 )
 
-data class EmploymentDetails(
+data class AddEmploymentEmploymentDetails(
         var CurrentCompanyExpMoreThanOne: Boolean? = null,
         var EmploymentType: String? = null,
         var NetAnualIncome: Int? = null,
@@ -21,6 +21,6 @@ data class EmploymentDetails(
         var TotalWorkExperience: String? = null
 )
 
-data class PersonalDetails(
+data class AddEmploymentPersonalDetails(
         var BirthDate: String? = null
 )
