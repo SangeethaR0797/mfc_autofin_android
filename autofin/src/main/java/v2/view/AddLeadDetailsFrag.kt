@@ -303,7 +303,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     timerNeftIncome!!.cancel();
 
                 }
-                if (TextUtils.isEmpty(etNetIncome.text.toString())) {
+                if (!unformatAmount(etNetIncome.text.toString()).equals(addEmploymentDetailsRequest.Data?.employmentDetails?.NetAnualIncome.toString()) || TextUtils.isEmpty(etNetIncome.text.toString())) {
                     allowEdit = true
                 }
                 if (allowEdit == true) {
