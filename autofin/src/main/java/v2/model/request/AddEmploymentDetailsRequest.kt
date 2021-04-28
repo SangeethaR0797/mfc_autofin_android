@@ -1,26 +1,26 @@
 package v2.model.request
 
 data class AddEmploymentDetailsRequest(
-    var Data: AddEmploymentData?,
-    var UserId: String?,
-    var UserType: String?
+        var Data: AddEmploymentData? = null,
+        var UserId: String? = null,
+        var UserType: String? = null
 )
 
 data class AddEmploymentData(
-    var CustomerId: Int?,
-    var employmentDetails: EmploymentDetails?,
-    var personalDetails: PersonalDetails?
+        var CustomerId: Int? = null,
+        var employmentDetails: EmploymentDetails? = null,
+        var personalDetails: PersonalDetails? = null
 )
 
 data class EmploymentDetails(
-    var CurrentCompanyExpMoreThanOne: Boolean?,
-    var EmploymentType: String?,
-    var NetAnualIncome: Int?,
-    var PrimaryAccount: String?,
-    var SalaryAccount: String?,
-    var TotalWorkExperience: String?
+        var CurrentCompanyExpMoreThanOne: Boolean? = null,
+        var EmploymentType: String? = null,
+        var NetAnualIncome: Int? = null,
+        var PrimaryAccount: String? = null,
+        var SalaryAccount: String? = null,
+        var TotalWorkExperience: String? = null
 )
 
 data class PersonalDetails(
-    var BirthDate: String?
+        var BirthDate: String? = null
 )
