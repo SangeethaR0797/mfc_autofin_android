@@ -159,7 +159,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         tvNetIncomeInWords = view.findViewById(R.id.tv_net_income_in_words)
 
         tvNetIncomeErrorMessage.visibility = View.GONE
-        tvNetIncomeInWords.visibility = View.GONE
+
 
 
         tvResendOTPV2.setOnClickListener(this)
