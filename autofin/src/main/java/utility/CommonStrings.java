@@ -112,6 +112,8 @@ public class CommonStrings {
     public static final String CUSTOMER_ADDITIONAL_FIELDS = "customer-additional-data";
     public static final String KMS_DRIVEN = "Masters/kms-driven";
     public static final String SALUTATION_END_POINT="Masters/salutations";
+    public static final String VALIDATE_LEAD="validate-lead";
+    public static final String RESET_JOURNEY="reset-customer-journey";
 
     public static String TOKEN_VALUE = "";
     public static String IBB_TOKEN_VALUE = "";

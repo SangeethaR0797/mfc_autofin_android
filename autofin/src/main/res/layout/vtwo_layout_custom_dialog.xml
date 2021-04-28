@@ -5,14 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_margin="@dimen/text_size_12dp"
     android:layout_gravity="center"
+    android:layout_margin="@dimen/text_size_5dp"
     android:background="@drawable/vtwo_alert_dialog_bg"
-    android:paddingLeft="@dimen/text_size_17dp"
+    >
+<!--
+android:paddingLeft="@dimen/text_size_17dp"
     android:paddingTop="@dimen/text_size_26dp"
     android:paddingRight="@dimen/text_size_17dp"
-    android:paddingBottom="@dimen/text_size_30dp">
-
+    android:paddingBottom="@dimen/text_size_30dp"
+        android:layout_margin="@dimen/text_size_12dp"
+-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -44,9 +47,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginLeft="58dp"
+        android:layout_marginLeft="50dp"
         android:layout_marginTop="@dimen/text_size_48dp"
-        android:layout_marginRight="58dp"
+        android:layout_marginRight="50dp"
         android:paddingBottom="@dimen/text_size10dp"
         android:text="@string/vtwo_mobile_num_already_reg_hint"
         android:textColor="@color/vtwo_light_black"
@@ -61,19 +64,18 @@
         <Button
             android:id="@+id/btnStartNewFlowV2"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4"
             android:background="@drawable/vtwo_grey_outline"
             android:text="@string/startNew"
             android:textColor="@color/vtwo_black"
             android:textSize="@dimen/text_size_16sp" />
-
         <Button
             android:id="@+id/btnExistingFlowV2"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="13dp"
-            android:layout_weight="0.5"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/text_size10dp"
+            android:layout_weight="0.4"
             android:background="@drawable/vtwo_next_btn_bg"
             android:text="@string/vtwo_proceed"
             android:textColor="@color/white"
