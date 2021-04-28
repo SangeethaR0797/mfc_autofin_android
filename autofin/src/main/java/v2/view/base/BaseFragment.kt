@@ -26,7 +26,7 @@ import java.util.*
 
 public open class BaseFragment : Fragment() {
 
-
+    public var caseId=""
     //region validation
 
     public fun isValidVehicleRegNo(vehicleRegNo: String): Boolean {

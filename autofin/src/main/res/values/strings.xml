@@ -297,5 +297,6 @@
     <string name="enter_first_name_vtwo">Enter First Name</string>
     <string name="enter_last_name_vtwo">Enter Last Name</string>
     <string name="enter_email_vtwo">Enter Email</string>
+    <string name="vtwo_mob_no_verified">Verified</string>
 
 </resources>

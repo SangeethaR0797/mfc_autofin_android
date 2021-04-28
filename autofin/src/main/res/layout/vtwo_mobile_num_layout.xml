@@ -61,9 +61,23 @@
             android:textAppearance="@style/RobotoRegular"
             android:textColorHint="@color/vtwo_grey"
             android:textSize="@dimen/text_size_14sp" />
+
+        <TextView
+            android:id="@+id/tv_mobile_num_verified"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vtwo_mob_no_verified"
+            android:textAppearance="@style/RobotoMedium"
+            android:textColor="@color/v2_green"
+            android:textSize="@dimen/text_size_14sp"
+            android:visibility="gone"
+            android:layout_marginRight="@dimen/text_size_22dp"/>
+
+
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_mobile_num_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"

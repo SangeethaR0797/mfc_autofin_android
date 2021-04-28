@@ -21,7 +21,7 @@ class TransactionViewModel(application: Application) : BaseViewModel(application
 
     //region addLead
     private val mAddLeadLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
-    public fun getKmsDrivenLiveData(): MutableLiveData<ApiResponse> {
+    public fun getAddLeadLiveData(): MutableLiveData<ApiResponse> {
         return mAddLeadLiveData
     }
 
