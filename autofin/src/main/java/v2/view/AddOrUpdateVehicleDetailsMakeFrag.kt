@@ -54,6 +54,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
     lateinit var tvSelectedText: TextView
     lateinit var tvVehiclePriceInWords: TextView
     lateinit var tvVehiclePriceErrorMessage: TextView
+    lateinit var tvVehicleNumberErrorMessage: TextView
 
     lateinit var llOwnership: LinearLayout
     lateinit var llKilometresDriven: LinearLayout
@@ -125,7 +126,9 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
 
         tvVehiclePriceInWords = view.findViewById(R.id.tv_vehicle_price_in_words)
         tvVehiclePriceErrorMessage = view.findViewById(R.id.tv_vehicle_price_error_message)
+        tvVehicleNumberErrorMessage = view.findViewById(R.id.tv_vehicle_number_error_message)
         tvVehiclePriceErrorMessage.visibility=View.GONE
+        tvVehicleNumberErrorMessage.visibility=View.GONE
 
         llOwnership = view.findViewById(R.id.ll_ownership)
         llKilometresDriven = view.findViewById(R.id.ll_kilometres_driven)
@@ -173,9 +176,17 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
             } else if (addLeadRequest.Data?.vehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(View.GONE)) {
                 llVehicleNumber.visibility = View.VISIBLE
             } else if (addLeadRequest.Data?.vehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(View.VISIBLE)) {
-                showToast("Please enter vehicle registration No.")
+                llAddVehicleNumber.setBackgroundResource(R.drawable.v2_error_input_bg)
+                etVehicleNumber.setTextColor(resources.getColor(R.color.error_red))
+                tvVehicleNumberErrorMessage.visibility=View.VISIBLE
+                tvVehicleNumberErrorMessage.text=("Please enter vehicle registration No.")
+
             } else if (addLeadRequest.Data?.vehicleDetails?.VehicleNumber != null && !isValidVehicleRegNo(addLeadRequest.Data?.vehicleDetails?.VehicleNumber!!)) {
-                showToast("Please enter valid vehicle registration No.")
+
+                llAddVehicleNumber.setBackgroundResource(R.drawable.v2_error_input_bg)
+                etVehicleNumber.setTextColor(resources.getColor(R.color.error_red))
+                tvVehicleNumberErrorMessage.visibility=View.VISIBLE
+                tvVehicleNumberErrorMessage.text=("Please enter valid vehicle registration No.")
             } else {
 
                 navigateToAddLeadFragment(addLeadRequest)
@@ -241,9 +252,9 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
         etVehicleNumber.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int,
                                        count: Int) {
-                if (s != "") {
-                    //do your work here
-                }
+                llAddVehicleNumber.setBackgroundResource(R.drawable.vtwo_input_bg)
+                etVehicleNumber.setTextColor(resources.getColor(R.color.vtwo_black))
+                tvVehicleNumberErrorMessage.visibility=View.GONE
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,

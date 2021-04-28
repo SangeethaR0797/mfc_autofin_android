@@ -220,6 +220,7 @@
                     android:textColor="@color/error_red"
                     android:textSize="@dimen/text_size_12dp"
                     android:textStyle="italic" />
+
                 <TextView
                     android:id="@+id/tv_vehicle_price_in_words"
                     android:layout_width="match_parent"
@@ -258,11 +259,7 @@
                     android:layout_marginTop="@dimen/text_size_16sp"
                     android:layout_marginBottom="@dimen/text_size_16sp"
                     android:background="@drawable/vtwo_input_bg"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/text_size_14dp"
-                    android:paddingTop="@dimen/text_size_14dp"
-                    android:paddingRight="@dimen/text_size_14dp"
-                    android:paddingBottom="@dimen/text_size_14dp">
+                    android:orientation="horizontal">
 
 
                     <EditText
@@ -270,7 +267,7 @@
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/text_size_14dp"
+                        android:layout_margin="@dimen/text_size_14dp"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
                         android:hint="eg : KA01AB4123"
@@ -284,6 +281,17 @@
 
 
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_vehicle_number_error_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_size_12dp"
+                    android:textAppearance="@style/RobotoRegular"
+                    android:textColor="@color/error_red"
+                    android:textSize="@dimen/text_size_12dp"
+                    android:textStyle="italic" />
+
             </LinearLayout>
 
             <Button
