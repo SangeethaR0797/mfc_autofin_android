@@ -29,6 +29,18 @@
 
                 <include layout="@layout/vtwo_mobile_num_layout" />
             </LinearLayout>
+            <!-- Name & Email region starts-->
+            <LinearLayout
+                android:id="@+id/llNameAndEmailV2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_12dp"
+                android:layout_marginRight="@dimen/text_size_12dp">
+
+                <include layout="@layout/v2_reg_name_email_layout" />
+
+            </LinearLayout>
+            <!-- Name & Email region ends-->
 
             <LinearLayout
                 android:id="@+id/ll_birth_date_section"
@@ -57,11 +69,11 @@
                     android:id="@+id/tv_birth_error_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:text="error message"
                     android:textAppearance="@style/RobotoRegular"
                     android:textColor="@color/error_red"
                     android:textSize="@dimen/text_size_12dp"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"
+                    tools:text="error message" />
             </LinearLayout>
 
             <LinearLayout
@@ -323,12 +335,12 @@
                     android:id="@+id/tv_net_income_error_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:text="error message"
-
                     android:textAppearance="@style/RobotoRegular"
+
                     android:textColor="@color/error_red"
                     android:textSize="@dimen/text_size_12dp"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"
+                    tools:text="error message" />
 
                 <TextView
                     android:id="@+id/tv_net_income_in_words"
@@ -342,34 +354,21 @@
                     android:textStyle="italic" />
             </LinearLayout>
 
-            <!-- Name & Email region starts-->
-            <LinearLayout
-                android:id="@+id/llNameAndEmailV2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/text_size_12dp"
-                android:layout_marginLeft="@dimen/text_size_12dp"
-                android:visibility="gone">
-
-                <include layout="@layout/v2_reg_name_email_layout" />
-
-            </LinearLayout>
-            <!-- Name & Email region ends-->
 
             <Button
                 android:id="@+id/btnMobileNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="100dp"
+                android:layout_marginBottom="@dimen/text_size40dp"
                 android:background="@drawable/vtwo_next_btn_bg"
                 android:paddingLeft="85dp"
                 android:paddingRight="85dp"
-                android:layout_marginTop="100dp"
                 android:text="@string/next"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_16sp"
-                android:layout_marginBottom="@dimen/text_size40dp"
                 android:textStyle="bold" />
 
         </LinearLayout>

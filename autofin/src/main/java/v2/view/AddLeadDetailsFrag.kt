@@ -35,8 +35,7 @@ import v2.model_view.TransactionViewModel
 import v2.service.utility.ApiResponse
 import v2.view.adapter.DataRecyclerViewAdapter
 import v2.view.base.BaseFragment
-import v2.view.callBackInterface.itemClickCallBack
-import v2.view.utility_view.GridItemDecoration
+
 import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -191,6 +190,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         setEploymentDetailsAdapter()
         setBankDetailsAdapter()
 
+        //Hide All Section
+        llNameAndEmailV2.visibility=View.GONE
+        llBirthDateSection.visibility=View.GONE
+        llEmploymentSection.visibility=View.GONE
+        llAccoutDetailsSection.visibility=View.GONE
+        llNetIncomeSection.visibility=View.GONE
+
         etWorkExpriance.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 tvWorkExprianceErrorMessage.visibility = View.GONE
@@ -294,31 +300,34 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         when (v?.id) {
             R.id.btnMobileNum -> {
                 when {
-                    ll_otp_v2.visibility == View.GONE && llNameAndEmailV2.visibility==View.GONE -> {
+                    ll_otp_v2.visibility == View.GONE && llNameAndEmailV2.visibility == View.GONE -> {
                         sendOTP()
                     }
-                    ll_otp_v2.visibility == View.VISIBLE && llNameAndEmailV2.visibility==View.GONE -> {
+                    ll_otp_v2.visibility == View.VISIBLE && llNameAndEmailV2.visibility == View.GONE -> {
                         validateOTP()
                     }
                     llNameAndEmailV2.visibility == View.VISIBLE -> {
                         addLead()
                     }
 
-                } else if (llBirthDateSection.visibility == View.VISIBLE && TextUtils.isEmpty(etBirthDate.text)) {
-                    tvBirthErrorMessage.visibility = View.VISIBLE
-                    tvBirthErrorMessage.text = "Please add date of birth."
-                    llBirthDate.setBackgroundResource(R.drawable.v2_error_input_bg)
-                    etBirthDate.setTextColor(resources.getColor(R.color.error_red))
-                } else if (llEmploymentSection.visibility == View.VISIBLE && llWorkExpriance.visibility == View.VISIBLE && TextUtils.isEmpty(etWorkExpriance.text)) {
-                    tvWorkExprianceErrorMessage.visibility = View.VISIBLE
-                    tvWorkExprianceErrorMessage.text = "Please enter total years of work experiences."
-                    etWorkExpriance.setBackgroundResource(R.drawable.v2_error_input_bg)
-                    etWorkExpriance.setTextColor(resources.getColor(R.color.error_red))
-                } else if (llNetIncomeSection.visibility == View.VISIBLE && TextUtils.isEmpty(etNetIncome.text)) {
-                    tvNetIncomeErrorMessage.visibility = View.VISIBLE
-                    tvNetIncomeErrorMessage.text = "Please enter net annual income."
-                    llNetIncome.setBackgroundResource(R.drawable.v2_error_input_bg)
-                    etNetIncome.setTextColor(resources.getColor(R.color.error_red))
+                    llBirthDateSection.visibility == View.VISIBLE && TextUtils.isEmpty(etBirthDate.text) -> {
+                        tvBirthErrorMessage.visibility = View.VISIBLE
+                        tvBirthErrorMessage.text = "Please add date of birth."
+                        llBirthDate.setBackgroundResource(R.drawable.v2_error_input_bg)
+                        etBirthDate.setTextColor(resources.getColor(R.color.error_red))
+                    }
+                    llEmploymentSection.visibility == View.VISIBLE && llWorkExpriance.visibility == View.VISIBLE && TextUtils.isEmpty(etWorkExpriance.text) -> {
+                        tvWorkExprianceErrorMessage.visibility = View.VISIBLE
+                        tvWorkExprianceErrorMessage.text = "Please enter total years of work experiences."
+                        etWorkExpriance.setBackgroundResource(R.drawable.v2_error_input_bg)
+                        etWorkExpriance.setTextColor(resources.getColor(R.color.error_red))
+                    }
+                    llNetIncomeSection.visibility == View.VISIBLE && TextUtils.isEmpty(etNetIncome.text) -> {
+                        tvNetIncomeErrorMessage.visibility = View.VISIBLE
+                        tvNetIncomeErrorMessage.text = "Please enter net annual income."
+                        llNetIncome.setBackgroundResource(R.drawable.v2_error_input_bg)
+                        etNetIncome.setTextColor(resources.getColor(R.color.error_red))
+                    }
                 }
             }
             R.id.tvResendOTPV2 -> {
@@ -348,9 +357,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         })
     }
 
-        }
-
-    }
 
     private fun sendOTP() {
         if (etMobileNumberV2.text.length == 10) {
@@ -368,7 +374,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         }
     }
 
-    // API call region starts
+// API call region starts
 
     private fun validateOTP() {
         if (etOTPV2.text.length == 6) {
@@ -402,28 +408,28 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     private fun addLead() {
         if (etFirstName.text.isNotEmpty() && et_last_name.text.isNotEmpty() && et_email.text.isNotEmpty()) {
-                basicDetails.FirstName = etFirstName.text.toString()
-                    basicDetails.LastName = et_last_name.text.toString()
-                    val email = et_email.text.toString()
-                    if (isEmailValid(email)) {
-                        basicDetails.Email = et_email.text.toString()
-                        addLeadRequest.Data?.basicDetails = basicDetails
-                        transactionViewModel.addLead(addLeadRequest, Global.customerAPI_BaseURL + CommonStrings.ADD_LEAD_URL_END)
-                        transactionViewModel.getAddLeadLiveData().observe(requireActivity(), { mApiResponse: ApiResponse? ->
-                            onAddLead(
-                                    mApiResponse!!
-                            )
-                        })
+            basicDetails.FirstName = etFirstName.text.toString()
+            basicDetails.LastName = et_last_name.text.toString()
+            val email = et_email.text.toString()
+            if (isEmailValid(email)) {
+                basicDetails.Email = et_email.text.toString()
+                addLeadRequest.Data?.basicDetails = basicDetails
+                transactionViewModel.addLead(addLeadRequest, Global.customerAPI_BaseURL + CommonStrings.ADD_LEAD_URL_END)
+                transactionViewModel.getAddLeadLiveData().observe(requireActivity(), { mApiResponse: ApiResponse? ->
+                    onAddLead(
+                            mApiResponse!!
+                    )
+                })
 
-                    } else
-                        showToast("Please enter valid Email Id")
-                       } else
+            } else
+                showToast("Please enter valid Email Id")
+        } else
             showToast("Please enter all fields to proceed further!")
     }
 
-    // API call region ends
+// API call region ends
 
-    // OnResponse Region starts
+// OnResponse Region starts
 
     private fun onGenerateOTP(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
@@ -431,8 +437,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
             ApiResponse.Status.SUCCESS -> {
                 val otpResponse: OTPResponse? = mApiResponse.data as OTPResponse?
-                if(otpResponse?.status!!)
-                ll_otp_v2.visibility = View.VISIBLE
+                if (otpResponse?.status!!)
+                    ll_otp_v2.visibility = View.VISIBLE
 
                 showToast(otpResponse.message.toString())
 
@@ -588,12 +594,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
             ApiResponse.Status.SUCCESS -> {
                 val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
-                if(addLeadResponse?.statusCode.equals("200"))
-                {
+                if (addLeadResponse?.statusCode.equals("200")) {
                     caseId = addLeadResponse?.mData.toString()
                     showToast(addLeadResponse!!.message.toString())
                 }
-               showToast(addLeadResponse?.message.toString())
+                showToast(addLeadResponse?.message.toString())
 
             }
             ApiResponse.Status.ERROR -> {
@@ -606,13 +611,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     }
 
-    // OnResponse region ends
+// OnResponse region ends
 
     private fun displayNameLayout() {
-        ll_otp_v2.visibility=View.GONE
-        tv_mobile_num_hint.visibility=View.GONE
+        ll_otp_v2.visibility = View.GONE
+        tv_mobile_num_hint.visibility = View.GONE
 
-        tv_mobile_num_verified.visibility=View.VISIBLE
+        tv_mobile_num_verified.visibility = View.VISIBLE
 
         llNameAndEmailV2.visibility = View.VISIBLE
 
@@ -664,7 +669,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         rv_salutation.setAdapter(salutationAdapter)
     }
 
-    // Validation region starts
+// Validation region starts
 
     private fun validName(name: String): Boolean {
         val expression = "[a-zA-Z]"
@@ -681,5 +686,5 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         return matcher.matches()
     }
 
-    // Validation region ends
+// Validation region ends
 }
