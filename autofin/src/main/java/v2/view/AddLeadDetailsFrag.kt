@@ -2,6 +2,7 @@ package v2.view
 
 import android.app.Activity
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -44,6 +45,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var rvEmploymentType: RecyclerView
     lateinit var llBirthDate: LinearLayout
     lateinit var llWorkExpriance: LinearLayout
+    lateinit var tvBirthErrorMessage: TextView
 
     lateinit var tvResendOTPV2: TextView
     lateinit var tvOTPTimerV2: TextView
@@ -119,6 +121,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         llBirthDate = view.findViewById(R.id.ll_date)
         etBirthDate = view.findViewById(R.id.et_date)
+        tvBirthErrorMessage = view.findViewById(R.id.tv_birth_error_message)
+        tvBirthErrorMessage.visibility = View.GONE
 
 
         rvEmploymentType = view.findViewById(R.id.rv_employment_type)
@@ -174,9 +178,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             R.id.btnMobileNum -> {
                 if (ll_otp_v2.visibility == View.GONE) {
                     sendOTP()
-                } else {
+                } else if (ll_otp_v2.visibility == View.VISIBLE) {
                     validateOTP()
 
+                } else if (TextUtils.isEmpty(etBirthDate.text)) {
+                    tvBirthErrorMessage.visibility = View.VISIBLE
+                    tvBirthErrorMessage.text = "Please add date of birth."
+                    llBirthDate.setBackgroundResource(R.drawable.vtwo_input_bg)
+                    etBirthDate.setTextColor(resources.getColor(R.color.error_red))
                 }
             }
             R.id.tvResendOTPV2 -> {
@@ -199,6 +208,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         callDatePickerDialog(object : DatePickerCallBack {
             override fun dateSelected(dateValue: String) {
                 etBirthDate.setText(dateValue)
+                tvBirthErrorMessage.visibility = View.GONE
+                llBirthDate.setBackgroundResource(R.drawable.vtwo_input_bg)
+                etBirthDate.setTextColor(resources.getColor(R.color.vtwo_black))
             }
         })
     }
@@ -352,7 +364,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         bankListResponse.data!!.forEachIndexed { index, types ->
             if (index < 4) {
-                list.add(DataSelectionDTO(types, null, types, false,"https://www.pikpng.com/pngl/m/71-719828_axis-bank-png-axis-bank-logo-download-clipart.png"))
+                list.add(DataSelectionDTO(types, null, types, false, "https://www.pikpng.com/pngl/m/71-719828_axis-bank-png-axis-bank-logo-download-clipart.png"))
             }
         }
 

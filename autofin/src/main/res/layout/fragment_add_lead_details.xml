@@ -52,6 +52,16 @@
                     android:textSize="@dimen/text_size_16sp" />
 
                 <include layout="@layout/v2_date_layout" />
+
+                <TextView
+                    android:id="@+id/tv_birth_error_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:textAppearance="@style/RobotoRegular"
+                    android:textColor="@color/error_red"
+                    android:textSize="@dimen/text_size_12dp"
+                    android:textStyle="italic" />
             </LinearLayout>
 
             <LinearLayout
