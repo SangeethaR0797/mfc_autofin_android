@@ -26,6 +26,8 @@ import v2.view.other_activity.VehBasicDetailsActivity
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 
 public open class BaseFragment : Fragment() {
@@ -66,6 +68,20 @@ public open class BaseFragment : Fragment() {
 
     public fun isValidVehicleRegNo(vehicleRegNo: String): Boolean {
         return Regex(pattern = "[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}").matches(vehicleRegNo)
+    }
+    public fun validName(name: String): Boolean {
+        val expression = "[a-zA-Z]"
+        val pattern: Pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
+        val matcher: Matcher = pattern.matcher(name)
+        return matcher.matches()
+    }
+
+
+    public fun isEmailValid(email: String?): Boolean {
+        val expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$"
+        val pattern: Pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
+        val matcher: Matcher = pattern.matcher(email)
+        return matcher.matches()
     }
     //endregion validation
 

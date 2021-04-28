@@ -811,22 +811,5 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         rv_salutation.setAdapter(salutationAdapter)
     }
 
-// Validation region starts
 
-    private fun validName(name: String): Boolean {
-        val expression = "[a-zA-Z]"
-        val pattern: Pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
-        val matcher: Matcher = pattern.matcher(name)
-        return matcher.matches()
-    }
-
-
-    fun isEmailValid(email: String?): Boolean {
-        val expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$"
-        val pattern: Pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
-        val matcher: Matcher = pattern.matcher(email)
-        return matcher.matches()
-    }
-
-// Validation region ends
 }
