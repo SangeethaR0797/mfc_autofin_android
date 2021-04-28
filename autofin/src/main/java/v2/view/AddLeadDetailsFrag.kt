@@ -2,7 +2,9 @@ package v2.view
 
 import android.app.Activity
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
@@ -31,7 +34,7 @@ import v2.view.base.BaseFragment
 import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.callBackInterface.itemClickCallBack
 import v2.view.utility_view.GridItemDecoration
-import java.util.ArrayList
+import java.util.*
 
 
 public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
@@ -41,6 +44,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var etOTPV2: EditText
     lateinit var etBirthDate: EditText
     lateinit var etWorkExpriance: EditText
+    lateinit var tvWorkExprianceErrorMessage: TextView
     lateinit var cbTermsAndConditions: CheckBox
     lateinit var rvEmploymentType: RecyclerView
     lateinit var llBirthDate: LinearLayout
@@ -128,6 +132,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         rvEmploymentType = view.findViewById(R.id.rv_employment_type)
         llWorkExpriance = view.findViewById(R.id.ll_work_expriance)
         etWorkExpriance = view.findViewById(R.id.et_work_expriance)
+        tvWorkExprianceErrorMessage = view.findViewById(R.id.tv_work_expriance_error_message)
 
         llBirthDateSection = view.findViewById(R.id.ll_birth_date_section)
         llEmploymentSection = view.findViewById(R.id.ll_employment_section)
@@ -146,6 +151,24 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         etBirthDate.setOnClickListener(this)
         setEploymentDetailsAdapter()
         setBankDetailsAdapter()
+
+        etWorkExpriance.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                tvWorkExprianceErrorMessage.visibility = View.GONE
+                etWorkExpriance.setBackgroundResource(R.drawable.vtwo_input_bg)
+                etWorkExpriance.setTextColor(resources.getColor(R.color.vtwo_black))
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
+                                           after: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+
+
+            }
+        })
 
     }
 
@@ -184,8 +207,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 } else if (TextUtils.isEmpty(etBirthDate.text)) {
                     tvBirthErrorMessage.visibility = View.VISIBLE
                     tvBirthErrorMessage.text = "Please add date of birth."
-                    llBirthDate.setBackgroundResource(R.drawable.vtwo_input_bg)
+                    llBirthDate.setBackgroundResource(R.drawable.v2_error_input_bg)
                     etBirthDate.setTextColor(resources.getColor(R.color.error_red))
+                } else if (llWorkExpriance.visibility == View.VISIBLE && TextUtils.isEmpty(etWorkExpriance.text)) {
+                    tvWorkExprianceErrorMessage.visibility = View.VISIBLE
+                    tvWorkExprianceErrorMessage.text = "Please enter total years of work experiences."
+                    etWorkExpriance.setBackgroundResource(R.drawable.v2_error_input_bg)
+                    etWorkExpriance.setTextColor(resources.getColor(R.color.error_red))
                 }
             }
             R.id.tvResendOTPV2 -> {

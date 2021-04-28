@@ -57,7 +57,7 @@
                     android:id="@+id/tv_birth_error_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    tools:text="error message"
                     android:textAppearance="@style/RobotoRegular"
                     android:textColor="@color/error_red"
                     android:textSize="@dimen/text_size_12dp"
@@ -145,7 +145,7 @@
                         android:textSize="@dimen/text_size_16sp" />
 
                     <TextView
-                        android:id="@+id/tv_work_expriance"
+                        android:id="@+id/tv_work_expriance_error_message"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/text_size_12dp"
