@@ -101,6 +101,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var llEmiDetails: LinearLayout
     lateinit var eMIDetailsAdapter: DataRecyclerViewAdapter
     lateinit var addEmploymentDetailsRequest: AddEmploymentDetailsRequest
+    var addEmploymentDataApiCalled: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -274,6 +276,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 llNetIncome.setBackgroundResource(R.drawable.vtwo_input_bg)
                 etNetIncome.setTextColor(resources.getColor(R.color.vtwo_black))
 
+
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
@@ -295,8 +298,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                             if (TextUtils.isEmpty(etNetIncome.text)) {
                                 //Set Null Income
+                                addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome = 0
                             } else {
-                                //Set Null Income
+                                //Set Income
+                                addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome = etNetIncome.text.toString().toInt()
 
                             }
                             allowEdit = false
@@ -474,11 +479,21 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         etWorkExpriance.setBackgroundResource(R.drawable.v2_error_input_bg)
                         etWorkExpriance.setTextColor(resources.getColor(R.color.error_red))
                     }
-                    llNetIncomeSection.visibility == View.VISIBLE && TextUtils.isEmpty(etNetIncome.text) -> {
+                    llAccoutDetailsSection.visibility == View.GONE -> {
+                        llAccoutDetailsSection.visibility = View.VISIBLE
+                    }
+                    llAccoutDetailsSection.visibility == View.VISIBLE && llNetIncomeSection.visibility == View.VISIBLE && TextUtils.isEmpty(etNetIncome.text) -> {
                         tvNetIncomeErrorMessage.visibility = View.VISIBLE
                         tvNetIncomeErrorMessage.text = "Please enter net annual income."
                         llNetIncome.setBackgroundResource(R.drawable.v2_error_input_bg)
                         etNetIncome.setTextColor(resources.getColor(R.color.error_red))
+                    }
+                    addEmploymentDataApiCalled == false -> {
+                        //Call Add Employment Api
+                    }
+
+                    llEMISection.visibility == View.GONE -> {
+                        llEMISection.visibility = View.VISIBLE
                     }
                     llEMISection.visibility == View.VISIBLE && llEmiDetails.visibility == View.VISIBLE && TextUtils.isEmpty(etEMI.text) -> {
                         tvEMIErrorMessage.visibility = View.VISIBLE
@@ -723,6 +738,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     run {
                         if (index == position) {
                             item.selected = true
+                            if (addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType.equals("Self Employed")) {
+                                addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount = item.displayValue
+                                addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount = null
+                            } else {
+                                addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount = null
+                                addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount = item.displayValue
+                            }
+                            llNetIncome.visibility = View.VISIBLE
 
 
                         } else {
