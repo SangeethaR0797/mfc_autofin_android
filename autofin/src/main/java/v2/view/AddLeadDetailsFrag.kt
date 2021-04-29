@@ -255,7 +255,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         setEMIDetailsAdapter()
 
     }
+    fun callCustomerDetailsApi(customerId: Int) {
+        addEmploymentDetailsRequest = createAddEmploymentDetailsRequest(customerId)
+        transactionViewModel.getCustomerDetails(createCustomerDetailsRequest(customerId), Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL)
 
+    }
     fun setCheckBoxEvent() {
         cbMoreThanOneYearInCurrentOrganization.setOnCheckedChangeListener(null)
         cbMoreThanOneYearInCurrentOrganization.setOnClickListener { addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne = cbMoreThanOneYearInCurrentOrganization.isChecked }
@@ -670,6 +674,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         }
     }
 
+
+
     private fun onValidateOTP(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
@@ -680,6 +686,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     Toast.makeText(activity, "OTP Validate", Toast.LENGTH_LONG).show()
                     basicDetails.CustomerMobile = etMobileNumberV2.text.toString()
                     displayNameLayout()
+                    callCustomerDetailsApi(1556)
                 } else {
                     Toast.makeText(activity, "invalid Validate", Toast.LENGTH_LONG).show()
                 }
@@ -952,7 +959,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     et_last_name.setText(customerDetailsResponse!!.data!!.basicDetails!!.lastName)
                     et_email.setText(customerDetailsResponse!!.data!!.basicDetails!!.lastName)
 
-                    var salutation =(customerDetailsResponse!!.data!!.basicDetails!!.salutation)
+                    var salutation = (customerDetailsResponse!!.data!!.basicDetails!!.salutation)
 
                     if (salutation != null) {
                         salutationAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
