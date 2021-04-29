@@ -942,6 +942,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 }
                 //set basicDetails
                 if (customerDetailsResponse!!.data!!.basicDetails != null) {
+                    displayNameLayout()
                     addLeadRequest.Data!!.basicDetails!!.FirstName = customerDetailsResponse!!.data!!.basicDetails!!.firstName
                     addLeadRequest.Data!!.basicDetails!!.LastName = customerDetailsResponse!!.data!!.basicDetails!!.lastName
                     addLeadRequest.Data!!.basicDetails!!.Email = customerDetailsResponse!!.data!!.basicDetails!!.email
