@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -949,7 +950,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 }
                 //set basicDetails
                 if (customerDetailsResponse!!.data!!.basicDetails != null) {
-                    displayNameLayout()
+
                     addLeadRequest.Data!!.basicDetails!!.FirstName = customerDetailsResponse!!.data!!.basicDetails!!.firstName
                     addLeadRequest.Data!!.basicDetails!!.LastName = customerDetailsResponse!!.data!!.basicDetails!!.lastName
                     addLeadRequest.Data!!.basicDetails!!.Email = customerDetailsResponse!!.data!!.basicDetails!!.email
@@ -1053,7 +1054,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 }
             }
         } catch (e: Exception) {
-
+        Log.d("Err",e.message)
         }
 
     }
