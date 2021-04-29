@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,14 +34,9 @@ import v2.model_view.TransactionViewModel
 import v2.service.utility.ApiResponse
 import v2.view.adapter.DataRecyclerViewAdapter
 import v2.view.base.BaseFragment
-
-import java.util.*
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.callBackInterface.itemClickCallBack
 import v2.view.utility_view.GridItemDecoration
-import java.lang.Exception
 import java.util.*
 
 
@@ -573,7 +567,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     private fun sendOTP() {
         if (etMobileNumberV2.text.length == 10) {
-            transactionViewModel!!.generateOTP(getOtpRequest(null, etMobileNumberV2.text.toString()), Global.customerAPI_BaseURL + CommonStrings.OTP_URL_END)
 
             transactionViewModel!!.getGenerateOTPLiveData()
                     .observe(requireActivity(), { mApiResponse: ApiResponse? ->
@@ -581,6 +574,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                 mApiResponse!!
                         )
                     })
+            transactionViewModel!!.generateOTP(getOtpRequest(null, etMobileNumberV2.text.toString()), Global.customerAPI_BaseURL + CommonStrings.OTP_URL_END)
+
 
         } else {
             showToast("Please enter Valid Mobile Number")
@@ -591,14 +586,15 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     private fun validateOTP() {
         if (etOTPV2.text.length == 6) {
-            transactionViewModel!!.validateOTP(getOtpRequest(etOTPV2.text.toString(), etMobileNumberV2.text.toString()), Global.customerAPI_BaseURL + CommonStrings.VALIDATE_OTP_URL_END)
-
             transactionViewModel!!.getValidateOTPLiveData()
                     .observe(requireActivity(), { mApiResponse: ApiResponse? ->
                         onValidateOTP(
                                 mApiResponse!!
                         )
                     })
+            transactionViewModel!!.validateOTP(getOtpRequest(etOTPV2.text.toString(), etMobileNumberV2.text.toString()), Global.customerAPI_BaseURL + CommonStrings.VALIDATE_OTP_URL_END)
+
+
         } else {
             showToast("Please enter valid OTP")
         }
@@ -627,12 +623,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             if (isEmailValid(email)) {
                 basicDetails.Email = et_email.text.toString()
                 addLeadRequest.Data?.basicDetails = basicDetails
-                transactionViewModel.addLead(addLeadRequest, Global.customerAPI_BaseURL + CommonStrings.ADD_LEAD_URL_END)
                 transactionViewModel.getAddLeadLiveData().observe(requireActivity(), { mApiResponse: ApiResponse? ->
                     onAddLead(
                             mApiResponse!!
                     )
                 })
+                transactionViewModel.addLead(addLeadRequest, Global.customerAPI_BaseURL + CommonStrings.ADD_LEAD_URL_END)
+
 
             } else
                 showToast("Please enter valid Email Id")
@@ -828,6 +825,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     llBirthDateSection.visibility = View.VISIBLE
                     //Create Request of Add Employment Details
                     addEmploymentDetailsRequest = createAddEmploymentDetailsRequest(addLeadResponse.mData!!)
+
+                    transactionViewModel.getCustomerDetails(createCustomerDetailsRequest(addLeadResponse.mData!!), Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL)
                 }
                 showToast(addLeadResponse?.message.toString())
 
@@ -884,6 +883,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         customerDetailsRequest.UserId = CommonStrings.DEALER_ID
         customerDetailsRequest.UserType = CommonStrings.USER_TYPE
         var customerJourneyDataRequest = ResetCustomerJourneyDataRequest();
+        customerJourneyDataRequest.CustomerId=customerId.toString()
         customerDetailsRequest.Data = customerJourneyDataRequest
         return customerDetailsRequest
     }
@@ -895,7 +895,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             ApiResponse.Status.SUCCESS -> {
                 val customerDetailsResponse: CustomerDetailsResponse? = mApiResponse.data as CustomerDetailsResponse?
                 if (customerDetailsResponse?.data != null) {
-
+                    preFilledData(customerDetailsResponse)
                 }
 
 
@@ -911,7 +911,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
 
-// OnResponse region ends
+    // OnResponse region ends
+    fun preFilledData(customerDetailsResponse: CustomerDetailsResponse?) {
+
+    }
 
     private fun displayNameLayout() {
         ll_otp_v2.visibility = View.GONE

@@ -35,6 +35,7 @@ public class CommonStrings {
     public static final String ADD_BASIC_DETAILS_URL = "v2/add-basic-details";
     public static final String EDIT_LEAD_URL = "v2/edit-lead";
     public static final String CUSTOMER_DETAILS_URL = "v2/customer-details";
+    public static final String CUSTOMER_DETAILS_END_URL = "customer-details";
     public static final String INDUSTRY_TYPE_URL = "industry-type";
     public static final String MAHINDRA_FILTER_URL = "employer/filter-by-name/mahind";
     public static final String GET_SALUTATION_URL = "salutations";
