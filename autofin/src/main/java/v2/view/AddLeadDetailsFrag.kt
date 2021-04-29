@@ -832,7 +832,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
             }
             ApiResponse.Status.ERROR -> {
-
+                val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
             }
             else -> {
                 showToast("Please enter valid details")
@@ -883,7 +883,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         customerDetailsRequest.UserId = CommonStrings.DEALER_ID
         customerDetailsRequest.UserType = CommonStrings.USER_TYPE
         var customerJourneyDataRequest = ResetCustomerJourneyDataRequest();
-        customerJourneyDataRequest.CustomerId=customerId.toString()
+        customerJourneyDataRequest.CustomerId = customerId.toString()
         customerDetailsRequest.Data = customerJourneyDataRequest
         return customerDetailsRequest
     }
@@ -913,6 +913,28 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     // OnResponse region ends
     fun preFilledData(customerDetailsResponse: CustomerDetailsResponse?) {
+        try {
+            var birthDateDisplayValue: String? = null
+            var birthDateValue: String? = null
+            if (customerDetailsResponse != null && customerDetailsResponse.data != null) {
+                birthDateDisplayValue = stringToDateString(customerDetailsResponse.data!!.basicDetails!!.birthDate.toString().subSequence(0, 9) as String, DATE_FORMATE_YYYYMMDD, DATE_FORMATE_DDMMYYYY)
+                birthDateValue = stringToDateString(customerDetailsResponse.data!!.basicDetails!!.birthDate.toString().subSequence(0, 9) as String, DATE_FORMATE_YYYYMMDD, DATE_FORMATE_YYYYMMDD)
+
+                if (birthDateDisplayValue == null) {
+                    birthDateDisplayValue = stringToDateString(customerDetailsResponse.data!!.equifaxFields!!.birthDate!![0], DATE_FORMATE_YYYYMMDD, DATE_FORMATE_DDMMYYYY)
+                    birthDateValue = stringToDateString(customerDetailsResponse.data!!.equifaxFields!!.birthDate!![0], DATE_FORMATE_YYYYMMDD, DATE_FORMATE_YYYYMMDD)
+
+                }
+                //Set Birth Data
+                if (birthDateDisplayValue != null) {
+                    llBirthDateSection.visibility = View.VISIBLE
+                    etBirthDate.setText(birthDateDisplayValue)
+                    addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate = birthDateValue
+                }
+            }
+        } catch (e: Exception) {
+
+        }
 
     }
 

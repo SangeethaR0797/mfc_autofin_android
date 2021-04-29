@@ -34,18 +34,24 @@ public open class BaseFragment : Fragment() {
     public var caseId = ""
     var cal = Calendar.getInstance()
     private lateinit var datePickerCallBack: DatePickerCallBack
+    public val DATE_FORMATE_DDMMYYYY = "dd/MM/yyyy"
+    public val DATE_FORMATE_YYYYMMDD = "yyyy-MM-dd"
 
     //region DatePicker
+    public fun stringToDateString(value: String, sourceDateFormat: String, targetDateFormat: String): String {
+        val date1 = SimpleDateFormat(sourceDateFormat).parse(sourceDateFormat)
+        return SimpleDateFormat(targetDateFormat).format(cal.getTime())
+    }
+
     val dateSetListener = object : DatePickerDialog.OnDateSetListener {
         override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int,
                                dayOfMonth: Int) {
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, monthOfYear)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            val myFormatDisplay = "dd/MM/yyyy"
-            val myFormatValue = "yyyy-MM-dd"
-            val sdf = SimpleDateFormat(myFormatDisplay, Locale.US)
-            val sdfValue = SimpleDateFormat(myFormatValue, Locale.US)
+
+            val sdf = SimpleDateFormat(DATE_FORMATE_DDMMYYYY, Locale.US)
+            val sdfValue = SimpleDateFormat(DATE_FORMATE_YYYYMMDD, Locale.US)
             var dateDisplayValue: String = sdf.format(cal.getTime())
             var dateValue: String = sdfValue.format(cal.getTime())
 
