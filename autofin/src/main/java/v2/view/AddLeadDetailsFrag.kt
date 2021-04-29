@@ -256,11 +256,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         setEMIDetailsAdapter()
 
     }
+
     fun callCustomerDetailsApi(customerId: Int) {
+        caseId=customerId.toString()
         addEmploymentDetailsRequest = createAddEmploymentDetailsRequest(customerId)
         transactionViewModel.getCustomerDetails(createCustomerDetailsRequest(customerId), Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL)
 
     }
+
     fun setCheckBoxEvent() {
         cbMoreThanOneYearInCurrentOrganization.setOnCheckedChangeListener(null)
         cbMoreThanOneYearInCurrentOrganization.setOnClickListener { addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne = cbMoreThanOneYearInCurrentOrganization.isChecked }
@@ -676,7 +679,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
 
-
     private fun onValidateOTP(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
@@ -950,7 +952,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 }
                 //set basicDetails
                 if (customerDetailsResponse!!.data!!.basicDetails != null) {
+                    if (addLeadRequest.Data!!.basicDetails == null) {
+                        var basicDetails = BasicDetails()
+                        addLeadRequest.Data!!.basicDetails = basicDetails;
 
+                    }
                     addLeadRequest.Data!!.basicDetails!!.FirstName = customerDetailsResponse!!.data!!.basicDetails!!.firstName
                     addLeadRequest.Data!!.basicDetails!!.LastName = customerDetailsResponse!!.data!!.basicDetails!!.lastName
                     addLeadRequest.Data!!.basicDetails!!.Email = customerDetailsResponse!!.data!!.basicDetails!!.email
@@ -958,7 +964,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                     etFirstName.setText(customerDetailsResponse!!.data!!.basicDetails!!.firstName)
                     et_last_name.setText(customerDetailsResponse!!.data!!.basicDetails!!.lastName)
-                    et_email.setText(customerDetailsResponse!!.data!!.basicDetails!!.lastName)
+                    et_email.setText(customerDetailsResponse!!.data!!.basicDetails!!.email)
 
                     var salutation = (customerDetailsResponse!!.data!!.basicDetails!!.salutation)
 
@@ -1054,7 +1060,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 }
             }
         } catch (e: Exception) {
-        Log.d("Err",e.message)
+            Log.d("Err", e.message)
         }
 
     }
