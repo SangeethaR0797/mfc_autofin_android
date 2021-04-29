@@ -26,6 +26,7 @@ import v2.model.request.*
 import v2.model.request.add_lead.BasicDetails
 import v2.model.response.AddLeadResponse
 import v2.model.response.BankListResponse
+import v2.model.response.CustomerDetailsResponse
 import v2.model.response.OTPResponse
 import v2.model.response.master.MasterResponse
 import v2.model.response.master.Types
@@ -138,6 +139,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         transactionViewModel!!.getAddEmploymentDetailsLiveData()
                 .observe(requireActivity(), { mApiResponse: ApiResponse? ->
                     onAddEmploymentDetails(
+                            mApiResponse!!
+                    )
+                })
+        transactionViewModel!!.getCustomerDetailsLiveData()
+                .observe(requireActivity(), { mApiResponse: ApiResponse? ->
+                    onCustomerDetails(
                             mApiResponse!!
                     )
                 })
@@ -859,18 +866,50 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     fun createAddEmploymentDetailsRequest(customerId: Int): AddEmploymentDetailsRequest {
-        var addEmploymentDetailsRequest = AddEmploymentDetailsRequest()
-        addEmploymentDetailsRequest.UserId = CommonStrings.DEALER_ID
-        addEmploymentDetailsRequest.UserType = CommonStrings.USER_TYPE
+        var addEmploymentDetailsDataRequest = AddEmploymentDetailsRequest()
+        addEmploymentDetailsDataRequest.UserId = CommonStrings.DEALER_ID
+        addEmploymentDetailsDataRequest.UserType = CommonStrings.USER_TYPE
 
         var addEmploymentEmploymentDetails = AddEmploymentEmploymentDetails()
         var addEmploymentPersonalDetails = AddEmploymentPersonalDetails()
 
         var addEmploymentData = AddEmploymentData(customerId, addEmploymentEmploymentDetails, addEmploymentPersonalDetails)
-        addEmploymentDetailsRequest.Data = addEmploymentData
-        return addEmploymentDetailsRequest
+        addEmploymentDetailsDataRequest.Data = addEmploymentData
+        return addEmploymentDetailsDataRequest
 
     }
+
+    fun createCustomerDetailsRequest(customerId: Int): CustomerRequest {
+        var customerDetailsRequest = CustomerRequest()
+        customerDetailsRequest.UserId = CommonStrings.DEALER_ID
+        customerDetailsRequest.UserType = CommonStrings.USER_TYPE
+        var customerJourneyDataRequest = ResetCustomerJourneyDataRequest();
+        customerDetailsRequest.Data = customerJourneyDataRequest
+        return customerDetailsRequest
+    }
+
+    private fun onCustomerDetails(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+            }
+            ApiResponse.Status.SUCCESS -> {
+                val customerDetailsResponse: CustomerDetailsResponse? = mApiResponse.data as CustomerDetailsResponse?
+                if (customerDetailsResponse?.data != null) {
+
+                }
+
+
+            }
+            ApiResponse.Status.ERROR -> {
+
+            }
+            else -> {
+                showToast("Please enter valid details")
+            }
+        }
+
+    }
+
 
 // OnResponse region ends
 
