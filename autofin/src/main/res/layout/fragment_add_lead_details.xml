@@ -140,21 +140,32 @@
                         </RelativeLayout>
                     </LinearLayout>
 
-                    <EditText
-                        android:id="@+id/et_work_expriance"
+                    <LinearLayout
+                        android:id="@+id/ll_add_work_expriance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/text_size_15dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/vtwo_input_bg"
-                        android:hint="@string/enter_years"
-                        android:inputType="number"
-                        android:maxLength="2"
-                        android:padding="@dimen/text_size_14dp"
-                        android:singleLine="true"
-                        android:textAppearance="@style/RobotoMedium"
-                        android:textColorHint="@color/vtwo_grey"
-                        android:textSize="@dimen/text_size_16sp" />
+                        android:background="@drawable/vtwo_input_bg">
+
+                        <EditText
+                            android:id="@+id/et_work_expriance"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/text_size_14dp"
+                            android:layout_marginRight="@dimen/text_size_14dp"
+                            android:layout_marginTop="@dimen/text_size10dp"
+                            android:layout_marginBottom="@dimen/text_size10dp"
+                            android:layout_weight="1"
+
+                            android:background="@android:color/transparent"
+                            android:hint="@string/enter_years"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:singleLine="true"
+                            android:textAppearance="@style/RobotoMedium"
+                            android:textColorHint="@color/vtwo_grey"
+                            android:textSize="@dimen/text_size_16sp" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tv_work_expriance_error_message"

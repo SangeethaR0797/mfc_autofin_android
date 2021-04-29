@@ -68,6 +68,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     lateinit var etBirthDate: EditText
     lateinit var etWorkExpriance: EditText
+    lateinit var llAddWorkExpriance: LinearLayout
     lateinit var tvWorkExprianceErrorMessage: TextView
 
     lateinit var rvEmploymentType: RecyclerView
@@ -182,6 +183,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         rvEmploymentType = view.findViewById(R.id.rv_employment_type)
         llWorkExpriance = view.findViewById(R.id.ll_work_expriance)
         etWorkExpriance = view.findViewById(R.id.et_work_expriance)
+        llAddWorkExpriance = view.findViewById(R.id.ll_add_work_expriance)
         tvWorkExprianceErrorMessage = view.findViewById(R.id.tv_work_expriance_error_message)
         tvWorkExprianceErrorMessage.visibility = View.GONE
 
@@ -262,7 +264,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         etWorkExpriance.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 tvWorkExprianceErrorMessage.visibility = View.GONE
-                etWorkExpriance.setBackgroundResource(R.drawable.vtwo_input_bg)
+                llAddWorkExpriance.setBackgroundResource(R.drawable.vtwo_input_bg)
                 etWorkExpriance.setTextColor(resources.getColor(R.color.vtwo_black))
                 if (TextUtils.isEmpty(etWorkExpriance.text)) {
                     addEmploymentDetailsRequest.Data!!.employmentDetails!!.TotalWorkExperience = null
@@ -500,7 +502,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     llEmploymentSection.visibility == View.VISIBLE && llWorkExpriance.visibility == View.VISIBLE && TextUtils.isEmpty(etWorkExpriance.text) -> {
                         tvWorkExprianceErrorMessage.visibility = View.VISIBLE
                         tvWorkExprianceErrorMessage.text = "Please enter total years of work experiences."
-                        etWorkExpriance.setBackgroundResource(R.drawable.v2_error_input_bg)
+                        llAddWorkExpriance.setBackgroundResource(R.drawable.v2_error_input_bg)
                         etWorkExpriance.setTextColor(resources.getColor(R.color.error_red))
                     }
                     llAccoutDetailsSection.visibility == View.GONE -> {
