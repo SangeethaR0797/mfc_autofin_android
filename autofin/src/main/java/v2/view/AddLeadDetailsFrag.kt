@@ -3,6 +3,7 @@ package v2.view
 import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mfc.autofin.framework.R
 import kotlinx.android.synthetic.main.v2_reg_name_email_layout.*
 import kotlinx.android.synthetic.main.vtwo_mobile_num_layout.*
-import okhttp3.internal.userAgent
 import utility.CommonStrings
 import utility.Global
 import v2.model.dto.AddLeadRequest
@@ -46,8 +46,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var cbTermsAndConditions: CheckBox
     lateinit var tvResendOTPV2: TextView
     lateinit var tvOTPTimerV2: TextView
+    lateinit var tvOTPEHint: TextView
     lateinit var btnMobileNum: Button
     lateinit var ll_otp_v2: LinearLayout
+    lateinit var llTAndC: LinearLayout
     lateinit var transactionViewModel: TransactionViewModel
     lateinit var addLeadRequest: AddLeadRequest
     var basicDetails = BasicDetails()
@@ -56,6 +58,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var salutationAdapter: DataRecyclerViewAdapter
     lateinit var llNameAndEmailV2: LinearLayout
     lateinit var etFirstName: EditText
+    lateinit var dialog: Dialog
+    lateinit var timer: CountDownTimer
 
     var make: String = ""
     var model: String = ""
@@ -63,6 +67,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     var mobileNum: String = ""
     var userId: String = ""
     var userType: String = ""
+    var salutation:String=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,13 +101,20 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     )
                 })
 
+        transactionViewModel.getAddLeadLiveData().observe(requireActivity(), { mApiResponse: ApiResponse? ->
+            onAddLead(
+                    mApiResponse!!
+            )
+        })
+
+
         transactionViewModel.getValidateLeadLiveData().observe(requireActivity(), { mApiResponse: ApiResponse? ->
             onValidateLead(
                     mApiResponse!!
             )
         })
 
-        transactionViewModel.getResetCustomerJourneyLiveData().observe(requireActivity(),{mAPIResponse:ApiResponse?->onResetJourney(mAPIResponse!!)})
+        transactionViewModel.getResetCustomerJourneyLiveData().observe(requireActivity(), { mAPIResponse: ApiResponse? -> onResetJourney(mAPIResponse!!) })
 
     }
 
@@ -121,12 +133,16 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     private fun initViews(view: View?) {
         etMobileNumberV2 = view?.findViewById(R.id.etMobileNumberV2)!!
 
-        etOTPV2 = view.findViewById(R.id.etOTPV2)
+        etOTPV2 = view.findViewById(R.id.etOTPV2)!!
         cbTermsAndConditions = view.findViewById(R.id.cbTermsAndConditions)
         tvResendOTPV2 = view.findViewById(R.id.tvResendOTPV2)
         tvOTPTimerV2 = view.findViewById(R.id.tvOTPTimerV2)
+        tvOTPEHint = view.findViewById(R.id.tvOTPEHint)
+
         btnMobileNum = view.findViewById(R.id.btnMobileNum)
+
         ll_otp_v2 = view.findViewById(R.id.ll_otp_v2)
+        llTAndC = view.findViewById(R.id.llTAndC)
 
         rv_salutation = view.findViewById(R.id.rv_salutation)
         llNameAndEmailV2 = view.findViewById(R.id.llNameAndEmailV2)
@@ -136,8 +152,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         make = addLeadRequest.Data?.vehicleDetails?.Make.toString()
         model = addLeadRequest.Data?.vehicleDetails?.Model.toString()
         variant = addLeadRequest.Data?.vehicleDetails?.Variant.toString()
-        userId = addLeadRequest.UserId.toString()
-        userType = addLeadRequest.UserType.toString()
 
         tvResendOTPV2.setOnClickListener(this)
         btnMobileNum.setOnClickListener(this)
@@ -153,8 +167,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         sendOTP()
                     }
                     ll_otp_v2.visibility == View.VISIBLE && llNameAndEmailV2.visibility == View.GONE -> {
-                        validateOTP()
+
+                        if (cbTermsAndConditions.isChecked) {
+                            validateOTP()
+                        } else
+                            showToast("Please check Terms and Condition")
                     }
+
                     llNameAndEmailV2.visibility == View.VISIBLE -> {
                         addLead()
                     }
@@ -175,9 +194,21 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     private fun sendOTP() {
         if (etMobileNumberV2.text.length == 10) {
             transactionViewModel!!.generateOTP(getOtpRequest(null, etMobileNumberV2.text.toString()), Global.customerAPI_BaseURL + CommonStrings.OTP_URL_END)
-
+            etMobileNumberV2.setTextColor(resources.getColor(R.color.black))
+            tv_mobile_num_hint.setTextColor(resources.getColor(R.color.vtwo_light_grey))
+            tv_mobile_num_hint.visibility = View.GONE
+            llMobileNumInput.setBackgroundResource(R.drawable.vtwo_input_bg)
         } else {
-            showToast("Please enter Valid Mobile Number")
+            if (etMobileNumberV2.text.isEmpty()) {
+                tv_mobile_num_hint.setText("Please enter Mobile number")
+            } else {
+                etMobileNumberV2.setTextColor(resources.getColor(R.color.error_red))
+                tv_mobile_num_hint.setText("Please enter Valid mobile number")
+            }
+            tv_mobile_num_hint.setTextColor(resources.getColor(R.color.error_red))
+            llMobileNumInput.setBackgroundResource(R.drawable.v2_error_layout_bg)
+
+
         }
     }
 
@@ -186,10 +217,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     private fun validateOTP() {
         if (etOTPV2.text.length == 6) {
             transactionViewModel!!.validateOTP(getOtpRequest(etOTPV2.text.toString(), etMobileNumberV2.text.toString()), Global.customerAPI_BaseURL + CommonStrings.VALIDATE_OTP_URL_END)
-
-
+            tvOTPEHint.visibility = View.GONE
+            etOTPV2.setBackgroundResource(R.drawable.vtwo_input_bg)
         } else {
-            showToast("Please enter valid OTP")
+            tvOTPEHint.visibility = View.VISIBLE
+            etOTPV2.setBackgroundResource(R.drawable.v2_error_layout_bg)
         }
 
     }
@@ -209,50 +241,96 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
     private fun addLead() {
-        if (etFirstName.text.isNotEmpty() && et_last_name.text.isNotEmpty() && et_email.text.isNotEmpty()) {
+        if (salutation.isNotEmpty() && etFirstName.text.isNotEmpty() && et_last_name.text.isNotEmpty() && et_email.text.isNotEmpty()) {
+
+            ll_first_name_input.setBackgroundResource(R.drawable.vtwo_input_bg)
+            tv_fname_hint.visibility = View.GONE
+
+            ll_last_name_input.setBackgroundResource(R.drawable.vtwo_input_bg)
+            tv_lname_hint.visibility = View.GONE
+
+
             basicDetails.FirstName = etFirstName.text.toString()
             basicDetails.LastName = et_last_name.text.toString()
             val email = et_email.text.toString()
             if (isEmailValid(email)) {
+                ll_last_email_input.setBackgroundResource(R.drawable.vtwo_input_bg)
+                tv_email_hint.visibility = View.GONE
                 basicDetails.Email = et_email.text.toString()
                 addLeadRequest.Data?.basicDetails = basicDetails
+                addLeadRequest.UserType=CommonStrings.USER_TYPE
+                addLeadRequest.UserId=CommonStrings.DEALER_ID
                 transactionViewModel.addLead(addLeadRequest, Global.customerAPI_BaseURL + CommonStrings.ADD_LEAD_URL_END)
-                transactionViewModel.getAddLeadLiveData().observe(requireActivity(), { mApiResponse: ApiResponse? ->
-                    onAddLead(
-                            mApiResponse!!
-                    )
-                })
 
-            } else
-                showToast("Please enter valid Email Id")
-        } else
-            showToast("Please enter all fields to proceed further!")
+            } else {
+                ll_last_email_input.setBackgroundResource(R.drawable.v2_error_layout_bg)
+                et_email.setTextColor(resources.getColor(R.color.error_red))
+                tv_email_hint.visibility = View.VISIBLE
+                tv_email_hint.setText("Please enter Valid Email ID")
+            }
+        } else {
+            if (etFirstName.text.isEmpty()) {
+                ll_first_name_input.setBackgroundResource(R.drawable.v2_error_layout_bg)
+                tv_fname_hint.visibility = View.VISIBLE
+            }
+            if (et_last_name.text.isEmpty()) {
+                ll_last_name_input.setBackgroundResource(R.drawable.v2_error_layout_bg)
+                tv_lname_hint.visibility = View.VISIBLE
+
+            }
+            if (et_email.text.isEmpty()) {
+                ll_last_email_input.setBackgroundResource(R.drawable.v2_error_layout_bg)
+                tv_email_hint.visibility = View.VISIBLE
+                tv_email_hint.setText("Please enter Email ID")
+
+            }
+            if(salutation.isEmpty())
+            {
+                showToast("Please select Salutation")
+            }
+        }
     }
 
     // API call region ends
 
     // OnResponse Region starts
 
-    private fun onGenerateOTP(mApiResponse: ApiResponse) {
-        when (mApiResponse.status) {
-            ApiResponse.Status.LOADING -> {
-            }
-            ApiResponse.Status.SUCCESS -> {
-                val otpResponse: OTPResponse? = mApiResponse.data as OTPResponse?
-                if (otpResponse?.status!!)
-                    ll_otp_v2.visibility = View.VISIBLE
-                mobileNum = etMobileNumberV2.text.toString()
-
-                showToast(otpResponse.message.toString())
-
-            }
-            ApiResponse.Status.ERROR -> {
-                showToast(mApiResponse.error?.message.toString())
-            }
-            else -> {
-                showToast("Please enter correct value")
-            }
+    private fun onGenerateOTP(mApiResponse: ApiResponse) = when (mApiResponse.status) {
+        ApiResponse.Status.LOADING -> {
         }
+        ApiResponse.Status.SUCCESS -> {
+            val otpResponse: OTPResponse? = mApiResponse.data as OTPResponse?
+            if (otpResponse?.status!!) {
+                ll_otp_v2.visibility = View.VISIBLE
+                llTAndC.visibility = View.VISIBLE
+                mobileNum = etMobileNumberV2.text.toString()
+            }
+
+            enableTimer()
+           // showToast(otpResponse.message.toString())
+
+        }
+        ApiResponse.Status.ERROR -> {
+            showToast(mApiResponse.error?.message.toString())
+        }
+        else -> {
+            showToast("Please enter correct value")
+        }
+    }
+
+    private fun enableTimer() {
+        object : CountDownTimer(120000, 1000) {
+
+            override fun onTick(millisUntilFinished: Long) {
+                tvOTPTimerV2.text = "" + millisUntilFinished / 1000 + " Sec"
+            }
+
+            override fun onFinish() {
+                tvOTPTimerV2.setText("0 Sec")
+                showToast("Your OTP got expired!")
+            }
+        }.start()
+
     }
 
     private fun onValidateOTP(mApiResponse: ApiResponse) {
@@ -262,7 +340,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             ApiResponse.Status.SUCCESS -> {
                 val otpResponse: OTPResponse? = mApiResponse.data as OTPResponse?
                 if (otpResponse?.status!!) {
-                    Toast.makeText(activity, "OTP Validate", Toast.LENGTH_LONG).show()
+                    // Toast.makeText(activity, "OTP Validate", Toast.LENGTH_LONG).show()
                     basicDetails.CustomerMobile = etMobileNumberV2.text.toString()
                     displayNameLayout()
                 } else {
@@ -329,7 +407,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     validateLeadDataRes = validateLeadDataResponse!!
                     generateAlertDialog()
                 }
-                showToast(validateLeadDataResponse?.message.toString())
 
             }
             ApiResponse.Status.ERROR -> {
@@ -348,6 +425,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
             ApiResponse.Status.SUCCESS -> {
                 val resetJourneyRes: ResetCustomerJourneyResponse? = mAPIResponse.data as ResetCustomerJourneyResponse?
+
+                if (dialog.isShowing)
+                    dialog.dismiss()
+
                 showToast(resetJourneyRes?.message.toString())
 
             }
@@ -364,7 +445,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     private fun generateAlertDialog() {
 
-        val dialog = Dialog(requireContext())
+        dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.vtwo_layout_custom_dialog)
@@ -391,12 +472,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     private fun getCustomerRequest(): CustomerRequest {
         val resetJourney = ResetCustomerJourneyDataRequest(validateLeadDataRes.oldCustomerId)
-        return CustomerRequest(resetJourney, userId, userType)
+        return CustomerRequest(resetJourney, CommonStrings.DEALER_ID, CommonStrings.USER_TYPE)
     }
 
     private fun getValidateLeadReq(): ValidateLeadRequest {
         val validateLeadDataRequest = ValidateLeadDataRequest(mobileNum, make, model, variant)
-        return ValidateLeadRequest(validateLeadDataRequest, userId, userType)
+        return ValidateLeadRequest(validateLeadDataRequest, CommonStrings.DEALER_ID, CommonStrings.USER_TYPE)
         /*val validateLeadDataRequest= ValidateLeadDataRequest(etMobileNumberV2.text.toString(),addLeadRequest.Data?.vehicleDetails?.Make,addLeadRequest.Data?.vehicleDetails?.Model,addLeadRequest.Data?.vehicleDetails?.Variant)
         return ValidateLeadRequest(validateLeadDataRequest, addLeadRequest.UserId, addLeadRequest.UserType)*/
     }
@@ -406,6 +487,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     private fun displayNameLayout() {
         ll_otp_v2.visibility = View.GONE
+        llTAndC.visibility = View.GONE
+
         tv_mobile_num_hint.visibility = View.GONE
 
         tv_mobile_num_verified.visibility = View.VISIBLE
@@ -435,6 +518,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         if (index == position) {
                             item.selected = true
                             basicDetails.Salutation = item.value
+                            salutation= item.value.toString()
                         } else {
                             item.selected = false
                         }

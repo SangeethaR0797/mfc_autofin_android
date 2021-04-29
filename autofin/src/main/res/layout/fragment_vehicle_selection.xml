@@ -72,6 +72,20 @@
                     android:singleLine="true" />
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/tv_regno_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="7dp"
+                android:text="Please enter VehicleNumber"
+                android:textAppearance="@style/RobotoRegular"
+                android:textColor="@color/error_red"
+                android:textSize="@dimen/text_size_14sp"
+                android:textStyle="italic"
+                android:visibility="gone" />
+
+
             <Button
                 android:id="@+id/btnVehicleReg"
                 android:layout_width="wrap_content"
@@ -96,7 +110,7 @@
                 android:textColor="@color/vtwo_light_grey" />
 
             <utility.RobotoMedium
-                android:id="@+id/tvSearchCar"
+                android:id="@+id/tvSearchCarV2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

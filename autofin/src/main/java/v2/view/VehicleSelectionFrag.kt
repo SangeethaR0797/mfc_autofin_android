@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.lifecycle.ViewModelProvider
 import com.mfc.autofin.framework.R
+import kotlinx.android.synthetic.main.fragment_vehicle_selection.*
 import utility.CommonStrings
 import v2.model.dto.AddLeadRequest
 import utility.Global
@@ -47,7 +48,7 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
     private fun initViews(view: View?) {
         etVehRegNum = view?.findViewById(R.id.etVehRegNum)!!
         btnVehicleReg = view.findViewById(R.id.btnVehicleReg)
-        tvSearchCar = view.findViewById(R.id.tvSearchCar)
+        tvSearchCar = view.findViewById(R.id.tvSearchCarV2)
         ivBackToDashBoard = view.findViewById(R.id.ivBackToDashBoard)
         ivBackToDashBoard.setOnClickListener(this)
         tvSearchCar.setOnClickListener(this)
@@ -62,13 +63,16 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
                 }
                 R.id.btnVehicleReg -> {
                     if (etVehRegNum.text.isNotEmpty()) {
+                        etVehRegNum.setBackgroundResource(R.drawable.vtwo_input_bg)
+                        tv_regno_hint.visibility=View.GONE
                         regNoVal = etVehRegNum.text.toString()
                         checkRegNoAvailable()
                     } else {
-                        showToast("Please enter Vehicle Registration Number")
+                        etVehRegNum.setBackgroundResource(R.drawable.v2_error_layout_bg)
+                        tv_regno_hint.visibility=View.VISIBLE
                     }
                 }
-                R.id.tvSearchCar -> {
+                R.id.tvSearchCarV2 -> {
                     navigateVehBasicDetailsActivity(CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE)
                 }
 
@@ -81,7 +85,8 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
     private fun checkRegNoAvailable() {
         if (isValidVehicleRegNo(regNoVal)) {
 
-            showToast("Valid RegNo")
+            etVehRegNum.setBackgroundResource(R.drawable.vtwo_input_bg)
+            tv_regno_hint.visibility=View.GONE
 
             stockAPIViewModel!!.getStockDetails(getStockRequest(), Global.stock_details_base_url + CommonStrings.STOCK_DETAILS_URL_END)
             stockAPIViewModel!!.getStockDetailsLiveDataData()
@@ -91,15 +96,17 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
                         )
                     })
         } else {
-            showToast("Please enter valid Registration Number")
+            etVehRegNum.setBackgroundResource(R.drawable.v2_error_layout_bg)
+            tv_regno_hint.visibility=View.VISIBLE
+            tv_regno_hint.text="Please enter valid Registration Number"
         }
 
     }
 
     private fun getStockRequest(): StockDetailsReq {
         var stockDetailsReq = StockDetailsReq()
-        stockDetailsReq.UserId = "242"
-        stockDetailsReq.UserType = "Dealer"
+        stockDetailsReq.UserId = CommonStrings.DEALER_ID
+        stockDetailsReq.UserType = CommonStrings.USER_TYPE
         stockDetailsReq.RequestFrom = "Dealer"
         var vehicleNum = VehicleRegNum()
         vehicleNum.vehicleNumber = regNoVal

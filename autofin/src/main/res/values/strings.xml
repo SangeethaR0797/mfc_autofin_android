@@ -288,15 +288,16 @@
     <string name="vtwo_otp_hint">OTP Will be send to this Number</string>
     <string name="vtwo_mobile_num_hint">Mobile No</string>
     <string name="vtwo_country_code">+91</string>
-    <string name="otp_timer_hint">30Sec</string>
+    <string name="otp_timer_hint">0 Sec</string>
     <string name="vtwo_resend_otp">Resend OTP</string>
     <string name="vtwo_t_and_c_hint">I Agree to the terms and conditions and privacy policy</string>
     <string name="vtwo_mobile_num_already_reg_hint">00000 00000 no is already registered. Do you want to proceed the same?</string>
-    <string name="startNew">Start New</string>
-    <string name="vtwo_proceed">Proceed</string>
+    <string name="startNew">START NEW</string>
+    <string name="vtwo_proceed">PROCEED</string>
     <string name="enter_first_name_vtwo">Enter First Name</string>
     <string name="enter_last_name_vtwo">Enter Last Name</string>
     <string name="enter_email_vtwo">Enter Email</string>
     <string name="vtwo_mob_no_verified">Verified</string>
+    <string name="vtwo_invalid_OTP">Please enter valid OTP</string>
 
 </resources>

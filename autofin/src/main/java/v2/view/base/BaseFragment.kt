@@ -20,6 +20,8 @@ import v2.model.response.StockDetails
 import v2.view.AddOrUpdateVehicleDetailsMakeFragDirections
 import v2.view.VehicleSelectionFragDirections
 import v2.view.other_activity.VehBasicDetailsActivity
+import v2.view.utility_view.StockAPIFragmentArgs
+import v2.view.utility_view.StockAPIFragmentDirections
 import java.text.NumberFormat
 import java.util.*
 
@@ -106,20 +108,21 @@ public open class BaseFragment : Fragment() {
     }
 
     public fun navigateToAddOrUpdateVehicleDetails(addLeadRequest: AddLeadRequest) {
-        val directions = VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(addLeadRequest!!)
+        val directions= VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(addLeadRequest)
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }
     }
 
-
-    public fun navigateToMobileNumber() {
-        view?.let {
-            Navigation.findNavController(it).navigate(R.id.action_addOrUpdateVehicleDetailsMakeFrag_to_addLeadDetailsFrag)
-        }
-    }
     public fun navigateToAddLeadFragment(addLeadRequest: AddLeadRequest) {
         val directions = AddOrUpdateVehicleDetailsMakeFragDirections.actionAddOrUpdateVehicleDetailsMakeFragToAddLeadDetailsFrag(addLeadRequest!!)
+        view?.let {
+            Navigation.findNavController(it).navigate(directions)
+        }
+    }
+
+    public fun stockToAddLeadFragment(addLeadRequest: AddLeadRequest) {
+        val directions = StockAPIFragmentDirections.actionStockAPIFragmentToAddLeadDetailsFrag(addLeadRequest!!)
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }
