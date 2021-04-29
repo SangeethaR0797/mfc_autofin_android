@@ -41,6 +41,7 @@ import java.util.regex.Pattern
 import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.callBackInterface.itemClickCallBack
 import v2.view.utility_view.GridItemDecoration
+import java.lang.Exception
 import java.util.*
 
 
@@ -299,45 +300,50 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
 
             override fun afterTextChanged(s: Editable) {
-                if (timerNeftIncome != null) {
-                    timerNeftIncome!!.cancel();
+                try {
 
-                }
-                if (!unformatAmount(etNetIncome.text.toString()).equals(addEmploymentDetailsRequest.Data?.employmentDetails?.NetAnualIncome.toString()) || TextUtils.isEmpty(etNetIncome.text.toString())) {
-                    allowEdit = true
-                }
-                if (allowEdit == true) {
-                    timerNeftIncome = Timer()
-                    timerNeftIncome!!.schedule(object : TimerTask() {
-                        override fun run() {
 
-                            if (TextUtils.isEmpty(etNetIncome.text)) {
-                                //Set Null Income
-                                addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome = 0
-                            } else {
-                                //Set Income
-                                addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome = etNetIncome.text.toString().toInt()
+                    if (timerNeftIncome != null) {
+                        timerNeftIncome!!.cancel();
+
+                    }
+                    if (!unformatAmount(etNetIncome.text.toString()).equals(addEmploymentDetailsRequest.Data?.employmentDetails?.NetAnualIncome.toString()) || TextUtils.isEmpty(etNetIncome.text.toString())) {
+                        allowEdit = true
+                    }
+                    if (allowEdit == true) {
+                        timerNeftIncome = Timer()
+                        timerNeftIncome!!.schedule(object : TimerTask() {
+                            override fun run() {
+
+                                if (TextUtils.isEmpty(etNetIncome.text)) {
+                                    //Set Null Income
+                                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome = 0
+                                } else {
+                                    //Set Income
+                                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome = unformatAmount(etNetIncome.text.toString()).toInt()
+
+                                }
+                                allowEdit = false
+                                ThreadUtils.runOnUiThread(Runnable {
+
+                                    if (!TextUtils.isEmpty(etNetIncome.text.toString())) {
+                                        etNetIncome.setText(formatAmount(unformatAmount(etNetIncome.text.toString())))
+                                        tvNetIncomeInWords.text = (getAmountInWords(unformatAmount(etNetIncome.text.toString())))
+                                        etNetIncome.setSelection(etNetIncome.text.toString().length)
+                                    } else {
+                                        tvNetIncomeInWords.text = ""
+                                    }
+                                })
+
 
                             }
-                            allowEdit = false
-                            ThreadUtils.runOnUiThread(Runnable {
+                        }, 600)
+                    } else {
+                        tvNetIncomeInWords.setText("")
+                    }
+                } catch (e: Exception) {
 
-                                if (!TextUtils.isEmpty(etNetIncome.text.toString())) {
-                                    etNetIncome.setText(formatAmount(unformatAmount(etNetIncome.text.toString())))
-                                    tvNetIncomeInWords.text = (getAmountInWords(unformatAmount(etNetIncome.text.toString())))
-                                    etNetIncome.setSelection(etNetIncome.text.toString().length)
-                                } else {
-                                    tvNetIncomeInWords.text = ""
-                                }
-                            })
-
-
-                        }
-                    }, 600)
-                } else {
-                    tvNetIncomeInWords.setText("")
                 }
-
             }
         })
     }
@@ -358,43 +364,46 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
 
             override fun afterTextChanged(s: Editable) {
-                if (timerEMI != null) {
-                    timerEMI!!.cancel();
+                try {
+                    if (timerEMI != null) {
+                        timerEMI!!.cancel();
 
-                }
-                if (TextUtils.isEmpty(etEMI.text.toString())) {
-                    allowEdit = true
-                }
-                if (allowEdit == true) {
-                    timerEMI = Timer()
-                    timerEMI!!.schedule(object : TimerTask() {
-                        override fun run() {
+                    }
+                    if (TextUtils.isEmpty(etEMI.text.toString())) {
+                        allowEdit = true
+                    }
+                    if (allowEdit == true) {
+                        timerEMI = Timer()
+                        timerEMI!!.schedule(object : TimerTask() {
+                            override fun run() {
 
-                            if (TextUtils.isEmpty(etEMI.text)) {
-                                //Set Null Income
-                            } else {
-                                //Set Null Income
+                                if (TextUtils.isEmpty(etEMI.text)) {
+                                    //Set Null Income
+                                } else {
+                                    //Set Null Income
+
+                                }
+                                allowEdit = false
+                                ThreadUtils.runOnUiThread(Runnable {
+
+                                    if (!TextUtils.isEmpty(etEMI.text.toString())) {
+                                        etEMI.setText(formatAmount(unformatAmount(etEMI.text.toString())))
+                                        tvEMIInWords.text = (getAmountInWords(unformatAmount(etEMI.text.toString())))
+                                        etEMI.setSelection(etEMI.text.toString().length)
+                                    } else {
+                                        tvEMIInWords.text = ""
+                                    }
+                                })
+
 
                             }
-                            allowEdit = false
-                            ThreadUtils.runOnUiThread(Runnable {
+                        }, 600)
+                    } else {
+                        tvEMIInWords.setText("")
+                    }
+                } catch (e: Exception) {
 
-                                if (!TextUtils.isEmpty(etEMI.text.toString())) {
-                                    etEMI.setText(formatAmount(unformatAmount(etEMI.text.toString())))
-                                    tvEMIInWords.text = (getAmountInWords(unformatAmount(etEMI.text.toString())))
-                                    etEMI.setSelection(etEMI.text.toString().length)
-                                } else {
-                                    tvEMIInWords.text = ""
-                                }
-                            })
-
-
-                        }
-                    }, 600)
-                } else {
-                    tvEMIInWords.setText("")
                 }
-
             }
         })
     }
