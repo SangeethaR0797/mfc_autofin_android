@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.mfc.autofin.framework.R
+import kotlinx.android.synthetic.main.activity_basic_details.*
 import kotlinx.android.synthetic.main.v2_reg_name_email_layout.*
 import kotlinx.android.synthetic.main.vtwo_mobile_num_layout.*
 import utility.CommonStrings
@@ -927,7 +928,45 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             var birthDateValue: String? = null
             var employmentType: String? = null
             var bankName: String? = null
+
+
+
             if (customerDetailsResponse != null && customerDetailsResponse.data != null) {
+                //set Vehicle details
+                if (customerDetailsResponse!!.data!!.vehicleDetails != null) {
+                    addLeadRequest.Data!!.vehicleDetails!!.VehicleNumber = customerDetailsResponse!!.data!!.vehicleDetails!!.vehicleNumber
+                    addLeadRequest.Data!!.vehicleDetails!!.VehicleSellingPrice = customerDetailsResponse!!.data!!.vehicleDetails!!.vehicleSellingPrice!!.toInt().toString()
+                    addLeadRequest.Data!!.vehicleDetails!!.KMs = customerDetailsResponse!!.data!!.vehicleDetails!!.kMs
+                    addLeadRequest.Data!!.vehicleDetails!!.FuelType = customerDetailsResponse!!.data!!.vehicleDetails!!.fuelType
+                    addLeadRequest.Data!!.vehicleDetails!!.Ownership = customerDetailsResponse!!.data!!.vehicleDetails!!.ownership
+                }
+                //set basicDetails
+                if (customerDetailsResponse!!.data!!.basicDetails != null) {
+                    addLeadRequest.Data!!.basicDetails!!.FirstName = customerDetailsResponse!!.data!!.basicDetails!!.firstName
+                    addLeadRequest.Data!!.basicDetails!!.LastName = customerDetailsResponse!!.data!!.basicDetails!!.lastName
+                    addLeadRequest.Data!!.basicDetails!!.Email = customerDetailsResponse!!.data!!.basicDetails!!.email
+                    addLeadRequest.Data!!.basicDetails!!.Salutation = customerDetailsResponse!!.data!!.basicDetails!!.salutation
+
+                    etFirstName.setText(customerDetailsResponse!!.data!!.basicDetails!!.firstName)
+                    et_last_name.setText(customerDetailsResponse!!.data!!.basicDetails!!.lastName)
+                    et_email.setText(customerDetailsResponse!!.data!!.basicDetails!!.lastName)
+
+                    var salutation =(customerDetailsResponse!!.data!!.basicDetails!!.salutation)
+
+                    if (salutation != null) {
+                        salutationAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
+                            if (dataSelectionDTO.displayValue.toString().equals(salutation)) {
+                                dataSelectionDTO.selected = true
+                            } else {
+                                dataSelectionDTO.selected = false
+                            }
+                        }
+                        salutationAdapter.notifyDataSetChanged()
+
+                    }
+                }
+
+                //Set Birth Data
                 birthDateDisplayValue = stringToDateString(customerDetailsResponse.data!!.basicDetails!!.birthDate.toString().subSequence(0, 10) as String, DATE_FORMATE_YYYYMMDD, DATE_FORMATE_DDMMYYYY)
                 birthDateValue = stringToDateString(customerDetailsResponse.data!!.basicDetails!!.birthDate.toString().subSequence(0, 10) as String, DATE_FORMATE_YYYYMMDD, DATE_FORMATE_YYYYMMDD)
 
@@ -936,7 +975,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     birthDateValue = stringToDateString(customerDetailsResponse.data!!.equifaxFields!!.birthDate!![0], DATE_FORMATE_YYYYMMDD, DATE_FORMATE_YYYYMMDD)
 
                 }
-                //Set Birth Data
+
                 if (birthDateDisplayValue != null) {
                     llBirthDateSection.visibility = View.VISIBLE
                     etBirthDate.setText(birthDateDisplayValue)
