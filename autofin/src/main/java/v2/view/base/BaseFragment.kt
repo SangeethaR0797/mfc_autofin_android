@@ -19,10 +19,13 @@ import com.mfc.autofin.framework.R
 import v2.help.CurrencyData
 import v2.model.dto.AddLeadRequest
 import v2.model.response.StockDetails
+import v2.service.utility.ApiResponse
+import v2.service.utility.ErrorUtils
 import v2.view.AddOrUpdateVehicleDetailsMakeFragDirections
 import v2.view.VehicleSelectionFragDirections
 import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.other_activity.VehBasicDetailsActivity
+
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -39,8 +42,8 @@ public open class BaseFragment : Fragment() {
 
     //region DatePicker
     public fun stringToDateString(value: String, sourceDateFormat: String, targetDateFormat: String): String {
-        val date1 = SimpleDateFormat(sourceDateFormat).parse(sourceDateFormat)
-        return SimpleDateFormat(targetDateFormat).format(cal.getTime())
+        val date = SimpleDateFormat(sourceDateFormat).parse(value)
+        return SimpleDateFormat(targetDateFormat).format(date)
     }
 
     val dateSetListener = object : DatePickerDialog.OnDateSetListener {
@@ -240,4 +243,25 @@ public open class BaseFragment : Fragment() {
         }
     }
 //endregion keyboard function
+
+    open fun parseCommonResponse(apiResponseOtp: ApiResponse) {
+        when (apiResponseOtp.status) {
+            ApiResponse.Status.LOADING -> {
+            }
+            ApiResponse.Status.SUCCESS -> {
+            }
+            ApiResponse.Status.ERROR -> {
+                val apiError = ErrorUtils.parseThrowable(apiResponseOtp.error)
+                if (apiError.getCode() == 0) {
+                } else {
+                    if (!TextUtils.isEmpty(apiError.getMessage())) {
+                        showToast(apiError.getMessage()!!)
+                    }
+                }
+            }
+            else -> {
+            }
+        }
+    }
+
 }

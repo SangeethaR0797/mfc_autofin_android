@@ -814,6 +814,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     private fun onAddLead(mApiResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
             }
@@ -889,6 +890,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     private fun onCustomerDetails(mApiResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
             }
@@ -917,8 +919,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             var birthDateDisplayValue: String? = null
             var birthDateValue: String? = null
             if (customerDetailsResponse != null && customerDetailsResponse.data != null) {
-                birthDateDisplayValue = stringToDateString(customerDetailsResponse.data!!.basicDetails!!.birthDate.toString().subSequence(0, 9) as String, DATE_FORMATE_YYYYMMDD, DATE_FORMATE_DDMMYYYY)
-                birthDateValue = stringToDateString(customerDetailsResponse.data!!.basicDetails!!.birthDate.toString().subSequence(0, 9) as String, DATE_FORMATE_YYYYMMDD, DATE_FORMATE_YYYYMMDD)
+                birthDateDisplayValue = stringToDateString(customerDetailsResponse.data!!.basicDetails!!.birthDate.toString().subSequence(0, 10) as String, DATE_FORMATE_YYYYMMDD, DATE_FORMATE_DDMMYYYY)
+                birthDateValue = stringToDateString(customerDetailsResponse.data!!.basicDetails!!.birthDate.toString().subSequence(0, 10) as String, DATE_FORMATE_YYYYMMDD, DATE_FORMATE_YYYYMMDD)
 
                 if (birthDateDisplayValue == null) {
                     birthDateDisplayValue = stringToDateString(customerDetailsResponse.data!!.equifaxFields!!.birthDate!![0], DATE_FORMATE_YYYYMMDD, DATE_FORMATE_DDMMYYYY)
