@@ -37,6 +37,7 @@ import v2.view.base.BaseFragment
 import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.callBackInterface.itemClickCallBack
 import v2.view.utility_view.GridItemDecoration
+import java.lang.NumberFormatException
 import java.util.*
 
 
@@ -323,7 +324,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                     addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome = 0
                                 } else {
                                     //Set Income
-                                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome = unformatAmount(etNetIncome.text.toString()).toInt()
+                                    try {
+                                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome = unformatAmount(etNetIncome.text.toString()).toInt()
+                                    } catch (e: Exception) {
+
+                                    } catch (e: NumberFormatException) {
+
+                                    }
 
                                 }
                                 allowEdit = false
@@ -918,6 +925,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         try {
             var birthDateDisplayValue: String? = null
             var birthDateValue: String? = null
+            var employmentType: String? = null
+            var bankName: String? = null
             if (customerDetailsResponse != null && customerDetailsResponse.data != null) {
                 birthDateDisplayValue = stringToDateString(customerDetailsResponse.data!!.basicDetails!!.birthDate.toString().subSequence(0, 10) as String, DATE_FORMATE_YYYYMMDD, DATE_FORMATE_DDMMYYYY)
                 birthDateValue = stringToDateString(customerDetailsResponse.data!!.basicDetails!!.birthDate.toString().subSequence(0, 10) as String, DATE_FORMATE_YYYYMMDD, DATE_FORMATE_YYYYMMDD)
@@ -932,6 +941,68 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     llBirthDateSection.visibility = View.VISIBLE
                     etBirthDate.setText(birthDateDisplayValue)
                     addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate = birthDateValue
+                }
+
+                //Set Employment Details
+                if (customerDetailsResponse.data!!.employmentDetails != null) {
+                    llEmploymentSection.visibility = View.VISIBLE
+                    employmentDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
+                        if (dataSelectionDTO.displayValue.toString().equals(customerDetailsResponse.data!!.employmentDetails!!.employmentType)) {
+                            dataSelectionDTO.selected = true
+                            employmentType = customerDetailsResponse.data!!.employmentDetails!!.employmentType
+                            addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType = dataSelectionDTO.value
+                        } else {
+                            dataSelectionDTO.selected = false
+                        }
+                    }
+                    employmentDetailsAdapter.notifyDataSetChanged()
+
+                    //set Employment other details
+
+                    if (employmentType.equals("Self Employed")) {
+                        llWorkExpriance.visibility = View.GONE
+                        etWorkExpriance.setText("")
+                        llAccoutDetailsSection.visibility = View.VISIBLE
+                        tvBankTitle.setText(getString(R.string.primary_bank_account))
+                        bankName = customerDetailsResponse.data!!.employmentDetails!!.primaryAccount
+                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount = bankName
+
+                    } else {
+                        bankName = customerDetailsResponse.data!!.employmentDetails!!.salaryAccount
+                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount = bankName
+                        llWorkExpriance.visibility = View.VISIBLE
+                        tvBankTitle.setText(getString(R.string.salary_bank_account))
+                        if (customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience != null) {
+                            etWorkExpriance.setText(customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience!!)
+                        }
+                        //More than one year in same org
+                        cbMoreThanOneYearInCurrentOrganization.isChecked = customerDetailsResponse.data!!.employmentDetails!!.currentCompanyExpMoreThanOne!!
+                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne = customerDetailsResponse.data!!.employmentDetails!!.currentCompanyExpMoreThanOne!!
+
+
+                    }
+                    //set Bank Details
+                    if (bankName != null) {
+                        bankListDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
+                            if (dataSelectionDTO.displayValue.toString().equals(bankName)) {
+                                dataSelectionDTO.selected = true
+                            } else {
+                                dataSelectionDTO.selected = false
+                            }
+                        }
+                        bankListDetailsAdapter.notifyDataSetChanged()
+                        llAccoutDetailsSection.visibility = View.VISIBLE
+                    }
+
+
+                    //set net income
+                    if (customerDetailsResponse.data!!.employmentDetails!!.netAnualIncome != null) {
+                        llNetIncomeSection.visibility = View.VISIBLE
+                        etNetIncome.setText(customerDetailsResponse.data!!.employmentDetails!!.netAnualIncome!!.toInt().toString())
+                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome = customerDetailsResponse.data!!.employmentDetails!!.netAnualIncome!!.toInt()
+                    }
+
+
                 }
             }
         } catch (e: Exception) {
