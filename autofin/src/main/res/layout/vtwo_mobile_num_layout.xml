@@ -24,16 +24,15 @@
         android:layout_marginTop="@dimen/text_size_16sp"
         android:layout_marginBottom="@dimen/text_size_16sp"
         android:background="@drawable/vtwo_input_bg"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/text_size_14dp"
-        android:paddingTop="@dimen/text_size_14dp"
-        android:paddingRight="@dimen/text_size_14dp"
-        android:paddingBottom="@dimen/text_size_14dp">
+        android:orientation="horizontal">
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_size_14dp"
+            android:layout_marginTop="@dimen/text_size10dp"
+            android:layout_marginBottom="@dimen/text_size10dp"
             android:text="@string/vtwo_country_code"
             android:textAppearance="@style/RobotoRegular"
             android:textColor="@color/vtwo_black"
@@ -43,15 +42,19 @@
             android:layout_width="@dimen/view_height_1dp"
             android:layout_height="@dimen/text_size_24dp"
             android:layout_marginLeft="@dimen/text_size_14dp"
+            android:layout_marginTop="@dimen/text_size10dp"
+            android:layout_marginBottom="@dimen/text_size10dp"
             android:background="@color/vtwo_grey" />
 
         <EditText
             android:id="@+id/etMobileNumberV2"
-
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/text_size_14dp"
             android:layout_marginLeft="@dimen/text_size_14dp"
+            android:layout_marginTop="@dimen/text_size10dp"
+            android:layout_marginRight="@dimen/text_size_14dp"
+            android:layout_marginBottom="@dimen/text_size10dp"
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:hint="@string/vtwo_mobile_num_hint"
@@ -65,13 +68,16 @@
         <TextView
             android:id="@+id/tv_mobile_num_verified"
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_size10dp"
+            android:layout_marginRight="@dimen/text_size_22dp"
+            android:layout_marginBottom="@dimen/text_size10dp"
             android:text="@string/vtwo_mob_no_verified"
             android:textAppearance="@style/RobotoMedium"
             android:textColor="@color/v2_green"
             android:textSize="@dimen/text_size_14sp"
-            android:visibility="gone"
-            android:layout_marginRight="@dimen/text_size_22dp"/>
+            android:visibility="gone" />
 
 
     </LinearLayout>
@@ -145,6 +151,7 @@
                 android:textSize="@dimen/text_size_16sp" />
 
         </LinearLayout>
+
         <TextView
             android:id="@+id/tvOTPEHint"
             android:layout_width="wrap_content"
@@ -157,7 +164,8 @@
             android:textColor="@color/error_red"
             android:textSize="@dimen/text_size_14sp"
             android:textStyle="italic"
-            android:visibility="gone"/>
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/tvResendOTPV2"
             android:layout_width="wrap_content"
@@ -175,20 +183,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/text_size_5dp"
-        android:layout_marginRight="@dimen/text_size_28dp"
         android:layout_marginTop="43dp"
-        android:visibility="gone"
-        android:layout_marginBottom="@dimen/text_size_15dp">
+        android:layout_marginRight="@dimen/text_size_28dp"
+        android:layout_marginBottom="@dimen/text_size_15dp"
+        android:visibility="gone">
+
         <CheckBox
             android:id="@+id/cbTermsAndConditions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/vtwo_black"
+            android:gravity="top"
             android:text="@string/vtwo_t_and_c_hint"
-            android:textSize="@dimen/text_size_16sp"
             android:textAppearance="@style/RobotoMedium"
             android:textColor="@color/vtwo_black"
-            android:buttonTint="@color/vtwo_black"
-            android:gravity="top" />
+            android:textSize="@dimen/text_size_16sp" />
     </LinearLayout>
 
 </LinearLayout>
