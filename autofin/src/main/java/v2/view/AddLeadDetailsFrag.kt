@@ -68,7 +68,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     var mobileNum: String = ""
     var userId: String = ""
     var userType: String = ""
-    var salutation:String=""
+    var salutation: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -144,7 +144,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         btnMobileNum = view.findViewById(R.id.btnMobileNum)
 
         ll_otp_v2 = view.findViewById(R.id.ll_otp_v2)
-        ll_otp_v2.visibility=View.GONE
+        ll_otp_v2.visibility = View.GONE
         llTAndC = view.findViewById(R.id.llTAndC)
 
         rv_salutation = view.findViewById(R.id.rv_salutation)
@@ -261,8 +261,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 tv_email_hint.visibility = View.GONE
                 basicDetails.Email = et_email.text.toString()
                 addLeadRequest.Data?.basicDetails = basicDetails
-                addLeadRequest.UserType=CommonStrings.USER_TYPE
-                addLeadRequest.UserId=CommonStrings.DEALER_ID
+                addLeadRequest.UserType = CommonStrings.USER_TYPE
+                addLeadRequest.UserId = CommonStrings.DEALER_ID
                 transactionViewModel.addLead(addLeadRequest, Global.customerAPI_BaseURL + CommonStrings.ADD_LEAD_URL_END)
 
             } else {
@@ -287,8 +287,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 tv_email_hint.setText("Please enter Email ID")
 
             }
-            if(salutation.isEmpty())
-            {
+            if (salutation.isEmpty()) {
                 showToast("Please select Salutation")
             }
         }
@@ -310,7 +309,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
 
             enableTimer()
-           // showToast(otpResponse.message.toString())
+            // showToast(otpResponse.message.toString())
 
         }
         ApiResponse.Status.ERROR -> {
@@ -465,7 +464,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         btnNewFlow.setOnClickListener { dialog.dismiss() }
         btnContinueWithOldFlow.setOnClickListener { resetJourney() }
-
+        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent);
         dialog.show()
 
     }
@@ -522,7 +521,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         if (index == position) {
                             item.selected = true
                             basicDetails.Salutation = item.value
-                            salutation= item.value.toString()
+                            salutation = item.value.toString()
                         } else {
                             item.selected = false
                         }
