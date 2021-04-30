@@ -42,6 +42,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     lateinit var validateLeadDataRes: ValidateLeadDataResponse
     lateinit var etMobileNumberV2: EditText
+    lateinit var ivBackToVehDetails: ImageView
     lateinit var etOTPV2: EditText
     lateinit var llOTPNumInput: LinearLayout
     lateinit var cbTermsAndConditions: CheckBox
@@ -132,6 +133,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     private fun initViews(view: View?) {
+        ivBackToVehDetails = view?.findViewById(R.id.ivBackToVehDetails)!!
         etMobileNumberV2 = view?.findViewById(R.id.etMobileNumberV2)!!
 
         etOTPV2 = view.findViewById(R.id.etOTPV2)!!
@@ -158,12 +160,16 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         tvResendOTPV2.setOnClickListener(this)
         btnMobileNum.setOnClickListener(this)
+        ivBackToVehDetails.setOnClickListener(this)
 
     }
 
     override fun onClick(v: View?) {
 
         when (v?.id) {
+            R.id.ivBackToVehDetails -> {
+                activity?.onBackPressed()
+            }
             R.id.btnMobileNum -> {
                 when {
                     ll_otp_v2.visibility == View.GONE && llNameAndEmailV2.visibility == View.GONE -> {
