@@ -170,6 +170,12 @@ public open class BaseFragment : Fragment() {
         startActivityForResult(carBasicDetailsActivity, requestCode)
     }
 
+    public fun navigateMasterDataSelectionActivity(requestCode: Int, dataType: String) {
+        val activity = Intent(activity, MasterDataSelectionActivity::class.java)
+        activity.putExtra(CommonStrings.SELECTED_DATA_TYPE, dataType)
+        startActivityForResult(activity, requestCode)
+    }
+
     public fun navigateToAddOrUpdateVehicleDetails(addLeadRequest: AddLeadRequest) {
         val directions = VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(addLeadRequest!!)
         view?.let {

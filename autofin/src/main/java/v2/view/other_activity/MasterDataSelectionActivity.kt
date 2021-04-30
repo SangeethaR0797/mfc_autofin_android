@@ -17,6 +17,7 @@ import utility.CommonStrings
 import utility.Global
 
 import v2.model.dto.AddLeadRequest
+import v2.model.dto.DataSelectionDTO
 
 import v2.model.request.Get_IBB_MasterDetailsRequest
 import v2.model.request.add_lead.AddLeadData
@@ -24,8 +25,9 @@ import v2.model.request.add_lead.VehicleDetails
 import v2.model.response.Get_IBB_MasterDetailsResponse
 import v2.model_view.IBB.IBB_MasterViewModel
 import v2.service.utility.ApiResponse
-import v2.view.adapter.StringDataRecyclerViewAdapter
+import v2.view.adapter.MasterDataRecyclerViewAdapter
 import v2.view.callBackInterface.itemClickCallBack
+import java.util.ArrayList
 
 
 class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack {
@@ -37,10 +39,12 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack {
     lateinit var etSearch: EditText
     lateinit var llSearch: LinearLayout
     lateinit var rvResult: RecyclerView
-    var reviewAdapter: StringDataRecyclerViewAdapter? = null
+    var reviewAdapter: MasterDataRecyclerViewAdapter? = null
+    var SELECTED_DATA_TYPE_CALL: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        SELECTED_DATA_TYPE_CALL = intent.getStringExtra(CommonStrings.SELECTED_DATA_TYPE);
         setContentView(R.layout.v2_activity_basic_data_selection)
         ivBack = findViewById(R.id.iv_back)
         tvSelectedText = findViewById(R.id.tv_selected_text)
@@ -90,8 +94,16 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack {
                             mApiResponse!!
                     )
                 })
-
-        callYearApiData()
+        if (!TextUtils.isEmpty(SELECTED_DATA_TYPE_CALL)) {
+            if (SELECTED_DATA_TYPE_CALL.equals(CommonStrings.YEAR)) {
+                callYearApiData()
+            } else if (SELECTED_DATA_TYPE_CALL.equals(CommonStrings.YEAR)) {
+                callYearApiData()
+            }
+        } else {
+            Toast.makeText(baseContext, "Invalid data type", Toast.LENGTH_LONG).show()
+            finish()
+        }
     }
 
     override fun onBackPressed() {
@@ -131,8 +143,15 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack {
                 var dataValue: List<String> = listOf()
 
                 dataValue = masterResponse!!.year
+                val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
 
-                reviewAdapter = StringDataRecyclerViewAdapter(dataValue, this@MasterDataSelectionActivity)
+                dataValue.forEachIndexed { index, s ->
+                    list.add(DataSelectionDTO(s, null, s, false, null))
+
+                }
+
+
+                reviewAdapter = MasterDataRecyclerViewAdapter(list, this@MasterDataSelectionActivity)
                 val layoutManager = LinearLayoutManager(this)
                 rvResult.setLayoutManager(layoutManager)
                 rvResult.setAdapter(reviewAdapter)
@@ -144,9 +163,10 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack {
     }
 
     override fun itemClick(item: Any?, position: Int) {
-        var value: String = item as String
+        var value: DataSelectionDTO = item as DataSelectionDTO
         val intent = Intent()
-        intent.putExtra(CommonStrings.SELECTED_DATA, vehicleAddUpdateDTO)
+        intent.putExtra(CommonStrings.SELECTED_DATA, value)
+        intent.putExtra(CommonStrings.SELECTED_DATA_TYPE, SELECTED_DATA_TYPE_CALL)
         setResult(CommonStrings.RESULT_CODE, intent)
         finish()
     }

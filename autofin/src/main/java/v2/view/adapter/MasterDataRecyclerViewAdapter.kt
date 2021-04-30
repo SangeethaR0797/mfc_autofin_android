@@ -11,14 +11,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
 import controller.ReviewAdapter
 import model.custom_model.ReviewData
+import v2.model.dto.DataSelectionDTO
 import v2.view.callBackInterface.itemClickCallBack
 
-class MasterDataRecyclerViewAdapter(var dataListValue: List<String>?, itemClick: itemClickCallBack?) : RecyclerView.Adapter<MasterDataRecyclerViewAdapter.MyViewHolder>(), Filterable {
+class MasterDataRecyclerViewAdapter(var dataListValue: List<DataSelectionDTO>?, itemClick: itemClickCallBack?) : RecyclerView.Adapter<MasterDataRecyclerViewAdapter.MyViewHolder>(), Filterable {
 
-    public var dataListFilter: List<String>?
+    public var dataListFilter: List<DataSelectionDTO>?
     private var itemCallBack: itemClickCallBack = itemClick!!
+
     init {
-        dataListFilter = dataListValue as List<String>
+        dataListFilter = dataListValue as List<DataSelectionDTO>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -29,7 +31,7 @@ class MasterDataRecyclerViewAdapter(var dataListValue: List<String>?, itemClick:
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.tvItem.text = dataListFilter!!.get(position).toString()
+        holder.tvItem.text = dataListFilter!!.get(position).displayValue
         holder.tvItem.setOnClickListener(View.OnClickListener {
             itemCallBack.itemClick(dataListFilter!!.get(position), position)
         })
@@ -53,11 +55,11 @@ class MasterDataRecyclerViewAdapter(var dataListValue: List<String>?, itemClick:
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charSearch = constraint.toString()
                 if (charSearch.isEmpty()) {
-                    dataListFilter = dataListValue as ArrayList<String>
+                    dataListFilter = dataListValue as ArrayList<DataSelectionDTO>
                 } else {
-                    val resultList = ArrayList<String>()
+                    val resultList = ArrayList<DataSelectionDTO>()
                     for (row in dataListValue!!) {
-                        if (row.toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        if (row.displayValue!!.toLowerCase().contains(constraint.toString().toLowerCase())) {
                             resultList.add(row)
                         }
                     }
@@ -69,7 +71,7 @@ class MasterDataRecyclerViewAdapter(var dataListValue: List<String>?, itemClick:
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                dataListFilter = results?.values as ArrayList<String>
+                dataListFilter = results?.values as ArrayList<DataSelectionDTO>
                 notifyDataSetChanged()
             }
         }
