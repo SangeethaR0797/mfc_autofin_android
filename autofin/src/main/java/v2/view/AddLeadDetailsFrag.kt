@@ -71,7 +71,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var salutationAdapter: DataRecyclerViewAdapter
     lateinit var llNameAndEmailV2: LinearLayout
     lateinit var etFirstName: EditText
-    lateinit var dialog: Dialog
+    lateinit var dialogConfilctForAddLead: Dialog
     lateinit var timer: CountDownTimer
 
     var make: String = ""
@@ -140,6 +140,19 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                             mApiResponse!!
                     )
                 })
+        masterViewModel.getEmploymentTypeLiveData()
+                .observe(this, { mApiResponse: ApiResponse? ->
+                    onEmploymentTypeListDetails(
+                            mApiResponse!!
+                    )
+                })
+
+        masterViewModel.getBankListLiveData()
+                .observe(this, { mApiResponse: ApiResponse? ->
+                    onBankList(
+                            mApiResponse!!
+                    )
+                })
 
         transactionViewModel.getGenerateOTPLiveData()
                 .observe(requireActivity(), { mApiResponse: ApiResponse? ->
@@ -164,6 +177,16 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         transactionViewModel.getValidateLeadLiveData().observe(requireActivity(), { mApiResponse: ApiResponse? ->
             onValidateLead(
+                    mApiResponse!!
+            )
+        })
+        transactionViewModel.getAddEmploymentDetailsLiveData().observe(requireActivity(), { mApiResponse: ApiResponse? ->
+            onAddEmploymentDetails(
+                    mApiResponse!!
+            )
+        })
+        transactionViewModel.getCustomerDetailsLiveData().observe(requireActivity(), { mApiResponse: ApiResponse? ->
+            onCustomerDetails(
                     mApiResponse!!
             )
         })
@@ -259,16 +282,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         tvEMIErrorMessage.visibility = View.GONE
 
-        masterViewModel = ViewModelProvider(this).get(
-                MasterViewModel::class.java
-        )
+
 
         tvResendOTPV2.setOnClickListener(this)
         btnMobileNum.setOnClickListener(this)
         llBirthDate.setOnClickListener(this)
         etBirthDate.setOnClickListener(this)
-        setEploymentDetailsAdapter()
-        setBankDetailsAdapter()
+
 
         //Hide All Section
         llNameAndEmailV2.visibility = View.GONE
@@ -282,12 +302,16 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         setCheckBoxEvent()
         setTextChangeOfNetIncome()
         setTextChangeOfEMI()
+
+        setSalutaionAdapterData();
+        setEploymentDetailsAdapter()
+        setBankDetailsAdapter()
         setEMIDetailsAdapter()
 
     }
 
     fun callCustomerDetailsApi(customerId: Int) {
-        caseId=customerId.toString()
+        caseId = customerId.toString()
         addEmploymentDetailsRequest = createAddEmploymentDetailsRequest(customerId)
         transactionViewModel.getCustomerDetails(createCustomerDetailsRequest(customerId), Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL)
 
@@ -457,6 +481,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     //endregion setTextChangeEvent
+    fun setSalutaionAdapterData() {
+        masterViewModel!!.getSalutations(Global.customerDetails_BaseURL + CommonStrings.SALUTATION_END_POINT)
+    }
+
     private fun setEMIDetailsAdapter() {
         val layoutManagerStaggeredGridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
@@ -537,8 +565,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                             showToast("Please check Terms and Condition")
                     }
                     TextUtils.isEmpty(caseId) && llNameAndEmailV2.visibility == View.VISIBLE -> {
-
-                    llNameAndEmailV2.visibility == View.VISIBLE -> {
                         addLead()
                     }
 
@@ -602,20 +628,19 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     }
 
-    }
 
-        private fun openDatePicker() {
-            callDatePickerDialog(object : DatePickerCallBack {
-                override fun dateSelected(dateDisplayValue: String, dateValue: String) {
-                    addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate = dateValue
-                    etBirthDate.setText(dateDisplayValue)
-                    tvBirthErrorMessage.visibility = View.GONE
-                    llBirthDate.setBackgroundResource(R.drawable.vtwo_input_bg)
-                    etBirthDate.setTextColor(resources.getColor(R.color.vtwo_black))
-                    llEmploymentSection.visibility = View.VISIBLE
-                }
-            })
-        }
+    private fun openDatePicker() {
+        callDatePickerDialog(object : DatePickerCallBack {
+            override fun dateSelected(dateDisplayValue: String, dateValue: String) {
+                addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate = dateValue
+                etBirthDate.setText(dateDisplayValue)
+                tvBirthErrorMessage.visibility = View.GONE
+                llBirthDate.setBackgroundResource(R.drawable.vtwo_input_bg)
+                etBirthDate.setTextColor(resources.getColor(R.color.vtwo_black))
+                llEmploymentSection.visibility = View.VISIBLE
+            }
+        })
+    }
 
     private fun sendOTP() {
         if (etMobileNumberV2.text.length == 10) {
@@ -646,13 +671,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             transactionViewModel!!.validateOTP(getOtpRequest(etOTPV2.text.toString(), etMobileNumberV2.text.toString()), Global.customerAPI_BaseURL + CommonStrings.VALIDATE_OTP_URL_END)
             tvOTPEHint.visibility = View.GONE
             llOTPNumInput.setBackgroundResource(R.drawable.vtwo_input_bg)
-            transactionViewModel!!.getValidateOTPLiveData()
-                    .observe(requireActivity(), { mApiResponse: ApiResponse? ->
-                        onValidateOTP(
-                                mApiResponse!!
-                        )
-                    })
-            transactionViewModel!!.validateOTP(getOtpRequest(etOTPV2.text.toString(), etMobileNumberV2.text.toString()), Global.customerAPI_BaseURL + CommonStrings.VALIDATE_OTP_URL_END)
 
 
         } else {
@@ -781,7 +799,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     // Toast.makeText(activity, "OTP Validate", Toast.LENGTH_LONG).show()
                     basicDetails.CustomerMobile = etMobileNumberV2.text.toString()
                     displayNameLayout()
-                    callCustomerDetailsApi(1556)
+
                     checkValidLead()
                 } else {
                     Toast.makeText(activity, "invalid Validate", Toast.LENGTH_LONG).show()
@@ -794,13 +812,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     //endregion OnResponse Region starts
-    private fun onEmploymentDetails(mApiResponse: ApiResponse) {
+    private fun onEmploymentTypeListDetails(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
             }
             ApiResponse.Status.SUCCESS -> {
                 val masterResponse: MasterResponse? = mApiResponse.data as MasterResponse?
-                setEmploymentDetails(masterResponse!!.data.types)
+                setEmploymentTypeListAdapterDetails(masterResponse!!.data.types)
 
             }
             ApiResponse.Status.ERROR -> {
@@ -809,7 +827,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         }
     }
 
-    private fun setEmploymentDetails(types: List<Types>) {
+    private fun setEmploymentTypeListAdapterDetails(types: List<Types>) {
         val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
 
         types.forEachIndexed { index, types ->
@@ -937,8 +955,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     llBirthDateSection.visibility = View.VISIBLE
                     //Create Request of Add Employment Details
                     addEmploymentDetailsRequest = createAddEmploymentDetailsRequest(addLeadResponse.mData!!)
-
-                    transactionViewModel.getCustomerDetails(createCustomerDetailsRequest(addLeadResponse.mData!!), Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL)
+                    callCustomerDetailsApi(addLeadResponse.mData!!)
                 }
                 showToast(addLeadResponse?.message.toString())
 
@@ -989,8 +1006,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             ApiResponse.Status.SUCCESS -> {
                 val resetJourneyRes: ResetCustomerJourneyResponse? = mAPIResponse.data as ResetCustomerJourneyResponse?
 
-                if (dialog.isShowing)
-                    dialog.dismiss()
+                if (dialogConfilctForAddLead.isShowing)
+                    dialogConfilctForAddLead.dismiss()
 
                 showToast(resetJourneyRes?.message.toString())
 
@@ -1008,31 +1025,31 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     private fun generateAlertDialog() {
 
-        dialog = Dialog(requireContext())
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setCanceledOnTouchOutside(false)
-        dialog.setContentView(R.layout.vtwo_layout_custom_dialog)
-        val ivCloseDialog = dialog.findViewById(R.id.ivCloseDialogV2) as ImageView
-        val tvAlertDialogText = dialog.findViewById(R.id.tvAlertDialogText) as TextView
+        dialogConfilctForAddLead = Dialog(requireContext())
+        dialogConfilctForAddLead.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialogConfilctForAddLead.setCancelable(false)
+        dialogConfilctForAddLead.setCanceledOnTouchOutside(false)
+        dialogConfilctForAddLead.setContentView(R.layout.vtwo_layout_custom_dialog)
+        val ivCloseDialog = dialogConfilctForAddLead.findViewById(R.id.ivCloseDialogV2) as ImageView
+        val tvAlertDialogText = dialogConfilctForAddLead.findViewById(R.id.tvAlertDialogText) as TextView
         tvAlertDialogText.setText(validateLeadDataRes.message)
-        val btnNewFlow = dialog.findViewById(R.id.btnStartNewFlowV2) as Button
-        val btnContinueWithOldFlow = dialog.findViewById(R.id.btnExistingFlowV2) as Button
+        val btnNewFlow = dialogConfilctForAddLead.findViewById(R.id.btnStartNewFlowV2) as Button
+        val btnContinueWithOldFlow = dialogConfilctForAddLead.findViewById(R.id.btnExistingFlowV2) as Button
 
         ivCloseDialog.setOnClickListener {
-            dialog.dismiss()
+            dialogConfilctForAddLead.dismiss()
         }
 
         btnNewFlow.setOnClickListener {
             resetJourney()
-            dialog.dismiss()
+            dialogConfilctForAddLead.dismiss()
         }
         btnContinueWithOldFlow.setOnClickListener {
-            showToast("Start with old lead application is in-progress.")
-            dialog.dismiss()
+            callCustomerDetailsApi(validateLeadDataRes.oldCustomerId!!.toInt())
+            dialogConfilctForAddLead.dismiss()
         }
-        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent);
-        dialog.show()
+        dialogConfilctForAddLead.window!!.setBackgroundDrawableResource(android.R.color.transparent);
+        dialogConfilctForAddLead.show()
 
     }
 
@@ -1106,6 +1123,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             ApiResponse.Status.LOADING -> {
             }
             ApiResponse.Status.SUCCESS -> {
+                if (dialogConfilctForAddLead.isShowing)
+                    dialogConfilctForAddLead.dismiss()
                 val customerDetailsResponse: CustomerDetailsResponse? = mApiResponse.data as CustomerDetailsResponse?
                 if (customerDetailsResponse?.data != null) {
                     preFilledData(customerDetailsResponse)
@@ -1268,7 +1287,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         llNameAndEmailV2.visibility = View.VISIBLE
 
-        masterViewModel!!.getSalutations(Global.customerDetails_BaseURL + CommonStrings.SALUTATION_END_POINT)
 
     }
 
