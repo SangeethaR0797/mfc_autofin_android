@@ -301,16 +301,19 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         ApiResponse.Status.LOADING -> {
         }
         ApiResponse.Status.SUCCESS -> {
-            val otpResponse: OTPResponse? = mApiResponse.data as OTPResponse?
-            if (otpResponse?.status!!) {
-                ll_otp_v2.visibility = View.VISIBLE
-                llTAndC.visibility = View.VISIBLE
-                mobileNum = etMobileNumberV2.text.toString()
+            try {
+                val otpResponse: OTPResponse? = mApiResponse.data as OTPResponse?
+                if (otpResponse?.status!!) {
+                    ll_otp_v2.visibility = View.VISIBLE
+                    llTAndC.visibility = View.VISIBLE
+                    mobileNum = etMobileNumberV2.text.toString()
+                }
+
+                enableTimer()
+                // showToast(otpResponse.message.toString())
+            } catch (e: Exception) {
+
             }
-
-            enableTimer()
-            // showToast(otpResponse.message.toString())
-
         }
         ApiResponse.Status.ERROR -> {
             showToast(mApiResponse.error?.message.toString())
@@ -451,6 +454,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
         dialog.setContentView(R.layout.vtwo_layout_custom_dialog)
         val ivCloseDialog = dialog.findViewById(R.id.ivCloseDialogV2) as ImageView
         val tvAlertDialogText = dialog.findViewById(R.id.tvAlertDialogText) as TextView
@@ -462,8 +466,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             dialog.dismiss()
         }
 
-        btnNewFlow.setOnClickListener { dialog.dismiss() }
-        btnContinueWithOldFlow.setOnClickListener { resetJourney() }
+        btnNewFlow.setOnClickListener {
+            resetJourney()
+            dialog.dismiss()
+        }
+        btnContinueWithOldFlow.setOnClickListener {
+            showToast("Start with old lead application is in-progress.")
+            dialog.dismiss()
+        }
         dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent);
         dialog.show()
 
