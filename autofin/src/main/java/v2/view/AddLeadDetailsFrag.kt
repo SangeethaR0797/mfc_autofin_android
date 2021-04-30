@@ -77,7 +77,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 MasterViewModel::class.java
         )
 
-        transactionViewModel = ViewModelProvider(requireActivity()).get(
+        transactionViewModel = ViewModelProvider(this).get(
                 TransactionViewModel::class.java
         )
 
