@@ -42,7 +42,12 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
 
         stockAPIViewModel = ViewModelProvider(requireActivity()).get(
                 StockAPIViewModel::class.java)
-
+        stockAPIViewModel!!.getStockDetailsLiveDataData()
+                .observe(requireActivity(), { mApiResponse: ApiResponse? ->
+                    onStockDetailsRes(
+                            mApiResponse!!
+                    )
+                })
         return view
     }
 
@@ -66,12 +71,12 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
                 R.id.btnVehicleReg -> {
                     if (etVehRegNum.text.isNotEmpty()) {
                         llVehRegNum.setBackgroundResource(R.drawable.vtwo_input_bg)
-                        tv_regno_hint.visibility=View.GONE
+                        tv_regno_hint.visibility = View.GONE
                         regNoVal = etVehRegNum.text.toString()
                         checkRegNoAvailable()
                     } else {
                         llVehRegNum.setBackgroundResource(R.drawable.v2_error_layout_bg)
-                        tv_regno_hint.visibility=View.VISIBLE
+                        tv_regno_hint.visibility = View.VISIBLE
                     }
                 }
                 R.id.tvSearchCarV2 -> {
@@ -88,19 +93,14 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
         if (isValidVehicleRegNo(regNoVal)) {
 
             llVehRegNum.setBackgroundResource(R.drawable.vtwo_input_bg)
-            tv_regno_hint.visibility=View.GONE
+            tv_regno_hint.visibility = View.GONE
 
             stockAPIViewModel!!.getStockDetails(getStockRequest(), Global.stock_details_base_url + CommonStrings.STOCK_DETAILS_URL_END)
-            stockAPIViewModel!!.getStockDetailsLiveDataData()
-                    .observe(this, { mApiResponse: ApiResponse? ->
-                        onStockDetailsRes(
-                                mApiResponse!!
-                        )
-                    })
+
         } else {
             llVehRegNum.setBackgroundResource(R.drawable.v2_error_layout_bg)
-            tv_regno_hint.visibility=View.VISIBLE
-            tv_regno_hint.text="Please enter valid Registration Number"
+            tv_regno_hint.visibility = View.VISIBLE
+            tv_regno_hint.text = "Please enter valid Registration Number"
         }
 
     }
