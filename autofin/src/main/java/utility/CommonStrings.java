@@ -115,9 +115,9 @@ public class CommonStrings {
     public static final String KMS_DRIVEN = "Masters/kms-driven";
     public static final String EMPLOYEEMENT_END_POINT = "Masters/employee-type";
     public static final String BANK_LIST_END_POINT = "Bank/get-banks";
-    public static final String SALUTATION_END_POINT="Masters/salutations";
-    public static final String VALIDATE_LEAD="validate-lead";
-    public static final String RESET_JOURNEY="reset-customer-journey";
+    public static final String SALUTATION_END_POINT = "Masters/salutations";
+    public static final String VALIDATE_LEAD = "validate-lead";
+    public static final String RESET_JOURNEY = "reset-customer-journey";
 
     public static String TOKEN_VALUE = "";
     public static String IBB_TOKEN_VALUE = "";
@@ -161,6 +161,9 @@ public class CommonStrings {
 
     public static final int RESULT_CODE = 500;
     public static final int CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE = 501;
+
+    public static final String SELECTED_DATA = "selectedData";
+    public static final String SELECTED_DATA_TYPE = "selectedDataType";
 
 
 }

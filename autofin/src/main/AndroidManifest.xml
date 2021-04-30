@@ -29,6 +29,10 @@
             android:windowSoftInputMode="adjustResize"
             android:name="v2.view.other_activity.VehBasicDetailsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+        <activity
+            android:windowSoftInputMode="adjustResize"
+            android:name="v2.view.other_activity.MasterDataSelectionActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
 
         <activity
             android:windowSoftInputMode="adjustResize"
