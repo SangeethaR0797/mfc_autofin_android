@@ -138,7 +138,7 @@
                     android:layout_marginRight="@dimen/text_size_14dp"
                     android:layout_marginBottom="@dimen/text_size10dp"
                     android:background="@android:color/transparent"
-
+                    android:hint="@string/otp_lbl"
                     android:inputType="number"
                     android:maxLength="6"
 

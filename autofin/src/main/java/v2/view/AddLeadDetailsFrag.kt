@@ -54,6 +54,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     lateinit var validateLeadDataRes: ValidateLeadDataResponse
     lateinit var etMobileNumberV2: EditText
+    lateinit var ivBackToVehDetails: ImageView
     lateinit var etOTPV2: EditText
     lateinit var llOTPNumInput: LinearLayout
     lateinit var cbTermsAndConditions: CheckBox
@@ -208,8 +209,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     private fun initViews(view: View?) {
+        ivBackToVehDetails = view?.findViewById(R.id.ivBackToVehDetails)!!
         etMobileNumberV2 = view?.findViewById(R.id.etMobileNumberV2)!!
-        etOTPV2 = view.findViewById(R.id.etOTPV2)
+
+        etOTPV2 = view.findViewById(R.id.etOTPV2)!!
         llOTPNumInput = view.findViewById(R.id.llOTPNumInput)!!
         tvOTPEHint = view.findViewById(R.id.tvOTPEHint)
 
@@ -545,12 +548,16 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         masterViewModel.getBankList(Global.customerDetails_BaseURL + CommonStrings.BANK_LIST_END_POINT)
 
+        ivBackToVehDetails.setOnClickListener(this)
 
     }
 
     override fun onClick(v: View?) {
 
         when (v?.id) {
+            R.id.ivBackToVehDetails -> {
+                activity?.onBackPressed()
+            }
             R.id.btnMobileNum -> {
                 hideSoftKeyboard()
                 when {
@@ -660,7 +667,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             llMobileNumInput.setBackgroundResource(R.drawable.v2_error_layout_bg)
 
 
-//region API call region starts
         }
     }
 

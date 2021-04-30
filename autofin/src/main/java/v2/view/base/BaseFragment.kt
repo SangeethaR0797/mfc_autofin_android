@@ -202,24 +202,30 @@ public open class BaseFragment : Fragment() {
 
     //region message
     fun showToast(message: String) {
-        hideSoftKeyboard()
-        /*  val toast = Toast.makeText(activity, message, Toast.LENGTH_LONG)
-          toast.setGravity(Gravity.CENTER, 0, 0)
-          toast.show()*/
+        try {
 
-        val inflater = layoutInflater
-        val layout: View = inflater.inflate(R.layout.v2_toast_layout, activity?.findViewById(R.id.toast_layout_root) as ViewGroup?)
 
-        val image: ImageView = layout.findViewById<View>(R.id.image) as ImageView
-        // image.visibility = View.GONE
-        val text = layout.findViewById<View>(R.id.text) as TextView
-        text.text = message
+            hideSoftKeyboard()
+            /*  val toast = Toast.makeText(activity, message, Toast.LENGTH_LONG)
+              toast.setGravity(Gravity.CENTER, 0, 0)
+              toast.show()*/
 
-        val toast = Toast(activity)
-        toast.setGravity(Gravity.CENTER, 0, 0)
-        toast.duration = Toast.LENGTH_LONG
-        toast.view = layout
-        toast.show()
+            val inflater = layoutInflater!!
+            val layout: View = inflater.inflate(R.layout.v2_toast_layout, activity?.findViewById(R.id.toast_layout_root) as ViewGroup?)
+
+            val image: ImageView = layout.findViewById<View>(R.id.image) as ImageView
+            // image.visibility = View.GONE
+            val text = layout.findViewById<View>(R.id.text) as TextView
+            text.text = message
+
+            val toast = Toast(activity)
+            toast.setGravity(Gravity.CENTER, 0, 0)
+            toast.duration = Toast.LENGTH_LONG
+            toast.view = layout
+            toast.show()
+        } catch (e: java.lang.Exception) {
+
+        }
     }
     //endregion message
 
