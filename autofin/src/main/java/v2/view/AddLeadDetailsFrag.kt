@@ -346,6 +346,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     // Toast.makeText(activity, "OTP Validate", Toast.LENGTH_LONG).show()
                     basicDetails.CustomerMobile = etMobileNumberV2.text.toString()
                     displayNameLayout()
+                    checkValidLead()
                 } else {
                     Toast.makeText(activity, "invalid Validate", Toast.LENGTH_LONG).show()
                 }
@@ -379,7 +380,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             ApiResponse.Status.SUCCESS -> {
                 val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
                 caseId = addLeadResponse?.mData.toString()
-                checkValidLead()
+
                 showToast(addLeadResponse?.message.toString())
 
             }
