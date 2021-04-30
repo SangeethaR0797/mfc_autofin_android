@@ -23,6 +23,7 @@ import v2.view.base.BaseFragment
 public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
 
     lateinit var etVehRegNum: EditText
+    lateinit var llVehRegNum: LinearLayout
     lateinit var btnVehicleReg: Button
     lateinit var tvSearchCar: TextView
     lateinit var ivBackToDashBoard: ImageView
@@ -47,6 +48,7 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
 
     private fun initViews(view: View?) {
         etVehRegNum = view?.findViewById(R.id.etVehRegNum)!!
+        llVehRegNum = view?.findViewById(R.id.llVehRegNum)!!
         btnVehicleReg = view.findViewById(R.id.btnVehicleReg)
         tvSearchCar = view.findViewById(R.id.tvSearchCarV2)
         ivBackToDashBoard = view.findViewById(R.id.ivBackToDashBoard)
@@ -63,12 +65,12 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
                 }
                 R.id.btnVehicleReg -> {
                     if (etVehRegNum.text.isNotEmpty()) {
-                        etVehRegNum.setBackgroundResource(R.drawable.vtwo_input_bg)
+                        llVehRegNum.setBackgroundResource(R.drawable.vtwo_input_bg)
                         tv_regno_hint.visibility=View.GONE
                         regNoVal = etVehRegNum.text.toString()
                         checkRegNoAvailable()
                     } else {
-                        etVehRegNum.setBackgroundResource(R.drawable.v2_error_layout_bg)
+                        llVehRegNum.setBackgroundResource(R.drawable.v2_error_layout_bg)
                         tv_regno_hint.visibility=View.VISIBLE
                     }
                 }
@@ -85,7 +87,7 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
     private fun checkRegNoAvailable() {
         if (isValidVehicleRegNo(regNoVal)) {
 
-            etVehRegNum.setBackgroundResource(R.drawable.vtwo_input_bg)
+            llVehRegNum.setBackgroundResource(R.drawable.vtwo_input_bg)
             tv_regno_hint.visibility=View.GONE
 
             stockAPIViewModel!!.getStockDetails(getStockRequest(), Global.stock_details_base_url + CommonStrings.STOCK_DETAILS_URL_END)
@@ -96,7 +98,7 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
                         )
                     })
         } else {
-            etVehRegNum.setBackgroundResource(R.drawable.v2_error_layout_bg)
+            llVehRegNum.setBackgroundResource(R.drawable.v2_error_layout_bg)
             tv_regno_hint.visibility=View.VISIBLE
             tv_regno_hint.text="Please enter valid Registration Number"
         }
