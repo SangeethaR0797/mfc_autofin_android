@@ -43,6 +43,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var validateLeadDataRes: ValidateLeadDataResponse
     lateinit var etMobileNumberV2: EditText
     lateinit var etOTPV2: EditText
+    lateinit var llOTPNumInput: LinearLayout
     lateinit var cbTermsAndConditions: CheckBox
     lateinit var tvResendOTPV2: TextView
     lateinit var tvOTPTimerV2: TextView
@@ -134,6 +135,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         etMobileNumberV2 = view?.findViewById(R.id.etMobileNumberV2)!!
 
         etOTPV2 = view.findViewById(R.id.etOTPV2)!!
+        llOTPNumInput = view.findViewById(R.id.llOTPNumInput)!!
         cbTermsAndConditions = view.findViewById(R.id.cbTermsAndConditions)
         tvResendOTPV2 = view.findViewById(R.id.tvResendOTPV2)
         tvOTPTimerV2 = view.findViewById(R.id.tvOTPTimerV2)
@@ -142,6 +144,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         btnMobileNum = view.findViewById(R.id.btnMobileNum)
 
         ll_otp_v2 = view.findViewById(R.id.ll_otp_v2)
+        ll_otp_v2.visibility=View.GONE
         llTAndC = view.findViewById(R.id.llTAndC)
 
         rv_salutation = view.findViewById(R.id.rv_salutation)
@@ -218,10 +221,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         if (etOTPV2.text.length == 6) {
             transactionViewModel!!.validateOTP(getOtpRequest(etOTPV2.text.toString(), etMobileNumberV2.text.toString()), Global.customerAPI_BaseURL + CommonStrings.VALIDATE_OTP_URL_END)
             tvOTPEHint.visibility = View.GONE
-            etOTPV2.setBackgroundResource(R.drawable.vtwo_input_bg)
+            llOTPNumInput.setBackgroundResource(R.drawable.vtwo_input_bg)
         } else {
             tvOTPEHint.visibility = View.VISIBLE
-            etOTPV2.setBackgroundResource(R.drawable.v2_error_layout_bg)
+            llOTPNumInput.setBackgroundResource(R.drawable.v2_error_layout_bg)
         }
 
     }

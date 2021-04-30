@@ -100,8 +100,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/text_size_14dp"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:orientation="vertical">
 
         <utility.RobotoMedium
             android:id="@+id/tvEnterOTPV2"
@@ -119,24 +118,34 @@
             android:layout_height="wrap_content"
             android:weightSum="1">
 
-            <EditText
-                android:id="@+id/etOTPV2"
-
+            <LinearLayout
+                android:id="@+id/llOTPNumInput"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="@dimen/text_size_20dp"
+                android:layout_marginTop="@dimen/text_size_16sp"
+                android:layout_marginBottom="@dimen/text_size_16sp"
                 android:layout_weight="0.6"
                 android:background="@drawable/vtwo_input_bg"
-                android:inputType="number"
-                android:maxLength="6"
-                android:paddingLeft="@dimen/text_size_8dp"
-                android:paddingTop="@dimen/text_size_14dp"
-                android:paddingBottom="@dimen/text_size_14dp"
-                android:singleLine="true"
-                android:textAppearance="@style/RobotoRegular"
-                android:textSize="17sp" />
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/etOTPV2"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size10dp"
+                    android:layout_marginTop="@dimen/text_size10dp"
+                    android:layout_marginRight="@dimen/text_size_14dp"
+                    android:layout_marginBottom="@dimen/text_size10dp"
+                    android:background="@android:color/transparent"
+
+                    android:inputType="number"
+                    android:maxLength="6"
+
+                    android:singleLine="true"
+                    android:textAppearance="@style/RobotoRegular"
+                    android:textSize="@dimen/text_size_14dp" />
+            </LinearLayout>
 
             <utility.RobotoMedium
                 android:id="@+id/tvOTPTimerV2"
