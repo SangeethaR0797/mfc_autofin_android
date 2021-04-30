@@ -127,8 +127,8 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
         tvVehiclePriceInWords = view.findViewById(R.id.tv_vehicle_price_in_words)
         tvVehiclePriceErrorMessage = view.findViewById(R.id.tv_vehicle_price_error_message)
         tvVehicleNumberErrorMessage = view.findViewById(R.id.tv_vehicle_number_error_message)
-        tvVehiclePriceErrorMessage.visibility=View.GONE
-        tvVehicleNumberErrorMessage.visibility=View.GONE
+        tvVehiclePriceErrorMessage.visibility = View.GONE
+        tvVehicleNumberErrorMessage.visibility = View.GONE
 
         llOwnership = view.findViewById(R.id.ll_ownership)
         llKilometresDriven = view.findViewById(R.id.ll_kilometres_driven)
@@ -153,10 +153,20 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
         tvTitle.text = addLeadRequest.Data?.vehicleDetails?.Make
         tvSelectedText.text = "" + addLeadRequest.Data?.vehicleDetails?.RegistrationYear + "-" + addLeadRequest.Data?.vehicleDetails?.Make + "-" + addLeadRequest.Data?.vehicleDetails?.Model + "-" + addLeadRequest.Data?.vehicleDetails?.Variant
         addEvent()
+        if (addLeadRequest?.Data?.vehicleDetails?.Ownership == null || addLeadRequest?.Data?.vehicleDetails?.KMs == null || addLeadRequest?.Data?.vehicleDetails?.FuelType == null) {
+            llKilometresDriven.visibility = View.GONE
+            llFuleType.visibility = View.GONE
+            llVehiclePrice.visibility = View.GONE
+            llVehicleNumber.visibility = View.GONE
+            btnNext.visibility = View.GONE
+        }
+
         addOwnershipDetails()
         addFuleDetails()
 
         masterViewModel.getKmsDrivenDetails(Global.customerDetails_BaseURL + CommonStrings.KMS_DRIVEN)
+
+        setLastSelectedData()
         return view
     }
 
@@ -171,22 +181,22 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
             if (addLeadRequest.Data?.vehicleDetails?.VehicleSellingPrice == null) {
                 llPrice.setBackgroundResource(R.drawable.v2_error_input_bg)
                 etPrice.setTextColor(resources.getColor(R.color.error_red))
-                tvVehiclePriceErrorMessage.visibility=View.VISIBLE
-                tvVehiclePriceErrorMessage.text=("Please enter price details.")
+                tvVehiclePriceErrorMessage.visibility = View.VISIBLE
+                tvVehiclePriceErrorMessage.text = ("Please enter price details.")
             } else if (addLeadRequest.Data?.vehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(View.GONE)) {
                 llVehicleNumber.visibility = View.VISIBLE
             } else if (addLeadRequest.Data?.vehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(View.VISIBLE)) {
                 llAddVehicleNumber.setBackgroundResource(R.drawable.v2_error_input_bg)
                 etVehicleNumber.setTextColor(resources.getColor(R.color.error_red))
-                tvVehicleNumberErrorMessage.visibility=View.VISIBLE
-                tvVehicleNumberErrorMessage.text=("Please enter vehicle registration No.")
+                tvVehicleNumberErrorMessage.visibility = View.VISIBLE
+                tvVehicleNumberErrorMessage.text = ("Please enter vehicle registration No.")
 
             } else if (addLeadRequest.Data?.vehicleDetails?.VehicleNumber != null && !isValidVehicleRegNo(addLeadRequest.Data?.vehicleDetails?.VehicleNumber!!)) {
 
                 llAddVehicleNumber.setBackgroundResource(R.drawable.v2_error_input_bg)
                 etVehicleNumber.setTextColor(resources.getColor(R.color.error_red))
-                tvVehicleNumberErrorMessage.visibility=View.VISIBLE
-                tvVehicleNumberErrorMessage.text=("Please enter valid vehicle registration No.")
+                tvVehicleNumberErrorMessage.visibility = View.VISIBLE
+                tvVehicleNumberErrorMessage.text = ("Please enter valid vehicle registration No.")
             } else {
 
                 navigateToAddLeadFragment(addLeadRequest)
@@ -207,7 +217,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
             override fun afterTextChanged(s: Editable) {
                 llPrice.setBackgroundResource(R.drawable.vtwo_input_bg)
                 etPrice.setTextColor(resources.getColor(R.color.vtwo_black))
-                tvVehiclePriceErrorMessage.visibility=View.GONE
+                tvVehiclePriceErrorMessage.visibility = View.GONE
                 if (timer != null) {
                     timer!!.cancel();
 
@@ -254,7 +264,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                                        count: Int) {
                 llAddVehicleNumber.setBackgroundResource(R.drawable.vtwo_input_bg)
                 etVehicleNumber.setTextColor(resources.getColor(R.color.vtwo_black))
-                tvVehicleNumberErrorMessage.visibility=View.GONE
+                tvVehicleNumberErrorMessage.visibility = View.GONE
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
@@ -270,11 +280,6 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
             }
         })
 
-        llKilometresDriven.visibility = View.GONE
-        llFuleType.visibility = View.GONE
-        llVehiclePrice.visibility = View.GONE
-        llVehicleNumber.visibility = View.GONE
-        btnNext.visibility = View.GONE
 
     }
 
@@ -366,6 +371,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
             ApiResponse.Status.SUCCESS -> {
                 val masterResponse: MasterResponse? = mApiResponse.data as MasterResponse?
                 setKmsDrivenData(masterResponse!!.data.types)
+                setLastSelectedData()
 
             }
             ApiResponse.Status.ERROR -> {
@@ -413,5 +419,36 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
         rvKilometresDriven.setAdapter(kmsDrivenAdapter)
     }
 
-
+    fun setLastSelectedData() {
+        if (addLeadRequest?.Data?.vehicleDetails?.Ownership != null) {
+            ownershipDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
+                if (addLeadRequest?.Data?.vehicleDetails?.Ownership?.toString().equals(dataSelectionDTO.value) == true) {
+                    dataSelectionDTO.selected = true
+                } else {
+                    dataSelectionDTO.selected = false
+                }
+            }
+            ownershipDetailsAdapter.notifyDataSetChanged()
+        }
+        if (addLeadRequest?.Data?.vehicleDetails?.KMs != null) {
+            kmsDrivenAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
+                if (addLeadRequest?.Data?.vehicleDetails?.KMs?.equals(dataSelectionDTO.value) == true) {
+                    dataSelectionDTO.selected = true
+                } else {
+                    dataSelectionDTO.selected = false
+                }
+            }
+            kmsDrivenAdapter.notifyDataSetChanged()
+        }
+        if (addLeadRequest?.Data?.vehicleDetails?.FuelType != null) {
+            fuleDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
+                if (addLeadRequest?.Data?.vehicleDetails?.FuelType?.equals(dataSelectionDTO.value) == true) {
+                    dataSelectionDTO.selected = true
+                } else {
+                    dataSelectionDTO.selected = false
+                }
+            }
+            fuleDetailsAdapter.notifyDataSetChanged()
+        }
+    }
 }
