@@ -161,7 +161,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
     }
 
 
-    fun addEvent() {
+    private fun addEvent() {
         ivBack.setOnClickListener(View.OnClickListener { activity?.onBackPressed() })
         llPrice.setOnClickListener(View.OnClickListener { etPrice.requestFocus() })
         llAddVehicleNumber.setOnClickListener(View.OnClickListener { etVehicleNumber.requestFocus() })

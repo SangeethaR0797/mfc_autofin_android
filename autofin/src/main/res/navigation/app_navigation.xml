@@ -56,6 +56,9 @@
         <argument
             android:name="stockResArgs"
             app:argType="v2.model.response.StockDetails" />
+        <action
+            android:id="@+id/action_stockAPIFragment_to_addLeadDetailsFrag"
+            app:destination="@id/addLeadDetailsFrag" />
     </fragment>
     <fragment
         android:id="@+id/addLeadDetailsFrag"

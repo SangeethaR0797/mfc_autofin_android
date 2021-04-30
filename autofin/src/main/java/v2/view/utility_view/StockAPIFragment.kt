@@ -15,6 +15,8 @@ import androidx.navigation.fragment.navArgs
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import v2.model.dto.AddLeadRequest
+import v2.model.request.add_lead.AddLeadData
+import v2.model.request.add_lead.VehicleDetails
 import v2.model_view.StockAPIViewModel
 import v2.view.base.BaseFragment
 import v2.view.other_activity.VehBasicDetailsActivity
@@ -32,6 +34,7 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
     lateinit var ibEditVehDetails: ImageButton
     lateinit var btnVehicleReg: Button
     val separator = " | "
+    val addLeadRequest=AddLeadRequest()
 
     private lateinit var viewModel: StockAPIViewModel
 
@@ -73,6 +76,23 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
         tvVehDetailsDesc.text = vehDetailsDesVal
         tvVehRegNum.text = vehRegNo
 
+        val vehicleDetails=VehicleDetails()
+        vehicleDetails.Make=args.stockResArgs.ibbMake
+        vehicleDetails.Model=args.stockResArgs.ibbModel
+        vehicleDetails.Variant=args.stockResArgs.ibbVariant
+        vehicleDetails.VehicleNumber=args.stockResArgs.registrationNumber
+        vehicleDetails.FuelType=args.stockResArgs.fuelType
+        vehicleDetails.RegistrationYear=args.stockResArgs.year.toInt()
+        vehicleDetails.KMs=args.stockResArgs.kMs
+        vehicleDetails.Ownership=args.stockResArgs.owner.toInt()
+        vehicleDetails.VehicleSellingPrice=args.stockResArgs.vehicleSellingPrice
+
+        val addLeadData=AddLeadData()
+        addLeadData.vehicleDetails=vehicleDetails
+
+        addLeadRequest.Data=addLeadData
+        //addLeadRequest.Data?.vehicleDetails=addLeadData.vehicleDetails
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -91,7 +111,7 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
 
                 }
                 R.id.btnVehicleReg -> {
-                    navigateToMobileNumber()
+                    stockToAddLeadFragment(addLeadRequest)
                 }
 
             }

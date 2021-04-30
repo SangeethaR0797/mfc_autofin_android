@@ -26,6 +26,8 @@ import v2.view.VehicleSelectionFragDirections
 import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.other_activity.VehBasicDetailsActivity
 
+import v2.view.utility_view.StockAPIFragmentArgs
+import v2.view.utility_view.StockAPIFragmentDirections
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -184,6 +186,13 @@ public open class BaseFragment : Fragment() {
 
     public fun navigateToAddLeadFragment(addLeadRequest: AddLeadRequest) {
         val directions = AddOrUpdateVehicleDetailsMakeFragDirections.actionAddOrUpdateVehicleDetailsMakeFragToAddLeadDetailsFrag(addLeadRequest!!)
+        view?.let {
+            Navigation.findNavController(it).navigate(directions)
+        }
+    }
+
+    public fun stockToAddLeadFragment(addLeadRequest: AddLeadRequest) {
+        val directions = StockAPIFragmentDirections.actionStockAPIFragmentToAddLeadDetailsFrag(addLeadRequest!!)
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }

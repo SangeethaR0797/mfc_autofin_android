@@ -116,6 +116,8 @@ public class CommonStrings {
     public static final String EMPLOYEEMENT_END_POINT = "Masters/employee-type";
     public static final String BANK_LIST_END_POINT = "Bank/get-banks";
     public static final String SALUTATION_END_POINT="Masters/salutations";
+    public static final String VALIDATE_LEAD="validate-lead";
+    public static final String RESET_JOURNEY="reset-customer-journey";
 
     public static String TOKEN_VALUE = "";
     public static String IBB_TOKEN_VALUE = "";
