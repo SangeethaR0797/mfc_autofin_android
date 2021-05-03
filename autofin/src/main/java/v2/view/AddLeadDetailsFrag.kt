@@ -253,7 +253,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         llAccoutDetailsSection = view.findViewById(R.id.ll_accout_details_section)
 
         etSearchBank = view.findViewById(R.id.et_search_bank)
-        etSearchBank.isFocusable=false
+        etSearchBank.isFocusable = false
         rvBankList = view.findViewById(R.id.rv_bank_list)
         tvBankTitle = view.findViewById(R.id.tv_bank_title)
         llAddSearchBank = view.findViewById(R.id.ll_search_bank)
@@ -324,6 +324,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         if (requestCode == CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE && resultCode == CommonStrings.RESULT_CODE) {
             var dataSelectionDTO: DataSelectionDTO? = data?.getParcelableExtra(CommonStrings.SELECTED_DATA)
             var dataType: String? = data?.getStringExtra(CommonStrings.SELECTED_DATA_TYPE)
+            if (dataType.equals(CommonStrings.BANK_DATA_CALL)) {
+                etSearchBank.setText(dataSelectionDTO!!.displayValue)
+                updateBankSelection(dataSelectionDTO)
+            }
 
 
         }
@@ -934,34 +938,39 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         bankListDetailsAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
             override fun itemClick(item: Any?, position: Int) {
+                etSearchBank.setText("")
+                var selectedBankDataSelectionDTO: DataSelectionDTO = item as DataSelectionDTO
+                updateBankSelection(selectedBankDataSelectionDTO)
 
-
-                bankListDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
-                    run {
-                        if (index == position) {
-                            item.selected = true
-                            if (addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType.equals("Self Employed")) {
-                                addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount = item.displayValue
-                                addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount = null
-                            } else {
-                                addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount = null
-                                addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount = item.displayValue
-                            }
-                            llNetIncome.visibility = View.VISIBLE
-
-
-                        } else {
-                            item.selected = false
-                        }
-
-                    }
-                }
-                bankListDetailsAdapter.notifyDataSetChanged()
             }
         })
 
 
         rvBankList.setAdapter(bankListDetailsAdapter)
+    }
+
+    fun updateBankSelection(selectedBankDataSelectionDTO: DataSelectionDTO) {
+        bankListDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
+            run {
+                if (selectedBankDataSelectionDTO.value.equals(item.displayValue)) {
+                    item.selected = true
+                    if (addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType.equals("Self Employed")) {
+                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount = item.displayValue
+                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount = null
+                    } else {
+                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount = null
+                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount = item.displayValue
+                    }
+                    llNetIncome.visibility = View.VISIBLE
+
+
+                } else {
+                    item.selected = false
+                }
+
+            }
+        }
+        bankListDetailsAdapter.notifyDataSetChanged()
     }
 
 
@@ -1232,9 +1241,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 }
 
                 //Set Birth Data
-                birthDateDisplayValue = stringToDateString(customerDetailsResponse.data!!.basicDetails!!.birthDate.toString().subSequence(0, 10) as String, DATE_FORMATE_YYYYMMDD, DATE_FORMATE_DDMMYYYY)
-                birthDateValue = stringToDateString(customerDetailsResponse.data!!.basicDetails!!.birthDate.toString().subSequence(0, 10) as String, DATE_FORMATE_YYYYMMDD, DATE_FORMATE_YYYYMMDD)
-
+                if (!TextUtils.isEmpty(customerDetailsResponse.data!!.basicDetails!!.birthDate)) {
+                    birthDateDisplayValue = stringToDateString(customerDetailsResponse.data!!.basicDetails!!.birthDate.toString().subSequence(0, 10) as String, DATE_FORMATE_YYYYMMDD, DATE_FORMATE_DDMMYYYY)
+                    birthDateValue = stringToDateString(customerDetailsResponse.data!!.basicDetails!!.birthDate.toString().subSequence(0, 10) as String, DATE_FORMATE_YYYYMMDD, DATE_FORMATE_YYYYMMDD)
+                }
                 if (birthDateDisplayValue == null) {
                     birthDateDisplayValue = stringToDateString(customerDetailsResponse.data!!.equifaxFields!!.birthDate!![0], DATE_FORMATE_YYYYMMDD, DATE_FORMATE_DDMMYYYY)
                     birthDateValue = stringToDateString(customerDetailsResponse.data!!.equifaxFields!!.birthDate!![0], DATE_FORMATE_YYYYMMDD, DATE_FORMATE_YYYYMMDD)
@@ -1270,7 +1280,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         tvBankTitle.setText(getString(R.string.primary_bank_account))
                         bankName = customerDetailsResponse.data!!.employmentDetails!!.primaryAccount
                         addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount = bankName
-
+                        isEmploymentDataSaved = true
                     } else {
                         bankName = customerDetailsResponse.data!!.employmentDetails!!.salaryAccount
                         addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount = bankName
@@ -1282,7 +1292,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         //More than one year in same org
                         cbMoreThanOneYearInCurrentOrganization.isChecked = customerDetailsResponse.data!!.employmentDetails!!.currentCompanyExpMoreThanOne!!
                         addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne = customerDetailsResponse.data!!.employmentDetails!!.currentCompanyExpMoreThanOne!!
-
+                        isEmploymentDataSaved = true
 
                     }
                     //set Bank Details
@@ -1306,7 +1316,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome = customerDetailsResponse.data!!.employmentDetails!!.netAnualIncome!!.toInt()
                     }
 
-                    isEmploymentDataSaved=true
+
                 }
             }
         } catch (e: Exception) {
