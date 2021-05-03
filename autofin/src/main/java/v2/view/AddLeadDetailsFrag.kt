@@ -341,6 +341,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         etBirthDate.setOnClickListener(this)
         etSearchBank.setOnClickListener(this)
         llAddSearchBank.setOnClickListener(this)
+        llResidenceType.setOnClickListener(this)
 
 
         //Hide All Section
@@ -652,7 +653,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     fun setCityAutoTextAdapter(cityList: ArrayList<String>) {
         customAutoTextViewListAdapter = CustomAutoTextViewListAdapter(activity!!.baseContext, R.layout.v2_auto_text_adapter_layout, cityList)
         etAutoResidenceCity.setAdapter(customAutoTextViewListAdapter)
-        etAutoResidenceCity.threshold=1
+        etAutoResidenceCity.threshold = 1
     }
 
     override fun onClick(v: View?) {
@@ -664,8 +665,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             R.id.et_search_bank -> {
                 navigateMasterDataSelectionActivity(CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE, CommonStrings.BANK_DATA_CALL)
             }
+
             R.id.ll_search_bank -> {
                 navigateMasterDataSelectionActivity(CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE, CommonStrings.BANK_DATA_CALL)
+            }
+            R.id.ll_residence_type -> {
+                etAutoResidenceCity.showDropDown()
             }
             R.id.btnMobileNum -> {
                 hideSoftKeyboard()
