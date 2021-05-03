@@ -114,6 +114,7 @@ public class CommonStrings {
     public static final String CUSTOMER_ADDITIONAL_FIELDS = "customer-additional-data";
     public static final String KMS_DRIVEN = "Masters/kms-driven";
     public static final String EMPLOYEEMENT_END_POINT = "Masters/employee-type";
+    public static final String RESIDENT_TYPE_END_POINT = "Masters/resident-type";
     public static final String BANK_LIST_END_POINT = "Bank/get-banks";
     public static final String SALUTATION_END_POINT = "Masters/salutations";
     public static final String VALIDATE_LEAD = "validate-lead";

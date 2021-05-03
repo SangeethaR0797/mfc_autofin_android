@@ -347,6 +347,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         setEploymentDetailsAdapter()
         setBankDetailsAdapter()
         setEMIDetailsAdapter()
+        setResidenceTypeAdapter()
 
     }
 
@@ -600,6 +601,17 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         masterViewModel.getBankList(Global.customerDetails_BaseURL + CommonStrings.BANK_LIST_END_POINT)
 
         ivBackToVehDetails.setOnClickListener(this)
+
+    }
+    fun setResidenceTypeAdapter() {
+        val layoutManagerStaggeredGridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
+
+        rvResidenceTypeList.addItemDecoration(GridItemDecoration(25, 2))
+
+        rvResidenceTypeList.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+        masterViewModel.getResidentType(Global.customerDetails_BaseURL + CommonStrings.RESIDENT_TYPE_END_POINT)
+
 
     }
 
@@ -959,7 +971,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         rvEmploymentType.setAdapter(employmentDetailsAdapter)
     }
-
+    //region onResidentType
     private fun onResidentType(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
@@ -1008,7 +1020,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         rvResidenceTypeList.setAdapter(residenceTypeDetailsAdapter)
     }
-
+    //endregion onResidentType
     private fun onBankList(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
