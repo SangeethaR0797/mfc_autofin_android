@@ -132,7 +132,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var tvResidenceTypeInWords: TextView
     lateinit var rvResidenceTypeList: RecyclerView
     lateinit var llResidenceTypeDetails: LinearLayout
-    lateinit var ResidenceTypeDetailsAdapter: DataRecyclerViewAdapter
+    lateinit var residenceTypeDetailsAdapter: DataRecyclerViewAdapter
 
     lateinit var addEmploymentDetailsRequest: AddEmploymentDetailsRequest
     var isEmploymentDataSaved: Boolean = false
@@ -204,6 +204,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     mApiResponse!!
             )
         })
+        masterViewModel.getResidentTypeLiveData()
+                .observe(this, { mApiResponse: ApiResponse? ->
+                    onResidentType(
+                            mApiResponse!!
+                    )
+                })
 
         transactionViewModel.getResetCustomerJourneyLiveData().observe(requireActivity(), { mAPIResponse: ApiResponse? -> onResetJourney(mAPIResponse!!) })
 
@@ -952,6 +958,55 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
         rvEmploymentType.setAdapter(employmentDetailsAdapter)
+    }
+
+    private fun onResidentType(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+            }
+            ApiResponse.Status.SUCCESS -> {
+                val masterResponse: MasterResponse? = mApiResponse.data as MasterResponse?
+                setResidentTypeAdapterDetails(masterResponse!!.data.types)
+
+            }
+            ApiResponse.Status.ERROR -> {
+
+            }
+        }
+    }
+
+    private fun setResidentTypeAdapterDetails(types: List<Types>) {
+        val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
+
+        types.forEachIndexed { index, types ->
+            list.add(DataSelectionDTO(types.displayLabel, null, types.value, false))
+        }
+
+
+
+        residenceTypeDetailsAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+            override fun itemClick(item: Any?, position: Int) {
+
+
+                residenceTypeDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                    run {
+                        if (index == position) {
+                            item.selected = true
+
+
+
+                        } else {
+                            item.selected = false
+                        }
+
+                    }
+                }
+                residenceTypeDetailsAdapter.notifyDataSetChanged()
+            }
+        })
+
+
+        rvResidenceTypeList.setAdapter(residenceTypeDetailsAdapter)
     }
 
     private fun onBankList(mApiResponse: ApiResponse) {
