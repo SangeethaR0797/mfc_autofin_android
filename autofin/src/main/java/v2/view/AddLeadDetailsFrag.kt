@@ -650,7 +650,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     fun setCityAutoTextAdapter(cityList: ArrayList<String>) {
-        customAutoTextViewListAdapter = CustomAutoTextViewListAdapter(activity!!.baseContext, R.layout.v2_string_item_layout, cityList)
+        customAutoTextViewListAdapter = CustomAutoTextViewListAdapter(activity!!.baseContext, R.layout.v2_auto_text_adapter_layout, cityList)
         etAutoResidenceCity.setAdapter(customAutoTextViewListAdapter)
         etAutoResidenceCity.threshold=1
     }
