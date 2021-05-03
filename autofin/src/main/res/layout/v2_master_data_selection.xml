@@ -53,15 +53,13 @@
         android:background="@drawable/white_bottom_corner"
         android:orientation="vertical"
         android:paddingLeft="@dimen/text_size_16sp"
+        android:paddingTop="@dimen/text_size10dp"
         android:paddingRight="@dimen/text_size_16sp">
 
         <TextView
-
             android:id="@+id/tv_select_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/text_size10dp"
-            android:layout_marginBottom="@dimen/text_size_16sp"
             android:text="@string/search_car"
             android:textAppearance="@style/RobotoBold"
             android:textColor="@color/vtwo_black"
@@ -71,7 +69,8 @@
             android:id="@+id/ll_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/text_size10dp"
+            android:layout_marginTop="@dimen/text_size_16sp"
+            android:layout_marginBottom="@dimen/text_size_16sp"
             android:background="@drawable/vtwo_input_bg"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/text_size_14dp"

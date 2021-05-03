@@ -575,10 +575,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 activity?.onBackPressed()
             }
             R.id.et_search_bank -> {
-                navigateMasterDataSelectionActivity(CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE, CommonStrings.YEAR)
+                navigateMasterDataSelectionActivity(CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE, CommonStrings.BANK_DATA_CALL)
             }
             R.id.ll_search_bank -> {
-                navigateMasterDataSelectionActivity(CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE, CommonStrings.YEAR)
+                navigateMasterDataSelectionActivity(CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE, CommonStrings.BANK_DATA_CALL)
             }
             R.id.btnMobileNum -> {
                 hideSoftKeyboard()

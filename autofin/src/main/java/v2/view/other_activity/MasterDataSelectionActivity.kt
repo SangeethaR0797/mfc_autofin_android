@@ -1,5 +1,6 @@
 package v2.view.other_activity
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -22,9 +23,12 @@ import v2.model.dto.DataSelectionDTO
 import v2.model.request.Get_IBB_MasterDetailsRequest
 import v2.model.request.add_lead.AddLeadData
 import v2.model.request.add_lead.VehicleDetails
+import v2.model.response.BankListResponse
 import v2.model.response.Get_IBB_MasterDetailsResponse
 import v2.model_view.IBB.IBB_MasterViewModel
+import v2.model_view.MasterViewModel
 import v2.service.utility.ApiResponse
+import v2.view.adapter.DataRecyclerViewAdapter
 import v2.view.adapter.MasterDataRecyclerViewAdapter
 import v2.view.callBackInterface.itemClickCallBack
 import java.util.ArrayList
@@ -33,6 +37,8 @@ import java.util.ArrayList
 class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack {
 
     var iBB_MasterViewModel: IBB_MasterViewModel? = null
+    lateinit var masterViewModel: MasterViewModel
+
     lateinit var ivBack: ImageView
     lateinit var tvSelectedText: TextView
     lateinit var tvSelectLabel: TextView
@@ -46,7 +52,7 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack {
         super.onCreate(savedInstanceState)
         SELECTED_DATA_TYPE_CALL = intent.getStringExtra(CommonStrings.SELECTED_DATA_TYPE);
 
-        setContentView(R.layout.v2_activity_basic_data_selection)
+        setContentView(R.layout.v2_master_data_selection)
 
         ivBack = findViewById(R.id.iv_back)
         tvSelectedText = findViewById(R.id.tv_selected_text)
@@ -96,11 +102,23 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack {
                             mApiResponse!!
                     )
                 })
+
+        masterViewModel = ViewModelProvider(this).get(
+                MasterViewModel::class.java
+        )
+        masterViewModel.getBankListLiveData()
+                .observe(this, { mApiResponse: ApiResponse? ->
+                    onBankList(
+                            mApiResponse!!
+                    )
+                })
+
+
         if (!TextUtils.isEmpty(SELECTED_DATA_TYPE_CALL)) {
             if (SELECTED_DATA_TYPE_CALL.equals(CommonStrings.YEAR)) {
                 callYearApiData()
-            } else if (SELECTED_DATA_TYPE_CALL.equals(CommonStrings.YEAR)) {
-                callYearApiData()
+            } else if (SELECTED_DATA_TYPE_CALL.equals(CommonStrings.BANK_DATA_CALL)) {
+                callBankListApiData()
             }
         } else {
             Toast.makeText(baseContext, "Invalid data type", Toast.LENGTH_LONG).show()
@@ -117,8 +135,22 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack {
         etSearch.inputType = (InputType.TYPE_CLASS_NUMBER)
         tvSelectedText.text = ""
         tvSelectLabel.text = "Select Registration Year"
+        tvSelectLabel.visibility = View.GONE
+        tvSelectedText.visibility = View.GONE
+        etSearch.setHint("Year")
         var request = getIBBMasterDetailsRequest(CommonStrings.IBB_TOKEN_VALUE, CommonStrings.YEAR, "0", "app", null, null, null, null)
         iBB_MasterViewModel!!.getIBB_MasterDetails(request, Global.ibb_base_url + CommonStrings.IBB_VEH_DETAILS_END_POINT)
+
+    }
+
+    private fun callBankListApiData() {
+        etSearch.inputType = (InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
+        tvSelectedText.text = ""
+        tvSelectLabel.text = "Search Bank"
+        etSearch.setHint("Search Bank")
+        tvSelectLabel.visibility = View.GONE
+        tvSelectedText.visibility = View.GONE
+        masterViewModel.getBankList(Global.customerDetails_BaseURL + CommonStrings.BANK_LIST_END_POINT)
 
     }
 
@@ -163,6 +195,37 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack {
             }
         }
     }
+
+    private fun onBankList(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+            }
+            ApiResponse.Status.SUCCESS -> {
+                val response: BankListResponse? = mApiResponse.data as BankListResponse?
+                setBankListDetails(response!!)
+
+            }
+            ApiResponse.Status.ERROR -> {
+
+            }
+        }
+    }
+
+    private fun setBankListDetails(bankListResponse: BankListResponse) {
+        val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
+
+        bankListResponse.data!!.forEachIndexed { index, value ->
+
+            list.add(DataSelectionDTO(value, null, value, false, null))
+
+        }
+
+        reviewAdapter = MasterDataRecyclerViewAdapter(list, this@MasterDataSelectionActivity)
+        val layoutManager = LinearLayoutManager(this)
+        rvResult.setLayoutManager(layoutManager)
+        rvResult.setAdapter(reviewAdapter)
+    }
+
 
     override fun itemClick(item: Any?, position: Int) {
         var value: DataSelectionDTO = item as DataSelectionDTO

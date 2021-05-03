@@ -156,6 +156,7 @@ public class CommonStrings {
     public static final String MAKE = "make";
     public static final String MODEL = "model";
     public static final String VARIANT = "variant";
+    public static final String BANK_DATA_CALL = "bank";
 
     public static final String VEHICLE_DATA = "vehicleData";
 
