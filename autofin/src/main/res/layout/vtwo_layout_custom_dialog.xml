@@ -41,7 +41,7 @@
             tools:ignore="ContentDescription" />
     </RelativeLayout>
 
-    <utility.RobotoMedium
+    <TextView
         android:id="@+id/tvAlertDialogText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -52,7 +52,8 @@
         android:paddingBottom="5dp"
         android:text="@string/vtwo_mobile_num_already_reg_hint"
         android:textColor="@color/vtwo_light_black"
-        android:textSize="@dimen/text_size_18dp" />
+        android:textSize="@dimen/text_size_18dp"
+        android:textAppearance="@style/RobotoMedium"/>
 
     <LinearLayout
         android:layout_width="match_parent"

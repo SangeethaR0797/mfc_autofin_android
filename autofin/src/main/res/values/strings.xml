@@ -299,5 +299,8 @@
     <string name="enter_email_vtwo">Enter Email</string>
     <string name="vtwo_mob_no_verified">Verified</string>
     <string name="vtwo_invalid_OTP">Please enter valid OTP</string>
+    <string name="v2_loading_from_banks">Loading offer from banks ...</string>
+    <string name="v2_saving_money">Saving money is more difficult than getting them</string>
+    <string name="v2_soft_offer_title">Soft Offer</string>
 
 </resources>
