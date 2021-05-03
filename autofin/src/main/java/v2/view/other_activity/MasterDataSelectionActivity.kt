@@ -45,7 +45,9 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         SELECTED_DATA_TYPE_CALL = intent.getStringExtra(CommonStrings.SELECTED_DATA_TYPE);
+
         setContentView(R.layout.v2_activity_basic_data_selection)
+
         ivBack = findViewById(R.id.iv_back)
         tvSelectedText = findViewById(R.id.tv_selected_text)
         tvSelectLabel = findViewById(R.id.tv_select_label)
