@@ -253,6 +253,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         llAccoutDetailsSection = view.findViewById(R.id.ll_accout_details_section)
 
         etSearchBank = view.findViewById(R.id.et_search_bank)
+        etSearchBank.isFocusable=false
         rvBankList = view.findViewById(R.id.rv_bank_list)
         tvBankTitle = view.findViewById(R.id.tv_bank_title)
         llAddSearchBank = view.findViewById(R.id.ll_search_bank)
@@ -294,6 +295,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         btnMobileNum.setOnClickListener(this)
         llBirthDate.setOnClickListener(this)
         etBirthDate.setOnClickListener(this)
+        etSearchBank.setOnClickListener(this)
         llAddSearchBank.setOnClickListener(this)
 
 
@@ -322,7 +324,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         if (requestCode == CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE && resultCode == CommonStrings.RESULT_CODE) {
             var dataSelectionDTO: DataSelectionDTO? = data?.getParcelableExtra(CommonStrings.SELECTED_DATA)
             var dataType: String? = data?.getStringExtra(CommonStrings.SELECTED_DATA_TYPE)
-            showToast("Result > " + dataType + " >> " + dataSelectionDTO!!.value)
+
 
         }
     }
@@ -571,6 +573,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         when (v?.id) {
             R.id.ivBackToVehDetails -> {
                 activity?.onBackPressed()
+            }
+            R.id.et_search_bank -> {
+                navigateMasterDataSelectionActivity(CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE, CommonStrings.YEAR)
             }
             R.id.ll_search_bank -> {
                 navigateMasterDataSelectionActivity(CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE, CommonStrings.YEAR)
