@@ -2,6 +2,7 @@ package v2.view.base
 
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
 import android.view.Gravity
@@ -13,6 +14,7 @@ import android.widget.DatePicker
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.mfc.autofin.framework.R
@@ -39,6 +41,8 @@ import java.util.regex.Pattern
 
 public open class BaseFragment : Fragment() {
     public var caseId = ""
+    private lateinit var alertDialog:AlertDialog
+
     var cal = Calendar.getInstance()
     private lateinit var datePickerCallBack: DatePickerCallBack
     public val DATE_FORMATE_DDMMYYYY = "dd/MM/yyyy"
@@ -300,4 +304,35 @@ public open class BaseFragment : Fragment() {
         }
     }
 
+
+    // Progress Dialog region starts
+
+    private fun getAlertDialog(
+            context: Context,
+            layout: Int,
+            setCancellationOnTouchOutside: Boolean
+    ): AlertDialog {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+        val customLayout: View =
+                layoutInflater.inflate(layout, null)
+        builder.setView(customLayout)
+        val dialog = builder.create()
+        dialog.setCanceledOnTouchOutside(setCancellationOnTouchOutside)
+        return dialog
+    }
+
+    fun showProgressDialog(context: Context): AlertDialog {
+        alertDialog = getAlertDialog(context, R.layout.layout_progress_dialog, setCancellationOnTouchOutside = false)
+        alertDialog.show()
+        return alertDialog
+    }
+
+    fun hideProgressDialog(){
+        if(alertDialog.isShowing)
+        alertDialog.dismiss()
+    }
+
+
+
+    // Progress Dialog region ends
 }
