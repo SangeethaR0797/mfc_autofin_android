@@ -583,56 +583,66 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             R.id.btnMobileNum -> {
                 hideSoftKeyboard()
                 when {
+                    //Step 1 Call Send OTP Api
                     ll_otp_v2.visibility == View.GONE && llNameAndEmailV2.visibility == View.GONE -> {
                         sendOTP()
                     }
+                    //Step 2 Open View to Enter OTP
                     ll_otp_v2.visibility == View.VISIBLE && llNameAndEmailV2.visibility == View.GONE -> {
 
                         if (cbTermsAndConditions.isChecked) {
+                            //Validate OTP and Validate Lead
                             validateOTP()
                         } else
                             showToast("Please check Terms and Condition")
                     }
+                    //Step 3 Call AddLead API
                     TextUtils.isEmpty(caseId) && llNameAndEmailV2.visibility == View.VISIBLE -> {
                         addLead()
                     }
-
+                    //Step 4 Birth Date Validation
                     llBirthDateSection.visibility == View.VISIBLE && TextUtils.isEmpty(etBirthDate.text) -> {
                         tvBirthErrorMessage.visibility = View.VISIBLE
                         tvBirthErrorMessage.text = "Please add date of birth."
                         llBirthDate.setBackgroundResource(R.drawable.v2_error_input_bg)
                         etBirthDate.setTextColor(resources.getColor(R.color.error_red))
                     }
+                    //Step 5 Open Employment Section
                     llEmploymentSection.visibility == View.GONE -> {
                         llEmploymentSection.visibility = View.VISIBLE
                     }
+                    //Step 6 Validate Employment Details
                     llEmploymentSection.visibility == View.VISIBLE && llWorkExpriance.visibility == View.VISIBLE && TextUtils.isEmpty(etWorkExpriance.text) -> {
                         tvWorkExprianceErrorMessage.visibility = View.VISIBLE
                         tvWorkExprianceErrorMessage.text = "Please enter total years of work experiences."
                         llAddWorkExpriance.setBackgroundResource(R.drawable.v2_error_input_bg)
                         etWorkExpriance.setTextColor(resources.getColor(R.color.error_red))
                     }
+                    //Step 7 Open Account Details Section
                     llAccoutDetailsSection.visibility == View.GONE -> {
                         llAccoutDetailsSection.visibility = View.VISIBLE
                     }
                     llNetIncomeSection.visibility == View.GONE -> {
                         llNetIncomeSection.visibility = View.VISIBLE
                     }
+                    //Step 8 Validate Acount Details
                     llNetIncomeSection.visibility == View.VISIBLE && TextUtils.isEmpty(etNetIncome.text) -> {
                         tvNetIncomeErrorMessage.visibility = View.VISIBLE
                         tvNetIncomeErrorMessage.text = "Please enter net annual income."
                         llNetIncome.setBackgroundResource(R.drawable.v2_error_input_bg)
                         etNetIncome.setTextColor(resources.getColor(R.color.error_red))
                     }
+                    //Step 9 Call Add Employment Details API
                     addEmploymentDataApiCalled == false -> {
                         //Call Add EmploymentDetails Api
                         transactionViewModel.addEmploymentDetails(addEmploymentDetailsRequest, Global.customerAPI_BaseURL + CommonStrings.ADD_EMPLOYMENT_URL_END)
 
                     }
-
+                    //Step 10 Open EMI Section
                     llEMISection.visibility == View.GONE -> {
                         llEMISection.visibility = View.VISIBLE
                     }
+                    //Step 11 Open EMI Section Validate EMI Details
                     llEMISection.visibility == View.VISIBLE && llEmiDetails.visibility == View.VISIBLE && TextUtils.isEmpty(etEMI.text) -> {
                         tvEMIErrorMessage.visibility = View.VISIBLE
                         tvEMIErrorMessage.text = "Please enter EMI amount."
