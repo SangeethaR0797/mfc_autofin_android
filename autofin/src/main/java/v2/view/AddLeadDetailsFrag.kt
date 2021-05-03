@@ -129,10 +129,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var llResidenceType: LinearLayout
     lateinit var etAutoResidenceType: AutoCompleteTextView
     lateinit var tvResidenceTypeErrorMessage: TextView
-    lateinit var tvResidenceTypeInWords: TextView
+
     lateinit var rvResidenceTypeList: RecyclerView
+    lateinit var rvResidenceYears: RecyclerView
     lateinit var llResidenceTypeDetails: LinearLayout
     lateinit var residenceTypeDetailsAdapter: DataRecyclerViewAdapter
+    lateinit var residenceYearsAdapter: DataRecyclerViewAdapter
 
     lateinit var addEmploymentDetailsRequest: AddEmploymentDetailsRequest
     var isEmploymentDataSaved: Boolean = false
@@ -210,6 +212,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                             mApiResponse!!
                     )
                 })
+
+        masterViewModel.getResidentYearsLiveData()
+                .observe(this, { mApiResponse: ApiResponse? ->
+                    onResidentYears(
+                            mApiResponse!!
+                    )
+                })
+
 
         transactionViewModel.getResetCustomerJourneyLiveData().observe(requireActivity(), { mAPIResponse: ApiResponse? -> onResetJourney(mAPIResponse!!) })
 
@@ -313,8 +323,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         llResidenceType = view.findViewById(R.id.ll_residence_type)
         etAutoResidenceType = view.findViewById(R.id.et_residence_type)
         tvResidenceTypeErrorMessage = view.findViewById(R.id.tv_residence_type_error_message)
-        tvResidenceTypeInWords = view.findViewById(R.id.tv_residence_type_in_words)
+
         rvResidenceTypeList = view.findViewById(R.id.rv_residence_type_list)
+        rvResidenceYears = view.findViewById(R.id.rv_residence_year)
         llResidenceTypeDetails = view.findViewById(R.id.ll_residence_type_details)
         //  llResidenceTypeDetails.visibility = View.GONE
 
@@ -348,6 +359,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         setBankDetailsAdapter()
         setEMIDetailsAdapter()
         setResidenceTypeAdapter()
+        setResidenceYearsAdapter()
 
     }
 
@@ -615,6 +627,17 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     }
 
+    fun setResidenceYearsAdapter() {
+        val layoutManagerStaggeredGridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
+
+        rvResidenceYears.addItemDecoration(GridItemDecoration(25, 2))
+
+        rvResidenceYears.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+        masterViewModel.getResidentYears(Global.customerDetails_BaseURL + CommonStrings.RESIDENT_YEARS_END_POINT)
+
+
+    }
     override fun onClick(v: View?) {
 
         when (v?.id) {
@@ -1019,6 +1042,57 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
         rvResidenceTypeList.setAdapter(residenceTypeDetailsAdapter)
+    }
+    //endregion onResidentType
+
+    //region onResident Years
+    private fun onResidentYears(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+            }
+            ApiResponse.Status.SUCCESS -> {
+                val masterResponse: MasterResponse? = mApiResponse.data as MasterResponse?
+                setResidentYearsAdapterDetails(masterResponse!!.data.types)
+
+            }
+            ApiResponse.Status.ERROR -> {
+
+            }
+        }
+    }
+
+    private fun setResidentYearsAdapterDetails(types: List<Types>) {
+        val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
+
+        types.forEachIndexed { index, types ->
+            list.add(DataSelectionDTO(types.displayLabel, null, types.value, false))
+        }
+
+
+
+        residenceYearsAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+            override fun itemClick(item: Any?, position: Int) {
+
+
+                residenceYearsAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                    run {
+                        if (index == position) {
+                            item.selected = true
+
+
+
+                        } else {
+                            item.selected = false
+                        }
+
+                    }
+                }
+                residenceYearsAdapter.notifyDataSetChanged()
+            }
+        })
+
+
+        rvResidenceYears.setAdapter(residenceYearsAdapter)
     }
     //endregion onResidentType
     private fun onBankList(mApiResponse: ApiResponse) {
