@@ -53,7 +53,7 @@ import java.util.regex.Pattern
 public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
-    private var onClickNext: Boolean=false
+    private var onClickNext: Boolean = false
     lateinit var validateLeadDataRes: ValidateLeadDataResponse
     lateinit var etMobileNumberV2: EditText
     lateinit var ivBackToVehDetails: ImageView
@@ -124,6 +124,16 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var rvEMIList: RecyclerView
     lateinit var llEmiDetails: LinearLayout
     lateinit var eMIDetailsAdapter: DataRecyclerViewAdapter
+
+    lateinit var llResidenceTypeSection: LinearLayout
+    lateinit var llResidenceType: LinearLayout
+    lateinit var etResidenceType: EditText
+    lateinit var tvResidenceTypeErrorMessage: TextView
+    lateinit var tvResidenceTypeInWords: TextView
+    lateinit var rvResidenceTypeList: RecyclerView
+    lateinit var llResidenceTypeDetails: LinearLayout
+    lateinit var ResidenceTypeDetailsAdapter: DataRecyclerViewAdapter
+
     lateinit var addEmploymentDetailsRequest: AddEmploymentDetailsRequest
     var isEmploymentDataSaved: Boolean = false
 
@@ -291,6 +301,18 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         llEmiDetails.visibility = View.GONE
 
         tvEMIErrorMessage.visibility = View.GONE
+
+
+        llResidenceTypeSection = view.findViewById(R.id.ll_residence_type_section)
+        llResidenceType = view.findViewById(R.id.ll_residence_type)
+        etResidenceType = view.findViewById(R.id.et_residence_type)
+        tvResidenceTypeErrorMessage = view.findViewById(R.id.tv_residence_type_error_message)
+        tvResidenceTypeInWords = view.findViewById(R.id.tv_residence_type_in_words)
+        rvResidenceTypeList = view.findViewById(R.id.rv_residence_type_list)
+        llResidenceTypeDetails = view.findViewById(R.id.ll_residence_type_details)
+        llResidenceTypeDetails.visibility = View.GONE
+
+        tvResidenceTypeErrorMessage.visibility = View.GONE
 
 
 
@@ -598,7 +620,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     ll_otp_v2.visibility == View.VISIBLE && llNameAndEmailV2.visibility == View.GONE -> {
 
                         if (cbTermsAndConditions.isChecked) {
-                            onClickNext=true
+                            onClickNext = true
                             timer.onFinish()
                             //Validate OTP and Validate Lead
                             validateOTP()
@@ -831,18 +853,17 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     private fun enableTimer() {
-       timer= object : CountDownTimer(120000, 1000) {
+        timer = object : CountDownTimer(120000, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
                 tvOTPTimerV2.text = "" + millisUntilFinished / 1000 + " Sec"
-                onClickNext=false
+                onClickNext = false
             }
 
             override fun onFinish() {
                 tvOTPTimerV2.setText("0 Sec")
                 timer.cancel()
-                if(!onClickNext)
-                {
+                if (!onClickNext) {
                     showToast("Your OTP got expired, Please click on Resend OTP to get the new one.")
                 }
             }
@@ -1055,8 +1076,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 hideProgressDialog()
                 val validateLeadResponse: ValidateLeadResponse? = mApiResponse.data as ValidateLeadResponse?
                 val validateLeadDataResponse: ValidateLeadDataResponse? = validateLeadResponse?.data
-                if (!validateLeadDataResponse?.message.equals("Success"))
-                {
+                if (!validateLeadDataResponse?.message.equals("Success")) {
                     validateLeadDataRes = validateLeadDataResponse!!
                     generateAlertDialog()
                 }

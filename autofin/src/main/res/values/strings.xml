@@ -311,5 +311,8 @@
     <string name="do_you_have_any_emi">Do you have any EMI?</string>
     <string name="Current_EMI">Current EMI</string>
     <string name="emi_amount">EMI Amount</string>
+    <string name="residence_city">Residence City</string>
+    <string name="ResidenceType">Residence Type</string>
+    <string name="SelectResidenceCity">Select Residence City</string>
 
 </resources>
