@@ -1272,31 +1272,32 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     employmentDetailsAdapter.notifyDataSetChanged()
 
                     //set Employment other details
+                    if (!TextUtils.isEmpty(employmentType)) {
+                        if (employmentType.equals("Self Employed")) {
+                            llWorkExpriance.visibility = View.GONE
+                            etWorkExpriance.setText("")
+                            llAccoutDetailsSection.visibility = View.VISIBLE
+                            tvBankTitle.setText(getString(R.string.primary_bank_account))
+                            bankName = customerDetailsResponse.data!!.employmentDetails!!.primaryAccount
+                            addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount = bankName
+                            isEmploymentDataSaved = true
+                        } else {
+                            bankName = customerDetailsResponse.data!!.employmentDetails!!.salaryAccount
+                            addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount = bankName
+                            llWorkExpriance.visibility = View.VISIBLE
+                            tvBankTitle.setText(getString(R.string.salary_bank_account))
+                            if (customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience != null) {
+                                etWorkExpriance.setText(customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience!!)
+                            }
+                            //More than one year in same org
+                            cbMoreThanOneYearInCurrentOrganization.isChecked = customerDetailsResponse.data!!.employmentDetails!!.currentCompanyExpMoreThanOne!!
+                            addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne = customerDetailsResponse.data!!.employmentDetails!!.currentCompanyExpMoreThanOne!!
+                            isEmploymentDataSaved = true
 
-                    if (employmentType.equals("Self Employed")) {
-                        llWorkExpriance.visibility = View.GONE
-                        etWorkExpriance.setText("")
-                        llAccoutDetailsSection.visibility = View.VISIBLE
-                        tvBankTitle.setText(getString(R.string.primary_bank_account))
-                        bankName = customerDetailsResponse.data!!.employmentDetails!!.primaryAccount
-                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount = bankName
-                        isEmploymentDataSaved = true
-                    } else {
-                        bankName = customerDetailsResponse.data!!.employmentDetails!!.salaryAccount
-                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount = bankName
-                        llWorkExpriance.visibility = View.VISIBLE
-                        tvBankTitle.setText(getString(R.string.salary_bank_account))
-                        if (customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience != null) {
-                            etWorkExpriance.setText(customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience!!)
                         }
-                        //More than one year in same org
-                        cbMoreThanOneYearInCurrentOrganization.isChecked = customerDetailsResponse.data!!.employmentDetails!!.currentCompanyExpMoreThanOne!!
-                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne = customerDetailsResponse.data!!.employmentDetails!!.currentCompanyExpMoreThanOne!!
-                        isEmploymentDataSaved = true
-
                     }
                     //set Bank Details
-                    if (bankName != null) {
+                    if (!TextUtils.isEmpty(bankName)) {
                         bankListDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
                             if (dataSelectionDTO.displayValue.toString().equals(bankName)) {
                                 dataSelectionDTO.selected = true
@@ -1310,7 +1311,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
                     //set net income
-                    if (customerDetailsResponse.data!!.employmentDetails!!.netAnualIncome != null) {
+                    if (customerDetailsResponse.data!!.employmentDetails!!.netAnualIncome != null && customerDetailsResponse.data!!.employmentDetails!!.netAnualIncome!! > 0) {
                         llNetIncomeSection.visibility = View.VISIBLE
                         etNetIncome.setText(customerDetailsResponse.data!!.employmentDetails!!.netAnualIncome!!.toInt().toString())
                         addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome = customerDetailsResponse.data!!.employmentDetails!!.netAnualIncome!!.toInt()
