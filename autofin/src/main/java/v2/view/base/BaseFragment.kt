@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.mfc.autofin.framework.R
+import utility.CommonStrings
 import v2.help.CurrencyData
 import v2.model.dto.AddLeadRequest
 import v2.model.response.StockDetails
@@ -24,6 +25,7 @@ import v2.service.utility.ErrorUtils
 import v2.view.AddOrUpdateVehicleDetailsMakeFragDirections
 import v2.view.VehicleSelectionFragDirections
 import v2.view.callBackInterface.DatePickerCallBack
+import v2.view.other_activity.MasterDataSelectionActivity
 import v2.view.other_activity.VehBasicDetailsActivity
 
 import v2.view.utility_view.StockAPIFragmentArgs
