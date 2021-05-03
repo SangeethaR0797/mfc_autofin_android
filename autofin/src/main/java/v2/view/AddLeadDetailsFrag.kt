@@ -39,6 +39,7 @@ import v2.model.response.master.Types
 import v2.model_view.MasterViewModel
 import v2.model_view.TransactionViewModel
 import v2.service.utility.ApiResponse
+import v2.view.adapter.CustomAutoTextViewListAdapter
 import v2.view.adapter.DataRecyclerViewAdapter
 import v2.view.base.BaseFragment
 import v2.view.callBackInterface.DatePickerCallBack
@@ -127,7 +128,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     lateinit var llResidenceTypeSection: LinearLayout
     lateinit var llResidenceType: LinearLayout
-    lateinit var etAutoResidenceType: AutoCompleteTextView
+    lateinit var etAutoResidenceCity: AutoCompleteTextView
     lateinit var tvResidenceTypeErrorMessage: TextView
 
     lateinit var rvResidenceTypeList: RecyclerView
@@ -137,6 +138,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var residenceYearsAdapter: DataRecyclerViewAdapter
 
     lateinit var addEmploymentDetailsRequest: AddEmploymentDetailsRequest
+    lateinit var customAutoTextViewListAdapter: CustomAutoTextViewListAdapter
     var isEmploymentDataSaved: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -321,7 +323,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         llResidenceTypeSection = view.findViewById(R.id.ll_residence_type_section)
         llResidenceType = view.findViewById(R.id.ll_residence_type)
-        etAutoResidenceType = view.findViewById(R.id.et_residence_type)
+        etAutoResidenceCity = view.findViewById(R.id.et_residence_type)
         tvResidenceTypeErrorMessage = view.findViewById(R.id.tv_residence_type_error_message)
 
         rvResidenceTypeList = view.findViewById(R.id.rv_residence_type_list)
@@ -360,6 +362,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         setEMIDetailsAdapter()
         setResidenceTypeAdapter()
         setResidenceYearsAdapter()
+
+        val cityList: ArrayList<String> = arrayListOf<String>()
+        cityList.add("Pune")
+        cityList.add("Mumbai")
+        cityList.add("Kolhapur")
+
+        setCityAutoTextAdapter(cityList)
 
     }
 
@@ -615,6 +624,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         ivBackToVehDetails.setOnClickListener(this)
 
     }
+
     fun setResidenceTypeAdapter() {
         val layoutManagerStaggeredGridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
@@ -638,6 +648,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
     }
+
+    fun setCityAutoTextAdapter(cityList: ArrayList<String>) {
+        customAutoTextViewListAdapter = CustomAutoTextViewListAdapter(activity!!.baseContext, R.layout.v2_string_item_layout, cityList)
+        etAutoResidenceCity.setAdapter(customAutoTextViewListAdapter)
+        etAutoResidenceCity.threshold=1
+    }
+
     override fun onClick(v: View?) {
 
         when (v?.id) {
@@ -994,6 +1011,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         rvEmploymentType.setAdapter(employmentDetailsAdapter)
     }
+
     //region onResidentType
     private fun onResidentType(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
@@ -1027,7 +1045,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     run {
                         if (index == position) {
                             item.selected = true
-
 
 
                         } else {
@@ -1080,7 +1097,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                             item.selected = true
 
 
-
                         } else {
                             item.selected = false
                         }
@@ -1094,6 +1110,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         rvResidenceYears.setAdapter(residenceYearsAdapter)
     }
+
     //endregion onResidentType
     private fun onBankList(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
