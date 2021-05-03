@@ -130,6 +130,8 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
                 }
             }
             ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+
             }
             else -> showToast("There is no Data for entered Register number")
         }

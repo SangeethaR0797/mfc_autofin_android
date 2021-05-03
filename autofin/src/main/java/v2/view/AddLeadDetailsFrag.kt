@@ -374,6 +374,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 }
             }
             ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
 
             }
         }
@@ -408,6 +409,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
             }
             ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
 
             }
             else -> {
@@ -439,6 +441,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
             }
             ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
 
             }
             else -> {
@@ -463,6 +466,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
             }
             ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
 
             }
             else -> {
