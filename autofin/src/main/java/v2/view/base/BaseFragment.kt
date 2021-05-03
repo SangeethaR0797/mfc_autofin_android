@@ -1,6 +1,7 @@
 package v2.view.base
 
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.text.TextUtils
 import android.view.Gravity
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.DatePicker
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -17,22 +19,83 @@ import com.mfc.autofin.framework.R
 import v2.help.CurrencyData
 import v2.model.dto.AddLeadRequest
 import v2.model.response.StockDetails
+import v2.service.utility.ApiResponse
+import v2.service.utility.ErrorUtils
 import v2.view.AddOrUpdateVehicleDetailsMakeFragDirections
 import v2.view.VehicleSelectionFragDirections
+import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.other_activity.VehBasicDetailsActivity
+
 import v2.view.utility_view.StockAPIFragmentArgs
 import v2.view.utility_view.StockAPIFragmentDirections
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.util.*
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 
 public open class BaseFragment : Fragment() {
+    public var caseId = ""
+    var cal = Calendar.getInstance()
+    private lateinit var datePickerCallBack: DatePickerCallBack
+    public val DATE_FORMATE_DDMMYYYY = "dd/MM/yyyy"
+    public val DATE_FORMATE_YYYYMMDD = "yyyy-MM-dd"
 
-    public var caseId=""
+    //region DatePicker
+    public fun stringToDateString(value: String, sourceDateFormat: String, targetDateFormat: String): String {
+        val date = SimpleDateFormat(sourceDateFormat).parse(value)
+        return SimpleDateFormat(targetDateFormat).format(date)
+    }
+
+    val dateSetListener = object : DatePickerDialog.OnDateSetListener {
+        override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int,
+                               dayOfMonth: Int) {
+            cal.set(Calendar.YEAR, year)
+            cal.set(Calendar.MONTH, monthOfYear)
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+            val sdf = SimpleDateFormat(DATE_FORMATE_DDMMYYYY, Locale.US)
+            val sdfValue = SimpleDateFormat(DATE_FORMATE_YYYYMMDD, Locale.US)
+            var dateDisplayValue: String = sdf.format(cal.getTime())
+            var dateValue: String = sdfValue.format(cal.getTime())
+
+            if (datePickerCallBack != null) {
+                datePickerCallBack.dateSelected(dateDisplayValue, dateValue)
+            }
+        }
+    }
+
+    public fun callDatePickerDialog(datepickerCallBack: DatePickerCallBack) {
+        datePickerCallBack = datepickerCallBack
+        context?.let {
+            DatePickerDialog(it,
+                    dateSetListener,
+                    cal.get(Calendar.YEAR),
+                    cal.get(Calendar.MONTH),
+                    cal.get(Calendar.DAY_OF_MONTH)).show()
+        }
+    }
+    //endregion DatePicker
     //region validation
 
     public fun isValidVehicleRegNo(vehicleRegNo: String): Boolean {
         return Regex(pattern = "[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}").matches(vehicleRegNo)
+    }
+
+    public fun validName(name: String): Boolean {
+        val expression = "[a-zA-Z]"
+        val pattern: Pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
+        val matcher: Matcher = pattern.matcher(name)
+        return matcher.matches()
+    }
+
+
+    public fun isEmailValid(email: String?): Boolean {
+        val expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$"
+        val pattern: Pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
+        val matcher: Matcher = pattern.matcher(email)
+        return matcher.matches()
     }
     //endregion validation
 
@@ -107,10 +170,23 @@ public open class BaseFragment : Fragment() {
         startActivityForResult(carBasicDetailsActivity, requestCode)
     }
 
+    public fun navigateMasterDataSelectionActivity(requestCode: Int, dataType: String) {
+        val activity = Intent(activity, MasterDataSelectionActivity::class.java)
+        activity.putExtra(CommonStrings.SELECTED_DATA_TYPE, dataType)
+        startActivityForResult(activity, requestCode)
+    }
+
     public fun navigateToAddOrUpdateVehicleDetails(addLeadRequest: AddLeadRequest) {
-        val directions= VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(addLeadRequest)
+        val directions = VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(addLeadRequest!!)
         view?.let {
             Navigation.findNavController(it).navigate(directions)
+        }
+    }
+
+
+    public fun navigateToMobileNumber() {
+        view?.let {
+            Navigation.findNavController(it).navigate(R.id.action_addOrUpdateVehicleDetailsMakeFrag_to_addLeadDetailsFrag)
         }
     }
 
@@ -132,24 +208,30 @@ public open class BaseFragment : Fragment() {
 
     //region message
     fun showToast(message: String) {
-        hideSoftKeyboard()
-        /*  val toast = Toast.makeText(activity, message, Toast.LENGTH_LONG)
-          toast.setGravity(Gravity.CENTER, 0, 0)
-          toast.show()*/
+        try {
 
-        val inflater = layoutInflater
-        val layout: View = inflater.inflate(R.layout.v2_toast_layout, activity?.findViewById(R.id.toast_layout_root) as ViewGroup?)
 
-        val image: ImageView = layout.findViewById<View>(R.id.image) as ImageView
-        // image.visibility = View.GONE
-        val text = layout.findViewById<View>(R.id.text) as TextView
-        text.text = message
+            hideSoftKeyboard()
+            /*  val toast = Toast.makeText(activity, message, Toast.LENGTH_LONG)
+              toast.setGravity(Gravity.CENTER, 0, 0)
+              toast.show()*/
 
-        val toast = Toast(activity)
-        toast.setGravity(Gravity.CENTER, 0, 0)
-        toast.duration = Toast.LENGTH_LONG
-        toast.view = layout
-        toast.show()
+            val inflater = layoutInflater!!
+            val layout: View = inflater.inflate(R.layout.v2_toast_layout, activity?.findViewById(R.id.toast_layout_root) as ViewGroup?)
+
+            val image: ImageView = layout.findViewById<View>(R.id.image) as ImageView
+            // image.visibility = View.GONE
+            val text = layout.findViewById<View>(R.id.text) as TextView
+            text.text = message
+
+            val toast = Toast(activity)
+            toast.setGravity(Gravity.CENTER, 0, 0)
+            toast.duration = Toast.LENGTH_LONG
+            toast.view = layout
+            toast.show()
+        } catch (e: java.lang.Exception) {
+
+        }
     }
     //endregion message
 
@@ -182,4 +264,25 @@ public open class BaseFragment : Fragment() {
         }
     }
 //endregion keyboard function
+
+    open fun parseCommonResponse(apiResponseOtp: ApiResponse) {
+        when (apiResponseOtp.status) {
+            ApiResponse.Status.LOADING -> {
+            }
+            ApiResponse.Status.SUCCESS -> {
+            }
+            ApiResponse.Status.ERROR -> {
+                val apiError = ErrorUtils.parseThrowable(apiResponseOtp.error)
+                if (apiError.getCode() == 0) {
+                } else {
+                    if (!TextUtils.isEmpty(apiError.getMessage())) {
+                        showToast(apiError.getMessage()!!)
+                    }
+                }
+            }
+            else -> {
+            }
+        }
+    }
+
 }
