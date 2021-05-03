@@ -555,7 +555,7 @@
                             android:layout_weight="1"
                             android:background="@android:color/transparent"
                             android:hint="@string/SelectResidenceCity"
-                            android:inputType="number"
+                            android:inputType="textPersonName"
                             android:maxLength="11"
                             android:singleLine="true"
                             android:textAppearance="@style/RobotoRegular"

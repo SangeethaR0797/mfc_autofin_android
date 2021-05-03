@@ -127,7 +127,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     lateinit var llResidenceTypeSection: LinearLayout
     lateinit var llResidenceType: LinearLayout
-    lateinit var etResidenceType: EditText
+    lateinit var etAutoResidenceType: AutoCompleteTextView
     lateinit var tvResidenceTypeErrorMessage: TextView
     lateinit var tvResidenceTypeInWords: TextView
     lateinit var rvResidenceTypeList: RecyclerView
@@ -305,12 +305,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         llResidenceTypeSection = view.findViewById(R.id.ll_residence_type_section)
         llResidenceType = view.findViewById(R.id.ll_residence_type)
-        etResidenceType = view.findViewById(R.id.et_residence_type)
+        etAutoResidenceType = view.findViewById(R.id.et_residence_type)
         tvResidenceTypeErrorMessage = view.findViewById(R.id.tv_residence_type_error_message)
         tvResidenceTypeInWords = view.findViewById(R.id.tv_residence_type_in_words)
         rvResidenceTypeList = view.findViewById(R.id.rv_residence_type_list)
         llResidenceTypeDetails = view.findViewById(R.id.ll_residence_type_details)
-        llResidenceTypeDetails.visibility = View.GONE
+        //  llResidenceTypeDetails.visibility = View.GONE
 
         tvResidenceTypeErrorMessage.visibility = View.GONE
 
