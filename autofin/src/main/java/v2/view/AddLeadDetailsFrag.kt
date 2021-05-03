@@ -124,7 +124,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var llEmiDetails: LinearLayout
     lateinit var eMIDetailsAdapter: DataRecyclerViewAdapter
     lateinit var addEmploymentDetailsRequest: AddEmploymentDetailsRequest
-    var addEmploymentDataApiCalled: Boolean = false
+    var isEmploymentDataSaved: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -633,7 +633,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         etNetIncome.setTextColor(resources.getColor(R.color.error_red))
                     }
                     //Step 9 Call Add Employment Details API
-                    addEmploymentDataApiCalled == false -> {
+                    isEmploymentDataSaved == false -> {
                         //Call Add EmploymentDetails Api
                         transactionViewModel.addEmploymentDetails(addEmploymentDetailsRequest, Global.customerAPI_BaseURL + CommonStrings.ADD_EMPLOYMENT_URL_END)
 
@@ -1116,7 +1116,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
                 if (addLeadResponse?.mData!! > 0) {
                     var addEmploymentDetailsId = addLeadResponse?.mData.toString()
-                    addEmploymentDataApiCalled = true
+                    isEmploymentDataSaved = true
                 }
                 showToast(addLeadResponse?.message.toString())
 
@@ -1306,7 +1306,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome = customerDetailsResponse.data!!.employmentDetails!!.netAnualIncome!!.toInt()
                     }
 
-
+                    isEmploymentDataSaved=true
                 }
             }
         } catch (e: Exception) {
