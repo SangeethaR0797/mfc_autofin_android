@@ -68,14 +68,27 @@ public open class BaseFragment : Fragment() {
         }
     }
 
-    public fun callDatePickerDialog(datepickerCallBack: DatePickerCallBack) {
+    public fun callDatePickerDialog(lastSelectedDateValue: String?, datepickerCallBack: DatePickerCallBack) {
         datePickerCallBack = datepickerCallBack
+        var d: Int? = cal.get(Calendar.DAY_OF_MONTH)
+        var m: Int? = cal.get(Calendar.MONTH)
+        var y: Int? = cal.get(Calendar.YEAR)
+        try {
+            if (!TextUtils.isEmpty(lastSelectedDateValue)) {
+                d = lastSelectedDateValue!!.subSequence(8, 10).toString().toInt()
+                m = lastSelectedDateValue!!.subSequence(5, 7).toString().toInt()
+                y = lastSelectedDateValue!!.subSequence(0, 4).toString().toInt()
+            }
+        } catch (e: IndexOutOfBoundsException) {
+
+        }
+
         context?.let {
             DatePickerDialog(it,
                     dateSetListener,
-                    cal.get(Calendar.YEAR),
-                    cal.get(Calendar.MONTH),
-                    cal.get(Calendar.DAY_OF_MONTH)).show()
+                    y!!,
+                    m!!,
+                    d!!).show()
         }
     }
     //endregion DatePicker
