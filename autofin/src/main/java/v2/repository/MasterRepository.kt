@@ -3,6 +3,7 @@ package v2.repository
 import io.reactivex.Observable
 import v2.end_point.MasterEndPoint
 import v2.model.response.BankListResponse
+import v2.model.response.CityNameListResponse
 import v2.model.response.master.MasterResponse
 import v2.service.ApiServiceGenerator
 
@@ -43,6 +44,11 @@ class MasterRepository {
     fun getBankList(url: String): Observable<BankListResponse?>?
     {
         return masterEndPoint.getBankList(url)
+    }
+
+    fun getCityNameList(url: String): Observable<CityNameListResponse?>?
+    {
+        return masterEndPoint.getCityNameList(url)
     }
 
 }
