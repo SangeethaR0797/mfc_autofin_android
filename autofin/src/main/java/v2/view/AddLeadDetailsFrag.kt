@@ -40,6 +40,7 @@ import java.util.regex.Pattern
 public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
+    private var onClickNext: Boolean=false
     lateinit var validateLeadDataRes: ValidateLeadDataResponse
     lateinit var etMobileNumberV2: EditText
     lateinit var ivBackToVehDetails: ImageView
@@ -178,6 +179,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     ll_otp_v2.visibility == View.VISIBLE && llNameAndEmailV2.visibility == View.GONE -> {
 
                         if (cbTermsAndConditions.isChecked) {
+                            onClickNext=true
+                            timer.onFinish()
                             validateOTP()
                         } else
                             showToast("Please check Terms and Condition")
@@ -202,7 +205,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     private fun sendOTP() {
         if (etMobileNumberV2.text.length == 10) {
+
             transactionViewModel!!.generateOTP(getOtpRequest(null, etMobileNumberV2.text.toString()), Global.customerAPI_BaseURL + CommonStrings.OTP_URL_END)
+
             etMobileNumberV2.setTextColor(resources.getColor(R.color.black))
             tv_mobile_num_hint.setTextColor(resources.getColor(R.color.vtwo_light_grey))
             tv_mobile_num_hint.visibility = View.GONE
@@ -225,6 +230,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     private fun validateOTP() {
         if (etOTPV2.text.length == 6) {
+            showProgressDialog(requireContext())
             transactionViewModel!!.validateOTP(getOtpRequest(etOTPV2.text.toString(), etMobileNumberV2.text.toString()), Global.customerAPI_BaseURL + CommonStrings.VALIDATE_OTP_URL_END)
             tvOTPEHint.visibility = View.GONE
             llOTPNumInput.setBackgroundResource(R.drawable.vtwo_input_bg)
@@ -269,6 +275,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 addLeadRequest.Data?.basicDetails = basicDetails
                 addLeadRequest.UserType = CommonStrings.USER_TYPE
                 addLeadRequest.UserId = CommonStrings.DEALER_ID
+                showProgressDialog(requireContext())
+
                 transactionViewModel.addLead(addLeadRequest, Global.customerAPI_BaseURL + CommonStrings.ADD_LEAD_URL_END)
 
             } else {
@@ -330,15 +338,20 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     private fun enableTimer() {
-        object : CountDownTimer(120000, 1000) {
+       timer= object : CountDownTimer(120000, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
                 tvOTPTimerV2.text = "" + millisUntilFinished / 1000 + " Sec"
+                onClickNext=false
             }
 
             override fun onFinish() {
                 tvOTPTimerV2.setText("0 Sec")
-                showToast("Your OTP got expired!")
+                timer.cancel()
+                if(!onClickNext)
+                {
+                    showToast("Your OTP got expired, Please click on Resend OTP to get the new one.")
+                }
             }
         }.start()
 
@@ -349,6 +362,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             ApiResponse.Status.LOADING -> {
             }
             ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
                 val otpResponse: OTPResponse? = mApiResponse.data as OTPResponse?
                 if (otpResponse?.status!!) {
                     // Toast.makeText(activity, "OTP Validate", Toast.LENGTH_LONG).show()
@@ -386,6 +400,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             ApiResponse.Status.LOADING -> {
             }
             ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
                 val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
                 caseId = addLeadResponse?.mData.toString()
 
@@ -413,9 +428,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             ApiResponse.Status.LOADING -> {
             }
             ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
                 val validateLeadResponse: ValidateLeadResponse? = mApiResponse.data as ValidateLeadResponse?
                 val validateLeadDataResponse: ValidateLeadDataResponse? = validateLeadResponse?.data
-                if (!validateLeadDataResponse?.message.equals("Success")) {
+                if (!validateLeadDataResponse?.message.equals("Success"))
+                {
                     validateLeadDataRes = validateLeadDataResponse!!
                     generateAlertDialog()
                 }
@@ -436,6 +453,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             ApiResponse.Status.LOADING -> {
             }
             ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
                 val resetJourneyRes: ResetCustomerJourneyResponse? = mAPIResponse.data as ResetCustomerJourneyResponse?
 
                 if (dialog.isShowing)
@@ -486,6 +504,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     private fun resetJourney() {
+        showProgressDialog(requireContext())
         transactionViewModel.resetCustomerJourney(getCustomerRequest(), Global.customerAPI_BaseURL + CommonStrings.RESET_JOURNEY)
     }
 
