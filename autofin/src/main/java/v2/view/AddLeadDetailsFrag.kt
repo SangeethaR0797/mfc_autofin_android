@@ -2,6 +2,7 @@ package v2.view
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
@@ -104,6 +105,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var etSearchBank: EditText
     lateinit var rvBankList: RecyclerView
     lateinit var tvBankTitle: TextView
+    lateinit var llAddSearchBank: LinearLayout
     lateinit var rlEditYearOfExperience: RelativeLayout
 
     lateinit var llNetIncomeSection: LinearLayout
@@ -253,6 +255,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         etSearchBank = view.findViewById(R.id.et_search_bank)
         rvBankList = view.findViewById(R.id.rv_bank_list)
         tvBankTitle = view.findViewById(R.id.tv_bank_title)
+        llAddSearchBank = view.findViewById(R.id.ll_search_bank)
 
         cbMoreThanOneYearInCurrentOrganization = view.findViewById(R.id.cb_more_than_one_year_in_current_organization)
 
@@ -291,6 +294,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         btnMobileNum.setOnClickListener(this)
         llBirthDate.setOnClickListener(this)
         etBirthDate.setOnClickListener(this)
+        llAddSearchBank.setOnClickListener(this)
 
 
         //Hide All Section
@@ -311,6 +315,16 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         setBankDetailsAdapter()
         setEMIDetailsAdapter()
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE && resultCode == CommonStrings.RESULT_CODE) {
+            var dataSelectionDTO: DataSelectionDTO? = data?.getParcelableExtra(CommonStrings.SELECTED_DATA)
+            var dataType: String? = data?.getStringExtra(CommonStrings.SELECTED_DATA_TYPE)
+            showToast("Result > " + dataType + " >> " + dataSelectionDTO!!.value)
+
+        }
     }
 
     fun callCustomerDetailsApi(customerId: Int) {
@@ -557,6 +571,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         when (v?.id) {
             R.id.ivBackToVehDetails -> {
                 activity?.onBackPressed()
+            }
+            R.id.ll_search_bank -> {
+                navigateMasterDataSelectionActivity(CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE, CommonStrings.YEAR)
             }
             R.id.btnMobileNum -> {
                 hideSoftKeyboard()

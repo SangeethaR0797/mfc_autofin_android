@@ -161,6 +161,7 @@ public class CommonStrings {
 
     public static final int RESULT_CODE = 500;
     public static final int CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE = 501;
+    public static final int MASTER_DETAIL_ACTIVITY_REQUEST_CODE = 502;
 
     public static final String SELECTED_DATA = "selectedData";
     public static final String SELECTED_DATA_TYPE = "selectedDataType";
