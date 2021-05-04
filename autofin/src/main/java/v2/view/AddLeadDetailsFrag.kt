@@ -204,6 +204,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     mApiResponse!!
             )
         })
+        transactionViewModel.getAddResidentDetailsLiveData().observe(requireActivity(), { mApiResponse: ApiResponse? ->
+            onAddResidentDetails(
+                    mApiResponse!!
+            )
+        })
         transactionViewModel.getCustomerDetailsLiveData().observe(requireActivity(), { mApiResponse: ApiResponse? ->
             onCustomerDetails(
                     mApiResponse!!
@@ -1466,8 +1471,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     private fun onAddEmploymentDetails(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
             }
             ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
                 val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
                 if (addLeadResponse?.mData!! > 0) {
                     var addEmploymentDetailsId = addLeadResponse?.mData.toString()
@@ -1477,7 +1484,32 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
             }
             ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+            }
+            else -> {
+                showToast("Please enter valid details")
+            }
+        }
 
+    }
+
+    private fun onAddResidentDetails(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
+                if (addLeadResponse?.mData!! > 0) {
+                    var addEmploymentDetailsId = addLeadResponse?.mData.toString()
+                    isEmploymentDataSaved = true
+                }
+                hideProgressDialog()
+                showToast(addLeadResponse?.message.toString())
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
             }
             else -> {
                 showToast("Please enter valid details")
