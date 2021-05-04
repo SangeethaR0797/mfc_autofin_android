@@ -586,7 +586,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 llResidenceType.setBackgroundResource(R.drawable.vtwo_input_bg)
                 etAutoResidenceCity.setTextColor(resources.getColor(R.color.vtwo_black))
-                tvResidenceTypeErrorMessage.visibility=View.GONE
+                tvResidenceTypeErrorMessage.visibility = View.GONE
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
@@ -636,7 +636,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 llPanNumber.setBackgroundResource(R.drawable.vtwo_input_bg)
                 etPanNumber.setTextColor(resources.getColor(R.color.vtwo_black))
-                tvPanNumberErrorMessage.visibility=View.GONE
+                tvPanNumberErrorMessage.visibility = View.GONE
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
@@ -864,7 +864,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     //Step 14 residence city validation
                     llResidenceTypeSection.visibility == View.VISIBLE && TextUtils.isEmpty(addResidentDetailsRequest.Data!!.residentialDetails!!.CustomerCity) -> {
                         tvResidenceTypeErrorMessage.text = ("Please select residence city.")
-                        tvResidenceTypeErrorMessage.visibility=View.VISIBLE
+                        tvResidenceTypeErrorMessage.visibility = View.VISIBLE
                         llResidenceType.setBackgroundResource(R.drawable.v2_error_input_bg)
                         etAutoResidenceCity.setTextColor(resources.getColor(R.color.error_red))
 
@@ -880,18 +880,17 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     //Step 17 Pan Card Number validation
                     llPanNumberSection.visibility == View.VISIBLE && (TextUtils.isEmpty(addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber) || !isValidPanNo(addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber!!))
                     -> {
-                        tvPanNumberErrorMessage.visibility=View.VISIBLE
+                        tvPanNumberErrorMessage.visibility = View.VISIBLE
                         tvPanNumberErrorMessage.text = ("Please select residence city.")
                         llPanNumber.setBackgroundResource(R.drawable.v2_error_input_bg)
                         etPanNumber.setTextColor(resources.getColor(R.color.error_red))
                     }
                     //Step 18 Call Add Residence Details API
-                    llPanNumberSection.visibility == View.VISIBLE && isResidentDataSaved==false -> {
+                    llPanNumberSection.visibility == View.VISIBLE && isResidentDataSaved == false -> {
                         transactionViewModel.addResidentDetails(addResidentDetailsRequest, Global.customerAPI_BaseURL + CommonStrings.ADD_RESIDENT_URL_END)
                     }
                     //Step 19 All Data save
-                    !TextUtils.isEmpty(caseId) && isEmploymentDataSaved==true && isResidentDataSaved==true->
-                    {
+                    !TextUtils.isEmpty(caseId) && isEmploymentDataSaved == true && isResidentDataSaved == true -> {
                         showToast("All details have saved.")
                     }
 
@@ -1860,7 +1859,18 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
                 }
+                //set Pan Card Number
+                if (customerDetailsResponse!!.data!!.basicDetails!!.panNumber != null) {
+                    panNumber = customerDetailsResponse!!.data!!.basicDetails!!.panNumber
+                }
+                if (panNumber == null && customerDetailsResponse!!.data!!.equifaxFields!!.panNumber != null && customerDetailsResponse!!.data!!.equifaxFields!!.panNumber!!.size > 0) {
+                    panNumber = customerDetailsResponse!!.data!!.equifaxFields!!.panNumber!!.get(0).toString()
+                }
+                if (panNumber != null) {
+                    llPanNumberSection.visibility = View.VISIBLE
+                    etPanNumber.setText(panNumber)
 
+                }
 
             }
         } catch (e: Exception) {
