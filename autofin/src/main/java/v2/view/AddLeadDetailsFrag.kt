@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
+import android.widget.AdapterView.OnItemClickListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,10 +31,6 @@ import v2.model.dto.DataSelectionDTO
 import v2.model.request.*
 import v2.model.request.add_lead.BasicDetails
 import v2.model.response.*
-import v2.model.response.AddLeadResponse
-import v2.model.response.BankListResponse
-import v2.model.response.CustomerDetailsResponse
-import v2.model.response.OTPResponse
 import v2.model.response.master.MasterResponse
 import v2.model.response.master.Types
 import v2.model_view.MasterViewModel
@@ -45,10 +42,7 @@ import v2.view.base.BaseFragment
 import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.callBackInterface.itemClickCallBack
 import v2.view.utility_view.GridItemDecoration
-import java.lang.NumberFormatException
 import java.util.*
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 
 public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
@@ -705,6 +699,19 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         etAutoResidenceCity.setAdapter(customAutoTextViewListAdapter)
         etAutoResidenceCity.threshold = 1
         etAutoResidenceCity.showDropDown()
+        etAutoResidenceCity.onItemClickListener = OnItemClickListener { parent, arg1, pos, id ->
+            showToast(customAutoTextViewListAdapter.getItem(pos)!!)
+            var t: Timer? = null
+            t = Timer()
+            t.schedule(object : TimerTask() {
+                override fun run() {
+                    ThreadUtils.runOnUiThread(Runnable {
+                        etAutoResidenceCity.dismissDropDown()
+                    });
+                }
+            }, 1000)
+
+        }
     }
 
     override fun onClick(v: View?) {
@@ -721,7 +728,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 navigateMasterDataSelectionActivity(CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE, CommonStrings.BANK_DATA_CALL)
             }
             R.id.ll_residence_type -> {
-                etAutoResidenceCity.showDropDown()
+                if (etAutoResidenceCity.adapter != null) {
+                    etAutoResidenceCity.showDropDown()
+                }
             }
             R.id.btnMobileNum -> {
                 hideSoftKeyboard()
@@ -1208,7 +1217,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     private fun onResidentCityName(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
-               // showProgressDialog(requireContext())
+                // showProgressDialog(requireContext())
             }
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()

@@ -17,7 +17,11 @@ class CustomAutoTextViewListAdapter(private val mContext: Context, private val i
     private val listFilter: ListFilter = ListFilter()
     private var dataListAllItems: List<String>? = null
     override fun getCount(): Int {
-        return dataList!!.size
+        if (dataList == null) {
+            return 0
+        } else {
+            return dataList!!.size
+        }
     }
 
     override fun getItem(position: Int): String? {
