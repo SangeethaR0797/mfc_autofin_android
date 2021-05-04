@@ -315,5 +315,7 @@
     <string name="ResidenceType">Residence Type</string>
     <string name="SelectResidenceCity">Select Residence City</string>
     <string name="NoofYearsInCurrentResidence">No of years in current residence</string>
+    <string name="pancard_number">Pancard number</string>
+    <string name="pancard">Pancard</string>
 
 </resources>

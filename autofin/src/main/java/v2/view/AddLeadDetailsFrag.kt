@@ -131,6 +131,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var residenceTypeDetailsAdapter: DataRecyclerViewAdapter
     lateinit var residenceYearsAdapter: DataRecyclerViewAdapter
 
+    lateinit var llPanNumberSection: LinearLayout
+    lateinit var llPanNumber: LinearLayout
+    lateinit var etPanNumber: EditText
+    lateinit var tvPanNumberErrorMessage: TextView
+
     lateinit var addEmploymentDetailsRequest: AddEmploymentDetailsRequest
     lateinit var customAutoTextViewListAdapter: CustomAutoTextViewListAdapter
     var isEmploymentDataSaved: Boolean = false
@@ -329,9 +334,17 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         rvResidenceTypeList = view.findViewById(R.id.rv_residence_type_list)
         rvResidenceYears = view.findViewById(R.id.rv_residence_year)
         llResidenceTypeDetails = view.findViewById(R.id.ll_residence_type_details)
-        //  llResidenceTypeDetails.visibility = View.GONE
+        llResidenceTypeDetails.visibility = View.GONE
 
         tvResidenceTypeErrorMessage.visibility = View.GONE
+
+        llPanNumberSection = view.findViewById(R.id.ll_pan_number_section)
+        llPanNumber = view.findViewById(R.id.ll_pan_number)
+        etPanNumber = view.findViewById(R.id.et_pan_number)
+        tvPanNumberErrorMessage = view.findViewById(R.id.tv_pan_number_error_message)
+
+
+        tvPanNumberErrorMessage.visibility = View.GONE
 
 
 
@@ -350,7 +363,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         llEmploymentSection.visibility = View.GONE
         llAccoutDetailsSection.visibility = View.GONE
         llNetIncomeSection.visibility = View.GONE
-        llEMISection.visibility = View.GONE
+      /*  llEMISection.visibility = View.GONE
+        llResidenceTypeSection.visibility = View.GONE
+        llPanNumberSection.visibility = View.GONE*/
 
         setTextChangeOfWorkExpirance()
         setCheckBoxEvent()
