@@ -75,7 +75,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var salutationAdapter: DataRecyclerViewAdapter
     lateinit var llNameAndEmailV2: LinearLayout
     lateinit var etFirstName: EditText
-    lateinit var dialogConfilctForAddLead: Dialog
+    var dialogConfilctForAddLead: Dialog? = null
     lateinit var timer: CountDownTimer
 
     var make: String = ""
@@ -1239,7 +1239,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 hideProgressDialog()
                 val validateLeadResponse: ValidateLeadResponse? = mApiResponse.data as ValidateLeadResponse?
                 val validateLeadDataResponse: ValidateLeadDataResponse? = validateLeadResponse?.data
-                if (!validateLeadDataResponse?.message.equals("Success")) {
+
+                if (validateLeadDataResponse?.message.equals("Success")) {
+                    validateLeadDataRes = validateLeadDataResponse!!
+                    if (validateLeadDataRes!!.details != null) {
+                        preFilledPersonalBasicDetails(validateLeadDataRes!!.details!!.salutation, validateLeadDataRes!!.details!!.firstName, validateLeadDataRes!!.details!!.lastName, validateLeadDataRes!!.details!!.email)
+                    }
+                } else {
                     validateLeadDataRes = validateLeadDataResponse!!
                     generateAlertDialog()
                 }
@@ -1264,8 +1270,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 hideProgressDialog()
                 val resetJourneyRes: ResetCustomerJourneyResponse? = mAPIResponse.data as ResetCustomerJourneyResponse?
 
-                if (dialogConfilctForAddLead.isShowing)
-                    dialogConfilctForAddLead.dismiss()
+                if (dialogConfilctForAddLead != null && dialogConfilctForAddLead!!.isShowing) {
+                    dialogConfilctForAddLead!!.dismiss()
+                }
 
                 showToast(resetJourneyRes?.message.toString())
 
@@ -1285,30 +1292,30 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     private fun generateAlertDialog() {
 
         dialogConfilctForAddLead = Dialog(requireContext())
-        dialogConfilctForAddLead.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialogConfilctForAddLead.setCancelable(false)
-        dialogConfilctForAddLead.setCanceledOnTouchOutside(false)
-        dialogConfilctForAddLead.setContentView(R.layout.vtwo_layout_custom_dialog)
-        val ivCloseDialog = dialogConfilctForAddLead.findViewById(R.id.ivCloseDialogV2) as ImageView
-        val tvAlertDialogText = dialogConfilctForAddLead.findViewById(R.id.tvAlertDialogText) as TextView
+        dialogConfilctForAddLead!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialogConfilctForAddLead!!.setCancelable(false)
+        dialogConfilctForAddLead!!.setCanceledOnTouchOutside(false)
+        dialogConfilctForAddLead!!.setContentView(R.layout.vtwo_layout_custom_dialog)
+        val ivCloseDialog = dialogConfilctForAddLead!!.findViewById(R.id.ivCloseDialogV2) as ImageView
+        val tvAlertDialogText = dialogConfilctForAddLead!!.findViewById(R.id.tvAlertDialogText) as TextView
         tvAlertDialogText.setText(validateLeadDataRes.message)
-        val btnNewFlow = dialogConfilctForAddLead.findViewById(R.id.btnStartNewFlowV2) as Button
-        val btnContinueWithOldFlow = dialogConfilctForAddLead.findViewById(R.id.btnExistingFlowV2) as Button
+        val btnNewFlow = dialogConfilctForAddLead!!.findViewById(R.id.btnStartNewFlowV2) as Button
+        val btnContinueWithOldFlow = dialogConfilctForAddLead!!.findViewById(R.id.btnExistingFlowV2) as Button
 
         ivCloseDialog.setOnClickListener {
-            dialogConfilctForAddLead.dismiss()
+            dialogConfilctForAddLead!!.dismiss()
         }
 
         btnNewFlow.setOnClickListener {
             resetJourney()
-            dialogConfilctForAddLead.dismiss()
+            dialogConfilctForAddLead!!.dismiss()
         }
         btnContinueWithOldFlow.setOnClickListener {
             callCustomerDetailsApi(validateLeadDataRes.oldCustomerId!!.toInt())
-            dialogConfilctForAddLead.dismiss()
+            dialogConfilctForAddLead!!.dismiss()
         }
-        dialogConfilctForAddLead.window!!.setBackgroundDrawableResource(android.R.color.transparent);
-        dialogConfilctForAddLead.show()
+        dialogConfilctForAddLead!!.window!!.setBackgroundDrawableResource(android.R.color.transparent);
+        dialogConfilctForAddLead!!.show()
 
     }
 
@@ -1383,8 +1390,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             ApiResponse.Status.LOADING -> {
             }
             ApiResponse.Status.SUCCESS -> {
-                if (dialogConfilctForAddLead.isShowing)
-                    dialogConfilctForAddLead.dismiss()
+                if (dialogConfilctForAddLead != null && dialogConfilctForAddLead!!.isShowing) {
+                    dialogConfilctForAddLead!!.dismiss()
+                }
                 val customerDetailsResponse: CustomerDetailsResponse? = mApiResponse.data as CustomerDetailsResponse?
                 if (customerDetailsResponse?.data != null) {
                     preFilledData(customerDetailsResponse)
@@ -1404,12 +1412,56 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
     // OnResponse region ends
+    fun preFilledPersonalBasicDetails(salutationValue: String?, firstName: String?, lastName: String?, email: String?) {
+        try {
+
+
+            if (addLeadRequest.Data!!.basicDetails == null) {
+                var basicDetails = BasicDetails()
+                addLeadRequest.Data!!.basicDetails = basicDetails;
+
+            }
+
+
+            addLeadRequest.Data!!.basicDetails!!.FirstName = firstName
+            addLeadRequest.Data!!.basicDetails!!.LastName = lastName
+            addLeadRequest.Data!!.basicDetails!!.Email = email
+            addLeadRequest.Data!!.basicDetails!!.Salutation = salutationValue
+            salutation = salutationValue!!
+            etFirstName.setText(firstName)
+            et_last_name.setText(lastName)
+            et_email.setText(email)
+
+
+            if (salutation != null) {
+                salutationAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
+                    if (dataSelectionDTO.displayValue.toString().equals(salutation)) {
+                        dataSelectionDTO.selected = true
+                    } else {
+                        dataSelectionDTO.selected = false
+                    }
+                }
+                salutationAdapter.notifyDataSetChanged()
+
+            }
+        } catch (eNull: NullPointerException) {
+
+        } catch (e: Exception) {
+
+        }
+    }
+
     fun preFilledData(customerDetailsResponse: CustomerDetailsResponse?) {
         try {
             var birthDateDisplayValue: String? = null
             var birthDateValue: String? = null
             var employmentType: String? = null
             var bankName: String? = null
+
+            var salutationValue: String? = null
+            var firstName: String? = null
+            var lastName: String? = null
+            var email: String? = null
 
 
 
@@ -1424,33 +1476,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 }
                 //set basicDetails
                 if (customerDetailsResponse!!.data!!.basicDetails != null) {
-                    if (addLeadRequest.Data!!.basicDetails == null) {
-                        var basicDetails = BasicDetails()
-                        addLeadRequest.Data!!.basicDetails = basicDetails;
+                    salutationValue = customerDetailsResponse!!.data!!.basicDetails!!.salutation
+                    firstName = customerDetailsResponse!!.data!!.basicDetails!!.firstName
+                    lastName = customerDetailsResponse!!.data!!.basicDetails!!.lastName
+                    email = customerDetailsResponse!!.data!!.basicDetails!!.email
+                    preFilledPersonalBasicDetails(salutationValue, firstName, lastName, email)
 
-                    }
-                    addLeadRequest.Data!!.basicDetails!!.FirstName = customerDetailsResponse!!.data!!.basicDetails!!.firstName
-                    addLeadRequest.Data!!.basicDetails!!.LastName = customerDetailsResponse!!.data!!.basicDetails!!.lastName
-                    addLeadRequest.Data!!.basicDetails!!.Email = customerDetailsResponse!!.data!!.basicDetails!!.email
-                    addLeadRequest.Data!!.basicDetails!!.Salutation = customerDetailsResponse!!.data!!.basicDetails!!.salutation
-
-                    etFirstName.setText(customerDetailsResponse!!.data!!.basicDetails!!.firstName)
-                    et_last_name.setText(customerDetailsResponse!!.data!!.basicDetails!!.lastName)
-                    et_email.setText(customerDetailsResponse!!.data!!.basicDetails!!.email)
-
-                    var salutation = (customerDetailsResponse!!.data!!.basicDetails!!.salutation)
-
-                    if (salutation != null) {
-                        salutationAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
-                            if (dataSelectionDTO.displayValue.toString().equals(salutation)) {
-                                dataSelectionDTO.selected = true
-                            } else {
-                                dataSelectionDTO.selected = false
-                            }
-                        }
-                        salutationAdapter.notifyDataSetChanged()
-
-                    }
                 }
 
                 //Set Birth Data
