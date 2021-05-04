@@ -5,10 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import v2.model.dto.AddLeadRequest
-import v2.model.request.AddEmploymentDetailsRequest
-import v2.model.request.OTPRequest
-import v2.model.request.CustomerRequest
-import v2.model.request.ValidateLeadRequest
+import v2.model.request.*
 import v2.model_view.Base.BaseViewModel
 import v2.repository.TransactionRepository
 import v2.service.utility.ApiResponse
@@ -251,5 +248,38 @@ class TransactionViewModel(application: Application) : BaseViewModel(application
                 }
     }
 //endregion AddEmploymentDetails
+
+    //region AddResidentDetails
+    private val mAddResidentDetails: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+    public fun getAddResidentDetailsLiveData(): MutableLiveData<ApiResponse> {
+        return mAddResidentDetails
+    }
+
+
+    public fun addResidentDetails(request: AddResidentDetailsRequest, url: String?) {
+        repository.addResidentDetails(request, url)?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe { d -> mAddResidentDetails.setValue(ApiResponse.loading()) }
+                ?.let {
+                    disposables.add(
+                            it
+                                    .subscribe(
+                                            { result ->
+                                                mAddResidentDetails.setValue(result?.let {
+                                                    ApiResponse.success(
+                                                            it
+                                                    )
+                                                })
+                                            }
+                                    ) { throwable ->
+                                        mAddResidentDetails.setValue(
+                                                ApiResponse.error(
+                                                        throwable
+                                                )
+                                        )
+                                    })
+                }
+    }
+//endregion AddResidentDetails
 
 }

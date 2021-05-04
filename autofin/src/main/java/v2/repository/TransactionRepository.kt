@@ -3,10 +3,7 @@ package v2.repository
 import io.reactivex.Observable
 import v2.end_point.TransactionEndPoint
 import v2.model.dto.AddLeadRequest
-import v2.model.request.AddEmploymentDetailsRequest
-import v2.model.request.OTPRequest
-import v2.model.request.CustomerRequest
-import v2.model.request.ValidateLeadRequest
+import v2.model.request.*
 import v2.model.response.*
 import v2.service.ApiServiceGenerator
 
@@ -45,6 +42,9 @@ class TransactionRepository {
 
     fun addEmploymentDetails(request: AddEmploymentDetailsRequest, url: String?): Observable<AddLeadResponse?>? {
         return transactionEndPoint.addEmploymentDetails(request, url)
+    }
+    fun addResidentDetails(request: AddResidentDetailsRequest, url: String?): Observable<AddLeadResponse?>? {
+        return transactionEndPoint.addResidentDetails(request, url)
     }
 
 

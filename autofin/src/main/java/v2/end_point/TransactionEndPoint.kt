@@ -3,16 +3,13 @@ package v2.end_point
 import io.reactivex.Observable
 import retrofit2.http.*
 import v2.model.dto.AddLeadRequest
-import v2.model.request.AddEmploymentDetailsRequest
-import v2.model.request.OTPRequest
-import v2.model.request.CustomerRequest
-import v2.model.request.ValidateLeadRequest
+import v2.model.request.*
 import v2.model.response.*
 
 interface TransactionEndPoint {
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST
-    fun addLead( @Body request: AddLeadRequest,@Url url: String?): Observable<AddLeadResponse?>?
+    fun addLead(@Body request: AddLeadRequest, @Url url: String?): Observable<AddLeadResponse?>?
 
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST
@@ -36,6 +33,10 @@ interface TransactionEndPoint {
 
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST
-    fun addEmploymentDetails( @Body request: AddEmploymentDetailsRequest,@Url url: String?): Observable<AddLeadResponse?>?
+    fun addEmploymentDetails(@Body request: AddEmploymentDetailsRequest, @Url url: String?): Observable<AddLeadResponse?>?
+
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST
+    fun addResidentDetails(@Body request: AddResidentDetailsRequest, @Url url: String?): Observable<AddLeadResponse?>?
 
 }
