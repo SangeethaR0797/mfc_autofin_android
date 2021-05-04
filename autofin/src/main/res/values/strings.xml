@@ -305,5 +305,6 @@
     <string name="v2_loan_amount">Loan Amount</string>
     <string name="v2_tenure">Tenure</string>
     <string name="v2_tenure_lbl">3 Years</string>
+    <string name="v2_modify_req_lbl">Modify Requirements</string>
 
 </resources>

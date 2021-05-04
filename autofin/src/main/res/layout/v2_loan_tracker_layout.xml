@@ -50,7 +50,7 @@
         android:textSize="@dimen/text_size_12dp"
         android:textAppearance="@style/RobotoMedium"
         android:layout_below="@+id/skLoanAmount"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="@dimen/text_size_15dp"
         tools:ignore="SpUsage" />
 
     <TextView
@@ -60,7 +60,7 @@
         android:textColor="@color/vtwo_black"
         android:textSize="@dimen/text_size_14sp"
         android:textAppearance="@style/RobotoMedium"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="@dimen/text_size_15dp"
         android:layout_alignParentRight="true"
         android:gravity="end"
         android:layout_below="@+id/skLoanAmount"

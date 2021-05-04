@@ -62,7 +62,19 @@
                 android:paddingRight="12dp"
                 android:paddingLeft="@dimen/text_size_12dp"
                 android:paddingEnd="12dp"
+                android:orientation="vertical"
+                android:background="@color/vtwo_black"
                 android:paddingStart="@dimen/text_size_12dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/v2_modify_req_lbl"
+                    android:layout_marginBottom="@dimen/text_size_16sp"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_16sp"
+                    android:layout_marginLeft="4dp"
+                    android:textAppearance="@font/roboto_medium"
+                    />
                 <include layout="@layout/v2_loan_tracker_layout" />
             </LinearLayout>
         </LinearLayout>
