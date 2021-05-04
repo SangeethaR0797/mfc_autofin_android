@@ -1,6 +1,7 @@
 package v2.view.adapter
 
 import android.content.Context
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -25,18 +26,21 @@ class CustomAutoTextViewListAdapter(private val mContext: Context, private val i
         return dataList!![position]
     }
 
-    override fun getView(position: Int, view: View?, @NonNull parent: ViewGroup): View {
+    override fun getView(position: Int, view: View?, parent: ViewGroup): View {
         var view = view
         if (view == null) {
             view = LayoutInflater.from(parent.context)
                     .inflate(itemLayout, parent, false)
         }
-        val strName = view!!.findViewById<View>(R.id.tv_item) as TextView
-        strName.text = getItem(position)
-        return view
+        view?.let {
+            val strName = view!!.findViewById<View>(R.id.tv_item) as TextView
+            strName.text = getItem(position)!!
+        }
+
+        return view!!
     }
 
-    @NonNull
+
     override fun getFilter(): Filter {
         return listFilter
     }
@@ -45,24 +49,30 @@ class CustomAutoTextViewListAdapter(private val mContext: Context, private val i
         private val lock = Any()
         override fun performFiltering(prefix: CharSequence): FilterResults {
             val results = FilterResults()
-            if (dataListAllItems == null) {
-                synchronized(lock) { dataListAllItems = ArrayList(dataList!!) }
-            }
-            if (prefix == null || prefix.length == 0) {
-                synchronized(lock) {
-                    results.values = dataListAllItems
-                    results.count = dataListAllItems!!.size
+            if (!TextUtils.isEmpty(prefix.toString())) {
+
+                if (dataListAllItems == null) {
+                    synchronized(lock) { dataListAllItems = ArrayList(dataList!!) }
+                }
+                if (prefix == null || prefix.length == 0) {
+                    synchronized(lock) {
+                        results.values = dataListAllItems
+                        results.count = dataListAllItems!!.size
+                    }
+                } else {
+                    val searchStrLowerCase = prefix.toString().toLowerCase()
+                    val matchValues = ArrayList<String>()
+                    for (dataItem in dataListAllItems!!) {
+                        if (dataItem.toLowerCase().startsWith(searchStrLowerCase)) {
+                            matchValues.add(dataItem)
+                        }
+                    }
+                    results.values = matchValues
+                    results.count = matchValues!!.size
                 }
             } else {
-                val searchStrLowerCase = prefix.toString().toLowerCase()
-                val matchValues = ArrayList<String>()
-                for (dataItem in dataListAllItems!!) {
-                    if (dataItem.toLowerCase().startsWith(searchStrLowerCase)) {
-                        matchValues.add(dataItem)
-                    }
-                }
-                results.values = matchValues
-                results.count = matchValues!!.size
+                results.values = null
+                results.count = 0
             }
             return results
         }
