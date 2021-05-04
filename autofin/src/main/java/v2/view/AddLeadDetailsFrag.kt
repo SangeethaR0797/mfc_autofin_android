@@ -633,7 +633,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
 
             override fun afterTextChanged(s: Editable) {
-                addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber=etPanNumber.text.toString()
+                addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber = etPanNumber.text.toString()
             }
         })
     }
@@ -1600,6 +1600,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             var birthDateValue: String? = null
             var employmentType: String? = null
             var bankName: String? = null
+            var panNumber: String? = null
 
             var salutationValue: String? = null
             var firstName: String? = null
@@ -1706,6 +1707,71 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
                 }
+
+                //set EMI Details
+                var haveEmi: String
+                if (customerDetailsResponse.data!!.basicDetails!!.haveExistingEMI == true) {
+                    haveEmi = "Yes"
+                    addResidentDetailsRequest.Data!!.personalDetails!!.HaveExistingEMI = true
+                } else {
+                    haveEmi = "No"
+                    addResidentDetailsRequest.Data!!.personalDetails!!.HaveExistingEMI = false
+                }
+                llEMISection.visibility = View.VISIBLE
+                eMIDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
+                    if (dataSelectionDTO.value.toString().equals(haveEmi)) {
+                        dataSelectionDTO.selected = true
+                        llEmiDetails.visibility = View.VISIBLE
+                        if (customerDetailsResponse.data!!.basicDetails!!.totalEMI!!.toInt() > 0) {
+                            etEMI.setText(customerDetailsResponse.data!!.basicDetails!!.totalEMI!!.toInt().toString())
+                            addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = customerDetailsResponse.data!!.basicDetails!!.totalEMI!!.toInt()
+                        } else {
+                            addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = 0
+                        }
+                    } else {
+                        dataSelectionDTO.selected = false
+                        addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = 0
+                    }
+                }
+                eMIDetailsAdapter.notifyDataSetChanged()
+
+                //set residentialDetails
+                if (customerDetailsResponse.data!!.residentialDetails != null) {
+                    //Set residenceType
+                    if (customerDetailsResponse.data!!.residentialDetails!!.residenceType != null) {
+                        llResidenceTypeSection.visibility = View.VISIBLE
+                        residenceTypeDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
+                            if (dataSelectionDTO.value.toString().equals(customerDetailsResponse.data!!.residentialDetails!!.residenceType)) {
+                                addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType = dataSelectionDTO.value.toString()
+                            } else {
+                                dataSelectionDTO.selected = false
+                            }
+                        }
+                        residenceTypeDetailsAdapter.notifyDataSetChanged()
+
+                        //set noOfYearInResident
+                        if (customerDetailsResponse.data!!.residentialDetails!!.noOfYearInResident != null) {
+
+                            residenceYearsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
+                                if (dataSelectionDTO.value.toString().equals(customerDetailsResponse.data!!.residentialDetails!!.noOfYearInResident.toString())) {
+                                    addResidentDetailsRequest.Data!!.residentialDetails!!.NoOfYearInResident = dataSelectionDTO.value.toString().toInt()
+                                } else {
+                                    dataSelectionDTO.selected = false
+                                }
+                            }
+                            residenceYearsAdapter.notifyDataSetChanged()
+                        }
+                        //set Customer Resident City
+                        if (customerDetailsResponse.data!!.residentialDetails!!.customerCity != null) {
+                            addResidentDetailsRequest.Data!!.residentialDetails!!.CustomerCity = customerDetailsResponse.data!!.residentialDetails!!.customerCity
+                            etAutoResidenceCity.setText(customerDetailsResponse.data!!.residentialDetails!!.customerCity)
+                        }
+                    }
+
+
+                }
+
+
             }
         } catch (e: Exception) {
             Log.d("Err", e.message)
