@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.mfc.autofin.framework.R
 import kotlinx.android.synthetic.main.activity_basic_details.*
+import kotlinx.android.synthetic.main.layout_additional_fields_row_item.*
 import kotlinx.android.synthetic.main.v2_reg_name_email_layout.*
 import kotlinx.android.synthetic.main.vtwo_mobile_num_layout.*
 import utility.CommonStrings
@@ -342,7 +343,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         rvResidenceTypeList = view.findViewById(R.id.rv_residence_type_list)
         rvResidenceYears = view.findViewById(R.id.rv_residence_year)
         llResidenceTypeDetails = view.findViewById(R.id.ll_residence_type_details)
-        llResidenceTypeDetails.visibility = View.GONE
 
         tvResidenceTypeErrorMessage.visibility = View.GONE
 
@@ -380,6 +380,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         setTextChangeOfNetIncome()
         setTextChangeOfEMI()
         setTextChangeOfetAutoResidenceCity()
+        setTextChangeOfPanNumber()
 
         setSalutaionAdapterData();
         setEploymentDetailsAdapter()
@@ -537,7 +538,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         timerEMI!!.cancel();
 
                     }
-                    if (TextUtils.isEmpty(etEMI.text.toString())) {
+                    if (!unformatAmount(etEMI.text.toString()).equals(addResidentDetailsRequest.Data?.personalDetails?.TotalEMI.toString()) || TextUtils.isEmpty(etEMI.text.toString())) {
                         allowEdit = true
                     }
                     if (allowEdit == true) {
@@ -583,7 +584,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         var allowEditCity: Boolean = true
         etAutoResidenceCity.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
+                llResidenceType.setBackgroundResource(R.drawable.vtwo_input_bg)
+                etAutoResidenceCity.setTextColor(resources.getColor(R.color.vtwo_black))
+                tvResidenceTypeErrorMessage.visibility=View.GONE
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
@@ -631,7 +634,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         etPanNumber.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
+                llPanNumber.setBackgroundResource(R.drawable.vtwo_input_bg)
+                etPanNumber.setTextColor(resources.getColor(R.color.vtwo_black))
+                tvPanNumberErrorMessage.visibility=View.GONE
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
@@ -848,6 +853,49 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         llEMI.setBackgroundResource(R.drawable.v2_error_input_bg)
                         etEMI.setTextColor(resources.getColor(R.color.error_red))
                     }
+                    //Step 12 open Residence details
+                    llResidenceTypeSection.visibility == View.GONE -> {
+                        llResidenceTypeSection.visibility = View.VISIBLE
+                    }
+                    //Step 13 ResidenceType validation
+                    llResidenceTypeSection.visibility == View.VISIBLE && TextUtils.isEmpty(addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType) -> {
+                        showToast("Please select residence type.")
+                    }
+                    //Step 14 residence city validation
+                    llResidenceTypeSection.visibility == View.VISIBLE && TextUtils.isEmpty(addResidentDetailsRequest.Data!!.residentialDetails!!.CustomerCity) -> {
+                        tvResidenceTypeErrorMessage.text = ("Please select residence city.")
+                        tvResidenceTypeErrorMessage.visibility=View.VISIBLE
+                        llResidenceType.setBackgroundResource(R.drawable.v2_error_input_bg)
+                        etAutoResidenceCity.setTextColor(resources.getColor(R.color.error_red))
+
+                    }
+                    //Step 15 residence year validation
+                    llResidenceTypeSection.visibility == View.VISIBLE && addResidentDetailsRequest.Data!!.residentialDetails!!.NoOfYearInResident!! < 0 -> {
+                        showToast("Please select no of years in current residence.")
+                    }
+                    //Step 16 Open Pan Card Section
+                    llPanNumberSection.visibility == View.GONE -> {
+                        llPanNumberSection.visibility = View.VISIBLE
+                    }
+                    //Step 17 Pan Card Number validation
+                    llPanNumberSection.visibility == View.VISIBLE && (TextUtils.isEmpty(addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber) || !isValidPanNo(addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber!!))
+                    -> {
+                        tvPanNumberErrorMessage.visibility=View.VISIBLE
+                        tvPanNumberErrorMessage.text = ("Please select residence city.")
+                        llPanNumber.setBackgroundResource(R.drawable.v2_error_input_bg)
+                        etPanNumber.setTextColor(resources.getColor(R.color.error_red))
+                    }
+                    //Step 18 Call Add Residence Details API
+                    llPanNumberSection.visibility == View.VISIBLE && isResidentDataSaved==false -> {
+                        transactionViewModel.addResidentDetails(addResidentDetailsRequest, Global.customerAPI_BaseURL + CommonStrings.ADD_RESIDENT_URL_END)
+                    }
+                    //Step 19 All Data save
+                    !TextUtils.isEmpty(caseId) && isEmploymentDataSaved==true && isResidentDataSaved==true->
+                    {
+                        showToast("All details have saved.")
+                    }
+
+
                 }
             }
             R.id.tvResendOTPV2 -> {
@@ -1764,7 +1812,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                 eMIDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
                     if (dataSelectionDTO.value.toString().equals(haveEmi)) {
-                        isResidentDataSaved=true
+                        isResidentDataSaved = true
                         dataSelectionDTO.selected = true
 
 

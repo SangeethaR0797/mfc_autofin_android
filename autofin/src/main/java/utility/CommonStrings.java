@@ -63,6 +63,7 @@ public class CommonStrings {
     public static final String VALIDATE_OTP_URL_END = "validate-otp";
     public static final String ADD_LEAD_URL_END = "add-lead";
     public static final String ADD_EMPLOYMENT_URL_END = "add-employment-details";
+    public static final String ADD_RESIDENT_URL_END = "add-resident-details";
     public static final String MOVED_TO_CCITY = "moved_to_CurrentCity";
     public static final String MOVED_TO_CRESIDENCE = "moved_to_current_residence";
     public static final String USER_DOB = "user_dob";

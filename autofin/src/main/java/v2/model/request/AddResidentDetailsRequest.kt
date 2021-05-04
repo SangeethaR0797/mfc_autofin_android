@@ -20,6 +20,6 @@ data class ResidentDetailsDataPersonalDetails(
 
 data class ResidentDetailsDataResidentialDetails(
         var CustomerCity: String? = null,
-        var NoOfYearInResident: Int? = null,
+        var NoOfYearInResident: Int? = -1,
         var ResidenceType: String? = null
 )

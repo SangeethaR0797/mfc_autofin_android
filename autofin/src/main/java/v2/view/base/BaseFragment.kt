@@ -116,6 +116,10 @@ public open class BaseFragment : Fragment() {
         val matcher: Matcher = pattern.matcher(email)
         return matcher.matches()
     }
+
+    public fun isValidPanNo(panNumber: String): Boolean {
+        return Regex(pattern = "[A-Z]{5}[0-9]{4}[A-Z]{1}").matches(panNumber)
+    }
     //endregion validation
 
     //region utility function
