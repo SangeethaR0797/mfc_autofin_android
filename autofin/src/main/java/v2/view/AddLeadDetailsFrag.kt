@@ -1054,7 +1054,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 hideProgressDialog()
                 val validateLeadResponse: ValidateLeadResponse? = mApiResponse.data as ValidateLeadResponse?
                 val validateLeadDataResponse: ValidateLeadDataResponse? = validateLeadResponse?.data
-                if (!validateLeadDataResponse?.message.equals("Success")) {
+
+                if (validateLeadDataResponse?.message.equals("Success")) {
+                    validateLeadDataRes = validateLeadDataResponse!!
+                    if (validateLeadDataRes!!.details != null) {
+                        preFilledPersonalBasicDetails(validateLeadDataRes!!.details!!.salutation, validateLeadDataRes!!.details!!.firstName, validateLeadDataRes!!.details!!.lastName, validateLeadDataRes!!.details!!.email)
+                    }
+                } else {
                     validateLeadDataRes = validateLeadDataResponse!!
                     generateAlertDialog()
                 }
@@ -1221,7 +1227,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
     // OnResponse region ends
-    fun preFilledPersonalBasicDetails(salutation: String?, firstName: String?, lastName: String?, email: String?) {
+    fun preFilledPersonalBasicDetails(salutationValue: String?, firstName: String?, lastName: String?, email: String?) {
         try {
 
 
@@ -1235,8 +1241,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             addLeadRequest.Data!!.basicDetails!!.FirstName = firstName
             addLeadRequest.Data!!.basicDetails!!.LastName = lastName
             addLeadRequest.Data!!.basicDetails!!.Email = email
-            addLeadRequest.Data!!.basicDetails!!.Salutation = salutation
-
+            addLeadRequest.Data!!.basicDetails!!.Salutation = salutationValue
+            salutation = salutationValue!!
             etFirstName.setText(firstName)
             et_last_name.setText(lastName)
             et_email.setText(email)
@@ -1267,7 +1273,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             var employmentType: String? = null
             var bankName: String? = null
 
-            var salutation: String? = null
+            var salutationValue: String? = null
             var firstName: String? = null
             var lastName: String? = null
             var email: String? = null
@@ -1285,11 +1291,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 }
                 //set basicDetails
                 if (customerDetailsResponse!!.data!!.basicDetails != null) {
-                    salutation = customerDetailsResponse!!.data!!.basicDetails!!.salutation
+                    salutationValue = customerDetailsResponse!!.data!!.basicDetails!!.salutation
                     firstName = customerDetailsResponse!!.data!!.basicDetails!!.firstName
                     lastName = customerDetailsResponse!!.data!!.basicDetails!!.lastName
                     email = customerDetailsResponse!!.data!!.basicDetails!!.email
-                    preFilledPersonalBasicDetails(salutation, firstName, lastName, email)
+                    preFilledPersonalBasicDetails(salutationValue, firstName, lastName, email)
 
                 }
 
