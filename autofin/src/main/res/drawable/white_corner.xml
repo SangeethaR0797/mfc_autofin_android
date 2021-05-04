@@ -9,5 +9,7 @@
         android:top="5dp"></padding>
 
     <corners android:radius="@dimen/text_size_12dp"></corners>
+    <stroke android:width="@dimen/text_size_8dp"
+        android:color="#00387900"/>
 
 </shape>
