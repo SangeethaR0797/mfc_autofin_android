@@ -53,7 +53,7 @@ import java.util.regex.Pattern
 public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
-    private var onClickNext: Boolean=false
+    private var onClickNext: Boolean = false
     lateinit var validateLeadDataRes: ValidateLeadDataResponse
     lateinit var etMobileNumberV2: EditText
     lateinit var ivBackToVehDetails: ImageView
@@ -74,7 +74,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var salutationAdapter: DataRecyclerViewAdapter
     lateinit var llNameAndEmailV2: LinearLayout
     lateinit var etFirstName: EditText
-    lateinit var dialogConfilctForAddLead: Dialog
+    var dialogConfilctForAddLead: Dialog?=null
     lateinit var timer: CountDownTimer
 
     var make: String = ""
@@ -598,7 +598,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     ll_otp_v2.visibility == View.VISIBLE && llNameAndEmailV2.visibility == View.GONE -> {
 
                         if (cbTermsAndConditions.isChecked) {
-                            onClickNext=true
+                            onClickNext = true
                             timer.onFinish()
                             //Validate OTP and Validate Lead
                             validateOTP()
@@ -831,18 +831,17 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     private fun enableTimer() {
-       timer= object : CountDownTimer(120000, 1000) {
+        timer = object : CountDownTimer(120000, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
                 tvOTPTimerV2.text = "" + millisUntilFinished / 1000 + " Sec"
-                onClickNext=false
+                onClickNext = false
             }
 
             override fun onFinish() {
                 tvOTPTimerV2.setText("0 Sec")
                 timer.cancel()
-                if(!onClickNext)
-                {
+                if (!onClickNext) {
                     showToast("Your OTP got expired, Please click on Resend OTP to get the new one.")
                 }
             }
@@ -1055,8 +1054,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 hideProgressDialog()
                 val validateLeadResponse: ValidateLeadResponse? = mApiResponse.data as ValidateLeadResponse?
                 val validateLeadDataResponse: ValidateLeadDataResponse? = validateLeadResponse?.data
-                if (!validateLeadDataResponse?.message.equals("Success"))
-                {
+                if (!validateLeadDataResponse?.message.equals("Success")) {
                     validateLeadDataRes = validateLeadDataResponse!!
                     generateAlertDialog()
                 }
@@ -1081,8 +1079,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 hideProgressDialog()
                 val resetJourneyRes: ResetCustomerJourneyResponse? = mAPIResponse.data as ResetCustomerJourneyResponse?
 
-                if (dialogConfilctForAddLead.isShowing)
-                    dialogConfilctForAddLead.dismiss()
+                if (dialogConfilctForAddLead != null && dialogConfilctForAddLead!!.isShowing) {
+                    dialogConfilctForAddLead!!.dismiss()
+                }
 
                 showToast(resetJourneyRes?.message.toString())
 
@@ -1102,30 +1101,30 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     private fun generateAlertDialog() {
 
         dialogConfilctForAddLead = Dialog(requireContext())
-        dialogConfilctForAddLead.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialogConfilctForAddLead.setCancelable(false)
-        dialogConfilctForAddLead.setCanceledOnTouchOutside(false)
-        dialogConfilctForAddLead.setContentView(R.layout.vtwo_layout_custom_dialog)
-        val ivCloseDialog = dialogConfilctForAddLead.findViewById(R.id.ivCloseDialogV2) as ImageView
-        val tvAlertDialogText = dialogConfilctForAddLead.findViewById(R.id.tvAlertDialogText) as TextView
+        dialogConfilctForAddLead!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialogConfilctForAddLead!!.setCancelable(false)
+        dialogConfilctForAddLead!!.setCanceledOnTouchOutside(false)
+        dialogConfilctForAddLead!!.setContentView(R.layout.vtwo_layout_custom_dialog)
+        val ivCloseDialog = dialogConfilctForAddLead!!.findViewById(R.id.ivCloseDialogV2) as ImageView
+        val tvAlertDialogText = dialogConfilctForAddLead!!.findViewById(R.id.tvAlertDialogText) as TextView
         tvAlertDialogText.setText(validateLeadDataRes.message)
-        val btnNewFlow = dialogConfilctForAddLead.findViewById(R.id.btnStartNewFlowV2) as Button
-        val btnContinueWithOldFlow = dialogConfilctForAddLead.findViewById(R.id.btnExistingFlowV2) as Button
+        val btnNewFlow = dialogConfilctForAddLead!!.findViewById(R.id.btnStartNewFlowV2) as Button
+        val btnContinueWithOldFlow = dialogConfilctForAddLead!!.findViewById(R.id.btnExistingFlowV2) as Button
 
         ivCloseDialog.setOnClickListener {
-            dialogConfilctForAddLead.dismiss()
+            dialogConfilctForAddLead!!.dismiss()
         }
 
         btnNewFlow.setOnClickListener {
             resetJourney()
-            dialogConfilctForAddLead.dismiss()
+            dialogConfilctForAddLead!!.dismiss()
         }
         btnContinueWithOldFlow.setOnClickListener {
             callCustomerDetailsApi(validateLeadDataRes.oldCustomerId!!.toInt())
-            dialogConfilctForAddLead.dismiss()
+            dialogConfilctForAddLead!!.dismiss()
         }
-        dialogConfilctForAddLead.window!!.setBackgroundDrawableResource(android.R.color.transparent);
-        dialogConfilctForAddLead.show()
+        dialogConfilctForAddLead!!.window!!.setBackgroundDrawableResource(android.R.color.transparent);
+        dialogConfilctForAddLead!!.show()
 
     }
 
@@ -1200,8 +1199,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             ApiResponse.Status.LOADING -> {
             }
             ApiResponse.Status.SUCCESS -> {
-                if (dialogConfilctForAddLead.isShowing)
-                    dialogConfilctForAddLead.dismiss()
+                if (dialogConfilctForAddLead != null && dialogConfilctForAddLead!!.isShowing) {
+                    dialogConfilctForAddLead!!.dismiss()
+                }
                 val customerDetailsResponse: CustomerDetailsResponse? = mApiResponse.data as CustomerDetailsResponse?
                 if (customerDetailsResponse?.data != null) {
                     preFilledData(customerDetailsResponse)
