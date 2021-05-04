@@ -419,6 +419,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     validateLeadDataRes = validateLeadDataResponse!!
                     generateAlertDialog()
                 }
+                else
+                    navToSoftOffer()
 
             }
             ApiResponse.Status.ERROR -> {
@@ -441,6 +443,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 if (dialog.isShowing)
                     dialog.dismiss()
 
+                navToSoftOffer()
                 showToast(resetJourneyRes?.message.toString())
 
             }
@@ -454,6 +457,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     }
 
+
+
+
+    // OnResponse region ends
 
     private fun generateAlertDialog() {
 
@@ -478,6 +485,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         }
         btnContinueWithOldFlow.setOnClickListener {
             showToast("Start with old lead application is in-progress.")
+            navToSoftOffer()
             dialog.dismiss()
         }
         dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent);
@@ -497,12 +505,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     private fun getValidateLeadReq(): ValidateLeadRequest {
         val validateLeadDataRequest = ValidateLeadDataRequest(mobileNum, make, model, variant)
         return ValidateLeadRequest(validateLeadDataRequest, CommonStrings.DEALER_ID, CommonStrings.USER_TYPE)
-        /*val validateLeadDataRequest= ValidateLeadDataRequest(etMobileNumberV2.text.toString(),addLeadRequest.Data?.vehicleDetails?.Make,addLeadRequest.Data?.vehicleDetails?.Model,addLeadRequest.Data?.vehicleDetails?.Variant)
-        return ValidateLeadRequest(validateLeadDataRequest, addLeadRequest.UserId, addLeadRequest.UserType)*/
     }
 
-
-    // OnResponse region ends
 
     private fun displayNameLayout() {
         ll_otp_v2.visibility = View.GONE

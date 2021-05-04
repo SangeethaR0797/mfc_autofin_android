@@ -68,7 +68,15 @@
         <argument
             android:name="addLeadRequestDetails"
             app:argType="v2.model.dto.AddLeadRequest" />
+        <action
+            android:id="@+id/action_addLeadDetailsFrag_to_softOfferFragment2"
+            app:destination="@id/softOfferFragment2" />
     </fragment>
+    <fragment
+        android:id="@+id/softOfferFragment2"
+        android:name="v2.view.SoftOfferFragment"
+        android:label="fragment_soft_offer"
+        tools:layout="@layout/fragment_soft_offer" />
 
 
 </navigation>
