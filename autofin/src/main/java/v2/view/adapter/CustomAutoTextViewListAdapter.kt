@@ -77,7 +77,7 @@ class CustomAutoTextViewListAdapter(private val mContext: Context, private val i
             return results
         }
 
-        override fun publishResults(constraint: CharSequence, results: FilterResults) {
+        override fun publishResults(constraint: CharSequence?, results: FilterResults) {
             dataList = if (results.values != null) {
                 results.values as ArrayList<String>
             } else {

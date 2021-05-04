@@ -221,6 +221,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                             mApiResponse!!
                     )
                 })
+        masterViewModel.getCityNameListLiveData()
+                .observe(this, { mApiResponse: ApiResponse? ->
+                    onResidentCityName(
+                            mApiResponse!!
+                    )
+                })
 
 
         transactionViewModel.getResetCustomerJourneyLiveData().observe(requireActivity(), { mAPIResponse: ApiResponse? -> onResetJourney(mAPIResponse!!) })
@@ -356,6 +362,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         setCheckBoxEvent()
         setTextChangeOfNetIncome()
         setTextChangeOfEMI()
+        setTextChangeOfetAutoResidenceCity()
 
         setSalutaionAdapterData();
         setEploymentDetailsAdapter()
@@ -364,12 +371,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         setResidenceTypeAdapter()
         setResidenceYearsAdapter()
 
-        val cityList: ArrayList<String> = arrayListOf<String>()
-        cityList.add("Pune")
-        cityList.add("Mumbai")
-        cityList.add("Kolhapur")
-
-        setCityAutoTextAdapter(cityList)
 
     }
 
@@ -557,6 +558,55 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         })
     }
 
+    fun setTextChangeOfetAutoResidenceCity() {
+        var timerCity: Timer? = null
+        var allowEditCity: Boolean = true
+        etAutoResidenceCity.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
+                                           after: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                try {
+                    if (timerCity != null) {
+                        timerCity!!.cancel();
+
+                    }
+                    allowEditCity = true
+                    if (TextUtils.isEmpty(etAutoResidenceCity.text.toString())) {
+                        allowEditCity = true
+                    }
+                    if (allowEditCity == true) {
+                        timerCity = Timer()
+                        timerCity!!.schedule(object : TimerTask() {
+                            override fun run() {
+
+
+                                allowEditCity = false
+                                ThreadUtils.runOnUiThread(Runnable {
+                                    //call Search City
+                                    if (!TextUtils.isEmpty(etAutoResidenceCity.text.toString())) {
+                                        masterViewModel.getCityNameList(Global.customerDetails_BaseURL + CommonStrings.CITY_SEARCH_VIA_TEXT_END_POINT + etAutoResidenceCity.text.toString())
+                                    }
+                                });
+
+
+                            }
+                        }, 600)
+                    } else {
+
+                    }
+                } catch (e: Exception) {
+
+                }
+            }
+        })
+    }
+
     //endregion setTextChangeEvent
     fun setSalutaionAdapterData() {
         masterViewModel!!.getSalutations(Global.customerDetails_BaseURL + CommonStrings.SALUTATION_END_POINT)
@@ -654,6 +704,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         customAutoTextViewListAdapter = CustomAutoTextViewListAdapter(activity!!.baseContext, R.layout.v2_auto_text_adapter_layout, cityList)
         etAutoResidenceCity.setAdapter(customAutoTextViewListAdapter)
         etAutoResidenceCity.threshold = 1
+        etAutoResidenceCity.showDropDown()
     }
 
     override fun onClick(v: View?) {
@@ -1152,6 +1203,31 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
         rvBankList.setAdapter(bankListDetailsAdapter)
+    }
+
+    private fun onResidentCityName(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+               // showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+                val response: CityNameListResponse? = mApiResponse.data as CityNameListResponse?
+                if (response?.data != null && response!!.data!!.size > 0) {
+                    var cityList: ArrayList<String> = arrayListOf<String>()
+
+                    response!!.data!!.forEachIndexed { index, city ->
+                        cityList.add(city)
+                    }
+                    setCityAutoTextAdapter(cityList)
+
+                }
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+            }
+        }
     }
 
     fun updateBankSelection(selectedBankDataSelectionDTO: DataSelectionDTO) {
