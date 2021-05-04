@@ -141,6 +141,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var customAutoTextViewListAdapter: CustomAutoTextViewListAdapter
 
     var isEmploymentDataSaved: Boolean = false
+    var isResidentDataSaved: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -1502,7 +1503,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
                 if (addLeadResponse?.mData!! > 0) {
                     var addEmploymentDetailsId = addLeadResponse?.mData.toString()
-                    isEmploymentDataSaved = true
+                    isResidentDataSaved = true
                 }
                 hideProgressDialog()
                 showToast(addLeadResponse?.message.toString())
@@ -1742,24 +1743,31 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                 //set EMI Details
                 var haveEmi: String
+                llEMISection.visibility = View.VISIBLE
+
                 if (customerDetailsResponse.data!!.basicDetails!!.haveExistingEMI == true) {
                     haveEmi = "Yes"
                     addResidentDetailsRequest.Data!!.personalDetails!!.HaveExistingEMI = true
+                    llEmiDetails.visibility = View.VISIBLE
+
+                    if (customerDetailsResponse.data!!.basicDetails!!.totalEMI!!.toInt() > 0) {
+                        etEMI.setText(customerDetailsResponse.data!!.basicDetails!!.totalEMI!!.toInt().toString())
+                        addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = customerDetailsResponse.data!!.basicDetails!!.totalEMI!!.toInt()
+                    } else {
+                        addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = 0
+                    }
+
                 } else {
                     haveEmi = "No"
                     addResidentDetailsRequest.Data!!.personalDetails!!.HaveExistingEMI = false
                 }
-                llEMISection.visibility = View.VISIBLE
+
                 eMIDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
                     if (dataSelectionDTO.value.toString().equals(haveEmi)) {
+                        isResidentDataSaved=true
                         dataSelectionDTO.selected = true
-                        llEmiDetails.visibility = View.VISIBLE
-                        if (customerDetailsResponse.data!!.basicDetails!!.totalEMI!!.toInt() > 0) {
-                            etEMI.setText(customerDetailsResponse.data!!.basicDetails!!.totalEMI!!.toInt().toString())
-                            addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = customerDetailsResponse.data!!.basicDetails!!.totalEMI!!.toInt()
-                        } else {
-                            addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = 0
-                        }
+
+
                     } else {
                         dataSelectionDTO.selected = false
                         addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = 0
