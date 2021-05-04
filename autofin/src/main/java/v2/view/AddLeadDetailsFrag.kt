@@ -74,7 +74,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var salutationAdapter: DataRecyclerViewAdapter
     lateinit var llNameAndEmailV2: LinearLayout
     lateinit var etFirstName: EditText
-    var dialogConfilctForAddLead: Dialog?=null
+    var dialogConfilctForAddLead: Dialog? = null
     lateinit var timer: CountDownTimer
 
     var make: String = ""
@@ -1221,12 +1221,56 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
     // OnResponse region ends
+    fun preFilledPersonalBasicDetails(salutation: String?, firstName: String?, lastName: String?, email: String?) {
+        try {
+
+
+            if (addLeadRequest.Data!!.basicDetails == null) {
+                var basicDetails = BasicDetails()
+                addLeadRequest.Data!!.basicDetails = basicDetails;
+
+            }
+
+
+            addLeadRequest.Data!!.basicDetails!!.FirstName = firstName
+            addLeadRequest.Data!!.basicDetails!!.LastName = lastName
+            addLeadRequest.Data!!.basicDetails!!.Email = email
+            addLeadRequest.Data!!.basicDetails!!.Salutation = salutation
+
+            etFirstName.setText(firstName)
+            et_last_name.setText(lastName)
+            et_email.setText(email)
+
+
+            if (salutation != null) {
+                salutationAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
+                    if (dataSelectionDTO.displayValue.toString().equals(salutation)) {
+                        dataSelectionDTO.selected = true
+                    } else {
+                        dataSelectionDTO.selected = false
+                    }
+                }
+                salutationAdapter.notifyDataSetChanged()
+
+            }
+        } catch (eNull: NullPointerException) {
+
+        } catch (e: Exception) {
+
+        }
+    }
+
     fun preFilledData(customerDetailsResponse: CustomerDetailsResponse?) {
         try {
             var birthDateDisplayValue: String? = null
             var birthDateValue: String? = null
             var employmentType: String? = null
             var bankName: String? = null
+
+            var salutation: String? = null
+            var firstName: String? = null
+            var lastName: String? = null
+            var email: String? = null
 
 
 
@@ -1241,33 +1285,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 }
                 //set basicDetails
                 if (customerDetailsResponse!!.data!!.basicDetails != null) {
-                    if (addLeadRequest.Data!!.basicDetails == null) {
-                        var basicDetails = BasicDetails()
-                        addLeadRequest.Data!!.basicDetails = basicDetails;
+                    salutation = customerDetailsResponse!!.data!!.basicDetails!!.salutation
+                    firstName = customerDetailsResponse!!.data!!.basicDetails!!.firstName
+                    lastName = customerDetailsResponse!!.data!!.basicDetails!!.lastName
+                    email = customerDetailsResponse!!.data!!.basicDetails!!.email
+                    preFilledPersonalBasicDetails(salutation, firstName, lastName, email)
 
-                    }
-                    addLeadRequest.Data!!.basicDetails!!.FirstName = customerDetailsResponse!!.data!!.basicDetails!!.firstName
-                    addLeadRequest.Data!!.basicDetails!!.LastName = customerDetailsResponse!!.data!!.basicDetails!!.lastName
-                    addLeadRequest.Data!!.basicDetails!!.Email = customerDetailsResponse!!.data!!.basicDetails!!.email
-                    addLeadRequest.Data!!.basicDetails!!.Salutation = customerDetailsResponse!!.data!!.basicDetails!!.salutation
-
-                    etFirstName.setText(customerDetailsResponse!!.data!!.basicDetails!!.firstName)
-                    et_last_name.setText(customerDetailsResponse!!.data!!.basicDetails!!.lastName)
-                    et_email.setText(customerDetailsResponse!!.data!!.basicDetails!!.email)
-
-                    var salutation = (customerDetailsResponse!!.data!!.basicDetails!!.salutation)
-
-                    if (salutation != null) {
-                        salutationAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
-                            if (dataSelectionDTO.displayValue.toString().equals(salutation)) {
-                                dataSelectionDTO.selected = true
-                            } else {
-                                dataSelectionDTO.selected = false
-                            }
-                        }
-                        salutationAdapter.notifyDataSetChanged()
-
-                    }
                 }
 
                 //Set Birth Data
