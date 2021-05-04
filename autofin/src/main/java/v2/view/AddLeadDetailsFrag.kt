@@ -137,7 +137,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var tvPanNumberErrorMessage: TextView
 
     lateinit var addEmploymentDetailsRequest: AddEmploymentDetailsRequest
+    lateinit var addResidentDetailsRequest: AddResidentDetailsRequest
     lateinit var customAutoTextViewListAdapter: CustomAutoTextViewListAdapter
+
     var isEmploymentDataSaved: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -400,6 +402,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     fun callCustomerDetailsApi(customerId: Int) {
         caseId = customerId.toString()
         addEmploymentDetailsRequest = createAddEmploymentDetailsRequest(customerId)
+        addResidentDetailsRequest = createAddResidentDetailsRequest(customerId)
         transactionViewModel.getCustomerDetails(createCustomerDetailsRequest(customerId), Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL)
 
     }
@@ -538,8 +541,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                                 if (TextUtils.isEmpty(etEMI.text)) {
                                     //Set Null Income
+                                    addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = 0
                                 } else {
                                     //Set Null Income
+                                    addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = etEMI.text.toString().toInt()
 
                                 }
                                 allowEdit = false
@@ -616,6 +621,23 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         })
     }
 
+    fun setTextChangeOfPanNumber() {
+
+        etPanNumber.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
+                                           after: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber=etPanNumber.text.toString()
+            }
+        })
+    }
+
     //endregion setTextChangeEvent
     fun setSalutaionAdapterData() {
         masterViewModel!!.getSalutations(Global.customerDetails_BaseURL + CommonStrings.SALUTATION_END_POINT)
@@ -643,8 +665,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                             item.selected = true
                             if (item.value.equals("Yes")) {
                                 llEmiDetails.visibility = View.VISIBLE
+                                addResidentDetailsRequest.Data!!.personalDetails!!.HaveExistingEMI = true
                             } else {
                                 llEmiDetails.visibility = View.GONE
+                                addResidentDetailsRequest.Data!!.personalDetails!!.HaveExistingEMI = false
                             }
 
                         } else {
@@ -710,12 +734,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     fun setCityAutoTextAdapter(cityList: ArrayList<String>) {
-        customAutoTextViewListAdapter = CustomAutoTextViewListAdapter(activity!!.baseContext, R.layout.v2_auto_text_adapter_layout, cityList)
+        customAutoTextViewListAdapter = CustomAutoTextViewListAdapter(requireContext(), R.layout.v2_auto_text_adapter_layout, cityList)
         etAutoResidenceCity.setAdapter(customAutoTextViewListAdapter)
         etAutoResidenceCity.threshold = 1
         etAutoResidenceCity.showDropDown()
         etAutoResidenceCity.onItemClickListener = OnItemClickListener { parent, arg1, pos, id ->
-            showToast(customAutoTextViewListAdapter.getItem(pos)!!)
+            addResidentDetailsRequest.Data!!.residentialDetails!!.CustomerCity = customAutoTextViewListAdapter.getItem(pos)
             var t: Timer? = null
             t = Timer()
             t.schedule(object : TimerTask() {
@@ -1126,6 +1150,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         if (index == position) {
                             item.selected = true
 
+                            addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType = item.value
 
                         } else {
                             item.selected = false
@@ -1175,7 +1200,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     run {
                         if (index == position) {
                             item.selected = true
-
+                            addResidentDetailsRequest.Data!!.residentialDetails!!.NoOfYearInResident = item.value.toString().toInt()
 
                         } else {
                             item.selected = false
@@ -1308,6 +1333,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     llBirthDateSection.visibility = View.VISIBLE
                     //Create Request of Add Employment Details
                     addEmploymentDetailsRequest = createAddEmploymentDetailsRequest(addLeadResponse.mData!!)
+                    addResidentDetailsRequest = createAddResidentDetailsRequest(addLeadResponse.mData!!)
                     callCustomerDetailsApi(addLeadResponse.mData!!)
                 }
                 showToast(addLeadResponse?.message.toString())
@@ -1471,6 +1497,23 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         var addEmploymentData = AddEmploymentData(customerId, addEmploymentEmploymentDetails, addEmploymentPersonalDetails)
         addEmploymentDetailsDataRequest.Data = addEmploymentData
         return addEmploymentDetailsDataRequest
+
+    }
+
+    fun createAddResidentDetailsRequest(customerId: Int): AddResidentDetailsRequest {
+        var addResidentDetailsRequest = AddResidentDetailsRequest()
+        addResidentDetailsRequest.UserId = CommonStrings.DEALER_ID
+        addResidentDetailsRequest.UserType = CommonStrings.USER_TYPE
+        var data = ResidentDetailsData()
+
+        var personalDetails = ResidentDetailsDataPersonalDetails()
+        var residentialDetails = ResidentDetailsDataResidentialDetails()
+
+        data.CustomerId = customerId
+        data.personalDetails = personalDetails
+        data.residentialDetails = residentialDetails
+        addResidentDetailsRequest.Data = data
+        return addResidentDetailsRequest
 
     }
 
