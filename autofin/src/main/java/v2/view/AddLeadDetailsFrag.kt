@@ -363,9 +363,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         llEmploymentSection.visibility = View.GONE
         llAccoutDetailsSection.visibility = View.GONE
         llNetIncomeSection.visibility = View.GONE
-      /*  llEMISection.visibility = View.GONE
+        llEMISection.visibility = View.GONE
         llResidenceTypeSection.visibility = View.GONE
-        llPanNumberSection.visibility = View.GONE*/
+        llPanNumberSection.visibility = View.GONE
 
         setTextChangeOfWorkExpirance()
         setCheckBoxEvent()
