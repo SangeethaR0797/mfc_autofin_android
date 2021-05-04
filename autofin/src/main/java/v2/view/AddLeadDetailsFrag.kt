@@ -1830,6 +1830,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         llResidenceTypeSection.visibility = View.VISIBLE
                         residenceTypeDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
                             if (dataSelectionDTO.value.toString().equals(customerDetailsResponse.data!!.residentialDetails!!.residenceType)) {
+                                dataSelectionDTO.selected = true
                                 addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType = dataSelectionDTO.value.toString()
                             } else {
                                 dataSelectionDTO.selected = false
@@ -1842,6 +1843,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                             residenceYearsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
                                 if (dataSelectionDTO.value.toString().equals(customerDetailsResponse.data!!.residentialDetails!!.noOfYearInResident.toString())) {
+                                    dataSelectionDTO.selected = true
                                     addResidentDetailsRequest.Data!!.residentialDetails!!.NoOfYearInResident = dataSelectionDTO.value.toString().toInt()
                                 } else {
                                     dataSelectionDTO.selected = false
