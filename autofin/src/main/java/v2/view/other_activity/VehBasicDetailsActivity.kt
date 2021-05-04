@@ -1,13 +1,19 @@
 package v2.view.other_activity
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.view.KeyEvent
 import android.view.View
+import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import android.widget.TextView.OnEditorActionListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,9 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
-
 import v2.model.dto.AddLeadRequest
-
 import v2.model.request.Get_IBB_MasterDetailsRequest
 import v2.model.request.add_lead.AddLeadData
 import v2.model.request.add_lead.VehicleDetails
@@ -83,6 +87,12 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
             }
         })
 
+        etSearch.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+            if (event != null && event.keyCode === KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_DONE) {
+                hideSoftKeyboard(etSearch)
+            }
+            false
+        })
 
         iBB_MasterViewModel = ViewModelProvider(this@VehBasicDetailsActivity).get(
                 IBB_MasterViewModel::class.java
@@ -246,5 +256,19 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
         }
 
 
+    }
+
+    open fun hideSoftKeyboard(view: View?) {
+        try {
+            if (view != null) {
+                val inputMethodManager = getSystemService(
+                        Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(
+                        view.windowToken, 0)
+            } else {
+                window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+            }
+        } catch (e: Exception) {
+        }
     }
 }
