@@ -47,13 +47,14 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack {
     lateinit var rvResult: RecyclerView
     var reviewAdapter: MasterDataRecyclerViewAdapter? = null
     var SELECTED_DATA_TYPE_CALL: String? = ""
+    lateinit var llProgress: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         SELECTED_DATA_TYPE_CALL = intent.getStringExtra(CommonStrings.SELECTED_DATA_TYPE);
 
         setContentView(R.layout.v2_master_data_selection)
-
+        llProgress = findViewById(R.id.ll_progress)
         ivBack = findViewById(R.id.iv_back)
         tvSelectedText = findViewById(R.id.tv_selected_text)
         tvSelectLabel = findViewById(R.id.tv_select_label)
@@ -170,9 +171,10 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack {
     private fun onIBB_MasterDetails(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
+                llProgress.visibility=View.GONE
             }
             ApiResponse.Status.SUCCESS -> {
-
+                llProgress.visibility=View.GONE
                 val masterResponse: Get_IBB_MasterDetailsResponse? = mApiResponse.data as Get_IBB_MasterDetailsResponse?
                 var dataValue: List<String> = listOf()
 
@@ -191,7 +193,7 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack {
                 rvResult.setAdapter(reviewAdapter)
             }
             ApiResponse.Status.ERROR -> {
-
+                llProgress.visibility=View.GONE
             }
         }
     }
@@ -199,14 +201,16 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack {
     private fun onBankList(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
+                llProgress.visibility=View.VISIBLE
             }
             ApiResponse.Status.SUCCESS -> {
+                llProgress.visibility=View.GONE
                 val response: BankListResponse? = mApiResponse.data as BankListResponse?
                 setBankListDetails(response!!)
 
             }
             ApiResponse.Status.ERROR -> {
-
+                llProgress.visibility=View.GONE
             }
         }
     }
