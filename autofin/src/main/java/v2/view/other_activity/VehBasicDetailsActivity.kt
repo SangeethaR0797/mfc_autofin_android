@@ -211,6 +211,7 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
                 reviewAdapter = StringDataRecyclerViewAdapter(dataValue, this@VehBasicDetailsActivity)
                 val layoutManager = LinearLayoutManager(this)
                 rvResult.setLayoutManager(layoutManager)
+                rvResult.visibility=View.VISIBLE
                 rvResult.setAdapter(reviewAdapter)
             }
             ApiResponse.Status.ERROR -> {
@@ -220,6 +221,7 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
     }
 
     override fun itemClick(item: Any?, position: Int) {
+        rvResult.visibility=View.INVISIBLE
         etSearch.setText("")
         var value: String = item as String
 
