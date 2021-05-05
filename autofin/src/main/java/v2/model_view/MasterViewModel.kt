@@ -244,7 +244,37 @@ class MasterViewModel(application: Application) : BaseViewModel(application) {
 //endregion CityNameListDetails
 
 
+    //region CommonBanksDetails
+    private val mCommonBanksLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+    public fun getCommonBanksLiveData(): MutableLiveData<ApiResponse> {
+        return mCommonBanksLiveData
+    }
 
+
+    public fun getCommonBanks(url: String) {
+        repository.getCommonBanks(url)?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe { d -> mCommonBanksLiveData.setValue(ApiResponse.loading()) }
+                ?.let {
+                    disposables.add(
+                            it.subscribe(
+                                    { result ->
+                                        mCommonBanksLiveData.setValue(result?.let {
+                                            ApiResponse.success(
+                                                    it
+                                            )
+                                        })
+                                    }
+                            ) { throwable ->
+                                mCommonBanksLiveData.setValue(
+                                        ApiResponse.error(
+                                                throwable
+                                        )
+                                )
+                            })
+                }
+    }
+//endregion CommonBanksDetails
 
 
 }

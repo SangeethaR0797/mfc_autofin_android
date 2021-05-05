@@ -168,9 +168,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     )
                 })
 
-        masterViewModel.getBankListLiveData()
+        masterViewModel.getCommonBanksLiveData()
                 .observe(this, { mApiResponse: ApiResponse? ->
-                    onBankList(
+                    onCommonBanksResponse(
                             mApiResponse!!
                     )
                 })
@@ -714,7 +714,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         rvBankList.addItemDecoration(GridItemDecoration(25, 2))
         rvBankList.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
 
-        masterViewModel.getBankList(Global.customerDetails_BaseURL + CommonStrings.BANK_LIST_END_POINT)
+        masterViewModel.getCommonBanks(Global.customerDetails_BaseURL + CommonStrings.COMMON_BANK_LIST_END_POINT)
 
         ivBackToVehDetails.setOnClickListener(this)
 
@@ -1270,13 +1270,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     //endregion onResidentType
-    private fun onBankList(mApiResponse: ApiResponse) {
+    private fun onCommonBanksResponse(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
             }
             ApiResponse.Status.SUCCESS -> {
-                val response: BankListResponse? = mApiResponse.data as BankListResponse?
-                setBankListDetails(response!!)
+                val response: CommonBanksResponse? = mApiResponse.data as CommonBanksResponse?
+                setCommonBankListDetails(response!!)
 
             }
             ApiResponse.Status.ERROR -> {
@@ -1285,12 +1285,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         }
     }
 
-    private fun setBankListDetails(bankListResponse: BankListResponse) {
+    private fun setCommonBankListDetails(commonBanksResponse: CommonBanksResponse) {
         val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
 
-        bankListResponse.data!!.forEachIndexed { index, types ->
+        commonBanksResponse.data!!.forEachIndexed { index, bankItem ->
             if (index < 4) {
-                list.add(DataSelectionDTO(types, null, types, false, "https://www.pikpng.com/pngl/m/71-719828_axis-bank-png-axis-bank-logo-download-clipart.png"))
+                list.add(DataSelectionDTO(bankItem.bankName, null, bankItem.bankName, false, bankItem.logoUrl))
             }
         }
 

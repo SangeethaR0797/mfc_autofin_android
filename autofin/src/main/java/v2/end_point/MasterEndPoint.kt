@@ -4,6 +4,7 @@ import io.reactivex.Observable
 import retrofit2.http.*
 import v2.model.response.BankListResponse
 import v2.model.response.CityNameListResponse
+import v2.model.response.CommonBanksResponse
 import v2.model.response.master.MasterResponse
 
 interface MasterEndPoint {
@@ -35,4 +36,8 @@ interface MasterEndPoint {
     @Headers("Content-Type: application/json; charset=utf-8")
     @GET
     fun getCityNameList( @Url url: String?): Observable<CityNameListResponse?>?
+
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @GET
+    fun getCommonBanks( @Url url: String?): Observable<CommonBanksResponse?>?
 }
