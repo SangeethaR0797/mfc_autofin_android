@@ -1043,6 +1043,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     private fun onGenerateOTP(mApiResponse: ApiResponse) = when (mApiResponse.status) {
         ApiResponse.Status.LOADING -> {
+            showProgressDialog(requireContext())
         }
         ApiResponse.Status.SUCCESS -> {
             try {
@@ -1054,15 +1055,17 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 }
 
                 enableTimer()
-                // showToast(otpResponse.message.toString())
+               hideProgressDialog()
             } catch (e: Exception) {
 
             }
         }
         ApiResponse.Status.ERROR -> {
             showToast(mApiResponse.error?.message.toString())
+            hideProgressDialog()
         }
         else -> {
+            hideProgressDialog()
             showToast("Please enter correct value")
         }
     }
@@ -1619,6 +1622,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         parseCommonResponse(mApiResponse)
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
             }
             ApiResponse.Status.SUCCESS -> {
                 if (dialogConfilctForAddLead != null && dialogConfilctForAddLead!!.isShowing) {
@@ -1628,13 +1632,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 if (customerDetailsResponse?.data != null) {
                     preFilledData(customerDetailsResponse)
                 }
-
+            hideProgressDialog()
 
             }
             ApiResponse.Status.ERROR -> {
-
+                hideProgressDialog()
             }
             else -> {
+                hideProgressDialog()
                 showToast("Please enter valid details")
             }
         }
