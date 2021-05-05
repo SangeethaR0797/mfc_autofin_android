@@ -87,10 +87,10 @@
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:hint="@string/search"
+                android:imeOptions="actionDone"
                 android:inputType="textCapCharacters"
                 android:maxLength="11"
                 android:singleLine="true"
-                android:imeOptions="actionDone"
                 android:textAppearance="@style/RobotoRegular"
                 android:textColorHint="@color/vtwo_grey"
                 android:textSize="@dimen/text_size_14sp" />
@@ -109,11 +109,41 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/ll_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ProgressBar
+                android:id="@+id/progressBar1"
+                android:layout_width="@dimen/text_size_24dp"
+                android:layout_height="@dimen/text_size_24dp"
+                android:layout_centerInParent="true"
+                android:indeterminateTint="@color/hint_color"
+                android:padding="@dimen/text_size_5dp" />
+
+            <TextView
+                android:id="@+id/tvLoadingInPB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+
+                android:text="@string/loading"
+                android:textAppearance="@style/RobotoBold"
+                android:textColor="@color/hint_color"
+                android:textSize="@dimen/text_size_12dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/text_size_16sp" />
+
+
     </LinearLayout>
 
 

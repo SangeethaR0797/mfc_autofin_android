@@ -46,6 +46,7 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
     lateinit var etSearch: EditText
     lateinit var llSearch: LinearLayout
     lateinit var rvResult: RecyclerView
+    lateinit var llProgress: LinearLayout
     var reviewAdapter: StringDataRecyclerViewAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +58,7 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
         etSearch = findViewById(R.id.et_search)
         llSearch = findViewById(R.id.ll_search)
         rvResult = findViewById(R.id.rv_result)
+        llProgress = findViewById(R.id.ll_progress)
 
         llSearch.setOnClickListener(View.OnClickListener {
             etSearch.requestFocus()
@@ -192,9 +194,10 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
     private fun onIBB_MasterDetails(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
+                llProgress.visibility=View.VISIBLE
             }
             ApiResponse.Status.SUCCESS -> {
-
+                llProgress.visibility=View.GONE
                 val masterResponse: Get_IBB_MasterDetailsResponse? = mApiResponse.data as Get_IBB_MasterDetailsResponse?
                 var dataValue: List<String> = listOf()
 
@@ -215,7 +218,7 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
                 rvResult.setAdapter(reviewAdapter)
             }
             ApiResponse.Status.ERROR -> {
-
+                llProgress.visibility=View.GONE
             }
         }
     }
