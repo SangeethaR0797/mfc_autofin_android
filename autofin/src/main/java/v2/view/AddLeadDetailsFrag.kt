@@ -805,6 +805,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         addLead()
                     }
                     //Step 4 Birth Date Validation
+                    llBirthDateSection.visibility == View.GONE -> {
+                        llBirthDateSection.visibility = View.VISIBLE
+                    }
                     llBirthDateSection.visibility == View.VISIBLE && TextUtils.isEmpty(etBirthDate.text) -> {
                         tvBirthErrorMessage.visibility = View.VISIBLE
                         tvBirthErrorMessage.text = "Please add date of birth."
@@ -839,8 +842,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     //Step 9 Call Add Employment Details API
                     isEmploymentDataSaved == false -> {
                         //Call Add EmploymentDetails Api
-                        transactionViewModel.addEmploymentDetails(addEmploymentDetailsRequest, Global.customerAPI_BaseURL + CommonStrings.ADD_EMPLOYMENT_URL_END)
-
+                        callAddEmploymentDetails()
                     }
                     //Step 10 Open EMI Section
                     llEMISection.visibility == View.GONE -> {
@@ -887,11 +889,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     }
                     //Step 18 Call Add Residence Details API
                     llPanNumberSection.visibility == View.VISIBLE && isResidentDataSaved == false -> {
-                        transactionViewModel.addResidentDetails(addResidentDetailsRequest, Global.customerAPI_BaseURL + CommonStrings.ADD_RESIDENT_URL_END)
+                        callAddResidentDetails()
                     }
                     //Step 19 All Data save
                     !TextUtils.isEmpty(caseId) && isEmploymentDataSaved == true && isResidentDataSaved == true -> {
-                        navToSoftOffer()
+                        callAddResidentDetails()
                     }
 
 
@@ -911,6 +913,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
         }
 
+    }
+
+    private fun callAddEmploymentDetails() {
+        transactionViewModel.addEmploymentDetails(addEmploymentDetailsRequest, Global.customerAPI_BaseURL + CommonStrings.ADD_EMPLOYMENT_URL_END)
+    }
+
+    private fun callAddResidentDetails() {
+        transactionViewModel.addResidentDetails(addResidentDetailsRequest, Global.customerAPI_BaseURL + CommonStrings.ADD_RESIDENT_URL_END)
     }
 
 
@@ -1055,7 +1065,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 }
 
                 enableTimer()
-               hideProgressDialog()
+                hideProgressDialog()
             } catch (e: Exception) {
 
             }
@@ -1293,7 +1303,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         commonBanksResponse.data!!.forEachIndexed { index, bankItem ->
             if (index < 4) {
-               // bankItem.logoUrl="https://4.bp.blogspot.com/-xnBMIjH4Z-4/W2Qfiocw5hI/AAAAAAAAGg4/136qYboj2EQ3Ve5BjqOmFL8rf_UWijelgCPcBGAYYCw/s1600/AX.png"
+                // bankItem.logoUrl="https://4.bp.blogspot.com/-xnBMIjH4Z-4/W2Qfiocw5hI/AAAAAAAAGg4/136qYboj2EQ3Ve5BjqOmFL8rf_UWijelgCPcBGAYYCw/s1600/AX.png"
                 list.add(DataSelectionDTO(bankItem.bankName, null, bankItem.bankName, false, bankItem.logoUrl))
             }
         }
@@ -1633,7 +1643,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 if (customerDetailsResponse?.data != null) {
                     preFilledData(customerDetailsResponse)
                 }
-            hideProgressDialog()
+                hideProgressDialog()
 
             }
             ApiResponse.Status.ERROR -> {
