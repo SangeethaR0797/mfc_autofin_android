@@ -81,7 +81,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     var userType: String = ""
     var salutation: String = ""
     lateinit var employmentDetailsAdapter: DataRecyclerViewAdapter
-    lateinit var bankListDetailsAdapter: DataRecyclerViewAdapter
+    lateinit var commonBankListDetailsAdapter: DataRecyclerViewAdapter
 
     lateinit var etBirthDate: EditText
     lateinit var etWorkExpriance: EditText
@@ -1293,11 +1293,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         commonBanksResponse.data!!.forEachIndexed { index, bankItem ->
             if (index < 4) {
+               // bankItem.logoUrl="https://4.bp.blogspot.com/-xnBMIjH4Z-4/W2Qfiocw5hI/AAAAAAAAGg4/136qYboj2EQ3Ve5BjqOmFL8rf_UWijelgCPcBGAYYCw/s1600/AX.png"
                 list.add(DataSelectionDTO(bankItem.bankName, null, bankItem.bankName, false, bankItem.logoUrl))
             }
         }
 
-        bankListDetailsAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+        commonBankListDetailsAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
             override fun itemClick(item: Any?, position: Int) {
                 etSearchBank.setText("")
                 var selectedBankDataSelectionDTO: DataSelectionDTO = item as DataSelectionDTO
@@ -1307,7 +1308,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         })
 
 
-        rvBankList.setAdapter(bankListDetailsAdapter)
+        rvBankList.setAdapter(commonBankListDetailsAdapter)
     }
 
     private fun onResidentCityName(mApiResponse: ApiResponse) {
@@ -1337,7 +1338,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     fun updateBankSelection(selectedBankDisplayName: String) {
         var isFound: Boolean = false
-        bankListDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
+        commonBankListDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
             run {
                 if (selectedBankDisplayName.equals(item.displayValue)) {
                     item.selected = true
@@ -1359,7 +1360,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
         }
 
-        bankListDetailsAdapter.notifyDataSetChanged()
+        commonBankListDetailsAdapter.notifyDataSetChanged()
         if (!isFound) {
             etSearchBank.setText(selectedBankDisplayName)
         }
@@ -1782,14 +1783,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     }
                     //set Bank Details
                     if (!TextUtils.isEmpty(bankName)) {
-                        bankListDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
+                        commonBankListDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
                             if (dataSelectionDTO.displayValue.toString().equals(bankName)) {
                                 dataSelectionDTO.selected = true
                             } else {
                                 dataSelectionDTO.selected = false
                             }
                         }
-                        bankListDetailsAdapter.notifyDataSetChanged()
+                        commonBankListDetailsAdapter.notifyDataSetChanged()
                         llAccoutDetailsSection.visibility = View.VISIBLE
                     }
 
