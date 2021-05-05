@@ -891,7 +891,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     }
                     //Step 19 All Data save
                     !TextUtils.isEmpty(caseId) && isEmploymentDataSaved == true && isResidentDataSaved == true -> {
-                        showToast("All details have saved.")
+                        navToSoftOffer()
                     }
 
 
