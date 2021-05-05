@@ -1062,6 +1062,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     ll_otp_v2.visibility = View.VISIBLE
                     llTAndC.visibility = View.VISIBLE
                     mobileNum = etMobileNumberV2.text.toString()
+                    if (!TextUtils.isEmpty(otpResponse.data)) {
+                        etOTPV2.setText(otpResponse.data)
+
+                    }
                 }
 
                 enableTimer()
