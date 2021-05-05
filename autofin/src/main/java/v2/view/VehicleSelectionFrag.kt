@@ -94,7 +94,7 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
 
             llVehRegNum.setBackgroundResource(R.drawable.vtwo_input_bg)
             tv_regno_hint.visibility = View.GONE
-
+            showProgressDialog(requireActivity())
             stockAPIViewModel!!.getStockDetails(getStockRequest(), Global.stock_details_base_url + CommonStrings.STOCK_DETAILS_URL_END)
 
         } else {
@@ -122,6 +122,7 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
             }
             ApiResponse.Status.SUCCESS -> {
                 var stockResponse: StockResponse? = apiResponse.data as StockResponse?
+                hideProgressDialog()
                 if (stockResponse?.status == true && stockResponse.data != null) {
                     navigateToStockResFrag(stockResponse.data!!)
                 } else {
@@ -129,6 +130,8 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
                 }
             }
             ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+
             }
             else -> showToast("There is no Data for entered Register number")
         }

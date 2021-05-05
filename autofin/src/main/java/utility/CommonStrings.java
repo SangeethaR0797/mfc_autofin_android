@@ -35,6 +35,7 @@ public class CommonStrings {
     public static final String ADD_BASIC_DETAILS_URL = "v2/add-basic-details";
     public static final String EDIT_LEAD_URL = "v2/edit-lead";
     public static final String CUSTOMER_DETAILS_URL = "v2/customer-details";
+    public static final String CUSTOMER_DETAILS_END_URL = "customer-details";
     public static final String INDUSTRY_TYPE_URL = "industry-type";
     public static final String MAHINDRA_FILTER_URL = "employer/filter-by-name/mahind";
     public static final String GET_SALUTATION_URL = "salutations";
@@ -61,6 +62,8 @@ public class CommonStrings {
     public static final String OTP_URL_END = "generate-otp";
     public static final String VALIDATE_OTP_URL_END = "validate-otp";
     public static final String ADD_LEAD_URL_END = "add-lead";
+    public static final String ADD_EMPLOYMENT_URL_END = "add-employment-details";
+    public static final String ADD_RESIDENT_URL_END = "add-resident-details";
     public static final String MOVED_TO_CCITY = "moved_to_CurrentCity";
     public static final String MOVED_TO_CRESIDENCE = "moved_to_current_residence";
     public static final String USER_DOB = "user_dob";
@@ -111,9 +114,14 @@ public class CommonStrings {
     public static final String PROCESS_WITH_BANK_URL_END = "process-customer-with-bank";
     public static final String CUSTOMER_ADDITIONAL_FIELDS = "customer-additional-data";
     public static final String KMS_DRIVEN = "Masters/kms-driven";
-    public static final String SALUTATION_END_POINT="Masters/salutations";
-    public static final String VALIDATE_LEAD="validate-lead";
-    public static final String RESET_JOURNEY="reset-customer-journey";
+    public static final String EMPLOYEEMENT_END_POINT = "Masters/employee-type";
+    public static final String RESIDENT_TYPE_END_POINT = "Masters/resident-type";
+    public static final String RESIDENT_YEARS_END_POINT = "Masters/resident-year";
+    public static final String BANK_LIST_END_POINT = "Bank/get-banks";
+    public static final String SALUTATION_END_POINT = "Masters/salutations";
+    public static final String VALIDATE_LEAD = "validate-lead";
+    public static final String RESET_JOURNEY = "reset-customer-journey";
+    public static final String CITY_SEARCH_VIA_TEXT_END_POINT = "Pincode/city-by-name/";
 
     public static String TOKEN_VALUE = "";
     public static String IBB_TOKEN_VALUE = "";
@@ -152,11 +160,16 @@ public class CommonStrings {
     public static final String MAKE = "make";
     public static final String MODEL = "model";
     public static final String VARIANT = "variant";
+    public static final String BANK_DATA_CALL = "bank";
 
     public static final String VEHICLE_DATA = "vehicleData";
 
     public static final int RESULT_CODE = 500;
     public static final int CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE = 501;
+    public static final int MASTER_DETAIL_ACTIVITY_REQUEST_CODE = 502;
+
+    public static final String SELECTED_DATA = "selectedData";
+    public static final String SELECTED_DATA_TYPE = "selectedDataType";
 
 
 }

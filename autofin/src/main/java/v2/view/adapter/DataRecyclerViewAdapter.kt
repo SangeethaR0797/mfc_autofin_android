@@ -8,12 +8,10 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
+import com.squareup.picasso.Picasso
 import controller.ReviewAdapter
 import model.custom_model.ReviewData
 import v2.model.dto.DataSelectionDTO
@@ -53,7 +51,7 @@ class DataRecyclerViewAdapter(var context: Activity, var dataListValue: List<Dat
         holder.llMainLayout.setBackgroundResource(R.drawable.vtwo_input_bg)
         holder.tvItem.setTextAppearance(mContext, R.style.RobotoRegular)
         holder.tvItemSmall.setTextAppearance(mContext, R.style.RobotoRegular)
-        holder.tvItem.setTextColor(mContext.resources.getColor(R.color.vtwo_light_grey) )
+        holder.tvItem.setTextColor(mContext.resources.getColor(R.color.vtwo_light_grey))
         holder.tvItemSmall.setTextColor(mContext.resources.getColor(R.color.vtwo_light_grey))
 
         if (dataListFilter!!.get(position).selected) {
@@ -61,8 +59,16 @@ class DataRecyclerViewAdapter(var context: Activity, var dataListValue: List<Dat
             holder.tvItem.setTextAppearance(mContext, R.style.RobotoMedium)
             holder.tvItemSmall.setTextAppearance(mContext, R.style.RobotoMedium)
 
-            holder.tvItem.setTextColor(mContext.resources.getColor(R.color.vtwo_black) )
+            holder.tvItem.setTextColor(mContext.resources.getColor(R.color.vtwo_black))
             holder.tvItemSmall.setTextColor(mContext.resources.getColor(R.color.vtwo_black))
+        }
+        if (dataListFilter!!.get(position).imageUrl == null) {
+            holder.llTextData.visibility = View.VISIBLE
+            holder.ivIcon.visibility = View.GONE
+        } else {
+            holder.llTextData.visibility = View.GONE
+            holder.ivIcon.visibility = View.VISIBLE
+            Picasso.get().load(dataListFilter!!.get(position).imageUrl).into(holder.ivIcon)
         }
     }
 
@@ -71,11 +77,15 @@ class DataRecyclerViewAdapter(var context: Activity, var dataListValue: List<Dat
         var tvItem: TextView
         var tvItemSmall: TextView
         var llMainLayout: LinearLayout
+        var llTextData: LinearLayout
+        var ivIcon: ImageView
 
         init {
             tvItem = itemView.findViewById(R.id.tv_item)
             tvItemSmall = itemView.findViewById(R.id.tv_item_small)
             llMainLayout = itemView.findViewById(R.id.ll_main_layout)
+            llTextData = itemView.findViewById(R.id.ll_text_data)
+            ivIcon = itemView.findViewById(R.id.iv_icon)
         }
     }
 
