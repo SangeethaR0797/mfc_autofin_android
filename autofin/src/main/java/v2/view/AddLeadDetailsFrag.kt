@@ -399,7 +399,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             var dataType: String? = data?.getStringExtra(CommonStrings.SELECTED_DATA_TYPE)
             if (dataType.equals(CommonStrings.BANK_DATA_CALL)) {
                 etSearchBank.setText(dataSelectionDTO!!.displayValue)
-                updateBankSelection(dataSelectionDTO)
+                updateBankSelection(dataSelectionDTO.displayValue!!)
             }
 
 
@@ -1298,7 +1298,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             override fun itemClick(item: Any?, position: Int) {
                 etSearchBank.setText("")
                 var selectedBankDataSelectionDTO: DataSelectionDTO = item as DataSelectionDTO
-                updateBankSelection(selectedBankDataSelectionDTO)
+                updateBankSelection(selectedBankDataSelectionDTO.displayValue!!)
 
             }
         })
@@ -1332,11 +1332,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         }
     }
 
-    fun updateBankSelection(selectedBankDataSelectionDTO: DataSelectionDTO) {
+    fun updateBankSelection(selectedBankDisplayName: String) {
+        var isFound: Boolean = false
         bankListDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
             run {
-                if (selectedBankDataSelectionDTO.value.equals(item.displayValue)) {
+                if (selectedBankDisplayName.equals(item.displayValue)) {
                     item.selected = true
+                    isFound = true
                     if (addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType.equals("Self Employed")) {
                         addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount = item.displayValue
                         addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount = null
@@ -1353,7 +1355,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
             }
         }
+
         bankListDetailsAdapter.notifyDataSetChanged()
+        if (!isFound) {
+            etSearchBank.setText(selectedBankDisplayName)
+        }
+
     }
 
 
@@ -1763,6 +1770,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                             addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne = customerDetailsResponse.data!!.employmentDetails!!.currentCompanyExpMoreThanOne!!
                             isEmploymentDataSaved = true
 
+                        }
+                        if (!TextUtils.isEmpty(bankName)) {
+                            updateBankSelection(bankName!!)
                         }
                     }
                     //set Bank Details
