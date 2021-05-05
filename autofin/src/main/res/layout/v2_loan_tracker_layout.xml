@@ -39,7 +39,7 @@
         android:layout_marginTop="@dimen/text_size_17dp"
         android:layout_marginBottom="@dimen/text_size_31dp"
         android:thumb="@drawable/ic_vtwo_personal_details"
-        android:progressTint="@drawable/v2_seekbar"
+
         tools:ignore="UnusedAttribute" />
     <TextView
         android:id="@+id/tvTenureSB"
@@ -75,7 +75,7 @@
         android:layout_marginTop="@dimen/text_size_17dp"
         android:layout_marginBottom="@dimen/text_size_31dp"
         android:thumb="@drawable/ic_vtwo_personal_details"
-        android:progressTint="@drawable/v2_seekbar"
+
         tools:ignore="UnusedAttribute" />
 
     <Button
