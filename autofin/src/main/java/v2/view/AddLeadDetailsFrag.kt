@@ -1478,7 +1478,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     dialogConfilctForAddLead!!.dismiss()
                 }
 
-                showToast(resetJourneyRes?.message.toString())
+               // showToast(resetJourneyRes?.message.toString())
 
             }
             ApiResponse.Status.ERROR -> {
