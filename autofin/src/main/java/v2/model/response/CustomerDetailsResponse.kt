@@ -1,5 +1,7 @@
 package v2.model.response
 
+import v2.model.response.master.EquifaxData
+
 data class CustomerDetailsResponse(
         var data: CustomerDetailsData?,
         var message: String?,
@@ -13,7 +15,7 @@ data class CustomerDetailsData(
         var caseId: String?,
         var dealerDetails: DealerDetails?,
         var employmentDetails: EmploymentDetails?,
-        var equifaxFields: EquifaxFields?,
+        var equifaxFields: EquifaxData?,
         var loanDetails: LoanDetails?,
         var residentialDetails: ResidentialDetails?,
         var status: String?,
@@ -51,12 +53,6 @@ data class EmploymentDetails(
         var primaryAccount: String?,
         var salaryAccount: String?,
         var totalWorkExperience: String?
-)
-
-data class EquifaxFields(
-        var address: List<Any>?,
-        var birthDate: List<Any>?,
-        var panNumber: List<Any>?
 )
 
 data class LoanDetails(

@@ -1,6 +1,8 @@
 package v2.view.base
 
 import android.app.Activity
+import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
 import android.view.Gravity
@@ -8,31 +10,113 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.DatePicker
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.mfc.autofin.framework.R
+import utility.CommonStrings
 import v2.help.CurrencyData
 import v2.model.dto.AddLeadRequest
 import v2.model.response.StockDetails
+import v2.service.utility.ApiResponse
+import v2.service.utility.ErrorUtils
 import v2.view.AddOrUpdateVehicleDetailsMakeFragDirections
 import v2.view.VehicleSelectionFragDirections
+import v2.view.callBackInterface.DatePickerCallBack
+import v2.view.other_activity.MasterDataSelectionActivity
 import v2.view.other_activity.VehBasicDetailsActivity
+
 import v2.view.utility_view.StockAPIFragmentArgs
 import v2.view.utility_view.StockAPIFragmentDirections
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.util.*
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 
 public open class BaseFragment : Fragment() {
+    public var caseId = ""
+    private lateinit var alertDialog:AlertDialog
 
-    public var caseId=""
+    var cal = Calendar.getInstance()
+    private lateinit var datePickerCallBack: DatePickerCallBack
+    public val DATE_FORMATE_DDMMYYYY = "dd/MM/yyyy"
+    public val DATE_FORMATE_YYYYMMDD = "yyyy-MM-dd"
+
+    //region DatePicker
+    public fun stringToDateString(value: String, sourceDateFormat: String, targetDateFormat: String): String {
+        val date = SimpleDateFormat(sourceDateFormat).parse(value)
+        return SimpleDateFormat(targetDateFormat).format(date)
+    }
+
+    val dateSetListener = object : DatePickerDialog.OnDateSetListener {
+        override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int,
+                               dayOfMonth: Int) {
+            cal.set(Calendar.YEAR, year)
+            cal.set(Calendar.MONTH, monthOfYear)
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+            val sdf = SimpleDateFormat(DATE_FORMATE_DDMMYYYY, Locale.US)
+            val sdfValue = SimpleDateFormat(DATE_FORMATE_YYYYMMDD, Locale.US)
+            var dateDisplayValue: String = sdf.format(cal.getTime())
+            var dateValue: String = sdfValue.format(cal.getTime())
+
+            if (datePickerCallBack != null) {
+                datePickerCallBack.dateSelected(dateDisplayValue, dateValue)
+            }
+        }
+    }
+
+    public fun callDatePickerDialog(lastSelectedDateValue: String?, datepickerCallBack: DatePickerCallBack) {
+        datePickerCallBack = datepickerCallBack
+        var d: Int? = cal.get(Calendar.DAY_OF_MONTH)
+        var m: Int? = cal.get(Calendar.MONTH)
+        var y: Int? = cal.get(Calendar.YEAR)
+        try {
+            if (!TextUtils.isEmpty(lastSelectedDateValue)) {
+                d = lastSelectedDateValue!!.subSequence(8, 10).toString().toInt()
+                m = lastSelectedDateValue!!.subSequence(5, 7).toString().toInt()
+                y = lastSelectedDateValue!!.subSequence(0, 4).toString().toInt()
+            }
+        } catch (e: IndexOutOfBoundsException) {
+
+        }
+
+        context?.let {
+            DatePickerDialog(it,
+                    dateSetListener,
+                    y!!,
+                    m!!,
+                    d!!).show()
+        }
+    }
+    //endregion DatePicker
     //region validation
 
     public fun isValidVehicleRegNo(vehicleRegNo: String): Boolean {
         return Regex(pattern = "[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}").matches(vehicleRegNo)
+    }
+
+    public fun validName(name: String): Boolean {
+        val expression = "[a-zA-Z]"
+        val pattern: Pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
+        val matcher: Matcher = pattern.matcher(name)
+        return matcher.matches()
+    }
+
+
+    public fun isEmailValid(email: String?): Boolean {
+        val expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$"
+        val pattern: Pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
+        val matcher: Matcher = pattern.matcher(email)
+        return matcher.matches()
     }
     //endregion validation
 
@@ -107,10 +191,23 @@ public open class BaseFragment : Fragment() {
         startActivityForResult(carBasicDetailsActivity, requestCode)
     }
 
+    public fun navigateMasterDataSelectionActivity(requestCode: Int, dataType: String) {
+        val activity = Intent(activity, MasterDataSelectionActivity::class.java)
+        activity.putExtra(CommonStrings.SELECTED_DATA_TYPE, dataType)
+        startActivityForResult(activity, requestCode)
+    }
+
     public fun navigateToAddOrUpdateVehicleDetails(addLeadRequest: AddLeadRequest) {
-        val directions= VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(addLeadRequest)
+        val directions = VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(addLeadRequest!!)
         view?.let {
             Navigation.findNavController(it).navigate(directions)
+        }
+    }
+
+
+    public fun navigateToMobileNumber() {
+        view?.let {
+            Navigation.findNavController(it).navigate(R.id.action_addOrUpdateVehicleDetailsMakeFrag_to_addLeadDetailsFrag)
         }
     }
 
@@ -138,24 +235,30 @@ public open class BaseFragment : Fragment() {
 
     //region message
     fun showToast(message: String) {
-        hideSoftKeyboard()
-        /*  val toast = Toast.makeText(activity, message, Toast.LENGTH_LONG)
-          toast.setGravity(Gravity.CENTER, 0, 0)
-          toast.show()*/
+        try {
 
-        val inflater = layoutInflater
-        val layout: View = inflater.inflate(R.layout.v2_toast_layout, activity?.findViewById(R.id.toast_layout_root) as ViewGroup?)
 
-        val image: ImageView = layout.findViewById<View>(R.id.image) as ImageView
-        // image.visibility = View.GONE
-        val text = layout.findViewById<View>(R.id.text) as TextView
-        text.text = message
+            hideSoftKeyboard()
+            /*  val toast = Toast.makeText(activity, message, Toast.LENGTH_LONG)
+              toast.setGravity(Gravity.CENTER, 0, 0)
+              toast.show()*/
 
-        val toast = Toast(activity)
-        toast.setGravity(Gravity.CENTER, 0, 0)
-        toast.duration = Toast.LENGTH_LONG
-        toast.view = layout
-        toast.show()
+            val inflater = layoutInflater!!
+            val layout: View = inflater.inflate(R.layout.v2_toast_layout, activity?.findViewById(R.id.toast_layout_root) as ViewGroup?)
+
+            val image: ImageView = layout.findViewById<View>(R.id.image) as ImageView
+            // image.visibility = View.GONE
+            val text = layout.findViewById<View>(R.id.text) as TextView
+            text.text = message
+
+            val toast = Toast(activity)
+            toast.setGravity(Gravity.CENTER, 0, 0)
+            toast.duration = Toast.LENGTH_LONG
+            toast.view = layout
+            toast.show()
+        } catch (e: java.lang.Exception) {
+
+        }
     }
     //endregion message
 
@@ -188,4 +291,67 @@ public open class BaseFragment : Fragment() {
         }
     }
 //endregion keyboard function
+
+    open fun parseCommonResponse(apiResponseOtp: ApiResponse) {
+        when (apiResponseOtp.status) {
+            ApiResponse.Status.LOADING -> {
+            }
+            ApiResponse.Status.SUCCESS -> {
+            }
+            ApiResponse.Status.ERROR -> {
+                val apiError = ErrorUtils.parseThrowable(apiResponseOtp.error)
+                if (apiError.getCode() == 0) {
+                } else {
+                    if (!TextUtils.isEmpty(apiError.getMessage())) {
+                        showToast(apiError.getMessage()!!)
+                    }
+                }
+            }
+            else -> {
+            }
+        }
+    }
+
+
+    // Progress Dialog region starts
+
+    private fun getAlertDialog(
+            context: Context,
+            layout: Int,
+            setCancellationOnTouchOutside: Boolean
+    ): AlertDialog {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+        val customLayout: View =
+                layoutInflater.inflate(layout, null)
+        builder.setView(customLayout)
+        val dialog = builder.create()
+        dialog.setCanceledOnTouchOutside(setCancellationOnTouchOutside)
+        return dialog
+    }
+
+    fun showProgressDialog(context: Context): AlertDialog {
+        alertDialog = getAlertDialog(context, R.layout.layout_progress_dialog, setCancellationOnTouchOutside = false)
+        alertDialog.show()
+        return alertDialog
+    }
+
+    fun hideProgressDialog(){
+        if(alertDialog.isShowing)
+        alertDialog.dismiss()
+    }
+
+
+
+    // Progress Dialog region ends
+
+    // Region Utility methods start
+
+    private fun changeVectorFillColor(imgView: ImageView, id: Int)
+    {
+        DrawableCompat.setTint(imgView.getDrawable(), ContextCompat.getColor(requireContext(), id));
+    }
+
+
+    // Region Utility methods ends
+
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import v2.model.dto.AddLeadRequest
+import v2.model.request.AddEmploymentDetailsRequest
 import v2.model.request.OTPRequest
 import v2.model.request.CustomerRequest
 import v2.model.request.ValidateLeadRequest
@@ -216,7 +217,39 @@ class TransactionViewModel(application: Application) : BaseViewModel(application
                                     })
                 }
     }
-//endregion getCustomerDetails
 
+    //endregion getCustomerDetails
+//region AddEmploymentDetails
+    private val mAddEmploymentDetails: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+    public fun getAddEmploymentDetailsLiveData(): MutableLiveData<ApiResponse> {
+        return mAddEmploymentDetails
+    }
+
+
+    public fun addEmploymentDetails(request: AddEmploymentDetailsRequest, url: String?) {
+        repository.addEmploymentDetails(request, url)?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe { d -> mAddEmploymentDetails.setValue(ApiResponse.loading()) }
+                ?.let {
+                    disposables.add(
+                            it
+                                    .subscribe(
+                                            { result ->
+                                                mAddEmploymentDetails.setValue(result?.let {
+                                                    ApiResponse.success(
+                                                            it
+                                                    )
+                                                })
+                                            }
+                                    ) { throwable ->
+                                        mAddEmploymentDetails.setValue(
+                                                ApiResponse.error(
+                                                        throwable
+                                                )
+                                        )
+                                    })
+                }
+    }
+//endregion AddEmploymentDetails
 
 }

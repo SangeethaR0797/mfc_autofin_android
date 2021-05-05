@@ -75,4 +75,10 @@ object ApiServiceGenerator {
             return true
         }
     }
+
+    @JvmStatic
+    fun getRetrofitInstance(): Retrofit? {
+        return retrofit
+    }
+
 }

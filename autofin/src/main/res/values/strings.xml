@@ -294,6 +294,15 @@
     <string name="vtwo_mobile_num_already_reg_hint">00000 00000 no is already registered. Do you want to proceed the same?</string>
     <string name="startNew">START NEW</string>
     <string name="vtwo_proceed">PROCEED</string>
+
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="employment_type_small">Employment Type</string>
+    <string name="total_work_experiences">Total Work Experiences</string>
+    <string name="enter_years">Enter Years</string>
+    <string name="more_than_one_year_in_current_organization">More than one year in current organization</string>
+    <string name="salary_bank_account">Salary Bank Account</string>
+    <string name="primary_bank_account">Primary Bank Account</string>
+    <string name="net_annual_income">Net Annual Income</string>
     <string name="enter_first_name_vtwo">Enter First Name</string>
     <string name="enter_last_name_vtwo">Enter Last Name</string>
     <string name="enter_email_vtwo">Enter Email</string>
@@ -306,5 +315,8 @@
     <string name="v2_tenure">Tenure</string>
     <string name="v2_tenure_lbl">3 Years</string>
     <string name="v2_modify_req_lbl">Modify Requirements</string>
+    <string name="do_you_have_any_emi">Do you have any EMI?</string>
+    <string name="Current_EMI">Current EMI</string>
+    <string name="emi_amount">EMI Amount</string>
 
 </resources>
