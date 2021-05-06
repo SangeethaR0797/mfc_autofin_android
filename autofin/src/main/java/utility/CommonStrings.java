@@ -174,6 +174,8 @@ public class CommonStrings {
     public static final String SELECTED_DATA_TYPE = "selectedDataType";
 
 
-    public static final String PRIVACY_AND_POLICY_URL="";
+    public static final String PRIVACY_AND_POLICY_URL="https://www.stagemfc.com/autofin-TermsAndCondition";
+    public static final String URL="url";
+    public static final String TITLE="title";
 
 }
