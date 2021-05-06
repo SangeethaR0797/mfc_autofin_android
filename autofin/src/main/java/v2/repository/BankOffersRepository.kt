@@ -11,7 +11,7 @@ class BankOffersRepository
     var bankOffersEndPoint: BankOffersEndPoint = ApiServiceGenerator.createService<BankOffersEndPoint>(
             BankOffersEndPoint::class.java)
 
-    fun getStockDetailsRes(request: BankOffersForApplicationRequest, url: String): Observable<BankOffersForApplicationResponse?>? {
+    fun getBankOffersForLeadApplication(request: BankOffersForApplicationRequest, url: String): Observable<BankOffersForApplicationResponse?>? {
         return bankOffersEndPoint.getBankOffersForLeadApplication(request,url)
     }
 
