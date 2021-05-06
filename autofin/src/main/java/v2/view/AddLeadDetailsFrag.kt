@@ -937,7 +937,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         if (addEmploymentDetailsRequest.Data != null && addEmploymentDetailsRequest.Data!!.personalDetails != null && addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate != null) {
             lastSelectedDate = addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate!!
         }
-        callDatePickerDialog(lastSelectedDate, object : DatePickerCallBack {
+        callDatePickerDialog(lastSelectedDate,null,getBackDateFromTodayDate(18), object : DatePickerCallBack {
             override fun dateSelected(dateDisplayValue: String, dateValue: String) {
                 addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate = dateValue
                 etBirthDate.setText(dateDisplayValue)
