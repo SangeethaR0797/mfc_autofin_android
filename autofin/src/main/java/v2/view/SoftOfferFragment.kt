@@ -132,7 +132,7 @@ class SoftOfferFragment : BaseFragment() {
     }
 
     private fun enableCalculatorLayout() {
-        llBankOfferParent.setBackgroundResource(R.color.vtwo_black)
+        llBankOfferParent.setBackgroundResource(R.color.vtwo_pale_grey)
         llSoftOfferDialog.visibility = View.VISIBLE
         linearLayoutCalculation.visibility = View.GONE
 
