@@ -2,8 +2,6 @@ package v2.view.adapter
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
-import android.opengl.Visibility
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -11,12 +9,10 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import controller.ReviewAdapter
-import model.custom_model.ReviewData
 import v2.model.dto.DataSelectionDTO
 import v2.view.callBackInterface.itemClickCallBack
-import kotlin.coroutines.coroutineContext
 
 class DataRecyclerViewAdapter(var context: Activity, var dataListValue: List<DataSelectionDTO>?, itemClick: itemClickCallBack?) : RecyclerView.Adapter<DataRecyclerViewAdapter.MyViewHolder>(), Filterable {
 
@@ -66,9 +62,23 @@ class DataRecyclerViewAdapter(var context: Activity, var dataListValue: List<Dat
             holder.llTextData.visibility = View.VISIBLE
             holder.ivIcon.visibility = View.GONE
         } else {
-            holder.llTextData.visibility = View.GONE
-            holder.ivIcon.visibility = View.VISIBLE
-            Picasso.get().load(dataListFilter!!.get(position).imageUrl).into(holder.ivIcon)
+           // holder.llTextData.visibility = View.GONE
+            holder.ivIcon.visibility = View.GONE
+            Picasso.get()
+                    .load(dataListFilter!!.get(position).imageUrl)
+                    .into(holder.ivIcon, object : Callback {
+                        override fun onSuccess() {
+                            holder.ivIcon.visibility = View.VISIBLE
+                            holder.llTextData.visibility = View.GONE
+                        }
+
+                        override fun onError(ex: Exception) {
+                            holder.ivIcon.visibility = View.GONE
+                            holder.llTextData.visibility = View.VISIBLE
+                        }
+                    })
+
+
         }
     }
 

@@ -115,6 +115,7 @@ public class CommonStrings {
     public static final String KMS_DRIVEN = "Masters/kms-driven";
     public static final String EMPLOYEEMENT_END_POINT = "Masters/employee-type";
     public static final String BANK_LIST_END_POINT = "Bank/get-banks";
+    public static final String COMMON_BANK_LIST_END_POINT = "Bank/common-banks";
     public static final String SALUTATION_END_POINT = "Masters/salutations";
     public static final String VALIDATE_LEAD = "validate-lead";
     public static final String RESET_JOURNEY = "reset-customer-journey";

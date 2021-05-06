@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
+import android.widget.AdapterView.OnItemClickListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,9 +22,9 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.mfc.autofin.framework.R
 import kotlinx.android.synthetic.main.activity_basic_details.*
+import kotlinx.android.synthetic.main.layout_additional_fields_row_item.*
 import kotlinx.android.synthetic.main.v2_reg_name_email_layout.*
 import kotlinx.android.synthetic.main.vtwo_mobile_num_layout.*
-import org.w3c.dom.Text
 import utility.CommonStrings
 import utility.Global
 import v2.model.dto.AddLeadRequest
@@ -31,24 +32,18 @@ import v2.model.dto.DataSelectionDTO
 import v2.model.request.*
 import v2.model.request.add_lead.BasicDetails
 import v2.model.response.*
-import v2.model.response.AddLeadResponse
-import v2.model.response.BankListResponse
-import v2.model.response.CustomerDetailsResponse
-import v2.model.response.OTPResponse
 import v2.model.response.master.MasterResponse
 import v2.model.response.master.Types
 import v2.model_view.MasterViewModel
 import v2.model_view.TransactionViewModel
 import v2.service.utility.ApiResponse
+import v2.view.adapter.CustomAutoTextViewListAdapter
 import v2.view.adapter.DataRecyclerViewAdapter
 import v2.view.base.BaseFragment
 import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.callBackInterface.itemClickCallBack
 import v2.view.utility_view.GridItemDecoration
-import java.lang.NumberFormatException
 import java.util.*
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 
 public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
@@ -86,7 +81,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     var userType: String = ""
     var salutation: String = ""
     lateinit var employmentDetailsAdapter: DataRecyclerViewAdapter
-    lateinit var bankListDetailsAdapter: DataRecyclerViewAdapter
+    lateinit var commonBankListDetailsAdapter: DataRecyclerViewAdapter
 
     lateinit var etBirthDate: EditText
     lateinit var etWorkExpriance: EditText
@@ -125,10 +120,28 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var rvEMIList: RecyclerView
     lateinit var llEmiDetails: LinearLayout
     lateinit var eMIDetailsAdapter: DataRecyclerViewAdapter
+
+    lateinit var llResidenceTypeSection: LinearLayout
+    lateinit var llResidenceType: LinearLayout
+    lateinit var etAutoResidenceCity: AutoCompleteTextView
+    lateinit var tvResidenceTypeErrorMessage: TextView
+
+    lateinit var rvResidenceTypeList: RecyclerView
+    lateinit var rvResidenceYears: RecyclerView
+    lateinit var llResidenceTypeDetails: LinearLayout
+    lateinit var residenceTypeDetailsAdapter: DataRecyclerViewAdapter
+    lateinit var residenceYearsAdapter: DataRecyclerViewAdapter
+
+    lateinit var llPanNumberSection: LinearLayout
+    lateinit var llPanNumber: LinearLayout
+    lateinit var etPanNumber: EditText
+    lateinit var tvPanNumberErrorMessage: TextView
+
     lateinit var addEmploymentDetailsRequest: AddEmploymentDetailsRequest
     lateinit var textViewTermsAndCondition:TextView
 
     var isEmploymentDataSaved: Boolean = false
+    var isResidentDataSaved: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -154,9 +167,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     )
                 })
 
-        masterViewModel.getBankListLiveData()
+        masterViewModel.getCommonBanksLiveData()
                 .observe(this, { mApiResponse: ApiResponse? ->
-                    onBankList(
+                    onCommonBanksResponse(
                             mApiResponse!!
                     )
                 })
@@ -192,11 +205,36 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     mApiResponse!!
             )
         })
+        transactionViewModel.getAddResidentDetailsLiveData().observe(requireActivity(), { mApiResponse: ApiResponse? ->
+            onAddResidentDetails(
+                    mApiResponse!!
+            )
+        })
         transactionViewModel.getCustomerDetailsLiveData().observe(requireActivity(), { mApiResponse: ApiResponse? ->
             onCustomerDetails(
                     mApiResponse!!
             )
         })
+        masterViewModel.getResidentTypeLiveData()
+                .observe(this, { mApiResponse: ApiResponse? ->
+                    onResidentType(
+                            mApiResponse!!
+                    )
+                })
+
+        masterViewModel.getResidentYearsLiveData()
+                .observe(this, { mApiResponse: ApiResponse? ->
+                    onResidentYears(
+                            mApiResponse!!
+                    )
+                })
+        masterViewModel.getCityNameListLiveData()
+                .observe(this, { mApiResponse: ApiResponse? ->
+                    onResidentCityName(
+                            mApiResponse!!
+                    )
+                })
+
 
         transactionViewModel.getResetCustomerJourneyLiveData().observe(requireActivity(), { mAPIResponse: ApiResponse? -> onResetJourney(mAPIResponse!!) })
 
@@ -297,6 +335,26 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         tvEMIErrorMessage.visibility = View.GONE
 
 
+        llResidenceTypeSection = view.findViewById(R.id.ll_residence_type_section)
+        llResidenceType = view.findViewById(R.id.ll_residence_type)
+        etAutoResidenceCity = view.findViewById(R.id.et_residence_type)
+        tvResidenceTypeErrorMessage = view.findViewById(R.id.tv_residence_type_error_message)
+
+        rvResidenceTypeList = view.findViewById(R.id.rv_residence_type_list)
+        rvResidenceYears = view.findViewById(R.id.rv_residence_year)
+        llResidenceTypeDetails = view.findViewById(R.id.ll_residence_type_details)
+
+        tvResidenceTypeErrorMessage.visibility = View.GONE
+
+        llPanNumberSection = view.findViewById(R.id.ll_pan_number_section)
+        llPanNumber = view.findViewById(R.id.ll_pan_number)
+        etPanNumber = view.findViewById(R.id.et_pan_number)
+        tvPanNumberErrorMessage = view.findViewById(R.id.tv_pan_number_error_message)
+
+
+        tvPanNumberErrorMessage.visibility = View.GONE
+
+
 
         tvResendOTPV2.setOnClickListener(this)
         btnMobileNum.setOnClickListener(this)
@@ -313,16 +371,23 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         llAccoutDetailsSection.visibility = View.GONE
         llNetIncomeSection.visibility = View.GONE
         llEMISection.visibility = View.GONE
+        llResidenceTypeSection.visibility = View.GONE
+        llPanNumberSection.visibility = View.GONE
 
         setTextChangeOfWorkExpirance()
         setCheckBoxEvent()
         setTextChangeOfNetIncome()
         setTextChangeOfEMI()
+        setTextChangeOfetAutoResidenceCity()
+        setTextChangeOfPanNumber()
 
         setSalutaionAdapterData();
         setEploymentDetailsAdapter()
         setBankDetailsAdapter()
         setEMIDetailsAdapter()
+        setResidenceTypeAdapter()
+        setResidenceYearsAdapter()
+
 
     }
 
@@ -333,7 +398,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             var dataType: String? = data?.getStringExtra(CommonStrings.SELECTED_DATA_TYPE)
             if (dataType.equals(CommonStrings.BANK_DATA_CALL)) {
                 etSearchBank.setText(dataSelectionDTO!!.displayValue)
-                updateBankSelection(dataSelectionDTO)
+                updateBankSelection(dataSelectionDTO.displayValue!!)
             }
 
 
@@ -343,6 +408,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     fun callCustomerDetailsApi(customerId: Int) {
         caseId = customerId.toString()
         addEmploymentDetailsRequest = createAddEmploymentDetailsRequest(customerId)
+        addResidentDetailsRequest = createAddResidentDetailsRequest(customerId)
         transactionViewModel.getCustomerDetails(createCustomerDetailsRequest(customerId), Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL)
 
     }
@@ -471,7 +537,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         timerEMI!!.cancel();
 
                     }
-                    if (TextUtils.isEmpty(etEMI.text.toString())) {
+                    if (!unformatAmount(etEMI.text.toString()).equals(addResidentDetailsRequest.Data?.personalDetails?.TotalEMI.toString()) || TextUtils.isEmpty(etEMI.text.toString())) {
                         allowEdit = true
                     }
                     if (allowEdit == true) {
@@ -481,8 +547,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                                 if (TextUtils.isEmpty(etEMI.text)) {
                                     //Set Null Income
+                                    addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = 0
                                 } else {
                                     //Set Null Income
+                                    addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = etEMI.text.toString().toInt()
 
                                 }
                                 allowEdit = false
@@ -506,6 +574,76 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 } catch (e: Exception) {
 
                 }
+            }
+        })
+    }
+
+    fun setTextChangeOfetAutoResidenceCity() {
+        var timerCity: Timer? = null
+        var allowEditCity: Boolean = true
+        etAutoResidenceCity.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                llResidenceType.setBackgroundResource(R.drawable.vtwo_input_bg)
+                etAutoResidenceCity.setTextColor(resources.getColor(R.color.vtwo_black))
+                tvResidenceTypeErrorMessage.visibility = View.GONE
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
+                                           after: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                try {
+                    if (timerCity != null) {
+                        timerCity!!.cancel();
+
+                    }
+                    allowEditCity = true
+                    if (TextUtils.isEmpty(etAutoResidenceCity.text.toString())) {
+                        allowEditCity = true
+                    }
+                    if (allowEditCity == true) {
+                        timerCity = Timer()
+                        timerCity!!.schedule(object : TimerTask() {
+                            override fun run() {
+
+
+                                allowEditCity = false
+                                ThreadUtils.runOnUiThread(Runnable {
+                                    //call Search City
+                                    if (!TextUtils.isEmpty(etAutoResidenceCity.text.toString())) {
+                                        masterViewModel.getCityNameList(Global.customerDetails_BaseURL + CommonStrings.CITY_SEARCH_VIA_TEXT_END_POINT + etAutoResidenceCity.text.toString())
+                                    }
+                                });
+
+
+                            }
+                        }, 600)
+                    } else {
+
+                    }
+                } catch (e: Exception) {
+
+                }
+            }
+        })
+    }
+
+    fun setTextChangeOfPanNumber() {
+
+        etPanNumber.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                llPanNumber.setBackgroundResource(R.drawable.vtwo_input_bg)
+                etPanNumber.setTextColor(resources.getColor(R.color.vtwo_black))
+                tvPanNumberErrorMessage.visibility = View.GONE
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
+                                           after: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber = etPanNumber.text.toString()
             }
         })
     }
@@ -537,8 +675,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                             item.selected = true
                             if (item.value.equals("Yes")) {
                                 llEmiDetails.visibility = View.VISIBLE
+                                addResidentDetailsRequest.Data!!.personalDetails!!.HaveExistingEMI = true
                             } else {
                                 llEmiDetails.visibility = View.GONE
+                                addResidentDetailsRequest.Data!!.personalDetails!!.HaveExistingEMI = false
                             }
 
                         } else {
@@ -573,10 +713,54 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         rvBankList.addItemDecoration(GridItemDecoration(25, 2))
         rvBankList.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
 
-        masterViewModel.getBankList(Global.customerDetails_BaseURL + CommonStrings.BANK_LIST_END_POINT)
+        masterViewModel.getCommonBanks(Global.customerDetails_BaseURL + CommonStrings.COMMON_BANK_LIST_END_POINT)
 
         ivBackToVehDetails.setOnClickListener(this)
 
+    }
+
+    fun setResidenceTypeAdapter() {
+        val layoutManagerStaggeredGridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
+
+        rvResidenceTypeList.addItemDecoration(GridItemDecoration(25, 2))
+
+        rvResidenceTypeList.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+        masterViewModel.getResidentType(Global.customerDetails_BaseURL + CommonStrings.RESIDENT_TYPE_END_POINT)
+
+
+    }
+
+    fun setResidenceYearsAdapter() {
+        val layoutManagerStaggeredGridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
+
+        rvResidenceYears.addItemDecoration(GridItemDecoration(25, 2))
+
+        rvResidenceYears.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+        masterViewModel.getResidentYears(Global.customerDetails_BaseURL + CommonStrings.RESIDENT_YEARS_END_POINT)
+
+
+    }
+
+    fun setCityAutoTextAdapter(cityList: ArrayList<String>) {
+        customAutoTextViewListAdapter = CustomAutoTextViewListAdapter(requireContext(), R.layout.v2_auto_text_adapter_layout, cityList)
+        etAutoResidenceCity.setAdapter(customAutoTextViewListAdapter)
+        etAutoResidenceCity.threshold = 1
+        etAutoResidenceCity.showDropDown()
+        etAutoResidenceCity.onItemClickListener = OnItemClickListener { parent, arg1, pos, id ->
+            addResidentDetailsRequest.Data!!.residentialDetails!!.CustomerCity = customAutoTextViewListAdapter.getItem(pos)
+            var t: Timer? = null
+            t = Timer()
+            t.schedule(object : TimerTask() {
+                override fun run() {
+                    ThreadUtils.runOnUiThread(Runnable {
+                        etAutoResidenceCity.dismissDropDown()
+                    });
+                }
+            }, 1000)
+
+        }
     }
 
     override fun onClick(v: View?) {
@@ -585,15 +769,22 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             R.id.ivBackToVehDetails -> {
                 activity?.onBackPressed()
             }
-            R.id.et_search_bank -> {
-                navigateMasterDataSelectionActivity(CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE, CommonStrings.BANK_DATA_CALL)
-            }
-            R.id.ll_search_bank -> {
-                navigateMasterDataSelectionActivity(CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE, CommonStrings.BANK_DATA_CALL)
-            }
             R.id.textViewTermsAndCondition->
             {
                 navigateToWebViewFragment()
+            }
+
+            R.id.et_search_bank -> {
+                navigateMasterDataSelectionActivity(CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE, CommonStrings.BANK_DATA_CALL)
+            }
+
+            R.id.ll_search_bank -> {
+                navigateMasterDataSelectionActivity(CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE, CommonStrings.BANK_DATA_CALL)
+            }
+            R.id.ll_residence_type -> {
+                if (etAutoResidenceCity.adapter != null) {
+                    etAutoResidenceCity.showDropDown()
+                }
             }
             R.id.btnMobileNum -> {
                 hideSoftKeyboard()
@@ -618,6 +809,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         addLead()
                     }
                     //Step 4 Birth Date Validation
+                    llBirthDateSection.visibility == View.GONE -> {
+                        llBirthDateSection.visibility = View.VISIBLE
+                    }
                     llBirthDateSection.visibility == View.VISIBLE && TextUtils.isEmpty(etBirthDate.text) -> {
                         tvBirthErrorMessage.visibility = View.VISIBLE
                         tvBirthErrorMessage.text = "Please add date of birth."
@@ -652,8 +846,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     //Step 9 Call Add Employment Details API
                     isEmploymentDataSaved == false -> {
                         //Call Add EmploymentDetails Api
-                        transactionViewModel.addEmploymentDetails(addEmploymentDetailsRequest, Global.customerAPI_BaseURL + CommonStrings.ADD_EMPLOYMENT_URL_END)
-
+                        callAddEmploymentDetails()
                     }
                     //Step 10 Open EMI Section
                     llEMISection.visibility == View.GONE -> {
@@ -666,6 +859,48 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         llEMI.setBackgroundResource(R.drawable.v2_error_input_bg)
                         etEMI.setTextColor(resources.getColor(R.color.error_red))
                     }
+                    //Step 12 open Residence details
+                    llResidenceTypeSection.visibility == View.GONE -> {
+                        llResidenceTypeSection.visibility = View.VISIBLE
+                    }
+                    //Step 13 ResidenceType validation
+                    llResidenceTypeSection.visibility == View.VISIBLE && TextUtils.isEmpty(addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType) -> {
+                        showToast("Please select residence type.")
+                    }
+                    //Step 14 residence city validation
+                    llResidenceTypeSection.visibility == View.VISIBLE && TextUtils.isEmpty(addResidentDetailsRequest.Data!!.residentialDetails!!.CustomerCity) -> {
+                        tvResidenceTypeErrorMessage.text = ("Please select residence city.")
+                        tvResidenceTypeErrorMessage.visibility = View.VISIBLE
+                        llResidenceType.setBackgroundResource(R.drawable.v2_error_input_bg)
+                        etAutoResidenceCity.setTextColor(resources.getColor(R.color.error_red))
+
+                    }
+                    //Step 15 residence year validation
+                    llResidenceTypeSection.visibility == View.VISIBLE && addResidentDetailsRequest.Data!!.residentialDetails!!.NoOfYearInResident!! < 0 -> {
+                        showToast("Please select no of years in current residence.")
+                    }
+                    //Step 16 Open Pan Card Section
+                    llPanNumberSection.visibility == View.GONE -> {
+                        llPanNumberSection.visibility = View.VISIBLE
+                    }
+                    //Step 17 Pan Card Number validation
+                    llPanNumberSection.visibility == View.VISIBLE && (TextUtils.isEmpty(addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber) || !isValidPanNo(addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber!!))
+                    -> {
+                        tvPanNumberErrorMessage.visibility = View.VISIBLE
+                        tvPanNumberErrorMessage.text = ("Please select residence city.")
+                        llPanNumber.setBackgroundResource(R.drawable.v2_error_input_bg)
+                        etPanNumber.setTextColor(resources.getColor(R.color.error_red))
+                    }
+                    //Step 18 Call Add Residence Details API
+                    llPanNumberSection.visibility == View.VISIBLE && isResidentDataSaved == false -> {
+                        callAddResidentDetails()
+                    }
+                    //Step 19 All Data save
+                    !TextUtils.isEmpty(caseId) && isEmploymentDataSaved == true && isResidentDataSaved == true -> {
+                        callAddResidentDetails()
+                    }
+
+
                 }
             }
             R.id.tvResendOTPV2 -> {
@@ -682,6 +917,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
         }
 
+    }
+
+    private fun callAddEmploymentDetails() {
+        transactionViewModel.addEmploymentDetails(addEmploymentDetailsRequest, Global.customerAPI_BaseURL + CommonStrings.ADD_EMPLOYMENT_URL_END)
+    }
+
+    private fun callAddResidentDetails() {
+        transactionViewModel.addResidentDetails(addResidentDetailsRequest, Global.customerAPI_BaseURL + CommonStrings.ADD_RESIDENT_URL_END)
     }
 
 
@@ -814,6 +1057,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     private fun onGenerateOTP(mApiResponse: ApiResponse) = when (mApiResponse.status) {
         ApiResponse.Status.LOADING -> {
+            showProgressDialog(requireContext())
         }
         ApiResponse.Status.SUCCESS -> {
             try {
@@ -822,18 +1066,24 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     ll_otp_v2.visibility = View.VISIBLE
                     llTAndC.visibility = View.VISIBLE
                     mobileNum = etMobileNumberV2.text.toString()
+                    if (!TextUtils.isEmpty(otpResponse.data)) {
+                        etOTPV2.setText(otpResponse.data)
+
+                    }
                 }
 
                 enableTimer()
-                // showToast(otpResponse.message.toString())
+                hideProgressDialog()
             } catch (e: Exception) {
 
             }
         }
         ApiResponse.Status.ERROR -> {
             showToast(mApiResponse.error?.message.toString())
+            hideProgressDialog()
         }
         else -> {
+            hideProgressDialog()
             showToast("Please enter correct value")
         }
     }
@@ -940,13 +1190,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         rvEmploymentType.setAdapter(employmentDetailsAdapter)
     }
 
-    private fun onBankList(mApiResponse: ApiResponse) {
+    //region onResidentType
+    private fun onResidentType(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
             }
             ApiResponse.Status.SUCCESS -> {
-                val response: BankListResponse? = mApiResponse.data as BankListResponse?
-                setBankListDetails(response!!)
+                val masterResponse: MasterResponse? = mApiResponse.data as MasterResponse?
+                setResidentTypeAdapterDetails(masterResponse!!.data.types)
 
             }
             ApiResponse.Status.ERROR -> {
@@ -955,33 +1206,161 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         }
     }
 
-    private fun setBankListDetails(bankListResponse: BankListResponse) {
+    private fun setResidentTypeAdapterDetails(types: List<Types>) {
         val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
 
-        bankListResponse.data!!.forEachIndexed { index, types ->
+        types.forEachIndexed { index, types ->
+            list.add(DataSelectionDTO(types.displayLabel, null, types.value, false))
+        }
+
+
+
+        residenceTypeDetailsAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+            override fun itemClick(item: Any?, position: Int) {
+
+
+                residenceTypeDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                    run {
+                        if (index == position) {
+                            item.selected = true
+
+                            addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType = item.value
+
+                        } else {
+                            item.selected = false
+                        }
+
+                    }
+                }
+                residenceTypeDetailsAdapter.notifyDataSetChanged()
+            }
+        })
+
+
+        rvResidenceTypeList.setAdapter(residenceTypeDetailsAdapter)
+    }
+    //endregion onResidentType
+
+    //region onResident Years
+    private fun onResidentYears(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+            }
+            ApiResponse.Status.SUCCESS -> {
+                val masterResponse: MasterResponse? = mApiResponse.data as MasterResponse?
+                setResidentYearsAdapterDetails(masterResponse!!.data.types)
+
+            }
+            ApiResponse.Status.ERROR -> {
+
+            }
+        }
+    }
+
+    private fun setResidentYearsAdapterDetails(types: List<Types>) {
+        val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
+
+        types.forEachIndexed { index, types ->
+            list.add(DataSelectionDTO(types.displayLabel, null, types.value, false))
+        }
+
+
+
+        residenceYearsAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+            override fun itemClick(item: Any?, position: Int) {
+
+
+                residenceYearsAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                    run {
+                        if (index == position) {
+                            item.selected = true
+                            addResidentDetailsRequest.Data!!.residentialDetails!!.NoOfYearInResident = item.value.toString().toInt()
+
+                        } else {
+                            item.selected = false
+                        }
+
+                    }
+                }
+                residenceYearsAdapter.notifyDataSetChanged()
+            }
+        })
+
+
+        rvResidenceYears.setAdapter(residenceYearsAdapter)
+    }
+
+    //endregion onResidentType
+    private fun onCommonBanksResponse(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+            }
+            ApiResponse.Status.SUCCESS -> {
+                val response: CommonBanksResponse? = mApiResponse.data as CommonBanksResponse?
+                setCommonBankListDetails(response!!)
+
+            }
+            ApiResponse.Status.ERROR -> {
+
+            }
+        }
+    }
+
+    private fun setCommonBankListDetails(commonBanksResponse: CommonBanksResponse) {
+        val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
+
+        commonBanksResponse.data!!.forEachIndexed { index, bankItem ->
             if (index < 4) {
-                list.add(DataSelectionDTO(types, null, types, false, "https://www.pikpng.com/pngl/m/71-719828_axis-bank-png-axis-bank-logo-download-clipart.png"))
+                // bankItem.logoUrl="https://4.bp.blogspot.com/-xnBMIjH4Z-4/W2Qfiocw5hI/AAAAAAAAGg4/136qYboj2EQ3Ve5BjqOmFL8rf_UWijelgCPcBGAYYCw/s1600/AX.png"
+                list.add(DataSelectionDTO(bankItem.bankName, null, bankItem.bankName, false, bankItem.logoUrl))
             }
         }
 
-        bankListDetailsAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+        commonBankListDetailsAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
             override fun itemClick(item: Any?, position: Int) {
                 etSearchBank.setText("")
                 var selectedBankDataSelectionDTO: DataSelectionDTO = item as DataSelectionDTO
-                updateBankSelection(selectedBankDataSelectionDTO)
+                updateBankSelection(selectedBankDataSelectionDTO.displayValue!!)
 
             }
         })
 
 
-        rvBankList.setAdapter(bankListDetailsAdapter)
+        rvBankList.setAdapter(commonBankListDetailsAdapter)
     }
 
-    fun updateBankSelection(selectedBankDataSelectionDTO: DataSelectionDTO) {
-        bankListDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
+    private fun onResidentCityName(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                // showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+                val response: CityNameListResponse? = mApiResponse.data as CityNameListResponse?
+                if (response?.data != null && response!!.data!!.size > 0) {
+                    var cityList: ArrayList<String> = arrayListOf<String>()
+
+                    response!!.data!!.forEachIndexed { index, city ->
+                        cityList.add(city)
+                    }
+                    setCityAutoTextAdapter(cityList)
+
+                }
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+            }
+        }
+    }
+
+    fun updateBankSelection(selectedBankDisplayName: String) {
+        var isFound: Boolean = false
+        commonBankListDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
             run {
-                if (selectedBankDataSelectionDTO.value.equals(item.displayValue)) {
+                if (selectedBankDisplayName.equals(item.displayValue)) {
                     item.selected = true
+                    isFound = true
                     if (addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType.equals("Self Employed")) {
                         addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount = item.displayValue
                         addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount = null
@@ -998,7 +1377,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
             }
         }
-        bankListDetailsAdapter.notifyDataSetChanged()
+
+        commonBankListDetailsAdapter.notifyDataSetChanged()
+        if (!isFound) {
+            etSearchBank.setText(selectedBankDisplayName)
+        }
+
     }
 
 
@@ -1031,6 +1415,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     llBirthDateSection.visibility = View.VISIBLE
                     //Create Request of Add Employment Details
                     addEmploymentDetailsRequest = createAddEmploymentDetailsRequest(addLeadResponse.mData!!)
+                    addResidentDetailsRequest = createAddResidentDetailsRequest(addLeadResponse.mData!!)
                     callCustomerDetailsApi(addLeadResponse.mData!!)
                 }
                 showToast(addLeadResponse?.message.toString())
@@ -1071,8 +1456,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 } else {
                     validateLeadDataRes = validateLeadDataResponse!!
                     generateAlertDialog()
-                    navToSoftOffer()
-
                 }
 
             }
@@ -1099,8 +1482,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     dialogConfilctForAddLead!!.dismiss()
                 }
 
-                navToSoftOffer()
-                showToast(resetJourneyRes?.message.toString())
+               // showToast(resetJourneyRes?.message.toString())
 
             }
             ApiResponse.Status.ERROR -> {
@@ -1114,10 +1496,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     }
 
-
-
-
-    // OnResponse region ends
 
     private fun generateAlertDialog() {
 
@@ -1141,8 +1519,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             dialogConfilctForAddLead!!.dismiss()
         }
         btnContinueWithOldFlow.setOnClickListener {
-            showToast("Start with old lead application is in-progress.")
-            navToSoftOffer()
             callCustomerDetailsApi(validateLeadDataRes.oldCustomerId!!.toInt())
             dialogConfilctForAddLead!!.dismiss()
         }
@@ -1164,14 +1540,18 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     private fun getValidateLeadReq(): ValidateLeadRequest {
         val validateLeadDataRequest = ValidateLeadDataRequest(mobileNum, make, model, variant)
         return ValidateLeadRequest(validateLeadDataRequest, CommonStrings.DEALER_ID, CommonStrings.USER_TYPE)
+        /*val validateLeadDataRequest= ValidateLeadDataRequest(etMobileNumberV2.text.toString(),addLeadRequest.Data?.vehicleDetails?.Make,addLeadRequest.Data?.vehicleDetails?.Model,addLeadRequest.Data?.vehicleDetails?.Variant)
+        return ValidateLeadRequest(validateLeadDataRequest, addLeadRequest.UserId, addLeadRequest.UserType)*/
     }
 
 
     private fun onAddEmploymentDetails(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
             }
             ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
                 val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
                 if (addLeadResponse?.mData!! > 0) {
                     var addEmploymentDetailsId = addLeadResponse?.mData.toString()
@@ -1181,7 +1561,33 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
             }
             ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+            }
+            else -> {
+                showToast("Please enter valid details")
+            }
+        }
 
+    }
+
+    private fun onAddResidentDetails(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
+                if (addLeadResponse?.mData!! > 0) {
+                    var addEmploymentDetailsId = addLeadResponse?.mData.toString()
+                    isResidentDataSaved = true
+                    navToSoftOffer()
+                }
+                hideProgressDialog()
+                showToast(addLeadResponse?.message.toString())
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
             }
             else -> {
                 showToast("Please enter valid details")
@@ -1204,6 +1610,23 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     }
 
+    fun createAddResidentDetailsRequest(customerId: Int): AddResidentDetailsRequest {
+        var addResidentDetailsRequest = AddResidentDetailsRequest()
+        addResidentDetailsRequest.UserId = CommonStrings.DEALER_ID
+        addResidentDetailsRequest.UserType = CommonStrings.USER_TYPE
+        var data = ResidentDetailsData()
+
+        var personalDetails = ResidentDetailsDataPersonalDetails()
+        var residentialDetails = ResidentDetailsDataResidentialDetails()
+
+        data.CustomerId = customerId
+        data.personalDetails = personalDetails
+        data.residentialDetails = residentialDetails
+        addResidentDetailsRequest.Data = data
+        return addResidentDetailsRequest
+
+    }
+
     fun createCustomerDetailsRequest(customerId: Int): CustomerRequest {
         var customerDetailsRequest = CustomerRequest()
         customerDetailsRequest.UserId = CommonStrings.DEALER_ID
@@ -1218,6 +1641,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         parseCommonResponse(mApiResponse)
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
             }
             ApiResponse.Status.SUCCESS -> {
                 if (dialogConfilctForAddLead != null && dialogConfilctForAddLead!!.isShowing) {
@@ -1227,13 +1651,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 if (customerDetailsResponse?.data != null) {
                     preFilledData(customerDetailsResponse)
                 }
-
+                hideProgressDialog()
 
             }
             ApiResponse.Status.ERROR -> {
-
+                hideProgressDialog()
             }
             else -> {
+                hideProgressDialog()
                 showToast("Please enter valid details")
             }
         }
@@ -1287,6 +1712,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             var birthDateValue: String? = null
             var employmentType: String? = null
             var bankName: String? = null
+            var panNumber: String? = null
 
             var salutationValue: String? = null
             var firstName: String? = null
@@ -1369,17 +1795,20 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                             isEmploymentDataSaved = true
 
                         }
+                        if (!TextUtils.isEmpty(bankName)) {
+                            updateBankSelection(bankName!!)
+                        }
                     }
                     //set Bank Details
                     if (!TextUtils.isEmpty(bankName)) {
-                        bankListDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
+                        commonBankListDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
                             if (dataSelectionDTO.displayValue.toString().equals(bankName)) {
                                 dataSelectionDTO.selected = true
                             } else {
                                 dataSelectionDTO.selected = false
                             }
                         }
-                        bankListDetailsAdapter.notifyDataSetChanged()
+                        commonBankListDetailsAdapter.notifyDataSetChanged()
                         llAccoutDetailsSection.visibility = View.VISIBLE
                     }
 
@@ -1393,6 +1822,91 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
                 }
+
+                //set EMI Details
+                var haveEmi: String
+                llEMISection.visibility = View.VISIBLE
+
+                if (customerDetailsResponse.data!!.basicDetails!!.haveExistingEMI == true) {
+                    haveEmi = "Yes"
+                    addResidentDetailsRequest.Data!!.personalDetails!!.HaveExistingEMI = true
+                    llEmiDetails.visibility = View.VISIBLE
+
+                    if (customerDetailsResponse.data!!.basicDetails!!.totalEMI!!.toInt() > 0) {
+                        etEMI.setText(customerDetailsResponse.data!!.basicDetails!!.totalEMI!!.toInt().toString())
+                        addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = customerDetailsResponse.data!!.basicDetails!!.totalEMI!!.toInt()
+                    } else {
+                        addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = 0
+                    }
+
+                } else {
+                    haveEmi = "No"
+                    addResidentDetailsRequest.Data!!.personalDetails!!.HaveExistingEMI = false
+                }
+
+                eMIDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
+                    if (dataSelectionDTO.value.toString().equals(haveEmi)) {
+                        isResidentDataSaved = true
+                        dataSelectionDTO.selected = true
+
+
+                    } else {
+                        dataSelectionDTO.selected = false
+                        addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = 0
+                    }
+                }
+                eMIDetailsAdapter.notifyDataSetChanged()
+
+                //set residentialDetails
+                if (customerDetailsResponse.data!!.residentialDetails != null) {
+                    //Set residenceType
+                    if (customerDetailsResponse.data!!.residentialDetails!!.residenceType != null) {
+                        llResidenceTypeSection.visibility = View.VISIBLE
+                        residenceTypeDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
+                            if (dataSelectionDTO.value.toString().equals(customerDetailsResponse.data!!.residentialDetails!!.residenceType)) {
+                                dataSelectionDTO.selected = true
+                                addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType = dataSelectionDTO.value.toString()
+                            } else {
+                                dataSelectionDTO.selected = false
+                            }
+                        }
+                        residenceTypeDetailsAdapter.notifyDataSetChanged()
+
+                        //set noOfYearInResident
+                        if (customerDetailsResponse.data!!.residentialDetails!!.noOfYearInResident != null) {
+
+                            residenceYearsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
+                                if (dataSelectionDTO.value.toString().equals(customerDetailsResponse.data!!.residentialDetails!!.noOfYearInResident.toString())) {
+                                    dataSelectionDTO.selected = true
+                                    addResidentDetailsRequest.Data!!.residentialDetails!!.NoOfYearInResident = dataSelectionDTO.value.toString().toInt()
+                                } else {
+                                    dataSelectionDTO.selected = false
+                                }
+                            }
+                            residenceYearsAdapter.notifyDataSetChanged()
+                        }
+                        //set Customer Resident City
+                        if (customerDetailsResponse.data!!.residentialDetails!!.customerCity != null) {
+                            addResidentDetailsRequest.Data!!.residentialDetails!!.CustomerCity = customerDetailsResponse.data!!.residentialDetails!!.customerCity
+                            etAutoResidenceCity.setText(customerDetailsResponse.data!!.residentialDetails!!.customerCity)
+                        }
+                    }
+
+
+                }
+                //set Pan Card Number
+                if (customerDetailsResponse!!.data!!.basicDetails!!.panNumber != null) {
+                    panNumber = customerDetailsResponse!!.data!!.basicDetails!!.panNumber
+                }
+                if (panNumber == null && customerDetailsResponse!!.data!!.equifaxFields!!.panNumber != null && customerDetailsResponse!!.data!!.equifaxFields!!.panNumber!!.size > 0) {
+                    panNumber = customerDetailsResponse!!.data!!.equifaxFields!!.panNumber!!.get(0).toString()
+                }
+                if (panNumber != null) {
+                    llPanNumberSection.visibility = View.VISIBLE
+                    etPanNumber.setText(panNumber)
+
+                }
+
             }
         } catch (e: Exception) {
             Log.d("Err", e.message)

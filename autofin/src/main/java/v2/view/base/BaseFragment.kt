@@ -1,5 +1,6 @@
 package v2.view.base
 
+import android.app.ActionBar
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
@@ -338,6 +339,7 @@ public open class BaseFragment : Fragment() {
         builder.setView(customLayout)
         val dialog = builder.create()
         dialog.setCanceledOnTouchOutside(setCancellationOnTouchOutside)
+        dialog!!.getWindow()!!.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
         return dialog
     }
 
