@@ -1,6 +1,6 @@
 package v2.model.response.bank_offers
 
-data class GetBankOffersForApplicationResponse(
+data class BankOffersForApplicationResponse(
     var data: List<BankOffersData>?,
     var message: Any?,
     var status: Boolean?,

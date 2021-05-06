@@ -1,6 +1,6 @@
 package v2.model.request.bank_offers
 
-data class GetBankOffersForApplicationRequest(
+data class BankOffersForApplicationRequest(
     var Data: LeadApplicationData?,
     var UserId: String?,
     var UserType: String?
