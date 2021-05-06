@@ -1,16 +1,21 @@
 package v2.model.response
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import v2.model.response.master.EquifaxData
 
+@Parcelize
 data class CustomerDetailsResponse(
         var data: CustomerDetailsData?,
         var message: String?,
         var status: Boolean?,
         var statusCode: String?
-)
+) : Parcelable
 
+@Parcelize
 data class CustomerDetailsData(
-        var additionalDetails: List<Any>?,
+        var additionalDetails: List<String>?,
+        var documents: List<String>?,
         var basicDetails: BasicDetails?,
         var caseId: String?,
         var dealerDetails: DealerDetails?,
@@ -22,8 +27,9 @@ data class CustomerDetailsData(
         var statusDetails: List<StatusDetail>?,
         var subStatus: String?,
         var vehicleDetails: VehicleDetails?
-)
+) : Parcelable
 
+@Parcelize
 data class BasicDetails(
         var birthDate: String?,
         var customerMobile: String?,
@@ -34,8 +40,9 @@ data class BasicDetails(
         var panNumber: String?,
         var salutation: String?,
         var totalEMI: Double?
-)
+) : Parcelable
 
+@Parcelize
 data class DealerDetails(
         var dealerCity: String?,
         var dealerCode: String?,
@@ -44,8 +51,9 @@ data class DealerDetails(
         var dealerName: String?,
         var dealerPinCode: String?,
         var externalRef: String?
-)
+) : Parcelable
 
+@Parcelize
 data class EmploymentDetails(
         var currentCompanyExpMoreThanOne: Boolean?,
         var employmentType: String?,
@@ -53,8 +61,9 @@ data class EmploymentDetails(
         var primaryAccount: String?,
         var salaryAccount: String?,
         var totalWorkExperience: String?
-)
+) : Parcelable
 
+@Parcelize
 data class LoanDetails(
         var bankName: String?,
         var emi: String?,
@@ -62,22 +71,25 @@ data class LoanDetails(
         var loanCategory: String?,
         var roi: String?,
         var tenure: String?
-)
+) : Parcelable
 
+@Parcelize
 data class ResidentialDetails(
         var currentAddress: CurrentAddress?,
         var customerCity: String?,
         var noOfYearInResident: Int?,
         var permanentAddress: PermanentAddress?,
         var residenceType: String?
-)
+) : Parcelable
 
+@Parcelize
 data class StatusDetail(
         var createdDate: String?,
         var description: String?,
         var status: String?
-)
+) : Parcelable
 
+@Parcelize
 data class VehicleDetails(
         var fuelType: String?,
         var kMs: String?,
@@ -88,8 +100,9 @@ data class VehicleDetails(
         var variant: String?,
         var vehicleNumber: String?,
         var vehicleSellingPrice: Double?
-)
+) : Parcelable
 
+@Parcelize
 data class CurrentAddress(
         var addressLine1: String?,
         var addressLine2: String?,
@@ -98,8 +111,9 @@ data class CurrentAddress(
         var isPermanent: Boolean?,
         var pincode: String?,
         var state: String?
-)
+) : Parcelable
 
+@Parcelize
 data class PermanentAddress(
         var addressLine1: String?,
         var addressLine2: String?,
@@ -107,4 +121,4 @@ data class PermanentAddress(
         var city: String?,
         var pincode: String?,
         var state: String?
-)
+) : Parcelable
