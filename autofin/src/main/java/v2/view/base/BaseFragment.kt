@@ -236,14 +236,6 @@ public open class BaseFragment : Fragment() {
         }
     }
 
-
-
-    public fun navigateToWebViewFragment() {
-        view?.let {
-            Navigation.findNavController(it).navigate(R.id.webViewFragment2)
-        }
-    }
-
     //endregion screen Navigation
 
     //region message

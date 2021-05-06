@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/text_size_15dp"
+    android:background="@drawable/vtwo_new_toolbar_bg">
+    <LinearLayout
+        android:id="@+id/llRegTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/ivBackToAddDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/text_size_8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:srcCompat="@drawable/ic_vtwo_back_arrow" />
+        <utility.RobotoMedium
+            android:id="@+id/textViewWebViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Terms and Condition"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_18dp"
+            android:layout_marginLeft="@dimen/text_size_5dp"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/text_size10dp">
+        <ImageView
+            android:id="@+id/ivVehDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_size_14dp"
+            app:srcCompat="@drawable/ic_vtwo_vehicle_details" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:text="@string/vtwo_car_info"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:layout_marginTop="@dimen/text_size_4dp"
+            android:layout_below="@+id/ivVehDetails"/>
+        <View
+            android:id="@+id/vehToPersonalDetails"
+            android:layout_width="88dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="13dp"
+            android:background="@color/vtwo_yellow"
+            android:layout_marginLeft="@dimen/text_size_8dp"
+            android:layout_toRightOf="@id/ivVehDetails"
+            android:layout_marginStart="@dimen/text_size_8dp"
+            android:layout_toEndOf="@id/ivVehDetails" />
+
+        <ImageView
+            android:id="@+id/ivPersonalDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_size_12dp"
+            android:layout_toRightOf="@id/vehToPersonalDetails"
+            app:srcCompat="@drawable/ic_vtwo_personal_details"
+            android:layout_toEndOf="@id/vehToPersonalDetails" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivPersonalDetails"
+            android:layout_marginLeft="-9dp"
+            android:layout_marginTop="6dp"
+            android:layout_toRightOf="@id/vehToPersonalDetails"
+            android:fontFamily="@font/roboto_regular"
+            android:text="@string/vtwo_personal_info"
+            android:textColor="@color/vtwo_yellow"
+            android:textSize="12sp" />
+
+        <View
+            android:id="@+id/personalToBankDetails"
+            android:layout_width="88dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="13dp"
+            android:background="@color/vtwo_yellow"
+            android:layout_marginLeft="@dimen/text_size_8dp"
+            android:layout_toRightOf="@id/ivPersonalDetails"
+            android:layout_marginStart="@dimen/text_size_8dp"
+            android:layout_toEndOf="@id/ivPersonalDetails" />
+        <ImageView
+            android:id="@+id/ivBankDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/text_size_17dp"
+            android:layout_marginLeft="@dimen/text_size_12dp"
+            android:layout_toRightOf="@id/personalToBankDetails"
+            app:srcCompat="@drawable/ic_vtwo_bank_details"
+            android:layout_toEndOf="@id/personalToBankDetails" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:text="@string/vtwo_bank_details"
+            android:textColor="@color/vtwo_disabled_grey"
+            android:textSize="12sp"
+            android:layout_below="@+id/ivBankDetails"
+            android:layout_marginTop="@dimen/text_size_4dp"
+            android:layout_toRightOf="@id/personalToBankDetails"/>
+
+    </RelativeLayout>
+</LinearLayout>

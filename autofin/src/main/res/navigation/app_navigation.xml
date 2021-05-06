@@ -72,19 +72,19 @@
             android:id="@+id/action_addLeadDetailsFrag_to_softOfferFragment2"
             app:destination="@id/softOfferFragment2" />
         <action
-            android:id="@+id/action_addLeadDetailsFrag_to_webViewFragment2"
-            app:destination="@id/webViewFragment2" />
+            android:id="@+id/action_addLeadDetailsFrag_to_webViewActivity"
+            app:destination="@id/webViewActivity" />
     </fragment>
     <fragment
         android:id="@+id/softOfferFragment2"
         android:name="v2.view.SoftOfferFragment"
         android:label="fragment_soft_offer"
         tools:layout="@layout/fragment_soft_offer" />
-    <fragment
-        android:id="@+id/webViewFragment2"
-        android:name="v2.view.WebViewFragment"
-        android:label="v2_fragment_web_view"
-        tools:layout="@layout/v2_fragment_web_view" />
+    <activity
+        android:id="@+id/webViewActivity"
+        android:name="v2.view.utility_view.WebViewActivity"
+        android:label="v2_activity_web_view"
+        tools:layout="@layout/v2_activity_web_view" />
 
 
 </navigation>

@@ -43,6 +43,7 @@ import v2.view.base.BaseFragment
 import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.callBackInterface.itemClickCallBack
 import v2.view.utility_view.GridItemDecoration
+import v2.view.utility_view.WebViewActivity
 import java.util.*
 
 
@@ -59,6 +60,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var tvResendOTPV2: TextView
     lateinit var tvOTPTimerV2: TextView
     lateinit var tvOTPEHint: TextView
+    lateinit var textViewTermsAndCondition:TextView
     lateinit var btnMobileNum: Button
     lateinit var ll_otp_v2: LinearLayout
     lateinit var llTAndC: LinearLayout
@@ -138,7 +140,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var tvPanNumberErrorMessage: TextView
 
     lateinit var addEmploymentDetailsRequest: AddEmploymentDetailsRequest
-    lateinit var textViewTermsAndCondition:TextView
+    lateinit var addResidentDetailsRequest: AddResidentDetailsRequest
+    lateinit var customAutoTextViewListAdapter: CustomAutoTextViewListAdapter
 
     var isEmploymentDataSaved: Boolean = false
     var isResidentDataSaved: Boolean = false
@@ -769,10 +772,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             R.id.ivBackToVehDetails -> {
                 activity?.onBackPressed()
             }
-            R.id.textViewTermsAndCondition->
-            {
-                navigateToWebViewFragment()
-            }
+            R.id.textViewTermsAndCondition -> {
+                    val intent = Intent(activity, WebViewActivity::class.java)
+                    intent.putExtra("WEB_URL", CommonStrings.TERMS_AND_CONDITION_URL)
+                    startActivity(intent)
+                }
 
             R.id.et_search_bank -> {
                 navigateMasterDataSelectionActivity(CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE, CommonStrings.BANK_DATA_CALL)
@@ -1482,7 +1486,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     dialogConfilctForAddLead!!.dismiss()
                 }
 
-               // showToast(resetJourneyRes?.message.toString())
+                // showToast(resetJourneyRes?.message.toString())
 
             }
             ApiResponse.Status.ERROR -> {

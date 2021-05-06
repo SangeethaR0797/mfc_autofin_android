@@ -63,6 +63,7 @@ public class CommonStrings {
     public static final String VALIDATE_OTP_URL_END = "validate-otp";
     public static final String ADD_LEAD_URL_END = "add-lead";
     public static final String ADD_EMPLOYMENT_URL_END = "add-employment-details";
+    public static final String ADD_RESIDENT_URL_END = "add-resident-details";
     public static final String MOVED_TO_CCITY = "moved_to_CurrentCity";
     public static final String MOVED_TO_CRESIDENCE = "moved_to_current_residence";
     public static final String USER_DOB = "user_dob";
@@ -114,12 +115,16 @@ public class CommonStrings {
     public static final String CUSTOMER_ADDITIONAL_FIELDS = "customer-additional-data";
     public static final String KMS_DRIVEN = "Masters/kms-driven";
     public static final String EMPLOYEEMENT_END_POINT = "Masters/employee-type";
+    public static final String RESIDENT_TYPE_END_POINT = "Masters/resident-type";
+    public static final String RESIDENT_YEARS_END_POINT = "Masters/resident-year";
     public static final String BANK_LIST_END_POINT = "Bank/get-banks";
     public static final String COMMON_BANK_LIST_END_POINT = "Bank/common-banks";
     public static final String SALUTATION_END_POINT = "Masters/salutations";
     public static final String VALIDATE_LEAD = "validate-lead";
     public static final String RESET_JOURNEY = "reset-customer-journey";
-    public static final String TERMS_AND_CONDITION_URL = "https://www.stagemfc.com/autofin-TermsAndCondition";
+    public static final String CITY_SEARCH_VIA_TEXT_END_POINT = "Pincode/city-by-name/";
+    public static final String TERMS_AND_CONDITION_URL="https://www.stagemfc.com/autofin-TermsAndCondition";
+
     public static String TOKEN_VALUE = "";
     public static String IBB_TOKEN_VALUE = "";
 

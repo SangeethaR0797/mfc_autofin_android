@@ -25,19 +25,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity
-            android:windowSoftInputMode="adjustResize"
-            android:name="v2.view.other_activity.VehBasicDetailsActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-        <activity
-            android:windowSoftInputMode="adjustResize"
-            android:name="v2.view.other_activity.MasterDataSelectionActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
 
+        <activity android:name="v2.view.utility_view.WebViewActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
-            android:windowSoftInputMode="adjustResize"
+            android:name="v2.view.other_activity.VehBasicDetailsActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="v2.view.other_activity.MasterDataSelectionActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name="v2.view.HostActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Activity.VehicleDetailsActivities.LikelyPurchaseActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
