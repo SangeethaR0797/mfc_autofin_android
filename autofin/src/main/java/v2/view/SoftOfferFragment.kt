@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.mfc.autofin.framework.R
+import v2.model.response.CustomerDetailsResponse
+import v2.view.base.BaseFragment
 
 
-class SoftOfferFragment : Fragment() {
-
+class SoftOfferFragment : BaseFragment() {
+    lateinit var customerDetailsResponse: CustomerDetailsResponse
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -17,7 +19,12 @@ class SoftOfferFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view =inflater.inflate(R.layout.v2_soft_offer_loading_fragment, container, false)
+        val view = inflater.inflate(R.layout.v2_soft_offer_loading_fragment, container, false)
+        arguments?.let {
+            val safeArgs = SoftOfferFragmentArgs.fromBundle(it)
+            customerDetailsResponse = safeArgs.CustomerDetails
+            customerId = safeArgs.customerId
+        }
         initViews(view)
         return view
     }
@@ -25,5 +32,5 @@ class SoftOfferFragment : Fragment() {
     private fun initViews(view: View?) {
 
     }
-    
+
 }

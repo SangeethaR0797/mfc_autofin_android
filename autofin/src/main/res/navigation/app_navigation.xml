@@ -76,7 +76,15 @@
         android:id="@+id/softOfferFragment2"
         android:name="v2.view.SoftOfferFragment"
         android:label="fragment_soft_offer"
-        tools:layout="@layout/fragment_soft_offer" />
+        tools:layout="@layout/fragment_soft_offer" >
+        <argument
+            android:name="CustomerDetails"
+            app:argType="v2.model.response.CustomerDetailsResponse" />
+        <argument
+            android:name="customerId"
+            app:argType="string"
+            android:defaultValue="0" />
+    </fragment>
 
 
 </navigation>
