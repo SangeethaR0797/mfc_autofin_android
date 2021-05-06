@@ -16,6 +16,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.mfc.autofin.framework.R
@@ -36,6 +38,7 @@ import v2.view.other_activity.VehBasicDetailsActivity
 
 import v2.view.utility_view.StockAPIFragmentArgs
 import v2.view.utility_view.StockAPIFragmentDirections
+import v2.view.utility_view.WebViewActivity
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -255,6 +258,13 @@ public open class BaseFragment : Fragment() {
      }
     }
 
+    public fun openWebViewActivity(title: String?, url: String?) {
+        val intent = Intent(activity, WebViewActivity::class.java)
+        intent.putExtra(CommonStrings.URL, url)
+        intent.putExtra(CommonStrings.TITLE, title)
+        startActivity(intent)
+    }
+
     //endregion screen Navigation
 
     //region message
@@ -368,4 +378,14 @@ public open class BaseFragment : Fragment() {
 
 
     // Progress Dialog region ends
+
+    // Region Utility methods start
+
+    private fun changeVectorFillColor(imgView: ImageView, id: Int) {
+        DrawableCompat.setTint(imgView.getDrawable(), ContextCompat.getColor(requireContext(), id));
+    }
+
+
+    // Region Utility methods ends
+
 }

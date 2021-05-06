@@ -5,9 +5,9 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.text.Editable
-import android.text.TextUtils
-import android.text.TextWatcher
+import android.text.*
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -43,6 +43,7 @@ import v2.view.base.BaseFragment
 import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.callBackInterface.itemClickCallBack
 import v2.view.utility_view.GridItemDecoration
+import v2.view.utility_view.WebViewActivity
 import java.util.*
 
 
@@ -59,6 +60,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var tvResendOTPV2: TextView
     lateinit var tvOTPTimerV2: TextView
     lateinit var tvOTPEHint: TextView
+    lateinit var textViewTermsAndCondition: TextView
     lateinit var btnMobileNum: Button
     lateinit var ll_otp_v2: LinearLayout
     lateinit var llTAndC: LinearLayout
@@ -269,6 +271,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         ll_otp_v2 = view.findViewById(R.id.ll_otp_v2)
         ll_otp_v2.visibility = View.GONE
         llTAndC = view.findViewById(R.id.llTAndC)
+        textViewTermsAndCondition = view.findViewById(R.id.textViewTermsAndCondition)
 
         rv_salutation = view.findViewById(R.id.rv_salutation)
         llNameAndEmailV2 = view.findViewById(R.id.llNameAndEmailV2)
@@ -355,7 +358,23 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         tvPanNumberErrorMessage.visibility = View.GONE
 
+        val ss = SpannableString(getString(R.string.vtwo_t_and_c_hint))
+        val span1: ClickableSpan = object : ClickableSpan() {
+            override fun onClick(textView: View) {
+                openWebViewActivity("Terms And Conditions",CommonStrings.TERMS_AND_CONDITION_URL)
+            }
+        }
 
+        val span2: ClickableSpan = object : ClickableSpan() {
+            override fun onClick(textView: View) {
+                openWebViewActivity("Privacy And Policy",CommonStrings.PRIVACY_AND_POLICY_URL)
+            }
+        }
+        ss.setSpan(span1, 15, 35, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        ss.setSpan(span2, 40, 54, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        textViewTermsAndCondition.text = ss
+        textViewTermsAndCondition.movementMethod = LinkMovementMethod.getInstance()
 
         tvResendOTPV2.setOnClickListener(this)
         btnMobileNum.setOnClickListener(this)
@@ -363,8 +382,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         etBirthDate.setOnClickListener(this)
         etSearchBank.setOnClickListener(this)
         llAddSearchBank.setOnClickListener(this)
-        llResidenceType.setOnClickListener(this)
-
 
         //Hide All Section
         llNameAndEmailV2.visibility = View.GONE
@@ -429,9 +446,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 llAddWorkExpriance.setBackgroundResource(R.drawable.vtwo_input_bg)
                 etWorkExpriance.setTextColor(resources.getColor(R.color.vtwo_black))
                 if (TextUtils.isEmpty(etWorkExpriance.text)) {
-                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.TotalWorkExperience = null
+                    addEmploymentDetailsRequest!!.Data!!.employmentDetails!!.TotalWorkExperience = null
                 } else {
-                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.TotalWorkExperience = etWorkExpriance.text.toString()
+                    addEmploymentDetailsRequest!!.Data!!.employmentDetails!!.TotalWorkExperience = etWorkExpriance.text.toString()
                 }
 
             }
@@ -771,6 +788,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             R.id.ivBackToVehDetails -> {
                 activity?.onBackPressed()
             }
+
             R.id.et_search_bank -> {
                 navigateMasterDataSelectionActivity(CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE, CommonStrings.BANK_DATA_CALL)
             }

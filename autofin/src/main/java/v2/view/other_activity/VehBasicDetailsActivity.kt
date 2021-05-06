@@ -276,4 +276,6 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
         } catch (e: Exception) {
         }
     }
+
+
 }

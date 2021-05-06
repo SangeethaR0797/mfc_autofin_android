@@ -71,6 +71,9 @@
         <action
             android:id="@+id/action_addLeadDetailsFrag_to_softOfferFragment2"
             app:destination="@id/softOfferFragment2" />
+        <action
+            android:id="@+id/action_addLeadDetailsFrag_to_webViewActivity"
+            app:destination="@id/webViewActivity" />
     </fragment>
     <fragment
         android:id="@+id/softOfferFragment2"
@@ -85,6 +88,11 @@
             app:argType="string"
             android:defaultValue="0" />
     </fragment>
+    <activity
+        android:id="@+id/webViewActivity"
+        android:name="v2.view.utility_view.WebViewActivity"
+        android:label="v2_activity_web_view"
+        tools:layout="@layout/v2_activity_web_view" />
 
 
 </navigation>

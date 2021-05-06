@@ -135,4 +135,8 @@ class HostActivity : AppCompatActivity() {
         return super.dispatchTouchEvent(event)
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
+
 }

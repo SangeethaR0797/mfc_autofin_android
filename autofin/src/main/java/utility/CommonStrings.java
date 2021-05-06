@@ -123,6 +123,7 @@ public class CommonStrings {
     public static final String VALIDATE_LEAD = "validate-lead";
     public static final String RESET_JOURNEY = "reset-customer-journey";
     public static final String CITY_SEARCH_VIA_TEXT_END_POINT = "Pincode/city-by-name/";
+    public static final String TERMS_AND_CONDITION_URL="https://www.stagemfc.com/autofin-TermsAndCondition";
 
     public static String TOKEN_VALUE = "";
     public static String IBB_TOKEN_VALUE = "";
@@ -172,5 +173,9 @@ public class CommonStrings {
     public static final String SELECTED_DATA = "selectedData";
     public static final String SELECTED_DATA_TYPE = "selectedDataType";
 
+
+    public static final String PRIVACY_AND_POLICY_URL="https://www.stagemfc.com/autofin-TermsAndCondition";
+    public static final String URL="url";
+    public static final String TITLE="title";
 
 }

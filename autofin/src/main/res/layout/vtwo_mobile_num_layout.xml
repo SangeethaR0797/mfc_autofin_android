@@ -195,7 +195,7 @@
         android:layout_marginTop="43dp"
         android:layout_marginRight="@dimen/text_size_28dp"
         android:layout_marginBottom="@dimen/text_size_15dp"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <CheckBox
             android:id="@+id/cbTermsAndConditions"
@@ -203,10 +203,21 @@
             android:layout_height="wrap_content"
             android:buttonTint="@color/vtwo_black"
             android:gravity="top"
+            android:layout_gravity="left"
+            android:layout_marginLeft="3dp"/>
+
+        <TextView
+            android:id="@+id/textViewTermsAndCondition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/vtwo_t_and_c_hint"
             android:textAppearance="@style/RobotoMedium"
             android:textColor="@color/vtwo_black"
-            android:textSize="@dimen/text_size_16sp" />
+            android:textSize="@dimen/text_size_16sp"
+            android:layout_marginLeft="13dp"
+            android:textColorLink="@color/v2_link_color"
+            android:gravity="top"
+            />
     </LinearLayout>
 
 </LinearLayout>

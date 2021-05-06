@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/text_size_12dp"
             android:layout_toRightOf="@id/vehToPersonalDetails"
-            app:srcCompat="@drawable/ic_vtwo_personal_details"
+            app:srcCompat="@drawable/ic_v2_personal_details_disabled"
             android:layout_toEndOf="@id/vehToPersonalDetails" />
 
         <TextView
@@ -96,14 +96,14 @@
             android:layout_marginRight="15dp"
             android:layout_marginLeft="@dimen/text_size_12dp"
             android:layout_toRightOf="@id/personalToBankDetails"
-            app:srcCompat="@drawable/ic_vtwo_bank_details"
+            app:srcCompat="@drawable/ic_v2_bank_details_enabled"
             android:layout_toEndOf="@id/personalToBankDetails" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_regular"
             android:text="@string/vtwo_bank_details"
-            android:textColor="@color/vtwo_disabled_grey"
+            android:textColor="@color/yello"
             android:textSize="12sp"
             android:layout_below="@+id/ivBankDetailsSB"
             android:layout_marginTop="@dimen/text_size_4dp"

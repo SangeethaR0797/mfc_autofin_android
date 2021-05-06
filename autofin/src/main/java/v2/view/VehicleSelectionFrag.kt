@@ -80,7 +80,8 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
                     }
                 }
                 R.id.tvSearchCarV2 -> {
-                    navigateVehBasicDetailsActivity(CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE)
+                   navigateVehBasicDetailsActivity(CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE)
+                   // navToSoftOffer()
                 }
 
             }
