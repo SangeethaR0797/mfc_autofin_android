@@ -290,7 +290,7 @@
     <string name="vtwo_country_code">+91</string>
     <string name="otp_timer_hint">0 Sec</string>
     <string name="vtwo_resend_otp">Resend OTP</string>
-    <string name="vtwo_t_and_c_hint">I Agree to the terms and conditions and privacy policy</string>
+    <string name="vtwo_t_and_c_hint">I Agree to the <i>terms and conditions</i> and <i>privacy policy</i></string>
     <string name="vtwo_mobile_num_already_reg_hint">00000 00000 no is already registered. Do you want to proceed the same?</string>
     <string name="startNew">START NEW</string>
     <string name="vtwo_proceed">PROCEED</string>

@@ -8,12 +8,6 @@
     android:id="@+id/parentLayout"
     tools:context="v2.view.utility_view.WebViewActivity">
 
-    <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:fillViewport="true">
 
         <LinearLayout
             android:id="@+id/wvLayout"
@@ -34,6 +28,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <ScrollView
+                    android:id="@+id/scrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fitsSystemWindows="true"
+                    android:fillViewport="true">
+
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -56,16 +58,16 @@
                         android:layout_gravity="center"
                         android:indeterminateTint="@color/vtwo_yellow"
                         android:indeterminateTintMode="src_atop"
-                        android:visibility="gone" />
+                        android:visibility="visible" />
 
                 </FrameLayout>
 
+                </ScrollView>
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
         </LinearLayout>
 
 
-    </ScrollView>
 
 </RelativeLayout>

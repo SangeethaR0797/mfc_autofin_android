@@ -174,4 +174,6 @@ public class CommonStrings {
     public static final String SELECTED_DATA_TYPE = "selectedDataType";
 
 
+    public static final String PRIVACY_AND_POLICY_URL="";
+
 }

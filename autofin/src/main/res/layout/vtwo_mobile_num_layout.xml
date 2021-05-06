@@ -215,6 +215,7 @@
             android:textColor="@color/vtwo_black"
             android:textSize="@dimen/text_size_16sp"
             android:layout_marginLeft="13dp"
+            android:textColorLink="@color/v2_link_color"
             android:gravity="top"
             />
     </LinearLayout>
