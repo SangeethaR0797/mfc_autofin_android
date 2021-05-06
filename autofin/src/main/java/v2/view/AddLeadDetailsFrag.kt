@@ -360,17 +360,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         val ss = SpannableString(getString(R.string.vtwo_t_and_c_hint))
         val span1: ClickableSpan = object : ClickableSpan() {
             override fun onClick(textView: View) {
-                val intent = Intent(activity, WebViewActivity::class.java)
-                intent.putExtra("WEB_URL",CommonStrings.TERMS_AND_CONDITION_URL)
-                startActivity(intent)
+                openWebViewActivity("Terms And Conditions",CommonStrings.TERMS_AND_CONDITION_URL)
             }
         }
 
         val span2: ClickableSpan = object : ClickableSpan() {
             override fun onClick(textView: View) {
-                val intent = Intent(activity, WebViewActivity::class.java)
-                intent.putExtra("WEB_URL", CommonStrings.PRIVACY_AND_POLICY_URL)
-                startActivity(intent)
+                openWebViewActivity("Privacy And Policy",CommonStrings.PRIVACY_AND_POLICY_URL)
             }
         }
         ss.setSpan(span1, 15, 35, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)

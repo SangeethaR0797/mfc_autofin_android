@@ -3,6 +3,7 @@ package v2.view.utility_view
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.KeyEvent
 import android.view.View
 import android.view.ViewTreeObserver
@@ -28,14 +29,23 @@ class WebViewActivity : AppCompatActivity() {
 
     lateinit var ivBackToAddDetails: ImageView
     lateinit var textViewWebViewTitle: TextView
-
+    var url: String? = null
+    var title: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.v2_activity_web_view)
 
-        if (intent.getStringExtra("WEB_URL").isNullOrEmpty()) {
-            intent.getStringExtra("WEB_URL").also { webURL = it }
+        if (!TextUtils.isEmpty(intent.getStringExtra(CommonStrings.URL))) {
+            url=intent.getStringExtra(CommonStrings.URL)
+        } else {
+            finish()
         }
+        if (!TextUtils.isEmpty(intent.getStringExtra(CommonStrings.TITLE))) {
+            title=intent.getStringExtra(CommonStrings.TITLE)
+        } else {
+            finish()
+        }
+
 
         tAndCWebView = findViewById(R.id.webview_main) as WebView
         progressBar = findViewById(R.id.indeterminateBar)
@@ -50,25 +60,12 @@ class WebViewActivity : AppCompatActivity() {
 
 
 
-        if (webURL.isNotEmpty()) {
-            tAndCWebView.loadUrl(webURL)
-            when (webURL) {
-                (CommonStrings.TERMS_AND_CONDITION_URL) -> {
-                    textViewWebViewTitle.text = "Terms And Condition"
-                }
-                else -> {
-                    textViewWebViewTitle.text = "Privacy And Policy"
-                }
-            }
-        } else {
-            tAndCWebView.loadUrl(CommonStrings.TERMS_AND_CONDITION_URL)
-            textViewWebViewTitle.text = "Terms and Condition"
 
-        }
 
         val webSettings: WebSettings = tAndCWebView.getSettings()
         webSettings.javaScriptEnabled = true
-
+        tAndCWebView.loadUrl(url)
+        textViewWebViewTitle.text = title
         tAndCWebView.webViewClient = WebViewClient(progressBar)
 
         //textViewWebViewTitle.text=actionBarTitle
@@ -132,7 +129,7 @@ class WebViewActivity : AppCompatActivity() {
 
             // TODO Auto-generated method stub
             super.onPageFinished(view, url)
-            mProgressBar!!.visibility=View.GONE
+            mProgressBar!!.visibility = View.GONE
         }
     }
 
