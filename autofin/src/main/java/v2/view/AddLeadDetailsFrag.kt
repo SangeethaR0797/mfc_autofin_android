@@ -449,9 +449,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 llAddWorkExpriance.setBackgroundResource(R.drawable.vtwo_input_bg)
                 etWorkExpriance.setTextColor(resources.getColor(R.color.vtwo_black))
                 if (TextUtils.isEmpty(etWorkExpriance.text)) {
-                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.TotalWorkExperience = null
+                    addEmploymentDetailsRequest!!.Data!!.employmentDetails!!.TotalWorkExperience = null
                 } else {
-                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.TotalWorkExperience = etWorkExpriance.text.toString()
+                    addEmploymentDetailsRequest!!.Data!!.employmentDetails!!.TotalWorkExperience = etWorkExpriance.text.toString()
                 }
 
             }
