@@ -12,5 +12,5 @@ public interface BankOffersEndPoint
 {
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST
-    fun getStockDetails(@Body request: BankOffersForApplicationRequest?, @Url url: String?): Observable<BankOffersForApplicationResponse?>
+    fun getBankOffersForLeadApplication(@Body request: BankOffersForApplicationRequest?, @Url url: String?): Observable<BankOffersForApplicationResponse?>
 }
