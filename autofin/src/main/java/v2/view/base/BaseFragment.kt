@@ -50,6 +50,19 @@ public open class BaseFragment : Fragment() {
     public val DATE_FORMATE_YYYYMMDD = "yyyy-MM-dd"
 
     //region DatePicker
+    public fun getBackDateFromTodayDate(yearBack: Int): Date {
+        val cal = Calendar.getInstance()
+        val today = cal.time
+        cal.add(Calendar.YEAR, -yearBack) // to get previous year add -1
+        return cal.time
+    }
+
+    public fun getTodayDate(): Date {
+        val cal = Calendar.getInstance()
+        return cal.time
+    }
+
+
     public fun stringToDateString(value: String, sourceDateFormat: String, targetDateFormat: String): String {
         val date = SimpleDateFormat(sourceDateFormat).parse(value)
         return SimpleDateFormat(targetDateFormat).format(date)
@@ -73,7 +86,7 @@ public open class BaseFragment : Fragment() {
         }
     }
 
-    public fun callDatePickerDialog(lastSelectedDateValue: String?, datepickerCallBack: DatePickerCallBack) {
+    public fun callDatePickerDialog(lastSelectedDateValue: String?, minDate: Date?, maxDate: Date?, datepickerCallBack: DatePickerCallBack) {
         datePickerCallBack = datepickerCallBack
         var d: Int? = cal.get(Calendar.DAY_OF_MONTH)
         var m: Int? = cal.get(Calendar.MONTH)
@@ -87,14 +100,17 @@ public open class BaseFragment : Fragment() {
         } catch (e: IndexOutOfBoundsException) {
 
         }
-
-        context?.let {
-            DatePickerDialog(it,
-                    dateSetListener,
-                    y!!,
-                    m!!,
-                    d!!).show()
+        var datePickerDialog: DatePickerDialog?
+        datePickerDialog = context?.let { DatePickerDialog(it, dateSetListener, y!!, m!!, d!!) }
+        if (minDate != null) {
+            datePickerDialog!!.datePicker.minDate = minDate.time
         }
+        if (maxDate != null) {
+            datePickerDialog!!.datePicker.maxDate = maxDate.time
+        }
+
+        datePickerDialog!!.show()
+
     }
     //endregion DatePicker
     //region validation
