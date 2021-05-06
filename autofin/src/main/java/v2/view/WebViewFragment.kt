@@ -51,7 +51,6 @@ class WebViewFragment : BaseFragment(),ViewTreeObserver.OnScrollChangedListener{
         parentLayout = view?.findViewById(R.id.parentLayout)
 
         totalHeight = scrollView?.getChildAt(0)?.getHeight()!!
-        mySwipeRefreshLayout = view?.findViewById<View>(R.id.swipeContainer) as SwipeRefreshLayout
 
         tAndCWebView.loadUrl(CommonStrings.TERMS_AND_CONDITION_URL)
 

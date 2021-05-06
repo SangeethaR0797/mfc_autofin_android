@@ -1,28 +1,25 @@
 package v2.view.utility_view
 
+import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.view.ViewTreeObserver
-import android.view.WindowManager
 import android.webkit.WebSettings
 import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
-import v2.utility.CustomScrollView
-import v2.utility.ScrollViewListener
 
-class WebViewActivity : AppCompatActivity(), ViewTreeObserver.OnScrollChangedListener, ScrollViewListener {
+
+class WebViewActivity : AppCompatActivity() {
 
     lateinit var tAndCWebView: WebView
-    var progressBar: ProgressBar? = null
-    var mySwipeRefreshLayout: SwipeRefreshLayout? = null
-    var scrollView: ScrollView? = null
+    public var progressBar: ProgressBar? = null
+
+
     var parentLayout: RelativeLayout? = null
     var totalHeight = 0
     var width: Int = 0
@@ -42,7 +39,7 @@ class WebViewActivity : AppCompatActivity(), ViewTreeObserver.OnScrollChangedLis
 
         tAndCWebView = findViewById(R.id.webview_main) as WebView
         progressBar = findViewById(R.id.indeterminateBar)
-        scrollView = findViewById(R.id.scrollView)
+
         webViewLayout = findViewById(R.id.wvLayout)
         parentLayout = findViewById(R.id.parentLayout)
 
@@ -50,8 +47,8 @@ class WebViewActivity : AppCompatActivity(), ViewTreeObserver.OnScrollChangedLis
         textViewWebViewTitle = findViewById(R.id.textViewWebViewTitle)
 
 
-        totalHeight = scrollView?.getChildAt(0)?.getHeight()!!
-        mySwipeRefreshLayout = findViewById<View>(R.id.swipeContainer) as SwipeRefreshLayout
+
+
 
         if (webURL.isNotEmpty()) {
             tAndCWebView.loadUrl(webURL)
@@ -63,8 +60,7 @@ class WebViewActivity : AppCompatActivity(), ViewTreeObserver.OnScrollChangedLis
                     textViewWebViewTitle.text = "Privacy And Policy"
                 }
             }
-        } else
-        {
+        } else {
             tAndCWebView.loadUrl(CommonStrings.TERMS_AND_CONDITION_URL)
             textViewWebViewTitle.text = "Terms and Condition"
 
@@ -73,12 +69,11 @@ class WebViewActivity : AppCompatActivity(), ViewTreeObserver.OnScrollChangedLis
         val webSettings: WebSettings = tAndCWebView.getSettings()
         webSettings.javaScriptEnabled = true
 
-        tAndCWebView.webViewClient = WebViewClient()
+        tAndCWebView.webViewClient = WebViewClient(progressBar)
 
         //textViewWebViewTitle.text=actionBarTitle
         ivBackToAddDetails.setOnClickListener(View.OnClickListener { onBackPressed() })
 
-        mySwipeRefreshLayout!!.isNestedScrollingEnabled
 
         val vto = parentLayout!!.viewTreeObserver
 
@@ -96,15 +91,6 @@ class WebViewActivity : AppCompatActivity(), ViewTreeObserver.OnScrollChangedLis
             }
         })
 
-        mySwipeRefreshLayout!!.setOnRefreshListener {
-            tAndCWebView.reload()
-            if (mySwipeRefreshLayout!!.isRefreshing) {
-                if (progressBar!!.visibility == View.VISIBLE) {
-                    progressBar!!.visibility = View.GONE
-                }
-                mySwipeRefreshLayout!!.isRefreshing = false
-            }
-        }
 
     }
 
@@ -122,12 +108,33 @@ class WebViewActivity : AppCompatActivity(), ViewTreeObserver.OnScrollChangedLis
         super.onBackPressed()
     }
 
-    override fun onScrollChanged() {
-        mySwipeRefreshLayout!!.isEnabled = tAndCWebView.scrollY == 0
+    class WebViewClient(progressBar: ProgressBar?) : android.webkit.WebViewClient() {
+        private var mProgressBar: ProgressBar? = null
+
+        init {
+            mProgressBar = progressBar
+        }
+
+        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+
+            // TODO Auto-generated method stub
+            super.onPageStarted(view, url, favicon)
+        }
+
+        override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+
+            // TODO Auto-generated method stub
+            view.loadUrl(url)
+            return true
+        }
+
+        override fun onPageFinished(view: WebView, url: String) {
+
+            // TODO Auto-generated method stub
+            super.onPageFinished(view, url)
+            mProgressBar!!.visibility=View.GONE
+        }
     }
 
-    override fun onScrollChanged(scrollView: CustomScrollView?, x: Int, y: Int, oldx: Int, oldy: Int) {
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
-    }
 }
