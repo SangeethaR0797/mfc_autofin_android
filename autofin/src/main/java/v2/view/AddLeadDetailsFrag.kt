@@ -23,6 +23,7 @@ import com.mfc.autofin.framework.R
 import kotlinx.android.synthetic.main.activity_basic_details.*
 import kotlinx.android.synthetic.main.v2_reg_name_email_layout.*
 import kotlinx.android.synthetic.main.vtwo_mobile_num_layout.*
+import org.w3c.dom.Text
 import utility.CommonStrings
 import utility.Global
 import v2.model.dto.AddLeadRequest
@@ -125,6 +126,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var llEmiDetails: LinearLayout
     lateinit var eMIDetailsAdapter: DataRecyclerViewAdapter
     lateinit var addEmploymentDetailsRequest: AddEmploymentDetailsRequest
+    lateinit var textViewTermsAndCondition:TextView
+
     var isEmploymentDataSaved: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -226,6 +229,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         ll_otp_v2 = view.findViewById(R.id.ll_otp_v2)
         ll_otp_v2.visibility = View.GONE
         llTAndC = view.findViewById(R.id.llTAndC)
+        textViewTermsAndCondition=view.findViewById(R.id.textViewTermsAndCondition)
 
         rv_salutation = view.findViewById(R.id.rv_salutation)
         llNameAndEmailV2 = view.findViewById(R.id.llNameAndEmailV2)
@@ -300,7 +304,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         etBirthDate.setOnClickListener(this)
         etSearchBank.setOnClickListener(this)
         llAddSearchBank.setOnClickListener(this)
-
+        textViewTermsAndCondition.setOnClickListener(this)
 
         //Hide All Section
         llNameAndEmailV2.visibility = View.GONE
@@ -586,6 +590,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
             R.id.ll_search_bank -> {
                 navigateMasterDataSelectionActivity(CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE, CommonStrings.BANK_DATA_CALL)
+            }
+            R.id.textViewTermsAndCondition->
+            {
+                navigateToWebViewFragment()
             }
             R.id.btnMobileNum -> {
                 hideSoftKeyboard()

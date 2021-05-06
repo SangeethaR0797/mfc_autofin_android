@@ -1,13 +1,19 @@
 package v2.view.other_activity
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.view.KeyEvent
 import android.view.View
+import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import android.widget.TextView.OnEditorActionListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,9 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
-
 import v2.model.dto.AddLeadRequest
-
 import v2.model.request.Get_IBB_MasterDetailsRequest
 import v2.model.request.add_lead.AddLeadData
 import v2.model.request.add_lead.VehicleDetails
@@ -83,6 +87,12 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
             }
         })
 
+        etSearch.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+            if (event != null && event.keyCode === KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_DONE) {
+                hideSoftKeyboard(etSearch)
+            }
+            false
+        })
 
         iBB_MasterViewModel = ViewModelProvider(this@VehBasicDetailsActivity).get(
                 IBB_MasterViewModel::class.java
@@ -104,7 +114,7 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
     }
 
     private fun callYearApiData() {
-        etSearch.inputType=(InputType.TYPE_CLASS_NUMBER)
+        etSearch.inputType = (InputType.TYPE_CLASS_NUMBER)
         tvSelectedText.text = ""
         tvSelectLabel.text = "Select Registration Year"
         var request = getIBBMasterDetailsRequest(CommonStrings.IBB_TOKEN_VALUE, CommonStrings.YEAR, "0", "app", null, null, null, null)
@@ -113,7 +123,7 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
     }
 
     private fun callMakeApiData() {
-         etSearch.inputType=(InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
+        etSearch.inputType = (InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
         tvSelectedText.text = mSelectedYear
         tvSelectLabel.text = "Select Make"
         var request = getIBBMasterDetailsRequest(CommonStrings.IBB_TOKEN_VALUE, CommonStrings.MAKE, "0", "app", mSelectedYear, null, null, null)
@@ -122,7 +132,7 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
     }
 
     private fun callModelApiData() {
-         etSearch.inputType=(InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
+        etSearch.inputType = (InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
         tvSelectedText.text = mSelectedYear + "-" + mSelectedMake
         tvSelectLabel.text = "Select Model"
         var request = getIBBMasterDetailsRequest(CommonStrings.IBB_TOKEN_VALUE, CommonStrings.MODEL, "0", "app", mSelectedYear, null, mSelectedMake, null)
@@ -131,7 +141,7 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
     }
 
     private fun callVariantApiData() {
-         etSearch.inputType=(InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
+        etSearch.inputType = (InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
         tvSelectedText.text = mSelectedYear + "-" + mSelectedMake + "-" + mSelectedModel
         tvSelectLabel.text = "Select Variant"
         var request = getIBBMasterDetailsRequest(CommonStrings.IBB_TOKEN_VALUE, CommonStrings.VARIANT, "0", "app", mSelectedYear, null, mSelectedMake, mSelectedModel)
@@ -142,25 +152,25 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
 
     private fun manageBackpress() {
         if (mCurrentCalFor.equals(CommonStrings.YEAR)) {
-             etSearch.inputType=(InputType.TYPE_CLASS_NUMBER)
+            etSearch.inputType = (InputType.TYPE_CLASS_NUMBER)
             mSelectedYear = "";
             mSelectedMake = "";
             mSelectedModel = "";
             mSelectedVariant = "";
             finish()
         } else if (mCurrentCalFor.equals(CommonStrings.MAKE)) {
-             etSearch.inputType=(InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
+            etSearch.inputType = (InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
             mSelectedMake = "";
             mSelectedModel = "";
             mSelectedVariant = "";
             callYearApiData()
         } else if (mCurrentCalFor.equals(CommonStrings.MODEL)) {
-             etSearch.inputType=(InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
+            etSearch.inputType = (InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
             mSelectedModel = "";
             mSelectedVariant = "";
             callMakeApiData()
         } else if (mCurrentCalFor.equals(CommonStrings.VARIANT)) {
-             etSearch.inputType=(InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
+            etSearch.inputType = (InputType.TYPE_TEXT_VARIATION_PERSON_NAME)
             mSelectedVariant = "";
             callModelApiData()
         }
@@ -210,6 +220,7 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
     }
 
     override fun itemClick(item: Any?, position: Int) {
+        etSearch.setText("")
         var value: String = item as String
 
         if (mCurrentCalFor.equals(CommonStrings.YEAR)) {
@@ -246,4 +257,20 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
 
 
     }
+
+    open fun hideSoftKeyboard(view: View?) {
+        try {
+            if (view != null) {
+                val inputMethodManager = getSystemService(
+                        Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(
+                        view.windowToken, 0)
+            } else {
+                window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+            }
+        } catch (e: Exception) {
+        }
+    }
+
+
 }

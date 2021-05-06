@@ -43,7 +43,7 @@ import java.util.regex.Pattern
 
 public open class BaseFragment : Fragment() {
     public var caseId = ""
-    private lateinit var alertDialog:AlertDialog
+    var alertDialog: AlertDialog? = null
 
     var cal = Calendar.getInstance()
     private lateinit var datePickerCallBack: DatePickerCallBack
@@ -117,6 +117,10 @@ public open class BaseFragment : Fragment() {
         val pattern: Pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
         val matcher: Matcher = pattern.matcher(email)
         return matcher.matches()
+    }
+
+    public fun isValidPanNo(panNumber: String): Boolean {
+        return Regex(pattern = "[A-Z]{5}[0-9]{4}[A-Z]{1}").matches(panNumber)
     }
     //endregion validation
 
@@ -231,6 +235,14 @@ public open class BaseFragment : Fragment() {
         }
     }
 
+
+
+    public fun navigateToWebViewFragment() {
+        view?.let {
+            Navigation.findNavController(it).navigate(R.id.webViewFragment2)
+        }
+    }
+
     //endregion screen Navigation
 
     //region message
@@ -331,15 +343,15 @@ public open class BaseFragment : Fragment() {
 
     fun showProgressDialog(context: Context): AlertDialog {
         alertDialog = getAlertDialog(context, R.layout.layout_progress_dialog, setCancellationOnTouchOutside = false)
-        alertDialog.show()
-        return alertDialog
+        alertDialog!!.show()
+        hideSoftKeyboard()
+        return alertDialog!!
     }
 
-    fun hideProgressDialog(){
-        if(alertDialog.isShowing)
-        alertDialog.dismiss()
+    fun hideProgressDialog() {
+        if (alertDialog != null && alertDialog!!.isShowing)
+            alertDialog!!.dismiss()
     }
-
 
 
     // Progress Dialog region ends

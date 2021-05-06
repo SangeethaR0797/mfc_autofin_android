@@ -308,6 +308,15 @@
     <string name="enter_email_vtwo">Enter Email</string>
     <string name="vtwo_mob_no_verified">Verified</string>
     <string name="vtwo_invalid_OTP">Please enter valid OTP</string>
+    <string name="do_you_have_any_emi">Do you have any EMI?</string>
+    <string name="Current_EMI">Current EMI</string>
+    <string name="emi_amount">EMI Amount</string>
+    <string name="residence_city">Residence City</string>
+    <string name="ResidenceType">Residence Type</string>
+    <string name="SelectResidenceCity">Select Residence City</string>
+    <string name="NoofYearsInCurrentResidence">No of years in current residence</string>
+    <string name="pancard_number">Pancard number</string>
+    <string name="pancard">Pancard</string>
     <string name="v2_loading_from_banks">Loading offer from banks ...</string>
     <string name="v2_saving_money">Saving money is more difficult than getting them</string>
     <string name="v2_soft_offer_title">Soft Offer</string>
@@ -315,8 +324,5 @@
     <string name="v2_tenure">Tenure</string>
     <string name="v2_tenure_lbl">3 Years</string>
     <string name="v2_modify_req_lbl">Modify Requirements</string>
-    <string name="do_you_have_any_emi">Do you have any EMI?</string>
-    <string name="Current_EMI">Current EMI</string>
-    <string name="emi_amount">EMI Amount</string>
 
 </resources>

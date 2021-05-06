@@ -211,4 +211,40 @@ class MasterViewModel(application: Application) : BaseViewModel(application) {
     }
 //endregion BankListDetails
 
+    //region CityNameListDetails
+    private val mCityNameListLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+    public fun getCityNameListLiveData(): MutableLiveData<ApiResponse> {
+        return mCityNameListLiveData
+    }
+
+
+    public fun getCityNameList(url: String) {
+        repository.getCityNameList(url)?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe { d -> mCityNameListLiveData.setValue(ApiResponse.loading()) }
+                ?.let {
+                    disposables.add(
+                            it.subscribe(
+                                    { result ->
+                                        mCityNameListLiveData.setValue(result?.let {
+                                            ApiResponse.success(
+                                                    it
+                                            )
+                                        })
+                                    }
+                            ) { throwable ->
+                                mCityNameListLiveData.setValue(
+                                        ApiResponse.error(
+                                                throwable
+                                        )
+                                )
+                            })
+                }
+    }
+//endregion CityNameListDetails
+
+
+
+
+
 }
