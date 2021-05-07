@@ -1777,6 +1777,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 salutationAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
                     if (dataSelectionDTO.displayValue.toString().equals(salutation)) {
                         dataSelectionDTO.selected = true
+                        salutation=dataSelectionDTO.value!!
                     } else {
                         dataSelectionDTO.selected = false
                     }
