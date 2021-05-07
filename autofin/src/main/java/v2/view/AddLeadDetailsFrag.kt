@@ -1342,7 +1342,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         if (index == position) {
                             item.selected = true
                             addResidentDetailsRequest.Data!!.residentialDetails!!.NoOfYearInResident = item.value.toString().toInt()
-
+                            llPanNumberSection.visibility=View.VISIBLE
                         } else {
                             item.selected = false
                         }
