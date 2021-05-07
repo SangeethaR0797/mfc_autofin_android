@@ -146,6 +146,22 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     var isEmploymentDataSaved: Boolean = false
     var isResidentDataSaved: Boolean = false
+    private var previousAddEmploymentDetailsRequest: AddEmploymentDetailsRequest? = null
+    private var previousAddResidentDetailsRequest: AddResidentDetailsRequest? = null
+
+    private fun createRequestClone() {
+        //Create Copy of Employment request object
+        var employment = AddEmploymentEmploymentDetails(addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne, addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType, addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome, addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount, addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount, addEmploymentDetailsRequest.Data!!.employmentDetails!!.TotalWorkExperience)
+        var personal = AddEmploymentPersonalDetails(addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate)
+        var employmentData = AddEmploymentData(addEmploymentDetailsRequest.Data!!.CustomerId, employment, personal)
+        previousAddEmploymentDetailsRequest = AddEmploymentDetailsRequest(employmentData, addEmploymentDetailsRequest.UserId, addEmploymentDetailsRequest.UserType)
+
+        //Create Copy of Resident request object
+        var residentPersonal = ResidentDetailsDataPersonalDetails(addResidentDetailsRequest.Data!!.personalDetails!!.HaveExistingEMI, addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber, addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI)
+        var resident = ResidentDetailsDataResidentialDetails(addResidentDetailsRequest.Data!!.residentialDetails!!.CustomerCity, addResidentDetailsRequest.Data!!.residentialDetails!!.NoOfYearInResident, addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType)
+        var residentData = ResidentDetailsData(addResidentDetailsRequest!!.Data!!.CustomerId, residentPersonal, resident)
+        previousAddResidentDetailsRequest = AddResidentDetailsRequest(residentData, addResidentDetailsRequest.UserId, addResidentDetailsRequest.UserType)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -361,13 +377,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         val ss = SpannableString(getString(R.string.vtwo_t_and_c_hint))
         val span1: ClickableSpan = object : ClickableSpan() {
             override fun onClick(textView: View) {
-                openWebViewActivity("Terms And Conditions",CommonStrings.TERMS_AND_CONDITION_URL)
+                openWebViewActivity("Terms And Conditions", CommonStrings.TERMS_AND_CONDITION_URL)
             }
         }
 
         val span2: ClickableSpan = object : ClickableSpan() {
             override fun onClick(textView: View) {
-                openWebViewActivity("Privacy And Policy",CommonStrings.PRIVACY_AND_POLICY_URL)
+                openWebViewActivity("Privacy And Policy", CommonStrings.PRIVACY_AND_POLICY_URL)
             }
         }
         ss.setSpan(span1, 15, 35, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -569,7 +585,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                     addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = 0
                                 } else {
                                     //Set Null Income
-                                    addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = etEMI.text.toString().toInt()
+                                    addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = unformatAmount(etEMI.text.toString()).toString().toInt()
 
                                 }
                                 allowEdit = false
@@ -912,7 +928,21 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     }
                     //Step 19 All Data save
                     !TextUtils.isEmpty(customerId) && isEmploymentDataSaved == true && isResidentDataSaved == true -> {
-                        callAddResidentDetails()
+                        if (!addEmploymentDetailsRequest.hashCode().equals(previousAddEmploymentDetailsRequest.hashCode())) {
+                            callAddEmploymentDetails()
+                        }
+                        if (!addResidentDetailsRequest.hashCode().equals(previousAddResidentDetailsRequest.hashCode())) {
+                            callAddResidentDetails()
+                        }
+
+                        //Step 20 All Data Uploaded
+                        if (!TextUtils.isEmpty(customerId) &&
+                                addEmploymentDetailsRequest.hashCode().equals(previousAddEmploymentDetailsRequest.hashCode()) &&
+                                addResidentDetailsRequest.hashCode().equals(previousAddResidentDetailsRequest.hashCode())) {
+
+                            checkForNavToSoftOffer()
+                        }
+
                     }
 
 
@@ -1432,6 +1462,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     addEmploymentDetailsRequest = createAddEmploymentDetailsRequest(addLeadResponse.mData!!)
                     addResidentDetailsRequest = createAddResidentDetailsRequest(addLeadResponse.mData!!)
                     callCustomerDetailsApi(addLeadResponse.mData!!)
+                    checkForNavToSoftOffer()
                 }
                 showToast(addLeadResponse?.message.toString())
 
@@ -1566,13 +1597,15 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 showProgressDialog(requireContext())
             }
             ApiResponse.Status.SUCCESS -> {
+                createRequestClone()
                 hideProgressDialog()
                 val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
                 if (addLeadResponse?.mData!! > 0) {
                     var addEmploymentDetailsId = addLeadResponse?.mData.toString()
                     isEmploymentDataSaved = true
+                    checkForNavToSoftOffer()
                 }
-                showToast(addLeadResponse?.message.toString())
+              //  showToast(addLeadResponse?.message.toString())
 
             }
             ApiResponse.Status.ERROR -> {
@@ -1591,14 +1624,16 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 showProgressDialog(requireContext())
             }
             ApiResponse.Status.SUCCESS -> {
+                createRequestClone()
+                hideProgressDialog()
                 val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
                 if (addLeadResponse?.mData!! > 0) {
                     var addEmploymentDetailsId = addLeadResponse?.mData.toString()
                     isResidentDataSaved = true
-                    navToSoftOffer(customerDetailsResponse,customerId)
+                    checkForNavToSoftOffer()
                 }
-                hideProgressDialog()
-                showToast(addLeadResponse?.message.toString())
+
+             //   showToast(addLeadResponse?.message.toString())
 
             }
             ApiResponse.Status.ERROR -> {
@@ -1609,6 +1644,15 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
         }
 
+    }
+
+    fun checkForNavToSoftOffer() {
+        hideProgressDialog()
+        if (!TextUtils.isEmpty(customerId) &&
+                addEmploymentDetailsRequest.hashCode().equals(previousAddEmploymentDetailsRequest.hashCode()) &&
+                addResidentDetailsRequest.hashCode().equals(previousAddResidentDetailsRequest.hashCode())) {
+            navToSoftOffer(customerDetailsResponse, customerId)
+        }
     }
 
     fun createAddEmploymentDetailsRequest(customerId: Int): AddEmploymentDetailsRequest {
@@ -1925,6 +1969,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 }
 
             }
+            createRequestClone()
         } catch (e: Exception) {
             Log.d("Err", e.message)
         }
