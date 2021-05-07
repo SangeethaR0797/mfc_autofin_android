@@ -1937,6 +1937,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         tv_mobile_num_hint.visibility = View.GONE
 
+
+        etMobileNumberV2.isFocusable = false;
+        etMobileNumberV2.isEnabled = false;
+        etMobileNumberV2.inputType = InputType.TYPE_NULL;
+
+
         tv_mobile_num_verified.visibility = View.VISIBLE
 
         llNameAndEmailV2.visibility = View.VISIBLE

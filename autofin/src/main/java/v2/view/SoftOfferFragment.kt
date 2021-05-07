@@ -39,6 +39,10 @@ class SoftOfferFragment : BaseFragment() {
     var loanTenureMaximum: Int = 15
     var loanTenureMinimum: Int = 1
 
+    var loanAmount=""
+    var loanTenure=""
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -114,25 +118,36 @@ class SoftOfferFragment : BaseFragment() {
         })
 
         buttonLoanDetailsSubmit.setOnClickListener(View.OnClickListener {
-            showToast("Development in progress")
-            activity?.onBackPressed()
+            if(tvLoanAmountVal.text.isNotEmpty() && tvLoanTenureVal.text.isNotEmpty() &&
+                    !tvLoanAmountVal.equals(getString(R.string.rupees_symbol)) &&
+                    !tvLoanTenureVal.equals(getString(R.string.v2_tenure_lbl)) )
+            {
+                loanAmount=tvLoanAmountVal.text.toString()
+                loanTenure=tvLoanTenureVal.text.toString()
+                showToast("Development in progress")
+                activity?.onBackPressed()
+            }
+            else
+            {
+                showToast("Please select Loan Amount and Loan Tenure")
+            }
         })
         enableSoftOfferDialog()
 
     }
 
     private fun enableSoftOfferDialog() {
-        llSoftOfferDialog.visibility = View.VISIBLE
-        val fixedRateTimer = fixedRateTimer(name = "soft-offer",
+        /*val fixedRateTimer = fixedRateTimer(name = "soft-offer",
                 initialDelay = 100, period = 100) {
+            llSoftOfferDialog.visibility = View.VISIBLE
             println("loading!")
         }
         try {
             Thread.sleep(3000)
         } finally {
             fixedRateTimer.cancel();
-            enableCalculatorLayout()
-        }
+        }*/
+        enableCalculatorLayout()
 
     }
 
