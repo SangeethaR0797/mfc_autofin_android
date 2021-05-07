@@ -12,6 +12,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
 import kotlinx.android.synthetic.main.soft_offer_action_bar.*
 import kotlinx.android.synthetic.main.v2_soft_offer_loading_fragment.*
@@ -30,6 +31,8 @@ class SoftOfferFragment : BaseFragment() {
     lateinit var llSoftOfferDialog: LinearLayout
     lateinit var ivBackToRedDetails: ImageView
     lateinit var buttonLoanDetailsSubmit: Button
+    lateinit var recyclerViewBankOffer:RecyclerView
+
     var loanAmountMaximum: Int = 1000000
     var loanAmountMinimum: Int = 50000
 
@@ -63,6 +66,7 @@ class SoftOfferFragment : BaseFragment() {
             llBankOfferParent = view.findViewById(R.id.llBankOfferParent)
             llSoftOfferDialog = view.findViewById(R.id.llSoftOfferDialog)
             linearLayoutCalculation = view.findViewById(R.id.linearLayoutCalculation)
+            recyclerViewBankOffer=view.findViewById(R.id.recyclerViewBankOffer)
 
             buttonLoanDetailsSubmit=view.findViewById(R.id.buttonLoanDetailsSubmit)
 
@@ -132,9 +136,12 @@ class SoftOfferFragment : BaseFragment() {
     }
 
     private fun enableCalculatorLayout() {
+
         llBankOfferParent.setBackgroundResource(R.color.vtwo_pale_grey)
         llSoftOfferDialog.visibility = View.VISIBLE
         linearLayoutCalculation.visibility = View.GONE
 
     }
+
+
 }

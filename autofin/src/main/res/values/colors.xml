@@ -24,6 +24,7 @@
     <color name="vtwo_black">#262629</color>
     <color name="vtwo_input_field_grey">#f0f1fc</color>
     <color name="vtwo_light_grey">#8a9ab4</color>
+    <color name="v2_grey">#eeeffc</color>
     <color name="vtwo_blue">#006dff</color>
     <color name="yello">#ffc62a</color>
     <color name="v2_link_color">#1492e6</color>
@@ -32,7 +33,7 @@
     <color name="vtwo_light_black">#25262b</color>
     <color name="vtwo_silver">#e0e1eb</color>
     <color name="v2_green">#00d277</color>
-
+    <color name="v2_dark_blue">#0061e6</color>
 
 
 

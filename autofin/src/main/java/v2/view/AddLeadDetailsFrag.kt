@@ -990,8 +990,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             transactionViewModel!!.validateOTP(getOtpRequest(etOTPV2.text.toString(), etMobileNumberV2.text.toString()), Global.customerAPI_BaseURL + CommonStrings.VALIDATE_OTP_URL_END)
             tvOTPEHint.visibility = View.GONE
             llOTPNumInput.setBackgroundResource(R.drawable.vtwo_input_bg)
-
-
         } else {
             tvOTPEHint.visibility = View.VISIBLE
             llOTPNumInput.setBackgroundResource(R.drawable.v2_error_layout_bg)
@@ -1193,7 +1191,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         } else {
                             item.selected = false
                         }
-
                     }
                 }
                 employmentDetailsAdapter.notifyDataSetChanged()

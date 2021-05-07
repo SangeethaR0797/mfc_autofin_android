@@ -324,5 +324,11 @@
     <string name="v2_tenure">Tenure</string>
     <string name="v2_tenure_lbl">3 Years</string>
     <string name="v2_modify_req_lbl">Modify Requirements</string>
+    <string name="v2_bank_offers">Bank Offers</string>
+    <string name="v2_recommended">Recommended</string>
+    <string name="v2_max_loan_amount">Max Loan Amount</string>
+    <string name="v2_rate_of_interest">Rate of interest</string>
+    <string name="v2_emi">EMI</string>
+    <string name="v2_processing_fee">Processing Fee \u20B9 2500</string>
 
 </resources>
