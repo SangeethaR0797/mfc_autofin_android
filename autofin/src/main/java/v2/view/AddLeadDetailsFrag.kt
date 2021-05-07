@@ -142,6 +142,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var addEmploymentDetailsRequest: AddEmploymentDetailsRequest
     lateinit var addResidentDetailsRequest: AddResidentDetailsRequest
     lateinit var customAutoTextViewListAdapter: CustomAutoTextViewListAdapter
+    lateinit var customerDetailsResponse: CustomerDetailsResponse
 
     var isEmploymentDataSaved: Boolean = false
     var isResidentDataSaved: Boolean = false
@@ -423,11 +424,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         }
     }
 
-    fun callCustomerDetailsApi(customerId: Int) {
-        caseId = customerId.toString()
-        addEmploymentDetailsRequest = createAddEmploymentDetailsRequest(customerId)
-        addResidentDetailsRequest = createAddResidentDetailsRequest(customerId)
-        transactionViewModel.getCustomerDetails(createCustomerDetailsRequest(customerId), Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL)
+    fun callCustomerDetailsApi(customerIdValue: Int) {
+        customerId = customerIdValue.toString()
+        addEmploymentDetailsRequest = createAddEmploymentDetailsRequest(customerIdValue)
+        addResidentDetailsRequest = createAddResidentDetailsRequest(customerIdValue)
+        transactionViewModel.getCustomerDetails(createCustomerDetailsRequest(customerIdValue), Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL)
 
     }
 
@@ -819,7 +820,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                             showToast("Please check Terms and Condition")
                     }
                     //Step 3 Call AddLead API
-                    TextUtils.isEmpty(caseId) && llNameAndEmailV2.visibility == View.VISIBLE -> {
+                    TextUtils.isEmpty(customerId) && llNameAndEmailV2.visibility == View.VISIBLE -> {
                         addLead()
                     }
                     //Step 4 Birth Date Validation
@@ -910,7 +911,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         callAddResidentDetails()
                     }
                     //Step 19 All Data save
-                    !TextUtils.isEmpty(caseId) && isEmploymentDataSaved == true && isResidentDataSaved == true -> {
+                    !TextUtils.isEmpty(customerId) && isEmploymentDataSaved == true && isResidentDataSaved == true -> {
                         callAddResidentDetails()
                     }
 
@@ -1421,7 +1422,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 hideProgressDialog()
                 val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
                 if (addLeadResponse?.statusCode.equals("200") || addLeadResponse?.mData!! > 0) {
-                    caseId = addLeadResponse?.mData.toString()
+                    customerId = addLeadResponse?.mData.toString()
                     showToast(addLeadResponse!!.message.toString())
                     llBirthDateSection.visibility = View.VISIBLE
                     //Create Request of Add Employment Details
@@ -1591,7 +1592,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 if (addLeadResponse?.mData!! > 0) {
                     var addEmploymentDetailsId = addLeadResponse?.mData.toString()
                     isResidentDataSaved = true
-                    navToSoftOffer()
+                    navToSoftOffer(customerDetailsResponse,customerId)
                 }
                 hideProgressDialog()
                 showToast(addLeadResponse?.message.toString())
@@ -1658,7 +1659,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 if (dialogConfilctForAddLead != null && dialogConfilctForAddLead!!.isShowing) {
                     dialogConfilctForAddLead!!.dismiss()
                 }
-                val customerDetailsResponse: CustomerDetailsResponse? = mApiResponse.data as CustomerDetailsResponse?
+                var customerResponse: CustomerDetailsResponse? = mApiResponse.data as CustomerDetailsResponse?
+                customerDetailsResponse = customerResponse!!
+
                 if (customerDetailsResponse?.data != null) {
                     preFilledData(customerDetailsResponse)
                 }
@@ -1930,6 +1933,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         llTAndC.visibility = View.GONE
 
         tv_mobile_num_hint.visibility = View.GONE
+
+
+        etMobileNumberV2.isFocusable = false;
+        etMobileNumberV2.isEnabled = false;
+        etMobileNumberV2.inputType = InputType.TYPE_NULL;
+
 
         tv_mobile_num_verified.visibility = View.VISIBLE
 

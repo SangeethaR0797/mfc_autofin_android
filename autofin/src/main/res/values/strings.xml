@@ -322,7 +322,7 @@
     <string name="v2_soft_offer_title">Soft Offer</string>
     <string name="v2_loan_amount">Loan Amount</string>
     <string name="v2_tenure">Tenure</string>
-    <string name="v2_tenure_lbl">3 Years</string>
+    <string name="v2_tenure_lbl"> Years</string>
     <string name="v2_modify_req_lbl">Modify Requirements</string>
     <string name="v2_bank_offers">Bank Offers</string>
     <string name="v2_recommended">Recommended</string>

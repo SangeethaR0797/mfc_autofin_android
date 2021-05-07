@@ -24,9 +24,12 @@ import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import v2.help.CurrencyData
 import v2.model.dto.AddLeadRequest
+import v2.model.response.CustomerDetailsResponse
 import v2.model.response.StockDetails
 import v2.service.utility.ApiResponse
 import v2.service.utility.ErrorUtils
+import v2.view.AddLeadDetailsFrag
+import v2.view.AddLeadDetailsFragDirections
 import v2.view.AddOrUpdateVehicleDetailsMakeFragDirections
 import v2.view.VehicleSelectionFragDirections
 import v2.view.callBackInterface.DatePickerCallBack
@@ -44,7 +47,7 @@ import java.util.regex.Pattern
 
 
 public open class BaseFragment : Fragment() {
-    public var caseId = ""
+    public var customerId = ""
     var alertDialog: AlertDialog? = null
 
     var cal = Calendar.getInstance()
@@ -247,10 +250,12 @@ public open class BaseFragment : Fragment() {
         }
     }
 
-    public fun navToSoftOffer() {
-        view?.let {
-            Navigation.findNavController(it).navigate(R.id.softOfferFragment2)
-        }
+
+ public fun navToSoftOffer(customerDetailsResponse:CustomerDetailsResponse,customerId:String) {
+     val directions = AddLeadDetailsFragDirections.actionAddLeadDetailsFragToSoftOfferFragment2(customerDetailsResponse!!,customerId)
+     view?.let {
+         Navigation.findNavController(it).navigate(directions)
+     }
     }
 
     public fun openWebViewActivity(title: String?, url: String?) {

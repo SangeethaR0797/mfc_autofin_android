@@ -14,14 +14,17 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
+import v2.model.response.CustomerDetailsResponse
 import kotlinx.android.synthetic.main.soft_offer_action_bar.*
 import kotlinx.android.synthetic.main.v2_soft_offer_loading_fragment.*
 import v2.view.base.BaseFragment
 import kotlin.concurrent.fixedRateTimer
 
 
-class SoftOfferFragment : BaseFragment() {
 
+
+class SoftOfferFragment : BaseFragment() {
+    lateinit var customerDetailsResponse: CustomerDetailsResponse
     lateinit var tvLoanAmountVal: TextView
     lateinit var tvLoanTenureVal: TextView
     lateinit var skLoanAmount: SeekBar
@@ -39,6 +42,10 @@ class SoftOfferFragment : BaseFragment() {
     var loanTenureMaximum: Int = 15
     var loanTenureMinimum: Int = 1
 
+    var loanAmount=""
+    var loanTenure=""
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -46,10 +53,12 @@ class SoftOfferFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.v2_soft_offer_loading_fragment, container, false)
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            initViews(view)
+        arguments?.let {
+            val safeArgs = SoftOfferFragmentArgs.fromBundle(it)
+            customerDetailsResponse = safeArgs.CustomerDetails
+            customerId = safeArgs.customerId
         }
-
+        initViews(view)
         return view
     }
 
@@ -113,25 +122,36 @@ class SoftOfferFragment : BaseFragment() {
         })
 
         buttonLoanDetailsSubmit.setOnClickListener(View.OnClickListener {
-            showToast("Development in progress")
-            activity?.onBackPressed()
+            if(tvLoanAmountVal.text.isNotEmpty() && tvLoanTenureVal.text.isNotEmpty() &&
+                    !tvLoanAmountVal.equals(getString(R.string.rupees_symbol)) &&
+                    !tvLoanTenureVal.equals(getString(R.string.v2_tenure_lbl)) )
+            {
+                loanAmount=tvLoanAmountVal.text.toString()
+                loanTenure=tvLoanTenureVal.text.toString()
+                showToast("Development in progress")
+                activity?.onBackPressed()
+            }
+            else
+            {
+                showToast("Please select Loan Amount and Loan Tenure")
+            }
         })
         enableSoftOfferDialog()
 
     }
 
     private fun enableSoftOfferDialog() {
-        llSoftOfferDialog.visibility = View.VISIBLE
-        val fixedRateTimer = fixedRateTimer(name = "soft-offer",
+        /*val fixedRateTimer = fixedRateTimer(name = "soft-offer",
                 initialDelay = 100, period = 100) {
+            llSoftOfferDialog.visibility = View.VISIBLE
             println("loading!")
         }
         try {
             Thread.sleep(3000)
         } finally {
             fixedRateTimer.cancel();
-            enableCalculatorLayout()
-        }
+        }*/
+        enableCalculatorLayout()
 
     }
 
