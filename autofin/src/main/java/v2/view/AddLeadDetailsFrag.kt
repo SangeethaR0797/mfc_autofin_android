@@ -937,7 +937,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     llPanNumberSection.visibility == View.VISIBLE && (TextUtils.isEmpty(addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber) || !isValidPanNo(addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber!!))
                     -> {
                         tvPanNumberErrorMessage.visibility = View.VISIBLE
-                        tvPanNumberErrorMessage.text = ("Please select residence city.")
+                        tvPanNumberErrorMessage.text = ("Please valid Pancard.")
                         llPanNumber.setBackgroundResource(R.drawable.v2_error_input_bg)
                         etPanNumber.setTextColor(resources.getColor(R.color.error_red))
                     }
