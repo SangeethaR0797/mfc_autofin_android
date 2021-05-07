@@ -195,7 +195,7 @@
         android:layout_marginTop="43dp"
         android:layout_marginRight="@dimen/text_size_28dp"
         android:layout_marginBottom="@dimen/text_size_15dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <CheckBox
             android:id="@+id/cbTermsAndConditions"

@@ -28,6 +28,7 @@
             android:layout_marginTop="@dimen/text_size_30dp"
             android:layout_marginEnd="@dimen/text_size_37dp"
             android:layout_marginRight="@dimen/text_size_37dp"
+            android:paddingRight="@dimen/text_size_20dp"
             app:srcCompat="@drawable/ic_close"
             tools:ignore="ContentDescription" />
 
