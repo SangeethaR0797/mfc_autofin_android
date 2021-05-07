@@ -50,6 +50,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
     private var param1: String? = null
     private var param2: String? = null
     lateinit var ivBack: ImageView
+    lateinit var scrollView1: ScrollView
     lateinit var tvTitle: TextView
     lateinit var tvSelectedText: TextView
     lateinit var tvVehiclePriceInWords: TextView
@@ -109,7 +110,12 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                     )
                 })
     }
-
+    fun scrollToBottom(nextView: View) {
+        scrollView1.post {
+            // scrollView1.fullScroll(View.FOCUS_DOWN)
+            scrollView1.scrollTo(0, nextView.top);
+        }
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.v2_fragment_veh_make, container, false)
@@ -121,6 +127,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
         }
 
         ivBack = view.findViewById(R.id.iv_back)
+        scrollView1 = view.findViewById(R.id.scrollView1)
         tvTitle = view.findViewById(R.id.tv_title)
         tvSelectedText = view.findViewById(R.id.tv_selected_text)
 
@@ -185,6 +192,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                 tvVehiclePriceErrorMessage.text = ("Please enter price details.")
             } else if (addLeadRequest.Data?.vehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(View.GONE)) {
                 llVehicleNumber.visibility = View.VISIBLE
+                scrollToBottom(llVehicleNumber)
             } else if (addLeadRequest.Data?.vehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(View.VISIBLE)) {
                 llAddVehicleNumber.setBackgroundResource(R.drawable.v2_error_input_bg)
                 etVehicleNumber.setTextColor(resources.getColor(R.color.error_red))
@@ -303,6 +311,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                             item.selected = true
                             addLeadRequest.Data?.vehicleDetails?.Ownership = item.value?.toInt()
                             llKilometresDriven.visibility = View.VISIBLE
+                            scrollToBottom(llKilometresDriven)
                         } else {
                             item.selected = false
                         }
@@ -342,6 +351,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                         if (index == position) {
                             item.selected = true
                             llVehiclePrice.visibility = View.VISIBLE
+                            scrollToBottom(llVehiclePrice)
                             btnNext.visibility = View.VISIBLE
                             addLeadRequest.Data?.vehicleDetails?.FuelType = item.value
                         } else {
@@ -398,6 +408,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                         if (index == position) {
                             item.selected = true
                             llFuleType.visibility = View.VISIBLE
+                            scrollToBottom(llFuleType)
                             addLeadRequest?.Data?.vehicleDetails?.KMs = item.value
                         } else {
                             item.selected = false
