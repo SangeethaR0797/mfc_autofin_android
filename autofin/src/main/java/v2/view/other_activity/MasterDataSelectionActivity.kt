@@ -40,6 +40,7 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack {
     lateinit var masterViewModel: MasterViewModel
 
     lateinit var ivBack: ImageView
+    lateinit var tvScreenTitle: TextView
     lateinit var tvSelectedText: TextView
     lateinit var tvSelectLabel: TextView
     lateinit var etSearch: EditText
@@ -54,6 +55,7 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack {
         SELECTED_DATA_TYPE_CALL = intent.getStringExtra(CommonStrings.SELECTED_DATA_TYPE);
 
         setContentView(R.layout.v2_master_data_selection)
+        tvScreenTitle = findViewById(R.id.tv_screen_title)
         llProgress = findViewById(R.id.ll_progress)
         ivBack = findViewById(R.id.iv_back)
         tvSelectedText = findViewById(R.id.tv_selected_text)
@@ -139,6 +141,7 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack {
         tvSelectLabel.visibility = View.GONE
         tvSelectedText.visibility = View.GONE
         etSearch.setHint("Year")
+        tvScreenTitle.setHint("Year")
         var request = getIBBMasterDetailsRequest(CommonStrings.IBB_TOKEN_VALUE, CommonStrings.YEAR, "0", "app", null, null, null, null)
         iBB_MasterViewModel!!.getIBB_MasterDetails(request, Global.ibb_base_url + CommonStrings.IBB_VEH_DETAILS_END_POINT)
 
@@ -149,6 +152,7 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack {
         tvSelectedText.text = ""
         tvSelectLabel.text = "Search Bank"
         etSearch.setHint("Search Bank")
+        tvScreenTitle.setHint("Search Bank")
         tvSelectLabel.visibility = View.GONE
         tvSelectedText.visibility = View.GONE
         masterViewModel.getBankList(Global.customerDetails_BaseURL + CommonStrings.BANK_LIST_END_POINT)
