@@ -54,6 +54,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var validateLeadDataRes: ValidateLeadDataResponse
     lateinit var etMobileNumberV2: EditText
     lateinit var ivBackToVehDetails: ImageView
+    lateinit var scrollView1: ScrollView
     lateinit var etOTPV2: EditText
     lateinit var llOTPNumInput: LinearLayout
     lateinit var cbTermsAndConditions: CheckBox
@@ -273,6 +274,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     private fun initViews(view: View?) {
+        scrollView1 = view?.findViewById(R.id.scrollView1)!!
         ivBackToVehDetails = view?.findViewById(R.id.ivBackToVehDetails)!!
         etMobileNumberV2 = view?.findViewById(R.id.etMobileNumberV2)!!
 
@@ -723,6 +725,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     }
                 }
                 eMIDetailsAdapter.notifyDataSetChanged()
+                scrollToBottom(llEMISection)
             }
         })
 
@@ -798,6 +801,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         }
     }
 
+    fun scrollToBottom(nextView: View) {
+        scrollView1.post {
+            scrollView1.fullScroll(View.FOCUS_DOWN)
+            scrollView1.scrollTo(0, nextView.getBottom());
+        }
+    }
+
     override fun onClick(v: View?) {
 
         when (v?.id) {
@@ -818,6 +828,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 }
             }
             R.id.btnMobileNum -> {
+
                 hideSoftKeyboard()
                 when {
                     //Step 1 Call Send OTP Api
@@ -986,6 +997,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 llBirthDate.setBackgroundResource(R.drawable.vtwo_input_bg)
                 etBirthDate.setTextColor(resources.getColor(R.color.vtwo_black))
                 llEmploymentSection.visibility = View.VISIBLE
+                scrollToBottom(llEmploymentSection)
             }
         })
     }
@@ -1228,6 +1240,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     }
                 }
                 employmentDetailsAdapter.notifyDataSetChanged()
+                scrollToBottom(llEmploymentSection)
             }
         })
 
@@ -1278,6 +1291,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     }
                 }
                 residenceTypeDetailsAdapter.notifyDataSetChanged()
+                scrollToBottom(llResidenceTypeSection)
             }
         })
 
@@ -1328,6 +1342,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     }
                 }
                 residenceYearsAdapter.notifyDataSetChanged()
+                scrollToBottom(llPanNumberSection)
             }
         })
 
@@ -1424,6 +1439,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         }
 
         commonBankListDetailsAdapter.notifyDataSetChanged()
+        scrollToBottom(llAccoutDetailsSection)
         if (!isFound) {
             etSearchBank.setText(selectedBankDisplayName)
         }
@@ -1605,7 +1621,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     isEmploymentDataSaved = true
                     checkForNavToSoftOffer()
                 }
-              //  showToast(addLeadResponse?.message.toString())
+                //  showToast(addLeadResponse?.message.toString())
 
             }
             ApiResponse.Status.ERROR -> {
@@ -1633,7 +1649,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     checkForNavToSoftOffer()
                 }
 
-             //   showToast(addLeadResponse?.message.toString())
+                //   showToast(addLeadResponse?.message.toString())
 
             }
             ApiResponse.Status.ERROR -> {
@@ -1759,6 +1775,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 }
                 salutationAdapter.notifyDataSetChanged()
 
+
             }
         } catch (eNull: NullPointerException) {
 
@@ -1831,6 +1848,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         }
                     }
                     employmentDetailsAdapter.notifyDataSetChanged()
+
 
                     //set Employment other details
                     if (!TextUtils.isEmpty(employmentType)) {
@@ -2021,6 +2039,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     }
                 }
                 salutationAdapter.notifyDataSetChanged()
+                scrollToBottom(llBirthDateSection)
             }
         })
 
