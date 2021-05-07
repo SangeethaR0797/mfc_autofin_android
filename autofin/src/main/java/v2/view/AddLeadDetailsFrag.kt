@@ -803,7 +803,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     fun scrollToBottom(nextView: View) {
         scrollView1.post {
-           // scrollView1.fullScroll(View.FOCUS_DOWN)
+            // scrollView1.fullScroll(View.FOCUS_DOWN)
             scrollView1.scrollTo(0, nextView.top);
         }
     }
@@ -1672,7 +1672,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     fun checkForNavToSoftOffer() {
         hideProgressDialog()
-        if (!TextUtils.isEmpty(customerId) &&
+        if (!TextUtils.isEmpty(customerId) && isEmploymentDataSaved == true && isResidentDataSaved == true &&
                 addEmploymentDetailsRequest.hashCode().equals(previousAddEmploymentDetailsRequest.hashCode()) &&
                 addResidentDetailsRequest.hashCode().equals(previousAddResidentDetailsRequest.hashCode())) {
             navToSoftOffer(customerDetailsResponse, customerId)
@@ -1777,7 +1777,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 salutationAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
                     if (dataSelectionDTO.displayValue.toString().equals(salutation)) {
                         dataSelectionDTO.selected = true
-                        salutation=dataSelectionDTO.value!!
+                        salutation = dataSelectionDTO.value!!
                     } else {
                         dataSelectionDTO.selected = false
                     }
