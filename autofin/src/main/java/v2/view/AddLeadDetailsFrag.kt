@@ -803,8 +803,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     fun scrollToBottom(nextView: View) {
         scrollView1.post {
-            scrollView1.fullScroll(View.FOCUS_DOWN)
-            scrollView1.scrollTo(0, nextView.getBottom());
+           // scrollView1.fullScroll(View.FOCUS_DOWN)
+            scrollView1.scrollTo(0, nextView.top);
         }
     }
 
@@ -853,6 +853,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     //Step 4 Birth Date Validation
                     llBirthDateSection.visibility == View.GONE -> {
                         llBirthDateSection.visibility = View.VISIBLE
+                        scrollToBottom(llBirthDateSection)
                     }
                     llBirthDateSection.visibility == View.VISIBLE && TextUtils.isEmpty(etBirthDate.text) -> {
                         tvBirthErrorMessage.visibility = View.VISIBLE
@@ -863,6 +864,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     //Step 5 Open Employment Section
                     llEmploymentSection.visibility == View.GONE -> {
                         llEmploymentSection.visibility = View.VISIBLE
+                        scrollToBottom(llEmploymentSection)
                     }
                     //Step 6 Validate Employment Details
                     llEmploymentSection.visibility == View.VISIBLE && llWorkExpriance.visibility == View.VISIBLE && TextUtils.isEmpty(etWorkExpriance.text) -> {
@@ -870,13 +872,16 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         tvWorkExprianceErrorMessage.text = "Please enter total years of work experiences."
                         llAddWorkExpriance.setBackgroundResource(R.drawable.v2_error_input_bg)
                         etWorkExpriance.setTextColor(resources.getColor(R.color.error_red))
+
                     }
                     //Step 7 Open Account Details Section
                     llAccoutDetailsSection.visibility == View.GONE -> {
                         llAccoutDetailsSection.visibility = View.VISIBLE
+                        scrollToBottom(llAccoutDetailsSection)
                     }
                     llNetIncomeSection.visibility == View.GONE -> {
                         llNetIncomeSection.visibility = View.VISIBLE
+                        scrollToBottom(llNetIncomeSection)
                     }
                     //Step 8 Validate Acount Details
                     llNetIncomeSection.visibility == View.VISIBLE && TextUtils.isEmpty(etNetIncome.text) -> {
@@ -893,6 +898,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     //Step 10 Open EMI Section
                     llEMISection.visibility == View.GONE -> {
                         llEMISection.visibility = View.VISIBLE
+                        scrollToBottom(llEMISection)
                     }
                     //Step 11 Open EMI Section Validate EMI Details
                     llEMISection.visibility == View.VISIBLE && llEmiDetails.visibility == View.VISIBLE && TextUtils.isEmpty(etEMI.text) -> {
@@ -904,6 +910,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     //Step 12 open Residence details
                     llResidenceTypeSection.visibility == View.GONE -> {
                         llResidenceTypeSection.visibility = View.VISIBLE
+                        scrollToBottom(llResidenceTypeSection)
                     }
                     //Step 13 ResidenceType validation
                     llResidenceTypeSection.visibility == View.VISIBLE && TextUtils.isEmpty(addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType) -> {
@@ -924,6 +931,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     //Step 16 Open Pan Card Section
                     llPanNumberSection.visibility == View.GONE -> {
                         llPanNumberSection.visibility = View.VISIBLE
+                        scrollToBottom(llPanNumberSection)
                     }
                     //Step 17 Pan Card Number validation
                     llPanNumberSection.visibility == View.VISIBLE && (TextUtils.isEmpty(addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber) || !isValidPanNo(addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber!!))
