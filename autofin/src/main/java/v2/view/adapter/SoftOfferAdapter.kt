@@ -1,31 +1,46 @@
 package v2.view.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
-import v2.model.response.bank_api_response.RecommendedBankData
+import v2.model.response.bank_offers.BankOffersData
+import v2.view.callBackInterface.itemClickCallBack
 
-public class SoftOfferAdapter(var context: Context, var list: List<RecommendedBankData>) : RecyclerView.Adapter<SoftOfferAdapter.BankViewHolder>() {
+public class SoftOfferAdapter(var context:Activity, var list: List<BankOffersData>, itemClick: itemClickCallBack?) : RecyclerView.Adapter<SoftOfferAdapter.BankViewHolder>() {
+
+    private var itemCallBack: itemClickCallBack = itemClick!!
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BankViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val listItem = layoutInflater.inflate(R.layout.v2_bank_item_layout, parent, false)
+        val view = layoutInflater.inflate(R.layout.v2_bank_item_layout, parent, false)
 
-        return BankViewHolder(listItem)
+        return BankViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: BankViewHolder, position: Int)
     {
-        val bankData = list[position]
+        val bankData=list[position]
+
+        if(bankData.isRecommended==true)
+        holder.tvBankStatusV2.text="Recommended"
+        else
+            holder.tvBankStatusV2.text=""
 
         holder.tvLoanAmountValV2.text=bankData.loanAmount
         holder.tvROIValV2.text=bankData.roi
         holder.tvTenureValV2.text=bankData.tenure
-        holder.tvApplyNow.setOnClickListener(View.OnClickListener {  })
+        holder.tvApplyNow.setOnClickListener(View.OnClickListener
+        {
+            Toast.makeText(context,"Developement under progress",Toast.LENGTH_SHORT).show()
+            itemCallBack.itemClick(bankData, position)
+
+        })
         holder.tvEMIValV2.text=bankData.emi
 
     }

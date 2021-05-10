@@ -1659,12 +1659,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 if (dialogConfilctForAddLead != null && dialogConfilctForAddLead!!.isShowing) {
                     dialogConfilctForAddLead!!.dismiss()
                 }
-                var customerResponse: CustomerDetailsResponse? = mApiResponse.data as CustomerDetailsResponse?
-                customerDetailsResponse = customerResponse!!
 
                 if (customerDetailsResponse?.data != null) {
                     preFilledData(customerDetailsResponse)
+
                 }
+
                 hideProgressDialog()
 
             }
@@ -1736,6 +1736,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
             if (customerDetailsResponse != null && customerDetailsResponse.data != null) {
+
                 //set Vehicle details
                 if (customerDetailsResponse!!.data!!.vehicleDetails != null) {
                     addLeadRequest.Data!!.vehicleDetails!!.VehicleNumber = customerDetailsResponse!!.data!!.vehicleDetails!!.vehicleNumber

@@ -3,11 +3,13 @@ package v2.view
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mfc.autofin.framework.R
 import kotlinx.android.synthetic.main.fragment_vehicle_selection.*
 import utility.CommonStrings
@@ -15,9 +17,18 @@ import v2.model.dto.AddLeadRequest
 import utility.Global
 import v2.model.request.StockDetailsReq
 import v2.model.request.VehicleRegNum
+import v2.model.request.bank_offers.BankOfferData
+import v2.model.request.bank_offers.BankOffersForApplicationRequest
+import v2.model.request.bank_offers.LeadApplicationData
+import v2.model.request.bank_offers.SelectRecommendedBankOfferRequest
 import v2.model.response.StockResponse
+import v2.model.response.bank_offers.BankOffersData
+import v2.model.response.bank_offers.BankOffersForApplicationResponse
+import v2.model.response.bank_offers.SelectRecommendedBankOfferResponse
+import v2.model_view.BankOffersViewModel
 import v2.model_view.StockAPIViewModel
 import v2.service.utility.ApiResponse
+import v2.view.adapter.SoftOfferAdapter
 import v2.view.base.BaseFragment
 
 public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
@@ -28,12 +39,22 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
     lateinit var tvSearchCar: TextView
     lateinit var ivBackToDashBoard: ImageView
 
+    lateinit var bankViewModel: BankOffersViewModel
+
+
     var regNoVal: String = ""
     var stockAPIViewModel: StockAPIViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        bankViewModel = ViewModelProvider(this).get(
+                BankOffersViewModel::class.java
+        )
+
+
     }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -81,7 +102,8 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
                 }
                 R.id.tvSearchCarV2 -> {
                    navigateVehBasicDetailsActivity(CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE)
-                   // navToSoftOffer()
+                    //navToSoftOffer()
+
                 }
 
             }
@@ -148,5 +170,9 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
             }
         }
     }
+
+
+
+
 
 }
