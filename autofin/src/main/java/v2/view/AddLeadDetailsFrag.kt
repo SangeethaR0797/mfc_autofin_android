@@ -276,6 +276,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         arguments?.let {
             val safeArgs = AddLeadDetailsFragArgs.fromBundle(it)
             addLeadRequest = safeArgs.addLeadRequestDetails
+            if (addLeadRequest.Data!!.basicDetails == null) {
+                var basicDetails = BasicDetails()
+                addLeadRequest.Data!!.basicDetails = basicDetails;
+
+            }
         }
         initViews(view)
 
