@@ -452,6 +452,89 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     //endregion fragment core function
 
+    //region Object request clone function
+    private fun createRequestCloneOfAddLead() {
+        //Create AddLead request Copy
+        val addLeadBasicDetails = BasicDetails()
+        val addLeadVehicleDetails = AddLeadVehicleDetails()
+        if (addLeadRequest.Data!!.basicDetails != null) {
+            addLeadBasicDetails!!.FirstName = addLeadRequest.Data!!.basicDetails!!.FirstName
+            addLeadBasicDetails!!.LastName = addLeadRequest.Data!!.basicDetails!!.LastName
+            addLeadBasicDetails!!.Email = addLeadRequest.Data!!.basicDetails!!.Email
+            addLeadBasicDetails!!.Salutation = addLeadRequest.Data!!.basicDetails!!.Salutation
+
+        }
+        if (addLeadRequest.Data!!.addLeadVehicleDetails != null) {
+            addLeadVehicleDetails.Make = addLeadRequest.Data!!.addLeadVehicleDetails!!.Make
+            addLeadVehicleDetails.Model = addLeadRequest.Data!!.addLeadVehicleDetails!!.Model
+            addLeadVehicleDetails.Variant = addLeadRequest.Data!!.addLeadVehicleDetails!!.Variant
+            addLeadVehicleDetails.VehicleNumber =
+                addLeadRequest.Data!!.addLeadVehicleDetails!!.VehicleNumber
+            addLeadVehicleDetails.FuelType = addLeadRequest.Data!!.addLeadVehicleDetails!!.FuelType
+            addLeadVehicleDetails.RegistrationYear =
+                addLeadRequest.Data!!.addLeadVehicleDetails!!.RegistrationYear
+            addLeadVehicleDetails.KMs = addLeadRequest.Data!!.addLeadVehicleDetails!!.KMs
+            addLeadVehicleDetails.Ownership =
+                addLeadRequest.Data!!.addLeadVehicleDetails!!.Ownership
+            addLeadVehicleDetails.VehicleSellingPrice =
+                addLeadRequest.Data!!.addLeadVehicleDetails!!.VehicleSellingPrice
+        }
+
+        previousAddLeadRequest = AddLeadRequest(
+            addLeadRequest.UserId,
+            addLeadRequest.UserType,
+            AddLeadData(addLeadBasicDetails, addLeadVehicleDetails)
+        )
+
+    }
+
+    private fun createRequestCloneAddEmploymentEmploymentDetails() {
+        //Create Copy of Employment request object
+        val employment = AddEmploymentEmploymentDetails(
+            addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne,
+            addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType,
+            addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome,
+            addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount,
+            addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount,
+            addEmploymentDetailsRequest.Data!!.employmentDetails!!.TotalWorkExperience
+        )
+        val personal =
+            AddEmploymentPersonalDetails(addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate)
+        val employmentData =
+            AddEmploymentData(addEmploymentDetailsRequest.Data!!.CustomerId, employment, personal)
+        previousAddEmploymentDetailsRequest = AddEmploymentDetailsRequest(
+            employmentData,
+            addEmploymentDetailsRequest.UserId,
+            addEmploymentDetailsRequest.UserType
+        )
+
+    }
+
+    private fun createRequestCloneAddResidentDetails() {
+        //Create Copy of Resident request object
+        val residentPersonal = ResidentDetailsDataPersonalDetails(
+            addResidentDetailsRequest.Data!!.personalDetails!!.HaveExistingEMI,
+            addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber,
+            addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI
+        )
+        val resident = ResidentDetailsDataResidentialDetails(
+            addResidentDetailsRequest.Data!!.residentialDetails!!.CustomerCity,
+            addResidentDetailsRequest.Data!!.residentialDetails!!.NoOfYearInResident,
+            addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType
+        )
+        val residentData = ResidentDetailsData(
+            addResidentDetailsRequest!!.Data!!.CustomerId,
+            residentPersonal,
+            resident
+        )
+        previousAddResidentDetailsRequest = AddResidentDetailsRequest(
+            residentData,
+            addResidentDetailsRequest.UserId,
+            addResidentDetailsRequest.UserType
+        )
+    }
+    //endregion Object request clone function
+
     //region custom function
     private fun displayNameLayout() {
         ll_otp_v2.visibility = View.GONE
@@ -501,82 +584,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         }
     }
 
-
-    private fun createRequestClone() {
-        //Create AddLead request Copy
-        val addLeadBasicDetails = BasicDetails()
-        val addLeadVehicleDetails = AddLeadVehicleDetails()
-        if (addLeadRequest.Data!!.basicDetails != null) {
-            addLeadBasicDetails!!.FirstName = addLeadRequest.Data!!.basicDetails!!.FirstName
-            addLeadBasicDetails!!.LastName = addLeadRequest.Data!!.basicDetails!!.LastName
-            addLeadBasicDetails!!.Email = addLeadRequest.Data!!.basicDetails!!.Email
-            addLeadBasicDetails!!.Salutation = addLeadRequest.Data!!.basicDetails!!.Salutation
-
-        }
-        if (addLeadRequest.Data!!.addLeadVehicleDetails != null) {
-            addLeadVehicleDetails.Make = addLeadRequest.Data!!.addLeadVehicleDetails!!.Make
-            addLeadVehicleDetails.Model = addLeadRequest.Data!!.addLeadVehicleDetails!!.Model
-            addLeadVehicleDetails.Variant = addLeadRequest.Data!!.addLeadVehicleDetails!!.Variant
-            addLeadVehicleDetails.VehicleNumber =
-                addLeadRequest.Data!!.addLeadVehicleDetails!!.VehicleNumber
-            addLeadVehicleDetails.FuelType = addLeadRequest.Data!!.addLeadVehicleDetails!!.FuelType
-            addLeadVehicleDetails.RegistrationYear =
-                addLeadRequest.Data!!.addLeadVehicleDetails!!.RegistrationYear
-            addLeadVehicleDetails.KMs = addLeadRequest.Data!!.addLeadVehicleDetails!!.KMs
-            addLeadVehicleDetails.Ownership =
-                addLeadRequest.Data!!.addLeadVehicleDetails!!.Ownership
-            addLeadVehicleDetails.VehicleSellingPrice =
-                addLeadRequest.Data!!.addLeadVehicleDetails!!.VehicleSellingPrice
-        }
-
-        previousAddLeadRequest = AddLeadRequest(
-            addLeadRequest.UserId,
-            addLeadRequest.UserType,
-            AddLeadData(addLeadBasicDetails, addLeadVehicleDetails)
-        )
-
-
-        //Create Copy of Employment request object
-        val employment = AddEmploymentEmploymentDetails(
-            addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne,
-            addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType,
-            addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome,
-            addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount,
-            addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount,
-            addEmploymentDetailsRequest.Data!!.employmentDetails!!.TotalWorkExperience
-        )
-        val personal =
-            AddEmploymentPersonalDetails(addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate)
-        val employmentData =
-            AddEmploymentData(addEmploymentDetailsRequest.Data!!.CustomerId, employment, personal)
-        previousAddEmploymentDetailsRequest = AddEmploymentDetailsRequest(
-            employmentData,
-            addEmploymentDetailsRequest.UserId,
-            addEmploymentDetailsRequest.UserType
-        )
-
-        //Create Copy of Resident request object
-        val residentPersonal = ResidentDetailsDataPersonalDetails(
-            addResidentDetailsRequest.Data!!.personalDetails!!.HaveExistingEMI,
-            addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber,
-            addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI
-        )
-        val resident = ResidentDetailsDataResidentialDetails(
-            addResidentDetailsRequest.Data!!.residentialDetails!!.CustomerCity,
-            addResidentDetailsRequest.Data!!.residentialDetails!!.NoOfYearInResident,
-            addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType
-        )
-        val residentData = ResidentDetailsData(
-            addResidentDetailsRequest!!.Data!!.CustomerId,
-            residentPersonal,
-            resident
-        )
-        previousAddResidentDetailsRequest = AddResidentDetailsRequest(
-            residentData,
-            addResidentDetailsRequest.UserId,
-            addResidentDetailsRequest.UserType
-        )
-    }
 
     private fun openDatePicker() {
         var lastSelectedDate: String? = null
@@ -679,11 +686,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 tv_email_hint.setText("Please enter Valid Email ID")
             }
         } else {
-            if (etFirstName.text.isEmpty()|| addLeadRequest.Data!!.basicDetails!!.FirstName!!.isEmpty()) {
+            if (etFirstName.text.isEmpty() || addLeadRequest.Data!!.basicDetails!!.FirstName!!.isEmpty()) {
                 ll_first_name_input.setBackgroundResource(R.drawable.v2_error_layout_bg)
                 tv_fname_hint.visibility = View.VISIBLE
             }
-            if (etLastName.text.isEmpty()|| addLeadRequest.Data!!.basicDetails!!.LastName!!.isEmpty()) {
+            if (etLastName.text.isEmpty() || addLeadRequest.Data!!.basicDetails!!.LastName!!.isEmpty()) {
                 ll_last_name_input.setBackgroundResource(R.drawable.v2_error_layout_bg)
                 tv_lname_hint.visibility = View.VISIBLE
 
@@ -1376,7 +1383,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     if (dataSelectionDTO.displayValue.toString().equals(salutation)) {
                         dataSelectionDTO.selected = true
                         salutation = dataSelectionDTO.value!!
-                        addLeadRequest.Data!!.basicDetails!!.Salutation=salutation
+                        addLeadRequest.Data!!.basicDetails!!.Salutation = salutation
                     } else {
                         dataSelectionDTO.selected = false
                     }
@@ -1645,7 +1652,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 }
 
             }
-            createRequestClone()
+            createRequestCloneOfAddLead()
+            createRequestCloneAddEmploymentEmploymentDetails()
+            createRequestCloneAddResidentDetails()
         } catch (e: Exception) {
             Log.d("Err", e.message)
         }
@@ -1681,7 +1690,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                 item.selected = true
                                 basicDetails.Salutation = item.value
                                 salutation = item.value.toString()
-                                addLeadRequest.Data!!.basicDetails!!.Salutation=salutation
+                                addLeadRequest.Data!!.basicDetails!!.Salutation = salutation
                             } else {
                                 item.selected = false
                             }
@@ -2231,6 +2240,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
+                createRequestCloneOfAddLead()
                 val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
                 if (addLeadResponse?.statusCode.equals("200") || addLeadResponse?.mData!! > 0) {
                     customerId = addLeadResponse?.mData.toString()
@@ -2365,7 +2375,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 showProgressDialog(requireContext())
             }
             ApiResponse.Status.SUCCESS -> {
-                createRequestClone()
+                createRequestCloneAddEmploymentEmploymentDetails()
                 hideProgressDialog()
                 val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
                 if (addLeadResponse?.mData!! > 0) {
@@ -2392,7 +2402,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 showProgressDialog(requireContext())
             }
             ApiResponse.Status.SUCCESS -> {
-                createRequestClone()
+                createRequestCloneAddResidentDetails()
                 hideProgressDialog()
                 val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
                 if (addLeadResponse?.mData!! > 0) {
