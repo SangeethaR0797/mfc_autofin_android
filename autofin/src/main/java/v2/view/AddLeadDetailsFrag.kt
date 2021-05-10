@@ -72,6 +72,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var salutationAdapter: DataRecyclerViewAdapter
     lateinit var llNameAndEmailV2: LinearLayout
     lateinit var etFirstName: EditText
+    lateinit var etLastName: EditText
+    lateinit var etEmailId: EditText
     var dialogConfilctForAddLead: Dialog? = null
     lateinit var timer: CountDownTimer
 
@@ -293,6 +295,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         rv_salutation = view.findViewById(R.id.rv_salutation)
         llNameAndEmailV2 = view.findViewById(R.id.llNameAndEmailV2)
         etFirstName = view.findViewById(R.id.et_first_name)
+        etLastName = view.findViewById(R.id.et_last_name)
+        etEmailId = view.findViewById(R.id.et_email)
         ll_otp_v2.visibility = View.GONE
         llTAndC = view.findViewById(R.id.llTAndC)
 
@@ -411,6 +415,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         llResidenceTypeSection.visibility = View.GONE
         llPanNumberSection.visibility = View.GONE
 
+        setTextChangedFirstName()
+        setTextChangedLastName()
+        setTextChangedEmailId()
         setTextChangeOfWorkExpirance()
         setCheckBoxEvent()
         setTextChangeOfNetIncome()
@@ -497,13 +504,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     private fun createRequestClone() {
         //Create AddLead request Copy
-        val basicDetails = BasicDetails()
+        val addLeadBasicDetails = BasicDetails()
         val addLeadVehicleDetails = AddLeadVehicleDetails()
         if (addLeadRequest.Data!!.basicDetails != null) {
-            basicDetails!!.FirstName = addLeadRequest.Data!!.basicDetails!!.FirstName
-            basicDetails!!.LastName = addLeadRequest.Data!!.basicDetails!!.LastName
-            basicDetails!!.Email = addLeadRequest.Data!!.basicDetails!!.Email
-            basicDetails!!.Salutation = addLeadRequest.Data!!.basicDetails!!.Salutation
+            addLeadBasicDetails!!.FirstName = addLeadRequest.Data!!.basicDetails!!.FirstName
+            addLeadBasicDetails!!.LastName = addLeadRequest.Data!!.basicDetails!!.LastName
+            addLeadBasicDetails!!.Email = addLeadRequest.Data!!.basicDetails!!.Email
+            addLeadBasicDetails!!.Salutation = addLeadRequest.Data!!.basicDetails!!.Salutation
 
         }
         if (addLeadRequest.Data!!.addLeadVehicleDetails != null) {
@@ -525,7 +532,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         previousAddLeadRequest = AddLeadRequest(
             addLeadRequest.UserId,
             addLeadRequest.UserType,
-            AddLeadData(basicDetails, addLeadVehicleDetails)
+            AddLeadData(addLeadBasicDetails, addLeadVehicleDetails)
         )
 
 
@@ -642,7 +649,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     private fun addLead() {
-        if (salutation.isNotEmpty() && etFirstName.text.isNotEmpty() && et_last_name.text.isNotEmpty() && et_email.text.isNotEmpty()) {
+        if (salutation.isNotEmpty() && etFirstName.text.isNotEmpty() && etLastName.text.isNotEmpty() && etEmailId.text.isNotEmpty()) {
 
             ll_first_name_input.setBackgroundResource(R.drawable.vtwo_input_bg)
             tv_fname_hint.visibility = View.GONE
@@ -652,12 +659,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
             basicDetails.FirstName = etFirstName.text.toString()
-            basicDetails.LastName = et_last_name.text.toString()
-            val email = et_email.text.toString()
+            basicDetails.LastName = etLastName.text.toString()
+            val email = etEmailId.text.toString()
             if (isEmailValid(email)) {
                 ll_last_email_input.setBackgroundResource(R.drawable.vtwo_input_bg)
                 tv_email_hint.visibility = View.GONE
-                basicDetails.Email = et_email.text.toString()
+                basicDetails.Email = etEmailId.text.toString()
                 addLeadRequest.Data?.basicDetails = basicDetails
                 addLeadRequest.UserType = CommonStrings.USER_TYPE
                 addLeadRequest.UserId = CommonStrings.DEALER_ID
@@ -667,27 +674,27 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
             } else {
                 ll_last_email_input.setBackgroundResource(R.drawable.v2_error_layout_bg)
-                et_email.setTextColor(resources.getColor(R.color.error_red))
+                etEmailId.setTextColor(resources.getColor(R.color.error_red))
                 tv_email_hint.visibility = View.VISIBLE
                 tv_email_hint.setText("Please enter Valid Email ID")
             }
         } else {
-            if (etFirstName.text.isEmpty()) {
+            if (etFirstName.text.isEmpty()|| addLeadRequest.Data!!.basicDetails!!.FirstName!!.isEmpty()) {
                 ll_first_name_input.setBackgroundResource(R.drawable.v2_error_layout_bg)
                 tv_fname_hint.visibility = View.VISIBLE
             }
-            if (et_last_name.text.isEmpty()) {
+            if (etLastName.text.isEmpty()|| addLeadRequest.Data!!.basicDetails!!.LastName!!.isEmpty()) {
                 ll_last_name_input.setBackgroundResource(R.drawable.v2_error_layout_bg)
                 tv_lname_hint.visibility = View.VISIBLE
 
             }
-            if (et_email.text.isEmpty()) {
+            if (etEmailId.text.isEmpty() || addLeadRequest.Data!!.basicDetails!!.Email!!.isEmpty()) {
                 ll_last_email_input.setBackgroundResource(R.drawable.v2_error_layout_bg)
                 tv_email_hint.visibility = View.VISIBLE
                 tv_email_hint.setText("Please enter Email ID")
 
             }
-            if (salutation.isEmpty()) {
+            if (salutation.isEmpty() || addLeadRequest.Data!!.basicDetails!!.Salutation!!.isEmpty()) {
                 showToast("Please select Salutation")
             }
         }
@@ -804,6 +811,77 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
     //region setTextChangeEvent
+    fun setTextChangedFirstName() {
+        etFirstName.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+
+            }
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int, count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                if (TextUtils.isEmpty(etFirstName.text)) {
+                    addLeadRequest.Data!!.basicDetails!!.FirstName = null
+                } else {
+                    addLeadRequest.Data!!.basicDetails!!.FirstName = etFirstName.text.toString()
+                }
+
+            }
+        })
+    }
+
+    fun setTextChangedLastName() {
+        etLastName.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+
+            }
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int, count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                if (TextUtils.isEmpty(etLastName.text)) {
+                    addLeadRequest.Data!!.basicDetails!!.LastName = null
+                } else {
+                    addLeadRequest.Data!!.basicDetails!!.LastName = etLastName.text.toString()
+                }
+
+            }
+        })
+    }
+
+    fun setTextChangedEmailId() {
+        etEmailId.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+
+            }
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int, count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                if (TextUtils.isEmpty(etLastName.text)) {
+                    addLeadRequest.Data!!.basicDetails!!.Email = null
+                } else {
+                    addLeadRequest.Data!!.basicDetails!!.Email = etEmailId.text.toString()
+                }
+
+            }
+        })
+    }
 
     fun setTextChangeOfWorkExpirance() {
         etWorkExpriance.addTextChangedListener(object : TextWatcher {
@@ -1289,8 +1367,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             addLeadRequest.Data!!.basicDetails!!.Salutation = salutationValue
             salutation = salutationValue!!
             etFirstName.setText(firstName)
-            et_last_name.setText(lastName)
-            et_email.setText(email)
+            etLastName.setText(lastName)
+            etEmailId.setText(email)
 
 
             if (salutation != null) {
@@ -1298,6 +1376,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     if (dataSelectionDTO.displayValue.toString().equals(salutation)) {
                         dataSelectionDTO.selected = true
                         salutation = dataSelectionDTO.value!!
+                        addLeadRequest.Data!!.basicDetails!!.Salutation=salutation
                     } else {
                         dataSelectionDTO.selected = false
                     }
@@ -1602,6 +1681,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                 item.selected = true
                                 basicDetails.Salutation = item.value
                                 salutation = item.value.toString()
+                                addLeadRequest.Data!!.basicDetails!!.Salutation=salutation
                             } else {
                                 item.selected = false
                             }
