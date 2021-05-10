@@ -149,15 +149,15 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     private fun createRequestClone() {
         //Create Copy of Employment request object
-        var employment = AddEmploymentEmploymentDetails(addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne, addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType, addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome, addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount, addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount, addEmploymentDetailsRequest.Data!!.employmentDetails!!.TotalWorkExperience)
-        var personal = AddEmploymentPersonalDetails(addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate)
-        var employmentData = AddEmploymentData(addEmploymentDetailsRequest.Data!!.CustomerId, employment, personal)
+        val employment = AddEmploymentEmploymentDetails(addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne, addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType, addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome, addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount, addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount, addEmploymentDetailsRequest.Data!!.employmentDetails!!.TotalWorkExperience)
+        val personal = AddEmploymentPersonalDetails(addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate)
+        val employmentData = AddEmploymentData(addEmploymentDetailsRequest.Data!!.CustomerId, employment, personal)
         previousAddEmploymentDetailsRequest = AddEmploymentDetailsRequest(employmentData, addEmploymentDetailsRequest.UserId, addEmploymentDetailsRequest.UserType)
 
         //Create Copy of Resident request object
-        var residentPersonal = ResidentDetailsDataPersonalDetails(addResidentDetailsRequest.Data!!.personalDetails!!.HaveExistingEMI, addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber, addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI)
-        var resident = ResidentDetailsDataResidentialDetails(addResidentDetailsRequest.Data!!.residentialDetails!!.CustomerCity, addResidentDetailsRequest.Data!!.residentialDetails!!.NoOfYearInResident, addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType)
-        var residentData = ResidentDetailsData(addResidentDetailsRequest!!.Data!!.CustomerId, residentPersonal, resident)
+        val residentPersonal = ResidentDetailsDataPersonalDetails(addResidentDetailsRequest.Data!!.personalDetails!!.HaveExistingEMI, addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber, addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI)
+        val resident = ResidentDetailsDataResidentialDetails(addResidentDetailsRequest.Data!!.residentialDetails!!.CustomerCity, addResidentDetailsRequest.Data!!.residentialDetails!!.NoOfYearInResident, addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType)
+        val residentData = ResidentDetailsData(addResidentDetailsRequest!!.Data!!.CustomerId, residentPersonal, resident)
         previousAddResidentDetailsRequest = AddResidentDetailsRequest(residentData, addResidentDetailsRequest.UserId, addResidentDetailsRequest.UserType)
     }
 
