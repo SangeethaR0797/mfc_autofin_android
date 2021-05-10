@@ -413,8 +413,9 @@ public open class BaseFragment : Fragment() {
                 R.layout.layout_progress_dialog,
                 setCancellationOnTouchOutside = false
             )
-            alertDialog!!.show()
+
         }
+        alertDialog!!.show()
         hideSoftKeyboard()
         return alertDialog!!
     }
