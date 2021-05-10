@@ -50,6 +50,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
     private var param1: String? = null
     private var param2: String? = null
     lateinit var ivBack: ImageView
+    lateinit var scrollView1: ScrollView
     lateinit var tvTitle: TextView
     lateinit var tvSelectedText: TextView
     lateinit var tvVehiclePriceInWords: TextView
@@ -109,7 +110,12 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                     )
                 })
     }
-
+    fun scrollToBottom(nextView: View) {
+        scrollView1.post {
+            // scrollView1.fullScroll(View.FOCUS_DOWN)
+            scrollView1.scrollTo(0, nextView.top);
+        }
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.v2_fragment_veh_make, container, false)
@@ -121,6 +127,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
         }
 
         ivBack = view.findViewById(R.id.iv_back)
+        scrollView1 = view.findViewById(R.id.scrollView1)
         tvTitle = view.findViewById(R.id.tv_title)
         tvSelectedText = view.findViewById(R.id.tv_selected_text)
 
@@ -150,10 +157,10 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
         etPrice = view.findViewById(R.id.et_price)
         etVehicleNumber = view.findViewById(R.id.et_vehicle_number)
 
-        tvTitle.text = addLeadRequest.Data?.vehicleDetails?.Make
-        tvSelectedText.text = "" + addLeadRequest.Data?.vehicleDetails?.RegistrationYear + "-" + addLeadRequest.Data?.vehicleDetails?.Make + "-" + addLeadRequest.Data?.vehicleDetails?.Model + "-" + addLeadRequest.Data?.vehicleDetails?.Variant
+        tvTitle.text = addLeadRequest.Data?.addLeadVehicleDetails?.Make
+        tvSelectedText.text = "" + addLeadRequest.Data?.addLeadVehicleDetails?.RegistrationYear + "-" + addLeadRequest.Data?.addLeadVehicleDetails?.Make + "-" + addLeadRequest.Data?.addLeadVehicleDetails?.Model + "-" + addLeadRequest.Data?.addLeadVehicleDetails?.Variant
         addEvent()
-        if (addLeadRequest?.Data?.vehicleDetails?.Ownership == null || addLeadRequest?.Data?.vehicleDetails?.KMs == null || addLeadRequest?.Data?.vehicleDetails?.FuelType == null) {
+        if (addLeadRequest?.Data?.addLeadVehicleDetails?.Ownership == null || addLeadRequest?.Data?.addLeadVehicleDetails?.KMs == null || addLeadRequest?.Data?.addLeadVehicleDetails?.FuelType == null) {
             llKilometresDriven.visibility = View.GONE
             llFuleType.visibility = View.GONE
             llVehiclePrice.visibility = View.GONE
@@ -178,20 +185,21 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
 
         btnNext.setOnClickListener(View.OnClickListener {
             hideSoftKeyboard()
-            if (addLeadRequest.Data?.vehicleDetails?.VehicleSellingPrice == null) {
+            if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice == null) {
                 llPrice.setBackgroundResource(R.drawable.v2_error_input_bg)
                 etPrice.setTextColor(resources.getColor(R.color.error_red))
                 tvVehiclePriceErrorMessage.visibility = View.VISIBLE
                 tvVehiclePriceErrorMessage.text = ("Please enter price details.")
-            } else if (addLeadRequest.Data?.vehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(View.GONE)) {
+            } else if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(View.GONE)) {
                 llVehicleNumber.visibility = View.VISIBLE
-            } else if (addLeadRequest.Data?.vehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(View.VISIBLE)) {
+                scrollToBottom(llVehicleNumber)
+            } else if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(View.VISIBLE)) {
                 llAddVehicleNumber.setBackgroundResource(R.drawable.v2_error_input_bg)
                 etVehicleNumber.setTextColor(resources.getColor(R.color.error_red))
                 tvVehicleNumberErrorMessage.visibility = View.VISIBLE
                 tvVehicleNumberErrorMessage.text = ("Please enter vehicle registration No.")
 
-            } else if (addLeadRequest.Data?.vehicleDetails?.VehicleNumber != null && !isValidVehicleRegNo(addLeadRequest.Data?.vehicleDetails?.VehicleNumber!!)) {
+            } else if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber != null && !isValidVehicleRegNo(addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber!!)) {
 
                 llAddVehicleNumber.setBackgroundResource(R.drawable.v2_error_input_bg)
                 etVehicleNumber.setTextColor(resources.getColor(R.color.error_red))
@@ -222,7 +230,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                     timer!!.cancel();
 
                 }
-                if (!unformatAmount(etPrice.text.toString()).equals(addLeadRequest.Data?.vehicleDetails?.VehicleSellingPrice) || TextUtils.isEmpty(etPrice.text.toString()) || TextUtils.isEmpty(addLeadRequest.Data?.vehicleDetails?.VehicleSellingPrice)) {
+                if (!unformatAmount(etPrice.text.toString()).equals(addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice) || TextUtils.isEmpty(etPrice.text.toString()) || TextUtils.isEmpty(addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice)) {
                     allowEdit = true
                 }
                 if (allowEdit == true) {
@@ -231,10 +239,10 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                         override fun run() {
 
                             if (TextUtils.isEmpty(etPrice.text)) {
-                                addLeadRequest.Data?.vehicleDetails?.VehicleSellingPrice = null
+                                addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice = null
                             } else {
 
-                                addLeadRequest.Data?.vehicleDetails?.VehicleSellingPrice = unformatAmount(etPrice.text.toString())
+                                addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice = unformatAmount(etPrice.text.toString())
                             }
                             allowEdit = false
                             ThreadUtils.runOnUiThread(Runnable {
@@ -273,9 +281,9 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
 
             override fun afterTextChanged(s: Editable) {
                 if (TextUtils.isEmpty(etVehicleNumber.text)) {
-                    addLeadRequest.Data?.vehicleDetails?.VehicleNumber = null
+                    addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber = null
                 } else {
-                    addLeadRequest.Data?.vehicleDetails?.VehicleNumber = etVehicleNumber.text.toString()
+                    addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber = etVehicleNumber.text.toString()
                 }
             }
         })
@@ -301,8 +309,9 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                     run {
                         if (index == position) {
                             item.selected = true
-                            addLeadRequest.Data?.vehicleDetails?.Ownership = item.value?.toInt()
+                            addLeadRequest.Data?.addLeadVehicleDetails?.Ownership = item.value?.toInt()
                             llKilometresDriven.visibility = View.VISIBLE
+                            scrollToBottom(llKilometresDriven)
                         } else {
                             item.selected = false
                         }
@@ -342,8 +351,9 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                         if (index == position) {
                             item.selected = true
                             llVehiclePrice.visibility = View.VISIBLE
+                            scrollToBottom(llVehiclePrice)
                             btnNext.visibility = View.VISIBLE
-                            addLeadRequest.Data?.vehicleDetails?.FuelType = item.value
+                            addLeadRequest.Data?.addLeadVehicleDetails?.FuelType = item.value
                         } else {
                             item.selected = false
                         }
@@ -398,7 +408,8 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                         if (index == position) {
                             item.selected = true
                             llFuleType.visibility = View.VISIBLE
-                            addLeadRequest?.Data?.vehicleDetails?.KMs = item.value
+                            scrollToBottom(llFuleType)
+                            addLeadRequest?.Data?.addLeadVehicleDetails?.KMs = item.value
                         } else {
                             item.selected = false
                         }
@@ -420,9 +431,9 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
     }
 
     fun setLastSelectedData() {
-        if (addLeadRequest?.Data?.vehicleDetails?.Ownership != null) {
+        if (addLeadRequest?.Data?.addLeadVehicleDetails?.Ownership != null) {
             ownershipDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
-                if (addLeadRequest?.Data?.vehicleDetails?.Ownership?.toString().equals(dataSelectionDTO.value) == true) {
+                if (addLeadRequest?.Data?.addLeadVehicleDetails?.Ownership?.toString().equals(dataSelectionDTO.value) == true) {
                     dataSelectionDTO.selected = true
                 } else {
                     dataSelectionDTO.selected = false
@@ -430,9 +441,9 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
             }
             ownershipDetailsAdapter.notifyDataSetChanged()
         }
-        if (addLeadRequest?.Data?.vehicleDetails?.KMs != null) {
+        if (addLeadRequest?.Data?.addLeadVehicleDetails?.KMs != null) {
             kmsDrivenAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
-                if (addLeadRequest?.Data?.vehicleDetails?.KMs?.equals(dataSelectionDTO.value) == true) {
+                if (addLeadRequest?.Data?.addLeadVehicleDetails?.KMs?.equals(dataSelectionDTO.value) == true) {
                     dataSelectionDTO.selected = true
                 } else {
                     dataSelectionDTO.selected = false
@@ -440,9 +451,9 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
             }
             kmsDrivenAdapter.notifyDataSetChanged()
         }
-        if (addLeadRequest?.Data?.vehicleDetails?.FuelType != null) {
+        if (addLeadRequest?.Data?.addLeadVehicleDetails?.FuelType != null) {
             fuleDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
-                if (addLeadRequest?.Data?.vehicleDetails?.FuelType?.equals(dataSelectionDTO.value) == true) {
+                if (addLeadRequest?.Data?.addLeadVehicleDetails?.FuelType?.equals(dataSelectionDTO.value) == true) {
                     dataSelectionDTO.selected = true
                 } else {
                     dataSelectionDTO.selected = false

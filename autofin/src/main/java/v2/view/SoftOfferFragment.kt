@@ -1,5 +1,9 @@
 package v2.view
 
+import android.annotation.SuppressLint
+import android.graphics.Color
+import android.graphics.drawable.VectorDrawable
+import android.media.Image
 import android.app.Activity
 import android.os.Build
 import android.os.Bundle
@@ -93,7 +97,8 @@ class SoftOfferFragment : BaseFragment() {
         return view
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
+    @SuppressLint("NewApi")
     private fun initViews(view: View?) {
         if (view != null) {
             ivBackToRedDetails = view.findViewById(R.id.ivBackToRedDetails)

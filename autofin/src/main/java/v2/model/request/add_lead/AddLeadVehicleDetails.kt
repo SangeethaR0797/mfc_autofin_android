@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class VehicleDetails(
+class AddLeadVehicleDetails(
 
         @SerializedName("RegistrationYear") public var RegistrationYear: Int? = null,
         @SerializedName("Make") public var Make: String? = null,
