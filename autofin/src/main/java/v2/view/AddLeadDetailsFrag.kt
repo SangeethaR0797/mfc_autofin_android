@@ -21,8 +21,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.mfc.autofin.framework.R
-import kotlinx.android.synthetic.main.activity_basic_details.*
-import kotlinx.android.synthetic.main.layout_additional_fields_row_item.*
 import kotlinx.android.synthetic.main.v2_reg_name_email_layout.*
 import kotlinx.android.synthetic.main.vtwo_mobile_num_layout.*
 import utility.CommonStrings
@@ -43,7 +41,6 @@ import v2.view.base.BaseFragment
 import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.callBackInterface.itemClickCallBack
 import v2.view.utility_view.GridItemDecoration
-import v2.view.utility_view.WebViewActivity
 import java.util.*
 
 
