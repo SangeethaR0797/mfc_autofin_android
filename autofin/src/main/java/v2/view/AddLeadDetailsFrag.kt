@@ -49,7 +49,6 @@ import v2.view.utility_view.GridItemDecoration
 import java.util.*
 
 
-@Suppress("IMPLICIT_CAST_TO_ANY")
 public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
@@ -731,7 +730,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
 
             override fun onFinish() {
-                tvOTPTimerV2.setText("0 Sec")
+                tvOTPTimerV2.text = "0 Sec"
                 timer.cancel()
                 if (!onClickNext) {
                     showToast("Your OTP got expired, Please click on Resend OTP to get the new one.")
@@ -1205,7 +1204,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                         if (cbTermsAndConditions.isChecked) {
                             onClickNext = true
-                            timer.onFinish()
+                            //timer.onFinish()
                             //Validate OTP and Validate Lead
                             validateOTP()
                         } else
@@ -1976,15 +1975,16 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         etOTPV2.setText(otpResponse.data)
 
                     }
+                    if(tvOTPTimerV2.equals(getString(R.string.otp_timer_hint)))
+                        enableTimer()
+                    else
+                    {
+                        timer.cancel()
+                        enableTimer()
+                    }
+
                 }
 
-                if(tvOTPTimerV2.equals(getString(R.string.otp_timer_hint)))
-                enableTimer()
-                else
-                {
-                    timer.cancel()
-                    enableTimer()
-                }
 
                 hideProgressDialog()
             } catch (e: Exception) {
