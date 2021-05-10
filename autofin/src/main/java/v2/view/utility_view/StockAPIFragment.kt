@@ -16,10 +16,9 @@ import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import v2.model.dto.AddLeadRequest
 import v2.model.request.add_lead.AddLeadData
-import v2.model.request.add_lead.VehicleDetails
+import v2.model.request.add_lead.AddLeadVehicleDetails
 import v2.model_view.StockAPIViewModel
 import v2.view.base.BaseFragment
-import v2.view.other_activity.VehBasicDetailsActivity
 
 class StockAPIFragment : BaseFragment(), View.OnClickListener {
 
@@ -76,7 +75,7 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
         tvVehDetailsDesc.text = vehDetailsDesVal
         tvVehRegNum.text = vehRegNo
 
-        val vehicleDetails=VehicleDetails()
+        val vehicleDetails=AddLeadVehicleDetails()
         vehicleDetails.Make=args.stockResArgs.ibbMake
         vehicleDetails.Model=args.stockResArgs.ibbModel
         vehicleDetails.Variant=args.stockResArgs.ibbVariant
@@ -88,7 +87,7 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
         vehicleDetails.VehicleSellingPrice=args.stockResArgs.vehicleSellingPrice
 
         val addLeadData=AddLeadData()
-        addLeadData.vehicleDetails=vehicleDetails
+        addLeadData.addLeadVehicleDetails=vehicleDetails
 
         addLeadRequest.Data=addLeadData
         //addLeadRequest.Data?.vehicleDetails=addLeadData.vehicleDetails

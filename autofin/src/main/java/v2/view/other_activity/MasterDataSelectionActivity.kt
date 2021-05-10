@@ -1,6 +1,5 @@
 package v2.view.other_activity
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -17,18 +16,14 @@ import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
 
-import v2.model.dto.AddLeadRequest
 import v2.model.dto.DataSelectionDTO
 
 import v2.model.request.Get_IBB_MasterDetailsRequest
-import v2.model.request.add_lead.AddLeadData
-import v2.model.request.add_lead.VehicleDetails
 import v2.model.response.BankListResponse
 import v2.model.response.Get_IBB_MasterDetailsResponse
 import v2.model_view.IBB.IBB_MasterViewModel
 import v2.model_view.MasterViewModel
 import v2.service.utility.ApiResponse
-import v2.view.adapter.DataRecyclerViewAdapter
 import v2.view.adapter.MasterDataRecyclerViewAdapter
 import v2.view.callBackInterface.itemClickCallBack
 import java.util.ArrayList

@@ -24,7 +24,7 @@ import utility.Global
 import v2.model.dto.AddLeadRequest
 import v2.model.request.Get_IBB_MasterDetailsRequest
 import v2.model.request.add_lead.AddLeadData
-import v2.model.request.add_lead.VehicleDetails
+import v2.model.request.add_lead.AddLeadVehicleDetails
 import v2.model.response.Get_IBB_MasterDetailsResponse
 import v2.model_view.IBB.IBB_MasterViewModel
 import v2.service.utility.ApiResponse
@@ -244,7 +244,7 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
             //Call Back Result
 
             var vehicleAddUpdateDTO = AddLeadRequest()
-            var vehicleDetails = VehicleDetails()
+            var vehicleDetails = AddLeadVehicleDetails()
 
             vehicleDetails!!.RegistrationYear = mSelectedYear.toInt()
             vehicleDetails!!.Make = mSelectedMake
@@ -252,7 +252,7 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
             vehicleDetails!!.Variant = mSelectedVariant
             var data = AddLeadData()
 
-            data!!.vehicleDetails = vehicleDetails
+            data!!.addLeadVehicleDetails = vehicleDetails
             vehicleAddUpdateDTO.Data = data
             val intent = Intent()
             intent.putExtra(CommonStrings.VEHICLE_DATA, vehicleAddUpdateDTO)
