@@ -31,6 +31,9 @@ import v2.model.request.*
 import v2.model.request.add_lead.AddLeadData
 import v2.model.request.add_lead.AddLeadVehicleDetails
 import v2.model.request.add_lead.BasicDetails
+import v2.model.request.update.LeadBasicBasicDetails
+import v2.model.request.update.LeadUpdateData
+import v2.model.request.update.UpdateLeadBasicDetailsRequest
 import v2.model.response.*
 import v2.model.response.master.MasterResponse
 import v2.model.response.master.Types
@@ -203,6 +206,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         transactionViewModel.getAddLeadLiveData()
             .observe(requireActivity(), { mApiResponse: ApiResponse? ->
                 onAddLead(
+                    mApiResponse!!
+                )
+            })
+        transactionViewModel.getUpdateLeadBasicDetailsLiveData()
+            .observe(requireActivity(), { mApiResponse: ApiResponse? ->
+                onUpdateAddLeadBasicDetails(
                     mApiResponse!!
                 )
             })
@@ -782,6 +791,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         )
     }
 
+    private fun callUpdateAddLeadBasicDetailsAPIApi() {
+        transactionViewModel.updateLeadBasicDetails(
+            getUpdateLeadBasicDetailsRequest(),
+            Global.customerAPI_BaseURL + CommonStrings.UPDATE_LEAD_BASIC_DETAILS_URL_END
+        )
+    }
+
     private fun callAddEmploymentDetails() {
         transactionViewModel.addEmploymentDetails(
             addEmploymentDetailsRequest,
@@ -898,7 +914,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 etWorkExpriance.setTextColor(resources.getColor(R.color.vtwo_black))
                 if (TextUtils.isEmpty(etWorkExpriance.text)) {
                     addEmploymentDetailsRequest!!.Data!!.employmentDetails!!.TotalWorkExperience =
-                        null
+                        "0"
                 } else {
                     addEmploymentDetailsRequest!!.Data!!.employmentDetails!!.TotalWorkExperience =
                         etWorkExpriance.text.toString()
@@ -1305,7 +1321,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         if (!addLeadRequest.hashCode()
                                 .equals(previousAddLeadRequest.hashCode())
                         ) {
-                            showToast("Update Lead need to call")
+                            callUpdateAddLeadBasicDetailsAPIApi()
                         }
 
                         if (!addEmploymentDetailsRequest.hashCode()
@@ -1512,7 +1528,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                 bankName
                             llWorkExpriance.visibility = View.VISIBLE
                             tvBankTitle.setText(getString(R.string.salary_bank_account))
-                            if (customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience != null) {
+                            if (customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience != null && customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience!!.toInt()>0) {
                                 etWorkExpriance.setText(customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience!!)
                             }
                             //More than one year in same org
@@ -1845,6 +1861,27 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     private fun getCustomerRequest(): CustomerRequest {
         val resetJourney = ResetCustomerJourneyDataRequest(validateLeadDataRes.oldCustomerId)
         return CustomerRequest(resetJourney, CommonStrings.DEALER_ID, CommonStrings.USER_TYPE)
+    }
+
+    private fun getUpdateLeadBasicDetailsRequest(): UpdateLeadBasicDetailsRequest {
+        val updateLeadBasicDetailsRequest = UpdateLeadBasicDetailsRequest()
+        if (addLeadRequest.Data!!.basicDetails != null) {
+            val leadUpdateData = LeadUpdateData(
+                customerId.toInt(),
+                LeadBasicBasicDetails(
+                    addLeadRequest.Data!!.basicDetails!!.Email,
+                    addLeadRequest.Data!!.basicDetails!!.FirstName,
+                    addLeadRequest.Data!!.basicDetails!!.LastName,
+                    addLeadRequest.Data!!.basicDetails!!.Salutation
+                )
+            )
+
+            updateLeadBasicDetailsRequest.Data = leadUpdateData
+            updateLeadBasicDetailsRequest.UserType = CommonStrings.USER_TYPE
+            updateLeadBasicDetailsRequest.UserId = CommonStrings.DEALER_ID
+        }
+
+        return updateLeadBasicDetailsRequest
     }
 
     private fun getValidateLeadReq(): ValidateLeadRequest {
@@ -2261,6 +2298,35 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 hideProgressDialog()
 
                 val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
+            }
+            else -> {
+                showToast("Please enter valid details")
+            }
+        }
+
+    }
+
+    private fun onUpdateAddLeadBasicDetails(mApiResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+                createRequestCloneOfAddLead()
+                val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
+                if (addLeadResponse?.statusCode.equals("200") || addLeadResponse?.mData!! > 0) {
+                    customerId = addLeadResponse?.mData.toString()
+                    showToast(addLeadResponse!!.message.toString())
+                }
+                showToast(addLeadResponse?.message.toString())
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+
+
             }
             else -> {
                 showToast("Please enter valid details")
