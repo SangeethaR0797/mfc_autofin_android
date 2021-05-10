@@ -471,6 +471,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             addLeadBasicDetails!!.LastName = addLeadRequest.Data!!.basicDetails!!.LastName
             addLeadBasicDetails!!.Email = addLeadRequest.Data!!.basicDetails!!.Email
             addLeadBasicDetails!!.Salutation = addLeadRequest.Data!!.basicDetails!!.Salutation
+            addLeadBasicDetails!!.CustomerMobile = addLeadRequest.Data!!.basicDetails!!.CustomerMobile
 
         }
         if (addLeadRequest.Data!!.addLeadVehicleDetails != null) {

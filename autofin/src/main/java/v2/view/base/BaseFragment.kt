@@ -69,14 +69,20 @@ public open class BaseFragment : Fragment() {
     }
 
 
-    public fun stringToDateString(value: String, sourceDateFormat: String, targetDateFormat: String): String {
+    public fun stringToDateString(
+        value: String,
+        sourceDateFormat: String,
+        targetDateFormat: String
+    ): String {
         val date = SimpleDateFormat(sourceDateFormat).parse(value)
         return SimpleDateFormat(targetDateFormat).format(date)
     }
 
     val dateSetListener = object : DatePickerDialog.OnDateSetListener {
-        override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int,
-                               dayOfMonth: Int) {
+        override fun onDateSet(
+            view: DatePicker, year: Int, monthOfYear: Int,
+            dayOfMonth: Int
+        ) {
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, monthOfYear)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -92,7 +98,12 @@ public open class BaseFragment : Fragment() {
         }
     }
 
-    public fun callDatePickerDialog(lastSelectedDateValue: String?, minDate: Date?, maxDate: Date?, datepickerCallBack: DatePickerCallBack) {
+    public fun callDatePickerDialog(
+        lastSelectedDateValue: String?,
+        minDate: Date?,
+        maxDate: Date?,
+        datepickerCallBack: DatePickerCallBack
+    ) {
         datePickerCallBack = datepickerCallBack
         var d: Int? = cal.get(Calendar.DAY_OF_MONTH)
         var m: Int? = cal.get(Calendar.MONTH)
@@ -189,7 +200,11 @@ public open class BaseFragment : Fragment() {
 
     public fun formatVehNum(regNo: String): String {
         val separator = "-"
-        var formattedRegNum = regNo.substring(0, 2) + separator + regNo.substring(2, 4) + separator + regNo.substring(4, 6) + separator + regNo.substring(6, 10)
+        var formattedRegNum =
+            regNo.substring(0, 2) + separator + regNo.substring(2, 4) + separator + regNo.substring(
+                4,
+                6
+            ) + separator + regNo.substring(6, 10)
         return formattedRegNum
     }
 
@@ -205,7 +220,10 @@ public open class BaseFragment : Fragment() {
     }
 
     public fun navigateToStockResFrag(stockDetails: StockDetails) {
-        val stockDirection = VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToStockAPIFragment(stockDetails)
+        val stockDirection =
+            VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToStockAPIFragment(
+                stockDetails
+            )
         view?.let {
             Navigation.findNavController(it).navigate(stockDirection)
         }
@@ -223,7 +241,10 @@ public open class BaseFragment : Fragment() {
     }
 
     public fun navigateToAddOrUpdateVehicleDetails(addLeadRequest: AddLeadRequest) {
-        val directions = VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(addLeadRequest!!)
+        val directions =
+            VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(
+                addLeadRequest!!
+            )
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }
@@ -232,30 +253,41 @@ public open class BaseFragment : Fragment() {
 
     public fun navigateToMobileNumber() {
         view?.let {
-            Navigation.findNavController(it).navigate(R.id.action_addOrUpdateVehicleDetailsMakeFrag_to_addLeadDetailsFrag)
+            Navigation.findNavController(it)
+                .navigate(R.id.action_addOrUpdateVehicleDetailsMakeFrag_to_addLeadDetailsFrag)
         }
     }
 
     public fun navigateToAddLeadFragment(addLeadRequest: AddLeadRequest) {
-        val directions = AddOrUpdateVehicleDetailsMakeFragDirections.actionAddOrUpdateVehicleDetailsMakeFragToAddLeadDetailsFrag(addLeadRequest!!)
+        val directions =
+            AddOrUpdateVehicleDetailsMakeFragDirections.actionAddOrUpdateVehicleDetailsMakeFragToAddLeadDetailsFrag(
+                addLeadRequest!!
+            )
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }
     }
 
     public fun stockToAddLeadFragment(addLeadRequest: AddLeadRequest) {
-        val directions = StockAPIFragmentDirections.actionStockAPIFragmentToAddLeadDetailsFrag(addLeadRequest!!)
+        val directions =
+            StockAPIFragmentDirections.actionStockAPIFragmentToAddLeadDetailsFrag(addLeadRequest!!)
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }
     }
 
 
- public fun navToSoftOffer(customerDetailsResponse:CustomerDetailsResponse,customerId:String) {
-     val directions = AddLeadDetailsFragDirections.actionAddLeadDetailsFragToSoftOfferFragment2(customerDetailsResponse!!,customerId)
-     view?.let {
-         Navigation.findNavController(it).navigate(directions)
-     }
+    public fun navToSoftOffer(
+        customerDetailsResponse: CustomerDetailsResponse,
+        customerId: String
+    ) {
+        val directions = AddLeadDetailsFragDirections.actionAddLeadDetailsFragToSoftOfferFragment2(
+            customerDetailsResponse!!,
+            customerId
+        )
+        view?.let {
+            Navigation.findNavController(it).navigate(directions)
+        }
     }
 
     public fun openWebViewActivity(title: String?, url: String?) {
@@ -278,7 +310,10 @@ public open class BaseFragment : Fragment() {
               toast.show()*/
 
             val inflater = layoutInflater!!
-            val layout: View = inflater.inflate(R.layout.v2_toast_layout, activity?.findViewById(R.id.toast_layout_root) as ViewGroup?)
+            val layout: View = inflater.inflate(
+                R.layout.v2_toast_layout,
+                activity?.findViewById(R.id.toast_layout_root) as ViewGroup?
+            )
 
             val image: ImageView = layout.findViewById<View>(R.id.image) as ImageView
             // image.visibility = View.GONE
@@ -301,9 +336,11 @@ public open class BaseFragment : Fragment() {
         try {
             if (activity?.currentFocus != null) {
                 val inputMethodManager = activity?.getSystemService(
-                        Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                    Activity.INPUT_METHOD_SERVICE
+                ) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(
-                        activity?.currentFocus!!.windowToken, 0)
+                    activity?.currentFocus!!.windowToken, 0
+                )
             } else {
                 activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
             }
@@ -315,9 +352,11 @@ public open class BaseFragment : Fragment() {
         try {
             if (view != null) {
                 val inputMethodManager = activity?.getSystemService(
-                        Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                    Activity.INPUT_METHOD_SERVICE
+                ) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(
-                        view.windowToken, 0)
+                    view.windowToken, 0
+                )
             } else {
                 activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
             }
@@ -350,23 +389,32 @@ public open class BaseFragment : Fragment() {
     // Progress Dialog region starts
 
     private fun getAlertDialog(
-            context: Context,
-            layout: Int,
-            setCancellationOnTouchOutside: Boolean
+        context: Context,
+        layout: Int,
+        setCancellationOnTouchOutside: Boolean
     ): AlertDialog {
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
         val customLayout: View =
-                layoutInflater.inflate(layout, null)
+            layoutInflater.inflate(layout, null)
         builder.setView(customLayout)
         val dialog = builder.create()
         dialog.setCanceledOnTouchOutside(setCancellationOnTouchOutside)
-        dialog!!.getWindow()!!.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        dialog!!.getWindow()!!.setLayout(
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
         return dialog
     }
 
     fun showProgressDialog(context: Context): AlertDialog {
-        alertDialog = getAlertDialog(context, R.layout.layout_progress_dialog, setCancellationOnTouchOutside = false)
-        alertDialog!!.show()
+        if (alertDialog == null) {
+            alertDialog = getAlertDialog(
+                context,
+                R.layout.layout_progress_dialog,
+                setCancellationOnTouchOutside = false
+            )
+            alertDialog!!.show()
+        }
         hideSoftKeyboard()
         return alertDialog!!
     }
