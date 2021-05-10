@@ -46,6 +46,7 @@ import v2.view.utility_view.GridItemDecoration
 import java.util.*
 
 
+@Suppress("IMPLICIT_CAST_TO_ANY")
 public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
@@ -385,7 +386,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         val span2: ClickableSpan = object : ClickableSpan() {
             override fun onClick(textView: View) {
-                openWebViewActivity("Privacy And Policy", CommonStrings.PRIVACY_AND_POLICY_URL)
+                openWebViewActivity("Privacy Policy", CommonStrings.PRIVACY_AND_POLICY_URL)
             }
         }
         ss.setSpan(span1, 15, 35, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -594,7 +595,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     private fun sendOTP() {
-        if (etMobileNumberV2.text.length == 10) {
+        if (etMobileNumberV2.text.length == 10 && validMobileNum()) {
 
             transactionViewModel!!.generateOTP(
                 getOtpRequest(
@@ -619,6 +620,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
         }
+    }
+
+    private fun validMobileNum(): Boolean {
+        val mobNum=etMobileNumberV2.text.toString()
+        return mobNum[0]=='6' || mobNum[0]=='7' ||mobNum[0]=='8' ||mobNum[0]=='9'
     }
 
     private fun validateOTP() {
@@ -1846,7 +1852,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     }
                 }
 
+                if(tvOTPTimerV2.equals(getString(R.string.otp_timer_hint)))
                 enableTimer()
+                else
+                {
+                    timer.cancel()
+                    enableTimer()
+                }
+
                 hideProgressDialog()
             } catch (e: Exception) {
 
