@@ -60,7 +60,7 @@ data class EmploymentDetails(
         var netAnualIncome: Double?,
         var primaryAccount: String?,
         var salaryAccount: String?,
-        var totalWorkExperience: String?
+        var totalWorkExperience: String?="0"
 ) : Parcelable
 
 @Parcelize

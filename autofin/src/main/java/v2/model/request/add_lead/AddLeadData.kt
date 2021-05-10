@@ -6,7 +6,7 @@ import kotlinx.android.parcel.Parcelize
 
 
 @Parcelize
-public class AddLeadData(
+public data class AddLeadData(
         @SerializedName("basicDetails") public var basicDetails: BasicDetails? = null,
         @SerializedName("vehicleDetails") public var addLeadVehicleDetails: AddLeadVehicleDetails? = null
 ) : Parcelable

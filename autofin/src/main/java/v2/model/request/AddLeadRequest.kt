@@ -6,7 +6,7 @@ import kotlinx.android.parcel.Parcelize
 import v2.model.request.add_lead.AddLeadData
 
 @Parcelize
-public class AddLeadRequest(
+public data class AddLeadRequest(
 
         @SerializedName("UserId") public var UserId: String? = null,
         @SerializedName("UserType") public var UserType: String? = null,
