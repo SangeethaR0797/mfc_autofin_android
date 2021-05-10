@@ -2055,9 +2055,21 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                     llAccoutDetailsSection.visibility = View.VISIBLE
                                     tvBankTitle.setText(getString(R.string.primary_bank_account))
 
+                                    if(addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount!!.isNotEmpty())
+                                    {
+                                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount= addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount
+                                    }
+                                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount=null
+
                                 } else {
                                     llWorkExpriance.visibility = View.VISIBLE
                                     tvBankTitle.setText(getString(R.string.salary_bank_account))
+
+                                    if(addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount!!.isNotEmpty())
+                                    {
+                                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount= addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount
+                                    }
+                                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount=null
                                 }
 
                             } else {
