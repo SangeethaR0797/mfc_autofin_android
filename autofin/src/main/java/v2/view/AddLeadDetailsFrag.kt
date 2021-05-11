@@ -2418,7 +2418,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     private fun onResetJourney(mAPIResponse: ApiResponse) {
-        parseCommonResponse(mApiResponse)
+        parseCommonResponse(mAPIResponse)
         when (mAPIResponse.status) {
             ApiResponse.Status.LOADING -> {
                 showProgressDialog(requireContext())
