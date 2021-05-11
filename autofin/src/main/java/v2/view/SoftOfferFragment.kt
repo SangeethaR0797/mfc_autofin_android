@@ -1,18 +1,13 @@
 package v2.view
 
 import android.annotation.SuppressLint
-import android.graphics.Color
-import android.graphics.drawable.VectorDrawable
-import android.media.Image
 import android.app.Activity
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -88,8 +83,10 @@ class SoftOfferFragment : BaseFragment() {
         arguments?.let {
             val safeArgs = SoftOfferFragmentArgs.fromBundle(it)
             customerDetailsResponse = safeArgs.CustomerDetails
-            caseID= customerDetailsResponse.data?.caseId.toString()
-            customerId = safeArgs.customerId
+           // caseID= customerDetailsResponse.data?.caseId.toString()
+            caseID="1127743555"
+           // customerId = safeArgs.customerId
+            customerId="448"
         }
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             initViews(view)
@@ -172,7 +169,7 @@ class SoftOfferFragment : BaseFragment() {
     }
 
     private fun getBankRequest(): BankOffersForApplicationRequest {
-        val leadApplicationData = LeadApplicationData(caseID, customerId, loanAmount.toInt(), loanTenure.toInt())
+        val leadApplicationData = LeadApplicationData(caseID, customerId, loanAmount.toInt(), loanTenure.toInt()*12)
         return BankOffersForApplicationRequest(leadApplicationData, CommonStrings.DEALER_ID, CommonStrings.USER_TYPE)
     }
 
@@ -246,6 +243,7 @@ class SoftOfferFragment : BaseFragment() {
             }
             ApiResponse.Status.SUCCESS -> {
                 val bankOfferRes: SelectRecommendedBankOfferResponse? = apiResponse.data as SelectRecommendedBankOfferResponse?
+                showToast(bankOfferRes?.message.toString())
                 Log.i("TAG", "onBankResponse: " + bankOfferRes?.message)
 
             }
@@ -262,11 +260,12 @@ class SoftOfferFragment : BaseFragment() {
 
 
     private fun callSetRecommendedBank(item: Any?) {
-        val bankOfferData = item
 
-       // val bankOfferData = BankOfferData(caseID, customerId, )
-        val bankOffersForApplicationRequest = SelectRecommendedBankOfferRequest(bankOfferData as BankOfferData?, CommonStrings.DEALER_ID, CommonStrings.USER_TYPE)
-        bankOffersForApplicationRequest.Data = bankOfferData
+        // val bankOfferData = BankOfferData(caseID, customerId, )
+
+        val bankId=item
+        val bankOffersData=BankOfferData(caseID,customerId, bankId.toString())
+        val bankOffersForApplicationRequest = SelectRecommendedBankOfferRequest(bankOffersData, CommonStrings.DEALER_ID, CommonStrings.USER_TYPE)
         bankViewModel.setSelectRecommendedBankOffer(bankOffersForApplicationRequest, Global.customer_bank_baseURL + "select-recommended-bank")
     }
 

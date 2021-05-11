@@ -38,7 +38,7 @@ public class SoftOfferAdapter(var context:Activity, var list: List<BankOffersDat
         holder.tvApplyNow.setOnClickListener(View.OnClickListener
         {
             Toast.makeText(context,"Developement under progress",Toast.LENGTH_SHORT).show()
-            itemCallBack.itemClick(bankData, position)
+            itemCallBack.itemClick(bankData.bankId, position)
 
         })
         holder.tvEMIValV2.text=bankData.emi
