@@ -116,8 +116,8 @@ class SoftOfferFragment : BaseFragment() {
 
             buttonLoanDetailsSubmit = view.findViewById(R.id.buttonLoanDetailsSubmit)
 
-            skLoanAmount.min = loanAmountMinimum
-            skLoanAmount.max = loanAmountMaximum
+            tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + loanAmountMinimum
+            tvLoanTenureVal.text = "$loanTenureMinimum Years"
 
 
             skLoanAmount.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
