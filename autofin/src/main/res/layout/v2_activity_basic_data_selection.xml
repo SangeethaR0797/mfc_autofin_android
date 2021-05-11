@@ -163,7 +163,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center"
-
+        android:visibility="gone"
         android:text="@string/please_check_your_internet_connection"
         android:textAppearance="@style/RobotoLight"
         android:textStyle="italic"
