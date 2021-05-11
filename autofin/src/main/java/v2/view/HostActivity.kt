@@ -32,12 +32,23 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
     private var myConnectivityReceiver: ConnectivityReceiver? = null
 
     private fun broadcastIntent() {
+        myConnectivityReceiver = ConnectivityReceiver()
         registerReceiver(myConnectivityReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+    }
+
+    override fun onNetworkConnectionChanged(isConnected: Boolean) {
+        if (isConnected) {
+            tvConnectivityMessage!!.visibility = View.GONE
+        } else {
+            tvConnectivityMessage!!.visibility = View.VISIBLE
+        }
+
     }
 
     override fun onResume() {
         super.onResume()
         ConnectivityReceiver.connectivityReceiverListener = this@HostActivity
+        broadcastIntent()
     }
 
     override fun onPause() {
@@ -61,7 +72,7 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
         tvConnectivityMessage = findViewById(R.id.tv_connectivity_message)
 
         myConnectivityReceiver = ConnectivityReceiver()
-        broadcastIntent()
+
 
         CommonStrings.APP_NAME = intent.getStringExtra(AutoFinConstants.APP_NAME)
         CommonStrings.DEALER_ID = intent.getStringExtra(AutoFinConstants.DEALER_ID)
@@ -169,13 +180,5 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
         super.onBackPressed()
     }
 
-    override fun onNetworkConnectionChanged(isConnected: Boolean) {
-        if (isConnected) {
-            tvConnectivityMessage!!.visibility = View.GONE
-        }else{
-            tvConnectivityMessage!!.visibility = View.VISIBLE
-        }
-
-    }
 
 }

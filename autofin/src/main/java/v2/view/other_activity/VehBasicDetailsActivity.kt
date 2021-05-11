@@ -2,6 +2,8 @@ package v2.view.other_activity
 
 import android.app.Activity
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
@@ -28,11 +30,13 @@ import v2.model.request.add_lead.AddLeadVehicleDetails
 import v2.model.response.Get_IBB_MasterDetailsResponse
 import v2.model_view.IBB.IBB_MasterViewModel
 import v2.service.utility.ApiResponse
+import v2.utility.connectivity.ConnectivityReceiver
+import v2.utility.connectivity.ConnectivityReceiverListener
 import v2.view.adapter.StringDataRecyclerViewAdapter
 import v2.view.callBackInterface.itemClickCallBack
 
 
-class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
+class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack , ConnectivityReceiverListener {
     var mCurrentCalFor: String = ""
     var mSelectedYear: String = ""
 
@@ -48,10 +52,50 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack {
     lateinit var rvResult: RecyclerView
     lateinit var llProgress: LinearLayout
     var reviewAdapter: StringDataRecyclerViewAdapter? = null
+    var tvConnectivityMessage: TextView? = null
+
+    private var myConnectivityReceiver: ConnectivityReceiver? = null
+
+    private fun broadcastIntent() {
+        myConnectivityReceiver = ConnectivityReceiver()
+        registerReceiver(myConnectivityReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        ConnectivityReceiver.connectivityReceiverListener = this@VehBasicDetailsActivity
+        broadcastIntent()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        try {
+            if (myConnectivityReceiver != null) {
+                unregisterReceiver(myConnectivityReceiver)
+                myConnectivityReceiver = null
+            }
+        } catch (e: Exception) {
+        }
+    }
+    override fun onNetworkConnectionChanged(isConnected: Boolean) {
+        if (isConnected) {
+            tvConnectivityMessage!!.visibility = View.GONE
+        }else{
+            tvConnectivityMessage!!.visibility = View.VISIBLE
+        }
+
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.v2_activity_basic_data_selection)
+
+        tvConnectivityMessage = findViewById(R.id.tv_connectivity_message)
+
+
+
+
         ivBack = findViewById(R.id.iv_back)
         tvSelectedText = findViewById(R.id.tv_selected_text)
         tvSelectLabel = findViewById(R.id.tv_select_label)
