@@ -37,7 +37,6 @@ public class SoftOfferAdapter(var context:Activity, var list: List<BankOffersDat
         holder.tvTenureValV2.text=bankData.tenure
         holder.tvApplyNow.setOnClickListener(View.OnClickListener
         {
-            Toast.makeText(context,"Developement under progress",Toast.LENGTH_SHORT).show()
             itemCallBack.itemClick(bankData.bankId, position)
 
         })

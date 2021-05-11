@@ -1,9 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/llBankOfferParent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/vtwo_pale_grey"
+    android:background="@color/pale_grey"
     android:orientation="vertical">
 
     <ScrollView
@@ -12,6 +11,7 @@
         android:fillViewport="true">
 
         <LinearLayout
+            android:id="@+id/llBankOfferParent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_weight="1"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:orientation="vertical">
 
                 <ImageView
@@ -62,8 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:visibility="visible"
-                android:background="@color/vtwo_black"
+                android:visibility="gone"
                 android:orientation="vertical"
                 android:paddingStart="@dimen/text_size_12dp"
                 android:paddingLeft="@dimen/text_size_12dp"

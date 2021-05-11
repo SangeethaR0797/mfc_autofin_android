@@ -84,7 +84,7 @@ class SoftOfferFragment : BaseFragment() {
             val safeArgs = SoftOfferFragmentArgs.fromBundle(it)
             customerDetailsResponse = safeArgs.CustomerDetails
            // caseID= customerDetailsResponse.data?.caseId.toString()
-            caseID="1127743555"
+            caseID="0242210316000103"
            // customerId = safeArgs.customerId
             customerId="448"
         }
@@ -190,7 +190,7 @@ class SoftOfferFragment : BaseFragment() {
 
     private fun enableCalculatorLayout() {
 
-        llBankOfferParent.setBackgroundResource(R.color.vtwo_pale_grey)
+        llBankOfferParent.setBackgroundResource(R.drawable.v2_soft_offer_bg)
         llSoftOfferDialog.visibility = View.GONE
         linearLayoutCalculation.visibility = View.VISIBLE
 
@@ -208,7 +208,6 @@ class SoftOfferFragment : BaseFragment() {
                         bankAdapter = SoftOfferAdapter(activity as Activity, bankOffersData!!, object : itemClickCallBack {
                             override fun itemClick(item: Any?, position: Int) {
                                 callSetRecommendedBank(item)
-                                showToast(":)")
                             }
 
                         })
@@ -217,6 +216,10 @@ class SoftOfferFragment : BaseFragment() {
 
                         this.recyclerViewBankOffer.adapter = bankAdapter
 
+                    }
+                    else
+                    {
+                        showToast("No Banks found")
                     }
 
                 } catch (ex: Exception) {
