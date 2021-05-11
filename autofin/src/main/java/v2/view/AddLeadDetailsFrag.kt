@@ -476,7 +476,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             addLeadBasicDetails!!.LastName = addLeadRequest.Data!!.basicDetails!!.LastName
             addLeadBasicDetails!!.Email = addLeadRequest.Data!!.basicDetails!!.Email
             addLeadBasicDetails!!.Salutation = addLeadRequest.Data!!.basicDetails!!.Salutation
-            addLeadBasicDetails!!.CustomerMobile = addLeadRequest.Data!!.basicDetails!!.CustomerMobile
+            addLeadBasicDetails!!.CustomerMobile =
+                addLeadRequest.Data!!.basicDetails!!.CustomerMobile
 
         }
         if (addLeadRequest.Data!!.addLeadVehicleDetails != null) {
@@ -651,8 +652,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     private fun validMobileNum(): Boolean {
-        val mobNum=etMobileNumberV2.text.toString()
-        return mobNum[0]=='6' || mobNum[0]=='7' ||mobNum[0]=='8' ||mobNum[0]=='9'
+        val mobNum = etMobileNumberV2.text.toString()
+        return mobNum[0] == '6' || mobNum[0] == '7' || mobNum[0] == '8' || mobNum[0] == '9'
     }
 
     private fun validateOTP() {
@@ -1539,7 +1540,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                 bankName
                             llWorkExpriance.visibility = View.VISIBLE
                             tvBankTitle.setText(getString(R.string.salary_bank_account))
-                            if (customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience != null && customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience!!.toInt()>0) {
+                            if (customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience != null && customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience!!.toInt() > 0) {
                                 etWorkExpriance.setText(customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience!!)
                             }
                             //More than one year in same org
@@ -1966,50 +1967,50 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     //endregion create Transaction request
 
     //region on Api Callback/Response
-    private fun onGenerateOTP(mApiResponse: ApiResponse) = when (mApiResponse.status) {
-        ApiResponse.Status.LOADING -> {
-            showProgressDialog(requireContext())
-        }
-        ApiResponse.Status.SUCCESS -> {
-            try {
-                hideProgressDialog()
-                val otpResponse: OTPResponse? = mApiResponse.data as OTPResponse?
-                if (otpResponse?.status!!) {
-                    ll_otp_v2.visibility = View.VISIBLE
-                    llTAndC.visibility = View.VISIBLE
-                    mobileNum = etMobileNumberV2.text.toString()
-                    if (!TextUtils.isEmpty(otpResponse.data)) {
-                        etOTPV2.setText(otpResponse.data)
+    private fun onGenerateOTP(mApiResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                try {
+                    hideProgressDialog()
+                    val otpResponse: OTPResponse? = mApiResponse.data as OTPResponse?
+                    if (otpResponse?.status!!) {
+                        ll_otp_v2.visibility = View.VISIBLE
+                        llTAndC.visibility = View.VISIBLE
+                        mobileNum = etMobileNumberV2.text.toString()
+                        if (!TextUtils.isEmpty(otpResponse.data)) {
+                            etOTPV2.setText(otpResponse.data)
+
+                        }
+                        if (tvOTPTimerV2.equals(getString(R.string.otp_timer_hint)))
+                            enableTimer()
+                        else {
+                            timer.cancel()
+                            enableTimer()
+                        }
 
                     }
-                    if(tvOTPTimerV2.equals(getString(R.string.otp_timer_hint)))
-                        enableTimer()
-                    else
-                    {
-                        timer.cancel()
-                        enableTimer()
-                    }
+
+
+                    hideProgressDialog()
+                } catch (e: Exception) {
 
                 }
-
-
+            }
+            ApiResponse.Status.ERROR -> {
+                showToast(mApiResponse.error?.message.toString())
                 hideProgressDialog()
-            } catch (e: Exception) {
-
             }
         }
-        ApiResponse.Status.ERROR -> {
-            showToast(mApiResponse.error?.message.toString())
-            hideProgressDialog()
-        }
-        else -> {
-            hideProgressDialog()
-            showToast("Please enter correct value")
-        }
+
     }
 
 
     private fun onValidateOTP(mApiResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
                 showProgressDialog(requireContext())
@@ -2036,6 +2037,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
     private fun onEmploymentTypeListDetails(mApiResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
             }
@@ -2076,21 +2078,23 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                     llAccoutDetailsSection.visibility = View.VISIBLE
                                     tvBankTitle.setText(getString(R.string.primary_bank_account))
 
-                                    if(addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount!!.isNotEmpty())
-                                    {
-                                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount= addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount
+                                    if (addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount!!.isNotEmpty()) {
+                                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount =
+                                            addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount
                                     }
-                                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount=null
+                                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount =
+                                        null
 
                                 } else {
                                     llWorkExpriance.visibility = View.VISIBLE
                                     tvBankTitle.setText(getString(R.string.salary_bank_account))
 
-                                    if(addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount!!.isNotEmpty())
-                                    {
-                                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount= addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount
+                                    if (addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount!!.isNotEmpty()) {
+                                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount =
+                                            addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount
                                     }
-                                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount=null
+                                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount =
+                                        null
                                 }
 
                             } else {
@@ -2110,6 +2114,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     //region onResidentType
     private fun onResidentType(mApiResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
             }
@@ -2164,6 +2169,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     //region onResident Years
     private fun onResidentYears(mApiResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
             }
@@ -2216,6 +2222,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     //endregion onResidentType
     private fun onCommonBanksResponse(mApiResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
             }
@@ -2263,6 +2270,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     private fun onResidentCityName(mApiResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
                 // showProgressDialog(requireContext())
@@ -2289,6 +2297,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
     private fun onSalutationRes(mApiResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
             }
@@ -2371,6 +2380,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
     private fun onValidateLead(mApiResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
             }
@@ -2408,6 +2418,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     private fun onResetJourney(mAPIResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
         when (mAPIResponse.status) {
             ApiResponse.Status.LOADING -> {
                 showProgressDialog(requireContext())
@@ -2471,6 +2482,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
     private fun onAddEmploymentDetails(mApiResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
                 showProgressDialog(requireContext())
@@ -2498,6 +2510,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     private fun onAddResidentDetails(mApiResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
                 showProgressDialog(requireContext())
