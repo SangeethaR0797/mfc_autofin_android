@@ -3,12 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-   >
+    android:layout_height="match_parent">
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/tv_connectivity_message"
         android:fitsSystemWindows="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,5 +29,20 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:navGraph="@navigation/app_navigation" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </RelativeLayout>
+
+    <TextView
+        android:padding="@dimen/text_size_4dp"
+        android:id="@+id/tv_connectivity_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:text="@string/please_check_your_internet_connection"
+        android:textAppearance="@style/RobotoLight"
+        android:textStyle="italic"
+        android:textColor="@color/error_red"
+        android:textSize="@dimen/text_size_16sp" />
+
 </RelativeLayout>
