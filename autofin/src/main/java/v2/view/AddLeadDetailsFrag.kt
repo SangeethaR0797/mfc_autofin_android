@@ -695,7 +695,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 addLeadRequest.Data?.basicDetails = basicDetails
                 addLeadRequest.UserType = CommonStrings.USER_TYPE
                 addLeadRequest.UserId = CommonStrings.DEALER_ID
-                showProgressDialog(requireContext())
+
 
                 callAddLeadApi()
 
@@ -835,7 +835,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     private fun resetJourney() {
-        showProgressDialog(requireContext())
+
         transactionViewModel.resetCustomerJourney(
             getCustomerRequest(),
             Global.customerAPI_BaseURL + CommonStrings.RESET_JOURNEY
@@ -1972,6 +1972,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         }
         ApiResponse.Status.SUCCESS -> {
             try {
+                hideProgressDialog()
                 val otpResponse: OTPResponse? = mApiResponse.data as OTPResponse?
                 if (otpResponse?.status!!) {
                     ll_otp_v2.visibility = View.VISIBLE
@@ -2011,6 +2012,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     private fun onValidateOTP(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
             }
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
@@ -2305,6 +2307,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         parseCommonResponse(mApiResponse)
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
             }
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
@@ -2407,6 +2410,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     private fun onResetJourney(mAPIResponse: ApiResponse) {
         when (mAPIResponse.status) {
             ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
             }
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
