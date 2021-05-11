@@ -84,12 +84,13 @@
 
     <TextView
         android:id="@+id/tv_mobile_num_hint"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="13dp"
         android:layout_marginBottom="5dp"
         android:text="@string/vtwo_otp_hint"
+        android:paddingRight="@dimen/text_size10dp"
         android:textAppearance="@style/RobotoRegular"
         android:textColor="@color/vtwo_light_grey"
         android:textSize="@dimen/text_size_14sp"

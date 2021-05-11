@@ -181,6 +181,7 @@ class MasterViewModel(application: Application) : BaseViewModel(application) {
 
     //region BankListDetails
     private val mBankListLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+
     public fun getBankListLiveData(): MutableLiveData<ApiResponse> {
         return mBankListLiveData
     }

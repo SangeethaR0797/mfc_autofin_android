@@ -47,7 +47,7 @@ import java.util.regex.Pattern
 
 
 public open class BaseFragment : Fragment() {
-    public var customerId = ""
+    var customerId = ""
     var alertDialog: AlertDialog? = null
 
     var cal = Calendar.getInstance()
