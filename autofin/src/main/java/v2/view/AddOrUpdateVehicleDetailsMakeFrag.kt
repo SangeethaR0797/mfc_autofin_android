@@ -375,6 +375,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
     }
 
     private fun onKmsDrivenResponse(mApiResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
             }
