@@ -1,5 +1,6 @@
 package v2.view
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
@@ -9,6 +10,7 @@ import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.util.Log
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -162,115 +164,115 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         super.onCreate(savedInstanceState)
 
         masterViewModel = ViewModelProvider(this).get(
-            MasterViewModel::class.java
+                MasterViewModel::class.java
         )
 
         transactionViewModel = ViewModelProvider(this).get(
-            TransactionViewModel::class.java
+                TransactionViewModel::class.java
         )
 
         masterViewModel.getSalutationsLiveData()
-            .observe(this, { mApiResponse: ApiResponse? ->
-                onSalutationRes(
-                    mApiResponse!!
-                )
-            })
+                .observe(this, { mApiResponse: ApiResponse? ->
+                    onSalutationRes(
+                            mApiResponse!!
+                    )
+                })
         masterViewModel.getEmploymentTypeLiveData()
-            .observe(this, { mApiResponse: ApiResponse? ->
-                onEmploymentTypeListDetails(
-                    mApiResponse!!
-                )
-            })
+                .observe(this, { mApiResponse: ApiResponse? ->
+                    onEmploymentTypeListDetails(
+                            mApiResponse!!
+                    )
+                })
 
         masterViewModel.getCommonBanksLiveData()
-            .observe(this, { mApiResponse: ApiResponse? ->
-                onCommonBanksResponse(
-                    mApiResponse!!
-                )
-            })
+                .observe(this, { mApiResponse: ApiResponse? ->
+                    onCommonBanksResponse(
+                            mApiResponse!!
+                    )
+                })
 
         transactionViewModel.getGenerateOTPLiveData()
-            .observe(requireActivity(), { mApiResponse: ApiResponse? ->
-                onGenerateOTP(
-                    mApiResponse!!
-                )
-            })
+                .observe(requireActivity(), { mApiResponse: ApiResponse? ->
+                    onGenerateOTP(
+                            mApiResponse!!
+                    )
+                })
 
         transactionViewModel.getValidateOTPLiveData()
-            .observe(requireActivity(), { mApiResponse: ApiResponse? ->
-                onValidateOTP(
-                    mApiResponse!!
-                )
-            })
+                .observe(requireActivity(), { mApiResponse: ApiResponse? ->
+                    onValidateOTP(
+                            mApiResponse!!
+                    )
+                })
 
         transactionViewModel.getAddLeadLiveData()
-            .observe(requireActivity(), { mApiResponse: ApiResponse? ->
-                onAddLead(
-                    mApiResponse!!
-                )
-            })
+                .observe(requireActivity(), { mApiResponse: ApiResponse? ->
+                    onAddLead(
+                            mApiResponse!!
+                    )
+                })
         transactionViewModel.getUpdateLeadBasicDetailsLiveData()
-            .observe(requireActivity(), { mApiResponse: ApiResponse? ->
-                onUpdateAddLeadBasicDetails(
-                    mApiResponse!!
-                )
-            })
+                .observe(requireActivity(), { mApiResponse: ApiResponse? ->
+                    onUpdateAddLeadBasicDetails(
+                            mApiResponse!!
+                    )
+                })
 
 
         transactionViewModel.getValidateLeadLiveData()
-            .observe(requireActivity(), { mApiResponse: ApiResponse? ->
-                onValidateLead(
-                    mApiResponse!!
-                )
-            })
+                .observe(requireActivity(), { mApiResponse: ApiResponse? ->
+                    onValidateLead(
+                            mApiResponse!!
+                    )
+                })
         transactionViewModel.getAddEmploymentDetailsLiveData()
-            .observe(requireActivity(), { mApiResponse: ApiResponse? ->
-                onAddEmploymentDetails(
-                    mApiResponse!!
-                )
-            })
+                .observe(requireActivity(), { mApiResponse: ApiResponse? ->
+                    onAddEmploymentDetails(
+                            mApiResponse!!
+                    )
+                })
         transactionViewModel.getAddResidentDetailsLiveData()
-            .observe(requireActivity(), { mApiResponse: ApiResponse? ->
-                onAddResidentDetails(
-                    mApiResponse!!
-                )
-            })
+                .observe(requireActivity(), { mApiResponse: ApiResponse? ->
+                    onAddResidentDetails(
+                            mApiResponse!!
+                    )
+                })
         transactionViewModel.getCustomerDetailsLiveData()
-            .observe(requireActivity(), { mApiResponse: ApiResponse? ->
-                onCustomerDetails(
-                    mApiResponse!!
-                )
-            })
+                .observe(requireActivity(), { mApiResponse: ApiResponse? ->
+                    onCustomerDetails(
+                            mApiResponse!!
+                    )
+                })
         masterViewModel.getResidentTypeLiveData()
-            .observe(this, { mApiResponse: ApiResponse? ->
-                onResidentType(
-                    mApiResponse!!
-                )
-            })
+                .observe(this, { mApiResponse: ApiResponse? ->
+                    onResidentType(
+                            mApiResponse!!
+                    )
+                })
 
         masterViewModel.getResidentYearsLiveData()
-            .observe(this, { mApiResponse: ApiResponse? ->
-                onResidentYears(
-                    mApiResponse!!
-                )
-            })
+                .observe(this, { mApiResponse: ApiResponse? ->
+                    onResidentYears(
+                            mApiResponse!!
+                    )
+                })
         masterViewModel.getCityNameListLiveData()
-            .observe(this, { mApiResponse: ApiResponse? ->
-                onResidentCityName(
-                    mApiResponse!!
-                )
-            })
+                .observe(this, { mApiResponse: ApiResponse? ->
+                    onResidentCityName(
+                            mApiResponse!!
+                    )
+                })
 
 
         transactionViewModel.getResetCustomerJourneyLiveData().observe(
-            requireActivity(),
-            { mAPIResponse: ApiResponse? -> onResetJourney(mAPIResponse!!) })
+                requireActivity(),
+                { mAPIResponse: ApiResponse? -> onResetJourney(mAPIResponse!!) })
 
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_add_lead_details, container, false)
         arguments?.let {
@@ -343,7 +345,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         llAddSearchBank = view.findViewById(R.id.ll_search_bank)
 
         cbMoreThanOneYearInCurrentOrganization =
-            view.findViewById(R.id.cb_more_than_one_year_in_current_organization)
+                view.findViewById(R.id.cb_more_than_one_year_in_current_organization)
 
         rlEditYearOfExperience = view.findViewById(R.id.rl_edit_year_of_experience)
         rlEditYearOfExperience.visibility = View.GONE
@@ -453,7 +455,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE && resultCode == CommonStrings.RESULT_CODE) {
             var dataSelectionDTO: DataSelectionDTO? =
-                data?.getParcelableExtra(CommonStrings.SELECTED_DATA)
+                    data?.getParcelableExtra(CommonStrings.SELECTED_DATA)
             var dataType: String? = data?.getStringExtra(CommonStrings.SELECTED_DATA_TYPE)
             if (dataType.equals(CommonStrings.BANK_DATA_CALL)) {
                 etSearchBank.setText(dataSelectionDTO!!.displayValue)
@@ -477,7 +479,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             addLeadBasicDetails!!.Email = addLeadRequest.Data!!.basicDetails!!.Email
             addLeadBasicDetails!!.Salutation = addLeadRequest.Data!!.basicDetails!!.Salutation
             addLeadBasicDetails!!.CustomerMobile =
-                addLeadRequest.Data!!.basicDetails!!.CustomerMobile
+                    addLeadRequest.Data!!.basicDetails!!.CustomerMobile
 
         }
         if (addLeadRequest.Data!!.addLeadVehicleDetails != null) {
@@ -485,21 +487,21 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             addLeadVehicleDetails.Model = addLeadRequest.Data!!.addLeadVehicleDetails!!.Model
             addLeadVehicleDetails.Variant = addLeadRequest.Data!!.addLeadVehicleDetails!!.Variant
             addLeadVehicleDetails.VehicleNumber =
-                addLeadRequest.Data!!.addLeadVehicleDetails!!.VehicleNumber
+                    addLeadRequest.Data!!.addLeadVehicleDetails!!.VehicleNumber
             addLeadVehicleDetails.FuelType = addLeadRequest.Data!!.addLeadVehicleDetails!!.FuelType
             addLeadVehicleDetails.RegistrationYear =
-                addLeadRequest.Data!!.addLeadVehicleDetails!!.RegistrationYear
+                    addLeadRequest.Data!!.addLeadVehicleDetails!!.RegistrationYear
             addLeadVehicleDetails.KMs = addLeadRequest.Data!!.addLeadVehicleDetails!!.KMs
             addLeadVehicleDetails.Ownership =
-                addLeadRequest.Data!!.addLeadVehicleDetails!!.Ownership
+                    addLeadRequest.Data!!.addLeadVehicleDetails!!.Ownership
             addLeadVehicleDetails.VehicleSellingPrice =
-                addLeadRequest.Data!!.addLeadVehicleDetails!!.VehicleSellingPrice
+                    addLeadRequest.Data!!.addLeadVehicleDetails!!.VehicleSellingPrice
         }
 
         previousAddLeadRequest = AddLeadRequest(
-            addLeadRequest.UserId,
-            addLeadRequest.UserType,
-            AddLeadData(addLeadBasicDetails, addLeadVehicleDetails)
+                addLeadRequest.UserId,
+                addLeadRequest.UserType,
+                AddLeadData(addLeadBasicDetails, addLeadVehicleDetails)
         )
 
     }
@@ -507,21 +509,21 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     private fun createRequestCloneAddEmploymentEmploymentDetails() {
         //Create Copy of Employment request object
         val employment = AddEmploymentEmploymentDetails(
-            addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne,
-            addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType,
-            addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome,
-            addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount,
-            addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount,
-            addEmploymentDetailsRequest.Data!!.employmentDetails!!.TotalWorkExperience
+                addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne,
+                addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType,
+                addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome,
+                addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount,
+                addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount,
+                addEmploymentDetailsRequest.Data!!.employmentDetails!!.TotalWorkExperience
         )
         val personal =
-            AddEmploymentPersonalDetails(addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate)
+                AddEmploymentPersonalDetails(addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate)
         val employmentData =
-            AddEmploymentData(addEmploymentDetailsRequest.Data!!.CustomerId, employment, personal)
+                AddEmploymentData(addEmploymentDetailsRequest.Data!!.CustomerId, employment, personal)
         previousAddEmploymentDetailsRequest = AddEmploymentDetailsRequest(
-            employmentData,
-            addEmploymentDetailsRequest.UserId,
-            addEmploymentDetailsRequest.UserType
+                employmentData,
+                addEmploymentDetailsRequest.UserId,
+                addEmploymentDetailsRequest.UserType
         )
 
     }
@@ -529,24 +531,24 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     private fun createRequestCloneAddResidentDetails() {
         //Create Copy of Resident request object
         val residentPersonal = ResidentDetailsDataPersonalDetails(
-            addResidentDetailsRequest.Data!!.personalDetails!!.HaveExistingEMI,
-            addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber,
-            addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI
+                addResidentDetailsRequest.Data!!.personalDetails!!.HaveExistingEMI,
+                addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber,
+                addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI
         )
         val resident = ResidentDetailsDataResidentialDetails(
-            addResidentDetailsRequest.Data!!.residentialDetails!!.CustomerCity,
-            addResidentDetailsRequest.Data!!.residentialDetails!!.NoOfYearInResident,
-            addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType
+                addResidentDetailsRequest.Data!!.residentialDetails!!.CustomerCity,
+                addResidentDetailsRequest.Data!!.residentialDetails!!.NoOfYearInResident,
+                addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType
         )
         val residentData = ResidentDetailsData(
-            addResidentDetailsRequest!!.Data!!.CustomerId,
-            residentPersonal,
-            resident
+                addResidentDetailsRequest!!.Data!!.CustomerId,
+                residentPersonal,
+                resident
         )
         previousAddResidentDetailsRequest = AddResidentDetailsRequest(
-            residentData,
-            addResidentDetailsRequest.UserId,
-            addResidentDetailsRequest.UserType
+                residentData,
+                addResidentDetailsRequest.UserId,
+                addResidentDetailsRequest.UserType
         )
     }
     //endregion Object request clone function
@@ -575,7 +577,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         cbMoreThanOneYearInCurrentOrganization.setOnCheckedChangeListener(null)
         cbMoreThanOneYearInCurrentOrganization.setOnClickListener {
             addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne =
-                cbMoreThanOneYearInCurrentOrganization.isChecked
+                    cbMoreThanOneYearInCurrentOrganization.isChecked
         }
 
     }
@@ -583,11 +585,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     fun checkForNavToSoftOffer() {
         hideProgressDialog()
         if (!TextUtils.isEmpty(customerId) && isEmploymentDataSaved == true && isResidentDataSaved == true &&
-            addLeadRequest.hashCode().equals(previousAddLeadRequest.hashCode()) &&
-            addEmploymentDetailsRequest.hashCode()
-                .equals(previousAddEmploymentDetailsRequest.hashCode()) &&
-            addResidentDetailsRequest.hashCode()
-                .equals(previousAddResidentDetailsRequest.hashCode())
+                addLeadRequest.hashCode().equals(previousAddLeadRequest.hashCode()) &&
+                addEmploymentDetailsRequest.hashCode()
+                        .equals(previousAddEmploymentDetailsRequest.hashCode()) &&
+                addResidentDetailsRequest.hashCode()
+                        .equals(previousAddResidentDetailsRequest.hashCode())
         ) {
             navToSoftOffer(customerDetailsResponse, customerId)
         }
@@ -607,30 +609,30 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             lastSelectedDate = addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate!!
         }
         callDatePickerDialog(
-            lastSelectedDate,
-            null,
-            getBackDateFromTodayDate(18),
-            object : DatePickerCallBack {
-                override fun dateSelected(dateDisplayValue: String, dateValue: String) {
-                    addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate = dateValue
-                    etBirthDate.setText(dateDisplayValue)
-                    tvBirthErrorMessage.visibility = View.GONE
-                    llBirthDate.setBackgroundResource(R.drawable.vtwo_input_bg)
-                    etBirthDate.setTextColor(resources.getColor(R.color.vtwo_black))
-                    llEmploymentSection.visibility = View.VISIBLE
-                    scrollToBottom(llEmploymentSection)
-                }
-            })
+                lastSelectedDate,
+                null,
+                getBackDateFromTodayDate(18),
+                object : DatePickerCallBack {
+                    override fun dateSelected(dateDisplayValue: String, dateValue: String) {
+                        addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate = dateValue
+                        etBirthDate.setText(dateDisplayValue)
+                        tvBirthErrorMessage.visibility = View.GONE
+                        llBirthDate.setBackgroundResource(R.drawable.vtwo_input_bg)
+                        etBirthDate.setTextColor(resources.getColor(R.color.vtwo_black))
+                        llEmploymentSection.visibility = View.VISIBLE
+                        scrollToBottom(llEmploymentSection)
+                    }
+                })
     }
 
     private fun sendOTP() {
         if (etMobileNumberV2.text.length == 10 && validMobileNum()) {
 
             transactionViewModel!!.generateOTP(
-                getOtpRequest(
-                    null,
-                    etMobileNumberV2.text.toString()
-                ), Global.customerAPI_BaseURL + CommonStrings.OTP_URL_END
+                    getOtpRequest(
+                            null,
+                            etMobileNumberV2.text.toString()
+                    ), Global.customerAPI_BaseURL + CommonStrings.OTP_URL_END
             )
 
             etMobileNumberV2.setTextColor(resources.getColor(R.color.black))
@@ -660,10 +662,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         if (etOTPV2.text.length == 6) {
             showProgressDialog(requireContext())
             transactionViewModel!!.validateOTP(
-                getOtpRequest(
-                    etOTPV2.text.toString(),
-                    etMobileNumberV2.text.toString()
-                ), Global.customerAPI_BaseURL + CommonStrings.VALIDATE_OTP_URL_END
+                    getOtpRequest(
+                            etOTPV2.text.toString(),
+                            etMobileNumberV2.text.toString()
+                    ), Global.customerAPI_BaseURL + CommonStrings.VALIDATE_OTP_URL_END
             )
             tvOTPEHint.visibility = View.GONE
             llOTPNumInput.setBackgroundResource(R.drawable.vtwo_input_bg)
@@ -677,7 +679,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     private fun addLead() {
-        if (salutation.isNotEmpty() && etFirstName.text.isNotEmpty() && etLastName.text.isNotEmpty() && etEmailId.text.isNotEmpty()) {
+        if (!TextUtils.isEmpty(salutation) && !TextUtils.isEmpty(etFirstName.text.toString())
+                && !TextUtils.isEmpty(etLastName.text.toString())
+                && !TextUtils.isEmpty(etEmailId.text.toString())) {
 
             ll_first_name_input.setBackgroundResource(R.drawable.vtwo_input_bg)
             tv_fname_hint.visibility = View.GONE
@@ -685,11 +689,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             ll_last_name_input.setBackgroundResource(R.drawable.vtwo_input_bg)
             tv_lname_hint.visibility = View.GONE
 
-
             basicDetails.FirstName = etFirstName.text.toString()
             basicDetails.LastName = etLastName.text.toString()
             val email = etEmailId.text.toString()
-            if (isEmailValid(email)) {
+            if (Patterns.EMAIL_ADDRESS.matcher(email).matches() && isEmailValid(email) && email.substring(email.length - 3, email.length) != "web") {
                 ll_last_email_input.setBackgroundResource(R.drawable.vtwo_input_bg)
                 tv_email_hint.visibility = View.GONE
                 basicDetails.Email = etEmailId.text.toString()
@@ -731,6 +734,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     private fun enableTimer() {
         timer = object : CountDownTimer(120000, 1000) {
 
+            @SuppressLint("SetTextI18n")
             override fun onTick(millisUntilFinished: Long) {
                 tvOTPTimerV2.text = "" + millisUntilFinished / 1000 + " Sec"
                 onClickNext = false
@@ -755,16 +759,16 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     item.selected = true
                     isFound = true
                     if (addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType.equals(
-                            "Self Employed"
-                        )
+                                    "Self Employed"
+                            )
                     ) {
                         addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount =
-                            item.displayValue
+                                item.displayValue
                         addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount = null
                     } else {
                         addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount = null
                         addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount =
-                            item.displayValue
+                                item.displayValue
                     }
                     llNetIncome.visibility = View.VISIBLE
 
@@ -790,37 +794,37 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     private fun checkValidLead() {
 
         transactionViewModel.validateLead(
-            getValidateLeadReq(),
-            Global.customerAPI_BaseURL + CommonStrings.VALIDATE_LEAD
+                getValidateLeadReq(),
+                Global.customerAPI_BaseURL + CommonStrings.VALIDATE_LEAD
         )
 
     }
 
     private fun callAddLeadApi() {
         transactionViewModel.addLead(
-            addLeadRequest,
-            Global.customerAPI_BaseURL + CommonStrings.ADD_LEAD_URL_END
+                addLeadRequest,
+                Global.customerAPI_BaseURL + CommonStrings.ADD_LEAD_URL_END
         )
     }
 
     private fun callUpdateAddLeadBasicDetailsAPIApi() {
         transactionViewModel.updateLeadBasicDetails(
-            getUpdateLeadBasicDetailsRequest(),
-            Global.customerAPI_BaseURL + CommonStrings.UPDATE_LEAD_BASIC_DETAILS_URL_END
+                getUpdateLeadBasicDetailsRequest(),
+                Global.customerAPI_BaseURL + CommonStrings.UPDATE_LEAD_BASIC_DETAILS_URL_END
         )
     }
 
     private fun callAddEmploymentDetails() {
         transactionViewModel.addEmploymentDetails(
-            addEmploymentDetailsRequest,
-            Global.customerAPI_BaseURL + CommonStrings.ADD_EMPLOYMENT_URL_END
+                addEmploymentDetailsRequest,
+                Global.customerAPI_BaseURL + CommonStrings.ADD_EMPLOYMENT_URL_END
         )
     }
 
     private fun callAddResidentDetails() {
         transactionViewModel.addResidentDetails(
-            addResidentDetailsRequest,
-            Global.customerAPI_BaseURL + CommonStrings.ADD_RESIDENT_URL_END
+                addResidentDetailsRequest,
+                Global.customerAPI_BaseURL + CommonStrings.ADD_RESIDENT_URL_END
         )
     }
 
@@ -829,8 +833,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         addEmploymentDetailsRequest = createAddEmploymentDetailsRequest(customerIdValue)
         addResidentDetailsRequest = createAddResidentDetailsRequest(customerIdValue)
         transactionViewModel.getCustomerDetails(
-            createCustomerDetailsRequest(customerIdValue),
-            Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL
+                createCustomerDetailsRequest(customerIdValue),
+                Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL
         )
 
     }
@@ -838,8 +842,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     private fun resetJourney() {
 
         transactionViewModel.resetCustomerJourney(
-            getCustomerRequest(),
-            Global.customerAPI_BaseURL + CommonStrings.RESET_JOURNEY
+                getCustomerRequest(),
+                Global.customerAPI_BaseURL + CommonStrings.RESET_JOURNEY
         )
     }
     //endregion Transaction Api Call
@@ -854,8 +858,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
 
             override fun beforeTextChanged(
-                s: CharSequence, start: Int, count: Int,
-                after: Int
+                    s: CharSequence, start: Int, count: Int,
+                    after: Int
             ) {
             }
 
@@ -878,8 +882,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
 
             override fun beforeTextChanged(
-                s: CharSequence, start: Int, count: Int,
-                after: Int
+                    s: CharSequence, start: Int, count: Int,
+                    after: Int
             ) {
             }
 
@@ -902,8 +906,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
 
             override fun beforeTextChanged(
-                s: CharSequence, start: Int, count: Int,
-                after: Int
+                    s: CharSequence, start: Int, count: Int,
+                    after: Int
             ) {
             }
 
@@ -926,17 +930,17 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 etWorkExpriance.setTextColor(resources.getColor(R.color.vtwo_black))
                 if (TextUtils.isEmpty(etWorkExpriance.text)) {
                     addEmploymentDetailsRequest!!.Data!!.employmentDetails!!.TotalWorkExperience =
-                        "0"
+                            "0"
                 } else {
                     addEmploymentDetailsRequest!!.Data!!.employmentDetails!!.TotalWorkExperience =
-                        etWorkExpriance.text.toString()
+                            etWorkExpriance.text.toString()
                 }
 
             }
 
             override fun beforeTextChanged(
-                s: CharSequence, start: Int, count: Int,
-                after: Int
+                    s: CharSequence, start: Int, count: Int,
+                    after: Int
             ) {
             }
 
@@ -960,8 +964,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
 
             override fun beforeTextChanged(
-                s: CharSequence, start: Int, count: Int,
-                after: Int
+                    s: CharSequence, start: Int, count: Int,
+                    after: Int
             ) {
             }
 
@@ -974,8 +978,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                     }
                     if (!unformatAmount(etNetIncome.text.toString()).equals(
-                            addEmploymentDetailsRequest.Data?.employmentDetails?.NetAnualIncome.toString()
-                        ) || TextUtils.isEmpty(etNetIncome.text.toString())
+                                    addEmploymentDetailsRequest.Data?.employmentDetails?.NetAnualIncome.toString()
+                            ) || TextUtils.isEmpty(etNetIncome.text.toString())
                     ) {
                         allowEdit = true
                     }
@@ -987,12 +991,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                 if (TextUtils.isEmpty(etNetIncome.text)) {
                                     //Set Null Income
                                     addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome =
-                                        0
+                                            0
                                 } else {
                                     //Set Income
                                     try {
                                         addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome =
-                                            unformatAmount(etNetIncome.text.toString()).toInt()
+                                                unformatAmount(etNetIncome.text.toString()).toInt()
                                     } catch (e: Exception) {
 
                                     } catch (e: NumberFormatException) {
@@ -1006,7 +1010,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                     if (!TextUtils.isEmpty(etNetIncome.text.toString())) {
                                         etNetIncome.setText(formatAmount(unformatAmount(etNetIncome.text.toString())))
                                         tvNetIncomeInWords.text =
-                                            (getAmountInWords(unformatAmount(etNetIncome.text.toString())))
+                                                (getAmountInWords(unformatAmount(etNetIncome.text.toString())))
                                         etNetIncome.setSelection(etNetIncome.text.toString().length)
                                     } else {
                                         tvNetIncomeInWords.text = ""
@@ -1038,8 +1042,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
 
             override fun beforeTextChanged(
-                s: CharSequence, start: Int, count: Int,
-                after: Int
+                    s: CharSequence, start: Int, count: Int,
+                    after: Int
             ) {
             }
 
@@ -1050,8 +1054,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                     }
                     if (!unformatAmount(etEMI.text.toString()).equals(addResidentDetailsRequest.Data?.personalDetails?.TotalEMI.toString()) || TextUtils.isEmpty(
-                            etEMI.text.toString()
-                        )
+                                    etEMI.text.toString()
+                            )
                     ) {
                         allowEdit = true
                     }
@@ -1066,7 +1070,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                 } else {
                                     //Set Null Income
                                     addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI =
-                                        unformatAmount(etEMI.text.toString()).toString().toInt()
+                                            unformatAmount(etEMI.text.toString()).toString().toInt()
 
                                 }
                                 allowEdit = false
@@ -1075,7 +1079,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                     if (!TextUtils.isEmpty(etEMI.text.toString())) {
                                         etEMI.setText(formatAmount(unformatAmount(etEMI.text.toString())))
                                         tvEMIInWords.text =
-                                            (getAmountInWords(unformatAmount(etEMI.text.toString())))
+                                                (getAmountInWords(unformatAmount(etEMI.text.toString())))
                                         etEMI.setSelection(etEMI.text.toString().length)
                                     } else {
                                         tvEMIInWords.text = ""
@@ -1106,8 +1110,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
 
             override fun beforeTextChanged(
-                s: CharSequence, start: Int, count: Int,
-                after: Int
+                    s: CharSequence, start: Int, count: Int,
+                    after: Int
             ) {
             }
 
@@ -1158,14 +1162,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
 
             override fun beforeTextChanged(
-                s: CharSequence, start: Int, count: Int,
-                after: Int
+                    s: CharSequence, start: Int, count: Int,
+                    after: Int
             ) {
             }
 
             override fun afterTextChanged(s: Editable) {
                 addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber =
-                    etPanNumber.text.toString()
+                        etPanNumber.text.toString()
             }
         })
     }
@@ -1182,15 +1186,15 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
             R.id.et_search_bank -> {
                 navigateMasterDataSelectionActivity(
-                    CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE,
-                    CommonStrings.BANK_DATA_CALL
+                        CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE,
+                        CommonStrings.BANK_DATA_CALL
                 )
             }
 
             R.id.ll_search_bank -> {
                 navigateMasterDataSelectionActivity(
-                    CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE,
-                    CommonStrings.BANK_DATA_CALL
+                        CommonStrings.MASTER_DETAIL_ACTIVITY_REQUEST_CODE,
+                        CommonStrings.BANK_DATA_CALL
                 )
             }
             R.id.ll_residence_type -> {
@@ -1211,7 +1215,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                         if (cbTermsAndConditions.isChecked) {
                             onClickNext = true
-                            //timer.onFinish()
                             //Validate OTP and Validate Lead
                             validateOTP()
                         } else
@@ -1239,11 +1242,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     }
                     //Step 6 Validate Employment Details
                     llEmploymentSection.visibility == View.VISIBLE && llWorkExpriance.visibility == View.VISIBLE && TextUtils.isEmpty(
-                        etWorkExpriance.text
+                            etWorkExpriance.text
                     ) -> {
                         tvWorkExprianceErrorMessage.visibility = View.VISIBLE
                         tvWorkExprianceErrorMessage.text =
-                            "Please enter total years of work experiences."
+                                "Please enter total years of work experiences."
                         llAddWorkExpriance.setBackgroundResource(R.drawable.v2_error_input_bg)
                         etWorkExpriance.setTextColor(resources.getColor(R.color.error_red))
 
@@ -1276,7 +1279,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     }
                     //Step 11 Open EMI Section Validate EMI Details
                     llEMISection.visibility == View.VISIBLE && llEmiDetails.visibility == View.VISIBLE && TextUtils.isEmpty(
-                        etEMI.text
+                            etEMI.text
                     ) -> {
                         tvEMIErrorMessage.visibility = View.VISIBLE
                         tvEMIErrorMessage.text = "Please enter EMI amount."
@@ -1290,13 +1293,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     }
                     //Step 13 ResidenceType validation
                     llResidenceTypeSection.visibility == View.VISIBLE && TextUtils.isEmpty(
-                        addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType
+                            addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType
                     ) -> {
                         showToast("Please select residence type.")
                     }
                     //Step 14 residence city validation
                     llResidenceTypeSection.visibility == View.VISIBLE && TextUtils.isEmpty(
-                        addResidentDetailsRequest.Data!!.residentialDetails!!.CustomerCity
+                            addResidentDetailsRequest.Data!!.residentialDetails!!.CustomerCity
                     ) -> {
                         tvResidenceTypeErrorMessage.text = ("Please select residence city.")
                         tvResidenceTypeErrorMessage.visibility = View.VISIBLE
@@ -1315,7 +1318,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     }
                     //Step 17 Pan Card Number validation
                     llPanNumberSection.visibility == View.VISIBLE && (TextUtils.isEmpty(
-                        addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber
+                            addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber
                     ) || !isValidPanNo(addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber!!))
                     -> {
                         tvPanNumberErrorMessage.visibility = View.VISIBLE
@@ -1331,28 +1334,28 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     !TextUtils.isEmpty(customerId) && isEmploymentDataSaved == true && isResidentDataSaved == true -> {
 
                         if (!addLeadRequest.hashCode()
-                                .equals(previousAddLeadRequest.hashCode())
+                                        .equals(previousAddLeadRequest.hashCode())
                         ) {
                             callUpdateAddLeadBasicDetailsAPIApi()
                         }
 
                         if (!addEmploymentDetailsRequest.hashCode()
-                                .equals(previousAddEmploymentDetailsRequest.hashCode())
+                                        .equals(previousAddEmploymentDetailsRequest.hashCode())
                         ) {
                             callAddEmploymentDetails()
                         }
                         if (!addResidentDetailsRequest.hashCode()
-                                .equals(previousAddResidentDetailsRequest.hashCode())
+                                        .equals(previousAddResidentDetailsRequest.hashCode())
                         ) {
                             callAddResidentDetails()
                         }
 
                         //Step 20 All Data Uploaded
                         if (!TextUtils.isEmpty(customerId) &&
-                            addEmploymentDetailsRequest.hashCode()
-                                .equals(previousAddEmploymentDetailsRequest.hashCode()) &&
-                            addResidentDetailsRequest.hashCode()
-                                .equals(previousAddResidentDetailsRequest.hashCode())
+                                addEmploymentDetailsRequest.hashCode()
+                                        .equals(previousAddEmploymentDetailsRequest.hashCode()) &&
+                                addResidentDetailsRequest.hashCode()
+                                        .equals(previousAddResidentDetailsRequest.hashCode())
                         ) {
 
                             checkForNavToSoftOffer()
@@ -1381,10 +1384,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     //region Filled Data
     fun preFilledPersonalBasicDetails(
-        salutationValue: String?,
-        firstName: String?,
-        lastName: String?,
-        email: String?
+            salutationValue: String?,
+            firstName: String?,
+            lastName: String?,
+            email: String?
     ) {
         try {
 
@@ -1446,16 +1449,16 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 //set Vehicle details
                 if (customerDetailsResponse!!.data!!.vehicleDetails != null) {
                     addLeadRequest.Data!!.addLeadVehicleDetails!!.VehicleNumber =
-                        customerDetailsResponse!!.data!!.vehicleDetails!!.vehicleNumber
+                            customerDetailsResponse!!.data!!.vehicleDetails!!.vehicleNumber
                     addLeadRequest.Data!!.addLeadVehicleDetails!!.VehicleSellingPrice =
-                        customerDetailsResponse!!.data!!.vehicleDetails!!.vehicleSellingPrice!!.toInt()
-                            .toString()
+                            customerDetailsResponse!!.data!!.vehicleDetails!!.vehicleSellingPrice!!.toInt()
+                                    .toString()
                     addLeadRequest.Data!!.addLeadVehicleDetails!!.KMs =
-                        customerDetailsResponse!!.data!!.vehicleDetails!!.kMs
+                            customerDetailsResponse!!.data!!.vehicleDetails!!.kMs
                     addLeadRequest.Data!!.addLeadVehicleDetails!!.FuelType =
-                        customerDetailsResponse!!.data!!.vehicleDetails!!.fuelType
+                            customerDetailsResponse!!.data!!.vehicleDetails!!.fuelType
                     addLeadRequest.Data!!.addLeadVehicleDetails!!.Ownership =
-                        customerDetailsResponse!!.data!!.vehicleDetails!!.ownership
+                            customerDetailsResponse!!.data!!.vehicleDetails!!.ownership
                 }
                 //set basicDetails
                 if (customerDetailsResponse!!.data!!.basicDetails != null) {
@@ -1470,28 +1473,28 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 //Set Birth Data
                 if (!TextUtils.isEmpty(customerDetailsResponse.data!!.basicDetails!!.birthDate)) {
                     birthDateDisplayValue = stringToDateString(
-                        customerDetailsResponse.data!!.basicDetails!!.birthDate.toString()
-                            .subSequence(0, 10) as String,
-                        DATE_FORMATE_YYYYMMDD,
-                        DATE_FORMATE_DDMMYYYY
+                            customerDetailsResponse.data!!.basicDetails!!.birthDate.toString()
+                                    .subSequence(0, 10) as String,
+                            DATE_FORMATE_YYYYMMDD,
+                            DATE_FORMATE_DDMMYYYY
                     )
                     birthDateValue = stringToDateString(
-                        customerDetailsResponse.data!!.basicDetails!!.birthDate.toString()
-                            .subSequence(0, 10) as String,
-                        DATE_FORMATE_YYYYMMDD,
-                        DATE_FORMATE_YYYYMMDD
+                            customerDetailsResponse.data!!.basicDetails!!.birthDate.toString()
+                                    .subSequence(0, 10) as String,
+                            DATE_FORMATE_YYYYMMDD,
+                            DATE_FORMATE_YYYYMMDD
                     )
                 }
                 if (birthDateDisplayValue == null) {
                     birthDateDisplayValue = stringToDateString(
-                        customerDetailsResponse.data!!.equifaxFields!!.birthDate!![0],
-                        DATE_FORMATE_YYYYMMDD,
-                        DATE_FORMATE_DDMMYYYY
+                            customerDetailsResponse.data!!.equifaxFields!!.birthDate!![0],
+                            DATE_FORMATE_YYYYMMDD,
+                            DATE_FORMATE_DDMMYYYY
                     )
                     birthDateValue = stringToDateString(
-                        customerDetailsResponse.data!!.equifaxFields!!.birthDate!![0],
-                        DATE_FORMATE_YYYYMMDD,
-                        DATE_FORMATE_YYYYMMDD
+                            customerDetailsResponse.data!!.equifaxFields!!.birthDate!![0],
+                            DATE_FORMATE_YYYYMMDD,
+                            DATE_FORMATE_YYYYMMDD
                     )
 
                 }
@@ -1507,13 +1510,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     llEmploymentSection.visibility = View.VISIBLE
                     employmentDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
                         if (dataSelectionDTO.displayValue.toString()
-                                .equals(customerDetailsResponse.data!!.employmentDetails!!.employmentType)
+                                        .equals(customerDetailsResponse.data!!.employmentDetails!!.employmentType)
                         ) {
                             dataSelectionDTO.selected = true
                             employmentType =
-                                customerDetailsResponse.data!!.employmentDetails!!.employmentType
+                                    customerDetailsResponse.data!!.employmentDetails!!.employmentType
                             addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType =
-                                dataSelectionDTO.value
+                                    dataSelectionDTO.value
                         } else {
                             dataSelectionDTO.selected = false
                         }
@@ -1529,15 +1532,15 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                             llAccoutDetailsSection.visibility = View.VISIBLE
                             tvBankTitle.setText(getString(R.string.primary_bank_account))
                             bankName =
-                                customerDetailsResponse.data!!.employmentDetails!!.primaryAccount
+                                    customerDetailsResponse.data!!.employmentDetails!!.primaryAccount
                             addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount =
-                                bankName
+                                    bankName
                             isEmploymentDataSaved = true
                         } else {
                             bankName =
-                                customerDetailsResponse.data!!.employmentDetails!!.salaryAccount
+                                    customerDetailsResponse.data!!.employmentDetails!!.salaryAccount
                             addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount =
-                                bankName
+                                    bankName
                             llWorkExpriance.visibility = View.VISIBLE
                             tvBankTitle.setText(getString(R.string.salary_bank_account))
                             if (customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience != null && customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience!!.toInt() > 0) {
@@ -1545,9 +1548,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                             }
                             //More than one year in same org
                             cbMoreThanOneYearInCurrentOrganization.isChecked =
-                                customerDetailsResponse.data!!.employmentDetails!!.currentCompanyExpMoreThanOne!!
+                                    customerDetailsResponse.data!!.employmentDetails!!.currentCompanyExpMoreThanOne!!
                             addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne =
-                                customerDetailsResponse.data!!.employmentDetails!!.currentCompanyExpMoreThanOne!!
+                                    customerDetailsResponse.data!!.employmentDetails!!.currentCompanyExpMoreThanOne!!
                             isEmploymentDataSaved = true
 
                         }
@@ -1573,11 +1576,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     if (customerDetailsResponse.data!!.employmentDetails!!.netAnualIncome != null && customerDetailsResponse.data!!.employmentDetails!!.netAnualIncome!! > 0) {
                         llNetIncomeSection.visibility = View.VISIBLE
                         etNetIncome.setText(
-                            customerDetailsResponse.data!!.employmentDetails!!.netAnualIncome!!.toInt()
-                                .toString()
+                                customerDetailsResponse.data!!.employmentDetails!!.netAnualIncome!!.toInt()
+                                        .toString()
                         )
                         addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome =
-                            customerDetailsResponse.data!!.employmentDetails!!.netAnualIncome!!.toInt()
+                                customerDetailsResponse.data!!.employmentDetails!!.netAnualIncome!!.toInt()
                     }
 
 
@@ -1594,11 +1597,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                     if (customerDetailsResponse.data!!.basicDetails!!.totalEMI!!.toInt() > 0) {
                         etEMI.setText(
-                            customerDetailsResponse.data!!.basicDetails!!.totalEMI!!.toInt()
-                                .toString()
+                                customerDetailsResponse.data!!.basicDetails!!.totalEMI!!.toInt()
+                                        .toString()
                         )
                         addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI =
-                            customerDetailsResponse.data!!.basicDetails!!.totalEMI!!.toInt()
+                                customerDetailsResponse.data!!.basicDetails!!.totalEMI!!.toInt()
                     } else {
                         addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = 0
                     }
@@ -1628,11 +1631,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         llResidenceTypeSection.visibility = View.VISIBLE
                         residenceTypeDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
                             if (dataSelectionDTO.value.toString()
-                                    .equals(customerDetailsResponse.data!!.residentialDetails!!.residenceType)
+                                            .equals(customerDetailsResponse.data!!.residentialDetails!!.residenceType)
                             ) {
                                 dataSelectionDTO.selected = true
                                 addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType =
-                                    dataSelectionDTO.value.toString()
+                                        dataSelectionDTO.value.toString()
                             } else {
                                 dataSelectionDTO.selected = false
                             }
@@ -1644,11 +1647,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                             residenceYearsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
                                 if (dataSelectionDTO.value.toString()
-                                        .equals(customerDetailsResponse.data!!.residentialDetails!!.noOfYearInResident.toString())
+                                                .equals(customerDetailsResponse.data!!.residentialDetails!!.noOfYearInResident.toString())
                                 ) {
                                     dataSelectionDTO.selected = true
                                     addResidentDetailsRequest.Data!!.residentialDetails!!.NoOfYearInResident =
-                                        dataSelectionDTO.value.toString().toInt()
+                                            dataSelectionDTO.value.toString().toInt()
                                 } else {
                                     dataSelectionDTO.selected = false
                                 }
@@ -1658,7 +1661,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         //set Customer Resident City
                         if (customerDetailsResponse.data!!.residentialDetails!!.customerCity != null) {
                             addResidentDetailsRequest.Data!!.residentialDetails!!.CustomerCity =
-                                customerDetailsResponse.data!!.residentialDetails!!.customerCity
+                                    customerDetailsResponse.data!!.residentialDetails!!.customerCity
                             etAutoResidenceCity.setText(customerDetailsResponse.data!!.residentialDetails!!.customerCity)
                         }
                     }
@@ -1671,7 +1674,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 }
                 if (panNumber == null && customerDetailsResponse!!.data!!.equifaxFields!!.panNumber != null && customerDetailsResponse!!.data!!.equifaxFields!!.panNumber!!.size > 0) {
                     panNumber = customerDetailsResponse!!.data!!.equifaxFields!!.panNumber!!.get(0)
-                        .toString()
+                            .toString()
                 }
                 if (panNumber != null) {
                     llPanNumberSection.visibility = View.VISIBLE
@@ -1708,30 +1711,30 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
         salutationAdapter =
-            DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
-                override fun itemClick(item: Any?, position: Int) {
+                DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+                    override fun itemClick(item: Any?, position: Int) {
 
 
-                    salutationAdapter.dataListFilter!!.forEachIndexed { index, item ->
-                        run {
-                            if (index == position) {
-                                item.selected = true
-                                basicDetails.Salutation = item.value
-                                salutation = item.value.toString()
-                                addLeadRequest.Data!!.basicDetails!!.Salutation = salutation
-                            } else {
-                                item.selected = false
+                        salutationAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                            run {
+                                if (index == position) {
+                                    item.selected = true
+                                    basicDetails.Salutation = item.value
+                                    salutation = item.value.toString()
+                                    addLeadRequest.Data!!.basicDetails!!.Salutation = salutation
+                                } else {
+                                    item.selected = false
+                                }
                             }
                         }
+                        salutationAdapter.notifyDataSetChanged()
+                        scrollToBottom(llBirthDateSection)
                     }
-                    salutationAdapter.notifyDataSetChanged()
-                    scrollToBottom(llBirthDateSection)
-                }
-            })
+                })
 
 
         val layoutManagerStaggeredGridLayoutManager =
-            StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
+                StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
         val layoutManagerGridLayoutManager = GridLayoutManager(activity, 4)
 
         rv_salutation.addItemDecoration(GridItemDecoration(25, 4))
@@ -1743,7 +1746,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     private fun setEMIDetailsAdapter() {
         val layoutManagerStaggeredGridLayoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
 
         rvEMIList.addItemDecoration(GridItemDecoration(25, 2))
@@ -1755,34 +1758,34 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
         eMIDetailsAdapter =
-            DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
-                override fun itemClick(item: Any?, position: Int) {
+                DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+                    override fun itemClick(item: Any?, position: Int) {
 
 
-                    eMIDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
-                        run {
-                            if (index == position) {
-                                item.selected = true
-                                if (item.value.equals("Yes")) {
-                                    llEmiDetails.visibility = View.VISIBLE
-                                    addResidentDetailsRequest.Data!!.personalDetails!!.HaveExistingEMI =
-                                        true
+                        eMIDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                            run {
+                                if (index == position) {
+                                    item.selected = true
+                                    if (item.value.equals("Yes")) {
+                                        llEmiDetails.visibility = View.VISIBLE
+                                        addResidentDetailsRequest.Data!!.personalDetails!!.HaveExistingEMI =
+                                                true
+                                    } else {
+                                        llEmiDetails.visibility = View.GONE
+                                        addResidentDetailsRequest.Data!!.personalDetails!!.HaveExistingEMI =
+                                                false
+                                    }
+
                                 } else {
-                                    llEmiDetails.visibility = View.GONE
-                                    addResidentDetailsRequest.Data!!.personalDetails!!.HaveExistingEMI =
-                                        false
+                                    item.selected = false
                                 }
 
-                            } else {
-                                item.selected = false
                             }
-
                         }
+                        eMIDetailsAdapter.notifyDataSetChanged()
+                        scrollToBottom(llEMISection)
                     }
-                    eMIDetailsAdapter.notifyDataSetChanged()
-                    scrollToBottom(llEMISection)
-                }
-            })
+                })
 
 
         rvEMIList.setAdapter(eMIDetailsAdapter)
@@ -1790,7 +1793,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     fun setEploymentDetailsAdapter() {
         val layoutManagerStaggeredGridLayoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
 
         rvEmploymentType.addItemDecoration(GridItemDecoration(25, 2))
@@ -1802,7 +1805,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     fun setBankDetailsAdapter() {
         val layoutManagerStaggeredGridLayoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
 
         rvBankList.addItemDecoration(GridItemDecoration(25, 2))
@@ -1816,7 +1819,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     fun setResidenceTypeAdapter() {
         val layoutManagerStaggeredGridLayoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
 
         rvResidenceTypeList.addItemDecoration(GridItemDecoration(25, 2))
@@ -1829,7 +1832,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     fun setResidenceYearsAdapter() {
         val layoutManagerStaggeredGridLayoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
 
         rvResidenceYears.addItemDecoration(GridItemDecoration(25, 2))
@@ -1842,16 +1845,16 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     fun setCityAutoTextAdapter(cityList: ArrayList<String>) {
         customAutoTextViewListAdapter = CustomAutoTextViewListAdapter(
-            requireContext(),
-            R.layout.v2_auto_text_adapter_layout,
-            cityList
+                requireContext(),
+                R.layout.v2_auto_text_adapter_layout,
+                cityList
         )
         etAutoResidenceCity.setAdapter(customAutoTextViewListAdapter)
         etAutoResidenceCity.threshold = 1
         etAutoResidenceCity.showDropDown()
         etAutoResidenceCity.onItemClickListener = OnItemClickListener { parent, arg1, pos, id ->
             addResidentDetailsRequest.Data!!.residentialDetails!!.CustomerCity =
-                customAutoTextViewListAdapter.getItem(pos)
+                    customAutoTextViewListAdapter.getItem(pos)
             var t: Timer? = null
             t = Timer()
             t.schedule(object : TimerTask() {
@@ -1879,13 +1882,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         val updateLeadBasicDetailsRequest = UpdateLeadBasicDetailsRequest()
         if (addLeadRequest.Data!!.basicDetails != null) {
             val leadUpdateData = LeadUpdateData(
-                customerId.toInt(),
-                LeadBasicBasicDetails(
-                    addLeadRequest.Data!!.basicDetails!!.Email,
-                    addLeadRequest.Data!!.basicDetails!!.FirstName,
-                    addLeadRequest.Data!!.basicDetails!!.LastName,
-                    addLeadRequest.Data!!.basicDetails!!.Salutation
-                )
+                    customerId.toInt(),
+                    LeadBasicBasicDetails(
+                            addLeadRequest.Data!!.basicDetails!!.Email,
+                            addLeadRequest.Data!!.basicDetails!!.FirstName,
+                            addLeadRequest.Data!!.basicDetails!!.LastName,
+                            addLeadRequest.Data!!.basicDetails!!.Salutation
+                    )
             )
 
             updateLeadBasicDetailsRequest.Data = leadUpdateData
@@ -1899,9 +1902,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     private fun getValidateLeadReq(): ValidateLeadRequest {
         val validateLeadDataRequest = ValidateLeadDataRequest(mobileNum, make, model, variant)
         return ValidateLeadRequest(
-            validateLeadDataRequest,
-            CommonStrings.DEALER_ID,
-            CommonStrings.USER_TYPE
+                validateLeadDataRequest,
+                CommonStrings.DEALER_ID,
+                CommonStrings.USER_TYPE
         )
         /*val validateLeadDataRequest= ValidateLeadDataRequest(etMobileNumberV2.text.toString(),addLeadRequest.Data?.vehicleDetails?.Make,addLeadRequest.Data?.vehicleDetails?.Model,addLeadRequest.Data?.vehicleDetails?.Variant)
         return ValidateLeadRequest(validateLeadDataRequest, addLeadRequest.UserId, addLeadRequest.UserType)*/
@@ -1929,9 +1932,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         var addEmploymentPersonalDetails = AddEmploymentPersonalDetails()
 
         var addEmploymentData = AddEmploymentData(
-            customerId,
-            addEmploymentEmploymentDetails,
-            addEmploymentPersonalDetails
+                customerId,
+                addEmploymentEmploymentDetails,
+                addEmploymentPersonalDetails
         )
         addEmploymentDetailsDataRequest.Data = addEmploymentData
         return addEmploymentDetailsDataRequest
@@ -1985,17 +1988,18 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                             etOTPV2.setText(otpResponse.data)
 
                         }
-                        if (tvOTPTimerV2.equals(getString(R.string.otp_timer_hint)))
+
+
+                        if (tvOTPTimerV2.text == getString(R.string.otp_timer_hint)) {
                             enableTimer()
-                        else {
+                        } else {
                             timer.cancel()
-                            enableTimer()
+                            timer.start()
                         }
 
                     }
 
 
-                    hideProgressDialog()
                 } catch (e: Exception) {
 
                 }
@@ -2062,51 +2066,51 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
         employmentDetailsAdapter =
-            DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
-                override fun itemClick(item: Any?, position: Int) {
+                DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+                    override fun itemClick(item: Any?, position: Int) {
 
 
-                    employmentDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
-                        run {
-                            if (index == position) {
-                                item.selected = true
-                                addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType =
-                                    item.value
-                                if (item.value.equals("Self Employed")) {
-                                    llWorkExpriance.visibility = View.GONE
-                                    etWorkExpriance.setText("")
-                                    llAccoutDetailsSection.visibility = View.VISIBLE
-                                    tvBankTitle.setText(getString(R.string.primary_bank_account))
+                        employmentDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                            run {
+                                if (index == position) {
+                                    item.selected = true
+                                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType =
+                                            item.value
+                                    if (item.value.equals("Self Employed")) {
+                                        llWorkExpriance.visibility = View.GONE
+                                        etWorkExpriance.setText("")
+                                        llAccoutDetailsSection.visibility = View.VISIBLE
+                                        tvBankTitle.setText(getString(R.string.primary_bank_account))
 
-                                    if (addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount!!.isNotEmpty()) {
+                                        if (addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount!!.isNotEmpty()) {
+                                            addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount =
+                                                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount
+                                        }
+                                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount =
+                                                null
+
+                                    } else {
+                                        llWorkExpriance.visibility = View.VISIBLE
+                                        tvBankTitle.setText(getString(R.string.salary_bank_account))
+
+                                        if (addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount!!.isNotEmpty()) {
+                                            addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount =
+                                                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount
+                                        }
                                         addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount =
-                                            addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount
+                                                null
                                     }
-                                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount =
-                                        null
 
                                 } else {
-                                    llWorkExpriance.visibility = View.VISIBLE
-                                    tvBankTitle.setText(getString(R.string.salary_bank_account))
-
-                                    if (addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount!!.isNotEmpty()) {
-                                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount =
-                                            addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount
-                                    }
-                                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount =
-                                        null
+                                    item.selected = false
                                 }
 
-                            } else {
-                                item.selected = false
                             }
-
                         }
+                        employmentDetailsAdapter.notifyDataSetChanged()
+                        scrollToBottom(llEmploymentSection)
                     }
-                    employmentDetailsAdapter.notifyDataSetChanged()
-                    scrollToBottom(llEmploymentSection)
-                }
-            })
+                })
 
 
         rvEmploymentType.setAdapter(employmentDetailsAdapter)
@@ -2139,28 +2143,28 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
         residenceTypeDetailsAdapter =
-            DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
-                override fun itemClick(item: Any?, position: Int) {
+                DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+                    override fun itemClick(item: Any?, position: Int) {
 
 
-                    residenceTypeDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
-                        run {
-                            if (index == position) {
-                                item.selected = true
+                        residenceTypeDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                            run {
+                                if (index == position) {
+                                    item.selected = true
 
-                                addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType =
-                                    item.value
+                                    addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType =
+                                            item.value
 
-                            } else {
-                                item.selected = false
+                                } else {
+                                    item.selected = false
+                                }
+
                             }
-
                         }
+                        residenceTypeDetailsAdapter.notifyDataSetChanged()
+                        scrollToBottom(llResidenceTypeSection)
                     }
-                    residenceTypeDetailsAdapter.notifyDataSetChanged()
-                    scrollToBottom(llResidenceTypeSection)
-                }
-            })
+                })
 
 
         rvResidenceTypeList.setAdapter(residenceTypeDetailsAdapter)
@@ -2194,27 +2198,27 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
         residenceYearsAdapter =
-            DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
-                override fun itemClick(item: Any?, position: Int) {
+                DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+                    override fun itemClick(item: Any?, position: Int) {
 
 
-                    residenceYearsAdapter.dataListFilter!!.forEachIndexed { index, item ->
-                        run {
-                            if (index == position) {
-                                item.selected = true
-                                addResidentDetailsRequest.Data!!.residentialDetails!!.NoOfYearInResident =
-                                    item.value.toString().toInt()
-                                llPanNumberSection.visibility = View.VISIBLE
-                            } else {
-                                item.selected = false
+                        residenceYearsAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                            run {
+                                if (index == position) {
+                                    item.selected = true
+                                    addResidentDetailsRequest.Data!!.residentialDetails!!.NoOfYearInResident =
+                                            item.value.toString().toInt()
+                                    llPanNumberSection.visibility = View.VISIBLE
+                                } else {
+                                    item.selected = false
+                                }
+
                             }
-
                         }
+                        residenceYearsAdapter.notifyDataSetChanged()
+                        scrollToBottom(llPanNumberSection)
                     }
-                    residenceYearsAdapter.notifyDataSetChanged()
-                    scrollToBottom(llPanNumberSection)
-                }
-            })
+                })
 
 
         rvResidenceYears.setAdapter(residenceYearsAdapter)
@@ -2244,26 +2248,26 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             if (index < 4) {
                 // bankItem.logoUrl="https://4.bp.blogspot.com/-xnBMIjH4Z-4/W2Qfiocw5hI/AAAAAAAAGg4/136qYboj2EQ3Ve5BjqOmFL8rf_UWijelgCPcBGAYYCw/s1600/AX.png"
                 list.add(
-                    DataSelectionDTO(
-                        bankItem.bankName,
-                        null,
-                        bankItem.bankName,
-                        false,
-                        bankItem.logoUrl
-                    )
+                        DataSelectionDTO(
+                                bankItem.bankName,
+                                null,
+                                bankItem.bankName,
+                                false,
+                                bankItem.logoUrl
+                        )
                 )
             }
         }
 
         commonBankListDetailsAdapter =
-            DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
-                override fun itemClick(item: Any?, position: Int) {
-                    etSearchBank.setText("")
-                    var selectedBankDataSelectionDTO: DataSelectionDTO = item as DataSelectionDTO
-                    updateBankSelection(selectedBankDataSelectionDTO.displayValue!!)
+                DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+                    override fun itemClick(item: Any?, position: Int) {
+                        etSearchBank.setText("")
+                        var selectedBankDataSelectionDTO: DataSelectionDTO = item as DataSelectionDTO
+                        updateBankSelection(selectedBankDataSelectionDTO.displayValue!!)
 
-                }
-            })
+                    }
+                })
 
 
         rvBankList.setAdapter(commonBankListDetailsAdapter)
@@ -2328,9 +2332,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     llBirthDateSection.visibility = View.VISIBLE
                     //Create Request of Add Employment Details
                     addEmploymentDetailsRequest =
-                        createAddEmploymentDetailsRequest(addLeadResponse.mData!!)
+                            createAddEmploymentDetailsRequest(addLeadResponse.mData!!)
                     addResidentDetailsRequest =
-                        createAddResidentDetailsRequest(addLeadResponse.mData!!)
+                            createAddResidentDetailsRequest(addLeadResponse.mData!!)
                     callCustomerDetailsApi(addLeadResponse.mData!!)
                     checkForNavToSoftOffer()
                 }
@@ -2387,17 +2391,17 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
                 val validateLeadResponse: ValidateLeadResponse? =
-                    mApiResponse.data as ValidateLeadResponse?
+                        mApiResponse.data as ValidateLeadResponse?
                 val validateLeadDataResponse: ValidateLeadDataResponse? = validateLeadResponse?.data
 
                 if (validateLeadDataResponse?.message.equals("Success")) {
                     validateLeadDataRes = validateLeadDataResponse!!
                     if (validateLeadDataRes!!.details != null) {
                         preFilledPersonalBasicDetails(
-                            validateLeadDataRes!!.details!!.salutation,
-                            validateLeadDataRes!!.details!!.firstName,
-                            validateLeadDataRes!!.details!!.lastName,
-                            validateLeadDataRes!!.details!!.email
+                                validateLeadDataRes!!.details!!.salutation,
+                                validateLeadDataRes!!.details!!.firstName,
+                                validateLeadDataRes!!.details!!.lastName,
+                                validateLeadDataRes!!.details!!.email
                         )
                     }
                 } else {
@@ -2426,7 +2430,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
                 val resetJourneyRes: ResetCustomerJourneyResponse? =
-                    mAPIResponse.data as ResetCustomerJourneyResponse?
+                        mAPIResponse.data as ResetCustomerJourneyResponse?
 
                 if (dialogConfilctForAddLead != null && dialogConfilctForAddLead!!.isShowing) {
                     dialogConfilctForAddLead!!.dismiss()
@@ -2455,13 +2459,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         dialogConfilctForAddLead!!.setCanceledOnTouchOutside(false)
         dialogConfilctForAddLead!!.setContentView(R.layout.vtwo_layout_custom_dialog)
         val ivCloseDialog =
-            dialogConfilctForAddLead!!.findViewById(R.id.ivCloseDialogV2) as ImageView
+                dialogConfilctForAddLead!!.findViewById(R.id.ivCloseDialogV2) as ImageView
         val tvAlertDialogText =
-            dialogConfilctForAddLead!!.findViewById(R.id.tvAlertDialogText) as TextView
+                dialogConfilctForAddLead!!.findViewById(R.id.tvAlertDialogText) as TextView
         tvAlertDialogText.setText(validateLeadDataRes.message)
         val btnNewFlow = dialogConfilctForAddLead!!.findViewById(R.id.btnStartNewFlowV2) as Button
         val btnContinueWithOldFlow =
-            dialogConfilctForAddLead!!.findViewById(R.id.btnExistingFlowV2) as Button
+                dialogConfilctForAddLead!!.findViewById(R.id.btnExistingFlowV2) as Button
 
         ivCloseDialog.setOnClickListener {
             dialogConfilctForAddLead!!.dismiss()
@@ -2550,7 +2554,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     dialogConfilctForAddLead!!.dismiss()
                 }
                 var customerResponse: CustomerDetailsResponse? =
-                    mApiResponse.data as CustomerDetailsResponse?
+                        mApiResponse.data as CustomerDetailsResponse?
                 customerDetailsResponse = customerResponse!!
 
                 if (customerDetailsResponse?.data != null) {

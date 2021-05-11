@@ -84,6 +84,7 @@
                 <include layout="@layout/v2_loan_tracker_layout" />
 
                 <TextView
+                    android:id="@+id/tvBankOfferTitleV2"
                     android:layout_marginTop="@dimen/text_size_16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -92,6 +93,7 @@
                     android:text="@string/v2_bank_offers"
                     android:textAppearance="@style/RobotoMedium"
                     android:textColor="@color/white"
+                    android:visibility="gone"
                     android:textSize="@dimen/text_size_16sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -99,6 +101,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/text_size_14dp"
+                    android:visibility="gone"
                     />
             </LinearLayout>
         </LinearLayout>

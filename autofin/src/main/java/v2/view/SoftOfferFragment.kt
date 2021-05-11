@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
+import org.w3c.dom.Text
 import utility.CommonStrings
 import utility.Global
 import v2.model.request.bank_offers.BankOfferData
@@ -36,6 +37,7 @@ class SoftOfferFragment : BaseFragment() {
     lateinit var customerDetailsResponse: CustomerDetailsResponse
     lateinit var tvLoanAmountVal: TextView
     lateinit var tvLoanTenureVal: TextView
+    lateinit var tvBankOfferTitleV2:TextView
     lateinit var skLoanAmount: SeekBar
     lateinit var skTenure: SeekBar
     lateinit var llBankOfferParent: LinearLayout
@@ -102,6 +104,8 @@ class SoftOfferFragment : BaseFragment() {
 
             tvLoanAmountVal = view.findViewById(R.id.tvLoanAmountValV2)
             tvLoanTenureVal = view.findViewById(R.id.tvLoanTenureValV2)
+            tvBankOfferTitleV2=view.findViewById(R.id.tvBankOfferTitleV2)
+
             skLoanAmount = view.findViewById(R.id.skLoanAmount)
             skTenure = view.findViewById(R.id.skTenure)
 
@@ -196,12 +200,18 @@ class SoftOfferFragment : BaseFragment() {
 
     }
 
+    // region Response
+
     private fun onBankResponse(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
             }
             ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
                 val bankOfferRes: BankOffersForApplicationResponse? = mApiResponse.data as BankOffersForApplicationResponse?
+                tvBankOfferTitleV2.visibility=View.VISIBLE
+                recyclerViewBankOffer.visibility=View.VISIBLE
                 try {
                     if (bankOfferRes?.data?.isNotEmpty() == true) {
                         val bankOffersData: List<BankOffersData>? = bankOfferRes?.data as List<BankOffersData>
@@ -228,6 +238,7 @@ class SoftOfferFragment : BaseFragment() {
 
             }
             ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
                 Log.i("SoftOfferFragment", "onBankResponse: " + ApiResponse.Status.ERROR)
 
             }
@@ -243,14 +254,17 @@ class SoftOfferFragment : BaseFragment() {
     private fun onSetBankRes(apiResponse: ApiResponse) {
         when (apiResponse.status) {
             ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
             }
             ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
                 val bankOfferRes: SelectRecommendedBankOfferResponse? = apiResponse.data as SelectRecommendedBankOfferResponse?
                 showToast(bankOfferRes?.message.toString())
                 Log.i("TAG", "onBankResponse: " + bankOfferRes?.message)
 
             }
             ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
                 Log.i("SoftOfferFragment", "onBankResponse: " + ApiResponse.Status.ERROR)
 
             }
@@ -261,6 +275,7 @@ class SoftOfferFragment : BaseFragment() {
         Log.i("TAG", "onBankResponse: " + apiResponse.status)
     }
 
+    // endregion Response
 
     private fun callSetRecommendedBank(item: Any?) {
 
