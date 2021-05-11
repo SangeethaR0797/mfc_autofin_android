@@ -330,5 +330,6 @@
     <string name="v2_rate_of_interest">Rate of interest</string>
     <string name="v2_emi">EMI</string>
     <string name="v2_processing_fee">Processing Fee \u20B9 2500</string>
+    <string name="please_check_your_internet_connection">Please check your Internet connection.</string>
 
 </resources>

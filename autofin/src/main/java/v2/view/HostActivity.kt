@@ -1,11 +1,14 @@
 package v2.view
 
+import android.content.IntentFilter
 import android.graphics.Rect
+import android.net.ConnectivityManager
+import android.os.Build
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.mfc.autofin.framework.R
@@ -15,21 +18,60 @@ import utility.CommonStrings
 import utility.Global
 import v2.model.request.*
 import v2.model.response.IBB_TokenResponse
-import v2.model.response.OTPResponse
 import v2.model.response.TokenDetailsResponse
 import v2.model_view.AuthenticationViewModel
-import v2.model_view.TransactionViewModel
 import v2.service.utility.ApiResponse
-import v2.view.base.BaseFragment
+import v2.utility.connectivity.ConnectivityReceiver
+import v2.utility.connectivity.ConnectivityReceiverListener
 
 
-class HostActivity : AppCompatActivity() {
+class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
+    var tvConnectivityMessage: TextView? = null
+
     var authenticationViewModel: AuthenticationViewModel? = null
+    private var myConnectivityReceiver: ConnectivityReceiver? = null
+
+    private fun broadcastIntent() {
+        myConnectivityReceiver = ConnectivityReceiver()
+        registerReceiver(myConnectivityReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+    }
+
+    override fun onNetworkConnectionChanged(isConnected: Boolean) {
+        if (isConnected) {
+            tvConnectivityMessage!!.visibility = View.GONE
+        } else {
+            tvConnectivityMessage!!.visibility = View.VISIBLE
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        ConnectivityReceiver.connectivityReceiverListener = this@HostActivity
+        broadcastIntent()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        try {
+            if (myConnectivityReceiver != null) {
+                unregisterReceiver(myConnectivityReceiver)
+                myConnectivityReceiver = null
+            }
+        } catch (e: Exception) {
+        }
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
         setContentView(R.layout.activity_host)
+        tvConnectivityMessage = findViewById(R.id.tv_connectivity_message)
+
+        myConnectivityReceiver = ConnectivityReceiver()
 
 
         CommonStrings.APP_NAME = intent.getStringExtra(AutoFinConstants.APP_NAME)
@@ -95,7 +137,6 @@ class HostActivity : AppCompatActivity() {
                 CommonStrings.TOKEN_VALUE = tokenResponse!!.data.toString()
 
 
-
             }
             ApiResponse.Status.ERROR -> {
 
@@ -138,5 +179,6 @@ class HostActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
     }
+
 
 }
