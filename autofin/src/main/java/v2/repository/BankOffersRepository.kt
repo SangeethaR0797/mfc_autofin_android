@@ -21,5 +21,4 @@ class BankOffersRepository
         return bankOffersEndPoint.setSelectRecommendedBankOffer(request,url)
     }
 
-
 }

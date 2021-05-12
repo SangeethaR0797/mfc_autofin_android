@@ -277,5 +277,43 @@ class MasterViewModel(application: Application) : BaseViewModel(application) {
     }
 //endregion CommonBanksDetails
 
+    // region getLoanAmount
+
+    var mLoanAmountLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+
+    public fun getBankOfferLoanLiveData():MutableLiveData<ApiResponse>
+    {
+        return mLoanAmountLiveData
+    }
+
+    public fun getBankOffersLoanAmount(url: String) {
+        repository.getLoanAmountDetails(url)?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe { d -> mLoanAmountLiveData.setValue(ApiResponse.loading()) }
+                ?.let {
+                    disposables.add(
+                            it
+                                    .subscribe(
+                                            { result ->
+                                                mLoanAmountLiveData.setValue(result?.let {
+                                                    ApiResponse.success(
+                                                            it
+                                                    )
+                                                })
+                                            }
+                                    ) { throwable ->
+                                        mLoanAmountLiveData.setValue(
+                                                ApiResponse.error(
+                                                        throwable
+                                                )
+                                        )
+                                    })
+                }
+    }
+
+
+    // endregion getLoamAmount
+
+
 
 }

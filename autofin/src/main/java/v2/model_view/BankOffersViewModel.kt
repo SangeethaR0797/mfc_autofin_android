@@ -15,6 +15,7 @@ import v2.service.utility.ApiResponse
 class BankOffersViewModel(application: Application) : BaseViewModel(application) {
     var repository = BankOffersRepository()
 
+
     //region getBankOffersForLeadApplication
     var mBankOffersForLeadApplicationLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
 

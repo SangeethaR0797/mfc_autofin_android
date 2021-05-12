@@ -5,6 +5,7 @@ import v2.end_point.MasterEndPoint
 import v2.model.response.BankListResponse
 import v2.model.response.CityNameListResponse
 import v2.model.response.CommonBanksResponse
+import v2.model.response.bank_offers.LoanAmountResponse
 import v2.model.response.master.MasterResponse
 import v2.service.ApiServiceGenerator
 
@@ -56,5 +57,11 @@ class MasterRepository {
     {
         return masterEndPoint.getCommonBanks(url)
     }
+
+    fun getLoanAmountDetails(url: String): Observable<LoanAmountResponse?>?
+    {
+        return masterEndPoint.getLoanAmountDetails(url)
+    }
+
 
 }

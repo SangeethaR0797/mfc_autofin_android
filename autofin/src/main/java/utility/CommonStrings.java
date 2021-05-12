@@ -2,6 +2,8 @@ package utility;
 
 import com.mfc.autofin.framework.Activity.ResidentialActivity.ResidentialCity;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -179,4 +181,5 @@ public class CommonStrings {
     public static final String URL="url";
     public static final String TITLE="title";
 
+    public static final String LOAN_AMOUNT_URL="default-loan/";
 }

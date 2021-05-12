@@ -2093,7 +2093,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                         llWorkExpriance.visibility = View.VISIBLE
                                         tvBankTitle.setText(getString(R.string.salary_bank_account))
 
-                                        if (addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount!!.isNotEmpty()) {
+                                        if (addEmploymentDetailsRequest.Data?.employmentDetails?.PrimaryAccount?.isNotEmpty() == true) {
                                             addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount =
                                                     addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount
                                         }

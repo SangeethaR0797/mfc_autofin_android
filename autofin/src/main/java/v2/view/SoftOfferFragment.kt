@@ -2,17 +2,18 @@ package v2.view
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
-import org.w3c.dom.Text
 import utility.CommonStrings
 import utility.Global
 import v2.model.request.bank_offers.BankOfferData
@@ -20,46 +21,59 @@ import v2.model.request.bank_offers.BankOffersForApplicationRequest
 import v2.model.request.bank_offers.LeadApplicationData
 import v2.model.request.bank_offers.SelectRecommendedBankOfferRequest
 import v2.model.response.CustomerDetailsResponse
-import v2.model.response.bank_offers.BankOffersData
-import v2.model.response.bank_offers.BankOffersForApplicationResponse
-import v2.model.response.bank_offers.SelectRecommendedBankOfferResponse
+import v2.model.response.bank_offers.*
 import v2.model_view.BankOffersViewModel
+import v2.model_view.MasterViewModel
 import v2.service.utility.ApiResponse
 import v2.view.adapter.SoftOfferAdapter
 import v2.view.base.BaseFragment
 import v2.view.callBackInterface.itemClickCallBack
-import kotlin.concurrent.fixedRateTimer
 
 
 class SoftOfferFragment : BaseFragment() {
-    private var caseID: String=""
+    private var caseID: String = ""
     lateinit var bankAdapter: SoftOfferAdapter
     lateinit var customerDetailsResponse: CustomerDetailsResponse
     lateinit var tvLoanAmountVal: TextView
     lateinit var tvLoanTenureVal: TextView
-    lateinit var tvBankOfferTitleV2:TextView
+    lateinit var tvBankOfferTitleV2: TextView
     lateinit var skLoanAmount: SeekBar
     lateinit var skTenure: SeekBar
     lateinit var llBankOfferParent: LinearLayout
     lateinit var linearLayoutCalculation: LinearLayout
     lateinit var llSoftOfferDialog: LinearLayout
-    lateinit var ivBackToRedDetails: ImageView
     lateinit var buttonLoanDetailsSubmit: Button
     lateinit var recyclerViewBankOffer: RecyclerView
+
+    lateinit var loanAmountViewModel: MasterViewModel
     lateinit var bankViewModel: BankOffersViewModel
 
-    var loanAmountMaximum: Int = 1000000
-    var loanAmountMinimum: Int = 50000
+    var loanAmountDefault: Int = 0
+    var loanTenureDefault: Int = 0
 
-    var loanTenureMaximum: Int = 15
-    var loanTenureMinimum: Int = 1
+    var loanAmountMaximum: Int = 0
+    var loanTenureMaximum: Int = 0
+
+    private var loanAmountMinimum: Int = 0
+    private var loanTenureMinimum: Int = 0
 
     var loanAmount = ""
     var loanTenure = ""
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // region Loan-MasterViewModel
+
+        loanAmountViewModel = ViewModelProvider(this).get(MasterViewModel::class.java)
+
+        loanAmountViewModel.getBankOfferLoanLiveData().observe(this, { mApiResponse: ApiResponse? ->
+            onLoanAmountResponse(mApiResponse!!)
+        })
+
+        //endRegion Loan-MasterViewModel
 
         bankViewModel = ViewModelProvider(this).get(
                 BankOffersViewModel::class.java
@@ -85,10 +99,10 @@ class SoftOfferFragment : BaseFragment() {
         arguments?.let {
             val safeArgs = SoftOfferFragmentArgs.fromBundle(it)
             customerDetailsResponse = safeArgs.CustomerDetails
-           // caseID= customerDetailsResponse.data?.caseId.toString()
-            caseID="0242210316000103"
-           // customerId = safeArgs.customerId
-            customerId="448"
+            // caseID= customerDetailsResponse.data?.caseId.toString()
+            caseID = "0242210316000103"
+            // customerId = safeArgs.customerId
+            customerId = "448"
         }
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             initViews(view)
@@ -100,11 +114,10 @@ class SoftOfferFragment : BaseFragment() {
     @SuppressLint("NewApi")
     private fun initViews(view: View?) {
         if (view != null) {
-            ivBackToRedDetails = view.findViewById(R.id.ivBackToRedDetails)
 
             tvLoanAmountVal = view.findViewById(R.id.tvLoanAmountValV2)
             tvLoanTenureVal = view.findViewById(R.id.tvLoanTenureValV2)
-            tvBankOfferTitleV2=view.findViewById(R.id.tvBankOfferTitleV2)
+            tvBankOfferTitleV2 = view.findViewById(R.id.tvBankOfferTitleV2)
 
             skLoanAmount = view.findViewById(R.id.skLoanAmount)
             skTenure = view.findViewById(R.id.skTenure)
@@ -116,16 +129,17 @@ class SoftOfferFragment : BaseFragment() {
 
             buttonLoanDetailsSubmit = view.findViewById(R.id.buttonLoanDetailsSubmit)
 
-            tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + loanAmountMinimum
-            tvLoanTenureVal.text = "$loanTenureMinimum Years"
-
+            loanAmountViewModel.getBankOffersLoanAmount(Global.customerAPI_Master_URL + CommonStrings.LOAN_AMOUNT_URL + customerId)
 
             skLoanAmount.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 
-                    val loanAmountVal = formatAmount(progress.toString())
-                    loanAmount=progress.toString()
+                    val rounded: Int = (progress + 999) / 1000 * 100
+                    val loanAmountVal = formatAmount(rounded.toString())
+
+                    loanAmount = rounded.toString()
                     tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + loanAmountVal
+
 
                 }
 
@@ -138,16 +152,12 @@ class SoftOfferFragment : BaseFragment() {
             })
         }
 
-        skTenure.min = loanTenureMinimum
-        skTenure.max = loanTenureMaximum
-
-        ivBackToRedDetails.setOnClickListener(View.OnClickListener { activity?.onBackPressed() })
-
         skTenure.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 
-                loanTenure=progress.toString()
+                loanTenure = progress.toString()
                 tvLoanTenureVal.text = "$loanTenure Years"
+
 
             }
 
@@ -168,29 +178,14 @@ class SoftOfferFragment : BaseFragment() {
                 showToast("Please select Loan Amount and Loan Tenure")
             }
         })
-        enableSoftOfferDialog()
 
     }
 
     private fun getBankRequest(): BankOffersForApplicationRequest {
-        val leadApplicationData = LeadApplicationData(caseID, customerId, loanAmount.toInt(), loanTenure.toInt()*12)
+        val leadApplicationData = LeadApplicationData(caseID, customerId, loanAmount.toInt(), loanTenure.toInt() * 12)
         return BankOffersForApplicationRequest(leadApplicationData, CommonStrings.DEALER_ID, CommonStrings.USER_TYPE)
     }
 
-    private fun enableSoftOfferDialog() {
-        val fixedRateTimer = fixedRateTimer(name = "soft-offer",
-                initialDelay = 100, period = 100) {
-            llSoftOfferDialog.visibility = View.VISIBLE
-            println("loading!")
-        }
-        try {
-            Thread.sleep(3000)
-        } finally {
-            fixedRateTimer.cancel();
-        }
-        enableCalculatorLayout()
-
-    }
 
     private fun enableCalculatorLayout() {
 
@@ -202,6 +197,65 @@ class SoftOfferFragment : BaseFragment() {
 
     // region Response
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun onLoanAmountResponse(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+                val loanAmountResponse: LoanAmountResponse? = mApiResponse.data as LoanAmountResponse?
+                try {
+                    val loanData: LoanData = loanAmountResponse?.data as LoanData
+                    loanAmountMinimum = loanData.minValues.loanAmount
+                    loanTenureMinimum = loanData.minValues.tenureInMonths / 12
+
+                    loanAmountMaximum = loanData.maxValues.loanAmount
+                    loanTenureMaximum = loanData.maxValues.tenureInMonths / 12
+
+                    loanData.defaultValues.loanAmount.also { loanAmountDefault = it }
+                    loanTenureDefault = loanData.defaultValues.tenureInMonths / 12
+
+                    enableCalculatorLayout()
+                    setData()
+
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+                Log.i("SoftOfferFragment", "onBankResponse: " + ApiResponse.Status.ERROR)
+
+            }
+            else -> {
+                Log.i("SoftOfferFragment", "onBankResponse: ")
+            }
+        }
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setData() {
+
+        tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + loanAmountDefault
+        tvLoanTenureVal.text = "$loanTenureDefault Years"
+
+        skLoanAmount.max = loanAmountMaximum
+        skLoanAmount.progress=loanAmountDefault
+        skLoanAmount.min=loanAmountMinimum
+
+        skTenure.progress = loanTenureDefault
+        skTenure.min = loanTenureMinimum
+        skTenure.max = loanTenureMaximum
+
+
+    }
+
+
     private fun onBankResponse(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
@@ -210,8 +264,8 @@ class SoftOfferFragment : BaseFragment() {
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
                 val bankOfferRes: BankOffersForApplicationResponse? = mApiResponse.data as BankOffersForApplicationResponse?
-                tvBankOfferTitleV2.visibility=View.VISIBLE
-                recyclerViewBankOffer.visibility=View.VISIBLE
+                tvBankOfferTitleV2.visibility = View.VISIBLE
+                recyclerViewBankOffer.visibility = View.VISIBLE
                 try {
                     if (bankOfferRes?.data?.isNotEmpty() == true) {
                         val bankOffersData: List<BankOffersData>? = bankOfferRes?.data as List<BankOffersData>
@@ -226,9 +280,7 @@ class SoftOfferFragment : BaseFragment() {
 
                         this.recyclerViewBankOffer.adapter = bankAdapter
 
-                    }
-                    else
-                    {
+                    } else {
                         showToast("No Banks found")
                     }
 
@@ -281,8 +333,7 @@ class SoftOfferFragment : BaseFragment() {
 
         // val bankOfferData = BankOfferData(caseID, customerId, )
 
-        val bankId=item
-        val bankOffersData=BankOfferData(caseID,customerId, bankId.toString())
+        val bankOffersData = BankOfferData(caseID, customerId, item.toString())
         val bankOffersForApplicationRequest = SelectRecommendedBankOfferRequest(bankOffersData, CommonStrings.DEALER_ID, CommonStrings.USER_TYPE)
         bankViewModel.setSelectRecommendedBankOffer(bankOffersForApplicationRequest, Global.customer_bank_baseURL + "select-recommended-bank")
     }
