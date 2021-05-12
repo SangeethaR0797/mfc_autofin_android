@@ -414,6 +414,24 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         textViewTermsAndCondition.text = ss
         textViewTermsAndCondition.movementMethod = LinkMovementMethod.getInstance()
 
+
+        etMobileNumberV2.addTextChangedListener(object :TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(s?.length!=10)
+                {
+                    if (tvOTPTimerV2.text != getString(R.string.otp_timer_hint)) {
+                       makeOTPLayoutInvisible()
+                    }
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        })
+
         tvResendOTPV2.setOnClickListener(this)
         btnMobileNum.setOnClickListener(this)
         llBirthDate.setOnClickListener(this)
@@ -732,7 +750,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     private fun enableTimer() {
-        timer = object : CountDownTimer(120000, 1000) {
+        timer = object : CountDownTimer(60000, 1000) {
 
             @SuppressLint("SetTextI18n")
             override fun onTick(millisUntilFinished: Long) {
@@ -1215,8 +1233,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                         if (cbTermsAndConditions.isChecked) {
                             onClickNext = true
-                            //Validate OTP and Validate Lead
-                            validateOTP()
+                            timer.onFinish() //disable timer
+                            validateOTP()    //Validate OTP and Validate Lead
+
                         } else
                             showToast("Please check Terms and Condition")
                     }
@@ -2082,8 +2101,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                         llAccoutDetailsSection.visibility = View.VISIBLE
                                         tvBankTitle.setText(getString(R.string.primary_bank_account))
 
-                                        if (addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount!!.isNotEmpty()) {
-                                            addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount =
+                                        if (addEmploymentDetailsRequest.Data!!.employmentDetails?.SalaryAccount?.isNotEmpty() == true) {
+                                            addEmploymentDetailsRequest.Data!!.employmentDetails?.PrimaryAccount =
                                                     addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount
                                         }
                                         addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount =
@@ -2458,8 +2477,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         dialogConfilctForAddLead!!.setCancelable(false)
         dialogConfilctForAddLead!!.setCanceledOnTouchOutside(false)
         dialogConfilctForAddLead!!.setContentView(R.layout.vtwo_layout_custom_dialog)
-        val ivCloseDialog =
-                dialogConfilctForAddLead!!.findViewById(R.id.ivCloseDialogV2) as ImageView
         val tvAlertDialogText =
                 dialogConfilctForAddLead!!.findViewById(R.id.tvAlertDialogText) as TextView
         tvAlertDialogText.setText(validateLeadDataRes.message)
@@ -2467,9 +2484,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         val btnContinueWithOldFlow =
                 dialogConfilctForAddLead!!.findViewById(R.id.btnExistingFlowV2) as Button
 
-        ivCloseDialog.setOnClickListener {
-            dialogConfilctForAddLead!!.dismiss()
-        }
 
         btnNewFlow.setOnClickListener {
             resetJourney()
@@ -2576,6 +2590,16 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
     //endregion on Api Callback/Response
+
+    private fun makeOTPLayoutInvisible() {
+        tvOTPTimerV2.text = "0 Sec"
+        timer.cancel()
+        etOTPV2.text.clear()
+        ll_otp_v2.visibility = View.GONE
+        llTAndC.visibility = View.GONE
+        if(cbTermsAndConditions.isChecked)
+            cbTermsAndConditions.isClickable=false
+    }
 
 
 }

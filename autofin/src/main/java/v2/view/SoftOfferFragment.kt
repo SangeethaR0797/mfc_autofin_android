@@ -100,9 +100,9 @@ class SoftOfferFragment : BaseFragment() {
         arguments?.let {
             val safeArgs = SoftOfferFragmentArgs.fromBundle(it)
             customerDetailsResponse = safeArgs.CustomerDetails
-            // caseID= customerDetailsResponse.data?.caseId.toString()
+             caseID= customerDetailsResponse.data?.caseId.toString()
             caseID = "0242210316000103"
-            // customerId = safeArgs.customerId
+            //customerId = safeArgs.customerId
             customerId = "448"
         }
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -116,6 +116,7 @@ class SoftOfferFragment : BaseFragment() {
     private fun initViews(view: View?) {
         if (view != null) {
 
+            ivBackToRedDetails=view.findViewById(R.id.ivBackToRedDetails)
             tvLoanAmountVal = view.findViewById(R.id.tvLoanAmountValV2)
             tvLoanTenureVal = view.findViewById(R.id.tvLoanTenureValV2)
             tvBankOfferTitleV2 = view.findViewById(R.id.tvBankOfferTitleV2)
@@ -135,7 +136,7 @@ class SoftOfferFragment : BaseFragment() {
             skLoanAmount.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 
-                    val rounded: Int = (progress + 999) / 1000 * 100
+                    val rounded: Int = (progress + 999) / 1000 * 1000
                     val loanAmountVal = formatAmount(rounded.toString())
 
                     loanAmount = rounded.toString()

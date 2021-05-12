@@ -38,10 +38,10 @@ class DataRecyclerViewAdapter(var context: Activity, var dataListValue: List<Dat
             holder.tvItemSmall.visibility = View.GONE
         } else {
             holder.tvItemSmall.visibility = View.VISIBLE
-            holder.tvItemSmall.text = dataListFilter!!.get(position).displayValuePostFix
+            holder.tvItemSmall.text = dataListFilter?.get(position)?.displayValuePostFix
         }
         holder.llMainLayout.setOnClickListener(View.OnClickListener {
-            itemCallBack.itemClick(dataListFilter!!.get(position), position)
+            itemCallBack.itemClick(dataListFilter?.get(position), position)
         })
 
         holder.llMainLayout.setBackgroundResource(R.drawable.vtwo_input_bg)

@@ -20,7 +20,6 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/ivCloseDialogV2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -29,6 +28,7 @@
             android:layout_marginEnd="@dimen/text_size_37dp"
             android:layout_marginRight="@dimen/text_size_37dp"
             android:paddingRight="@dimen/text_size_20dp"
+            android:visibility="invisible"
             app:srcCompat="@drawable/ic_close"
             tools:ignore="ContentDescription" />
 
