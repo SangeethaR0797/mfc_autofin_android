@@ -37,6 +37,7 @@ class SoftOfferFragment : BaseFragment() {
     lateinit var tvLoanAmountVal: TextView
     lateinit var tvLoanTenureVal: TextView
     lateinit var tvBankOfferTitleV2: TextView
+    lateinit var ivBackToRedDetails: ImageView
     lateinit var skLoanAmount: SeekBar
     lateinit var skTenure: SeekBar
     lateinit var llBankOfferParent: LinearLayout
@@ -168,6 +169,8 @@ class SoftOfferFragment : BaseFragment() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
             }
         })
+
+        ivBackToRedDetails.setOnClickListener(View.OnClickListener { activity?.onBackPressed() })
 
         buttonLoanDetailsSubmit.setOnClickListener(View.OnClickListener {
             if (loanAmount.isNotEmpty() && loanTenure.isNotEmpty() &&
