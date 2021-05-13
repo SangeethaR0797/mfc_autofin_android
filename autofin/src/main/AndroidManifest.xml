@@ -41,7 +41,8 @@
         <activity
             android:name="v2.view.HostActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activity.VehicleDetailsActivities.LikelyPurchaseActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />

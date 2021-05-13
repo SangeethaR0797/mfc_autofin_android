@@ -31,12 +31,14 @@ import v2.view.callBackInterface.itemClickCallBack
 
 
 class SoftOfferFragment : BaseFragment() {
+    var initialCall:Boolean=true
     private var caseID: String = ""
     lateinit var bankAdapter: SoftOfferAdapter
     lateinit var customerDetailsResponse: CustomerDetailsResponse
     lateinit var tvLoanAmountVal: TextView
     lateinit var tvLoanTenureVal: TextView
     lateinit var tvBankOfferTitleV2: TextView
+    lateinit var textViewNoDataFound:TextView
     lateinit var ivBackToRedDetails: ImageView
     lateinit var skLoanAmount: SeekBar
     lateinit var skTenure: SeekBar
@@ -45,6 +47,7 @@ class SoftOfferFragment : BaseFragment() {
     lateinit var llSoftOfferDialog: LinearLayout
     lateinit var buttonLoanDetailsSubmit: Button
     lateinit var recyclerViewBankOffer: RecyclerView
+    lateinit var scrollViewBankOffer:ScrollView
 
     lateinit var loanAmountViewModel: MasterViewModel
     lateinit var bankViewModel: BankOffersViewModel
@@ -100,10 +103,10 @@ class SoftOfferFragment : BaseFragment() {
         arguments?.let {
             val safeArgs = SoftOfferFragmentArgs.fromBundle(it)
             customerDetailsResponse = safeArgs.CustomerDetails
-             caseID= customerDetailsResponse.data?.caseId.toString()
-            caseID = "0242210316000103"
-            //customerId = safeArgs.customerId
-            customerId = "448"
+            caseID= customerDetailsResponse.data?.caseId.toString()
+            //caseID = "0242210316000103"
+            customerId = safeArgs.customerId
+            //customerId = "448"
         }
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             initViews(view)
@@ -117,9 +120,13 @@ class SoftOfferFragment : BaseFragment() {
         if (view != null) {
 
             ivBackToRedDetails=view.findViewById(R.id.ivBackToRedDetails)
+
+            scrollViewBankOffer=view.findViewById(R.id.scrollViewBankOffer)
+
             tvLoanAmountVal = view.findViewById(R.id.tvLoanAmountValV2)
             tvLoanTenureVal = view.findViewById(R.id.tvLoanTenureValV2)
             tvBankOfferTitleV2 = view.findViewById(R.id.tvBankOfferTitleV2)
+            textViewNoDataFound=view.findViewById(R.id.textViewNoDataFound)
 
             skLoanAmount = view.findViewById(R.id.skLoanAmount)
             skTenure = view.findViewById(R.id.skTenure)
@@ -177,6 +184,7 @@ class SoftOfferFragment : BaseFragment() {
             if (loanAmount.isNotEmpty() && loanTenure.isNotEmpty() &&
                     !tvLoanAmountVal.equals(getString(R.string.rupees_symbol)) &&
                     !tvLoanTenureVal.equals(getString(R.string.v2_tenure_lbl))) {
+                initialCall = false
                 bankViewModel.getBankOffersForLeadApplication(getBankRequest(), Global.customer_bank_baseURL + "get-recommended-bank")
             } else {
                 showToast("Please select Loan Amount and Loan Tenure")
@@ -256,22 +264,29 @@ class SoftOfferFragment : BaseFragment() {
         skTenure.min = loanTenureMinimum
         skTenure.max = loanTenureMaximum
 
+        bankViewModel.getBankOffersForLeadApplication(getBankRequest(), Global.customer_bank_baseURL + "get-recommended-bank")
 
     }
 
 
     private fun onBankResponse(mApiResponse: ApiResponse) {
+
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
-                showProgressDialog(requireContext())
+                if (!initialCall)
+                    showProgressDialog(requireContext())
             }
             ApiResponse.Status.SUCCESS -> {
-                hideProgressDialog()
+                if (!initialCall)
+                    hideProgressDialog()
+
                 val bankOfferRes: BankOffersForApplicationResponse? = mApiResponse.data as BankOffersForApplicationResponse?
-                tvBankOfferTitleV2.visibility = View.VISIBLE
-                recyclerViewBankOffer.visibility = View.VISIBLE
                 try {
                     if (bankOfferRes?.data?.isNotEmpty() == true) {
+                        tvBankOfferTitleV2.visibility = View.VISIBLE
+                        recyclerViewBankOffer.visibility = View.VISIBLE
+                        textViewNoDataFound.visibility = View.GONE
+
                         val bankOffersData: List<BankOffersData>? = bankOfferRes?.data as List<BankOffersData>
                         bankAdapter = SoftOfferAdapter(activity as Activity, bankOffersData!!, object : itemClickCallBack {
                             override fun itemClick(item: Any?, position: Int) {
@@ -283,9 +298,16 @@ class SoftOfferFragment : BaseFragment() {
                         recyclerViewBankOffer.layoutManager = layoutManager
 
                         this.recyclerViewBankOffer.adapter = bankAdapter
+                        setFocusOnView(recyclerViewBankOffer)
+
 
                     } else {
-                        showToast("No Banks found")
+                        tvBankOfferTitleV2.visibility = View.GONE
+                        recyclerViewBankOffer.visibility = View.GONE
+
+                        textViewNoDataFound.visibility = View.VISIBLE
+                        setFocusOnView(textViewNoDataFound)
+
                     }
 
                 } catch (ex: Exception) {
@@ -305,6 +327,11 @@ class SoftOfferFragment : BaseFragment() {
 
         Log.i("TAG", "onBankResponse: " + mApiResponse.status)
 
+    }
+
+    private fun setFocusOnView(view: View?)
+    {
+        scrollViewBankOffer.post(Runnable { view?.top?.let { scrollViewBankOffer.scrollTo(0, it) } })
     }
 
     private fun onSetBankRes(apiResponse: ApiResponse) {
