@@ -426,39 +426,27 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
 
         rvKilometresDriven.addItemDecoration(GridItemDecoration(25, 2))
 
-        rvKilometresDriven.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+        rvKilometresDriven.layoutManager = layoutManagerStaggeredGridLayoutManager
 
-        rvKilometresDriven.setAdapter(kmsDrivenAdapter)
+        rvKilometresDriven.adapter = kmsDrivenAdapter
     }
 
-    fun setLastSelectedData() {
-        if (addLeadRequest?.Data?.addLeadVehicleDetails?.Ownership != null) {
+    private fun setLastSelectedData() {
+        if (addLeadRequest.Data?.addLeadVehicleDetails?.Ownership != null) {
             ownershipDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
-                if (addLeadRequest?.Data?.addLeadVehicleDetails?.Ownership?.toString().equals(dataSelectionDTO.value) == true) {
-                    dataSelectionDTO.selected = true
-                } else {
-                    dataSelectionDTO.selected = false
-                }
+                dataSelectionDTO.selected = addLeadRequest.Data?.addLeadVehicleDetails?.Ownership?.toString().equals(dataSelectionDTO.value) == true
             }
             ownershipDetailsAdapter.notifyDataSetChanged()
         }
-        if (addLeadRequest?.Data?.addLeadVehicleDetails?.KMs != null) {
+        if (addLeadRequest.Data?.addLeadVehicleDetails?.KMs != null) {
             kmsDrivenAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
-                if (addLeadRequest?.Data?.addLeadVehicleDetails?.KMs?.equals(dataSelectionDTO.value) == true) {
-                    dataSelectionDTO.selected = true
-                } else {
-                    dataSelectionDTO.selected = false
-                }
+                dataSelectionDTO.selected = addLeadRequest.Data?.addLeadVehicleDetails?.KMs?.equals(dataSelectionDTO.value) == true
             }
             kmsDrivenAdapter.notifyDataSetChanged()
         }
-        if (addLeadRequest?.Data?.addLeadVehicleDetails?.FuelType != null) {
+        if (addLeadRequest.Data?.addLeadVehicleDetails?.FuelType != null) {
             fuleDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
-                if (addLeadRequest?.Data?.addLeadVehicleDetails?.FuelType?.equals(dataSelectionDTO.value) == true) {
-                    dataSelectionDTO.selected = true
-                } else {
-                    dataSelectionDTO.selected = false
-                }
+                dataSelectionDTO.selected = addLeadRequest.Data?.addLeadVehicleDetails?.FuelType?.equals(dataSelectionDTO.value) == true
             }
             fuleDetailsAdapter.notifyDataSetChanged()
         }

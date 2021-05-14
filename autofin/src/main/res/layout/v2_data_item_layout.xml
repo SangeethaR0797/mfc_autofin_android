@@ -36,7 +36,7 @@
             android:maxLines="1"
             android:textAppearance="@style/RobotoMedium"
             android:textColor="@color/vtwo_light_grey"
-            android:textSize="@dimen/text_size_16sp"
+            android:textSize="@dimen/text_size_14sp"
             tools:text="2" />
 
         <TextView

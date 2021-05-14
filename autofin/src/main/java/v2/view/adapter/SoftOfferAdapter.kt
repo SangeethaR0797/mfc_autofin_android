@@ -5,10 +5,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
+import org.w3c.dom.Text
 import v2.model.response.bank_offers.BankOffersData
 import v2.view.callBackInterface.itemClickCallBack
 
@@ -32,6 +34,7 @@ public class SoftOfferAdapter(var context:Activity, var list: List<BankOffersDat
         else
             holder.tvBankStatusV2.text=""
 
+        holder.tvBankName.text=bankData.bankName
         holder.tvLoanAmountValV2.text=bankData.loanAmount
         holder.tvROIValV2.text=bankData.roi
         holder.tvTenureValV2.text=bankData.tenure
@@ -50,6 +53,8 @@ public class SoftOfferAdapter(var context:Activity, var list: List<BankOffersDat
 
     class BankViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+        val ivBankName:ImageView=itemView.findViewById(R.id.ivBankName)
+        val tvBankName:TextView=itemView.findViewById(R.id.tvBankName)
         val tvBankStatusV2: TextView = itemView.findViewById(R.id.tvBankStatusV2)
         val tvLoanAmountValV2: TextView = itemView.findViewById(R.id.tvLoanAmountValV2)
         val tvROIValV2: TextView = itemView.findViewById(R.id.tvROIValV2)

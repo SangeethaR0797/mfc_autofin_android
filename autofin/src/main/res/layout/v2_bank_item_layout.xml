@@ -34,7 +34,18 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.6"
                 android:foregroundGravity="left"
-                tools:ignore="ContentDescription" />
+                tools:ignore="ContentDescription"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/tvBankName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.6"
+                android:layout_marginTop="3dp"
+                android:textAppearance="@style/RobotoMedium"
+                android:textColor="@color/vtwo_black"
+                android:textSize="@dimen/text_size_16sp"
+                android:gravity="left"/>
 
             <TextView
                 android:id="@+id/tvBankStatusV2"

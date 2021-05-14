@@ -33,8 +33,9 @@ class DataRecyclerViewAdapter(var context: Activity, var dataListValue: List<Dat
 
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.tvItem.text = dataListFilter!!.get(position).displayValue
-        if (TextUtils.isEmpty(dataListFilter!!.get(position).displayValuePostFix)) {
+
+        holder.tvItem.text = dataListFilter!![position].displayValue
+        if (TextUtils.isEmpty(dataListFilter!![position].displayValuePostFix)) {
             holder.tvItemSmall.visibility = View.GONE
         } else {
             holder.tvItemSmall.visibility = View.VISIBLE
@@ -58,14 +59,14 @@ class DataRecyclerViewAdapter(var context: Activity, var dataListValue: List<Dat
             holder.tvItem.setTextColor(mContext.resources.getColor(R.color.vtwo_black))
             holder.tvItemSmall.setTextColor(mContext.resources.getColor(R.color.vtwo_black))
         }
-        if (dataListFilter!!.get(position).imageUrl == null) {
+        if (dataListFilter!![position].imageUrl == null) {
             holder.llTextData.visibility = View.VISIBLE
             holder.ivIcon.visibility = View.GONE
         } else {
            // holder.llTextData.visibility = View.GONE
             holder.ivIcon.visibility = View.GONE
             Picasso.get()
-                    .load(dataListFilter!!.get(position).imageUrl)
+                    .load(dataListFilter!![position].imageUrl)
                     .into(holder.ivIcon, object : Callback {
                         override fun onSuccess() {
                             holder.ivIcon.visibility = View.VISIBLE
@@ -107,8 +108,8 @@ class DataRecyclerViewAdapter(var context: Activity, var dataListValue: List<Dat
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charSearch = constraint.toString()
-                if (charSearch.isEmpty()) {
-                    dataListFilter = dataListValue as ArrayList<DataSelectionDTO>
+                dataListFilter = if (charSearch.isEmpty()) {
+                    dataListValue as ArrayList<DataSelectionDTO>
                 } else {
                     val resultList = ArrayList<DataSelectionDTO>()
                     for (row in dataListValue!!) {
@@ -116,7 +117,7 @@ class DataRecyclerViewAdapter(var context: Activity, var dataListValue: List<Dat
                             resultList.add(row)
                         }
                     }
-                    dataListFilter = resultList
+                    resultList
                 }
                 val filterResults = FilterResults()
                 filterResults.values = dataListFilter
