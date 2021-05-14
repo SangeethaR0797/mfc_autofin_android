@@ -42,7 +42,7 @@
                     android:text="@string/v2_loading_from_banks"
                     android:textColor="@color/vtwo_light_black"
                     android:textSize="@dimen/text_size_16sp"
-                    android:layout_marginTop="80dp"
+                    android:layout_marginTop="55dp"
                     android:textAppearance="@style/RobotoMedium"/>
                 <TextView
                     android:layout_width="wrap_content"
