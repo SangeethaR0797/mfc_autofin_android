@@ -1,7 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/textViewSelectBankLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="23dp"
+        android:layout_marginLeft="23dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="start"
+        android:text="You have selected bank name"
+        android:textAppearance="@style/RobotoRegular"
+        android:textColor="@color/vtwo_light_grey"
+        android:textSize="@dimen/text_size_12dp"
+        android:textStyle="italic"
+        tools:ignore="SpUsage" />
+
+    <ImageView
+        android:id="@+id/imageViewSelectedBankName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="23dp"
+        android:layout_marginLeft="23dp"
+        android:layout_marginBottom="6dp"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/textViewEnterBelowDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="23dp"
+        android:layout_marginLeft="23dp"
+        android:layout_marginBottom="@dimen/text_size_19dp"
+        android:gravity="start"
+        android:text="@string/v2_please_enter_below_details"
+        android:textAppearance="@style/RobotoRegular"
+        android:textColor="@color/vtwo_black"
+        android:textSize="@dimen/text_size_14sp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutEquiFaxAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/text_size_12dp"
+        android:layout_marginRight="@dimen/text_size_12dp"
+        android:paddingBottom="@dimen/text_size_30dp"
+        android:background="@drawable/white_corner"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewSelectYourCurrentAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/text_size_20dp"
+            android:layout_marginLeft="@dimen/text_size_20dp"
+            android:layout_marginTop="@dimen/text_size_30dp"
+            android:layout_marginBottom="@dimen/text_size_21dp"
+            android:gravity="start"
+            android:text="@string/v2_please_select_current_address"
+            android:textAppearance="@style/RobotoBold"
+            android:textColor="@color/vtwo_black"
+            android:textSize="@dimen/text_size_16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/text_size_20dp"
+            android:layout_marginRight="@dimen/text_size_20dp"
+            android:background="@color/v2_grey" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewEquiFaxAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="23dp"
+            android:layout_marginLeft="@dimen/text_size_16sp"
+            android:layout_marginRight="@dimen/text_size_16sp"
+            />
+
+        <Button
+            android:id="@+id/buttonAddNewAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/v2_black_outline"
+            android:layout_gravity="center"
+            android:layout_marginTop="38dp"
+            android:text="@string/v2_add_new"
+            android:textColor="@color/vtwo_black"
+            android:textSize="@dimen/text_size_16sp"
+            android:paddingLeft="@dimen/text_size_64dp"
+            android:paddingRight="@dimen/text_size_64dp"
+            android:paddingTop="13dp"
+            android:paddingBottom="13dp"
+            android:textAppearance="@style/RobotoMedium" />
+
+    </LinearLayout>
+
+</LinearLayout>

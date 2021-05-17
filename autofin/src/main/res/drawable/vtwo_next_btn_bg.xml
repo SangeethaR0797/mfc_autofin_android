@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:color="#7EFFFFFF"
-    tools:ignore="NewApi">
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <item>
-        <shape>
-            <solid android:color="@color/vtwo_black"></solid>
+    <solid android:color="@color/vtwo_black" />
 
-            <padding
-                android:bottom="5dp"
-                android:left="5dp"
-                android:right="5dp"
-                android:top="5dp"></padding>
+    <padding
+        android:bottom="5dp"
+        android:left="5dp"
+        android:right="5dp"
+        android:top="5dp" />
 
-            <corners android:radius="8dp"></corners>
-        </shape>
-    </item>
-
-</ripple>
+    <corners android:radius="8dp" />
+</shape>

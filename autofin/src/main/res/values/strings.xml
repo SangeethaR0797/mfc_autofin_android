@@ -331,5 +331,9 @@
     <string name="v2_emi">EMI</string>
     <string name="v2_processing_fee">Processing Fee \u20B9 2500</string>
     <string name="please_check_your_internet_connection">Please check your Internet connection.</string>
+    <string name="v2_please_select_current_address">Select Your Current Address</string>
+    <string name="v2_please_enter_below_details">Please enter below details</string>
+    <string name="v2_this_is_also_my_permanent_address">This is also my Permanent Address</string>
+    <string name="v2_add_new">ADD NEW</string>
 
 </resources>
