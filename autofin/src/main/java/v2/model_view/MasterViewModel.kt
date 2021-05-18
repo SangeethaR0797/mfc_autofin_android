@@ -314,6 +314,38 @@ class MasterViewModel(application: Application) : BaseViewModel(application) {
 
     // endregion getLoamAmount
 
+    //region CityNameByPinCode
+
+    private val mPinCodeData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+
+    public fun getPinCodeDataLiveData(): MutableLiveData<ApiResponse> {
+        return mPinCodeData
+    }
+
+    public fun getPinCodeData(url: String) {
+        repository.getPinCodeData(url)?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe { d -> mCityNameListLiveData.setValue(ApiResponse.loading()) }
+                ?.let {
+                    disposables.add(
+                            it.subscribe(
+                                    { result ->
+                                        mCityNameListLiveData.setValue(result?.let {
+                                            ApiResponse.success(
+                                                    it
+                                            )
+                                        })
+                                    }
+                            ) { throwable ->
+                                mCityNameListLiveData.setValue(
+                                        ApiResponse.error(
+                                                throwable
+                                        )
+                                )
+                            })
+                }
+    }
+//endregion CityNameByPinCode
 
 
 }

@@ -2,11 +2,13 @@ package v2.view
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.media.Image
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
@@ -14,43 +16,93 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
+import org.w3c.dom.Text
 import utility.CommonStrings
 import utility.Global
+import v2.model.request.AddressData
+import v2.model.request.PermanentAddress
+import v2.model.request.UpdateAddressRequest
 import v2.model.request.bank_offers.BankOfferData
 import v2.model.request.bank_offers.BankOffersForApplicationRequest
 import v2.model.request.bank_offers.LeadApplicationData
 import v2.model.request.bank_offers.SelectRecommendedBankOfferRequest
 import v2.model.response.CustomerDetailsResponse
 import v2.model.response.bank_offers.*
+import v2.model.response.master.PinCodeResponse
 import v2.model_view.BankOffersViewModel
 import v2.model_view.MasterViewModel
 import v2.service.utility.ApiResponse
+import v2.view.adapter.PostSoftOfferAdapter
 import v2.view.adapter.SoftOfferAdapter
 import v2.view.base.BaseFragment
 import v2.view.callBackInterface.itemClickCallBack
+import v2.model.request.CurrentAddress as CurrentAddress
 
 
-class SoftOfferFragment : BaseFragment() {
+class SoftOfferFragment : BaseFragment(), OnClickListener {
     var initialCall: Boolean = true
     private var caseID: String = ""
+    lateinit var scrollViewBankOffer: ScrollView
+
     lateinit var bankAdapter: SoftOfferAdapter
+    lateinit var postSoftOfferAdapter: PostSoftOfferAdapter
+
     lateinit var customerDetailsResponse: CustomerDetailsResponse
+
+    lateinit var ivBackToRedDetails: ImageView
+    lateinit var imageViewEditCurrentAddress: ImageView
+    lateinit var imageViewEditPermanentAddress: ImageView
+    lateinit var skLoanAmount: SeekBar
+    lateinit var skTenure: SeekBar
+
+    lateinit var llBankOfferParent: LinearLayout
+    lateinit var linearLayoutCalculation: LinearLayout
+    lateinit var llSoftOfferDialog: LinearLayout
+    lateinit var linearLayoutPostOffer: LinearLayout
+    lateinit var linearLayoutEquiFaxAddress: LinearLayout
+    lateinit var linearLayoutPermanentAddress: LinearLayout
+    lateinit var linearLayoutEditCurrentAddress: LinearLayout
+    lateinit var linearLayoutCity: LinearLayout
+    lateinit var linearLayoutOrganizationName: LinearLayout
+    lateinit var linearLayoutAddress: LinearLayout
+    lateinit var linearLayoutAddress2: LinearLayout
+    lateinit var linearLayoutAddress3: LinearLayout
+    lateinit var linearLayoutEditPermanentAddress: LinearLayout
+
     lateinit var tvLoanAmountVal: TextView
     lateinit var tvLoanTenureVal: TextView
     lateinit var tvBankOfferTitleV2: TextView
     lateinit var textViewNoDataFound: TextView
-    lateinit var ivBackToRedDetails: ImageView
-    lateinit var skLoanAmount: SeekBar
-    lateinit var skTenure: SeekBar
-    lateinit var llBankOfferParent: LinearLayout
-    lateinit var linearLayoutCalculation: LinearLayout
-    lateinit var llSoftOfferDialog: LinearLayout
-    lateinit var buttonLoanDetailsSubmit: Button
+    lateinit var textViewSelectBankLabel: TextView
+    lateinit var textViewCurrentAddress1: TextView
+    lateinit var textViewCurrentAddress2: TextView
+    lateinit var textViewCurrentAddress3: TextView
+    lateinit var textViewTypeOfAddress: TextView
+    lateinit var textViewState: TextView
+    lateinit var textViewCity: TextView
+    lateinit var textViewPermanentAddressEdit: TextView
+    lateinit var textViewPermanentAddress1: TextView
+    lateinit var textViewPermanentAddress2: TextView
+    lateinit var textViewPermanentAddress3: TextView
+
+
+    lateinit var editTextPinCode: EditText
+    lateinit var editTextOrgName: EditText
+    lateinit var editTextAddress1: EditText
+    lateinit var editTextAddress2: EditText
+    lateinit var editTextAddress3: EditText
+
     lateinit var recyclerViewBankOffer: RecyclerView
-    lateinit var scrollViewBankOffer: ScrollView
+    lateinit var recyclerViewEquiFaxAddress: RecyclerView
+
+    lateinit var buttonLoanDetailsSubmit: Button
+    lateinit var buttonAddNewAddress: Button
+    lateinit var buttonSubmitAddress: Button
+    lateinit var buttonPincodeCheck: Button
 
     lateinit var loanAmountViewModel: MasterViewModel
     lateinit var bankViewModel: BankOffersViewModel
+    lateinit var pinCodeViewModel: MasterViewModel
 
     var loanAmountDefault: Int = 0
     var loanTenureDefault: Int = 0
@@ -63,6 +115,9 @@ class SoftOfferFragment : BaseFragment() {
 
     var loanAmount = ""
     var loanTenure = ""
+    var address = ""
+    var pincode = ""
+    var typeOfAddress = ""
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -75,6 +130,11 @@ class SoftOfferFragment : BaseFragment() {
 
         loanAmountViewModel.getBankOfferLoanLiveData().observe(this, { mApiResponse: ApiResponse? ->
             onLoanAmountResponse(mApiResponse!!)
+        })
+
+        pinCodeViewModel = ViewModelProvider(this).get(MasterViewModel::class.java)
+        pinCodeViewModel.getPinCodeDataLiveData().observe(this, { mApiResponse: ApiResponse? ->
+            onPinCodeResponse(mApiResponse!!)
         })
 
         //endregion Loan-MasterViewModel
@@ -94,6 +154,7 @@ class SoftOfferFragment : BaseFragment() {
                     mApiResponse!!
             )
         })
+
 
     }
 
@@ -121,28 +182,60 @@ class SoftOfferFragment : BaseFragment() {
         if (view != null) {
 
             ivBackToRedDetails = view.findViewById(R.id.ivBackToRedDetails)
+            imageViewEditCurrentAddress = view.findViewById(R.id.imageViewEditCurrentAddress)
             scrollViewBankOffer = view.findViewById(R.id.scrollViewBankOffer)
 
             llBankOfferParent = view.findViewById(R.id.llBankOfferParent)
             llSoftOfferDialog = view.findViewById(R.id.llSoftOfferDialog)
-
             linearLayoutCalculation = view.findViewById(R.id.linearLayoutCalculation)
-            tvLoanAmountVal = view.findViewById(R.id.tvLoanAmountValV2)
-            skLoanAmount = view.findViewById(R.id.skLoanAmount)
+            linearLayoutPostOffer = view.findViewById(R.id.linearLayoutPostOffer)
+            linearLayoutEquiFaxAddress = view.findViewById(R.id.linearLayoutEquiFaxAddress)
+            linearLayoutPermanentAddress = view.findViewById(R.id.linearLayoutPermanentAddress)
+            linearLayoutEditCurrentAddress = view.findViewById(R.id.linearLayoutEditCurrentAddress)
+            linearLayoutCity = view.findViewById(R.id.linearLayoutCity)
+            linearLayoutOrganizationName = view.findViewById(R.id.linearLayoutOrganizationName)
+            linearLayoutAddress = view.findViewById(R.id.linearLayoutAddress)
+            linearLayoutAddress2 = view.findViewById(R.id.linearLayoutAddress2)
+            linearLayoutAddress3 = view.findViewById(R.id.linearLayoutAddress3)
+            linearLayoutEditPermanentAddress = view.findViewById(R.id.linearLayoutEditPermanentAddress)
 
+
+            tvLoanAmountVal = view.findViewById(R.id.tvLoanAmountValV2)
             tvLoanTenureVal = view.findViewById(R.id.tvLoanTenureValV2)
+            tvBankOfferTitleV2 = view.findViewById(R.id.tvBankOfferTitleV2)
+            textViewNoDataFound = view.findViewById(R.id.textViewNoDataFound)
+            textViewSelectBankLabel = view.findViewById(R.id.textViewSelectBankLabel)
+            textViewCurrentAddress1 = view.findViewById(R.id.textViewCurrentAddress1)
+            textViewCurrentAddress2 = view.findViewById(R.id.textViewCurrentAddress2)
+            textViewCurrentAddress3 = view.findViewById(R.id.textViewCurrentAddress3)
+            textViewTypeOfAddress = view.findViewById(R.id.textViewTypeOfAddress)
+            textViewState = view.findViewById(R.id.textViewState)
+            textViewCity = view.findViewById(R.id.textViewCity)
+            textViewPermanentAddressEdit = view.findViewById(R.id.textViewPermanentAddressEdit)
+            textViewPermanentAddress1 = view.findViewById(R.id.textViewPermanentAddress1)
+            textViewPermanentAddress2 = view.findViewById(R.id.textViewPermanentAddress2)
+            textViewPermanentAddress3 = view.findViewById(R.id.textViewPermanentAddress3)
+
+            editTextPinCode = view.findViewById(R.id.editTextPinCode)
+            editTextOrgName = view.findViewById(R.id.editTextOrgName)
+            editTextAddress1 = view.findViewById(R.id.editTextAddress1)
+            editTextAddress2 = view.findViewById(R.id.editTextAddress2)
+            editTextAddress3 = view.findViewById(R.id.editTextAddress3)
+
+            skLoanAmount = view.findViewById(R.id.skLoanAmount)
             skTenure = view.findViewById(R.id.skTenure)
 
             buttonLoanDetailsSubmit = view.findViewById(R.id.buttonLoanDetailsSubmit)
+            buttonAddNewAddress = view.findViewById(R.id.buttonAddNewAddress)
+            buttonSubmitAddress = view.findViewById(R.id.buttonSubmitAddress)
+            buttonPincodeCheck = view.findViewById(R.id.buttonPincodeCheck)
 
-            tvBankOfferTitleV2 = view.findViewById(R.id.tvBankOfferTitleV2)
             recyclerViewBankOffer = view.findViewById(R.id.recyclerViewBankOffer)
-            textViewNoDataFound = view.findViewById(R.id.textViewNoDataFound)
-
+            recyclerViewEquiFaxAddress = view.findViewById(R.id.recyclerViewEquiFaxAddress)
 
             loanAmountViewModel.getBankOffersLoanAmount(Global.customerAPI_Master_URL + CommonStrings.LOAN_AMOUNT_URL + customerId)
 
-            //region ChangeAndClickListeners
+            // region ChangeAndClickListeners
 
             skLoanAmount.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -183,9 +276,9 @@ class SoftOfferFragment : BaseFragment() {
         })
 
 
-        ivBackToRedDetails.setOnClickListener(View.OnClickListener { activity?.onBackPressed() })
+        ivBackToRedDetails.setOnClickListener(OnClickListener { activity?.onBackPressed() })
 
-        buttonLoanDetailsSubmit.setOnClickListener(View.OnClickListener {
+        buttonLoanDetailsSubmit.setOnClickListener(OnClickListener {
             if (loanAmount.isNotEmpty() && loanTenure.isNotEmpty() &&
                     !tvLoanAmountVal.equals(getString(R.string.rupees_symbol)) &&
                     !tvLoanTenureVal.equals(getString(R.string.v2_tenure_lbl))) {
@@ -196,7 +289,11 @@ class SoftOfferFragment : BaseFragment() {
             }
         })
 
-        //endregion ChangeAndClickListeners
+        // endregion ChangeAndClickListeners
+
+        buttonAddNewAddress.setOnClickListener(this)
+        buttonPincodeCheck.setOnClickListener(this)
+        buttonSubmitAddress.setOnClickListener(this)
 
     }
 
@@ -322,6 +419,7 @@ class SoftOfferFragment : BaseFragment() {
                 hideProgressDialog()
                 val bankOfferRes: SelectRecommendedBankOfferResponse? = apiResponse.data as SelectRecommendedBankOfferResponse?
                 showToast(bankOfferRes?.message.toString())
+                enablePostOfferLayout()
                 Log.i("TAG", "onBankResponse: " + bankOfferRes?.message)
 
             }
@@ -336,6 +434,49 @@ class SoftOfferFragment : BaseFragment() {
         }
         Log.i("TAG", "onBankResponse: " + apiResponse.status)
     }
+
+    private fun enablePostOfferLayout() {
+        linearLayoutCalculation.visibility = View.GONE
+        linearLayoutPostOffer.visibility = View.VISIBLE
+        val customerAddress = customerDetailsResponse.data?.equifaxFields?.address
+        if (customerAddress?.isNotEmpty() == true) {
+            textViewSelectBankLabel.text = "You have selected " + customerDetailsResponse.data?.loanDetails?.bankName + " bank"
+        }
+        postSoftOfferAdapter = PostSoftOfferAdapter(activity as Activity, customerAddress, object : itemClickCallBack {
+            override fun itemClick(item: Any?, position: Int) {
+                saveCurrentAddress(item)
+            }
+
+        })
+        val layoutManager = LinearLayoutManager(activity)
+        recyclerViewEquiFaxAddress.layoutManager = layoutManager
+
+        this.recyclerViewEquiFaxAddress.adapter = postSoftOfferAdapter
+        typeOfAddress = "Current Address"
+
+    }
+
+    private fun onPinCodeResponse(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+                val pinCodeResponse: PinCodeResponse? = mApiResponse.data as PinCodeResponse?
+                if (pinCodeResponse?.data != null) {
+                    textViewState.text = pinCodeResponse?.data?.state
+                    textViewCity.text = pinCodeResponse?.data?.city
+                }
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+            }
+            else -> {
+            }
+        }
+    }
+
 
     // endregion Response
 
@@ -389,6 +530,85 @@ class SoftOfferFragment : BaseFragment() {
 
     private fun setFocusOnView() {
         scrollViewBankOffer.post(Runnable { tvBankOfferTitleV2.top.let { scrollViewBankOffer.scrollTo(0, it) } })
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+
+            R.id.buttonPincodeCheck -> {
+                if (editTextPinCode.text.isNotEmpty() && editTextPinCode.text.toString().length == 6) {
+                    pinCodeViewModel.getPinCodeData(Global.customerDetails_BaseURL + "Pincode/city/" + editTextPinCode.text.toString())
+                } else
+                    showToast("Please enter valid PinCode")
+            }
+            R.id.buttonAddNewAddress -> {
+                if (editTextPinCode.text.toString().isNotEmpty() && editTextAddress1.toString().isNotEmpty() && editTextAddress2.toString().isNotEmpty()
+                        && editTextAddress3.toString().isNotEmpty()) {
+
+                    val address1 = editTextPinCode.text.toString()
+                    val address2 = editTextAddress2.text.toString()
+                    val address3 = editTextAddress3.text.toString()
+
+                    address = "$address1***$address2***$address3"
+                    pincode = editTextPinCode.text.toString()
+
+                    editTextPinCode.text.clear()
+                    editTextAddress1.text.clear()
+                    editTextAddress2.text.clear()
+                    editTextPinCode.text.clear()
+                    editTextAddress3.text.clear()
+
+                    if (typeOfAddress == "Current Address") {
+                        linearLayoutEquiFaxAddress.visibility = View.GONE
+                        linearLayoutEditCurrentAddress.visibility = View.VISIBLE
+
+                        textViewCurrentAddress1.text = address1
+                        textViewCurrentAddress2.text = address2
+                        textViewCurrentAddress3.text = address3
+
+                        linearLayoutPermanentAddress.visibility = View.VISIBLE
+                        textViewTypeOfAddress.text = getString(R.string.v2_permanent_address)
+                        typeOfAddress="Permanent Address"
+
+                    } else if (typeOfAddress == "Permanent Address") {
+                        linearLayoutEquiFaxAddress.visibility = View.GONE
+                        linearLayoutEditCurrentAddress.visibility = View.VISIBLE
+                        linearLayoutPermanentAddress.visibility = View.GONE
+                        linearLayoutEditPermanentAddress.visibility = View.VISIBLE
+
+                        textViewPermanentAddress1.text = address1
+                        textViewPermanentAddress2.text = address2
+                        textViewPermanentAddress3.text = address3
+
+                        textViewTypeOfAddress.text = getString(R.string.v2_permanent_address)
+                        typeOfAddress="Office Address"
+                    }
+
+                }
+            }
+        }
+
+    }
+
+    private fun saveCurrentAddress(item: Any?) {
+
+        val addressStr = item.toString()
+        if (addressStr.contains("Permanent Address")) {
+            // save the address for Current and Permanent Address
+            // And enable Office Address Layout
+                val currentAddress=CurrentAddress(true,"625501",addressStr)
+            val permanentAddress= PermanentAddress("625501",addressStr)
+                val addressData= AddressData(customerId.toInt(),currentAddress,permanentAddress)
+            val updateAddressRequest= UpdateAddressRequest(CommonStrings.DEALER_ID,CommonStrings.USER_TYPE,addressData)
+        } else {
+            //  save address as current address and enable Permanent address Layout
+            val currentAddress=CurrentAddress(false,"625501",addressStr)
+            val permanentAddress= PermanentAddress("625501",addressStr)
+            val addressData= AddressData(customerId.toInt(),currentAddress,permanentAddress)
+            val updateAddressRequest= UpdateAddressRequest(CommonStrings.DEALER_ID,CommonStrings.USER_TYPE,addressData)
+
+        }
+
     }
 
 

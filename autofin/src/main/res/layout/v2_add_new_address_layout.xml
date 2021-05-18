@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/vtwo_pale_grey">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/text_size_20dp"
+        android:paddingRight="@dimen/text_size_19dp"
+        android:paddingBottom="@dimen/text_size_48dp"
+        android:paddingTop="@dimen/text_size_30dp"
+        android:background="@drawable/white_corner" >
+
+    <TextView
+        android:id="@+id/textViewTypeOfAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/text_size_21dp"
+        android:gravity="start"
+        android:text="@string/v2_enter_current_address"
+        android:textAppearance="@style/RobotoBold"
+        android:textColor="@color/vtwo_black"
+        android:textSize="@dimen/text_size_16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginRight="@dimen/text_size_20dp"
+        android:background="@color/v2_grey" />
+    <TextView
+        android:id="@+id/textViewEnterPinCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_size_30dp"
+        android:layout_marginBottom="@dimen/text_size_17dp"
+        android:gravity="start"
+        android:text="@string/v2_enter_pincode"
+        android:textAppearance="@style/RobotoMedium"
+        android:textColor="@color/vtwo_black"
+        android:textSize="@dimen/text_size_16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+        <EditText
+            android:id="@+id/editTextPinCode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            android:background="@drawable/v2_rounded_light_grey_bg"
+            android:hint="@string/v2_enter_pincode"
+            android:textAppearance="@style/RobotoRegular"
+            android:textSize="@dimen/text_size_14sp"
+            android:textColor="@color/vtwo_black"
+            android:padding="13dp"
+            android:gravity="start"
+            android:inputType="number"
+            android:maxLength="6" />
+        <Button
+            android:id="@+id/buttonPincodeCheck"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:background="@drawable/v2_black_outline"
+            android:layout_gravity="center"
+            android:text="@string/v2_pincode_check"
+            android:textColor="@color/vtwo_black"
+            android:textSize="@dimen/text_size_16sp"
+            android:layout_marginLeft="@dimen/text_size_11dp"
+            android:paddingLeft="@dimen/text_size_33dp"
+            android:paddingRight="@dimen/text_size_33dp"
+            android:paddingTop="13dp"
+            android:paddingBottom="13dp"
+            android:textAppearance="@style/RobotoMedium"
+            android:layout_marginStart="@dimen/text_size_11dp" />
+
+    </LinearLayout>
+
+        <!--region State-->
+        <TextView
+            android:id="@+id/textViewStateLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_size_30dp"
+            android:text="@string/v2_state"
+            android:textAppearance="@style/RobotoMedium"
+            android:textColor="@color/vtwo_black"
+            android:textSize="@dimen/text_size_16sp" />
+
+        <LinearLayout
+            android:id="@+id/linearLayoutState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="@dimen/text_size_12dp"
+            android:layout_marginBottom="@dimen/text_size_30dp"
+            android:background="@drawable/vtwo_input_bg"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/textViewState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:hint="@string/v2_state"
+                android:maxLength="25"
+                android:singleLine="true"
+                android:textAppearance="@style/RobotoRegular"
+                android:textColorHint="@color/vtwo_grey"
+                android:textSize="@dimen/text_size_14sp"
+                android:drawableRight="@drawable/ic_down_arrow"/>
+
+        </LinearLayout>
+
+        <!--endregion State-->
+
+
+
+        <!--region City-->
+    <TextView
+        android:id="@+id/textViewCityLbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/v2_city"
+        android:textAppearance="@style/RobotoMedium"
+        android:textColor="@color/vtwo_black"
+        android:textSize="@dimen/text_size_16sp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="@dimen/text_size_12dp"
+        android:layout_marginBottom="@dimen/text_size_30dp"
+        android:background="@drawable/vtwo_input_bg"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/textViewCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:hint="City"
+            android:maxLength="25"
+            android:singleLine="true"
+            android:textAppearance="@style/RobotoRegular"
+            android:textColorHint="@color/vtwo_grey"
+            android:textSize="@dimen/text_size_14sp"
+            android:drawableRight="@drawable/ic_down_arrow"/>
+
+    </LinearLayout>
+
+    <!--endregion City-->
+
+    <!--region OrganizationName-->
+    <TextView
+        android:id="@+id/textViewOrganizationName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/v2_organizationName"
+        android:textAppearance="@style/RobotoMedium"
+        android:textColor="@color/vtwo_black"
+        android:textSize="@dimen/text_size_16sp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutOrganizationName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="@dimen/text_size_12dp"
+        android:layout_marginBottom="@dimen/text_size_30dp"
+        android:background="@drawable/vtwo_input_bg"
+        android:orientation="horizontal">
+
+
+        <EditText
+            android:id="@+id/editTextOrgName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:hint="@string/lbl_org_name"
+            android:inputType="textCapWords"
+            android:maxLength="25"
+            android:singleLine="true"
+            android:textAppearance="@style/RobotoRegular"
+            android:textColorHint="@color/vtwo_grey"
+            android:textSize="@dimen/text_size_14sp"/>
+
+    </LinearLayout>
+
+    <!--endregion OrganizationName-->
+
+    <!--region Address-->
+    <TextView
+        android:id="@+id/textViewAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/v2_address"
+        android:textAppearance="@style/RobotoMedium"
+        android:textColor="@color/vtwo_black"
+        android:textSize="@dimen/text_size_16sp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="@dimen/text_size_14dp"
+        android:background="@drawable/vtwo_input_bg"
+        android:orientation="horizontal">
+
+
+        <EditText
+            android:id="@+id/editTextAddress1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_weight="1"
+            android:hint="Address 1"
+            android:inputType="textCapWords"
+            android:maxLength="40"
+            android:singleLine="true"
+            android:textAppearance="@style/RobotoRegular"
+            android:textColorHint="@color/vtwo_grey"
+            android:textSize="@dimen/text_size_14sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutAddress2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="@dimen/text_size_14dp"
+        android:background="@drawable/vtwo_input_bg">
+
+
+        <EditText
+            android:id="@+id/editTextAddress2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_weight="1"
+            android:hint="Address 2"
+            android:inputType="textCapWords"
+            android:maxLength="40"
+            android:singleLine="true"
+            android:textAppearance="@style/RobotoRegular"
+            android:textColorHint="@color/vtwo_grey"
+            android:textSize="@dimen/text_size_14sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutAddress3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="@dimen/text_size_14dp"
+        android:background="@drawable/vtwo_input_bg">
+
+
+        <EditText
+            android:id="@+id/editTextAddress3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_weight="1"
+            android:hint="Address 3"
+            android:inputType="textCapWords"
+            android:maxLength="40"
+            android:singleLine="true"
+            android:textAppearance="@style/RobotoRegular"
+            android:textColorHint="@color/vtwo_grey"
+            android:textSize="@dimen/text_size_14sp" />
+
+    </LinearLayout>
+
+
+    <!--endregion Address-->
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonSubmitAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_16sp"
+        android:textAppearance="@style/RobotoMedium"
+        android:layout_gravity="center"
+        android:paddingLeft="85dp"
+        android:paddingRight="85dp"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:background="@drawable/vtwo_next_btn_bg"
+        android:layout_marginTop="38dp"
+        android:layout_marginBottom="38dp"
+        />
+</LinearLayout>

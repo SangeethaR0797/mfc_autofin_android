@@ -7,6 +7,7 @@ import v2.model.response.CityNameListResponse
 import v2.model.response.CommonBanksResponse
 import v2.model.response.bank_offers.LoanAmountResponse
 import v2.model.response.master.MasterResponse
+import v2.model.response.master.PinCodeResponse
 import v2.service.ApiServiceGenerator
 
 class MasterRepository {
@@ -63,5 +64,9 @@ class MasterRepository {
         return masterEndPoint.getLoanAmountDetails(url)
     }
 
+    fun getPinCodeData(url: String): Observable<PinCodeResponse?>?
+    {
+        return masterEndPoint.getPinCodeData(url)
+    }
 
 }
