@@ -1,6 +1,8 @@
 package v2.repository
 
 import io.reactivex.Observable
+import model.add_lead_details.CustomerDetailsRequest
+import model.addtional_fields.AdditionalFieldResponse
 import v2.end_point.TransactionEndPoint
 import v2.model.dto.AddLeadRequest
 import v2.model.request.*
@@ -53,6 +55,10 @@ class TransactionRepository {
 
     fun updateAddress(request: UpdateAddressRequest, url: String?): Observable<SimpleResponse?>? {
         return transactionEndPoint.updateAddress(request, url)
+    }
+
+    fun getAdditionalFieldsData(request: CustomerRequest, url: String?): Observable<AdditionalFieldResponse?>? {
+        return transactionEndPoint.getAdditionalFieldsData(request, url)
     }
 
 }

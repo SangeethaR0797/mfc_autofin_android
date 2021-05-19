@@ -26,6 +26,7 @@ import v2.model.request.bank_offers.BankOfferData
 import v2.model.request.bank_offers.BankOffersForApplicationRequest
 import v2.model.request.bank_offers.LeadApplicationData
 import v2.model.request.bank_offers.SelectRecommendedBankOfferRequest
+import v2.model.response.AdditionalFields
 import v2.model.response.CustomerDetailsResponse
 import v2.model.response.SimpleResponse
 import v2.model.response.bank_offers.*
@@ -110,6 +111,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     lateinit var bankViewModel: BankOffersViewModel
     lateinit var pinCodeViewModel: MasterViewModel
     lateinit var addressViewModel: TransactionViewModel
+    lateinit var additionalFields:TransactionViewModel
     lateinit var currentAddress: CurrentAddress
     lateinit var permanentAddress: PermanentAddress
 
@@ -175,9 +177,18 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     )
                 })
 
+        additionalFields=ViewModelProvider(this).get(
+                TransactionViewModel::class.java
+        )
+
+        additionalFields.getAdditionalFieldsLiveData() .observe(requireActivity(), { mApiResponse: ApiResponse? ->
+            onAdditionalFieldsResponse(
+                    mApiResponse!!
+            )
+        })
+
 
     }
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -203,6 +214,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
             ivBackToRedDetails = view.findViewById(R.id.ivBackToRedDetails)
             imageViewEditCurrentAddress = view.findViewById(R.id.imageViewEditCurrentAddress)
+            imageViewEditPermanentAddress=view.findViewById(R.id.imageViewEditPermanentAddress)
             scrollViewBankOffer = view.findViewById(R.id.scrollViewBankOffer)
 
             llBankOfferParent = view.findViewById(R.id.llBankOfferParent)
@@ -493,6 +505,26 @@ showToast("Success")
 
                 showToast(response?.message.toString())
 
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+            }
+            else -> {
+            }
+        }
+    }
+
+    private fun onAdditionalFieldsResponse(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+
+                val response: AdditionalFields? = mApiResponse.data as AdditionalFields?
+
+                showToast(response?.message.toString())
             }
             ApiResponse.Status.ERROR -> {
                 hideProgressDialog()

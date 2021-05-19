@@ -1,6 +1,7 @@
 package v2.end_point
 
 import io.reactivex.Observable
+import model.addtional_fields.AdditionalFieldResponse
 import retrofit2.http.*
 import v2.model.dto.AddLeadRequest
 import v2.model.request.*
@@ -48,5 +49,9 @@ interface TransactionEndPoint {
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST
     fun updateAddress(@Body request: UpdateAddressRequest, @Url url: String?): Observable<SimpleResponse?>?
+
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST
+    fun getAdditionalFieldsData(@Body request: CustomerRequest, @Url url: String?): Observable<AdditionalFieldResponse?>?
 
 }
