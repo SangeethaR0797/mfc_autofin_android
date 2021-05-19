@@ -24,7 +24,7 @@ public class PostSoftOfferAdapter(var context: Activity, var list: List<Addres>?
     override fun onBindViewHolder(holder: EquiFaxAddressViewHolder, position: Int)
     {
         val customerAddress= list?.get(position)
-        holder.checkBoxEquiFaxAddress.text=customerAddress?.address
+        holder.checkBoxEquiFaxAddress.text=customerAddress?.address+ customerAddress?.pincode
         holder.checkBoxEquiFaxAddress.setOnClickListener(View.OnClickListener {
             holder.checkBoxEquiFaxAddress.isChecked=true
             if( holder.linearLayoutIsPermanentAddress.visibility==View.VISIBLE)

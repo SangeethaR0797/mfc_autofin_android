@@ -182,4 +182,6 @@ public class CommonStrings {
     public static final String TITLE="title";
 
     public static final String LOAN_AMOUNT_URL="default-loan/";
+
+    public static final String UPDATE_ADDRESS_URL="update-address";
 }

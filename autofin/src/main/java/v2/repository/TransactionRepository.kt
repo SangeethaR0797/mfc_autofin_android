@@ -51,5 +51,8 @@ class TransactionRepository {
         return transactionEndPoint.addResidentDetails(request, url)
     }
 
+    fun updateAddress(request: UpdateAddressRequest, url: String?): Observable<AddLeadResponse?>? {
+        return transactionEndPoint.updateAddress(request, url)
+    }
 
 }

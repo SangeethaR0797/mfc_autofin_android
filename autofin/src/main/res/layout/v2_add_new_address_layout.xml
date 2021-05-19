@@ -73,8 +73,8 @@
             android:textColor="@color/vtwo_black"
             android:textSize="@dimen/text_size_16sp"
             android:layout_marginLeft="@dimen/text_size_11dp"
-            android:paddingLeft="@dimen/text_size_33dp"
-            android:paddingRight="@dimen/text_size_33dp"
+            android:paddingLeft="@dimen/text_size25dp"
+            android:paddingRight="@dimen/text_size25dp"
             android:paddingTop="13dp"
             android:paddingBottom="13dp"
             android:textAppearance="@style/RobotoMedium"
@@ -171,7 +171,8 @@
         android:text="@string/v2_organizationName"
         android:textAppearance="@style/RobotoMedium"
         android:textColor="@color/vtwo_black"
-        android:textSize="@dimen/text_size_16sp" />
+        android:textSize="@dimen/text_size_16sp"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:id="@+id/linearLayoutOrganizationName"
@@ -181,7 +182,8 @@
         android:padding="@dimen/text_size_12dp"
         android:layout_marginBottom="@dimen/text_size_30dp"
         android:background="@drawable/vtwo_input_bg"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
 
         <EditText

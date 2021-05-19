@@ -45,4 +45,8 @@ interface TransactionEndPoint {
     @POST
     fun addResidentDetails(@Body request: AddResidentDetailsRequest, @Url url: String?): Observable<AddLeadResponse?>?
 
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST
+    fun updateAddress(@Body request: UpdateAddressRequest, @Url url: String?): Observable<AddLeadResponse?>?
+
 }

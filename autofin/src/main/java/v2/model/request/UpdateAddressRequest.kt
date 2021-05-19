@@ -12,7 +12,9 @@ public data class UpdateAddressRequest
 data class AddressData(
         @SerializedName("CustomerId") var CustomerId: Int,
         @SerializedName("currentAddress") var currentAddress: CurrentAddress,
-        @SerializedName("permanentAddress") var permanentAddress: PermanentAddress
+        @SerializedName("permanentAddress") var permanentAddress: PermanentAddress,
+        @SerializedName("CityMoveInYear") var CityMoveInYear:String
+
 )
 
 data class CurrentAddress(

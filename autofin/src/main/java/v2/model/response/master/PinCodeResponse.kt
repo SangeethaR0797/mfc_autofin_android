@@ -2,7 +2,7 @@ package v2.model.response.master
 
 import com.google.gson.annotations.SerializedName
 
-data class PinCodeResponse
+public data class PinCodeResponse
 (
         @SerializedName("status") var status : Boolean,
         @SerializedName("message") var message : String,
