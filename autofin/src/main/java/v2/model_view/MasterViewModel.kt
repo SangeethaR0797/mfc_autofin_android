@@ -325,19 +325,19 @@ class MasterViewModel(application: Application) : BaseViewModel(application) {
     public fun getPinCodeData(url: String) {
         repository.getPinCodeData(url)?.subscribeOn(Schedulers.io())
                 ?.observeOn(AndroidSchedulers.mainThread())
-                ?.doOnSubscribe { d -> mCityNameListLiveData.setValue(ApiResponse.loading()) }
+                ?.doOnSubscribe { d -> mPinCodeData.setValue(ApiResponse.loading()) }
                 ?.let {
                     disposables.add(
                             it.subscribe(
                                     { result ->
-                                        mCityNameListLiveData.setValue(result?.let {
+                                        mPinCodeData.setValue(result?.let {
                                             ApiResponse.success(
                                                     it
                                             )
                                         })
                                     }
                             ) { throwable ->
-                                mCityNameListLiveData.setValue(
+                                mPinCodeData.setValue(
                                         ApiResponse.error(
                                                 throwable
                                         )

@@ -27,6 +27,7 @@ import v2.model.request.bank_offers.BankOffersForApplicationRequest
 import v2.model.request.bank_offers.LeadApplicationData
 import v2.model.request.bank_offers.SelectRecommendedBankOfferRequest
 import v2.model.response.CustomerDetailsResponse
+import v2.model.response.SimpleResponse
 import v2.model.response.bank_offers.*
 import v2.model.response.master.Addres
 import v2.model.response.master.PinCodeResponse
@@ -308,6 +309,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 bankViewModel.getBankOffersForLeadApplication(getBankRequest(), Global.customer_bank_baseURL + "get-recommended-bank")
             } else {
                 showToast("Please select Loan Amount and Loan Tenure")
+
             }
         })
 
@@ -458,29 +460,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         Log.i("TAG", "onBankResponse: " + apiResponse.status)
     }
 
-    private fun enablePostOfferLayout() {
-        linearLayoutCalculation.visibility = View.GONE
-        llSoftOfferDialog.setBackgroundColor(resources.getColor(R.color.vtwo_pale_grey))
-        linearLayoutPostOffer.visibility = View.VISIBLE
-        val customerAddress = customerDetailsResponse.data?.equifaxFields?.address
-        if (customerAddress?.isNotEmpty() == true) {
-            textViewSelectBankLabel.text = "You have selected " + customerDetailsResponse.data?.loanDetails?.bankName + " bank"
-        }
-        postSoftOfferAdapter = PostSoftOfferAdapter(activity as Activity, customerAddress, object : itemClickCallBack {
-            override fun itemClick(item: Any?, position: Int) {
-                val addressVal = item
-                saveCurrentAddress(addressVal as Addres?)
-            }
-
-        })
-        val layoutManager = LinearLayoutManager(activity)
-        recyclerViewEquiFaxAddress.layoutManager = layoutManager
-
-        this.recyclerViewEquiFaxAddress.adapter = postSoftOfferAdapter
-        typeOfAddress = "Current Address"
-
-    }
-
     private fun onPinCodeResponse(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
@@ -489,13 +468,14 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
                 val pinCodeResponse: PinCodeResponse? = mApiResponse.data as PinCodeResponse?
-                if (pinCodeResponse?.data != null) {
-                    textViewState.text = pinCodeResponse.data.state
-                    textViewCity.text = pinCodeResponse.data.city
-                }
+showToast("Success")
+                val pinCodeData=pinCodeResponse?.data
+                textViewState.text = pinCodeData?.state
+                textViewCity.text = pinCodeData?.city
             }
             ApiResponse.Status.ERROR -> {
                 hideProgressDialog()
+                showToast("Error")
             }
             else -> {
             }
@@ -509,7 +489,9 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             }
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
-                showToast("Success")
+                val response: SimpleResponse? = mApiResponse.data as SimpleResponse?
+
+                showToast(response?.message.toString())
 
             }
             ApiResponse.Status.ERROR -> {
@@ -575,6 +557,31 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         scrollViewBankOffer.post(Runnable { tvBankOfferTitleV2.top.let { scrollViewBankOffer.scrollTo(0, it) } })
     }
 
+    private fun enablePostOfferLayout() {
+        linearLayoutCalculation.visibility = View.GONE
+        llBankOfferParent.setBackgroundResource(0)
+        linearLayoutPostOffer.visibility = View.VISIBLE
+        textViewSelectBankLabel.text = "You have selected " + customerDetailsResponse.data?.loanDetails?.bankName + " bank"
+        val customerAddress = customerDetailsResponse.data?.equifaxFields?.address
+
+        if (customerAddress?.isNotEmpty() == true) {
+            postSoftOfferAdapter = PostSoftOfferAdapter(activity as Activity, customerAddress, object : itemClickCallBack {
+                override fun itemClick(item: Any?, position: Int) {
+                    val addressVal = item
+                    saveCurrentAddress(addressVal as Addres?)
+                }
+
+            })
+            val layoutManager = LinearLayoutManager(activity)
+            recyclerViewEquiFaxAddress.layoutManager = layoutManager
+
+            this.recyclerViewEquiFaxAddress.adapter = postSoftOfferAdapter
+        }
+
+        typeOfAddress = "Current Address"
+
+    }
+
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.buttonAddNewAddress -> {
@@ -594,10 +601,13 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 textViewTypeOfAddress.text = getString(R.string.v2_permanent_address)
             }
             R.id.buttonSubmitAddress -> {
-                if (editTextPinCode.text.toString().isNotEmpty() && editTextAddress1.text.isNotEmpty() && editTextAddress2.text.isNotEmpty()
+                if (editTextPinCode.text.toString().isNotEmpty() && textViewState.text.isNotEmpty() &&
+                        textViewCity.text.isNotEmpty() &&
+                        editTextAddress1.text.isNotEmpty() &&
+                        editTextAddress2.text.isNotEmpty()
                         && editTextAddress3.text.isNotEmpty()) {
 
-                    val address1 = editTextPinCode.text.toString()
+                    val address1 = editTextAddress1.text.toString()
                     val address2 = editTextAddress2.text.toString()
                     val address3 = editTextAddress3.text.toString()
 
@@ -618,10 +628,12 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
                         textViewCurrentAddress1.text = address1
                         textViewCurrentAddress2.text = address2
-                        textViewCurrentAddress3.text = address3
+                        textViewCurrentAddress3.text = address3+", "+pincode
+
 
                         currentAddress = CurrentAddress(false, pincode, address)
-                        linearLayoutAddNewAddress.visibility = View.VISIBLE
+                        linearLayoutAddNewAddress.visibility = View.GONE
+                        linearLayoutPermanentAddress.visibility = View.VISIBLE
                         textViewTypeOfAddress.text = getString(R.string.v2_permanent_address)
                         typeOfAddress = "Permanent Address"
                         checkboxCurrentAndPermanentAddress.isClickable = false
@@ -635,7 +647,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
                         textViewPermanentAddress1.text = address1
                         textViewPermanentAddress2.text = address2
-                        textViewPermanentAddress3.text = address3
+                        textViewPermanentAddress3.text = address3+", "+pincode
 
                         textViewTypeOfAddress.text = getString(R.string.v2_permanent_address)
                         typeOfAddress = "Office Address"
@@ -643,7 +655,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                         val addressData = AddressData(customerId.toInt(), currentAddress, permanentAddress,"2012-02-21")
                         val updateAddressRequest = UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, addressData)
 
-                        addressViewModel.updateAddress(updateAddressRequest, Global.customerDetails_BaseURL + CommonStrings.UPDATE_ADDRESS_URL)
+                        addressViewModel.updateAddress(updateAddressRequest, Global.customerAPI_BaseURL + CommonStrings.UPDATE_ADDRESS_URL)
 
                     }
 
@@ -662,7 +674,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             // And enable Office Address Layout
             val currentAddress = item?.pincode?.let { item.address?.let { it1 -> CurrentAddress(true, it, it1) } }
             val permanentAddress = item?.pincode?.let { item.address?.let { it1 -> PermanentAddress(it, it1) } }
-            val addressData = currentAddress?.let { permanentAddress?.let { it1 -> AddressData(customerId.toInt(), it, it1) } }
+            val addressData = currentAddress?.let { permanentAddress?.let { it1 -> AddressData(customerId.toInt(), it, it1,"2012-02-21") } }
 
             val updateAddressRequest = addressData?.let { UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, it) }
             if (updateAddressRequest != null) {
@@ -672,7 +684,8 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             //  save address as current address and enable Permanent address Layout
             val currentAddress = item?.pincode?.let { item?.address?.let { it1 -> CurrentAddress(false, it, it1) } }
             val permanentAddress = PermanentAddress("", "")
-            val addressData = AddressData(customerId.toInt(), currentAddress!!, permanentAddress,"2012-02-21")val updateAddressRequest = UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, addressData)
+            val addressData = AddressData(customerId.toInt(), currentAddress!!, permanentAddress,"2012-02-21")
+            val updateAddressRequest = UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, addressData)
             if (updateAddressRequest != null) {
                 addressViewModel.updateAddress(updateAddressRequest, Global.customerDetails_BaseURL + CommonStrings.UPDATE_ADDRESS_URL)
             }

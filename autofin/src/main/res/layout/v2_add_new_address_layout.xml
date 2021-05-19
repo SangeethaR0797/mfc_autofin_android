@@ -114,9 +114,9 @@
                 android:maxLength="25"
                 android:singleLine="true"
                 android:textAppearance="@style/RobotoRegular"
+                android:textColor="@color/vtwo_black"
                 android:textColorHint="@color/vtwo_grey"
-                android:textSize="@dimen/text_size_14sp"
-                android:drawableRight="@drawable/ic_down_arrow"/>
+                android:textSize="@dimen/text_size_14sp" />
 
         </LinearLayout>
 
@@ -157,7 +157,7 @@
             android:textAppearance="@style/RobotoRegular"
             android:textColorHint="@color/vtwo_grey"
             android:textSize="@dimen/text_size_14sp"
-            android:drawableRight="@drawable/ic_down_arrow"/>
+            android:textColor="@color/vtwo_black" />
 
     </LinearLayout>
 
