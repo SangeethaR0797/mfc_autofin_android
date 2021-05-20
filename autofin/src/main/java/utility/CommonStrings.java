@@ -3,6 +3,7 @@ package utility;
 import com.mfc.autofin.framework.Activity.ResidentialActivity.ResidentialCity;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -184,4 +185,5 @@ public class CommonStrings {
     public static final String LOAN_AMOUNT_URL="default-loan/";
 
     public static final String UPDATE_ADDRESS_URL="update-address";
+    public static final Object ADDITIONAL_FIELDS_URL="AdditionalFields/get-additional-fields";
 }

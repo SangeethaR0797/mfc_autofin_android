@@ -19,9 +19,7 @@ import kotlinx.android.synthetic.main.v2_equi_fax_address_item_layout.*
 import retrofit2.Response
 import utility.CommonStrings
 import utility.Global
-import v2.model.request.AddressData
-import v2.model.request.PermanentAddress
-import v2.model.request.UpdateAddressRequest
+import v2.model.request.*
 import v2.model.request.bank_offers.BankOfferData
 import v2.model.request.bank_offers.BankOffersForApplicationRequest
 import v2.model.request.bank_offers.LeadApplicationData
@@ -111,7 +109,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     lateinit var bankViewModel: BankOffersViewModel
     lateinit var pinCodeViewModel: MasterViewModel
     lateinit var addressViewModel: TransactionViewModel
-    lateinit var additionalFields:TransactionViewModel
+    lateinit var additionalFields: TransactionViewModel
     lateinit var currentAddress: CurrentAddress
     lateinit var permanentAddress: PermanentAddress
 
@@ -177,11 +175,11 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     )
                 })
 
-        additionalFields=ViewModelProvider(this).get(
+        additionalFields = ViewModelProvider(this).get(
                 TransactionViewModel::class.java
         )
 
-        additionalFields.getAdditionalFieldsLiveData() .observe(requireActivity(), { mApiResponse: ApiResponse? ->
+        additionalFields.getAdditionalFieldsLiveData().observe(requireActivity(), { mApiResponse: ApiResponse? ->
             onAdditionalFieldsResponse(
                     mApiResponse!!
             )
@@ -214,7 +212,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
             ivBackToRedDetails = view.findViewById(R.id.ivBackToRedDetails)
             imageViewEditCurrentAddress = view.findViewById(R.id.imageViewEditCurrentAddress)
-            imageViewEditPermanentAddress=view.findViewById(R.id.imageViewEditPermanentAddress)
+            imageViewEditPermanentAddress = view.findViewById(R.id.imageViewEditPermanentAddress)
             scrollViewBankOffer = view.findViewById(R.id.scrollViewBankOffer)
 
             llBankOfferParent = view.findViewById(R.id.llBankOfferParent)
@@ -267,7 +265,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             recyclerViewBankOffer = view.findViewById(R.id.recyclerViewBankOffer)
             recyclerViewEquiFaxAddress = view.findViewById(R.id.recyclerViewEquiFaxAddress)
 
-            checkboxCurrentAndPermanentAddress=view.findViewById(R.id.checkboxCurrentAndPermanentAddress)
+            checkboxCurrentAndPermanentAddress = view.findViewById(R.id.checkboxCurrentAndPermanentAddress)
             loanAmountViewModel.getBankOffersLoanAmount(Global.customerAPI_Master_URL + CommonStrings.LOAN_AMOUNT_URL + customerId)
 
             // region ChangeAndClickListeners
@@ -480,10 +478,13 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
                 val pinCodeResponse: PinCodeResponse? = mApiResponse.data as PinCodeResponse?
-showToast("Success")
-                val pinCodeData=pinCodeResponse?.data
-                textViewState.text = pinCodeData?.state
-                textViewCity.text = pinCodeData?.city
+                if (pinCodeResponse?.statusCode == "100") {
+                    val pinCodeData = pinCodeResponse?.data
+                    textViewState.text = pinCodeData?.state
+                    textViewCity.text = pinCodeData?.city
+                } else {
+                    showToast(pinCodeResponse?.message.toString())
+                }
             }
             ApiResponse.Status.ERROR -> {
                 hideProgressDialog()
@@ -504,6 +505,7 @@ showToast("Success")
                 val response: SimpleResponse? = mApiResponse.data as SimpleResponse?
 
                 showToast(response?.message.toString())
+                additionalFields.getAdditionalFieldsData(CustomerRequest(ResetCustomerJourneyDataRequest(customerId), CommonStrings.USER_TYPE, CommonStrings.USER_TYPE), Global.baseURL + CommonStrings.ADDITIONAL_FIELDS_URL)
 
             }
             ApiResponse.Status.ERROR -> {
@@ -523,8 +525,8 @@ showToast("Success")
                 hideProgressDialog()
 
                 val response: AdditionalFields? = mApiResponse.data as AdditionalFields?
-
                 showToast(response?.message.toString())
+
             }
             ApiResponse.Status.ERROR -> {
                 hideProgressDialog()
@@ -660,7 +662,7 @@ showToast("Success")
 
                         textViewCurrentAddress1.text = address1
                         textViewCurrentAddress2.text = address2
-                        textViewCurrentAddress3.text = address3+", "+pincode
+                        textViewCurrentAddress3.text = address3 + ", " + pincode
 
 
                         currentAddress = CurrentAddress(false, pincode, address)
@@ -679,12 +681,12 @@ showToast("Success")
 
                         textViewPermanentAddress1.text = address1
                         textViewPermanentAddress2.text = address2
-                        textViewPermanentAddress3.text = address3+", "+pincode
+                        textViewPermanentAddress3.text = address3 + ", " + pincode
 
                         textViewTypeOfAddress.text = getString(R.string.v2_permanent_address)
                         typeOfAddress = "Office Address"
                         permanentAddress = PermanentAddress(pincode, address)
-                        val addressData = AddressData(customerId.toInt(), currentAddress, permanentAddress,"2012-02-21")
+                        val addressData = AddressData(customerId.toInt(), currentAddress, permanentAddress, "2012-02-21")
                         val updateAddressRequest = UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, addressData)
 
                         addressViewModel.updateAddress(updateAddressRequest, Global.customerAPI_BaseURL + CommonStrings.UPDATE_ADDRESS_URL)
@@ -706,7 +708,7 @@ showToast("Success")
             // And enable Office Address Layout
             val currentAddress = item?.pincode?.let { item.address?.let { it1 -> CurrentAddress(true, it, it1) } }
             val permanentAddress = item?.pincode?.let { item.address?.let { it1 -> PermanentAddress(it, it1) } }
-            val addressData = currentAddress?.let { permanentAddress?.let { it1 -> AddressData(customerId.toInt(), it, it1,"2012-02-21") } }
+            val addressData = currentAddress?.let { permanentAddress?.let { it1 -> AddressData(customerId.toInt(), it, it1, "2012-02-21") } }
 
             val updateAddressRequest = addressData?.let { UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, it) }
             if (updateAddressRequest != null) {
@@ -716,7 +718,7 @@ showToast("Success")
             //  save address as current address and enable Permanent address Layout
             val currentAddress = item?.pincode?.let { item?.address?.let { it1 -> CurrentAddress(false, it, it1) } }
             val permanentAddress = PermanentAddress("", "")
-            val addressData = AddressData(customerId.toInt(), currentAddress!!, permanentAddress,"2012-02-21")
+            val addressData = AddressData(customerId.toInt(), currentAddress!!, permanentAddress, "2012-02-21")
             val updateAddressRequest = UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, addressData)
             if (updateAddressRequest != null) {
                 addressViewModel.updateAddress(updateAddressRequest, Global.customerDetails_BaseURL + CommonStrings.UPDATE_ADDRESS_URL)
