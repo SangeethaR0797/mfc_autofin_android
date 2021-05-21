@@ -358,13 +358,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         tvNetIncomeErrorMessage.visibility = View.GONE
 
-
-
-
-
-
-
-
         llEMISection = view.findViewById(R.id.ll_emi_section)
         llEMI = view.findViewById(R.id.ll_emi)
         etEMI = view.findViewById(R.id.et_emi)

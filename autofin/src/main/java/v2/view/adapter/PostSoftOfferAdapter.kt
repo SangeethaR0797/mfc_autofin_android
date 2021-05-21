@@ -8,11 +8,10 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
 import v2.model.response.master.Addres
-import v2.view.callBackInterface.itemClickCallBack
 
-public class PostSoftOfferAdapter(var context: Activity, var list: List<Addres>?, itemClick: itemClickCallBack?) : RecyclerView.Adapter<PostSoftOfferAdapter.EquiFaxAddressViewHolder>()  {
+public class PostSoftOfferAdapter(var context: Activity, var list: List<Addres>?, addressSelectionCallBackInstance: AddressSelectionCallBack?) : RecyclerView.Adapter<PostSoftOfferAdapter.EquiFaxAddressViewHolder>()  {
 
-    private var itemCallBack: itemClickCallBack = itemClick!!
+    private var addressSelectionCallBackInstance: AddressSelectionCallBack = addressSelectionCallBackInstance!!
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EquiFaxAddressViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -27,29 +26,19 @@ public class PostSoftOfferAdapter(var context: Activity, var list: List<Addres>?
         holder.checkBoxEquiFaxAddress.text=customerAddress?.address+ customerAddress?.pincode
         holder.checkBoxEquiFaxAddress.setOnClickListener(View.OnClickListener {
             holder.checkBoxEquiFaxAddress.isChecked=true
-            if( holder.linearLayoutIsPermanentAddress.visibility==View.VISIBLE)
-            {
-                if(holder.checkboxIsPermanentAddress.isChecked)
-                {
-                    itemCallBack.itemClick("$customerAddress,Permanent Address", position)
-                }
-                else
-                {
-                    itemCallBack.itemClick(customerAddress, position)
-                }
-            }
-            holder.linearLayoutIsPermanentAddress.visibility=View.VISIBLE
+            if( holder.linearLayoutIsPermanentAddress.visibility!=View.VISIBLE)
+                holder.linearLayoutIsPermanentAddress.visibility=View.VISIBLE
 
         })
         holder.buttonPermanentAddress.setOnClickListener(View.OnClickListener
         {
             if(holder.checkboxIsPermanentAddress.isChecked)
             {
-                itemCallBack.itemClick(customerAddress, position)
+                addressSelectionCallBackInstance.onSelect(customerAddress, true)
             }
             else
             {
-                Toast.makeText(context,"Please check Permanent Address",Toast.LENGTH_SHORT).show()
+                addressSelectionCallBackInstance.onSelect(customerAddress, false)
             }
         })
     }
@@ -67,4 +56,9 @@ public class PostSoftOfferAdapter(var context: Activity, var list: List<Addres>?
 
     }
 
+    interface AddressSelectionCallBack
+    {
+        fun onSelect(address: Addres?, isPermanentAddress: Boolean)
+
+    }
 }

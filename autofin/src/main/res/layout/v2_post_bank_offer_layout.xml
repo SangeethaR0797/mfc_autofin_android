@@ -50,56 +50,65 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/text_size_12dp"
         android:layout_marginRight="@dimen/text_size_12dp"
-        android:background="@drawable/white_corner"
         android:orientation="vertical"
+        android:background="@drawable/white_corner"
         android:paddingBottom="@dimen/text_size_30dp">
 
-        <TextView
-            android:id="@+id/textViewSelectYourCurrentAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/text_size_20dp"
-            android:layout_marginLeft="@dimen/text_size_20dp"
-            android:layout_marginTop="@dimen/text_size_30dp"
-            android:layout_marginBottom="@dimen/text_size_21dp"
-            android:gravity="start"
-            android:text="@string/v2_please_select_current_address"
-            android:textAppearance="@style/RobotoBold"
-            android:textColor="@color/vtwo_black"
-            android:textSize="@dimen/text_size_16sp" />
+            <TextView
+                android:id="@+id/textViewSelectYourCurrentAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/text_size_20dp"
+                android:layout_marginLeft="@dimen/text_size_20dp"
+                android:layout_marginTop="@dimen/text_size_30dp"
+                android:layout_marginBottom="@dimen/text_size_21dp"
+                android:gravity="start"
+                android:text="@string/v2_please_select_current_address"
+                android:textAppearance="@style/RobotoBold"
+                android:textColor="@color/vtwo_black"
+                android:textSize="@dimen/text_size_16sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="@dimen/text_size_20dp"
-            android:layout_marginRight="@dimen/text_size_20dp"
-            android:background="@color/v2_grey" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/text_size_20dp"
+                android:layout_marginRight="@dimen/text_size_20dp"
+                android:background="@color/v2_grey" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewEquiFaxAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/text_size_16sp"
-            android:layout_marginTop="23dp"
-            android:layout_marginRight="@dimen/text_size_16sp" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewEquiFaxAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_16sp"
+                android:layout_marginTop="23dp"
+                android:layout_marginRight="@dimen/text_size_16sp" />
 
-        <Button
-            android:id="@+id/buttonAddNewAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="38dp"
-            android:background="@drawable/v2_black_outline"
-            android:paddingLeft="@dimen/text_size_64dp"
-            android:paddingTop="13dp"
-            android:paddingRight="@dimen/text_size_64dp"
-            android:paddingBottom="13dp"
-            android:text="@string/v2_add_new"
-            android:textAppearance="@style/RobotoMedium"
-            android:textColor="@color/vtwo_black"
-            android:textSize="@dimen/text_size_16sp" />
+            <Button
+                android:id="@+id/buttonAddNewAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="38dp"
+                android:background="@drawable/v2_black_outline"
+                android:paddingLeft="@dimen/text_size_64dp"
+                android:paddingTop="13dp"
+                android:paddingRight="@dimen/text_size_64dp"
+                android:paddingBottom="13dp"
+                android:text="@string/v2_add_new"
+                android:textAppearance="@style/RobotoMedium"
+                android:textColor="@color/vtwo_black"
+                android:textSize="@dimen/text_size_16sp" />
+        </LinearLayout>
 
-    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/linearLayoutAddNewCurrentAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/text_size_12dp"
+        android:layout_marginTop="@dimen/text_size_16sp"
+        android:layout_marginRight="@dimen/text_size_12dp"
+        android:orientation="vertical"
+        android:visibility="gone" />
     <!--region EditCurrentAddress-->
     <LinearLayout
         android:id="@+id/linearLayoutEditCurrentAddress"
@@ -203,30 +212,18 @@
 
     <!--endregion EditCurrentAddress-->
 
-    <LinearLayout
-        android:id="@+id/linearLayoutAddNewAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/text_size_12dp"
-        android:layout_marginTop="@dimen/text_size_16sp"
-        android:layout_marginRight="@dimen/text_size_12dp"
-        android:visibility="gone">
-
-        <include layout="@layout/v2_add_new_address_layout" />
-
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayoutPermanentAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/text_size_16sp"
         android:layout_marginLeft="@dimen/text_size_12dp"
+        android:layout_marginTop="@dimen/text_size_16sp"
         android:layout_marginRight="@dimen/text_size_12dp"
         android:background="@drawable/white_corner"
         android:orientation="vertical"
-        android:visibility="gone"
-        android:paddingBottom="@dimen/text_size_30dp">
+        android:paddingBottom="@dimen/text_size_30dp"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/textViewPermanentAddressLbl"
@@ -266,7 +263,15 @@
             android:textSize="@dimen/text_size_16sp" />
 
     </LinearLayout>
-
+    <LinearLayout
+        android:id="@+id/linearLayoutAddNewPermanentAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/text_size_12dp"
+        android:layout_marginTop="@dimen/text_size_16sp"
+        android:layout_marginRight="@dimen/text_size_12dp"
+        android:orientation="vertical"
+        android:visibility="gone" />
     <!--region EditPermanentAddress-->
     <LinearLayout
         android:id="@+id/linearLayoutEditPermanentAddress"
@@ -308,7 +313,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
-                app:srcCompat="@drawable/ic_v2_personal_details_disabled" />
+                app:srcCompat="@drawable/ic_v2_personal_details_disabled"
+                tools:ignore="ContentDescription" />
 
         </LinearLayout>
 

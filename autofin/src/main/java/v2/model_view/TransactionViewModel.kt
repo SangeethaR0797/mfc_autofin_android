@@ -364,27 +364,27 @@ class TransactionViewModel(application: Application) : BaseViewModel(application
             MutableLiveData<ApiResponse>()
 
     public fun getAdditionalFieldsLiveData(): MutableLiveData<ApiResponse> {
-        return mupdateAddressLiveData
+        return mAdditionalFieldsLiveData
     }
 
 
     public fun getAdditionalFieldsData(request: CustomerRequest, url: String?) {
         repository.getAdditionalFieldsData(request, url)?.subscribeOn(Schedulers.io())
                 ?.observeOn(AndroidSchedulers.mainThread())
-                ?.doOnSubscribe { d -> mupdateAddressLiveData.setValue(ApiResponse.loading()) }
+                ?.doOnSubscribe { d -> mAdditionalFieldsLiveData.setValue(ApiResponse.loading()) }
                 ?.let {
                     disposables.add(
                             it
                                     .subscribe(
                                             { result ->
-                                                mupdateAddressLiveData.setValue(result?.let {
+                                                mAdditionalFieldsLiveData.setValue(result?.let {
                                                     ApiResponse.success(
                                                             it
                                                     )
                                                 })
                                             }
                                     ) { throwable ->
-                                        mupdateAddressLiveData.setValue(
+                                        mAdditionalFieldsLiveData.setValue(
                                                 ApiResponse.error(
                                                         throwable
                                                 )

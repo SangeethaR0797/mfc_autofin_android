@@ -57,7 +57,7 @@ class TransactionRepository {
         return transactionEndPoint.updateAddress(request, url)
     }
 
-    fun getAdditionalFieldsData(request: CustomerRequest, url: String?): Observable<AdditionalFieldResponse?>? {
+    fun getAdditionalFieldsData(request: CustomerRequest, url: String?): Observable<AdditionalFields?>? {
         return transactionEndPoint.getAdditionalFieldsData(request, url)
     }
 
