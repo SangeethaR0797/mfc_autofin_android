@@ -19,14 +19,13 @@ import model.addtional_fields.SubmitAdditionalFieldData
 import utility.CommonStrings
 import utility.Global
 import v2.model.request.*
+import v2.model.request.CurrentAddress
+import v2.model.request.PermanentAddress
 import v2.model.request.bank_offers.BankOfferData
 import v2.model.request.bank_offers.BankOffersForApplicationRequest
 import v2.model.request.bank_offers.LeadApplicationData
 import v2.model.request.bank_offers.SelectRecommendedBankOfferRequest
-import v2.model.response.AdditionalFields
-import v2.model.response.AdditionalFieldsData
-import v2.model.response.CustomerDetailsResponse
-import v2.model.response.SimpleResponse
+import v2.model.response.*
 import v2.model.response.bank_offers.*
 import v2.model.response.master.Addres
 import v2.model.response.master.PinCodeResponse
@@ -598,7 +597,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     address = addressVal?.address.toString()
                     pincode = addressVal?.pincode.toString()
                     // Need to get clarity on Delimiters of Address to separate it as 3 lines
-                    if(isPermanentAddress)
+                    if (isPermanentAddress)
                         submitPermanentAddress()
                     else
                         submitCurrentAddress()
@@ -669,6 +668,34 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
     private fun generateAdditionalFieldsUI() {
 
+        val selectionList = additionalFieldsData.sections
+        for (itemList in selectionList) {
+            val fieldList = itemList.fields
+            // 2. inflate white bg layout
+            // 3. set section title if display name true
+            for (fieldItem in fieldList) {
+                when (fieldItem.fieldType) {
+                    "Text" -> {
+                        // inflate EditText layout
+                        // check if mandatory
+                        // Add input values to Submit Additional Field request instance
+                    }
+                    "DropDown" -> {
+                        // inflate EditText layout
+                        // check if mandatory
+                        // Add input values to Submit Additional Field request instance
+
+                    }
+                    "Check" -> {
+                        // inflate EditText layout
+                        // check if mandatory
+                        // Add input values to Submit Additional Field request instance
+                    }
+
+
+                }
+            }
+        }
         val section1: View = LayoutInflater.from(context).inflate(R.layout.v2_custom_dropdown_layout, null, false)
         val textViewSectionTitle1 = section1.findViewById<TextView>(R.id.textViewSectionTitle)
         val editTextSection = section1.findViewById<TextView>(R.id.editTextSectionInput)
@@ -720,6 +747,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     editTextAddress1.text.toString().isNotEmpty() &&
                     editTextAddress2.text.toString().isNotEmpty() &&
                     editTextAddress3.text.toString().isNotEmpty()) {
+
                 address1 = editTextAddress1.text.toString()
                 address2 = editTextAddress2.text.toString()
                 address3 = editTextAddress3.text.toString()
