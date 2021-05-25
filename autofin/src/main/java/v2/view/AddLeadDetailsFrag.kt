@@ -1423,7 +1423,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
             if (salutation != null) {
                 salutationAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
-                    if (dataSelectionDTO.displayValue.toString().equals(salutation)) {
+                    if (dataSelectionDTO.displayValue.toString() == salutation) {
                         dataSelectionDTO.selected = true
                         salutation = dataSelectionDTO.value!!
                         addLeadRequest.Data!!.basicDetails!!.Salutation = salutation
@@ -1432,9 +1432,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     }
                 }
                 salutationAdapter.notifyDataSetChanged()
-
-
             }
+
         } catch (eNull: NullPointerException) {
 
         } catch (e: Exception) {
@@ -1457,27 +1456,27 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
 
-            if (customerDetailsResponse != null && customerDetailsResponse.data != null) {
+            if (customerDetailsResponse?.data != null) {
                 //set Vehicle details
-                if (customerDetailsResponse!!.data!!.vehicleDetails != null) {
+                if (customerDetailsResponse.data!!.vehicleDetails != null) {
                     addLeadRequest.Data!!.addLeadVehicleDetails!!.VehicleNumber =
-                            customerDetailsResponse!!.data!!.vehicleDetails!!.vehicleNumber
+                            customerDetailsResponse.data!!.vehicleDetails!!.vehicleNumber
                     addLeadRequest.Data!!.addLeadVehicleDetails!!.VehicleSellingPrice =
-                            customerDetailsResponse!!.data!!.vehicleDetails!!.vehicleSellingPrice!!.toInt()
+                            customerDetailsResponse.data!!.vehicleDetails!!.vehicleSellingPrice!!.toInt()
                                     .toString()
                     addLeadRequest.Data!!.addLeadVehicleDetails!!.KMs =
-                            customerDetailsResponse!!.data!!.vehicleDetails!!.kMs
+                            customerDetailsResponse.data!!.vehicleDetails!!.kMs
                     addLeadRequest.Data!!.addLeadVehicleDetails!!.FuelType =
-                            customerDetailsResponse!!.data!!.vehicleDetails!!.fuelType
+                            customerDetailsResponse.data!!.vehicleDetails!!.fuelType
                     addLeadRequest.Data!!.addLeadVehicleDetails!!.Ownership =
-                            customerDetailsResponse!!.data!!.vehicleDetails!!.ownership
+                            customerDetailsResponse.data!!.vehicleDetails!!.ownership
                 }
                 //set basicDetails
-                if (customerDetailsResponse!!.data!!.basicDetails != null) {
-                    salutationValue = customerDetailsResponse!!.data!!.basicDetails!!.salutation
-                    firstName = customerDetailsResponse!!.data!!.basicDetails!!.firstName
-                    lastName = customerDetailsResponse!!.data!!.basicDetails!!.lastName
-                    email = customerDetailsResponse!!.data!!.basicDetails!!.email
+                if (customerDetailsResponse.data!!.basicDetails != null) {
+                    salutationValue = customerDetailsResponse.data!!.basicDetails!!.salutation
+                    firstName = customerDetailsResponse.data!!.basicDetails!!.firstName
+                    lastName = customerDetailsResponse.data!!.basicDetails!!.lastName
+                    email = customerDetailsResponse.data!!.basicDetails!!.email
                     preFilledPersonalBasicDetails(salutationValue, firstName, lastName, email)
 
                 }
@@ -1511,11 +1510,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                 }
 
-                if (birthDateDisplayValue != null) {
-                    llBirthDateSection.visibility = View.VISIBLE
-                    etBirthDate.setText(birthDateDisplayValue)
-                    addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate = birthDateValue
-                }
+                llBirthDateSection.visibility = View.VISIBLE
+                etBirthDate.setText(birthDateDisplayValue)
+                addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate = birthDateValue
 
                 //Set Employment Details
                 if (customerDetailsResponse.data!!.employmentDetails != null) {

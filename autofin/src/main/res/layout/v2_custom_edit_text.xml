@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_size_16sp"
+        android:layout_marginBottom="@dimen/text_size_16sp"
+        android:background="@drawable/vtwo_input_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/editTextFieldInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_size_14dp"
+
+            android:layout_marginTop="@dimen/text_size10dp"
+            android:layout_marginRight="@dimen/text_size_14dp"
+            android:layout_marginBottom="@dimen/text_size10dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:hint="@string/pancard_number"
+            android:inputType="textCapCharacters|textPostalAddress"
+
+
+            android:maxLength="10"
+            android:singleLine="true"
+            android:textAppearance="@style/RobotoRegular"
+            android:textColorHint="@color/vtwo_grey"
+            android:textSize="@dimen/text_size_14sp"
+            android:importantForAutofill="no" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/RobotoRegular"
+        android:textColor="@color/error_red"
+        android:textSize="@dimen/text_size_12dp"
+        android:textStyle="italic"
+        tools:text="error message" />
+
+</LinearLayout>

@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_dashboardFragment_to_vehicleSelectionFrag2"
             app:destination="@id/vehicleSelectionFrag2" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_documentUploadFragment"
+            app:destination="@id/documentUploadFragment" />
     </fragment>
     <fragment
         android:id="@+id/registeredListFragmentNav"
@@ -88,12 +91,19 @@
             android:name="customerId"
             app:argType="string"
             android:defaultValue="0" />
+
     </fragment>
     <activity
         android:id="@+id/webViewActivity"
         android:name="v2.view.utility_view.WebViewActivity"
         android:label="v2_activity_web_view"
         tools:layout="@layout/v2_activity_web_view" />
+
+    <fragment
+        android:id="@+id/documentUploadFragment"
+        android:name="v2.view.DocumentUploadFragment"
+        android:label="v2_fragment_document_upload"
+        tools:layout="@layout/v2_fragment_document_upload" />
 
 
 </navigation>

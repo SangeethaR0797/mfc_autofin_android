@@ -36,7 +36,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
         if (v != null) {
             when (v.id) {
                 R.id.btnRegisteredList -> {
-                    navigateFromDashBoard(R.id.registeredListFragmentNav)
+                    navigateFromDashBoard(R.id.documentUploadFragment)
                 }
                 R.id.btnNewVehicle -> {
                     navigateFromDashBoard(R.id.vehicleSelectionFrag2)

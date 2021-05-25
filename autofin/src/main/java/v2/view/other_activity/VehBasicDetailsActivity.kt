@@ -93,9 +93,6 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack , Connect
 
         tvConnectivityMessage = findViewById(R.id.tv_connectivity_message)
 
-
-
-
         ivBack = findViewById(R.id.iv_back)
         tvSelectedText = findViewById(R.id.tv_selected_text)
         tvSelectLabel = findViewById(R.id.tv_select_label)

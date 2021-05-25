@@ -6,6 +6,7 @@ import v2.model.response.BankListResponse
 import v2.model.response.CityNameListResponse
 import v2.model.response.CommonBanksResponse
 import v2.model.response.bank_offers.LoanAmountResponse
+import v2.model.response.master.APIDropDownResponse
 import v2.model.response.master.MasterResponse
 import v2.model.response.master.PinCodeResponse
 
@@ -50,5 +51,10 @@ interface MasterEndPoint {
     @Headers("Content-Type: application/json; charset=utf-8")
     @GET
     fun getPinCodeData( @Url url: String?): Observable<PinCodeResponse?>?
+
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @GET
+    fun getAdditionalFieldAPIDetails( @Url url: String?): Observable<APIDropDownResponse?>?
+
 
 }

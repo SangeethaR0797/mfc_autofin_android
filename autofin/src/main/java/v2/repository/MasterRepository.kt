@@ -6,6 +6,7 @@ import v2.model.response.BankListResponse
 import v2.model.response.CityNameListResponse
 import v2.model.response.CommonBanksResponse
 import v2.model.response.bank_offers.LoanAmountResponse
+import v2.model.response.master.APIDropDownResponse
 import v2.model.response.master.MasterResponse
 import v2.model.response.master.PinCodeResponse
 import v2.service.ApiServiceGenerator
@@ -67,6 +68,12 @@ class MasterRepository {
     fun getPinCodeData(url: String): Observable<PinCodeResponse?>?
     {
         return masterEndPoint.getPinCodeData(url)
+    }
+
+    fun getAdditionalFieldAPIDetails(url:String):Observable<APIDropDownResponse?>?
+    {
+        return masterEndPoint.getAdditionalFieldAPIDetails(url)
+
     }
 
 }

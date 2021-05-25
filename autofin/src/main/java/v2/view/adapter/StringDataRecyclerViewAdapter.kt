@@ -52,8 +52,8 @@ class StringDataRecyclerViewAdapter(var dataListValue: List<String>?, itemClick:
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charSearch = constraint.toString()
-                if (charSearch.isEmpty()) {
-                    dataListFilter = dataListValue as ArrayList<String>
+                dataListFilter = if (charSearch.isEmpty()) {
+                    dataListValue as ArrayList<String>
                 } else {
                     val resultList = ArrayList<String>()
                     for (row in dataListValue!!) {
@@ -61,7 +61,7 @@ class StringDataRecyclerViewAdapter(var dataListValue: List<String>?, itemClick:
                             resultList.add(row)
                         }
                     }
-                    dataListFilter = resultList
+                    resultList
                 }
                 val filterResults = FilterResults()
                 filterResults.values = dataListFilter

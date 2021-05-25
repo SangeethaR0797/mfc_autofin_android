@@ -2,19 +2,25 @@ package v2.view
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Dialog
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.text.*
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
+import kotlinx.android.synthetic.main.v2_custom_edit_text.*
 import model.addtional_fields.SubmitAdditionalFieldData
 import utility.CommonStrings
 import utility.Global
@@ -27,19 +33,24 @@ import v2.model.request.bank_offers.LeadApplicationData
 import v2.model.request.bank_offers.SelectRecommendedBankOfferRequest
 import v2.model.response.*
 import v2.model.response.bank_offers.*
+import v2.model.response.master.APIDropDownResponse
 import v2.model.response.master.Addres
+import v2.model.response.master.Details
 import v2.model.response.master.PinCodeResponse
 import v2.model_view.BankOffersViewModel
 import v2.model_view.MasterViewModel
 import v2.model_view.TransactionViewModel
 import v2.service.utility.ApiResponse
+import v2.view.adapter.DataRecyclerViewAdapter
 import v2.view.adapter.PostSoftOfferAdapter
 import v2.view.adapter.SoftOfferAdapter
+import v2.view.adapter.StringDataRecyclerViewAdapter
 import v2.view.base.BaseFragment
 import v2.view.callBackInterface.itemClickCallBack
 
 
 class SoftOfferFragment : BaseFragment(), OnClickListener {
+
     var initialCall: Boolean = true
     private var caseID: String = ""
     lateinit var scrollViewBankOffer: ScrollView
@@ -92,10 +103,14 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     lateinit var pinCodeViewModel: MasterViewModel
     lateinit var addressViewModel: TransactionViewModel
     lateinit var additionalFieldsViewModel: TransactionViewModel
+    lateinit var additionalFieldsAPIViewModel: MasterViewModel
     lateinit var currentAddress: CurrentAddress
     lateinit var permanentAddress: PermanentAddress
     lateinit var additionalFieldsData: AdditionalFieldsData
-    lateinit var submitAdditionalFieldsData: SubmitAdditionalFieldData
+    lateinit var fieldDetails:FieldDetails
+    lateinit var additionalFieldAdapter: DataRecyclerViewAdapter
+    lateinit var dropDownList: List<Details>
+    var fieldDetailsList=ArrayList<FieldDetails>()
 
 
     lateinit var fragView: View
@@ -175,9 +190,18 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     mApiResponse!!
             )
         })
+        additionalFieldsAPIViewModel = ViewModelProvider(this).get(
+                MasterViewModel::class.java
+        )
 
+        additionalFieldsAPIViewModel.getAdditionalFieldAPILiveData().observe(requireActivity(), { mApiResponse: ApiResponse? ->
+            onAdditionalFieldAPIResponse(
+                    mApiResponse!!
+            )
+        })
 
     }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -489,7 +513,8 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 val response: SimpleResponse? = mApiResponse.data as SimpleResponse?
 
                 showToast(response?.message.toString())
-                additionalFieldsViewModel.getAdditionalFieldsData(CustomerRequest(ResetCustomerJourneyDataRequest(customerId), CommonStrings.USER_TYPE, CommonStrings.USER_TYPE), Global.baseURL + CommonStrings.ADDITIONAL_FIELDS_URL)
+//                additionalFieldsViewModel.getAdditionalFieldsData(CustomerRequest(ResetCustomerJourneyDataRequest(customerId), CommonStrings.USER_TYPE, CommonStrings.USER_TYPE), Global.baseURL + CommonStrings.ADDITIONAL_FIELDS_URL)
+                additionalFieldsViewModel.getAdditionalFieldsData(CustomerRequest(ResetCustomerJourneyDataRequest("1649"), CommonStrings.USER_TYPE, CommonStrings.USER_TYPE), Global.baseURL + CommonStrings.ADDITIONAL_FIELDS_URL)
 
             }
             ApiResponse.Status.ERROR -> {
@@ -516,7 +541,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     linearLayoutEditPermanentAddress.visibility = View.VISIBLE
                     additionalFieldsData = response.data
 
-                    generateAdditionalFieldsUI()
+                  //  generateAdditionalFieldsUI()
                 }
                 showToast(response?.message.toString())
 
@@ -529,6 +554,28 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         }
     }
 
+    private fun onAdditionalFieldAPIResponse(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+
+                val additionalFieldRes: APIDropDownResponse? = mApiResponse.data as APIDropDownResponse?
+                dropDownList = additionalFieldRes?.data?.details!!
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+                Log.i("SoftOfferFragment", "onBankResponse: " + ApiResponse.Status.ERROR)
+
+            }
+            else -> {
+                Log.i("SoftOfferFragment", "onBankResponse: ")
+            }
+        }
+
+    }
 
     // endregion Response
 
@@ -640,75 +687,185 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
     }
 
-    private fun saveCurrentAddress(item: Addres?) {
 
-        if (typeOfAddress == "Permanent Address") {
-            // save the address for Current and Permanent Address
-            // And enable Office Address Layout
-            val currentAddress = item?.pincode?.let { item.address?.let { it1 -> CurrentAddress(true, it, it1) } }
-            val permanentAddress = item?.pincode?.let { item.address?.let { it1 -> PermanentAddress(it, it1) } }
-            val addressData = currentAddress?.let { permanentAddress?.let { it1 -> AddressData(customerId.toInt(), it, it1, "2012-02-21") } }
-
-            val updateAddressRequest = addressData?.let { UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, it) }
-            if (updateAddressRequest != null) {
-                addressViewModel.updateAddress(updateAddressRequest, Global.customerDetails_BaseURL + CommonStrings.UPDATE_ADDRESS_URL)
-            }
-        } else {
-            //  save address as current address and enable Permanent address Layout
-            val currentAddress = item?.pincode?.let { item?.address?.let { it1 -> CurrentAddress(false, it, it1) } }
-            val permanentAddress = PermanentAddress("", "")
-            val addressData = AddressData(customerId.toInt(), currentAddress!!, permanentAddress, "2012-02-21")
-            val updateAddressRequest = UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, addressData)
-            if (updateAddressRequest != null) {
-                addressViewModel.updateAddress(updateAddressRequest, Global.customerDetails_BaseURL + CommonStrings.UPDATE_ADDRESS_URL)
-            }
-        }
-
-    }
-
+    @SuppressLint("SetTextI18n")
     private fun generateAdditionalFieldsUI() {
 
         val selectionList = additionalFieldsData.sections
-        for (itemList in selectionList) {
-            val fieldList = itemList.fields
-            // 2. inflate white bg layout
-            // 3. set section title if display name true
-            for (fieldItem in fieldList) {
-                when (fieldItem.fieldType) {
-                    "Text" -> {
-                        // inflate EditText layout
-                        // check if mandatory
-                        // Add input values to Submit Additional Field request instance
-                    }
-                    "DropDown" -> {
-                        // inflate EditText layout
-                        // check if mandatory
-                        // Add input values to Submit Additional Field request instance
+        var valAdded: Boolean = false
+        for (index in selectionList.indices) {
 
-                    }
-                    "Check" -> {
-                        // inflate EditText layout
-                        // check if mandatory
-                        // Add input values to Submit Additional Field request instance
-                    }
+            val fieldList = selectionList[index].fields
+            val currentSectionLayout: View = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_parent_layout, llBankOfferParent, false)
+            val linearLayout = currentSectionLayout.findViewById<LinearLayout>(R.id.linearLayoutCustomParentLayout)
 
+
+            if (selectionList[index].displayName) {
+                val currentSectionTitle: View = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_title_text_view, null, false)
+                val sectionTitle: TextView = currentSectionTitle.findViewById(R.id.textViewTitleLabel)
+                sectionTitle.text = selectionList[index].sectionName
+                linearLayout.addView(currentSectionTitle)
+            }
+
+            valAdded = setFieldsView(fieldList, linearLayout)
+
+            llBankOfferParent.addView(currentSectionLayout)
+            if (valAdded)
+                continue
+            else
+                break
+        }
+
+
+    }
+
+    private fun setFieldsView(fieldList: List<Fields>, linearLayout: LinearLayout?): Boolean {
+
+        val fieldView = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_field_parent_layout, linearLayout, false)
+        val fieldLayout = fieldView.findViewById<LinearLayout>(R.id.linearLayoutFieldParent)
+
+        for (fieldIndex in fieldList.indices) {
+
+            when (fieldList[fieldIndex].fieldType) {
+
+                "Text" -> {
+                    val titleView = getTitleView(linearLayout, fieldList[fieldIndex].label, fieldList[fieldIndex].isMandatory)
+                    val currentFieldInputView = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_edit_text, linearLayout, false)
+                    val fieldInputValue: EditText = currentFieldInputView.findViewById(R.id.editTextFieldInput)
+
+                    fieldInputValue.addTextChangedListener(object : TextWatcher {
+                        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+                        }
+
+                        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                        }
+
+                        override fun afterTextChanged(s: Editable?) {
+
+                            if (fieldIndex == fieldList.size - 1) {
+                                Log.i("FIELD", "afterTextChanged: $0")
+                                refreshFieldView(linearLayout, fieldView)
+                            }
+
+                        }
+                    })
+
+                    fieldLayout?.addView(titleView)
+                    fieldLayout?.addView(currentFieldInputView)
 
                 }
+                "DropDown" -> {
+
+                    val titleView = getTitleView(linearLayout, fieldList[fieldIndex].label, fieldList[fieldIndex].isMandatory)
+
+                    val currentFieldInputView = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_input_text_view, linearLayout, false)
+                    val fieldInput: TextView = currentFieldInputView.findViewById(R.id.textViewDropDown)
+
+                    additionalFieldsAPIViewModel.getAdditionalFieldAPIData(fieldList[fieldIndex].apiDetails.url)
+
+                    fieldInput.setOnClickListener(View.OnClickListener {
+                        if (fieldIndex == fieldList.size && showDropDownDialog("Search " + fieldList[fieldIndex].label, fieldInput, dropDownList))
+                        {
+
+                        } else {
+                            showDropDownDialog("Search " + fieldList[fieldIndex].label, fieldInput, dropDownList)
+                        }
+                    })
+
+                    fieldLayout?.addView(titleView)
+                    fieldLayout?.addView(currentFieldInputView)
+
+                }
+                "Check" -> {
+
+                    val currentFieldInputView = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_check_type_layout, linearLayout, false)
+                    val recyclerView: RecyclerView = currentFieldInputView.findViewById(R.id.recyclerViewAdditionalField)
+
+                    val titleView = getTitleView(linearLayout, fieldList[fieldIndex].label, fieldList[fieldIndex].isMandatory)
+
+                    fieldLayout?.addView(titleView)
+                    fieldLayout?.addView(currentFieldInputView)
+
+                }
+
             }
+
         }
-        val section1: View = LayoutInflater.from(context).inflate(R.layout.v2_custom_dropdown_layout, null, false)
-        val textViewSectionTitle1 = section1.findViewById<TextView>(R.id.textViewSectionTitle)
-        val editTextSection = section1.findViewById<TextView>(R.id.editTextSectionInput)
-        textViewSectionTitle1.text = additionalFieldsData.sections[0].fields[0].label
+        linearLayout?.addView(fieldView)
+        return false
 
-        val section2: View = LayoutInflater.from(context).inflate(R.layout.v2_custom_dropdown_layout, null, false)
-        val textViewSectionTitle2 = section2.findViewById<TextView>(R.id.textViewSectionTitle)
-        val editTextSection2 = section2.findViewById<TextView>(R.id.editTextSectionInput)
-        textViewSectionTitle2.text = additionalFieldsData.sections[1].fields[1].label
+    }
 
-        llBankOfferParent.addView(section1)
-        llBankOfferParent.addView(section2)
+    private fun refreshFieldView(linearLayout: LinearLayout?, fieldView: View?) {
+        linearLayout?.removeView(fieldView)
+        linearLayout?.addView(fieldView)
+    }
 
+    private fun getTitleView(linearLayout: LinearLayout?, title: String, isMandatory: Boolean): View {
+        val currentFieldViewTitle: View = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_title_text_view, linearLayout, false)
+        val fieldTitle: TextView = currentFieldViewTitle.findViewById(R.id.textViewTitleLabel)
+
+        if (isMandatory) {
+            val text = "$title "
+            val colored = getString(R.string.lbl_asterick)
+            val builder = SpannableStringBuilder()
+
+            builder.append(text)
+            val start = builder.length
+            builder.append(colored)
+            val end = builder.length
+
+            builder.setSpan(ForegroundColorSpan(Color.RED), start, end,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+            fieldTitle.text = builder
+        } else {
+            fieldTitle.text = title
+        }
+        return currentFieldViewTitle
+    }
+
+    private fun showDropDownDialog(title: String, textView: TextView, optionList: List<Details>): Boolean {
+
+        val dialog = Dialog(fragView.context, R.style.FullScreenDialogTheme)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.v2_additional_fields_drop_down_options_layout)
+
+        val textViewTitle: TextView = dialog.findViewById(R.id.textViewSelectTitle) as TextView
+        val backToSoftOffer = dialog.findViewById<ImageView>(R.id.imageViewBackToSoftOffer)
+        val recyclerView = dialog.findViewById<RecyclerView>(R.id.recyclerViewOptions)
+        textViewTitle.text = title
+
+        var stringList = ArrayList<String>()
+        var valueSet = false
+        for (optionItem in optionList) {
+            stringList.add(optionItem.displayLabel)
+        }
+        backToSoftOffer.setOnClickListener(View.OnClickListener {
+            valueSet = false
+            dialog.dismiss()
+        })
+
+        val reviewAdapter = StringDataRecyclerViewAdapter(stringList as List<String>, object : itemClickCallBack {
+            override fun itemClick(item: Any?, position: Int) {
+                textView.text = item as String
+                valueSet = true
+                dialog.dismiss()
+            }
+        })
+        val layoutManager = LinearLayoutManager(fragView.context)
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = reviewAdapter
+
+        dialog.show()
+        return valueSet
+    }
+
+    private fun getSectionVariableName(displayName: String): String {
+        return "section_" + displayName.replace("\\s".toRegex(), "")
     }
 
     private fun addNewAddress(linearLayout: LinearLayout, title: String) {
@@ -799,5 +956,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
         addressViewModel.updateAddress(updateAddressRequest, Global.customerAPI_BaseURL + CommonStrings.UPDATE_ADDRESS_URL)
     }
+
 
 }

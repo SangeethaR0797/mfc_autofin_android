@@ -347,5 +347,36 @@ class MasterViewModel(application: Application) : BaseViewModel(application) {
     }
 //endregion CityNameByPinCode
 
+//region AdditionalFieldsAPIDetails
 
+    private val mAdditionalFieldAPILiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+
+    public fun getAdditionalFieldAPILiveData(): MutableLiveData<ApiResponse> {
+        return mAdditionalFieldAPILiveData
+    }
+
+    public fun getAdditionalFieldAPIData(url: String) {
+        repository.getAdditionalFieldAPIDetails(url)?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe { d -> mAdditionalFieldAPILiveData.setValue(ApiResponse.loading()) }
+                ?.let {
+                    disposables.add(
+                            it.subscribe(
+                                    { result ->
+                                        mAdditionalFieldAPILiveData.setValue(result?.let {
+                                            ApiResponse.success(
+                                                    it
+                                            )
+                                        })
+                                    }
+                            ) { throwable ->
+                                mAdditionalFieldAPILiveData.setValue(
+                                        ApiResponse.error(
+                                                throwable
+                                        )
+                                )
+                            })
+                }
+    }
+//endregion AdditionalFieldsAPIDetails
 }
