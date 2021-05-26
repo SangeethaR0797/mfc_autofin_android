@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
@@ -20,8 +21,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
+import kotlinx.android.synthetic.main.v2_add_new_address_layout.*
 import kotlinx.android.synthetic.main.v2_custom_edit_text.*
 import model.addtional_fields.SubmitAdditionalFieldData
+import org.w3c.dom.Text
 import utility.CommonStrings
 import utility.Global
 import v2.model.request.*
@@ -107,10 +110,10 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     lateinit var currentAddress: CurrentAddress
     lateinit var permanentAddress: PermanentAddress
     lateinit var additionalFieldsData: AdditionalFieldsData
-    lateinit var fieldDetails:FieldDetails
+    lateinit var currentFieldDetails: FieldDetails
     lateinit var additionalFieldAdapter: DataRecyclerViewAdapter
     lateinit var dropDownList: List<Details>
-    var fieldDetailsList=ArrayList<FieldDetails>()
+    var fieldDetailsList = ArrayList<FieldDetails>()
 
 
     lateinit var fragView: View
@@ -541,7 +544,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     linearLayoutEditPermanentAddress.visibility = View.VISIBLE
                     additionalFieldsData = response.data
 
-                  //  generateAdditionalFieldsUI()
+                    generateAdditionalFieldsUI()
                 }
                 showToast(response?.message.toString())
 
@@ -701,27 +704,72 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
 
             if (selectionList[index].displayName) {
-                val currentSectionTitle: View = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_title_text_view, null, false)
+                val currentSectionTitle: View = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_title_text_view, linearLayout, false)
                 val sectionTitle: TextView = currentSectionTitle.findViewById(R.id.textViewTitleLabel)
                 sectionTitle.text = selectionList[index].sectionName
                 linearLayout.addView(currentSectionTitle)
             }
+            if (selectionList[index].type == "Address")
+            {
+                val addressView:View=LayoutInflater.from(fragView.context).inflate(R.layout.v2_add_new_address_layout, linearLayout, false)
+                val textViewOrganizationName=addressView.findViewById<TextView>(R.id.textViewOrganizationName)
+                val linearLayoutOrganizationName=addressView.findViewById<LinearLayout>(R.id.linearLayoutOrganizationName)
+                val textViewTypeOfAddress = addressView.findViewById<TextView>(R.id.textViewTypeOfAddress)
+                val editTextPinCode = addressView.findViewById<EditText>(R.id.editTextPinCode)
+                val editTextOrgName=addressView.findViewById<EditText>(R.id.editTextOrgName)
+                val buttonPinCodeCheck = addressView.findViewById<Button>(R.id.buttonPincodeCheck)
+                val textViewStateLbl=addressView.findViewById<TextView>(R.id.textViewStateLbl)
+                val textViewCityLbl=addressView.findViewById<TextView>(R.id.textViewCityLbl)
+                val textViewState = addressView.findViewById<TextView>(R.id.textViewState)
+                val textViewCity = addressView.findViewById<TextView>(R.id.textViewCity)
+                val textViewAddress=addressView.findViewById<TextView>(R.id.textViewAddress)
+                val editTextAddress1 = addressView.findViewById<EditText>(R.id.editTextAddress1)
+                val editTextAddress2 = addressView.findViewById<EditText>(R.id.editTextAddress2)
+                val editTextAddress3 = addressView.findViewById<EditText>(R.id.editTextAddress3)
+                val buttonSubmitAddress = addressView.findViewById<Button>(R.id.buttonSubmitAddress)
+                textViewOrganizationName.visibility= VISIBLE
+                linearLayoutOrganizationName.visibility- VISIBLE
 
-            valAdded = setFieldsView(fieldList, linearLayout)
+                for(fieldIndex in fieldList.indices)
+                {
+                    when (fieldList[fieldIndex].label) {
+                        "Enter Company Name" -> {
+                            textViewOrganizationName.text = fieldList[fieldIndex].label
+                            editTextOrgName.hint=fieldList[fieldIndex].placeHolder
+                        }
+                        "Enter Pincode" -> {
+                            textViewEnterPinCode.text = fieldList[fieldIndex].label
+                            editTextPinCode.hint=fieldList[fieldIndex].placeHolder
+                        }
+                        "Select State" -> {
+                            textViewStateLbl.text = fieldList[fieldIndex].label
+                            textViewState.hint=fieldList[fieldIndex].placeHolder
+                        }
+                        "Select City" -> {
+                            textViewCityLbl.text = fieldList[fieldIndex].label
+                            textViewCity.hint=fieldList[fieldIndex].placeHolder
+                        }
+                        "Office Address" -> {
+                            textViewAddress.text = fieldList[fieldIndex].label
+                            editTextAddress1.hint=fieldList[fieldIndex].placeHolder
+                            editTextAddress2.hint=fieldList[fieldIndex].placeHolder
+                            editTextAddress3.hint=fieldList[fieldIndex].placeHolder
 
+                        }
+                    }
+                }
+
+            }
+            val fieldView: View = setFieldsView(fieldList, linearLayout)
+            linearLayout.addView(fieldView)
             llBankOfferParent.addView(currentSectionLayout)
-            if (valAdded)
-                continue
-            else
-                break
         }
-
 
     }
 
-    private fun setFieldsView(fieldList: List<Fields>, linearLayout: LinearLayout?): Boolean {
+    private fun setFieldsView(fieldList: List<Fields>, linearLayout: LinearLayout?): View {
 
-        val fieldView = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_field_parent_layout, linearLayout, false)
+        val fieldView = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_field_parent_layout, linearLayout, true)
         val fieldLayout = fieldView.findViewById<LinearLayout>(R.id.linearLayoutFieldParent)
 
         for (fieldIndex in fieldList.indices) {
@@ -733,6 +781,13 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     val currentFieldInputView = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_edit_text, linearLayout, false)
                     val fieldInputValue: EditText = currentFieldInputView.findViewById(R.id.editTextFieldInput)
 
+                    Log.i("TAG", "setFieldsView: " + fieldInputValue)
+                    Log.i("TAG", "setFieldsView: " + fieldList[fieldIndex].fieldId)
+
+                    if (currentFieldDetails.APIKey == fieldList[fieldIndex].apiDetails.apiKey) {
+                        fieldInputValue.setText(currentFieldDetails.Value)
+                    }
+
                     fieldInputValue.addTextChangedListener(object : TextWatcher {
                         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -743,10 +798,13 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                         }
 
                         override fun afterTextChanged(s: Editable?) {
+                            currentFieldDetails.APIKey = fieldList[fieldIndex].apiDetails.apiKey
+                            currentFieldDetails.Value = fieldInputValue.text.toString()
+                            currentFieldDetails.DisplayLabel = ""
 
                             if (fieldIndex == fieldList.size - 1) {
                                 Log.i("FIELD", "afterTextChanged: $0")
-                                refreshFieldView(linearLayout, fieldView)
+                                //   refreshFieldView(fieldLayout, fieldView)
                             }
 
                         }
@@ -759,15 +817,14 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 "DropDown" -> {
 
                     val titleView = getTitleView(linearLayout, fieldList[fieldIndex].label, fieldList[fieldIndex].isMandatory)
-
+                    val editText = EditText(fragView.context)
                     val currentFieldInputView = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_input_text_view, linearLayout, false)
                     val fieldInput: TextView = currentFieldInputView.findViewById(R.id.textViewDropDown)
 
                     additionalFieldsAPIViewModel.getAdditionalFieldAPIData(fieldList[fieldIndex].apiDetails.url)
 
                     fieldInput.setOnClickListener(View.OnClickListener {
-                        if (fieldIndex == fieldList.size && showDropDownDialog("Search " + fieldList[fieldIndex].label, fieldInput, dropDownList))
-                        {
+                        if (fieldIndex == fieldList.size && showDropDownDialog("Search " + fieldList[fieldIndex].label, fieldInput, dropDownList)) {
 
                         } else {
                             showDropDownDialog("Search " + fieldList[fieldIndex].label, fieldInput, dropDownList)
@@ -793,8 +850,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             }
 
         }
-        linearLayout?.addView(fieldView)
-        return false
+        return fieldView
 
     }
 
@@ -921,7 +977,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             }
         })
         linearLayout.addView(addressView)
-
     }
 
 
@@ -949,7 +1004,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
         textViewPermanentAddress1.text = address1
         textViewPermanentAddress2.text = address2
-        textViewPermanentAddress3.text = address3 + ", " + pincode
+        textViewPermanentAddress3.text = "$address3, $pincode"
         permanentAddress = PermanentAddress(pincode, address)
         val addressData = AddressData(customerId.toInt(), currentAddress, permanentAddress, "2012-02-21")
         val updateAddressRequest = UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, addressData)
