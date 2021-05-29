@@ -2,6 +2,9 @@ package retrofit_config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import javax.net.ssl.HostnameVerifier;
@@ -15,7 +18,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit_services.RetrofitInterface;
-import utility.CommonMethods;
 import utility.CommonStrings;
 import utility.Global;
 
@@ -23,7 +25,7 @@ public class RetroBase {
 
     public static final String BASE_URL = Global.currentBaseURL;
 
-    private static HttpLoggingInterceptor logging = new HttpLoggingInterceptor()
+    private static final HttpLoggingInterceptor logging = new HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY);
     protected static TokenInterceptor tokenInterceptor = new TokenInterceptor();
     protected static OkHttpClient client = new OkHttpClient
@@ -55,20 +57,19 @@ public class RetroBase {
 
         }
 
+        @NotNull
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request initialRequest = chain.request();
 
             String sToken = "";
-            if (sToken != null) {
-                initialRequest = initialRequest.newBuilder()
-                         .addHeader("Accept", "application/json; charset=utf-8")
-                        .addHeader("token", CommonStrings.TOKEN_VALUE)
-                        .build();
-            }
+            initialRequest = initialRequest.newBuilder()
+                     .addHeader("Accept", "application/json; charset=utf-8")
+                    .addHeader("token", CommonStrings.TOKEN_VALUE)
+                    .addHeader("Authorization", " Bearer " + CommonStrings.TOKEN_VALUE)
+                    .build();
 
-            Response response = chain.proceed(initialRequest);
-            return response;
+            return chain.proceed(initialRequest);
         }
     }
 

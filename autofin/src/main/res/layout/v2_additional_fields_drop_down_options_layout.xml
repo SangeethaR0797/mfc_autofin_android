@@ -53,7 +53,7 @@
             android:paddingBottom="@dimen/text_size_18dp">
 
             <EditText
-                android:id="@+id/editTextSearchOption"
+                android:id="@+id/editTextAdditionalFieldsSearchOption"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -82,11 +82,12 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_progress"
+            android:id="@+id/ll_additional_fields_progress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <ProgressBar
                 android:id="@+id/progressBar1"
@@ -106,7 +107,8 @@
                 android:textAppearance="@style/RobotoBold"
                 android:textColor="@color/hint_color"
                 android:textSize="@dimen/text_size_12dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone"/>
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

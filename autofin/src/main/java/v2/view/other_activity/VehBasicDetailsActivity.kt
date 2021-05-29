@@ -105,9 +105,9 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack , Connect
             etSearch.requestFocus()
 
         })
-        ivBack.setOnClickListener(View.OnClickListener {
+        ivBack.setOnClickListener {
             manageBackpress()
-        })
+        }
 
         etSearch.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int,
@@ -254,9 +254,9 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack , Connect
 
                 reviewAdapter = StringDataRecyclerViewAdapter(dataValue, this@VehBasicDetailsActivity)
                 val layoutManager = LinearLayoutManager(this)
-                rvResult.setLayoutManager(layoutManager)
+                rvResult.layoutManager = layoutManager
                 rvResult.visibility=View.VISIBLE
-                rvResult.setAdapter(reviewAdapter)
+                rvResult.adapter = reviewAdapter
             }
             ApiResponse.Status.ERROR -> {
                 llProgress.visibility=View.GONE
@@ -267,38 +267,43 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack , Connect
     override fun itemClick(item: Any?, position: Int) {
         rvResult.visibility=View.INVISIBLE
         etSearch.setText("")
-        var value: String = item as String
+        val value: String = item as String
 
-        if (mCurrentCalFor.equals(CommonStrings.YEAR)) {
-            mSelectedYear = value
-            callMakeApiData()
+        when (mCurrentCalFor) {
+            CommonStrings.YEAR -> {
+                mSelectedYear = value
+                callMakeApiData()
 
-        } else if (mCurrentCalFor.equals(CommonStrings.MAKE)) {
-            mSelectedMake = value
-            callModelApiData()
+            }
+            CommonStrings.MAKE -> {
+                mSelectedMake = value
+                callModelApiData()
 
-        } else if (mCurrentCalFor.equals(CommonStrings.MODEL)) {
-            mSelectedModel = value
-            callVariantApiData()
-        } else if (mCurrentCalFor.equals(CommonStrings.VARIANT)) {
-            mSelectedVariant = value
-            //Call Back Result
+            }
+            CommonStrings.MODEL -> {
+                mSelectedModel = value
+                callVariantApiData()
+            }
+            CommonStrings.VARIANT -> {
+                mSelectedVariant = value
+                //Call Back Result
 
-            var vehicleAddUpdateDTO = AddLeadRequest()
-            var vehicleDetails = AddLeadVehicleDetails()
+                var vehicleAddUpdateDTO = AddLeadRequest()
+                var vehicleDetails = AddLeadVehicleDetails()
 
-            vehicleDetails!!.RegistrationYear = mSelectedYear.toInt()
-            vehicleDetails!!.Make = mSelectedMake
-            vehicleDetails!!.Model = mSelectedModel
-            vehicleDetails!!.Variant = mSelectedVariant
-            var data = AddLeadData()
+                vehicleDetails!!.RegistrationYear = mSelectedYear.toInt()
+                vehicleDetails!!.Make = mSelectedMake
+                vehicleDetails!!.Model = mSelectedModel
+                vehicleDetails!!.Variant = mSelectedVariant
+                var data = AddLeadData()
 
-            data!!.addLeadVehicleDetails = vehicleDetails
-            vehicleAddUpdateDTO.Data = data
-            val intent = Intent()
-            intent.putExtra(CommonStrings.VEHICLE_DATA, vehicleAddUpdateDTO)
-            setResult(CommonStrings.RESULT_CODE, intent)
-            finish()
+                data!!.addLeadVehicleDetails = vehicleDetails
+                vehicleAddUpdateDTO.Data = data
+                val intent = Intent()
+                intent.putExtra(CommonStrings.VEHICLE_DATA, vehicleAddUpdateDTO)
+                setResult(CommonStrings.RESULT_CODE, intent)
+                finish()
+            }
         }
 
 

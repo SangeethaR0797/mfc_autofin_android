@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/text_size_16sp"
+    android:background="@android:color/transparent">
+
+    <LinearLayout
+        android:id="@+id/linearLayoutCustomAddressSectionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white_corner"
+        android:orientation="vertical"
+        android:padding="@dimen/text_size_14sp">
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonSubmitAddressDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_16sp"
+        android:textAppearance="@style/RobotoMedium"
+        android:layout_gravity="center"
+        android:paddingLeft="85dp"
+        android:paddingRight="85dp"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:background="@drawable/vtwo_next_btn_bg"
+        android:layout_marginTop="38dp"
+        android:layout_marginBottom="38dp"
+        />
+</LinearLayout>

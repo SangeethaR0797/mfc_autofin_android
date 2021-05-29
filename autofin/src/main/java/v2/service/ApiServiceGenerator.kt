@@ -9,6 +9,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit_config.RetroBase
+import retrofit_services.RetrofitInterface
 import utility.CommonStrings
 import utility.Global
 
@@ -26,7 +28,7 @@ object ApiServiceGenerator {
             .baseUrl(BASE_URL)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
-    var retrofit = builder.build()
+    var retrofit: Retrofit = builder.build()
         private set
     private val logging = HttpLoggingInterceptor()
     private var tokenInterceptor = TokenInterceptor()
@@ -54,6 +56,7 @@ object ApiServiceGenerator {
     fun resetAuthToken() {
         httpClient.interceptors().clear()
     }
+    var v2RetrofitInterface: RetrofitInterface? = retrofit.create(RetrofitInterface::class.java)
 
     class TokenInterceptor() : Interceptor {
         @Throws(IOException::class)
