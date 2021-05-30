@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.gson.Gson
 import com.mfc.autofin.framework.R
-import model.token.TokenResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,7 +45,6 @@ import v2.model.response.master.PinCodeResponse
 import v2.model_view.BankOffersViewModel
 import v2.model_view.MasterViewModel
 import v2.model_view.TransactionViewModel
-import v2.service.ApiServiceGenerator.v2RetrofitInterface
 import v2.service.utility.ApiResponse
 import v2.view.adapter.DataRecyclerViewAdapter
 import v2.view.adapter.PostSoftOfferAdapter
@@ -60,10 +58,7 @@ import v2.view.utility_view.GridItemDecoration
 
 class SoftOfferFragment : BaseFragment(), OnClickListener {
 
-    private val fieldLabel: String = ""
-    lateinit var currentTextView: TextView
     private var additionaFieldPinCode: String = ""
-    private var sectionDataList = ArrayList<FieldDetails>()
     private val currentFilledFieldData = ArrayList<FieldDetails>()
     private val submitAdditionalFieldsList = ArrayList<FieldDetails>()
 
@@ -588,7 +583,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
                 val additionalFieldRes: APIDropDownResponse? = mApiResponse.data as APIDropDownResponse?
                 checkList = additionalFieldRes?.data?.details!! as ArrayList<Details>
-                setAdditionalField()
 
             }
             ApiResponse.Status.ERROR -> {
@@ -610,33 +604,29 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
     private fun setAdditionalField() {
         val sectionsList = additionalFieldsData.sections
-        var fieldDetails = 0
         for (sectionIndex in sectionsList.indices) {
             val sectionData = sectionsList[sectionIndex]
             val fieldsList = sectionsList[sectionIndex].fields
-
             val sectionView = generateSectionUI(sectionData)
             linearLayoutAdditionalFieldsUILayout.addView(sectionView)
-         /*   if (isSectionPrefilled(sectionData.sectionName) || fieldDetails == 0)//|| sectionDataList.size == fieldDetails)
+            if ( sectionIndex == 0 || (isSectionPrefilled(sectionData.sectionName)))//|| sectionDataList.size == fieldDetails)
                 continue
             else
                 break
-*/
-           if(sectionIndex>3)
-                break
+
         }
 
     }
 
 
     private fun generateSectionUI(sectionData: Sections): View {
-
         val fieldList = sectionData.fields
         var currentSectionLayout = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_address_parent_layout, linearLayoutAdditionalFieldsUILayout, false)
-       /* if (isSectionPrefilled(sectionData.sectionName)) {
-            currentSectionLayout = changeLayoutUI(sectionData.sectionName)
+        if (isSectionPrefilled(sectionData.sectionName)) {
+            currentSectionLayout = generateEditSectionUI(sectionData)
         } else {
-       */     if (sectionData.type == "Address") {
+
+            if (sectionData.type == "Address") {
 
                 // if section is not
 
@@ -655,9 +645,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
                 addressButton.setOnClickListener(View.OnClickListener {
                     if (listOf(currentFilledFieldData).any { it.isNotEmpty() } && currentFilledFieldData.size == fieldList.size) {
-                        sectionMap[sectionData.sectionName] = currentFilledFieldData
-                        submitAdditionalFieldsList.addAll(currentFilledFieldData)
-                        refreshFieldView()
+                        moveCurrentDetailsToMap(sectionData.sectionName)
                     } else {
                         Log.i("SoftOffer", "generateSectionUI: " + listOf(currentFilledFieldData).any { it.isNotEmpty() })
                         Log.i("SoftOffer", "generateSectionUI: " + "" + currentFilledFieldData.size + "=====" + fieldList.size)
@@ -665,7 +653,9 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                         showToast("Please fill all fields")
                     }
                 })
-                generateFieldUI(linearLayout, fieldList)
+
+                generateFieldUI(sectionData.sectionName, linearLayout, fieldList)
+
             } else {
                 currentSectionLayout = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_parent_layout, linearLayoutAdditionalFieldsUILayout, false)
                 val linearLayout = currentSectionLayout.findViewById<LinearLayout>(R.id.linearLayoutCustomParentLayout)
@@ -674,30 +664,16 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     val sectionTitle: TextView = currentSectionTitle.findViewById(R.id.textViewTitleLabel)
                     sectionTitle.text = sectionData.sectionName
                     linearLayout.addView(currentSectionTitle)
-                    generateFieldUI(linearLayout, fieldList)
                 }
-
-        }
-
-        return currentSectionLayout
-    }
-
-    private fun isSectionPrefilled(sectionName: String): Boolean {
-        var isSectionFilled = false
-        for ((key, value) in sectionMap) {
-            if (key == sectionName) {
-                if (listOf(value).any { it.isNotEmpty() }) {
-                    isSectionFilled = true
-                    currentFilledFieldData.clear()
-                    currentFilledFieldData.addAll(value)
-                }
+                generateFieldUI(sectionData.sectionName, linearLayout, fieldList)
 
             }
         }
-        return isSectionFilled
+        return currentSectionLayout
     }
 
-    private fun generateFieldUI(linearLayout: LinearLayout?, fieldList: List<Fields>) {
+
+    private fun generateFieldUI(sectionName: String, linearLayout: LinearLayout?, fieldList: List<Fields>) {
 
         val cFieldList = fieldList
         for (fieldIndex in fieldList.indices) {
@@ -706,291 +682,18 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             val titleView: View = getTitleView(fieldTitleText, isMandatoryField)
 
             val fieldVal: Fields = fieldList[fieldIndex]
-            val fieldView: View? = linearLayout?.let { getFieldView(fieldVal, cFieldList, fieldIndex == fieldList.size - 1, it) }
+            val fieldView: View? = linearLayout?.let { getFieldView(sectionName, fieldVal, cFieldList, fieldIndex == fieldList.size - 1, it) }
 
             linearLayout?.addView(titleView)
             linearLayout?.addView(fieldView)
 
-           /* if (fieldList[fieldIndex].apiDetails.apiKey == "CompanyPincode" && isFieldFilled(fieldList[fieldIndex].apiDetails.apiKey).isEmpty())
+            if (fieldList[fieldIndex].apiDetails.apiKey == "CompanyPincode" && isFieldFilled(fieldList[fieldIndex].apiDetails.apiKey).isEmpty())
                 break
             else
                 continue
-*/
-        }
-
-    }
-
-    private fun isFieldFilled(apiKey: String): String {
-        var value = ""
-        if (currentFilledFieldData.isNotEmpty()) {
-            for (index in currentFilledFieldData.indices) {
-                value = if (currentFilledFieldData[index].APIKey == apiKey && currentFilledFieldData[index].Value.isNotEmpty()) {
-                    currentFilledFieldData[index].Value
-                } else {
-                    if (currentFilledFieldData[index].APIKey == apiKey && currentFilledFieldData[index].Value.isEmpty())
-                        currentFilledFieldData.remove(currentFilledFieldData[index])
-                    ""
-                }
-            }
-        } else {
-            value = ""
-        }
-        return value
-    }
-
-    private fun changeLayoutUI(sectionTitle: String): View {
-        var view: View = LayoutInflater.from(fragView.context).inflate(R.layout.v2_edit_custom_address, linearLayoutAdditionalFieldsUILayout, false)
-
-        when (sectionTitle) {
-            "Company Details" -> {
-                view = LayoutInflater.from(fragView.context).inflate(R.layout.v2_edit_custom_address, linearLayoutAdditionalFieldsUILayout, false)
-                val textViewOfficeAddressEdit = view.findViewById<TextView>(R.id.textViewOfficeAddressEdit)
-                val imageViewEditOfficeAddress = view.findViewById<ImageView>(R.id.imageViewEditOfficeAddress)
-                val textViewOfficeAddress1 = view.findViewById<TextView>(R.id.textViewOfficeAddress1)
-                val textViewOfficeAddress2 = view.findViewById<TextView>(R.id.textViewOfficeAddress2)
-                val textViewOfficeAddress3 = view.findViewById<TextView>(R.id.textViewOfficeAddress3)
-                textViewOfficeAddressEdit.text = sectionTitle
-                textViewOfficeAddress1.text = isFieldFilled("Company")
-                textViewOfficeAddress2.text = isFieldFilled("CompanyAddress1") + "," + isFieldFilled("CompanyAddress2")
-                textViewOfficeAddress3.text = isFieldFilled("CompanyAddress3") + "," + isFieldFilled("CompanyPincode")
-            }
-            "Profession" -> {
-
-            }
-            "Qualification" -> {
-
-            }
-            "Reference Details" -> {
-
-            }
-        }
-        return view
-    }
-
-    private fun getFieldView(fieldData: Fields, cFieldList: List<Fields>, isLastItem: Boolean, linearLayout: LinearLayout): View {
-        var currentFieldInputView = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_edit_text, linearLayout, false)
-
-        when (fieldData.fieldType) {
-            "Text" -> {
-                currentFieldInputView = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_edit_text, linearLayout, false)
-                val fieldInputValue: EditText = currentFieldInputView.findViewById(R.id.editTextFieldInput)
-                fieldInputValue.hint = fieldData.placeHolder
-                // prefill
-                fieldInputValue.setText(isFieldFilled(fieldData.apiDetails.apiKey))
-
-                // getVal
-
-                fieldInputValue?.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
-                    if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER ||
-                            actionId == EditorInfo.IME_ACTION_DONE ||
-                            actionId == EditorInfo.IME_ACTION_NEXT) {
-                        if (fieldInputValue.text.isNotEmpty()) {
-
-                            if (fieldData.apiDetails.apiKey == "CompanyPincode") {
-
-                                val editTextString: String = fieldInputValue.text.toString()
-                                if (editTextString.length == 6) {
-                                    additionaFieldPinCode=editTextString
-                                    validateInput(editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, "N")
-                                    refreshFieldView(linearLayout, cFieldList)
-                                } else {
-                                    showToast("Enter valid Pincode")
-                                }
-
-                            } else if (fieldData.apiDetails.apiKey == "CompanyAddress3") {
-                                val editTextString: String = fieldInputValue.text.toString()
-
-                                val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, "NOT")
-                                addToCurrentFilledFieldData(currentFieldDetails)
-                            } else {
-                                val editTextString: String = fieldInputValue.text.toString()
-                                validateInput(editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, "N")
-                            }
-
-                        } else
-                            showToast("Please fill the field")
-                    }
-                    false
-                })
-
-
-            }
-            "DropDown" -> {
-                currentFieldInputView = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_input_text_view, linearLayout, false)
-                val fieldInput: TextView = currentFieldInputView.findViewById(R.id.textViewDropDown)
-                fieldInput.text = isFieldFilled(fieldData.apiDetails.apiKey)
-
-                val apiURL = when (fieldData.apiDetails.apiKey) {
-                    "CompanyState" -> {
-                        fieldData.apiDetails.url+additionaFieldPinCode
-                    }
-                    "CompanyCity" -> {
-                        fieldData.apiDetails.url+additionaFieldPinCode
-                    }
-                    else -> {
-                        fieldData.apiDetails.url
-                    }
-                }
-
-                fieldInput.setOnClickListener(View.OnClickListener {
-                    retrofitInterface.getFromWeb(apiURL)?.enqueue(object :Callback<Any>{
-                            override fun onResponse(call: Call<Any>, response: Response<Any>) {
-                                val strRes = Gson().toJson(response.body())
-                                val dpRes = Gson().fromJson(strRes, APIDropDownResponse::class.java)
-                                if(dpRes!=null && dpRes.status)
-                                {
-                                    val optionList = dpRes.data.details
-                                    if(optionList.isNotEmpty() && optionList.size==1 )
-                                    {
-                                        if(listOf(optionList).any{ true })
-                                        {
-                                            val details=Details(optionList[0].displayLabel, optionList[0].value)
-                                            fieldInput.text = details.displayLabel
-                                            validateInput(details.value, isLastItem,"", fieldData.apiDetails.apiKey,details.displayLabel)
-                                        }
-                                        else
-                                        {
-                                            showToast("Something went wrong! Please try again!")
-                                        }
-                                    }
-                                    else
-                                    {
-                                        showDropDownDialog(fieldData.label,optionList,object : AdditionalFieldsDetailsInterface{
-                                            override fun returnDetails(details: Details) {
-                                                fieldInput.text = details.displayLabel
-                                                validateInput(details.value, isLastItem,"", fieldData.apiDetails.apiKey,details.displayLabel)
-                                            }
-                                        })
-
-                                    }
-
-                                }
-                               else
-                                {
-                                   if(fieldData.apiDetails.apiKey=="CompanyState" || fieldData.apiDetails.apiKey=="CompanyCity")
-                                   {showToast("Enter Pincode")}
-                                    else
-                                   {
-                                       showToast("Something went wrong! Please try again!")
-                                   }
-                                }
-                            }
-
-                            override fun onFailure(call: Call<Any>, t: Throwable) {
-                                t.printStackTrace()
-                            }
-                        })
-
-
-
-                })
-            }
-            "Check" -> {
-                currentFieldInputView = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_check_type_layout, linearLayout, false)
-                val recyclerView: RecyclerView = currentFieldInputView.findViewById(R.id.recyclerViewAdditionalField)
-
-                val list: java.util.ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
-                additionalFieldsAPIViewModel.getAdditionalFieldAPIData(fieldData.apiDetails.url)
-                checkList.forEachIndexed { index, types ->
-                    list.add(DataSelectionDTO(types.displayLabel, null, types.value, false))
-                }
-
-
-                additionalFieldAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
-                    override fun itemClick(item: Any?, position: Int) {
-
-
-                        additionalFieldAdapter.dataListFilter!!.forEachIndexed { index, item ->
-                            run {
-                                if (index == position) {
-                                    item.selected = true
-
-                                    validateInput(checkList[index].value, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, checkList[index].displayLabel)
-                                } else {
-                                    item.selected = false
-                                }
-                            }
-                        }
-                        additionalFieldAdapter.notifyDataSetChanged()
-                    }
-                })
-
-
-                val layoutManagerStaggeredGridLayoutManager =
-                        StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-                val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
-
-                recyclerView.addItemDecoration(GridItemDecoration(25, 2))
-
-                recyclerView.layoutManager = layoutManagerStaggeredGridLayoutManager
-
-                recyclerView.adapter = additionalFieldAdapter
-            }
-        }
-
-        return currentFieldInputView
-    }
-
-    private fun refreshFieldView(linearLayout: LinearLayout, cFieldList: List<Fields>) {
-        linearLayout.removeAllViews()
-        generateFieldUI(linearLayout, cFieldList)
-    }
-
-    private fun validateInput(editTextVal: String, lastItem: Boolean, regexResponse: String?, apiKey: String, displayKey: String) {
-        if (editTextVal.isNotEmpty()) {
-            if (lastItem) {
-                if (regexResponse?.contains('{') == true) {
-                    val regex = Regex(regexResponse)
-                    if (regex.matches(editTextVal)) {
-                        val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
-                        addToCurrentFilledFieldData(currentFieldDetails)
-                       // refreshFieldView()
-                    } else {
-                        showToast("Please enter valid Input")
-                    }
-                } else {
-                    val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
-                    addToCurrentFilledFieldData(currentFieldDetails)
-                    //refreshFieldView()
-                }
-            } else {
-                val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
-                addToCurrentFilledFieldData(currentFieldDetails)
-            }
-
-        } else {
-            showToast("Please Fill the Field")
-        }
-
-    }
-
-    private fun addToCurrentFilledFieldData(currentFieldDetails: FieldDetails) {
-        var newEntry = true
-        if (currentFilledFieldData.isNotEmpty()) {
-            for (index in currentFilledFieldData.indices) {
-                if (currentFilledFieldData[index].APIKey == currentFieldDetails.APIKey) {
-                    currentFilledFieldData.removeAt(index)
-                    currentFilledFieldData.add(currentFieldDetails)
-                    newEntry = false
-                    Log.i("TAG", "addToCurrentFilledFieldData- apikey updated: " + currentFieldDetails.APIKey + "---->" + currentFieldDetails.Value)
-
-                }
-            }
-            if (newEntry) {
-                currentFilledFieldData.add(currentFieldDetails)
-                Log.i("TAG", "addToCurrentFilledFieldData-new entry added: " + currentFieldDetails.APIKey + "---->" + currentFieldDetails.Value)
-            }
-
-        } else {
-            currentFilledFieldData.add(currentFieldDetails)
-            Log.i("TAG", "addToCurrentFilledFieldData- new entry in new list: " + currentFieldDetails.APIKey + "---->" + currentFieldDetails.Value)
 
         }
-    }
 
-    private fun refreshFieldView() {
-        linearLayoutAdditionalFieldsUILayout.removeAllViews()
-        setAdditionalField()
     }
 
     private fun getTitleView(title: String, isMandatory: Boolean): View {
@@ -1015,6 +718,307 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             fieldTitle.text = title
         }
         return currentFieldViewTitle
+    }
+
+    private fun getFieldView(sectionName: String, fieldData: Fields, cFieldList: List<Fields>, isLastItem: Boolean, linearLayout: LinearLayout): View {
+        var currentFieldInputView = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_edit_text, linearLayout, false)
+
+        when (fieldData.fieldType) {
+            "Text" -> {
+                currentFieldInputView = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_edit_text, linearLayout, false)
+                val fieldInputValue: EditText = currentFieldInputView.findViewById(R.id.editTextFieldInput)
+                fieldInputValue.hint = fieldData.placeHolder
+                // prefill
+                fieldInputValue.setText(isFieldFilled(fieldData.apiDetails.apiKey))
+
+                // getVal
+
+                fieldInputValue.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+                    if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER ||
+                            actionId == EditorInfo.IME_ACTION_DONE ||
+                            actionId == EditorInfo.IME_ACTION_NEXT) {
+                        if (fieldInputValue.text.isNotEmpty()) {
+
+                            if (fieldData.apiDetails.apiKey == "CompanyPincode") {
+
+                                val editTextString: String = fieldInputValue.text.toString()
+                                if (editTextString.length == 6) {
+                                    additionaFieldPinCode = editTextString
+                                    validateInput(sectionName, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, "N")
+                                    refreshFieldView(sectionName, linearLayout, cFieldList)
+                                } else {
+                                    showToast("Enter valid Pincode")
+                                }
+
+                            } else if (fieldData.apiDetails.apiKey == "CompanyAddress3") {
+                                val editTextString: String = fieldInputValue.text.toString()
+
+                                val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, "NOT")
+                                addToCurrentFilledFieldData(currentFieldDetails,false,sectionName)
+                            } else {
+                                val editTextString: String = fieldInputValue.text.toString()
+                                validateInput(sectionName, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, "N")
+                            }
+
+                        } else
+                            showToast("Please fill the field")
+                    }
+                    false
+                })
+
+
+            }
+            "DropDown" -> {
+                currentFieldInputView = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_input_text_view, linearLayout, false)
+                val fieldInput: TextView = currentFieldInputView.findViewById(R.id.textViewDropDown)
+                fieldInput.text = this.isFieldFilled(fieldData.apiDetails.apiKey)
+
+                val apiURL = when (fieldData.apiDetails.apiKey) {
+                    "CompanyState" -> {
+                        fieldData.apiDetails.url + additionaFieldPinCode
+                    }
+                    "CompanyCity" -> {
+                        fieldData.apiDetails.url + additionaFieldPinCode
+                    }
+                    else -> {
+                        fieldData.apiDetails.url
+                    }
+                }
+
+                fieldInput.setOnClickListener(View.OnClickListener {
+                    retrofitInterface.getFromWeb(apiURL)?.enqueue(object : Callback<Any> {
+                        override fun onResponse(call: Call<Any>, response: Response<Any>) {
+                            val strRes = Gson().toJson(response.body())
+                            val dpRes = Gson().fromJson(strRes, APIDropDownResponse::class.java)
+                            if (dpRes != null && dpRes.status) {
+                                val optionList = dpRes.data.details
+                                if (optionList.isNotEmpty() && optionList.size == 1) {
+                                    if (listOf(optionList).any { true }) {
+                                        val details = Details(optionList[0].displayLabel, optionList[0].value)
+                                        fieldInput.text = details.displayLabel
+                                        validateInput(sectionName, details.value, isLastItem, "", fieldData.apiDetails.apiKey, details.displayLabel)
+                                    } else {
+                                        showToast("Something went wrong! Please try again!")
+                                    }
+                                } else {
+                                    showDropDownDialog(fieldData.label, optionList, object : AdditionalFieldsDetailsInterface {
+                                        override fun returnDetails(details: Details) {
+                                            fieldInput.text = details.displayLabel
+                                            validateInput(sectionName, details.value, isLastItem, "", fieldData.apiDetails.apiKey, details.displayLabel)
+                                        }
+                                    })
+
+                                }
+
+                            } else {
+                                if (fieldData.apiDetails.apiKey == "CompanyState" || fieldData.apiDetails.apiKey == "CompanyCity") {
+                                    showToast("Enter Pincode")
+                                } else {
+                                    showToast("Something went wrong! Please try again!")
+                                }
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Any>, t: Throwable) {
+                            t.printStackTrace()
+                        }
+                    })
+
+
+                })
+            }
+            "Check" -> {
+
+                currentFieldInputView = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_check_type_layout, linearLayout, false)
+                val recyclerView: RecyclerView = currentFieldInputView.findViewById(R.id.recyclerViewAdditionalField)
+                additionalFieldsAPIViewModel.getAdditionalFieldAPIData(fieldData.apiDetails.url)
+
+                val list: java.util.ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
+                checkList.forEachIndexed { index, types ->
+                    list.add(DataSelectionDTO(types.displayLabel, null, types.value, false))
+                }
+
+                additionalFieldAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+                    override fun itemClick(item: Any?, position: Int) {
+
+                        additionalFieldAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                            run {
+                                if (index == position) {
+                                    item.selected = true
+
+                                    validateInput(sectionName, checkList[index].value, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, checkList[index].displayLabel)
+                                } else {
+                                    item.selected = false
+                                }
+                            }
+                        }
+                        additionalFieldAdapter.notifyDataSetChanged()
+                    }
+                })
+
+
+                val layoutManagerStaggeredGridLayoutManager =
+                        StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
+
+                recyclerView.addItemDecoration(GridItemDecoration(25, 2))
+
+                recyclerView.layoutManager = layoutManagerStaggeredGridLayoutManager
+
+                recyclerView.adapter = additionalFieldAdapter
+            }
+        }
+
+        return currentFieldInputView
+    }
+    private fun validateInput(sectionName: String, editTextVal: String, lastItem: Boolean, regexResponse: String?, apiKey: String, displayKey: String) {
+        if (editTextVal.isNotEmpty()) {
+            if (lastItem) {
+                if (regexResponse?.contains('{') == true) {
+                    val regex = Regex(regexResponse)
+                    if (regex.matches(editTextVal)) {
+                        val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
+                        addToCurrentFilledFieldData(currentFieldDetails,true,sectionName)
+                      //  moveCurrentDetailsToMap(sectionName)
+                    } else {
+                        showToast("Please enter valid Input")
+                    }
+                } else {
+                    val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
+                    addToCurrentFilledFieldData(currentFieldDetails,true,sectionName)
+                  //  moveCurrentDetailsToMap(sectionName)
+                    //refreshFieldView()
+                }
+            } else {
+                val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
+                addToCurrentFilledFieldData(currentFieldDetails,false,sectionName)
+            }
+
+        } else {
+            showToast("Please Fill the Field")
+        }
+
+    }
+
+    private fun addToCurrentFilledFieldData(currentFieldDetails: FieldDetails,isLastItem: Boolean,sectionName: String) {
+        var newEntry = true
+
+        if (currentFilledFieldData.isNotEmpty()) {
+            for (index in currentFilledFieldData.indices) {
+                if (currentFilledFieldData[index].APIKey == currentFieldDetails.APIKey) {
+                    currentFilledFieldData.removeAt(index)
+                    currentFilledFieldData.add(currentFieldDetails)
+                    newEntry = false
+                    if(isLastItem)
+                    {
+                        moveCurrentDetailsToMap(sectionName)
+                    }
+                    Log.i("TAG", "addToCurrentFilledFieldData- apikey updated: " + currentFieldDetails.APIKey + "---->" + currentFieldDetails.Value)
+                    break
+                }
+            }
+            if (newEntry) {
+                currentFilledFieldData.add(currentFieldDetails)
+                if(isLastItem)
+                {
+                    moveCurrentDetailsToMap(sectionName)
+                }
+                Log.i("TAG", "addToCurrentFilledFieldData-new entry added: " + currentFieldDetails.APIKey + "---->" + currentFieldDetails.Value)
+            }
+
+        } else {
+            currentFilledFieldData.add(currentFieldDetails)
+            if(isLastItem)
+            {
+                moveCurrentDetailsToMap(sectionName)
+            }
+            Log.i("TAG", "addToCurrentFilledFieldData- new entry in new list: " + currentFieldDetails.APIKey + "---->" + currentFieldDetails.Value)
+
+        }
+
+    }
+
+    private fun moveCurrentDetailsToMap(sectionName: String) {
+        sectionMap[sectionName] = currentFilledFieldData
+        submitAdditionalFieldsList.addAll(currentFilledFieldData)
+        //currentFilledFieldData.clear()
+        refreshFieldView()
+    }
+
+    private fun isSectionPrefilled(sectionName: String): Boolean {
+        var isSectionFilled = false
+        for ((key, value) in sectionMap) {
+            if (key == sectionName) {
+                if (listOf(value).any { it.isNotEmpty() }) {
+                    isSectionFilled = true
+                    currentFilledFieldData.clear()
+                    currentFilledFieldData.addAll(value)
+                }
+
+            }
+        }
+        return isSectionFilled
+    }
+
+
+    private fun isFieldFilled(apiKey: String): String {
+        var value = ""
+        if (currentFilledFieldData.isNotEmpty()) {
+            for (index in currentFilledFieldData.indices) {
+                value = if (currentFilledFieldData[index].APIKey == apiKey && currentFilledFieldData[index].Value.isNotEmpty()) {
+                    currentFilledFieldData[index].Value
+                } else {
+                    if (currentFilledFieldData[index].APIKey == apiKey && currentFilledFieldData[index].Value.isEmpty())
+                        currentFilledFieldData.remove(currentFilledFieldData[index])
+                    ""
+                }
+            }
+        } else {
+            value = ""
+        }
+        return value
+    }
+
+    private fun generateEditSectionUI(sectionData: Sections): View {
+        var view: View = LayoutInflater.from(fragView.context).inflate(R.layout.v2_edit_custom_address, linearLayoutAdditionalFieldsUILayout, false)
+
+        when (sectionData.type) {
+            "Address" -> {
+                view = LayoutInflater.from(fragView.context).inflate(R.layout.v2_edit_custom_address, linearLayoutAdditionalFieldsUILayout, false)
+                val textViewOfficeAddressEdit = view.findViewById<TextView>(R.id.textViewOfficeAddressEdit)
+                val imageViewEditOfficeAddress = view.findViewById<ImageView>(R.id.imageViewEditOfficeAddress)
+                val textViewOfficeAddress1 = view.findViewById<TextView>(R.id.textViewOfficeAddress1)
+                val textViewOfficeAddress2 = view.findViewById<TextView>(R.id.textViewOfficeAddress2)
+                val textViewOfficeAddress3 = view.findViewById<TextView>(R.id.textViewOfficeAddress3)
+                textViewOfficeAddressEdit.text = sectionData.sectionName
+                textViewOfficeAddress1.text = isFieldFilled("Company")
+                textViewOfficeAddress2.text = isFieldFilled("CompanyAddress1") + "," + isFieldFilled("CompanyAddress2")
+                textViewOfficeAddress3.text = isFieldFilled("CompanyAddress3") + "," + isFieldFilled("CompanyPincode")
+            }
+            "Standard" -> {
+                view = LayoutInflater.from(fragView.context).inflate(R.layout.v2_edit_dropdown_layout, linearLayoutAdditionalFieldsUILayout, false)
+                val titleText = view.findViewById<TextView>(R.id.textViewLbl)
+                val imageViewEdit: ImageView = view.findViewById(R.id.imageViewEditCurrentDropDown)
+                val editValText: TextView = view.findViewById(R.id.textViewEditDropDown)
+                titleText.text = sectionData.sectionName
+                editValText.text = isFieldFilled(sectionData.fields[0].apiDetails.apiKey)
+            }
+
+
+        }
+        return view
+    }
+
+
+    private fun refreshFieldView(sectionName: String, linearLayout: LinearLayout, cFieldList: List<Fields>) {
+        linearLayout.removeAllViews()
+        generateFieldUI(sectionName, linearLayout, cFieldList)
+    }
+
+
+    private fun refreshFieldView() {
+        linearLayoutAdditionalFieldsUILayout.removeAllViews()
+        setAdditionalField()
     }
 
 
@@ -1216,16 +1220,16 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         addressViewModel.updateAddress(updateAddressRequest, Global.customerAPI_BaseURL + CommonStrings.UPDATE_ADDRESS_URL)
     }
 
-    private fun showDropDownDialog(title: String,optionList: List<Details>,detailsCallBack: AdditionalFieldsDetailsInterface) {
+    private fun showDropDownDialog(title: String, optionList: List<Details>, detailsCallBack: AdditionalFieldsDetailsInterface) {
 
-        val returnDetailsCallBack:AdditionalFieldsDetailsInterface=detailsCallBack
+        val returnDetailsCallBack: AdditionalFieldsDetailsInterface = detailsCallBack
         val dialog = Dialog(fragView.context, R.style.FullScreenDialogTheme)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.v2_additional_fields_drop_down_options_layout)
 
         val textViewTitle: TextView = dialog.findViewById(R.id.textViewSelectTitle) as TextView
-        val editTextAdditionalFieldsSearchOption:EditText=dialog.findViewById(R.id.editTextAdditionalFieldsSearchOption)
+        val editTextAdditionalFieldsSearchOption: EditText = dialog.findViewById(R.id.editTextAdditionalFieldsSearchOption)
         val backToSoftOffer = dialog.findViewById<ImageView>(R.id.imageViewBackToSoftOffer)
         val recyclerView = dialog.findViewById<RecyclerView>(R.id.recyclerViewOptions)
         textViewTitle.text = title
@@ -1251,7 +1255,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         val reviewAdapter = StringDataRecyclerViewAdapter(stringList as List<String>, object : itemClickCallBack {
             override fun itemClick(item: Any?, position: Int) {
                 val displayLabel = item as String
-                val value=optionList[position].value
+                val value = optionList[position].value
                 details = Details(displayLabel, value)
                 returnDetailsCallBack.returnDetails(details)
                 dialog.dismiss()
