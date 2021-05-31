@@ -1352,7 +1352,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         dialog.setContentView(R.layout.v2_additional_fields_drop_down_options_layout)
 
         val textViewTitle: TextView = dialog.findViewById(R.id.textViewSelectTitle) as TextView
-        val editTextAdditionalFieldsSearchOption: EditText = dialog.findViewById(R.id.editTextAdditionalFieldsSearchOption)
+        val editTextAdditionalFieldsSearchOption: EditText = dialog.findViewById(R.id.editTextAdditionalFieldsSearch)
         val backToSoftOffer = dialog.findViewById<ImageView>(R.id.imageViewBackToSoftOffer)
         val recyclerView = dialog.findViewById<RecyclerView>(R.id.recyclerViewOptions)
         textViewTitle.text = title

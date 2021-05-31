@@ -54,7 +54,7 @@
             android:paddingBottom="@dimen/text_size_18dp">
 
             <EditText
-                android:id="@+id/editTextAdditionalFieldsSearchOption"
+                android:id="@+id/editTextAdditionalFieldsSearch"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -83,7 +83,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_additional_fields_progress"
+            android:id="@+id/llAdditionalFieldsProgress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
