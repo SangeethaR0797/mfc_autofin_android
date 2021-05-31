@@ -14,27 +14,25 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.mfc.autofin.framework.R
 import kotlinx.android.synthetic.main.v2_fragment_document_upload.view.*
+import kyc.DocumentUploadActivity
+import kyc.ImageUploadCompleted
 import kyc.ImageUploadTask
+import model.kyc_model.Doc
+import utility.CommonStrings
 import java.io.*
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [DocumentUploadFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class DocumentUploadFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+class DocumentUploadFragment : Fragment(), ImageUploadCompleted {
+
     private var param1: String? = null
     private var param2: String? = null
 
@@ -57,7 +55,6 @@ class DocumentUploadFragment : Fragment() {
         val view = inflater.inflate(R.layout.v2_fragment_document_upload, container, false)
 
 
-
         view.salary_gallery.setOnClickListener {
 
             if (checkPermissions(activity)) {
@@ -78,15 +75,7 @@ class DocumentUploadFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DocumentUploadFragment.
-         */
-        // TODO: Rename and change types and number of parameters
+
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
                 DocumentUploadFragment().apply {
@@ -103,8 +92,9 @@ class DocumentUploadFragment : Fragment() {
             if(resultCode == Activity.RESULT_OK){
                 try {
                     fileUri = data!!.data
-                    Log.e("dkasjgdkajsgd","kasjgdkjasgdkjasgdkjg");
+                    Log.e("dkasjgdkajsgd", "kasjgdkjasgdkjasgdkjg");
                     file = File(fileUri!!.path)
+                    Log.i("TAG", "onActivityResult: "+fileUri)
                     try {
                         CompressImage(file!!.path)
                     } catch (e: Exception) {
@@ -113,6 +103,8 @@ class DocumentUploadFragment : Fragment() {
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
+                ImageUploadTask(activity, file?.path, CommonStrings.DEALER_ID + "/" + 1675, "SALARY_SLIP", requestCode, this).execute()
+
             }else{
 
             }
@@ -180,5 +172,13 @@ class DocumentUploadFragment : Fragment() {
             e.printStackTrace()
         }
     }
+
+    override fun onImageUploadCompleted(imageurl: String?, statuscode: Int) {
+        val doc = Doc()
+        doc.key = "PanCard"
+        doc.url = imageurl
+
+    }
+
 
 }

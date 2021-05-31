@@ -352,7 +352,6 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                     cursor.close();
                     file = new File(picturePath);
 
-
                     try {
 
                         CompressImage(file.getPath());
