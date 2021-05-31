@@ -1,13 +1,368 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="v2.view.DocumentUploadFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:fillViewport="true">
 
-</FrameLayout>
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="Please upload suggested file format below \n JPEG,PNG,BMP,PDF,RAR,ZIP"
+                    android:layout_height="wrap_content">
+
+                </TextView>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/v2_layoutboarder"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Salary slip  for last 3 months">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Only for Salaried customers">
+
+                    </TextView>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/text_size_15dp">
+
+                        <ImageView
+                            android:id="@+id/salary_gallery"
+                            android:layout_width="@dimen/text_size40dp"
+                            android:layout_height="@dimen/text_size40dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_gallery_withline">
+
+                        </ImageView>
+
+                        <ImageView
+                            android:id="@+id/salary_camera"
+                            android:layout_width="@dimen/text_size40dp"
+                            android:layout_height="@dimen/text_size40dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_camera_withline">
+
+                        </ImageView>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/v2_layoutboarder"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ITR">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Income proof">
+
+                    </TextView>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/text_size_15dp">
+
+                        <ImageView
+                            android:layout_width="@dimen/text_size40dp"
+                            android:layout_height="@dimen/text_size40dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_gallery_withline">
+
+                        </ImageView>
+
+                        <ImageView
+                            android:layout_width="@dimen/text_size40dp"
+                            android:layout_height="@dimen/text_size40dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_camera_withline">
+
+                        </ImageView>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/v2_layoutboarder"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PAN Card">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="This should be used as ID proof">
+
+                    </TextView>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/text_size_15dp">
+
+                        <ImageView
+                            android:layout_width="@dimen/text_size40dp"
+                            android:layout_height="@dimen/text_size40dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_gallery_withline">
+
+                        </ImageView>
+
+                        <ImageView
+                            android:layout_width="@dimen/text_size40dp"
+                            android:layout_height="@dimen/text_size40dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_camera_withline">
+
+                        </ImageView>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/v2_layoutboarder"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Address proof">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rent agreement/Electricity biill/Adhar card">
+
+                    </TextView>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/text_size_15dp">
+
+                        <ImageView
+                            android:layout_width="@dimen/text_size40dp"
+                            android:layout_height="@dimen/text_size40dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_gallery_withline">
+
+                        </ImageView>
+
+                        <ImageView
+                            android:layout_width="@dimen/text_size40dp"
+                            android:layout_height="@dimen/text_size40dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_camera_withline">
+
+                        </ImageView>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:weightSum="2">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/v2_layoutboarder"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Application Form">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="For HDFC assisted Model">
+
+                    </TextView>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/text_size_15dp">
+
+                        <ImageView
+                            android:layout_width="@dimen/text_size40dp"
+                            android:layout_height="@dimen/text_size40dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_gallery_withline">
+
+                        </ImageView>
+
+                        <ImageView
+                            android:layout_width="@dimen/text_size40dp"
+                            android:layout_height="@dimen/text_size40dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_camera_withline">
+
+                        </ImageView>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/v2_layoutboarder"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bank statement">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Income proof">
+
+                    </TextView>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/text_size_15dp">
+
+                        <ImageView
+                            android:layout_width="@dimen/text_size40dp"
+                            android:layout_height="@dimen/text_size40dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_gallery_withline">
+
+                        </ImageView>
+
+                        <ImageView
+                            android:layout_width="@dimen/text_size40dp"
+                            android:layout_height="@dimen/text_size40dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_camera_withline">
+
+                        </ImageView>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

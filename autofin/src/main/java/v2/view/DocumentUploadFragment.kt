@@ -1,11 +1,18 @@
 package v2.view
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.PermissionChecker.checkSelfPermission
+import androidx.fragment.app.Fragment
 import com.mfc.autofin.framework.R
+import kotlinx.android.synthetic.main.v2_fragment_document_upload.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +29,9 @@ class DocumentUploadFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private val CAMERA_REQUEST = 1888
+    private val MY_CAMERA_PERMISSION_CODE = 100
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -32,8 +42,16 @@ class DocumentUploadFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.v2_fragment_document_upload, container, false)
+        val view = inflater.inflate(R.layout.v2_fragment_document_upload, container, false)
+
+        salary_gallery.setOnClickListener {
+
+        }
+
+        salary_camera.setOnClickListener {
+            
+        }
+        return view
     }
 
     companion object {
