@@ -685,7 +685,20 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
                 addressButton.setOnClickListener(View.OnClickListener {
                     if (currentFilledFieldData.size == fieldList.size) {
-                        moveCurrentDetailsToMap(sectionData.sectionName)
+                        if(sectionData.type=="Address" && !isLastSection)
+                        {
+                            addressButton.setBackgroundResource(R.drawable.vtwo_next_btn_bg)
+                            moveCurrentDetailsToMap(sectionData.sectionName)
+                        }
+                        else
+                        {
+                            addressButton.setBackgroundResource(R.drawable.vtwo_next_btn_bg)
+                            submitAdditionalFieldsList.putAll(currentFilledFieldData)
+                            val fieldList: ArrayList<FieldDetails> = ArrayList<FieldDetails>(submitAdditionalFieldsList.values)
+                            sectionMap[sectionData.sectionName] = fieldList
+                            submitAdditionalFields()
+
+                        }
                     } else {
                         Log.i("SoftOffer", "generateSectionUI: " + "" + currentFilledFieldData.size + "=====" + fieldList.size)
 
