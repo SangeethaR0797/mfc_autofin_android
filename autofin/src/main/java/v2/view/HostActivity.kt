@@ -1,5 +1,6 @@
 package v2.view
 
+import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Rect
 import android.net.ConnectivityManager
@@ -178,6 +179,13 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
 
     override fun onBackPressed() {
         super.onBackPressed()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        for (fragment in supportFragmentManager.primaryNavigationFragment!!.childFragmentManager.fragments) {
+            fragment.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
 
