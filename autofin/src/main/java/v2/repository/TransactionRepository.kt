@@ -61,4 +61,9 @@ class TransactionRepository {
         return transactionEndPoint.getAdditionalFieldsData(request, url)
     }
 
+    fun submitAdditionalFields(request: SubmitAdditionalFieldRequest, url: String?): Observable<CommonResponse?>? {
+        return transactionEndPoint.submitAdditionalFields(request, url)
+    }
+
+
 }

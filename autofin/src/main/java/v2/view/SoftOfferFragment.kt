@@ -58,9 +58,10 @@ import v2.view.utility_view.GridItemDecoration
 
 class SoftOfferFragment : BaseFragment(), OnClickListener {
 
+    private var list=ArrayList<DataSelectionDTO>()
     private var additionaFieldPinCode: String = ""
-    private val currentFilledFieldData = ArrayList<FieldDetails>()
-    private val submitAdditionalFieldsList = ArrayList<FieldDetails>()
+    private val currentFilledFieldData = HashMap<String, FieldDetails>()
+    private val submitAdditionalFieldsList = HashMap<String, FieldDetails>()
 
     var initialCall: Boolean = true
     private var caseID: String = ""
@@ -116,6 +117,8 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     lateinit var addressViewModel: TransactionViewModel
     lateinit var additionalFieldsViewModel: TransactionViewModel
     lateinit var additionalFieldsAPIViewModel: MasterViewModel
+    lateinit var submitAdditionalFieldsViewModel: TransactionViewModel
+
     lateinit var currentAddress: CurrentAddress
     lateinit var permanentAddress: PermanentAddress
     lateinit var additionalFieldsData: AdditionalFieldsData
@@ -215,6 +218,17 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     mApiResponse!!
             )
         })
+
+        submitAdditionalFieldsViewModel = ViewModelProvider(this).get(
+                TransactionViewModel::class.java
+        )
+
+        additionalFieldsViewModel.mSubmitAdditionalFieldsLiveData().observe(requireActivity(), { mApiResponse: ApiResponse? ->
+            onSubmitOfAdditionFields(
+                    mApiResponse!!
+            )
+        })
+
 
     }
 
@@ -531,7 +545,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
                 showToast(response?.message.toString())
 //                additionalFieldsViewModel.getAdditionalFieldsData(CustomerRequest(ResetCustomerJourneyDataRequest(customerId), CommonStrings.USER_TYPE, CommonStrings.USER_TYPE), Global.baseURL + CommonStrings.ADDITIONAL_FIELDS_URL)
-                additionalFieldsViewModel.getAdditionalFieldsData(CustomerRequest(ResetCustomerJourneyDataRequest("1649"), CommonStrings.USER_TYPE, CommonStrings.USER_TYPE), Global.baseURL + CommonStrings.ADDITIONAL_FIELDS_URL)
+                additionalFieldsViewModel.getAdditionalFieldsData(CustomerRequest(ResetCustomerJourneyDataRequest(customerId), CommonStrings.USER_TYPE, CommonStrings.USER_TYPE), Global.baseURL + CommonStrings.ADDITIONAL_FIELDS_URL)
 
             }
             ApiResponse.Status.ERROR -> {
@@ -583,6 +597,8 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
                 val additionalFieldRes: APIDropDownResponse? = mApiResponse.data as APIDropDownResponse?
                 checkList = additionalFieldRes?.data?.details!! as ArrayList<Details>
+                getDTOList()
+                refreshFieldView()
 
             }
             ApiResponse.Status.ERROR -> {
@@ -597,6 +613,29 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
     }
 
+    private fun onSubmitOfAdditionFields(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+
+                val submitAdditionalFieldRes: CommonResponse = mApiResponse.data as CommonResponse
+                showToast(submitAdditionalFieldRes.message)
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+                Log.i("SoftOfferFragment", "onBankResponse: " + ApiResponse.Status.ERROR)
+
+            }
+            else -> {
+                Log.i("SoftOfferFragment", "onBankResponse: ")
+            }
+        }
+    }
+
     // endregion Response
 
 
@@ -607,22 +646,23 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         for (sectionIndex in sectionsList.indices) {
             val sectionData = sectionsList[sectionIndex]
             val fieldsList = sectionsList[sectionIndex].fields
-            val sectionView = generateSectionUI(sectionData)
+            val sectionView = generateSectionUI(sectionData, sectionIndex == sectionsList.size - 1)
             linearLayoutAdditionalFieldsUILayout.addView(sectionView)
-            if ( sectionIndex == 0 || (isSectionPrefilled(sectionData.sectionName)))//|| sectionDataList.size == fieldDetails)
-                continue
-            else
-                break
 
+            if (sectionMap.size >= sectionIndex + 1)//|| sectionDataList.size == fieldDetails)
+            {
+                continue
+            } else {
+                break
+            }
         }
 
     }
 
-
-    private fun generateSectionUI(sectionData: Sections): View {
+    private fun generateSectionUI(sectionData: Sections, isLastSection: Boolean): View {
         val fieldList = sectionData.fields
         var currentSectionLayout = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_address_parent_layout, linearLayoutAdditionalFieldsUILayout, false)
-        if (isSectionPrefilled(sectionData.sectionName)) {
+        if (isSectionPreFilled(sectionData.sectionName)) {
             currentSectionLayout = generateEditSectionUI(sectionData)
         } else {
 
@@ -644,10 +684,9 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 }
 
                 addressButton.setOnClickListener(View.OnClickListener {
-                    if (listOf(currentFilledFieldData).any { it.isNotEmpty() } && currentFilledFieldData.size == fieldList.size) {
+                    if (currentFilledFieldData.size == fieldList.size) {
                         moveCurrentDetailsToMap(sectionData.sectionName)
                     } else {
-                        Log.i("SoftOffer", "generateSectionUI: " + listOf(currentFilledFieldData).any { it.isNotEmpty() })
                         Log.i("SoftOffer", "generateSectionUI: " + "" + currentFilledFieldData.size + "=====" + fieldList.size)
 
                         showToast("Please fill all fields")
@@ -657,21 +696,58 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 generateFieldUI(sectionData.sectionName, linearLayout, fieldList)
 
             } else {
-                currentSectionLayout = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_parent_layout, linearLayoutAdditionalFieldsUILayout, false)
-                val linearLayout = currentSectionLayout.findViewById<LinearLayout>(R.id.linearLayoutCustomParentLayout)
-                if (sectionData.displayName) {
-                    val currentSectionTitle: View = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_title_text_view, linearLayout, false)
-                    val sectionTitle: TextView = currentSectionTitle.findViewById(R.id.textViewTitleLabel)
-                    sectionTitle.text = sectionData.sectionName
-                    linearLayout.addView(currentSectionTitle)
+                if (isLastSection) {
+                    currentSectionLayout = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_address_parent_layout, linearLayoutAdditionalFieldsUILayout, false)
+
+                    val linearLayout = currentSectionLayout.findViewById<LinearLayout>(R.id.linearLayoutCustomAddressSectionLayout)
+
+                    val submitAdditionalFieldsButton = currentSectionLayout.findViewById<Button>(R.id.buttonSubmitAddressDetails)
+                    submitAdditionalFieldsButton.setBackgroundResource(R.drawable.v2_rounded_light_grey_bg)
+
+                    if (sectionData.displayName) {
+                        val currentSectionTitle: View = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_title_text_view, linearLayout, false)
+                        val sectionTitle: TextView = currentSectionTitle.findViewById(R.id.textViewTitleLabel)
+                        sectionTitle.text = sectionData.sectionName
+                        linearLayout.addView(currentSectionTitle)
+                    }
+
+                    submitAdditionalFieldsButton.setOnClickListener(View.OnClickListener {
+                        if (currentFilledFieldData.size == fieldList.size) {
+                            submitAdditionalFieldsButton.setBackgroundResource(R.drawable.vtwo_next_btn_bg)
+                            submitAdditionalFieldsList.putAll(currentFilledFieldData)
+                            val fieldList: ArrayList<FieldDetails> = ArrayList<FieldDetails>(submitAdditionalFieldsList.values)
+                            sectionMap[sectionData.sectionName] = fieldList
+                            submitAdditionalFields()
+                        }
+                        else
+                        {
+                            showToast("Please fill all the fields")
+                            Log.i("SoftOffer", "generateSectionUI: " + "" + currentFilledFieldData.size + "=====" + fieldList.size)
+
+                        }
+
+
+                    })
+
+
+                    generateFieldUI(sectionData.sectionName, linearLayout, fieldList)
+
+                } else {
+                    currentSectionLayout = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_parent_layout, linearLayoutAdditionalFieldsUILayout, false)
+                    val linearLayout = currentSectionLayout.findViewById<LinearLayout>(R.id.linearLayoutCustomParentLayout)
+                    if (sectionData.displayName) {
+                        val currentSectionTitle: View = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_title_text_view, linearLayout, false)
+                        val sectionTitle: TextView = currentSectionTitle.findViewById(R.id.textViewTitleLabel)
+                        sectionTitle.text = sectionData.sectionName
+                        linearLayout.addView(currentSectionTitle)
+                    }
+                    generateFieldUI(sectionData.sectionName, linearLayout, fieldList)
                 }
-                generateFieldUI(sectionData.sectionName, linearLayout, fieldList)
 
             }
         }
         return currentSectionLayout
     }
-
 
     private fun generateFieldUI(sectionName: String, linearLayout: LinearLayout?, fieldList: List<Fields>) {
 
@@ -728,15 +804,16 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 currentFieldInputView = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_edit_text, linearLayout, false)
                 val fieldInputValue: EditText = currentFieldInputView.findViewById(R.id.editTextFieldInput)
                 fieldInputValue.hint = fieldData.placeHolder
+
                 // prefill
                 fieldInputValue.setText(isFieldFilled(fieldData.apiDetails.apiKey))
 
                 // getVal
-
                 fieldInputValue.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
                     if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER ||
                             actionId == EditorInfo.IME_ACTION_DONE ||
                             actionId == EditorInfo.IME_ACTION_NEXT) {
+
                         if (fieldInputValue.text.isNotEmpty()) {
 
                             if (fieldData.apiDetails.apiKey == "CompanyPincode") {
@@ -744,7 +821,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                 val editTextString: String = fieldInputValue.text.toString()
                                 if (editTextString.length == 6) {
                                     additionaFieldPinCode = editTextString
-                                    validateInput(sectionName, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, "N")
+                                    validateInput(sectionName, fieldData.apiDetails.apiKey, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, editTextString)
                                     refreshFieldView(sectionName, linearLayout, cFieldList)
                                 } else {
                                     showToast("Enter valid Pincode")
@@ -753,11 +830,11 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                             } else if (fieldData.apiDetails.apiKey == "CompanyAddress3") {
                                 val editTextString: String = fieldInputValue.text.toString()
 
-                                val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, "NOT")
-                                addToCurrentFilledFieldData(currentFieldDetails,false,sectionName)
+                                val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
+                                addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
                             } else {
                                 val editTextString: String = fieldInputValue.text.toString()
-                                validateInput(sectionName, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, "N")
+                                validateInput(sectionName, fieldData.apiDetails.apiKey, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, editTextString)
                             }
 
                         } else
@@ -771,7 +848,8 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             "DropDown" -> {
                 currentFieldInputView = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_input_text_view, linearLayout, false)
                 val fieldInput: TextView = currentFieldInputView.findViewById(R.id.textViewDropDown)
-                fieldInput.text = this.isFieldFilled(fieldData.apiDetails.apiKey)
+                fieldInput.hint = fieldData.placeHolder
+                fieldInput.text = isFieldFilled(fieldData.apiDetails.apiKey)
 
                 val apiURL = when (fieldData.apiDetails.apiKey) {
                     "CompanyState" -> {
@@ -796,15 +874,15 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                     if (listOf(optionList).any { true }) {
                                         val details = Details(optionList[0].displayLabel, optionList[0].value)
                                         fieldInput.text = details.displayLabel
-                                        validateInput(sectionName, details.value, isLastItem, "", fieldData.apiDetails.apiKey, details.displayLabel)
+                                        validateInput(sectionName, fieldData.apiDetails.apiKey, details.value, isLastItem, "", fieldData.apiDetails.apiKey, details.displayLabel)
                                     } else {
                                         showToast("Something went wrong! Please try again!")
                                     }
-                                } else {
+                                } else if (optionList.isNotEmpty() && optionList.size > 1) {
                                     showDropDownDialog(fieldData.label, optionList, object : AdditionalFieldsDetailsInterface {
                                         override fun returnDetails(details: Details) {
                                             fieldInput.text = details.displayLabel
-                                            validateInput(sectionName, details.value, isLastItem, "", fieldData.apiDetails.apiKey, details.displayLabel)
+                                            validateInput(sectionName, fieldData.apiDetails.apiKey, details.value, isLastItem, "", fieldData.apiDetails.apiKey, details.displayLabel)
                                         }
                                     })
 
@@ -831,67 +909,86 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
                 currentFieldInputView = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_check_type_layout, linearLayout, false)
                 val recyclerView: RecyclerView = currentFieldInputView.findViewById(R.id.recyclerViewAdditionalField)
-                additionalFieldsAPIViewModel.getAdditionalFieldAPIData(fieldData.apiDetails.url)
+                retrofitInterface.getFromWeb(fieldData.apiDetails.url)?.enqueue(object : Callback<Any> {
+                    override fun onResponse(call: Call<Any>, response: Response<Any>) {
+                        val strRes = Gson().toJson(response.body())
+                        val dpRes = Gson().fromJson(strRes, APIDropDownResponse::class.java)
+                        if (dpRes != null && dpRes.status) {
+                            checkList = dpRes.data.details as ArrayList<Details>
+                            getDTOList()
+                            if(list.isNotEmpty())
+                            {
+                                additionalFieldAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+                                    override fun itemClick(item: Any?, position: Int) {
 
-                val list: java.util.ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
-                checkList.forEachIndexed { index, types ->
-                    list.add(DataSelectionDTO(types.displayLabel, null, types.value, false))
-                }
+                                        additionalFieldAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                                            run {
+                                                if (index == position) {
+                                                    item.selected = true
+                                                    val displayLabel:String=item.displayValue as String
+                                                    val value:String=item.displayValue as String
+                                                    val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey,value,displayLabel)
+                                                    addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
+                                                } else {
+                                                    item.selected = false
+                                                }
+                                            }
+                                        }
+                                        additionalFieldAdapter.notifyDataSetChanged()
+                                    }
+                                })
 
-                additionalFieldAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
-                    override fun itemClick(item: Any?, position: Int) {
 
-                        additionalFieldAdapter.dataListFilter!!.forEachIndexed { index, item ->
-                            run {
-                                if (index == position) {
-                                    item.selected = true
+                                val layoutManagerStaggeredGridLayoutManager =
+                                        StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                                val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
 
-                                    validateInput(sectionName, checkList[index].value, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, checkList[index].displayLabel)
-                                } else {
-                                    item.selected = false
-                                }
+                                recyclerView.addItemDecoration(GridItemDecoration(25, 2))
+
+                                recyclerView.layoutManager = layoutManagerStaggeredGridLayoutManager
+
+                                recyclerView.adapter = additionalFieldAdapter
                             }
+
+
                         }
-                        additionalFieldAdapter.notifyDataSetChanged()
+                    }
+
+                    override fun onFailure(call: Call<Any>, t: Throwable) {
+                        t.printStackTrace()
                     }
                 })
 
 
-                val layoutManagerStaggeredGridLayoutManager =
-                        StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-                val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
 
-                recyclerView.addItemDecoration(GridItemDecoration(25, 2))
 
-                recyclerView.layoutManager = layoutManagerStaggeredGridLayoutManager
-
-                recyclerView.adapter = additionalFieldAdapter
             }
         }
 
         return currentFieldInputView
     }
-    private fun validateInput(sectionName: String, editTextVal: String, lastItem: Boolean, regexResponse: String?, apiKey: String, displayKey: String) {
+
+    private fun validateInput(sectionName: String, fieldName: String, editTextVal: String, lastItem: Boolean, regexResponse: String?, apiKey: String, displayKey: String) {
         if (editTextVal.isNotEmpty()) {
             if (lastItem) {
                 if (regexResponse?.contains('{') == true) {
                     val regex = Regex(regexResponse)
                     if (regex.matches(editTextVal)) {
                         val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
-                        addToCurrentFilledFieldData(currentFieldDetails,true,sectionName)
-                      //  moveCurrentDetailsToMap(sectionName)
+                        addToCurrentFilledFieldData(fieldName, currentFieldDetails, true, sectionName)
+                        //  moveCurrentDetailsToMap(sectionName)
                     } else {
                         showToast("Please enter valid Input")
                     }
                 } else {
                     val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
-                    addToCurrentFilledFieldData(currentFieldDetails,true,sectionName)
-                  //  moveCurrentDetailsToMap(sectionName)
+                    addToCurrentFilledFieldData(fieldName, currentFieldDetails, true, sectionName)
+                    //  moveCurrentDetailsToMap(sectionName)
                     //refreshFieldView()
                 }
             } else {
                 val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
-                addToCurrentFilledFieldData(currentFieldDetails,false,sectionName)
+                addToCurrentFilledFieldData(fieldName, currentFieldDetails, false, sectionName)
             }
 
         } else {
@@ -900,59 +997,30 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
     }
 
-    private fun addToCurrentFilledFieldData(currentFieldDetails: FieldDetails,isLastItem: Boolean,sectionName: String) {
-        var newEntry = true
-
-        if (currentFilledFieldData.isNotEmpty()) {
-            for (index in currentFilledFieldData.indices) {
-                if (currentFilledFieldData[index].APIKey == currentFieldDetails.APIKey) {
-                    currentFilledFieldData.removeAt(index)
-                    currentFilledFieldData.add(currentFieldDetails)
-                    newEntry = false
-                    if(isLastItem)
-                    {
-                        moveCurrentDetailsToMap(sectionName)
-                    }
-                    Log.i("TAG", "addToCurrentFilledFieldData- apikey updated: " + currentFieldDetails.APIKey + "---->" + currentFieldDetails.Value)
-                    break
-                }
-            }
-            if (newEntry) {
-                currentFilledFieldData.add(currentFieldDetails)
-                if(isLastItem)
-                {
-                    moveCurrentDetailsToMap(sectionName)
-                }
-                Log.i("TAG", "addToCurrentFilledFieldData-new entry added: " + currentFieldDetails.APIKey + "---->" + currentFieldDetails.Value)
-            }
-
-        } else {
-            currentFilledFieldData.add(currentFieldDetails)
-            if(isLastItem)
-            {
-                moveCurrentDetailsToMap(sectionName)
-            }
-            Log.i("TAG", "addToCurrentFilledFieldData- new entry in new list: " + currentFieldDetails.APIKey + "---->" + currentFieldDetails.Value)
-
-        }
-
+    private fun addToCurrentFilledFieldData(fieldName: String, currentFieldDetails: FieldDetails, isLastItem: Boolean, sectionName: String) {
+        currentFilledFieldData[fieldName] = currentFieldDetails
+        if (isLastItem)
+            moveCurrentDetailsToMap(sectionName)
     }
 
     private fun moveCurrentDetailsToMap(sectionName: String) {
-        sectionMap[sectionName] = currentFilledFieldData
-        submitAdditionalFieldsList.addAll(currentFilledFieldData)
-        //currentFilledFieldData.clear()
+
+        submitAdditionalFieldsList.putAll(currentFilledFieldData)
+        val fieldList: ArrayList<FieldDetails> = ArrayList<FieldDetails>(submitAdditionalFieldsList.values)
+
+        sectionMap[sectionName] = fieldList
+        currentFilledFieldData.clear()
         refreshFieldView()
     }
 
-    private fun isSectionPrefilled(sectionName: String): Boolean {
+    private fun isSectionPreFilled(sectionName: String): Boolean {
         var isSectionFilled = false
         for ((key, value) in sectionMap) {
             if (key == sectionName) {
                 if (listOf(value).any { it.isNotEmpty() }) {
                     isSectionFilled = true
-                    currentFilledFieldData.clear()
-                    currentFilledFieldData.addAll(value)
+                } else {
+                    showToast("SomeFields are empty")
                 }
 
             }
@@ -961,20 +1029,24 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     }
 
 
-    private fun isFieldFilled(apiKey: String): String {
+    private fun isFieldFilled(fieldName: String): String {
         var value = ""
-        if (currentFilledFieldData.isNotEmpty()) {
-            for (index in currentFilledFieldData.indices) {
-                value = if (currentFilledFieldData[index].APIKey == apiKey && currentFilledFieldData[index].Value.isNotEmpty()) {
-                    currentFilledFieldData[index].Value
-                } else {
-                    if (currentFilledFieldData[index].APIKey == apiKey && currentFilledFieldData[index].Value.isEmpty())
-                        currentFilledFieldData.remove(currentFilledFieldData[index])
-                    ""
-                }
-            }
+        value = if (currentFilledFieldData.isNotEmpty() && currentFilledFieldData.containsKey(fieldName)) {
+            val fieldData = currentFilledFieldData.getValue(fieldName)
+            fieldData.DisplayLabel
         } else {
-            value = ""
+            ""
+        }
+        return value
+    }
+
+    private fun isFieldFilled1(fieldName: String): String {
+        var value = ""
+        value = if (submitAdditionalFieldsList.containsKey(fieldName)) {
+            val fieldData = submitAdditionalFieldsList.getValue(fieldName)
+            fieldData.DisplayLabel
+        } else {
+            ""
         }
         return value
     }
@@ -991,9 +1063,9 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 val textViewOfficeAddress2 = view.findViewById<TextView>(R.id.textViewOfficeAddress2)
                 val textViewOfficeAddress3 = view.findViewById<TextView>(R.id.textViewOfficeAddress3)
                 textViewOfficeAddressEdit.text = sectionData.sectionName
-                textViewOfficeAddress1.text = isFieldFilled("Company")
-                textViewOfficeAddress2.text = isFieldFilled("CompanyAddress1") + "," + isFieldFilled("CompanyAddress2")
-                textViewOfficeAddress3.text = isFieldFilled("CompanyAddress3") + "," + isFieldFilled("CompanyPincode")
+                textViewOfficeAddress1.text = isFieldFilled1(sectionData.fields[0].apiDetails.apiKey)
+                textViewOfficeAddress2.text = isFieldFilled1(sectionData.fields[4].apiDetails.apiKey) + "," + isFieldFilled1(sectionData.fields[5].apiDetails.apiKey)
+                textViewOfficeAddress3.text = isFieldFilled1(sectionData.fields[6].apiDetails.apiKey) + "," + isFieldFilled1(sectionData.fields[1].apiDetails.apiKey)
             }
             "Standard" -> {
                 view = LayoutInflater.from(fragView.context).inflate(R.layout.v2_edit_dropdown_layout, linearLayoutAdditionalFieldsUILayout, false)
@@ -1001,10 +1073,8 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 val imageViewEdit: ImageView = view.findViewById(R.id.imageViewEditCurrentDropDown)
                 val editValText: TextView = view.findViewById(R.id.textViewEditDropDown)
                 titleText.text = sectionData.sectionName
-                editValText.text = isFieldFilled(sectionData.fields[0].apiDetails.apiKey)
+                editValText.text = isFieldFilled1(sectionData.fields[0].apiDetails.apiKey)
             }
-
-
         }
         return view
     }
@@ -1218,6 +1288,21 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         val updateAddressRequest = UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, addressData)
 
         addressViewModel.updateAddress(updateAddressRequest, Global.customerAPI_BaseURL + CommonStrings.UPDATE_ADDRESS_URL)
+    }
+
+    private fun submitAdditionalFields() {
+        val fieldList: ArrayList<FieldDetails> = ArrayList<FieldDetails>(submitAdditionalFieldsList.values)
+
+        val fieldDataRequest = FieldData(customerId.toInt(),fieldList)
+        val submitAdditionalFieldsRequest = SubmitAdditionalFieldRequest(CommonStrings.CUSTOMER_ID, CommonStrings.USER_TYPE, fieldDataRequest)
+        submitAdditionalFieldsViewModel.submitAdditionalFields(submitAdditionalFieldsRequest, Global.customerAPI_BaseURL + "submit-additional-details")
+    }
+
+    private fun getDTOList() {
+        list = arrayListOf<DataSelectionDTO>()
+        checkList.forEachIndexed { index, types ->
+            list.add(DataSelectionDTO(types.displayLabel, null, types.value, false))
+        }
     }
 
     private fun showDropDownDialog(title: String, optionList: List<Details>, detailsCallBack: AdditionalFieldsDetailsInterface) {

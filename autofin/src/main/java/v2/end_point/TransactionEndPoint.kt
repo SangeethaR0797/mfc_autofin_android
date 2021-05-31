@@ -54,4 +54,8 @@ interface TransactionEndPoint {
     @POST
     fun getAdditionalFieldsData(@Body request: CustomerRequest, @Url url: String?): Observable<AdditionalFields?>?
 
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST
+    fun submitAdditionalFields(@Body request: SubmitAdditionalFieldRequest, @Url url: String?): Observable<CommonResponse?>?
+
 }

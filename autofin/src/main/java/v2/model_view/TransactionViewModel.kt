@@ -7,6 +7,7 @@ import io.reactivex.schedulers.Schedulers
 import v2.model.dto.AddLeadRequest
 import v2.model.request.*
 import v2.model.request.update.UpdateLeadBasicDetailsRequest
+import v2.model.response.SubmitAdditionalFieldRequest
 import v2.model_view.Base.BaseViewModel
 import v2.repository.TransactionRepository
 import v2.service.utility.ApiResponse
@@ -393,4 +394,41 @@ class TransactionViewModel(application: Application) : BaseViewModel(application
                 }
     }
 //endregion AdditionalDetails
+private val mSubmitAdditionalFieldsLiveData: MutableLiveData<ApiResponse> =
+        MutableLiveData<ApiResponse>()
+
+    public fun mSubmitAdditionalFieldsLiveData(): MutableLiveData<ApiResponse> {
+        return mSubmitAdditionalFieldsLiveData
+    }
+
+
+    public fun submitAdditionalFields(request: SubmitAdditionalFieldRequest, url: String?) {
+        repository.submitAdditionalFields(request, url)?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe { d -> mSubmitAdditionalFieldsLiveData.setValue(ApiResponse.loading()) }
+                ?.let {
+                    disposables.add(
+                            it
+                                    .subscribe(
+                                            { result ->
+                                                mSubmitAdditionalFieldsLiveData.setValue(result?.let {
+                                                    ApiResponse.success(
+                                                            it
+                                                    )
+                                                })
+                                            }
+                                    ) { throwable ->
+                                        mSubmitAdditionalFieldsLiveData.setValue(
+                                                ApiResponse.error(
+                                                        throwable
+                                                )
+                                        )
+                                    })
+                }
+    }
+    //region SubmitAdditionalDetails
+
+
+    //endregion SubmitAdditionalDetails
+
 }
