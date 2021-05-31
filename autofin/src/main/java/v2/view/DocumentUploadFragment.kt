@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -14,13 +15,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.mfc.autofin.framework.R
 import kotlinx.android.synthetic.main.v2_fragment_document_upload.view.*
-import kyc.DocumentUploadActivity
 import kyc.ImageUploadCompleted
 import kyc.ImageUploadTask
 import model.kyc_model.Doc
@@ -92,14 +91,14 @@ class DocumentUploadFragment : Fragment(), ImageUploadCompleted {
             if(resultCode == Activity.RESULT_OK){
                 try {
                     fileUri = data!!.data
-                    Log.e("dkasjgdkajsgd", "kasjgdkjasgdkjasgdkjg");
-                    file = File(fileUri!!.path)
-                    Log.i("TAG", "onActivityResult: "+fileUri)
-                    try {
-                        CompressImage(file!!.path)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
+                    val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+                    val cursor: Cursor? = fileUri?.let { requireActivity().getContentResolver().query(it, filePathColumn, null, null, null) }
+                    cursor!!.moveToFirst()
+                    val columnIndex = cursor!!.getColumnIndex(filePathColumn[0])
+                    val picturePath = cursor!!.getString(columnIndex)
+                    cursor!!.close()
+                    file = File(picturePath)
+                    CompressImage(file!!.path)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -116,7 +115,10 @@ class DocumentUploadFragment : Fragment(), ImageUploadCompleted {
                     } catch (e: java.lang.Exception) {
                         e.printStackTrace()
                     }
-            }
+
+                    ImageUploadTask(activity, file?.absolutePath, CommonStrings.DEALER_ID + "/" + 1675, "SALARY_SLIP", requestCode, this).execute()
+
+                }
 
             }
         }
