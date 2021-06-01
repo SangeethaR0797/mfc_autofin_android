@@ -26,12 +26,10 @@ import v2.help.CurrencyData
 import v2.model.dto.AddLeadRequest
 import v2.model.response.CustomerDetailsResponse
 import v2.model.response.StockDetails
+import v2.model.response.master.KYCDocumentData
 import v2.service.utility.ApiResponse
 import v2.service.utility.ErrorUtils
-import v2.view.AddLeadDetailsFrag
-import v2.view.AddLeadDetailsFragDirections
-import v2.view.AddOrUpdateVehicleDetailsMakeFragDirections
-import v2.view.VehicleSelectionFragDirections
+import v2.view.*
 import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.other_activity.MasterDataSelectionActivity
 import v2.view.other_activity.VehBasicDetailsActivity
@@ -70,9 +68,9 @@ public open class BaseFragment : Fragment() {
 
 
     public fun stringToDateString(
-        value: String,
-        sourceDateFormat: String,
-        targetDateFormat: String
+            value: String,
+            sourceDateFormat: String,
+            targetDateFormat: String
     ): String {
         val date = SimpleDateFormat(sourceDateFormat).parse(value)
         return SimpleDateFormat(targetDateFormat).format(date)
@@ -80,8 +78,8 @@ public open class BaseFragment : Fragment() {
 
     val dateSetListener = object : DatePickerDialog.OnDateSetListener {
         override fun onDateSet(
-            view: DatePicker, year: Int, monthOfYear: Int,
-            dayOfMonth: Int
+                view: DatePicker, year: Int, monthOfYear: Int,
+                dayOfMonth: Int
         ) {
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, monthOfYear)
@@ -99,10 +97,10 @@ public open class BaseFragment : Fragment() {
     }
 
     public fun callDatePickerDialog(
-        lastSelectedDateValue: String?,
-        minDate: Date?,
-        maxDate: Date?,
-        datepickerCallBack: DatePickerCallBack
+            lastSelectedDateValue: String?,
+            minDate: Date?,
+            maxDate: Date?,
+            datepickerCallBack: DatePickerCallBack
     ) {
         datePickerCallBack = datepickerCallBack
         var d: Int? = cal.get(Calendar.DAY_OF_MONTH)
@@ -201,10 +199,10 @@ public open class BaseFragment : Fragment() {
     public fun formatVehNum(regNo: String): String {
         val separator = "-"
         var formattedRegNum =
-            regNo.substring(0, 2) + separator + regNo.substring(2, 4) + separator + regNo.substring(
-                4,
-                6
-            ) + separator + regNo.substring(6, 10)
+                regNo.substring(0, 2) + separator + regNo.substring(2, 4) + separator + regNo.substring(
+                        4,
+                        6
+                ) + separator + regNo.substring(6, 10)
         return formattedRegNum
     }
 
@@ -221,9 +219,9 @@ public open class BaseFragment : Fragment() {
 
     public fun navigateToStockResFrag(stockDetails: StockDetails) {
         val stockDirection =
-            VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToStockAPIFragment(
-                stockDetails
-            )
+                VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToStockAPIFragment(
+                        stockDetails
+                )
         view?.let {
             Navigation.findNavController(it).navigate(stockDirection)
         }
@@ -242,9 +240,9 @@ public open class BaseFragment : Fragment() {
 
     public fun navigateToAddOrUpdateVehicleDetails(addLeadRequest: AddLeadRequest) {
         val directions =
-            VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(
-                addLeadRequest!!
-            )
+                VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(
+                        addLeadRequest!!
+                )
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }
@@ -254,15 +252,15 @@ public open class BaseFragment : Fragment() {
     public fun navigateToMobileNumber() {
         view?.let {
             Navigation.findNavController(it)
-                .navigate(R.id.action_addOrUpdateVehicleDetailsMakeFrag_to_addLeadDetailsFrag)
+                    .navigate(R.id.action_addOrUpdateVehicleDetailsMakeFrag_to_addLeadDetailsFrag)
         }
     }
 
     public fun navigateToAddLeadFragment(addLeadRequest: AddLeadRequest) {
         val directions =
-            AddOrUpdateVehicleDetailsMakeFragDirections.actionAddOrUpdateVehicleDetailsMakeFragToAddLeadDetailsFrag(
-                addLeadRequest!!
-            )
+                AddOrUpdateVehicleDetailsMakeFragDirections.actionAddOrUpdateVehicleDetailsMakeFragToAddLeadDetailsFrag(
+                        addLeadRequest!!
+                )
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }
@@ -270,7 +268,7 @@ public open class BaseFragment : Fragment() {
 
     public fun stockToAddLeadFragment(addLeadRequest: AddLeadRequest) {
         val directions =
-            StockAPIFragmentDirections.actionStockAPIFragmentToAddLeadDetailsFrag(addLeadRequest!!)
+                StockAPIFragmentDirections.actionStockAPIFragmentToAddLeadDetailsFrag(addLeadRequest!!)
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }
@@ -278,15 +276,23 @@ public open class BaseFragment : Fragment() {
 
 
     public fun navToSoftOffer(
-        customerDetailsResponse: CustomerDetailsResponse,
-        customerId: String
+            customerDetailsResponse: CustomerDetailsResponse,
+            customerId: String
     ) {
         val directions = AddLeadDetailsFragDirections.actionAddLeadDetailsFragToSoftOfferFragment2(
-            customerDetailsResponse!!,
-            customerId
+                customerDetailsResponse!!,
+                customerId
         )
         view?.let {
             Navigation.findNavController(it).navigate(directions)
+        }
+    }
+
+    public fun navigateToKYCDocumentUpload(customerId: String, kycDocumentData: KYCDocumentData
+    ) {
+        
+        view.let {
+            it?.let { it1 -> Navigation.findNavController(it1).navigate(R.id.documentUploadFragment) }
         }
     }
 
@@ -311,8 +317,8 @@ public open class BaseFragment : Fragment() {
 
             val inflater = layoutInflater!!
             val layout: View = inflater.inflate(
-                R.layout.v2_toast_layout,
-                activity?.findViewById(R.id.toast_layout_root) as ViewGroup?
+                    R.layout.v2_toast_layout,
+                    activity?.findViewById(R.id.toast_layout_root) as ViewGroup?
             )
 
             val image: ImageView = layout.findViewById<View>(R.id.image) as ImageView
@@ -336,10 +342,10 @@ public open class BaseFragment : Fragment() {
         try {
             if (activity?.currentFocus != null) {
                 val inputMethodManager = activity?.getSystemService(
-                    Activity.INPUT_METHOD_SERVICE
+                        Activity.INPUT_METHOD_SERVICE
                 ) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(
-                    activity?.currentFocus!!.windowToken, 0
+                        activity?.currentFocus!!.windowToken, 0
                 )
             } else {
                 activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
@@ -352,10 +358,10 @@ public open class BaseFragment : Fragment() {
         try {
             if (view != null) {
                 val inputMethodManager = activity?.getSystemService(
-                    Activity.INPUT_METHOD_SERVICE
+                        Activity.INPUT_METHOD_SERVICE
                 ) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(
-                    view.windowToken, 0
+                        view.windowToken, 0
                 )
             } else {
                 activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
@@ -389,19 +395,19 @@ public open class BaseFragment : Fragment() {
     // Progress Dialog region starts
 
     private fun getAlertDialog(
-        context: Context,
-        layout: Int,
-        setCancellationOnTouchOutside: Boolean
+            context: Context,
+            layout: Int,
+            setCancellationOnTouchOutside: Boolean
     ): AlertDialog {
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
         val customLayout: View =
-            layoutInflater.inflate(layout, null)
+                layoutInflater.inflate(layout, null)
         builder.setView(customLayout)
         val dialog = builder.create()
         dialog.setCanceledOnTouchOutside(setCancellationOnTouchOutside)
         dialog!!.getWindow()!!.setLayout(
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT
         )
         return dialog
     }
@@ -409,9 +415,9 @@ public open class BaseFragment : Fragment() {
     fun showProgressDialog(context: Context): AlertDialog {
         if (alertDialog == null) {
             alertDialog = getAlertDialog(
-                context,
-                R.layout.layout_progress_dialog,
-                setCancellationOnTouchOutside = false
+                    context,
+                    R.layout.layout_progress_dialog,
+                    setCancellationOnTouchOutside = false
             )
 
         }

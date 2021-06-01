@@ -7,6 +7,7 @@ import v2.model.response.CityNameListResponse
 import v2.model.response.CommonBanksResponse
 import v2.model.response.bank_offers.LoanAmountResponse
 import v2.model.response.master.APIDropDownResponse
+import v2.model.response.master.KYCDocumentResponse
 import v2.model.response.master.MasterResponse
 import v2.model.response.master.PinCodeResponse
 
@@ -56,5 +57,8 @@ interface MasterEndPoint {
     @GET
     fun getAdditionalFieldAPIDetails( @Url url: String?): Observable<APIDropDownResponse?>?
 
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @GET
+    fun getKYCDocuments( @Url url: String?): Observable<KYCDocumentResponse?>?
 
 }

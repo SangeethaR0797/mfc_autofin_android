@@ -16,6 +16,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -38,10 +39,7 @@ import v2.model.request.bank_offers.LeadApplicationData
 import v2.model.request.bank_offers.SelectRecommendedBankOfferRequest
 import v2.model.response.*
 import v2.model.response.bank_offers.*
-import v2.model.response.master.APIDropDownResponse
-import v2.model.response.master.Addres
-import v2.model.response.master.Details
-import v2.model.response.master.PinCodeResponse
+import v2.model.response.master.*
 import v2.model_view.BankOffersViewModel
 import v2.model_view.MasterViewModel
 import v2.model_view.TransactionViewModel
@@ -118,6 +116,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     lateinit var additionalFieldsViewModel: TransactionViewModel
     lateinit var additionalFieldsAPIViewModel: MasterViewModel
     lateinit var submitAdditionalFieldsViewModel: TransactionViewModel
+    lateinit var kycDocumentViewModel: MasterViewModel
 
     lateinit var currentAddress: CurrentAddress
     lateinit var permanentAddress: PermanentAddress
@@ -162,14 +161,14 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
         loanAmountViewModel = ViewModelProvider(this).get(MasterViewModel::class.java)
 
-        loanAmountViewModel.getBankOfferLoanLiveData().observe(this, { mApiResponse: ApiResponse? ->
+        loanAmountViewModel.getBankOfferLoanLiveData().observe(this) { mApiResponse: ApiResponse? ->
             onLoanAmountResponse(mApiResponse!!)
-        })
+        }
 
         pinCodeViewModel = ViewModelProvider(this).get(MasterViewModel::class.java)
-        pinCodeViewModel.getPinCodeDataLiveData().observe(this, { mApiResponse: ApiResponse? ->
+        pinCodeViewModel.getPinCodeDataLiveData().observe(this) { mApiResponse: ApiResponse? ->
             onPinCodeResponse(mApiResponse!!)
-        })
+        }
 
         //endregion Loan-MasterViewModel
 
@@ -177,61 +176,63 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         bankViewModel = ViewModelProvider(this).get(
                 BankOffersViewModel::class.java
         )
-        bankViewModel.getBankOffersForLeadApplicationLiveData().observe(this, { mApiResponse: ApiResponse? ->
+        bankViewModel.getBankOffersForLeadApplicationLiveData().observe(this) { mApiResponse: ApiResponse? ->
             onBankResponse(
                     mApiResponse!!
             )
-        })
+        }
 
-        bankViewModel.getSetSelectRecommendedBankOfferLiveData().observe(this, { mApiResponse: ApiResponse? ->
+        bankViewModel.getSetSelectRecommendedBankOfferLiveData().observe(this) { mApiResponse: ApiResponse? ->
             onSetBankRes(
                     mApiResponse!!
             )
-        })
+        }
 
         addressViewModel = ViewModelProvider(this).get(
                 TransactionViewModel::class.java
         )
 
         addressViewModel.getUpdateAddressLiveData()
-                .observe(requireActivity(), { mApiResponse: ApiResponse? ->
+                .observe(requireActivity()) { mApiResponse: ApiResponse? ->
                     onUpdateResponse(
                             mApiResponse!!
                     )
-                })
+                }
 
         additionalFieldsViewModel = ViewModelProvider(this).get(
                 TransactionViewModel::class.java
         )
 
-        additionalFieldsViewModel.getAdditionalFieldsLiveData().observe(requireActivity(), { mApiResponse: ApiResponse? ->
+        additionalFieldsViewModel.getAdditionalFieldsLiveData().observe(requireActivity()) { mApiResponse: ApiResponse? ->
             onAdditionalFieldsResponse(
                     mApiResponse!!
             )
-        })
+        }
         additionalFieldsAPIViewModel = ViewModelProvider(this).get(
                 MasterViewModel::class.java
         )
 
-        additionalFieldsAPIViewModel.getAdditionalFieldAPILiveData().observe(requireActivity(), { mApiResponse: ApiResponse? ->
+        additionalFieldsAPIViewModel.getAdditionalFieldAPILiveData().observe(requireActivity()) { mApiResponse: ApiResponse? ->
             onAdditionalFieldAPIResponse(
                     mApiResponse!!
             )
-        })
+        }
 
         submitAdditionalFieldsViewModel = ViewModelProvider(this).get(
                 TransactionViewModel::class.java
         )
 
-        submitAdditionalFieldsViewModel.mSubmitAdditionalFieldsLiveData().observe(requireActivity(), { mApiResponse: ApiResponse? ->
+        submitAdditionalFieldsViewModel.mSubmitAdditionalFieldsLiveData().observe(requireActivity()) { mApiResponse: ApiResponse? ->
             onSubmitOfAdditionFields(
                     mApiResponse!!
             )
-        })
+        }
 
-
+        kycDocumentViewModel=ViewModelProvider(this).get(MasterViewModel::class.java)
+        kycDocumentViewModel.getKYCDocumentLiveData().observe(requireActivity()){mApiResponse:ApiResponse?->
+            onGetKYCDocumentResponse(mApiResponse!!)
+        }
     }
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -623,10 +624,14 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
                 val submitAdditionalFieldRes: CommonResponse = mApiResponse.data as CommonResponse
                 if(submitAdditionalFieldRes.statusCode=="100")
-                showToast("Additional Fields Successfully")
+                {
+                    showToast("Additional Fields Successfully")
+
+                }
                 else
                 {
                     if(submitAdditionalFieldRes.message!=null)
+
                         showToast(submitAdditionalFieldRes.message)
 
                 }
@@ -642,6 +647,38 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 Log.i("SoftOfferFragment", "onBankResponse: ")
             }
         }
+    }
+
+    private fun onGetKYCDocumentResponse(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+
+                val kycDocumentRes: KYCDocumentResponse = mApiResponse.data as KYCDocumentResponse
+                if(kycDocumentRes.statusCode=="100")
+                {
+
+                }
+                else
+                {
+
+                }
+
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+                Log.i("SoftOfferFragment", ": " + ApiResponse.Status.ERROR)
+
+            }
+            else -> {
+                Log.i("SoftOfferFragment", ": ")
+            }
+        }
+
     }
 
     // endregion Response
@@ -1422,9 +1459,9 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
             override fun afterTextChanged(s: Editable) {
                 if (TextUtils.isEmpty(editTextAdditionalFieldsSearchOption.text)) {
-                    reviewAdapter?.filter?.filter("")
+                    reviewAdapter.filter.filter("")
                 } else {
-                    reviewAdapter?.filter?.filter(editTextAdditionalFieldsSearchOption.text)
+                    reviewAdapter.filter.filter(editTextAdditionalFieldsSearchOption.text)
                 }
             }
         })

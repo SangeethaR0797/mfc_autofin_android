@@ -91,6 +91,9 @@
             android:name="customerId"
             app:argType="string"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_softOfferFragment2_to_documentUploadFragment"
+            app:destination="@id/documentUploadFragment" />
 
     </fragment>
     <activity
@@ -103,7 +106,15 @@
         android:id="@+id/documentUploadFragment"
         android:name="v2.view.DocumentUploadFragment"
         android:label="v2_fragment_document_upload"
-        tools:layout="@layout/v2_fragment_document_upload" />
+        tools:layout="@layout/v2_fragment_document_upload" >
+        <argument
+            android:name="CustomerId"
+            app:argType="string"
+            android:defaultValue="0"/>
+        <argument
+            android:name="KYCDocuments"
+            app:argType="v2.model.response.master.KYCDocumentResponse" />
+    </fragment>
 
 
 </navigation>

@@ -281,8 +281,7 @@ class MasterViewModel(application: Application) : BaseViewModel(application) {
 
     var mLoanAmountLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
 
-    public fun getBankOfferLoanLiveData():MutableLiveData<ApiResponse>
-    {
+    public fun getBankOfferLoanLiveData(): MutableLiveData<ApiResponse> {
         return mLoanAmountLiveData
     }
 
@@ -379,4 +378,38 @@ class MasterViewModel(application: Application) : BaseViewModel(application) {
                 }
     }
 //endregion AdditionalFieldsAPIDetails
+
+    //region GetKYCUploadDocument
+
+    private val mKYCDocumentLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+
+    public fun getKYCDocumentLiveData(): MutableLiveData<ApiResponse> {
+        return mKYCDocumentLiveData
+    }
+
+    public fun getKYCDocumentResponse(url: String) {
+        repository.getKYCDocuments(url)?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe { d -> mKYCDocumentLiveData.setValue(ApiResponse.loading()) }
+                ?.let {
+                    disposables.add(
+                            it.subscribe(
+                                    { result ->
+                                        mKYCDocumentLiveData.setValue(result?.let {
+                                            ApiResponse.success(
+                                                    it
+                                            )
+                                        })
+                                    }
+                            ) { throwable ->
+                                mKYCDocumentLiveData.setValue(
+                                        ApiResponse.error(
+                                                throwable
+                                        )
+                                )
+                            })
+                }
+    }
+
+    //endregion GetKYCUploadDocument
 }
