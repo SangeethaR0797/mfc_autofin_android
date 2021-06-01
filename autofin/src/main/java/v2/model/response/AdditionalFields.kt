@@ -1,6 +1,7 @@
 package v2.model.response
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class AdditionalFields
 (
@@ -29,9 +30,9 @@ data class Fields (
         @SerializedName("fieldType") var fieldType : String,
         @SerializedName("valueType") var valueType : String,
         @SerializedName("isMandatory") var isMandatory : Boolean,
+        @SerializedName("regexValidation") var regexValidation:String,
         @SerializedName("apiDetails") var apiDetails : ApiDetails
-
-)
+        )
 
 data class Sections (
 

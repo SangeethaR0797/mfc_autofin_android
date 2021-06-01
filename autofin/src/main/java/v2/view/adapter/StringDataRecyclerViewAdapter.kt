@@ -31,7 +31,7 @@ class StringDataRecyclerViewAdapter(var dataListValue: List<String>?, itemClick:
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.tvItem.text = dataListFilter!!.get(position).toString()
         holder.tvItem.setOnClickListener(View.OnClickListener {
-            itemCallBack.itemClick(dataListFilter!!.get(position), position)
+            itemCallBack.itemClick(dataListFilter!![position], position)
         })
     }
 
