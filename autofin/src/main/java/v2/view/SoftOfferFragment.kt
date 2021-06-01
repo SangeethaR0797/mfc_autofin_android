@@ -223,7 +223,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 TransactionViewModel::class.java
         )
 
-        additionalFieldsViewModel.mSubmitAdditionalFieldsLiveData().observe(requireActivity(), { mApiResponse: ApiResponse? ->
+        submitAdditionalFieldsViewModel.mSubmitAdditionalFieldsLiveData().observe(requireActivity(), { mApiResponse: ApiResponse? ->
             onSubmitOfAdditionFields(
                     mApiResponse!!
             )
@@ -622,7 +622,15 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 hideProgressDialog()
 
                 val submitAdditionalFieldRes: CommonResponse = mApiResponse.data as CommonResponse
-                showToast(submitAdditionalFieldRes.message)
+                if(submitAdditionalFieldRes.statusCode=="100")
+                showToast("Additional Fields Successfully")
+                else
+                {
+                    if(submitAdditionalFieldRes.message!=null)
+                        showToast(submitAdditionalFieldRes.message)
+
+                }
+
 
             }
             ApiResponse.Status.ERROR -> {
