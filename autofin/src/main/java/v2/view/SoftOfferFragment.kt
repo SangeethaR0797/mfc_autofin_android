@@ -56,7 +56,7 @@ import v2.view.utility_view.GridItemDecoration
 
 class SoftOfferFragment : BaseFragment(), OnClickListener {
 
-    private var list=ArrayList<DataSelectionDTO>()
+    private var list = ArrayList<DataSelectionDTO>()
     private var additionaFieldPinCode: String = ""
     private val currentFilledFieldData = HashMap<String, FieldDetails>()
     private val submitAdditionalFieldsList = HashMap<String, FieldDetails>()
@@ -228,8 +228,8 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             )
         }
 
-        kycDocumentViewModel=ViewModelProvider(this).get(MasterViewModel::class.java)
-        kycDocumentViewModel.getKYCDocumentLiveData().observe(requireActivity()){mApiResponse:ApiResponse?->
+        kycDocumentViewModel = ViewModelProvider(this).get(MasterViewModel::class.java)
+        kycDocumentViewModel.getKYCDocumentLiveData().observe(requireActivity()) { mApiResponse: ApiResponse? ->
             onGetKYCDocumentResponse(mApiResponse!!)
         }
     }
@@ -623,20 +623,14 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 hideProgressDialog()
 
                 val submitAdditionalFieldRes: CommonResponse = mApiResponse.data as CommonResponse
-                if(submitAdditionalFieldRes.statusCode=="100")
-                {
-                    showToast("Additional Fields Successfully")
-
-                }
-                else
-                {
-                    if(submitAdditionalFieldRes.message!=null)
+                if (submitAdditionalFieldRes.statusCode == "100") {
+                    kycDocumentViewModel.getKYCDocumentResponse(Global.baseURL + CommonStrings.KYC_UPLOAD_URL_END_POINT + customerId)
+                } else {
+                    if (submitAdditionalFieldRes.message != null)
 
                         showToast(submitAdditionalFieldRes.message)
 
                 }
-
-
             }
             ApiResponse.Status.ERROR -> {
                 hideProgressDialog()
@@ -658,13 +652,11 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 hideProgressDialog()
 
                 val kycDocumentRes: KYCDocumentResponse = mApiResponse.data as KYCDocumentResponse
-                if(kycDocumentRes.statusCode=="100")
-                {
-
-                }
-                else
-                {
-
+                if (kycDocumentRes.statusCode == "100") {
+                    if (kycDocumentRes.data.groupedDoc.isNotEmpty() || kycDocumentRes.data.nonGroupedDoc.isNotEmpty())
+                        navigateToKYCDocumentUpload(customerId, kycDocumentRes)
+                } else {
+                    navigateToBankOfferStatus()
                 }
 
 
@@ -730,13 +722,10 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
                 addressButton.setOnClickListener(View.OnClickListener {
                     if (currentFilledFieldData.size == fieldList.size) {
-                        if(sectionData.type=="Address" && !isLastSection)
-                        {
+                        if (sectionData.type == "Address" && !isLastSection) {
                             addressButton.setBackgroundResource(R.drawable.vtwo_next_btn_bg)
                             moveCurrentDetailsToMap(sectionData.sectionName)
-                        }
-                        else
-                        {
+                        } else {
                             addressButton.setBackgroundResource(R.drawable.vtwo_next_btn_bg)
                             submitAdditionalFieldsList.putAll(currentFilledFieldData)
                             val fieldList: ArrayList<FieldDetails> = ArrayList<FieldDetails>(submitAdditionalFieldsList.values)
@@ -751,7 +740,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     }
                 })
 
-                generateFieldUI(sectionData.sectionName, linearLayout, fieldList,true)
+                generateFieldUI(sectionData.sectionName, linearLayout, fieldList, true)
 
             } else {
                 /*if (isLastSection) {
@@ -799,13 +788,13 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     sectionTitle.text = sectionData.sectionName
                     linearLayout.addView(currentSectionTitle)
                 }
-                generateFieldUI(sectionData.sectionName, linearLayout, fieldList,false)
+                generateFieldUI(sectionData.sectionName, linearLayout, fieldList, false)
             }
         }
         return currentSectionLayout
     }
 
-    private fun generateFieldUI(sectionName: String, linearLayout: LinearLayout?, fieldList: List<Fields>,isLastSection:Boolean) {
+    private fun generateFieldUI(sectionName: String, linearLayout: LinearLayout?, fieldList: List<Fields>, isLastSection: Boolean) {
 
         val cFieldList = fieldList
         for (fieldIndex in fieldList.indices) {
@@ -814,7 +803,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             val titleView: View = getTitleView(fieldTitleText, isMandatoryField)
 
             val fieldVal: Fields = fieldList[fieldIndex]
-            val fieldView: View? = linearLayout?.let { getFieldView(sectionName, fieldVal, cFieldList, fieldIndex == fieldList.size - 1,isLastSection, it) }
+            val fieldView: View? = linearLayout?.let { getFieldView(sectionName, fieldVal, cFieldList, fieldIndex == fieldList.size - 1, isLastSection, it) }
 
             linearLayout?.addView(titleView)
             linearLayout?.addView(fieldView)
@@ -852,7 +841,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         return currentFieldViewTitle
     }
 
-    private fun getFieldView(sectionName: String, fieldData: Fields, cFieldList: List<Fields>, isLastItem: Boolean, isLastSection: Boolean,linearLayout: LinearLayout): View {
+    private fun getFieldView(sectionName: String, fieldData: Fields, cFieldList: List<Fields>, isLastItem: Boolean, isLastSection: Boolean, linearLayout: LinearLayout): View {
         var currentFieldInputView = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_edit_text, linearLayout, false)
 
         when (fieldData.fieldType) {
@@ -878,7 +867,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                 if (editTextString.length == 6) {
                                     additionaFieldPinCode = editTextString
                                     validateInput(sectionName, fieldData.apiDetails.apiKey, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, editTextString)
-                                    refreshFieldView(sectionName, linearLayout, cFieldList,isLastSection)
+                                    refreshFieldView(sectionName, linearLayout, cFieldList, isLastSection)
                                 } else {
                                     showToast("Enter valid Pincode")
                                 }
@@ -888,15 +877,13 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
                                 val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
                                 addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
-                            }
-                            else if(isLastSection && isLastItem)
-                            {
+                            } else if (isLastSection && isLastItem) {
                                 val editTextString: String = fieldInputValue.text.toString()
 
                                 val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
                                 addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
 
-                            }else {
+                            } else {
                                 val editTextString: String = fieldInputValue.text.toString()
                                 validateInput(sectionName, fieldData.apiDetails.apiKey, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, editTextString)
                             }
@@ -938,15 +925,12 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                     if (listOf(optionList).any { true }) {
                                         val details = Details(optionList[0].displayLabel, optionList[0].value)
                                         fieldInput.text = details.displayLabel
-                                        if(isLastSection && isLastItem)
-                                        {
+                                        if (isLastSection && isLastItem) {
                                             val editTextString: String = details.value
 
                                             val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
                                             addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
-                                        }
-                                        else
-                                        {
+                                        } else {
                                             validateInput(sectionName, fieldData.apiDetails.apiKey, details.value, isLastItem, "", fieldData.apiDetails.apiKey, details.displayLabel)
                                         }
                                     } else {
@@ -956,15 +940,12 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                     showDropDownDialog(fieldData.label, optionList, object : AdditionalFieldsDetailsInterface {
                                         override fun returnDetails(details: Details) {
                                             fieldInput.text = details.displayLabel
-                                            if(isLastSection && isLastItem)
-                                            {
+                                            if (isLastSection && isLastItem) {
                                                 val editTextString: String = details.value
 
                                                 val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
                                                 addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
-                                            }
-                                            else
-                                            {
+                                            } else {
                                                 validateInput(sectionName, fieldData.apiDetails.apiKey, details.value, isLastItem, "", fieldData.apiDetails.apiKey, details.displayLabel)
                                             }
 
@@ -1001,8 +982,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                         if (dpRes != null && dpRes.status) {
                             checkList = dpRes.data.details as ArrayList<Details>
                             getDTOList()
-                            if(list.isNotEmpty())
-                            {
+                            if (list.isNotEmpty()) {
                                 additionalFieldAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
                                     override fun itemClick(item: Any?, position: Int) {
 
@@ -1010,19 +990,17 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                             run {
                                                 if (index == position) {
                                                     item.selected = true
-                                                    val displayLabel:String=item.displayValue as String
-                                                    val value:String=item.value as String
+                                                    val displayLabel: String = item.displayValue as String
+                                                    val value: String = item.value as String
 
-                                                    if(isLastSection && isLastItem)
-                                                    {
+                                                    if (isLastSection && isLastItem) {
 
-                                                        val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey,value,displayLabel)
+                                                        val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, value, displayLabel)
                                                         addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
+                                                    } else {
+                                                        val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, value, displayLabel)
+                                                        addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, true, sectionName)
                                                     }
-                                                    else
-                                                    {
-                                                        val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey,value,displayLabel)
-                                                        addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, true, sectionName)                                                    }
 
 
                                                 } else {
@@ -1054,8 +1032,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                         t.printStackTrace()
                     }
                 })
-
-
 
 
             }
@@ -1176,9 +1152,9 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     }
 
 
-    private fun refreshFieldView(sectionName: String, linearLayout: LinearLayout, cFieldList: List<Fields>,isLastItem: Boolean) {
+    private fun refreshFieldView(sectionName: String, linearLayout: LinearLayout, cFieldList: List<Fields>, isLastItem: Boolean) {
         linearLayout.removeAllViews()
-        generateFieldUI(sectionName, linearLayout, cFieldList,isLastItem)
+        generateFieldUI(sectionName, linearLayout, cFieldList, isLastItem)
     }
 
 
@@ -1389,7 +1365,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     private fun submitAdditionalFields() {
         val fieldList: ArrayList<FieldDetails> = ArrayList<FieldDetails>(submitAdditionalFieldsList.values)
 
-        val fieldDataRequest = FieldData(customerId.toInt(),fieldList)
+        val fieldDataRequest = FieldData(customerId.toInt(), fieldList)
         val submitAdditionalFieldsRequest = SubmitAdditionalFieldRequest(CommonStrings.CUSTOMER_ID, CommonStrings.USER_TYPE, fieldDataRequest)
         submitAdditionalFieldsViewModel.submitAdditionalFields(submitAdditionalFieldsRequest, Global.customerAPI_BaseURL + "submit-additional-details")
     }

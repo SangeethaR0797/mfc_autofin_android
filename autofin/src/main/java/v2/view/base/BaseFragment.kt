@@ -27,6 +27,7 @@ import v2.model.dto.AddLeadRequest
 import v2.model.response.CustomerDetailsResponse
 import v2.model.response.StockDetails
 import v2.model.response.master.KYCDocumentData
+import v2.model.response.master.KYCDocumentResponse
 import v2.service.utility.ApiResponse
 import v2.service.utility.ErrorUtils
 import v2.view.*
@@ -288,13 +289,21 @@ public open class BaseFragment : Fragment() {
         }
     }
 
-    public fun navigateToKYCDocumentUpload(customerId: String, kycDocumentData: KYCDocumentData
+    public fun navigateToKYCDocumentUpload(customerId: String, kycDocumentData: KYCDocumentResponse
     ) {
-        
+        val directions=SoftOfferFragmentDirections.actionSoftOfferFragment2ToDocumentUploadFragment(customerId,kycDocumentData)
         view.let {
-            it?.let { it1 -> Navigation.findNavController(it1).navigate(R.id.documentUploadFragment) }
+            it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
         }
     }
+
+    public fun  navigateToBankOfferStatus() {
+        view?.let {
+            Navigation.findNavController(it)
+                    .navigate(R.id.action_softOfferFragment2_to_selectedBankOfferStatusFragment)
+        }
+    }
+
 
     public fun openWebViewActivity(title: String?, url: String?) {
         val intent = Intent(activity, WebViewActivity::class.java)

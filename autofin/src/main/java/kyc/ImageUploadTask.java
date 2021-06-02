@@ -15,15 +15,16 @@ public class ImageUploadTask extends AsyncTask<Void, Void, String> {
     private String imageName;
 
     private String imageURL;
+    private String key;
 
     private Context mContext;
 
     private ImageUploadCompleted mImageUploadCompleted;
 
-    public ImageUploadTask(Context mContext, String imagepath, String caseId, String imageName, int statuscode, ImageUploadCompleted mImageUploadCompleted) {
+    public ImageUploadTask(Context mContext, String imagepath, String caseId, String imageName, String key, int statuscode, ImageUploadCompleted mImageUploadCompleted) {
         this.imagePath = imagepath;
         this.statuscode = statuscode;
-
+        this.key = key;
         this.caseId = caseId;
         this.imageName = imageName;
         this.mImageUploadCompleted = mImageUploadCompleted;
@@ -45,8 +46,8 @@ public class ImageUploadTask extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         SpinnerManager.hideSpinner(mContext);
-        if (imageURL !=  null && mImageUploadCompleted != null){
-            mImageUploadCompleted.onImageUploadCompleted(imageURL,statuscode);
+        if (imageURL != null && mImageUploadCompleted != null) {
+            mImageUploadCompleted.onImageUploadCompleted(key, imageURL, statuscode);
         }
     }
 }

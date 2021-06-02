@@ -185,5 +185,6 @@ public class CommonStrings {
     public static final String LOAN_AMOUNT_URL="default-loan/";
 
     public static final String UPDATE_ADDRESS_URL="update-address";
-    public static final Object ADDITIONAL_FIELDS_URL="AdditionalFields/get-additional-fields";
+    public static final String ADDITIONAL_FIELDS_URL="AdditionalFields/get-additional-fields";
+    public static final String KYC_UPLOAD_URL_END_POINT="Masters/kyc-documents/";
 }

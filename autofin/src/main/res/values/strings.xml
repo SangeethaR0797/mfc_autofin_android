@@ -344,5 +344,7 @@
     <string name="v2_enter_current_address">Enter Current Address</string>
     <string name="v2_state">State</string>
     <string name="v2_permanent_address">Permanent Address</string>
+    <string name="v2_doc_upload_heading1">Please Upload Suggested File format Below</string>
+    <string name="v2_no_attachment_found_lbl">No Attachment Found</string>
 
 </resources>

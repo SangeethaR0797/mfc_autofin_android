@@ -17,20 +17,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
-import androidx.fragment.app.Fragment
 import com.mfc.autofin.framework.R
 import kotlinx.android.synthetic.main.v2_fragment_document_upload.view.*
 import kyc.ImageUploadCompleted
 import kyc.ImageUploadTask
-import model.kyc_model.Doc
 import utility.CommonStrings
+import v2.model.request.KYCUploadDocs
+import v2.model.response.master.KYCDocumentData
+import v2.view.base.BaseFragment
 import java.io.*
 
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class DocumentUploadFragment : Fragment(), ImageUploadCompleted {
+class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted {
 
     private var param1: String? = null
     private var param2: String? = null
@@ -40,6 +41,11 @@ class DocumentUploadFragment : Fragment(), ImageUploadCompleted {
     private val RESULT_LOAD = 1
     private val IMAGE_CAPTURE_CODE = 101
     private val IMAGE_GALLERY_CODE = 102
+
+    private var currentImageName=""
+    private var currentImageKey=""
+    lateinit var kycDocumentData:KYCDocumentData
+    private var documentHashMap=HashMap<String,KYCUploadDocs>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,14 +58,23 @@ class DocumentUploadFragment : Fragment(), ImageUploadCompleted {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.v2_fragment_document_upload, container, false)
+        arguments?.let {
+            val safeArgs = DocumentUploadFragmentArgs.fromBundle(it)
+            customerId = safeArgs.CustomerId
+            kycDocumentData = safeArgs.KYCDocuments.data
+            //caseID = "0242210316000103"
+            //customerId = "448"
+        }
 
 
         view.salary_gallery.setOnClickListener {
 
             if (checkPermissions(activity)) {
+                currentImageKey= kycDocumentData.nonGroupedDoc[1].apiKey
+                currentImageName=kycDocumentData.nonGroupedDoc[1].displayLabel
                   openGallery()
             } else {
-                Callpermissions()
+                callPermissions()
             }
         }
 
@@ -67,7 +82,7 @@ class DocumentUploadFragment : Fragment(), ImageUploadCompleted {
             if (checkPermissions(activity)) {
                 openCamera()
             } else {
-                Callpermissions()
+                callPermissions()
             }
         }
         return view
@@ -90,19 +105,19 @@ class DocumentUploadFragment : Fragment(), ImageUploadCompleted {
         if(requestCode == IMAGE_GALLERY_CODE ){
             if(resultCode == Activity.RESULT_OK){
                 try {
-                    fileUri = data!!.data
+                    fileUri = data?.data
                     val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-                    val cursor: Cursor? = fileUri?.let { requireActivity().getContentResolver().query(it, filePathColumn, null, null, null) }
+                    val cursor: Cursor? = fileUri?.let { requireActivity().contentResolver.query(it, filePathColumn, null, null, null) }
                     cursor!!.moveToFirst()
-                    val columnIndex = cursor!!.getColumnIndex(filePathColumn[0])
-                    val picturePath = cursor!!.getString(columnIndex)
-                    cursor!!.close()
+                    val columnIndex = cursor.getColumnIndex(filePathColumn[0])
+                    val picturePath = cursor.getString(columnIndex)
+                    cursor.close()
                     file = File(picturePath)
-                    CompressImage(file!!.path)
+                    compressImage(file!!.path)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-                ImageUploadTask(activity, file?.path, CommonStrings.DEALER_ID + "/" + 1675, "SALARY_SLIP", requestCode, this).execute()
+                ImageUploadTask(activity, file?.path, CommonStrings.DEALER_ID + "/" + 1675, currentImageName,currentImageKey,requestCode, this).execute()
 
             }else{
 
@@ -111,12 +126,12 @@ class DocumentUploadFragment : Fragment(), ImageUploadCompleted {
             if(resultCode == Activity.RESULT_OK){
                 if (file!!.length() != 0L) {
                     try {
-                        CompressImage(file!!.getPath())
+                        compressImage(file!!.path)
                     } catch (e: java.lang.Exception) {
                         e.printStackTrace()
                     }
 
-                    ImageUploadTask(activity, file?.absolutePath, CommonStrings.DEALER_ID + "/" + 1675, "SALARY_SLIP", requestCode, this).execute()
+                    ImageUploadTask(activity, file?.absolutePath, CommonStrings.DEALER_ID + "/" + customerId, currentImageName,currentImageKey, requestCode, this).execute()
 
                 }
 
@@ -124,17 +139,17 @@ class DocumentUploadFragment : Fragment(), ImageUploadCompleted {
         }
     }
 
-    fun checkPermissions(context: Context?): Boolean {
+    private fun checkPermissions(context: Context?): Boolean {
         return ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && context?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.READ_EXTERNAL_STORAGE) } == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
     }
 
 
-    fun Callpermissions() {
+    private fun callPermissions() {
         Log.d("Camera Permission Check", "Comes into Premission Check method")
         ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
     }
 
-    fun cameraRequirement(intent: Intent?, fileUri: Uri?, activity: Activity) {
+    private fun cameraRequirement(intent: Intent?, fileUri: Uri?, activity: Activity) {
         val resInfoList = activity.packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
         for (resolveInfo in resInfoList) {
             val packageName = resolveInfo.activityInfo.packageName
@@ -142,7 +157,7 @@ class DocumentUploadFragment : Fragment(), ImageUploadCompleted {
         }
     }
 
-    fun openCamera(){
+    private fun openCamera(){
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         if (intent.resolveActivity(requireActivity().packageManager) != null) {
             file = File(requireActivity().externalCacheDir,
@@ -150,6 +165,7 @@ class DocumentUploadFragment : Fragment(), ImageUploadCompleted {
             fileUri = Uri.fromFile(file)
             fileUri = FileProvider.getUriForFile(requireActivity(), requireActivity().applicationContext.packageName + ".provider", file!!)
             intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri)
+
             requireActivity().startActivityForResult(intent, IMAGE_CAPTURE_CODE)
             requireActivity().overridePendingTransition(0, 0)
             cameraRequirement(intent, fileUri, requireActivity())
@@ -157,13 +173,13 @@ class DocumentUploadFragment : Fragment(), ImageUploadCompleted {
 
     }
 
-    fun openGallery(){
+    private fun openGallery(){
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         requireActivity().startActivityForResult(gallery, IMAGE_GALLERY_CODE)
     }
 
 
-    fun CompressImage(path: String?) {
+    private fun compressImage(path: String?) {
         try {
             val `in`: InputStream = FileInputStream(path)
             val bm2 = BitmapFactory.decodeStream(`in`)
@@ -175,11 +191,10 @@ class DocumentUploadFragment : Fragment(), ImageUploadCompleted {
         }
     }
 
-    override fun onImageUploadCompleted(imageurl: String?, statuscode: Int) {
-        val doc = Doc()
-        doc.key = "PanCard"
-        doc.url = imageurl
-
+    override fun onImageUploadCompleted(key:String,imageurl: String?, statuscode: Int) {
+        val document= KYCUploadDocs(key, imageurl.toString())
+        documentHashMap[key] = document
+        showToast("$key Image Uploaded successfully")
     }
 
 

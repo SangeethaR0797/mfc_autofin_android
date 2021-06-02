@@ -360,7 +360,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                         e.printStackTrace();
                     }
 
-                    new ImageUploadTask(DocumentUploadActivity.this, file.getPath(), mDealerID + "/" + mCaseID, getImageName(requestCode), requestCode, this).execute();
+                    new ImageUploadTask(DocumentUploadActivity.this, file.getPath(), mDealerID + "/" + mCaseID, getImageName(requestCode), "",requestCode, this).execute();
 
 
                 } catch (Exception e) {
@@ -377,7 +377,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        new ImageUploadTask(DocumentUploadActivity.this, captureImage.file.getPath(), mDealerID + "/" + mCaseID, getImageName(requestCode), requestCode, this).execute();
+                        new ImageUploadTask(DocumentUploadActivity.this, captureImage.file.getPath(), mDealerID + "/" + mCaseID, getImageName(requestCode), "",requestCode, this).execute();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -415,7 +415,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
 
     @Override
-    public void onImageUploadCompleted(String imageURL, int statusCode) {
+    public void onImageUploadCompleted(String imageURL,String key, int statusCode) {
         Log.e("Image received", "Image received " + imageURL + " Status Code " + statusCode);
         if (statusCode == AutoFinConstants.PANCARD) {
             if (imageURL != null) {

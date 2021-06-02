@@ -94,6 +94,9 @@
         <action
             android:id="@+id/action_softOfferFragment2_to_documentUploadFragment"
             app:destination="@id/documentUploadFragment" />
+        <action
+            android:id="@+id/action_softOfferFragment2_to_selectedBankOfferStatusFragment"
+            app:destination="@id/selectedBankOfferStatusFragment" />
 
     </fragment>
     <activity
@@ -115,6 +118,11 @@
             android:name="KYCDocuments"
             app:argType="v2.model.response.master.KYCDocumentResponse" />
     </fragment>
+    <fragment
+        android:id="@+id/selectedBankOfferStatusFragment"
+        android:name="v2.view.utility_view.SelectedBankOfferStatusFragment"
+        android:label="v2_fragment_selected_bank_offer_status"
+        tools:layout="@layout/v2_fragment_selected_bank_offer_status" />
 
 
 </navigation>

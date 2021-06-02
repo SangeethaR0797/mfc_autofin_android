@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/white_corner"
+    android:paddingLeft="@dimen/text_size_15dp"
+    android:paddingRight="@dimen/text_size_15dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="@dimen/text_size_18dp">
+    <TextView
+        android:id="@+id/textViewImageTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="adsdfdv"
+        android:textColor="@color/vtwo_black"
+        android:textAppearance="@style/RobotoMedium"
+        android:textSize="@dimen/text_size_16sp"/>
+    <TextView
+        android:id="@+id/textViewImageDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="adsdfdv"
+        android:textColor="@color/grey_color"
+        android:textAppearance="@style/RobotoRegular"
+        android:textStyle="italic"
+        android:textSize="@dimen/text_size10sp"
+        android:layout_marginTop="@dimen/text_size_14dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_size_14dp"
+        android:weightSum="2">
+            <ImageView
+                android:id="@+id/imageViewGallery"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_gallery_withline"/>
+        <ImageView
+            android:id="@+id/imageViewCamera"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="13dp"
+            app:srcCompat="@drawable/ic_camera_withline"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewAttachmentStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_size_14dp"
+        android:text="@string/v2_no_attachment_found_lbl"
+        android:textAppearance="@style/RobotoRegular"
+        android:textColor="@color/grey_color"
+        android:textSize="10dp"
+        android:textStyle="italic"/>
+
+</LinearLayout>
