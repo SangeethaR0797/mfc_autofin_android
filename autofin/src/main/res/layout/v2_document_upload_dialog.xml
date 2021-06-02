@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/vtwo_black"
+    android:paddingLeft="@dimen/text_size_12dp"
+    android:paddingRight="@dimen/text_size_12dp"
+    android:gravity="center">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/white_corner"
+        android:paddingLeft="@dimen/text_size_20dp"
+        android:paddingRight="@dimen/text_size_16sp"
+        android:paddingTop="24dp"
+        android:paddingBottom="35dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+            <TextView
+                android:id="@+id/textViewDocumentDialogTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.9"
+                android:text="Address Proof"
+                android:textSize="@dimen/text_size_14sp"
+                android:textColor="@color/vtwo_black"
+                android:textAppearance="@style/RobotoMedium" />
+            <ImageView
+                android:id="@+id/imageViewCloseDocumentDialog"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                app:srcCompat="@drawable/ic_close"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_size27dp"
+            android:text="@string/v2_text_view_select_label"
+            android:textSize="@dimen/text_size_14sp"
+            android:textAppearance="@style/RobotoRegular"
+            android:textStyle="italic"
+            android:textColor="@color/grey_color"
+            android:layout_marginLeft="4dp"
+            android:layout_marginBottom="32dp" />
+
+        <ListView
+            android:id="@+id/listViewDocument"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_size_5dp"
+            android:layout_marginRight="@dimen/text_size_5dp"
+            android:layout_marginBottom="@dimen/text_size_5dp"/>
+
+        <Button
+            android:id="@+id/buttonDocumentUpload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/v2_upload_button_label"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:textSize="@dimen/text_size_16sp"
+            android:textAppearance="@style/RobotoMedium"
+            android:background="@drawable/vtwo_next_btn_bg"
+            android:paddingLeft="75dp"
+            android:paddingRight="75dp"
+            android:paddingTop="13dp"
+            android:paddingBottom="13dp"/>
+    </LinearLayout>
+</LinearLayout>

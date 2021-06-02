@@ -17,7 +17,7 @@ data class KYCDocumentResponse
 @Parcelize
 data class KYCDocumentData(
 
-        @SerializedName("nonGroupedDoc") var nonGroupedDoc: List<NonGroupedDoc>,
+        @SerializedName("nonGroupedDoc") var nonGroupedDoc: List<Docs>,
         @SerializedName("groupedDoc") var groupedDoc: List<GroupedDoc>
 
 ) : Parcelable
@@ -40,11 +40,3 @@ data class GroupedDoc(
 
 ) : Parcelable
 
-@Parcelize
-data class NonGroupedDoc(
-
-        @SerializedName("apiKey") var apiKey: String,
-        @SerializedName("description") var description: String,
-        @SerializedName("displayLabel") var displayLabel: String
-
-) : Parcelable

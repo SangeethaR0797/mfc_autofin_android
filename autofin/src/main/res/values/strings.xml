@@ -346,5 +346,7 @@
     <string name="v2_permanent_address">Permanent Address</string>
     <string name="v2_doc_upload_heading1">Please Upload Suggested File format Below</string>
     <string name="v2_no_attachment_found_lbl">No Attachment Found</string>
+    <string name="v2_text_view_select_label">Please choose one from below</string>
+    <string name="v2_upload_button_label">UPLOAD</string>
 
 </resources>

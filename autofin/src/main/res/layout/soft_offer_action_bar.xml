@@ -19,6 +19,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             app:srcCompat="@drawable/ic_vtwo_back_arrow" />
         <utility.RobotoMedium
+            android:id="@+id/textViewSoftOfferAppBarTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/v2_soft_offer_title"
