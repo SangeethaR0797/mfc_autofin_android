@@ -25,6 +25,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
     lateinit var btnNewVehicle:Button
     lateinit var kycDocumentViewModel: MasterViewModel
      private val hardCodedCustomerId="1724"
+    private val hardCodedCaseId="0242210415000012"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +73,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
                 if (kycDocumentRes.statusCode == "100") {
                     if (kycDocumentRes.data.groupedDoc.isNotEmpty() || kycDocumentRes.data.nonGroupedDoc.isNotEmpty())
                     {
-                        val directions=DashboardFragmentDirections.actionDashboardFragmentToDocumentUploadFragment(hardCodedCustomerId,kycDocumentRes)
+                        val directions=DashboardFragmentDirections.actionDashboardFragmentToDocumentUploadFragment(hardCodedCustomerId,kycDocumentRes,hardCodedCaseId)
                         view.let {
                             it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
                         }

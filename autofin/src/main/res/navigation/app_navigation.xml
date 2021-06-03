@@ -117,6 +117,9 @@
         <argument
             android:name="KYCDocuments"
             app:argType="v2.model.response.master.KYCDocumentResponse" />
+        <argument
+            android:name="caseID"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/selectedBankOfferStatusFragment"

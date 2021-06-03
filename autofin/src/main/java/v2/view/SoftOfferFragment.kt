@@ -654,7 +654,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 val kycDocumentRes: KYCDocumentResponse = mApiResponse.data as KYCDocumentResponse
                 if (kycDocumentRes.statusCode == "100") {
                     if (kycDocumentRes.data.groupedDoc.isNotEmpty() || kycDocumentRes.data.nonGroupedDoc.isNotEmpty())
-                        navigateToKYCDocumentUpload(customerId, kycDocumentRes)
+                        navigateToKYCDocumentUpload(customerId, kycDocumentRes,caseID)
                 } else {
                     navigateToBankOfferStatus()
                 }

@@ -12,7 +12,7 @@
 
     <TextView
         android:id="@+id/textViewImageTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="adsdfdv"
         android:textAppearance="@style/RobotoMedium"
@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/textViewImageDescription"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/text_size_34dp"
         android:text="adsdfdv"
@@ -55,7 +55,7 @@
 
     <TextView
         android:id="@+id/textViewAttachmentStatus"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/text_size_14dp"
         android:text="@string/v2_no_attachment_found_lbl"

@@ -1,6 +1,5 @@
 package v2.view.base
 
-import android.app.ActionBar
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
@@ -26,7 +25,6 @@ import v2.help.CurrencyData
 import v2.model.dto.AddLeadRequest
 import v2.model.response.CustomerDetailsResponse
 import v2.model.response.StockDetails
-import v2.model.response.master.KYCDocumentData
 import v2.model.response.master.KYCDocumentResponse
 import v2.service.utility.ApiResponse
 import v2.service.utility.ErrorUtils
@@ -35,7 +33,6 @@ import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.other_activity.MasterDataSelectionActivity
 import v2.view.other_activity.VehBasicDetailsActivity
 
-import v2.view.utility_view.StockAPIFragmentArgs
 import v2.view.utility_view.StockAPIFragmentDirections
 import v2.view.utility_view.WebViewActivity
 import java.text.NumberFormat
@@ -289,9 +286,8 @@ public open class BaseFragment : Fragment() {
         }
     }
 
-    public fun navigateToKYCDocumentUpload(customerId: String, kycDocumentData: KYCDocumentResponse
-    ) {
-        val directions=SoftOfferFragmentDirections.actionSoftOfferFragment2ToDocumentUploadFragment(customerId,kycDocumentData)
+    public fun navigateToKYCDocumentUpload(customerId: String, kycDocumentData: KYCDocumentResponse, caseID: String) {
+        val directions=SoftOfferFragmentDirections.actionSoftOfferFragment2ToDocumentUploadFragment(customerId,kycDocumentData,caseID)
         view.let {
             it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
         }

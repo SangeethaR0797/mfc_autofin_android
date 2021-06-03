@@ -54,6 +54,8 @@
             android:id="@+id/listViewDocument"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:divider="@null"
+            android:dividerHeight="0dp"
             android:layout_marginLeft="@dimen/text_size_5dp"
             android:layout_marginRight="@dimen/text_size_5dp"
             android:layout_marginBottom="@dimen/text_size_5dp"/>

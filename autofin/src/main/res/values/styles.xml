@@ -212,4 +212,10 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>
     </style>
+
+    <style name="DocumentCustomCheckBox" parent="@style/Widget.AppCompat.CompoundButton.CheckBox">
+         <item name="android:button">@drawable/v2_document_check_box_selector</item>
+         <item name="android:background">@android:color/transparent</item>
+    </style>
+
 </resources>

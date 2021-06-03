@@ -15,8 +15,6 @@ data class KYCUploadDocumentData (
 )
 
 data class KYCUploadDocs (
-
         @SerializedName("Key") var Key : String,
         @SerializedName("Url") var Url : String
-
 )
