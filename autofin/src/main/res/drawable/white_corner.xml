@@ -8,6 +8,6 @@
         android:right="5dp"
         android:top="5dp"/>
 
-    <corners android:radius="@dimen/text_size_12dp"/>
+    <corners android:radius="@dimen/text_size_15dp"/>
 
 </shape>

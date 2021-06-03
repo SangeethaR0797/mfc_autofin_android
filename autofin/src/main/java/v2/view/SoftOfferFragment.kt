@@ -656,7 +656,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     if (kycDocumentRes.data.groupedDoc.isNotEmpty() || kycDocumentRes.data.nonGroupedDoc.isNotEmpty())
                         navigateToKYCDocumentUpload(customerId, kycDocumentRes,caseID)
                 } else {
-                    navigateToBankOfferStatus()
+                    navigateToBankOfferStatus(customerId,"SoftOffer")
                 }
 
 

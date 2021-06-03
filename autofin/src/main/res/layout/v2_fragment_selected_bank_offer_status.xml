@@ -1,13 +1,399 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/vtwo_pale_grey"
+    android:orientation="vertical"
     tools:context="v2.view.utility_view.SelectedBankOfferStatusFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/linearLayoutBankStatusAppBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/text_size_32dp"
+        android:background="@drawable/vtwo_new_toolbar_bg"
+        android:orientation="vertical"
+        android:padding="@dimen/text_size_15dp">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivMoveBackFromBankOffer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/text_size_8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:srcCompat="@drawable/ic_vtwo_back_arrow" />
+
+            <utility.RobotoMedium
+                android:id="@+id/textViewBankStatusAppBarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_5dp"
+                android:text="Document Upload"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_18dp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/text_size10dp">
+
+            <ImageView
+                android:id="@+id/ivVehDetailsSB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_14dp"
+                app:srcCompat="@drawable/ic_vtwo_vehicle_details" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivVehDetailsSB"
+                android:layout_marginTop="@dimen/text_size_4dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/vtwo_car_info"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <View
+                android:id="@+id/vehToPersonalDetails"
+                android:layout_width="88dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/text_size_8dp"
+                android:layout_marginLeft="@dimen/text_size_8dp"
+                android:layout_marginTop="13dp"
+                android:layout_toEndOf="@id/ivVehDetailsSB"
+                android:layout_toRightOf="@id/ivVehDetailsSB"
+                android:background="@color/vtwo_yellow" />
+
+            <ImageView
+                android:id="@+id/ivPersonalDetailsSB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_12dp"
+                android:layout_toEndOf="@id/vehToPersonalDetails"
+                android:layout_toRightOf="@id/vehToPersonalDetails"
+                app:srcCompat="@drawable/ic_v2_personal_details_disabled" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivPersonalDetailsSB"
+                android:layout_marginLeft="-9dp"
+                android:layout_marginTop="6dp"
+                android:layout_toRightOf="@id/vehToPersonalDetails"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/vtwo_personal_info"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <View
+                android:id="@+id/personalToBankDetails"
+                android:layout_width="88dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/text_size_8dp"
+                android:layout_marginLeft="@dimen/text_size_8dp"
+                android:layout_marginTop="13dp"
+                android:layout_toEndOf="@id/ivPersonalDetailsSB"
+                android:layout_toRightOf="@id/ivPersonalDetailsSB"
+                android:background="@color/vtwo_yellow" />
+
+            <ImageView
+                android:id="@+id/ivBankDetailsSB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_12dp"
+                android:layout_marginRight="15dp"
+                android:layout_toEndOf="@id/personalToBankDetails"
+                android:layout_toRightOf="@id/personalToBankDetails"
+                app:srcCompat="@drawable/ic_v2_bank_details_enabled" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivBankDetailsSB"
+                android:layout_marginTop="@dimen/text_size_4dp"
+                android:layout_toRightOf="@id/personalToBankDetails"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/vtwo_bank_details"
+                android:textColor="@color/yello"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutBankStatusContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_size_12dp"
+            android:layout_marginRight="@dimen/text_size_12dp"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewBankStatusDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/white_corner">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/text_size_18dp"
+                    android:paddingTop="@dimen/text_size25dp"
+                    android:paddingRight="@dimen/text_size_18dp"
+                    android:paddingBottom="27dp">
+
+                    <TextView
+                        android:id="@+id/textViewBSMake"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Make"
+                        android:textAllCaps="true"
+                        android:textAppearance="@style/RobotoMedium"
+                        android:textColor="@color/vtwo_light_grey"
+                        android:textSize="@dimen/text_size_16sp" />
+
+                    <TextView
+                        android:id="@+id/textViewBSModelVariant"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Model Variant"
+                        android:textAppearance="@style/RobotoMedium"
+                        android:textColor="@color/vtwo_black"
+                        android:textSize="@dimen/text_size_14dp"
+                        android:layout_marginBottom="@dimen/text_size_21dp"/>
+
+                    <TextView
+                        android:id="@+id/textViewBSVehicleDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="OwnerShip | Vehicle Price | KMS | Fuel | YEAR"
+                        android:textAppearance="@style/RobotoRegular"
+                        android:textColor="@color/vtwo_light_grey"
+                        android:textSize="@dimen/text_size_16sp"
+                        android:layout_marginBottom="@dimen/text_size27dp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/v2_grey" />
+
+                    <TextView
+                        android:id="@+id/textViewBSBankName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:layout_marginLeft="@dimen/text_size_5dp"
+                        android:text="Bank Name"
+                        android:textAppearance="@style/RobotoRegular"
+                        android:textColor="@color/vtwo_black"
+                        android:textSize="@dimen/text_size_16sp"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="@dimen/text_size_22dp"
+                        android:paddingBottom="@dimen/text_size_19dp"
+                        android:weightSum="1">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.6">
+
+                            <TextView
+                                android:id="@+id/tvBSLoanAmountV2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/v2_max_loan_amount"
+                                android:textAppearance="@style/RobotoRegular"
+                                android:textColor="@color/grey_color"
+                                android:textSize="@dimen/text_size_12dp"
+                                android:textStyle="italic" />
+
+                            <TextView
+                                android:id="@+id/tvBSLoanAmountValV2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tvBSLoanAmountV2"
+                                android:layout_marginTop="3dp"
+                                android:text="@string/rupees_symbol"
+                                android:textAppearance="@style/RobotoMedium"
+                                android:textColor="@color/vtwo_black"
+                                android:textSize="@dimen/text_size_16sp" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.4">
+
+                            <TextView
+                                android:id="@+id/tvBSRateOfInterestV2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/v2_rate_of_interest"
+                                android:textAppearance="@style/RobotoRegular"
+                                android:textColor="@color/grey_color"
+                                android:textSize="@dimen/text_size_12dp"
+                                android:textStyle="italic" />
+
+                            <TextView
+                                android:id="@+id/tvBSROIValV2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tvBSRateOfInterestV2"
+                                android:layout_marginTop="3dp"
+                                android:text="0.0%"
+                                android:textAppearance="@style/RobotoMedium"
+                                android:textColor="@color/vtwo_black"
+                                android:textSize="@dimen/text_size_16sp" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="@dimen/text_size_14dp"
+                        android:paddingBottom="@dimen/text_size_24dp"
+                        android:weightSum="1">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.6">
+
+                            <TextView
+                                android:id="@+id/tvBSEMILblV2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/v2_emi"
+                                android:textAppearance="@style/RobotoRegular"
+                                android:textColor="@color/grey_color"
+                                android:textSize="@dimen/text_size_12dp"
+                                android:textStyle="italic" />
+
+                            <TextView
+                                android:id="@+id/tvBSEMIValV2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tvBSEMILblV2"
+                                android:layout_marginTop="3dp"
+                                android:text="@string/rupees_symbol"
+                                android:textAppearance="@style/RobotoMedium"
+                                android:textColor="@color/very_dark_blue"
+                                android:textSize="@dimen/text_size_16sp" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.4">
+
+                            <TextView
+                                android:id="@+id/tvBSTenureLblV2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/v2_tenure"
+                                android:textAppearance="@style/RobotoRegular"
+                                android:textColor="@color/grey_color"
+                                android:textSize="@dimen/text_size_12dp"
+                                android:textStyle="italic" />
+
+                            <TextView
+                                android:id="@+id/tvBSTenureValV2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tvBSTenureLblV2"
+                                android:layout_marginTop="3dp"
+                                android:text="0 MONTHS"
+                                android:textAppearance="@style/RobotoMedium"
+                                android:textColor="@color/very_dark_blue"
+                                android:textSize="@dimen/text_size_16sp" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textViewBSProcessingFeeV2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/v2_processing_fee"
+                        android:textAppearance="@style/RobotoRegular"
+                        android:paddingRight="@dimen/text_size10dp"
+                        android:textColor="@color/grey_color"
+                        android:textSize="@dimen/text_size_12dp"
+                        android:textStyle="italic" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/llBSTAndC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_5dp"
+                android:layout_marginTop="43dp"
+                android:layout_marginRight="@dimen/text_size_28dp"
+                android:layout_marginBottom="@dimen/text_size_15dp"
+                android:visibility="visible">
+
+                <CheckBox
+                    android:id="@+id/cbBSTermsAndConditions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/vtwo_black"
+                    android:gravity="top"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="3dp"/>
+
+                <TextView
+                    android:id="@+id/textViewBSTermsAndCondition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/vtwo_t_and_c_hint"
+                    android:textAppearance="@style/RobotoMedium"
+                    android:textColor="@color/vtwo_black"
+                    android:textSize="@dimen/text_size_16sp"
+                    android:layout_marginLeft="13dp"
+                    android:textColorLink="@color/v2_link_color"
+                    android:gravity="top"
+                    />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonDocumentSubmitWithOTP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SUBMIT WITH OTP"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/text_size_72dp"
+                android:textSize="@dimen/text_size_16sp"
+                android:textAppearance="@style/RobotoMedium"
+                android:background="@drawable/vtwo_next_btn_bg"
+                android:paddingLeft="75dp"
+                android:paddingRight="75dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

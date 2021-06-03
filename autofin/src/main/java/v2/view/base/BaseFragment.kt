@@ -293,11 +293,23 @@ public open class BaseFragment : Fragment() {
         }
     }
 
-    public fun  navigateToBankOfferStatus() {
-        view?.let {
-            Navigation.findNavController(it)
-                    .navigate(R.id.action_softOfferFragment2_to_selectedBankOfferStatusFragment)
+    public fun  navigateToBankOfferStatus(customerId: String,fragment:String) {
+
+        if(fragment=="SoftOffer")
+        {
+            val directions=SoftOfferFragmentDirections.actionSoftOfferFragment2ToSelectedBankOfferStatusFragment(customerId)
+            view.let {
+                it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
+            }
         }
+        else
+        {
+            val directions=DocumentUploadFragmentDirections.actionDocumentUploadFragmentToSelectedBankOfferStatusFragment(customerId)
+            view.let {
+                it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
+            }
+        }
+
     }
 
 

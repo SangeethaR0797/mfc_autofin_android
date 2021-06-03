@@ -1,0 +1,91 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context="v2.view.BankSuccessMessageFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:visibility="visible"
+        android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
+        android:layout_marginBottom="75dp"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/ic_v2_bank_process_success"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hi"
+            android:layout_gravity="center"
+            android:textSize="@dimen/text_size_22dp"
+            android:textColor="@color/vtwo_black"
+            android:textAppearance="@style/RobotoMedium" />
+        <TextView
+            android:id="@+id/textViewCustomerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hi"
+            android:layout_gravity="center"
+            android:textSize="@dimen/text_size_22dp"
+            android:layout_marginTop="@dimen/text_size_16sp"
+            android:textColor="@color/vtwo_black"
+            android:textAppearance="@style/RobotoMedium" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Updated Your Details"
+            android:layout_gravity="center"
+            android:textSize="@dimen/text_size_14dp"
+            android:textColor="@color/grey_color"
+            android:layout_marginTop="61dp"
+            android:textAppearance="@style/RobotoRegular"
+            android:layout_marginBottom="13dp"/>
+        <TextView
+            android:id="@+id/textViewBankId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your bank application ID is "
+            android:layout_gravity="center"
+            android:textSize="@dimen/text_size_14dp"
+            android:textColor="@color/vtwo_black"
+            android:textAppearance="@style/RobotoBold"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:id="@+id/textViewCustCaseId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Case ID is "
+            android:layout_gravity="center"
+            android:textSize="@dimen/text_size_14dp"
+            android:textColor="@color/vtwo_black"
+            android:textAppearance="@style/RobotoBold" />
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/buttonViewStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="VIEW STATUS"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/text_size_72dp"
+        android:textSize="@dimen/text_size_16sp"
+        android:textAppearance="@style/RobotoMedium"
+        android:background="@drawable/vtwo_next_btn_bg"
+        android:paddingLeft="75dp"
+        android:paddingRight="75dp"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:layout_marginBottom="36dp"/>
+</RelativeLayout>

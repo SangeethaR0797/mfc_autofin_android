@@ -120,12 +120,19 @@
         <argument
             android:name="caseID"
             app:argType="string" />
+        <action
+            android:id="@+id/action_documentUploadFragment_to_selectedBankOfferStatusFragment"
+            app:destination="@id/selectedBankOfferStatusFragment" />
     </fragment>
     <fragment
         android:id="@+id/selectedBankOfferStatusFragment"
         android:name="v2.view.utility_view.SelectedBankOfferStatusFragment"
         android:label="v2_fragment_selected_bank_offer_status"
-        tools:layout="@layout/v2_fragment_selected_bank_offer_status" />
+        tools:layout="@layout/v2_fragment_selected_bank_offer_status" >
+        <argument
+            android:name="customerID"
+            app:argType="string" />
+    </fragment>
 
 
 </navigation>

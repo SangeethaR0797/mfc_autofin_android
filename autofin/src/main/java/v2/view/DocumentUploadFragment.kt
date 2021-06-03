@@ -111,7 +111,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
     private fun getUploadKYCRequest(): KYCDocumentUploadDataRequest {
         val docList: ArrayList<KYCUploadDocs> = ArrayList<KYCUploadDocs>(documentHashMap.values)
-        val kycUploadDocumentData= KYCUploadDocumentData(customerId.toInt(),"0242210415000012",docList)
+        val kycUploadDocumentData= KYCUploadDocumentData(customerId.toInt(),"0242210513000006",docList)
         val kycDocumentUploadDataRequest=KYCDocumentUploadDataRequest(CommonStrings.DEALER_ID,CommonStrings.USER_TYPE,kycUploadDocumentData)
         return kycDocumentUploadDataRequest
     }
@@ -136,7 +136,6 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                 setImageCaptureTile(commonList[index - 1], commonList[index])
             } else if (index == commonList.size - 1 && index % 2 == 0) {
                 setImageCaptureTile(commonList[index], commonList[index])
-
             }
         }
     }
@@ -154,11 +153,8 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         val textViewAttachmentStatus: TextView = columnView1.findViewById(R.id.textViewAttachmentStatus)
 
         val isTile1IsGrouped = tileData1.groupName.isNotEmpty()
-        val isTile2IsGrouped = tileData2.groupName.isNotEmpty()
         var tile1APIKey = ""
-        var tile2APIKey = ""
         var tile1ImageName = ""
-        var tile2ImageName = ""
 
         if (!isTile1IsGrouped) {
             textViewTitle.text = tileData1.docs[0].displayLabel
@@ -185,8 +181,8 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                     }
                 })
             } else {
-                currentImageKey = tile1APIKey
-                currentImageName = tile1ImageName
+                currentImageKey = tileData1.docs[0].apiKey
+                currentImageName = textViewTitle.text.toString().trim()
                 currentTextView = textViewAttachmentStatus
                 attachDocument("GALLERY")
             }
@@ -206,8 +202,8 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                         }
                     })
                 } else {
-                    currentImageKey = tile1APIKey
-                    currentImageName = tile1ImageName
+                    currentImageKey = tileData1.docs[0].apiKey
+                    currentImageName = textViewTitle.text.toString().trim()
                     currentTextView = textViewAttachmentStatus
                     attachDocument("CAMERA")
                 }
@@ -216,6 +212,10 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         })
 
         if (tileData1 != tileData2) {
+
+            val isTile2IsGrouped = tileData2.groupName.isNotEmpty()
+            var tile2APIKey = ""
+            var tile2ImageName = ""
 
             val columnView2: View = LayoutInflater.from(fragmentContext.context).inflate(R.layout.v2_image_upload_tile_layout, columnLayout2, false)
             val textViewTitle2: TextView = columnView2.findViewById(R.id.textViewImageTitle)
@@ -242,16 +242,15 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                             tile2ImageName = displayLabel.trim()
                             currentImageKey = tile2APIKey
                             currentImageName = tile2ImageName
-                            currentTextView = textViewAttachmentStatus
+                            currentTextView = textViewAttachmentStatus2
                             attachDocument("GALLERY")
 
                         }
                     })
                 } else {
-                    currentImageKey = tile2APIKey
-                    currentImageName = tile2ImageName
-                    currentTextView = textViewAttachmentStatus
-
+                    currentImageKey =tileData2.docs[0].apiKey
+                    currentImageName = textViewTitle2.text.toString().trim()
+                    currentTextView = textViewAttachmentStatus2
                     attachDocument("GALLERY")
 
                 }
@@ -266,14 +265,14 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                                 tile2ImageName = displayLabel.trim()
                                 currentImageKey = tile2APIKey
                                 currentImageName = tile2ImageName
-                                currentTextView = textViewAttachmentStatus
+                                currentTextView = textViewAttachmentStatus2
                                 attachDocument("CAMERA")
                             }
                         })
                     } else {
                         currentImageKey = tile2APIKey
                         currentImageName = tile2ImageName
-                        currentTextView = textViewAttachmentStatus
+                        currentTextView = textViewAttachmentStatus2
                         attachDocument("CAMERA")
                     }
 
@@ -338,18 +337,26 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
     private fun attachDocument(captureType: String) {
 
-        if (checkPermissions(activity)) {
             when (captureType) {
                 "CAMERA" -> {
-                    openCamera()
+                    if (checkPermissions(activity)) {
+
+                        openCamera()
+                    }
+                    else {
+                        callPermissions()
+                    }
                 }
                 "GALLERY" -> {
-                    openGallery()
+                    if (checkPermissions(activity)) {
+                        openGallery()
                 }
+                    else {
+                        callPermissions()
+                    }
+
             }
 
-        } else {
-            callPermissions()
         }
 
     }
@@ -469,14 +476,15 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     {
         val strRes = Gson().toJson(response.body())
         val uploadKYCDocumentResponse = Gson().fromJson(strRes, UploadKYCResponse::class.java)
-        if(uploadKYCDocumentResponse.status)
+        if(uploadKYCDocumentResponse?.status == true)
         {
             listOfUploadImageURL=uploadKYCDocumentResponse.data as ArrayList<String>
-            showToast(uploadKYCDocumentResponse.message)
+            showToast(uploadKYCDocumentResponse?.message)
+            navigateToBankOfferStatus(customerId,"DocUpload")
         }
         else
         {
-            if(uploadKYCDocumentResponse.message!=null)
+            if(uploadKYCDocumentResponse?.message!=null)
                 showToast(uploadKYCDocumentResponse.message)
         }
     }

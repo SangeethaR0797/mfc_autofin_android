@@ -79,7 +79,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
                         }
                     }
                 } else {
-                    navigateToBankOfferStatus()
+                    navigateToBankOfferStatus(customerId,"Dashboard")
                 }
 
 
