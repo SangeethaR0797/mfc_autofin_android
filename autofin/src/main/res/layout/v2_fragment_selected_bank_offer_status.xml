@@ -384,6 +384,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="SUBMIT WITH OTP"
+                android:layout_marginBottom="@dimen/text_size_30dp"
                 android:textColor="@color/white"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/text_size_72dp"

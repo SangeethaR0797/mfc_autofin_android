@@ -23,6 +23,7 @@ import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import v2.help.CurrencyData
 import v2.model.dto.AddLeadRequest
+import v2.model.dto.CustomLoanProcessCompletedData
 import v2.model.response.CustomerDetailsResponse
 import v2.model.response.StockDetails
 import v2.model.response.master.KYCDocumentResponse
@@ -32,6 +33,7 @@ import v2.view.*
 import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.other_activity.MasterDataSelectionActivity
 import v2.view.other_activity.VehBasicDetailsActivity
+import v2.view.utility_view.SelectedBankOfferStatusFragmentDirections
 
 import v2.view.utility_view.StockAPIFragmentDirections
 import v2.view.utility_view.WebViewActivity
@@ -311,6 +313,14 @@ public open class BaseFragment : Fragment() {
         }
 
     }
+
+    public fun navigateToSuccessFragment(loanProcessCompletedData: CustomLoanProcessCompletedData) {
+        val directions=SelectedBankOfferStatusFragmentDirections.actionSelectedBankOfferStatusFragmentToBankSuccessMessageFragment(loanProcessCompletedData)
+        view.let {
+            it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
+        }
+    }
+
 
 
     public fun openWebViewActivity(title: String?, url: String?) {

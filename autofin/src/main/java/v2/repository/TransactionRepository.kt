@@ -8,6 +8,7 @@ import v2.model.dto.AddLeadRequest
 import v2.model.request.*
 import v2.model.request.update.UpdateLeadBasicDetailsRequest
 import v2.model.response.*
+import v2.model.response.bank_offers.ValidateFinalOTPResponse
 import v2.service.ApiServiceGenerator
 
 class TransactionRepository {
@@ -65,5 +66,12 @@ class TransactionRepository {
         return transactionEndPoint.submitAdditionalFields(request, url)
     }
 
+    fun generateFinalOTP(generateOTPRequest:GenerateFinalOTPRequest,url: String?): Observable<OTPResponse?>? {
+        return transactionEndPoint.generateFinalOTP(generateOTPRequest,url)
+    }
+
+    fun validateFinalOTP(request: ValidateFinalOTPRequest, url: String?): Observable<ValidateFinalOTPResponse?>? {
+        return transactionEndPoint.validateFinalOTP(request, url)
+    }
 
 }

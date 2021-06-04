@@ -7,6 +7,7 @@ import v2.model.dto.AddLeadRequest
 import v2.model.request.*
 import v2.model.request.update.UpdateLeadBasicDetailsRequest
 import v2.model.response.*
+import v2.model.response.bank_offers.ValidateFinalOTPResponse
 
 interface TransactionEndPoint {
     @Headers("Content-Type: application/json; charset=utf-8")
@@ -57,5 +58,13 @@ interface TransactionEndPoint {
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST
     fun submitAdditionalFields(@Body request: SubmitAdditionalFieldRequest, @Url url: String?): Observable<CommonResponse?>?
+
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST
+    fun generateFinalOTP(@Body request: GenerateFinalOTPRequest, @Url url: String?): Observable<OTPResponse?>?
+
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST
+    fun validateFinalOTP(@Body request: ValidateFinalOTPRequest, @Url url: String?): Observable<ValidateFinalOTPResponse?>?
 
 }

@@ -83,5 +83,38 @@ class BankOffersViewModel(application: Application) : BaseViewModel(application)
     }
 //endregion setSelectRecommendedBankOffer
 
+    // region BankT&C
+
+    var mBankTermsAndConditionLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+
+    public fun getBankTermsAndConditionLiveData(): MutableLiveData<ApiResponse> {
+        return mBankTermsAndConditionLiveData
+    }
+
+    public fun getBankTermsAndConditionData(url: String) {
+        repository.getBankTermsAndCondition(url).subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe { d -> mBankTermsAndConditionLiveData.setValue(ApiResponse.loading()) }
+                ?.let {
+                    disposables.add(
+                            it
+                                    .subscribe(
+                                            { result ->
+                                                mBankTermsAndConditionLiveData.setValue(result?.let {
+                                                    ApiResponse.success(
+                                                            it
+                                                    )
+                                                })
+                                            }
+                                    ) { throwable ->
+                                        mBankTermsAndConditionLiveData.setValue(
+                                                ApiResponse.error(
+                                                        throwable
+                                                )
+                                        )
+                                    })
+                }
+    }
+    //endregion BankT&C
 
 }

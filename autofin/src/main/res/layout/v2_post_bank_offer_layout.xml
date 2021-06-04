@@ -75,29 +75,7 @@
                 android:layout_marginRight="@dimen/text_size_20dp"
                 android:background="@color/v2_grey" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewEquiFaxAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/text_size_16sp"
-                android:layout_marginTop="23dp"
-                android:layout_marginRight="@dimen/text_size_16sp" />
 
-            <Button
-                android:id="@+id/buttonAddNewAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="38dp"
-                android:background="@drawable/v2_black_outline"
-                android:paddingLeft="@dimen/text_size_64dp"
-                android:paddingTop="13dp"
-                android:paddingRight="@dimen/text_size_64dp"
-                android:paddingBottom="13dp"
-                android:text="@string/v2_add_new"
-                android:textAppearance="@style/RobotoMedium"
-                android:textColor="@color/vtwo_black"
-                android:textSize="@dimen/text_size_16sp" />
         </LinearLayout>
 
     <LinearLayout
@@ -108,7 +86,7 @@
         android:layout_marginTop="@dimen/text_size_16sp"
         android:layout_marginRight="@dimen/text_size_12dp"
         android:orientation="vertical"
-        android:visibility="gone" />
+        android:visibility="visible" />
     <!--region EditCurrentAddress-->
     <LinearLayout
         android:id="@+id/linearLayoutEditCurrentAddress"

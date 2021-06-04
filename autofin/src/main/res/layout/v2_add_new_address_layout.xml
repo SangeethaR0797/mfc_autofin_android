@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/vtwo_pale_grey">
 
@@ -163,7 +163,59 @@
 
     <!--endregion City-->
 
-    <!--region OrganizationName-->
+        <!--region CityMovedIn -->
+        <TextView
+            android:id="@+id/textViewCityMovedInLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="City Moved In Year"
+            android:textAppearance="@style/RobotoMedium"
+            android:textColor="@color/vtwo_black"
+            android:visibility="visible"
+            android:textSize="@dimen/text_size_16sp" />
+
+        <LinearLayout
+            android:id="@+id/linearLayoutCityMovedInYear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="@dimen/text_size_30dp"
+            android:background="@drawable/vtwo_input_bg"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+
+            <EditText
+                android:id="@+id/editTextCityMovedInYear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="@dimen/text_size_14dp"
+                android:layout_marginTop="@dimen/text_size10dp"
+                android:layout_marginBottom="@dimen/text_size10dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:focusable="false"
+                android:hint="dd/mm/yyyy"
+                android:inputType="date"
+                android:maxLength="11"
+                android:singleLine="true"
+                android:textAppearance="@style/RobotoMedium"
+                android:textColorHint="@color/vtwo_grey"
+                android:textSize="@dimen/text_size_16sp" />
+
+            <ImageView
+                android:layout_width="@dimen/text_size_24dp"
+                android:layout_height="@dimen/text_size_24dp"
+                android:layout_marginTop="@dimen/text_size10dp"
+                android:layout_marginRight="@dimen/text_size_14dp"
+                android:layout_marginBottom="@dimen/text_size10dp"
+                app:srcCompat="@drawable/ic_date_picker_icon" />
+        </LinearLayout>
+
+        <!--endregion CityMovedIn-->
+
+        <!--region OrganizationName-->
     <TextView
         android:id="@+id/textViewOrganizationName"
         android:layout_width="wrap_content"

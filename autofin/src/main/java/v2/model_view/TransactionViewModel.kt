@@ -393,9 +393,10 @@ class TransactionViewModel(application: Application) : BaseViewModel(application
                                     })
                 }
     }
-//endregion AdditionalDetails
-private val mSubmitAdditionalFieldsLiveData: MutableLiveData<ApiResponse> =
-        MutableLiveData<ApiResponse>()
+
+    //endregion AdditionalDetails
+    private val mSubmitAdditionalFieldsLiveData: MutableLiveData<ApiResponse> =
+            MutableLiveData<ApiResponse>()
 
     public fun mSubmitAdditionalFieldsLiveData(): MutableLiveData<ApiResponse> {
         return mSubmitAdditionalFieldsLiveData
@@ -430,5 +431,71 @@ private val mSubmitAdditionalFieldsLiveData: MutableLiveData<ApiResponse> =
 
 
     //endregion SubmitAdditionalDetails
+
+    //region GenerateFinalOTP
+    private val mGenerateFinalOTPLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+    public fun getGenerateFinalOTPLiveData(): MutableLiveData<ApiResponse> {
+        return mGenerateFinalOTPLiveData
+    }
+
+
+    public fun generateFinalOTP(request: GenerateFinalOTPRequest, url: String?) {
+        repository.generateFinalOTP(request, url)?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe { d -> mGenerateFinalOTPLiveData.setValue(ApiResponse.loading()) }
+                ?.let {
+                    disposables.add(
+                            it
+                                    .subscribe(
+                                            { result ->
+                                                mGenerateFinalOTPLiveData.setValue(result?.let {
+                                                    ApiResponse.success(
+                                                            it
+                                                    )
+                                                })
+                                            }
+                                    ) { throwable ->
+                                        mGenerateFinalOTPLiveData.setValue(
+                                                ApiResponse.error(
+                                                        throwable
+                                                )
+                                        )
+                                    })
+                }
+    }
+//endregion GenerateFinalOTP
+
+    //region ValidateOTP
+    private val mValidateFinalOTPLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+    public fun getValidateFinalOTPLiveData(): MutableLiveData<ApiResponse> {
+        return mValidateFinalOTPLiveData
+    }
+
+
+    public fun validateFinalOTP(request: ValidateFinalOTPRequest, url: String?) {
+        repository.validateFinalOTP(request, url)?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.doOnSubscribe { d -> mValidateFinalOTPLiveData.setValue(ApiResponse.loading()) }
+                ?.let {
+                    disposables.add(
+                            it
+                                    .subscribe(
+                                            { result ->
+                                                mValidateFinalOTPLiveData.setValue(result?.let {
+                                                    ApiResponse.success(
+                                                            it
+                                                    )
+                                                })
+                                            }
+                                    ) { throwable ->
+                                        mValidateFinalOTPLiveData.setValue(
+                                                ApiResponse.error(
+                                                        throwable
+                                                )
+                                        )
+                                    })
+                }
+    }
+//endregion ValidateFinalOTP
 
 }

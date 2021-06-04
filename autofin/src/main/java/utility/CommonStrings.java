@@ -187,4 +187,5 @@ public class CommonStrings {
     public static final String UPDATE_ADDRESS_URL="update-address";
     public static final String ADDITIONAL_FIELDS_URL="AdditionalFields/get-additional-fields";
     public static final String KYC_UPLOAD_URL_END_POINT="Masters/kyc-documents/";
+    public static final String BANKTC_END_POINT="terms-and-contition/privacy-policy/";
 }

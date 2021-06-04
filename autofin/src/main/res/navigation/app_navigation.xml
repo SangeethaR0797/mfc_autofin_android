@@ -132,6 +132,21 @@
         <argument
             android:name="customerID"
             app:argType="string" />
+        <action
+            android:id="@+id/action_selectedBankOfferStatusFragment_to_bankSuccessMessageFragment"
+            app:destination="@id/bankSuccessMessageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bankSuccessMessageFragment"
+        android:name="v2.view.BankSuccessMessageFragment"
+        android:label="v2_fragment_bank_success_message"
+        tools:layout="@layout/v2_fragment_bank_success_message" >
+        <argument
+            android:name="LoanProcessData"
+            app:argType="v2.model.dto.CustomLoanProcessCompletedData" />
+        <action
+            android:id="@+id/action_bankSuccessMessageFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
     </fragment>
 
 

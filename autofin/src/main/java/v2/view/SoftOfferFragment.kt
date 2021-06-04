@@ -103,7 +103,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     lateinit var textViewPermanentAddress3: TextView
 
     lateinit var recyclerViewBankOffer: RecyclerView
-    lateinit var recyclerViewEquiFaxAddress: RecyclerView
+
 
     lateinit var buttonLoanDetailsSubmit: Button
     lateinit var buttonAddNewAddress: Button
@@ -123,6 +123,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     lateinit var additionalFieldsData: AdditionalFieldsData
     lateinit var additionalFieldAdapter: DataRecyclerViewAdapter
     var sectionMap = HashMap<String, ArrayList<FieldDetails>>()
+    lateinit var linearLayoutCityMovedInYear:LinearLayout
 
     var stateList = ArrayList<Details>()
     var cityList = ArrayList<Details>()
@@ -135,7 +136,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     lateinit var fragView: View
     var loanAmountDefault: Int = 0
     var loanTenureDefault: Int = 0
-
+    var cityMovedInYear: String = ""
     var loanAmountMaximum: Int = 0
     var loanTenureMaximum: Int = 0
 
@@ -243,6 +244,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             caseID = customerDetailsResponse.data?.caseId.toString()
             //caseID = "0242210316000103"
             customerId = safeArgs.customerId
+
             //customerId = "448"
         }
         if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -290,11 +292,9 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             skTenure = view.findViewById(R.id.skTenure)
 
             buttonLoanDetailsSubmit = view.findViewById(R.id.buttonLoanDetailsSubmit)
-            buttonAddNewAddress = view.findViewById(R.id.buttonAddNewAddress)
             buttonAddNewPermanentAddress = view.findViewById(R.id.buttonAddNewPermanentAddress)
 
             recyclerViewBankOffer = view.findViewById(R.id.recyclerViewBankOffer)
-            recyclerViewEquiFaxAddress = view.findViewById(R.id.recyclerViewEquiFaxAddress)
 
             checkboxCurrentAndPermanentAddress = view.findViewById(R.id.checkboxCurrentAndPermanentAddress)
             loanAmountViewModel.getBankOffersLoanAmount(Global.customerAPI_Master_URL + CommonStrings.LOAN_AMOUNT_URL + customerId)
@@ -356,7 +356,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
         // endregion ChangeAndClickListeners
 
-        buttonAddNewAddress.setOnClickListener(this)
         buttonAddNewPermanentAddress.setOnClickListener(this)
 
     }
@@ -482,7 +481,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
                 val bankOfferRes: SelectRecommendedBankOfferResponse? = apiResponse.data as SelectRecommendedBankOfferResponse?
-                showToast(bankOfferRes?.message.toString())
                 enablePostOfferLayout()
                 Log.i("TAG", "onBankResponse: " + bankOfferRes?.message)
 
@@ -543,8 +541,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
                 val response: SimpleResponse? = mApiResponse.data as SimpleResponse?
-
-                showToast(response?.message.toString())
 //                additionalFieldsViewModel.getAdditionalFieldsData(CustomerRequest(ResetCustomerJourneyDataRequest(customerId), CommonStrings.USER_TYPE, CommonStrings.USER_TYPE), Global.baseURL + CommonStrings.ADDITIONAL_FIELDS_URL)
                 additionalFieldsViewModel.getAdditionalFieldsData(CustomerRequest(ResetCustomerJourneyDataRequest(customerId), CommonStrings.USER_TYPE, CommonStrings.USER_TYPE), Global.baseURL + CommonStrings.ADDITIONAL_FIELDS_URL)
 
@@ -557,6 +553,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         }
     }
 
+
     @RequiresApi(Build.VERSION_CODES.M)
     private fun onAdditionalFieldsResponse(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
@@ -567,7 +564,8 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 hideProgressDialog()
 
                 val response: AdditionalFields? = mApiResponse.data as AdditionalFields?
-                if (response?.data != null) {
+                if (response?.data != null && response?.data?.sections.isNotEmpty()) {
+
                     linearLayoutAddNewPermanentAddress.removeAllViews()
                     linearLayoutAddNewPermanentAddress.visibility = View.GONE
                     linearLayoutEditPermanentAddress.visibility = View.VISIBLE
@@ -575,9 +573,10 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     linearLayoutAdditionalFieldsUILayout.visibility = VISIBLE
 
                     setAdditionalField()
-                }
-                showToast(response?.message.toString())
 
+                } else {
+                    navigateToBankOfferStatus(customerId, "SoftOffer")
+                }
             }
             ApiResponse.Status.ERROR -> {
                 hideProgressDialog()
@@ -654,9 +653,11 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 val kycDocumentRes: KYCDocumentResponse = mApiResponse.data as KYCDocumentResponse
                 if (kycDocumentRes.statusCode == "100") {
                     if (kycDocumentRes.data.groupedDoc.isNotEmpty() || kycDocumentRes.data.nonGroupedDoc.isNotEmpty())
-                        navigateToKYCDocumentUpload(customerId, kycDocumentRes,caseID)
+                        navigateToKYCDocumentUpload(customerId, kycDocumentRes, caseID)
+                    else if (kycDocumentRes.data.groupedDoc.isNotEmpty() && kycDocumentRes.data.nonGroupedDoc.isNotEmpty())
+                        navigateToBankOfferStatus(customerId, "SoftOffer")
                 } else {
-                    navigateToBankOfferStatus(customerId,"SoftOffer")
+                    navigateToBankOfferStatus(customerId, "SoftOffer")
                 }
 
 
@@ -743,43 +744,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 generateFieldUI(sectionData.sectionName, linearLayout, fieldList, true)
 
             } else {
-                /*if (isLastSection) {
-                    currentSectionLayout = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_address_parent_layout, linearLayoutAdditionalFieldsUILayout, false)
-
-                    val linearLayout = currentSectionLayout.findViewById<LinearLayout>(R.id.linearLayoutCustomAddressSectionLayout)
-
-                    val submitAdditionalFieldsButton = currentSectionLayout.findViewById<Button>(R.id.buttonSubmitAddressDetails)
-                    submitAdditionalFieldsButton.setBackgroundResource(R.drawable.v2_rounded_light_grey_bg)
-
-                    if (sectionData.displayName) {
-                        val currentSectionTitle: View = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_title_text_view, linearLayout, false)
-                        val sectionTitle: TextView = currentSectionTitle.findViewById(R.id.textViewTitleLabel)
-                        sectionTitle.text = sectionData.sectionName
-                        linearLayout.addView(currentSectionTitle)
-                    }
-
-                    submitAdditionalFieldsButton.setOnClickListener(View.OnClickListener {
-                        if (currentFilledFieldData.size == fieldList.size) {
-                            submitAdditionalFieldsButton.setBackgroundResource(R.drawable.vtwo_next_btn_bg)
-                            submitAdditionalFieldsList.putAll(currentFilledFieldData)
-                            val fieldList: ArrayList<FieldDetails> = ArrayList<FieldDetails>(submitAdditionalFieldsList.values)
-                            sectionMap[sectionData.sectionName] = fieldList
-                            submitAdditionalFields()
-                        }
-                        else
-                        {
-                            showToast("Please fill all the fields")
-                            Log.i("SoftOffer", "generateSectionUI: " + "" + currentFilledFieldData.size + "=====" + fieldList.size)
-
-                        }
-
-
-                    })
-
-
-                    generateFieldUI(sectionData.sectionName, linearLayout, fieldList)
-
-                } else {*/
                 currentSectionLayout = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_parent_layout, linearLayoutAdditionalFieldsUILayout, false)
                 val linearLayout = currentSectionLayout.findViewById<LinearLayout>(R.id.linearLayoutCustomParentLayout)
                 if (sectionData.displayName) {
@@ -794,9 +758,11 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         return currentSectionLayout
     }
 
+
     private fun generateFieldUI(sectionName: String, linearLayout: LinearLayout?, fieldList: List<Fields>, isLastSection: Boolean) {
 
         val cFieldList = fieldList
+
         for (fieldIndex in fieldList.indices) {
             val fieldTitleText = fieldList[fieldIndex].label
             val isMandatoryField = fieldList[fieldIndex].isMandatory
@@ -1170,7 +1136,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         return BankOffersForApplicationRequest(leadApplicationData, CommonStrings.DEALER_ID, CommonStrings.USER_TYPE)
     }
 
-
     private fun enableCalculatorLayout() {
 
         if (initialCall) {
@@ -1218,43 +1183,18 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     }
 
     private fun enablePostOfferLayout() {
+
         linearLayoutCalculation.visibility = View.GONE
         llBankOfferParent.setBackgroundResource(0)
         linearLayoutPostOffer.visibility = View.VISIBLE
         textViewSelectBankLabel.text = "You have selected " + customerDetailsResponse.data?.loanDetails?.bankName + " bank"
-        val customerAddress = customerDetailsResponse.data?.equifaxFields?.address
 
-        if (customerAddress?.isNotEmpty() == true) {
-            postSoftOfferAdapter = PostSoftOfferAdapter(activity as Activity, customerAddress, object : PostSoftOfferAdapter.AddressSelectionCallBack {
-                override fun onSelect(addressVal: Addres?, isPermanentAddress: Boolean) {
-                    address = addressVal?.address.toString()
-                    pincode = addressVal?.pincode.toString()
-                    // Need to get clarity on Delimiters of Address to separate it as 3 lines
-                    if (isPermanentAddress)
-                        submitPermanentAddress()
-                    else
-                        submitCurrentAddress()
-                }
-
-            })
-            val layoutManager = LinearLayoutManager(activity)
-            recyclerViewEquiFaxAddress.layoutManager = layoutManager
-
-            this.recyclerViewEquiFaxAddress.adapter = postSoftOfferAdapter
-        }
-
-        typeOfAddress = "Current Address"
+        addNewAddress(linearLayoutAddNewPermanentAddress, getString(R.string.v2_permanent_address))
 
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.buttonAddNewAddress -> {
-                linearLayoutEquiFaxAddress.visibility = View.GONE
-                linearLayoutAddNewCurrentAddress.visibility = View.VISIBLE
-                linearLayoutAddNewPermanentAddress.visibility = View.GONE
-                addNewAddress(linearLayoutAddNewCurrentAddress, getString(R.string.v2_current_address))
-            }
 
             R.id.buttonAddNewPermanentAddress -> {
                 linearLayoutPermanentAddress.visibility = View.GONE
@@ -1276,7 +1216,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
     private fun addNewAddress(linearLayout: LinearLayout, title: String) {
 
-        val addressView: View = LayoutInflater.from(fragView.context).inflate(R.layout.v2_add_new_address_layout, null, false)
+        val addressView: View = LayoutInflater.from(fragView.context).inflate(R.layout.v2_add_new_address_layout, linearLayout, false)
         val textViewTypeOfAddress = addressView.findViewById<TextView>(R.id.textViewTypeOfAddress)
         val editTextPinCode = addressView.findViewById<EditText>(R.id.editTextPinCode)
         val buttonPinCodeCheck = addressView.findViewById<Button>(R.id.buttonPincodeCheck)
@@ -1287,7 +1227,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         val editTextAddress3 = addressView.findViewById<EditText>(R.id.editTextAddress3)
         val buttonSubmitAddress = addressView.findViewById<Button>(R.id.buttonSubmitAddress)
 
-        //Orgname field need to be added here
         textViewTypeOfAddress.text = title
         typeOfAddress = title
 
@@ -1356,7 +1295,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         textViewPermanentAddress2.text = address2
         textViewPermanentAddress3.text = "$address3, $pincode"
         permanentAddress = PermanentAddress(pincode, address)
-        val addressData = AddressData(customerId.toInt(), currentAddress, permanentAddress, "2012-02-21")
+        val addressData = AddressData(customerId.toInt(), currentAddress, permanentAddress, cityMovedInYear)
         val updateAddressRequest = UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, addressData)
 
         addressViewModel.updateAddress(updateAddressRequest, Global.customerAPI_BaseURL + CommonStrings.UPDATE_ADDRESS_URL)
@@ -1446,3 +1385,43 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     }
 
 }
+
+/*
+*             /*if (isLastSection) {
+                    currentSectionLayout = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_address_parent_layout, linearLayoutAdditionalFieldsUILayout, false)
+
+                    val linearLayout = currentSectionLayout.findViewById<LinearLayout>(R.id.linearLayoutCustomAddressSectionLayout)
+
+                    val submitAdditionalFieldsButton = currentSectionLayout.findViewById<Button>(R.id.buttonSubmitAddressDetails)
+                    submitAdditionalFieldsButton.setBackgroundResource(R.drawable.v2_rounded_light_grey_bg)
+
+                    if (sectionData.displayName) {
+                        val currentSectionTitle: View = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_title_text_view, linearLayout, false)
+                        val sectionTitle: TextView = currentSectionTitle.findViewById(R.id.textViewTitleLabel)
+                        sectionTitle.text = sectionData.sectionName
+                        linearLayout.addView(currentSectionTitle)
+                    }
+
+                    submitAdditionalFieldsButton.setOnClickListener(View.OnClickListener {
+                        if (currentFilledFieldData.size == fieldList.size) {
+                            submitAdditionalFieldsButton.setBackgroundResource(R.drawable.vtwo_next_btn_bg)
+                            submitAdditionalFieldsList.putAll(currentFilledFieldData)
+                            val fieldList: ArrayList<FieldDetails> = ArrayList<FieldDetails>(submitAdditionalFieldsList.values)
+                            sectionMap[sectionData.sectionName] = fieldList
+                            submitAdditionalFields()
+                        }
+                        else
+                        {
+                            showToast("Please fill all the fields")
+                            Log.i("SoftOffer", "generateSectionUI: " + "" + currentFilledFieldData.size + "=====" + fieldList.size)
+
+                        }
+
+
+                    })
+
+
+                    generateFieldUI(sectionData.sectionName, linearLayout, fieldList)
+
+                } else {*/
+    */
