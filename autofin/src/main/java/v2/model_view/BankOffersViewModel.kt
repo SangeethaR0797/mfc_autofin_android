@@ -1,6 +1,7 @@
 package v2.model_view
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -92,6 +93,7 @@ class BankOffersViewModel(application: Application) : BaseViewModel(application)
     }
 
     public fun getBankTermsAndConditionData(url: String) {
+        Log.i("TAG", "getBankTermsAndConditionData: came in")
         repository.getBankTermsAndCondition(url).subscribeOn(Schedulers.io())
                 ?.observeOn(AndroidSchedulers.mainThread())
                 ?.doOnSubscribe { d -> mBankTermsAndConditionLiveData.setValue(ApiResponse.loading()) }

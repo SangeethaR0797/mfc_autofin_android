@@ -288,25 +288,25 @@ public open class BaseFragment : Fragment() {
         }
     }
 
-    public fun navigateToKYCDocumentUpload(customerId: String, kycDocumentData: KYCDocumentResponse, caseID: String) {
-        val directions=SoftOfferFragmentDirections.actionSoftOfferFragment2ToDocumentUploadFragment(customerId,kycDocumentData,caseID)
+    public fun navigateToKYCDocumentUpload(customerId: String, kycDocumentData: KYCDocumentResponse, caseID: String,customerData:CustomerDetailsResponse) {
+        val directions=SoftOfferFragmentDirections.actionSoftOfferFragment2ToDocumentUploadFragment(customerId,kycDocumentData,caseID,customerData)
         view.let {
             it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
         }
     }
 
-    public fun  navigateToBankOfferStatus(customerId: String,fragment:String) {
+    public fun  navigateToBankOfferStatus(customerId: String,customerDetails:CustomerDetailsResponse,fragment:String) {
 
         if(fragment=="SoftOffer")
         {
-            val directions=SoftOfferFragmentDirections.actionSoftOfferFragment2ToSelectedBankOfferStatusFragment(customerId)
+            val directions=SoftOfferFragmentDirections.actionSoftOfferFragment2ToSelectedBankOfferStatusFragment(customerId,customerDetails)
             view.let {
                 it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
             }
         }
         else
         {
-            val directions=DocumentUploadFragmentDirections.actionDocumentUploadFragmentToSelectedBankOfferStatusFragment(customerId)
+            val directions=DocumentUploadFragmentDirections.actionDocumentUploadFragmentToSelectedBankOfferStatusFragment(customerId,customerDetails)
             view.let {
                 it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
             }

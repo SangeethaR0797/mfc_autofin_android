@@ -121,7 +121,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     lateinit var additionalFieldsData: AdditionalFieldsData
     lateinit var additionalFieldAdapter: DataRecyclerViewAdapter
     var sectionMap = HashMap<String, ArrayList<FieldDetails>>()
-
+    var moveToBankOfferPage:Boolean=false
     var stateList = ArrayList<Details>()
     var cityList = ArrayList<Details>()
     var checkList = ArrayList<Details>()
@@ -197,6 +197,12 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                             mApiResponse!!
                     )
                 }
+        addressViewModel.getCustomerDetailsLiveData()
+                .observe(requireActivity(), { mApiResponse: ApiResponse? ->
+                    onCustomerDetails(
+                            mApiResponse!!
+                    )
+                })
 
         additionalFieldsViewModel = ViewModelProvider(this).get(
                 TransactionViewModel::class.java
@@ -250,7 +256,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         }
         return view
     }
-
 
     @SuppressLint("NewApi")
     private fun initViews(view: View?) {
@@ -475,8 +480,17 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
                 val bankOfferRes: SelectRecommendedBankOfferResponse? = apiResponse.data as SelectRecommendedBankOfferResponse?
-                enablePostOfferLayout()
-                Log.i("TAG", "onBankResponse: " + bankOfferRes?.message)
+                if(bankOfferRes?.status == true)
+                {
+                    Log.i("TAG", "onBankResponse: " + bankOfferRes?.message)
+                    addressViewModel.getCustomerDetails(
+                            createCustomerDetailsRequest(customerId.toInt()),
+                            Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL)
+                }
+                else
+                {
+                    showToast(bankOfferRes?.message.toString())
+                }
 
             }
             ApiResponse.Status.ERROR -> {
@@ -489,6 +503,32 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             }
         }
         Log.i("TAG", "onBankResponse: " + apiResponse.status)
+    }
+
+    private fun onCustomerDetails(mApiResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+
+                val customerResponse: CustomerDetailsResponse? =
+                        mApiResponse.data as CustomerDetailsResponse?
+                if (customerResponse != null) {
+                    customerDetailsResponse = customerResponse
+                }
+                enablePostOfferLayout()
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+            }
+            else -> {
+                hideProgressDialog()
+                showToast("Please enter valid details")
+            }
+        }
     }
 
     private fun onPinCodeResponse(mApiResponse: ApiResponse) {
@@ -513,7 +553,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                         linearLayoutAddNewPermanentAddress.removeAllViews()
                         addNewAddress(linearLayoutAddNewPermanentAddress, getString(R.string.v2_permanent_address))
                     }
-
 
                 } else
                     showToast(pinCodeResponse?.message.toString())
@@ -558,7 +597,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 hideProgressDialog()
 
                 val response: AdditionalFields? = mApiResponse.data as AdditionalFields?
-                if (response?.data != null && response?.data?.sections.isNotEmpty()) {
+                if (response?.data != null && response.data.sections.isNotEmpty()) {
 
                     linearLayoutAddNewPermanentAddress.removeAllViews()
                     linearLayoutAddNewPermanentAddress.visibility = View.GONE
@@ -573,7 +612,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     setAdditionalField()
 
                 } else {
-                    navigateToBankOfferStatus(customerId, "SoftOffer")
+                    navigateToBankOfferStatus(customerId,customerDetailsResponse,"SoftOffer")
                 }
             }
             ApiResponse.Status.ERROR -> {
@@ -610,6 +649,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         }
 
     }
+
 
     private fun onSubmitOfAdditionFields(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
@@ -651,11 +691,11 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 val kycDocumentRes: KYCDocumentResponse = mApiResponse.data as KYCDocumentResponse
                 if (kycDocumentRes.statusCode == "100") {
                     if (kycDocumentRes.data.groupedDoc.isNotEmpty() || kycDocumentRes.data.nonGroupedDoc.isNotEmpty())
-                        navigateToKYCDocumentUpload(customerId, kycDocumentRes, caseID)
+                        navigateToKYCDocumentUpload(customerId, kycDocumentRes, caseID,customerDetailsResponse)
                     else if (kycDocumentRes.data.groupedDoc.isEmpty() && kycDocumentRes.data.nonGroupedDoc.isEmpty())
-                        navigateToBankOfferStatus(customerId, "SoftOffer")
+                        navigateToBankOfferStatus(customerId,customerDetailsResponse, "SoftOffer")
                 } else {
-                    navigateToBankOfferStatus(customerId, "SoftOffer")
+                    navigateToBankOfferStatus(customerId,customerDetailsResponse, "SoftOffer")
                 }
 
             }
@@ -671,9 +711,19 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
     }
 
+
+
     // endregion Response
 
-
+    fun createCustomerDetailsRequest(customerId: Int): CustomerRequest {
+        var customerDetailsRequest = CustomerRequest()
+        customerDetailsRequest.UserId = CommonStrings.DEALER_ID
+        customerDetailsRequest.UserType = CommonStrings.USER_TYPE
+        var customerJourneyDataRequest = ResetCustomerJourneyDataRequest();
+        customerJourneyDataRequest.CustomerId = customerId.toString()
+        customerDetailsRequest.Data = customerJourneyDataRequest
+        return customerDetailsRequest
+    }
     // region additionalFieldMethods
 
     private fun setAdditionalField() {

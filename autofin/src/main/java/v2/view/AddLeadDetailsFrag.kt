@@ -408,15 +408,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         textViewTermsAndCondition.movementMethod = LinkMovementMethod.getInstance()
 
 
-        etMobileNumberV2.addTextChangedListener(object :TextWatcher{
+        etMobileNumberV2.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(s?.length!=10)
-                {
+                if (s?.length != 10) {
                     if (tvOTPTimerV2.text != getString(R.string.otp_timer_hint)) {
-                       makeOTPLayoutInvisible()
+                        makeOTPLayoutInvisible()
                     }
                 }
             }
@@ -1441,7 +1440,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         }
     }
 
-    fun preFilledData(customerDetailsResponse: CustomerDetailsResponse?) {
+    private fun preFilledData(customerDetailsResponse: CustomerDetailsResponse?) {
         try {
             var birthDateDisplayValue: String? = null
             var birthDateValue: String? = null
@@ -2557,11 +2556,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 if (dialogConfilctForAddLead != null && dialogConfilctForAddLead!!.isShowing) {
                     dialogConfilctForAddLead!!.dismiss()
                 }
-                var customerResponse: CustomerDetailsResponse? =
+                val customerResponse: CustomerDetailsResponse? =
                         mApiResponse.data as CustomerDetailsResponse?
                 customerDetailsResponse = customerResponse!!
 
-                if (customerDetailsResponse?.data != null) {
+                if (customerDetailsResponse.data != null) {
                     preFilledData(customerDetailsResponse)
                 }
                 hideProgressDialog()
@@ -2587,8 +2586,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         etOTPV2.text.clear()
         ll_otp_v2.visibility = View.GONE
         llTAndC.visibility = View.GONE
-        if(cbTermsAndConditions.isChecked)
-            cbTermsAndConditions.isClickable=false
+        if (cbTermsAndConditions.isChecked)
+            cbTermsAndConditions.isClickable = false
     }
 
 

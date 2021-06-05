@@ -14,9 +14,6 @@
         <action
             android:id="@+id/action_dashboardFragment_to_vehicleSelectionFrag2"
             app:destination="@id/vehicleSelectionFrag2" />
-        <action
-            android:id="@+id/action_dashboardFragment_to_documentUploadFragment"
-            app:destination="@id/documentUploadFragment" />
     </fragment>
     <fragment
         android:id="@+id/registeredListFragmentNav"
@@ -123,6 +120,9 @@
         <action
             android:id="@+id/action_documentUploadFragment_to_selectedBankOfferStatusFragment"
             app:destination="@id/selectedBankOfferStatusFragment" />
+        <argument
+            android:name="customerData"
+            app:argType="v2.model.response.CustomerDetailsResponse" />
     </fragment>
     <fragment
         android:id="@+id/selectedBankOfferStatusFragment"
@@ -135,6 +135,9 @@
         <action
             android:id="@+id/action_selectedBankOfferStatusFragment_to_bankSuccessMessageFragment"
             app:destination="@id/bankSuccessMessageFragment" />
+        <argument
+            android:name="CustomerResponse"
+            app:argType="v2.model.response.CustomerDetailsResponse" />
     </fragment>
     <fragment
         android:id="@+id/bankSuccessMessageFragment"

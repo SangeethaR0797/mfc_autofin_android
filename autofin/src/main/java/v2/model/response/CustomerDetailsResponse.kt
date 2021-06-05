@@ -14,8 +14,8 @@ data class CustomerDetailsResponse(
 
 @Parcelize
 data class CustomerDetailsData(
-        var additionalDetails: List<String>?,
-        var documents: List<String>?,
+        var additionalDetails: List<String>,
+        var documents: List<String>,
         var basicDetails: BasicDetails?,
         var caseId: String?,
         var dealerDetails: DealerDetails?,
@@ -24,7 +24,7 @@ data class CustomerDetailsData(
         var loanDetails: LoanDetails?,
         var residentialDetails: ResidentialDetails?,
         var status: String?,
-        var statusDetails: List<StatusDetail>?,
+        var statusDetails: List<StatusDetail>,
         var subStatus: String?,
         var vehicleDetails: VehicleDetails?
 ) : Parcelable

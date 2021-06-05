@@ -36,6 +36,7 @@ import utility.CommonStrings
 import v2.model.request.KYCDocumentUploadDataRequest
 import v2.model.request.KYCUploadDocs
 import v2.model.request.KYCUploadDocumentData
+import v2.model.response.CustomerDetailsResponse
 import v2.model.response.FieldDetails
 import v2.model.response.UploadKYCResponse
 import v2.model.response.master.APIDropDownResponse
@@ -58,6 +59,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
     private lateinit var buttonUploadDocument: Button
     lateinit var linearLayoutImageUpload: LinearLayout
+    lateinit var customerDetailsResponse: CustomerDetailsResponse
 
     private var currentImageName = ""
     private var currentImageKey = ""
@@ -76,6 +78,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             customerId = safeArgs.CustomerId
             kycDocumentData = safeArgs.KYCDocuments.data
             caseId = safeArgs.caseID
+            customerDetailsResponse=safeArgs.customerData
 
         }
     }
@@ -102,7 +105,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             addGroupedDocDataToCommonList()
 
         buttonUploadDocument.setOnClickListener(View.OnClickListener {
-            if (commonList.size == documentHashMap.size || documentHashMap.size > 0) {
+            if (commonList.size == documentHashMap.size) {
                 retrofitInterface.getFromWeb(getUploadKYCRequest(), "https://15.207.148.230:3003/api/kyc/upload-customer-kyc").enqueue(this)
             } else {
                 showToast("Attach all the documents")
@@ -178,7 +181,6 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                         currentImageName = tile1ImageName
                         currentTextView = textViewAttachmentStatus
                         attachDocument()
-
                     }
                 })
             } else {
@@ -189,8 +191,8 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             }
 
         })
+
         imageViewCamera.setOnClickListener(View.OnClickListener {
-            View.OnClickListener {
                 if (isTile1IsGrouped) {
                     showImageSelectionDialog(tileData1.groupName, tileData1.docs, object : DocumentSelectionCallBack {
                         override fun onSelectedDoc(apiKey: String, displayLabel: String) {
@@ -217,7 +219,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                     }
                 }
 
-            }
+
         })
 
         if (tileData1 != tileData2) {
@@ -266,7 +268,6 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
             })
             imageViewCamera2.setOnClickListener(View.OnClickListener {
-                View.OnClickListener {
                     if (isTile2IsGrouped) {
                         showImageSelectionDialog(tileData2.groupName, tileData2.docs, object : DocumentSelectionCallBack {
                             override fun onSelectedDoc(apiKey: String, displayLabel: String) {
@@ -288,14 +289,11 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                         currentTextView = textViewAttachmentStatus2
 
                         if (checkPermissions(activity)) {
-                            openGallery()
+                            openCamera()
                         } else {
                             callPermissions()
                         }
                     }
-
-
-                }
             })
 
             columnLayout1.addView(columnView1)
@@ -416,26 +414,6 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         }
     }
 
-    override fun onImageUploadCompleted(key: String, imageurl: String?, statuscode: Int) {
-        if (key.isNotEmpty() && imageurl?.isNotEmpty() == true) {
-            val document = KYCUploadDocs(key, imageurl.toString())
-            documentHashMap[key] = document
-            currentTextView.text = "File attached"
-            showToast("$key Image Uploaded successfully")
-            currentImageName = ""
-            currentImageKey = ""
-        } else {
-            val document = KYCUploadDocs("EmptyKey", imageurl.toString())
-            documentHashMap[key] = document
-            currentTextView.text = "File attached"
-            showToast("$key Image Uploaded successfully")
-            currentImageName = ""
-            currentImageKey = ""
-
-        }
-
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IMAGE_GALLERY_CODE) {
@@ -449,7 +427,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                     val picturePath = cursor.getString(columnIndex)
                     cursor.close()
                     file = File(picturePath)
-                    compressImage(file!!.path)
+                    compressImage(file?.path)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -458,17 +436,29 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             }
         } else if (requestCode == IMAGE_CAPTURE_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                if (file!!.length() != 0L) {
+                if (file?.length() != 0L) {
                     try {
-                        compressImage(file!!.path)
+                        compressImage(file?.path)
                     } catch (e: java.lang.Exception) {
                         e.printStackTrace()
                     }
                     ImageUploadTask(activity, file?.absolutePath, CommonStrings.DEALER_ID + "/" + customerId, currentImageName, currentImageKey, requestCode, this).execute()
                 }
-
             }
         }
+    }
+    override fun onImageUploadCompleted(key: String, imageurl: String?, statuscode: Int) {
+        if (key.isNotEmpty() && imageurl?.isNotEmpty() == true) {
+            val document = KYCUploadDocs(key, imageurl.toString())
+            documentHashMap[key] = document
+            currentTextView.text = "File attached"
+            showToast("$key Image Uploaded successfully")
+            currentImageName = ""
+            currentImageKey = ""
+        } else {
+          showToast("Please attach image again")
+        }
+
     }
 
     override fun onResponse(call: Call<Any>, response: Response<Any>) {
@@ -476,7 +466,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         val uploadKYCDocumentResponse = Gson().fromJson(strRes, UploadKYCResponse::class.java)
         if (uploadKYCDocumentResponse?.status == true) {
             listOfUploadImageURL = uploadKYCDocumentResponse.data as ArrayList<String>
-            navigateToBankOfferStatus(customerId, "DocUpload")
+            navigateToBankOfferStatus(customerId,customerDetailsResponse, "DocUpload")
         } else {
             if (uploadKYCDocumentResponse?.message != null)
                 showToast(uploadKYCDocumentResponse.message)
