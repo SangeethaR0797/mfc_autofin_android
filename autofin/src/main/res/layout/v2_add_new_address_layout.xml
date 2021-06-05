@@ -344,6 +344,18 @@
 
 
     <!--endregion Address-->
+        <CheckBox
+            android:id="@+id/checkboxIsPermanentAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_size_16sp"
+            android:layout_marginBottom="@dimen/text_size_17dp"
+            android:drawablePadding="7dp"
+            android:text="@string/v2_this_is_also_my_permanent_address"
+            android:textColor="@color/vtwo_black"
+            android:checked="true"
+            android:buttonTint="@color/vtwo_black"
+            android:textSize="12sp" />
 
     </LinearLayout>
 

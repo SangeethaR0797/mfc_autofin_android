@@ -10,8 +10,7 @@ import android.text.*
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.*
-import android.view.View.OnClickListener
-import android.view.View.VISIBLE
+import android.view.View.*
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.annotation.RequiresApi
@@ -50,6 +49,7 @@ import v2.view.adapter.SoftOfferAdapter
 import v2.view.adapter.StringDataRecyclerViewAdapter
 import v2.view.base.BaseFragment
 import v2.view.callBackInterface.AdditionalFieldsDetailsInterface
+import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.callBackInterface.itemClickCallBack
 import v2.view.utility_view.GridItemDecoration
 
@@ -81,12 +81,10 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     lateinit var linearLayoutCalculation: LinearLayout
     lateinit var llSoftOfferDialog: LinearLayout
     lateinit var linearLayoutPostOffer: LinearLayout
-    lateinit var linearLayoutEquiFaxAddress: LinearLayout
     lateinit var linearLayoutAddNewCurrentAddress: LinearLayout
     lateinit var linearLayoutEditCurrentAddress: LinearLayout
     lateinit var linearLayoutAddNewPermanentAddress: LinearLayout
     lateinit var linearLayoutEditPermanentAddress: LinearLayout
-    lateinit var linearLayoutPermanentAddress: LinearLayout
     lateinit var linearLayoutAdditionalFieldsUILayout: LinearLayout
 
     lateinit var tvLoanAmountVal: TextView
@@ -123,7 +121,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     lateinit var additionalFieldsData: AdditionalFieldsData
     lateinit var additionalFieldAdapter: DataRecyclerViewAdapter
     var sectionMap = HashMap<String, ArrayList<FieldDetails>>()
-    lateinit var linearLayoutCityMovedInYear:LinearLayout
 
     var stateList = ArrayList<Details>()
     var cityList = ArrayList<Details>()
@@ -153,6 +150,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     var address1 = ""
     var address2 = ""
     var address3 = ""
+    var isPermanentAddress = true
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -267,10 +265,8 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             llSoftOfferDialog = view.findViewById(R.id.llSoftOfferDialog)
             linearLayoutCalculation = view.findViewById(R.id.linearLayoutCalculation)
             linearLayoutPostOffer = view.findViewById(R.id.linearLayoutPostOffer)
-            linearLayoutEquiFaxAddress = view.findViewById(R.id.linearLayoutEquiFaxAddress)
             linearLayoutAddNewCurrentAddress = view.findViewById(R.id.linearLayoutAddNewCurrentAddress)
             linearLayoutEditCurrentAddress = view.findViewById(R.id.linearLayoutEditCurrentAddress)
-            linearLayoutPermanentAddress = view.findViewById(R.id.linearLayoutPermanentAddress)
             linearLayoutAddNewPermanentAddress = view.findViewById(R.id.linearLayoutAddNewPermanentAddress)
             linearLayoutEditPermanentAddress = view.findViewById(R.id.linearLayoutEditPermanentAddress)
             linearLayoutAdditionalFieldsUILayout = view.findViewById(R.id.linearLayoutAdditionalFieldsUILayout)
@@ -292,7 +288,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             skTenure = view.findViewById(R.id.skTenure)
 
             buttonLoanDetailsSubmit = view.findViewById(R.id.buttonLoanDetailsSubmit)
-            buttonAddNewPermanentAddress = view.findViewById(R.id.buttonAddNewPermanentAddress)
 
             recyclerViewBankOffer = view.findViewById(R.id.recyclerViewBankOffer)
 
@@ -356,7 +351,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
         // endregion ChangeAndClickListeners
 
-        buttonAddNewPermanentAddress.setOnClickListener(this)
 
     }
 
@@ -568,7 +562,11 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
                     linearLayoutAddNewPermanentAddress.removeAllViews()
                     linearLayoutAddNewPermanentAddress.visibility = View.GONE
-                    linearLayoutEditPermanentAddress.visibility = View.VISIBLE
+                    linearLayoutEditCurrentAddress.visibility = View.VISIBLE
+
+                    if (!isPermanentAddress)
+                        linearLayoutEditPermanentAddress.visibility = View.VISIBLE
+
                     additionalFieldsData = response.data
                     linearLayoutAdditionalFieldsUILayout.visibility = VISIBLE
 
@@ -654,12 +652,11 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 if (kycDocumentRes.statusCode == "100") {
                     if (kycDocumentRes.data.groupedDoc.isNotEmpty() || kycDocumentRes.data.nonGroupedDoc.isNotEmpty())
                         navigateToKYCDocumentUpload(customerId, kycDocumentRes, caseID)
-                    else if (kycDocumentRes.data.groupedDoc.isNotEmpty() && kycDocumentRes.data.nonGroupedDoc.isNotEmpty())
+                    else if (kycDocumentRes.data.groupedDoc.isEmpty() && kycDocumentRes.data.nonGroupedDoc.isEmpty())
                         navigateToBankOfferStatus(customerId, "SoftOffer")
                 } else {
                     navigateToBankOfferStatus(customerId, "SoftOffer")
                 }
-
 
             }
             ApiResponse.Status.ERROR -> {
@@ -1189,25 +1186,12 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         linearLayoutPostOffer.visibility = View.VISIBLE
         textViewSelectBankLabel.text = "You have selected " + customerDetailsResponse.data?.loanDetails?.bankName + " bank"
 
-        addNewAddress(linearLayoutAddNewPermanentAddress, getString(R.string.v2_permanent_address))
+        addNewAddress(linearLayoutAddNewCurrentAddress, getString(R.string.v2_current_address))
 
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-
-            R.id.buttonAddNewPermanentAddress -> {
-                linearLayoutPermanentAddress.visibility = View.GONE
-                linearLayoutAddNewCurrentAddress.visibility = View.GONE
-                linearLayoutAddNewPermanentAddress.visibility = View.VISIBLE
-                pincode = ""
-                state = ""
-                city = ""
-                address1 = ""
-                address2 = ""
-                address3 = ""
-                addNewAddress(linearLayoutAddNewPermanentAddress, getString(R.string.v2_permanent_address))
-            }
 
         }
 
@@ -1216,31 +1200,77 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
     private fun addNewAddress(linearLayout: LinearLayout, title: String) {
 
+        if (title == getString(R.string.v2_permanent_address))
+            linearLayoutEditCurrentAddress.visibility = View.VISIBLE
+
         val addressView: View = LayoutInflater.from(fragView.context).inflate(R.layout.v2_add_new_address_layout, linearLayout, false)
         val textViewTypeOfAddress = addressView.findViewById<TextView>(R.id.textViewTypeOfAddress)
         val editTextPinCode = addressView.findViewById<EditText>(R.id.editTextPinCode)
         val buttonPinCodeCheck = addressView.findViewById<Button>(R.id.buttonPincodeCheck)
         val textViewState = addressView.findViewById<TextView>(R.id.textViewState)
         val textViewCity = addressView.findViewById<TextView>(R.id.textViewCity)
+        val linearLayoutCityMovedInYear = addressView.findViewById<LinearLayout>(R.id.linearLayoutCityMovedInYear)
+        val editTextCityMovedInYear = addressView.findViewById<EditText>(R.id.editTextCityMovedInYear)
+
         val editTextAddress1 = addressView.findViewById<EditText>(R.id.editTextAddress1)
         val editTextAddress2 = addressView.findViewById<EditText>(R.id.editTextAddress2)
         val editTextAddress3 = addressView.findViewById<EditText>(R.id.editTextAddress3)
+        val checkboxIsPermanentAdd = addressView.findViewById<CheckBox>(R.id.checkboxIsPermanentAdd)
+
         val buttonSubmitAddress = addressView.findViewById<Button>(R.id.buttonSubmitAddress)
 
         textViewTypeOfAddress.text = title
         typeOfAddress = title
+        if (title == getString(R.string.v2_current_address)) {
+            checkboxIsPermanentAdd.visibility = View.VISIBLE
+        } else {
+            checkboxIsPermanentAdd.visibility = View.GONE
+        }
+        editTextPinCode.setText(pincode)
+        textViewState.text = state
+        textViewCity.text = city
 
+        linearLayoutCityMovedInYear.setOnClickListener(View.OnClickListener {
+            var lastSelectedDate = ""
+
+            /*  lastSelectedDate = if (editTextCityMovedInYear.text.toString().isNotEmpty())
+                  editTextCityMovedInYear.text.toString()
+              else
+                  getTodayDate().toString()
+  */
+
+            callDatePickerDialog(
+                    lastSelectedDate,
+                    null,
+                    getTodayDate(),
+                    object : DatePickerCallBack {
+                        override fun dateSelected(dateDisplayValue: String, dateValue: String) {
+                            editTextCityMovedInYear.setText(dateDisplayValue)
+                            cityMovedInYear = dateValue
+                        }
+                    })
+        })
+
+        checkboxIsPermanentAdd.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked)
+            {
+                checkboxIsPermanentAdd.isChecked = isChecked
+                isPermanentAddress = checkboxIsPermanentAdd.isChecked
+            }
+            else
+            {
+                checkboxIsPermanentAdd.isChecked = isChecked
+                isPermanentAddress = checkboxIsPermanentAdd.isChecked
+
+            }
+
+        }
         buttonPinCodeCheck.setOnClickListener(View.OnClickListener {
             if (editTextPinCode.text.toString().isNotEmpty() && editTextPinCode.text.toString().length == 6) {
                 pinCodeViewModel.getPinCodeData(Global.customerDetails_BaseURL + "Pincode/city/" + editTextPinCode.text.toString())
             } else
                 showToast("Please enter valid PinCode")
         })
-
-        editTextPinCode.setText(pincode)
-        textViewState.text = state
-        textViewCity.text = city
-
 
         buttonSubmitAddress.setOnClickListener(View.OnClickListener {
             if (editTextPinCode.text.toString().isNotEmpty() &&
@@ -1250,15 +1280,20 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     editTextAddress2.text.toString().isNotEmpty() &&
                     editTextAddress3.text.toString().isNotEmpty()) {
 
-                address1 = editTextAddress1.text.toString()
-                address2 = editTextAddress2.text.toString()
-                address3 = editTextAddress3.text.toString()
-                address = "$address1***$address2***$address3"
+                if (isPermanentAddress && cityMovedInYear.isEmpty()) {
+                    showToast("Please select city moved in year")
+                } else {
+                    address1 = editTextAddress1.text.toString()
+                    address2 = editTextAddress2.text.toString()
+                    address3 = editTextAddress3.text.toString()
+                    address = "$address1***$address2***$address3"
 
-                if (typeOfAddress == getString(R.string.v2_current_address)) {
-                    submitCurrentAddress()
-                } else if (typeOfAddress == getString(R.string.v2_permanent_address)) {
-                    submitPermanentAddress()
+                    if (typeOfAddress == getString(R.string.v2_current_address)) {
+                        submitCurrentAddress()
+                    } else if (typeOfAddress == getString(R.string.v2_permanent_address)) {
+                        submitPermanentAddress()
+                    }
+
                 }
 
             } else {
@@ -1270,26 +1305,41 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
 
     private fun submitCurrentAddress() {
-        linearLayoutEquiFaxAddress.visibility = View.GONE
-        linearLayoutEditCurrentAddress.visibility = View.VISIBLE
-
         textViewCurrentAddress1.text = address1
         textViewCurrentAddress2.text = address2
         textViewCurrentAddress3.text = address3 + ", " + pincode
 
 
-        currentAddress = CurrentAddress(false, pincode, address)
+        currentAddress = CurrentAddress(isPermanentAddress, pincode, address)
+        if (isPermanentAddress) {
+            permanentAddress = PermanentAddress(pincode, address)
+            val addressData = AddressData(customerId.toInt(), currentAddress, permanentAddress, cityMovedInYear)
+            val updateAddressRequest = UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, addressData)
+
+            addressViewModel.updateAddress(updateAddressRequest, Global.customerAPI_BaseURL + CommonStrings.UPDATE_ADDRESS_URL)
+            checkboxCurrentAndPermanentAddress.isChecked = true
+            checkboxCurrentAndPermanentAddress.isClickable = false
+            checkboxCurrentAndPermanentAddress.isFocusable = false
+
+
+        } else {
+            linearLayoutAddNewPermanentAddress.visibility = View.VISIBLE
+            pincode = ""
+            state = ""
+            city = ""
+            address1 = ""
+            address2 = ""
+            address3 = ""
+
+            addNewAddress(linearLayoutAddNewPermanentAddress, getString(R.string.v2_permanent_address))
+            checkboxCurrentAndPermanentAddress.visibility= GONE
+        }
+
         linearLayoutAddNewCurrentAddress.visibility = View.GONE
-        linearLayoutPermanentAddress.visibility = View.VISIBLE
-        checkboxCurrentAndPermanentAddress.isClickable = false
-        checkboxCurrentAndPermanentAddress.isFocusable = false
+
     }
 
     private fun submitPermanentAddress() {
-        linearLayoutEquiFaxAddress.visibility = View.GONE
-        linearLayoutEditCurrentAddress.visibility = View.VISIBLE
-        linearLayoutAddNewCurrentAddress.visibility = View.GONE
-
 
         textViewPermanentAddress1.text = address1
         textViewPermanentAddress2.text = address2
