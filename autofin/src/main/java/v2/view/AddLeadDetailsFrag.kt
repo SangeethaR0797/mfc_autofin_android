@@ -938,12 +938,17 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 tvWorkExprianceErrorMessage.visibility = View.GONE
                 llAddWorkExpriance.setBackgroundResource(R.drawable.vtwo_input_bg)
                 etWorkExpriance.setTextColor(resources.getColor(R.color.vtwo_black))
-                if (TextUtils.isEmpty(etWorkExpriance.text)) {
+                if (TextUtils.isEmpty(etWorkExpriance.text) || etWorkExpriance.text.toString().equals("0")) {
                     addEmploymentDetailsRequest!!.Data!!.employmentDetails!!.TotalWorkExperience =
                             "0"
+                    cbMoreThanOneYearInCurrentOrganization.isChecked=false
+
+                    cbMoreThanOneYearInCurrentOrganization.visibility=View.GONE
+                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne =false
                 } else {
                     addEmploymentDetailsRequest!!.Data!!.employmentDetails!!.TotalWorkExperience =
                             etWorkExpriance.text.toString()
+                    cbMoreThanOneYearInCurrentOrganization.visibility=View.VISIBLE
                 }
 
             }
