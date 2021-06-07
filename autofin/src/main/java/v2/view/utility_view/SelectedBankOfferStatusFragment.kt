@@ -314,7 +314,7 @@ class SelectedBankOfferStatusFragment : BaseFragment() {
     }
 
     private fun getValidateFinalOTP(): ValidateFinalOTPRequest? {
-        return customerID?.let { ValidateOTPData(it.toInt(), currentOTP) }?.let { ValidateFinalOTPRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, it) }
+        return customerID?.let { ValidateOTPData(it.toInt(), currentOTP,true) }?.let { ValidateFinalOTPRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, it) }
     }
 
     private fun onValidateOTPResponse(mApiResponse: ApiResponse) {
@@ -325,10 +325,8 @@ class SelectedBankOfferStatusFragment : BaseFragment() {
                 hideProgressDialog()
                 val validateFinalOTPRes: ValidateFinalOTPResponse? =
                         mApiResponse.data as ValidateFinalOTPResponse?
-                if (validateFinalOTPRes?.data != null) {
-                    bankId = validateFinalOTPRes.data
+                if (validateFinalOTPRes?.status==true) {
                     loanProcessCompletedData.customerName = salutation + " " + name
-                    loanProcessCompletedData.bankApplicationID = bankId
                     loanProcessCompletedData.caseID = caseId
                     navigateToSuccessFragment(loanProcessCompletedData)
                 } else {

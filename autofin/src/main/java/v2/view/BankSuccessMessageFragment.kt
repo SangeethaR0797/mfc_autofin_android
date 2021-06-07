@@ -15,13 +15,11 @@ import v2.view.utility_view.SelectedBankOfferStatusFragmentArgs
 class BankSuccessMessageFragment : BaseFragment() {
 
     var name=""
-    var bankApplicationID=""
     var caseID=""
     val bankAppIdPrefix="Your bank application ID is "
     val caseIDPrefix="Case ID is "
 
     private lateinit var textViewCustomerName: TextView
-    private lateinit var textViewBankId:TextView
     private lateinit var textViewCustCaseId:TextView
     private lateinit var buttonViewStatus:Button
 
@@ -30,7 +28,6 @@ class BankSuccessMessageFragment : BaseFragment() {
         arguments?.let {
             val safeArgs = BankSuccessMessageFragmentArgs.fromBundle(it)
             name=safeArgs.LoanProcessData.customerName
-            bankApplicationID=safeArgs.LoanProcessData.bankApplicationID
             caseID=safeArgs.LoanProcessData.caseID
 
         }
@@ -40,11 +37,9 @@ class BankSuccessMessageFragment : BaseFragment() {
                               savedInstanceState: Bundle?): View? {
         val view=inflater.inflate(R.layout.v2_fragment_bank_success_message, container, false)
         textViewCustomerName=view.findViewById(R.id.textViewCustomerName)
-        textViewBankId=view.findViewById(R.id.textViewBankId)
         textViewCustCaseId=view.findViewById(R.id.textViewCustCaseId)
         buttonViewStatus=view.findViewById(R.id.buttonViewStatus)
         textViewCustomerName.text=name
-        textViewBankId.text=bankAppIdPrefix+bankApplicationID
         textViewCustCaseId.text=caseIDPrefix+caseID
         buttonViewStatus.setOnClickListener(View.OnClickListener {
             showToast("Development Under Progress")

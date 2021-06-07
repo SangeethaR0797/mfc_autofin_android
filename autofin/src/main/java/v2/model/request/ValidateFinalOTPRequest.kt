@@ -12,6 +12,8 @@ data class ValidateFinalOTPRequest
 data class ValidateOTPData (
 
         @SerializedName("CustomerId") var CustomerId : Int,
-        @SerializedName("OTP") var OTP : String
+        @SerializedName("OTP") var OTP : String,
+        @SerializedName("IsBankTandCChecked") var IsBankTandCChecked : Boolean
+
 
 )

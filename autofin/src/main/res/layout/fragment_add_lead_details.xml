@@ -567,12 +567,14 @@
                                     android:background="@android:color/transparent"
                                     android:hint="@string/SelectResidenceCity"
                                     android:inputType="textPersonName"
-                                    android:maxLength="11"
                                     android:singleLine="true"
                                     android:textAppearance="@style/RobotoRegular"
                                     android:textColorHint="@color/vtwo_grey"
                                     android:textSize="@dimen/text_size_14sp" />
-
+<!--
+                                    android:maxLength="11" has been removed by Sangeetha from et_residence_type
+                                     to fix the bug : If we select city as Kolkata South its showing only Kolkata So
+-->
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"

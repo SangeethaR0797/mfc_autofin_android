@@ -58,7 +58,8 @@
             android:textSize="@dimen/text_size_14dp"
             android:textColor="@color/vtwo_black"
             android:textAppearance="@style/RobotoBold"
-            android:layout_marginBottom="4dp"/>
+            android:layout_marginBottom="4dp"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/textViewCustCaseId"
