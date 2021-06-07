@@ -350,7 +350,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 bankViewModel.getBankOffersForLeadApplication(getBankRequest(), Global.customer_bank_baseURL + "get-recommended-bank")
             } else {
                 showToast("Please select Loan Amount and Loan Tenure")
-
             }
         })
 
@@ -374,6 +373,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 val loanAmountResponse: LoanAmountResponse? = mApiResponse.data as LoanAmountResponse?
                 try {
                     val loanData: LoanData = loanAmountResponse?.data as LoanData
+
                     loanAmountMinimum = loanData.minValues.loanAmount
                     loanTenureMinimum = loanData.minValues.tenureInMonths / 12
 
@@ -1203,16 +1203,56 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setData() {
 
-        tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + loanAmountDefault
-        tvLoanTenureVal.text = "$loanTenureDefault Years"
+        if(initialCall)
+        {
 
-        skLoanAmount.max = loanAmountMaximum
-        skLoanAmount.progress = loanAmountDefault
-        skLoanAmount.min = loanAmountMinimum
+            tvLoanTenureVal.text = "$loanTenureDefault Years"
+            skLoanAmount.max = loanAmountMaximum
 
-        skTenure.progress = loanTenureDefault
-        skTenure.min = loanTenureMinimum
-        skTenure.max = loanTenureMaximum
+            if(loanAmountDefault!=1000){
+                tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + loanAmountDefault
+                skLoanAmount.progress = loanAmountDefault
+            }
+            else
+            {
+                tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + 0
+                skLoanAmount.progress = 100000
+
+            }
+
+            skLoanAmount.min = loanAmountMinimum
+
+            skTenure.progress = loanTenureDefault
+            skTenure.min = loanTenureMinimum
+            skTenure.max = loanTenureMaximum
+
+        }
+        else
+        {
+            loanAmountDefault=loanAmount.toInt()
+            loanTenureDefault=loanTenure.toInt()
+
+            if(loanAmountDefault!=1000){
+                tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + loanAmountDefault
+                skLoanAmount.progress = loanAmountDefault
+            }
+            else
+            {
+                tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + 0
+                skLoanAmount.progress = 100000
+
+            }
+
+            tvLoanTenureVal.text = "$loanTenureDefault Years"
+
+            skLoanAmount.max = loanAmountMaximum
+            skLoanAmount.min = loanAmountMinimum
+
+            skTenure.progress = loanTenureDefault
+            skTenure.min = loanTenureMinimum
+            skTenure.max = loanTenureMaximum
+
+        }
 
     }
 
