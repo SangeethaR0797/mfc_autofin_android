@@ -177,7 +177,7 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack , Con
         tvSelectLabel.visibility = View.GONE
         tvSelectedText.visibility = View.GONE
         etSearch.setHint("Year")
-        tvScreenTitle.setHint("Year")
+        tvScreenTitle.text=("Year")
         var request = getIBBMasterDetailsRequest(CommonStrings.IBB_TOKEN_VALUE, CommonStrings.YEAR, "0", "app", null, null, null, null)
         iBB_MasterViewModel!!.getIBB_MasterDetails(request, Global.ibb_base_url + CommonStrings.IBB_VEH_DETAILS_END_POINT)
 
@@ -188,7 +188,7 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack , Con
         tvSelectedText.text = ""
         tvSelectLabel.text = "Search Bank"
         etSearch.setHint("Search Bank")
-        tvScreenTitle.setHint("Search Bank")
+        tvScreenTitle.text=("Search Bank")
         tvSelectLabel.visibility = View.GONE
         tvSelectedText.visibility = View.GONE
         masterViewModel.getBankList(Global.customerDetails_BaseURL + CommonStrings.BANK_LIST_END_POINT)
