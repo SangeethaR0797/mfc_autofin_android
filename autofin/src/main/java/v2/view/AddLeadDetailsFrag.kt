@@ -2520,6 +2520,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 if (addLeadResponse?.mData!! > 0) {
                     var addEmploymentDetailsId = addLeadResponse?.mData.toString()
                     isEmploymentDataSaved = true
+                    if(llEMISection.visibility==View.GONE)
+                    {
+                        llEMISection.visibility=View.VISIBLE
+                    }
                     checkForNavToSoftOffer()
                 }
                 //  showToast(addLeadResponse?.message.toString())
