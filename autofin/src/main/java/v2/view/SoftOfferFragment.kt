@@ -43,10 +43,7 @@ import v2.model_view.BankOffersViewModel
 import v2.model_view.MasterViewModel
 import v2.model_view.TransactionViewModel
 import v2.service.utility.ApiResponse
-import v2.view.adapter.DataRecyclerViewAdapter
-import v2.view.adapter.PostSoftOfferAdapter
-import v2.view.adapter.SoftOfferAdapter
-import v2.view.adapter.StringDataRecyclerViewAdapter
+import v2.view.adapter.*
 import v2.view.base.BaseFragment
 import v2.view.callBackInterface.AdditionalFieldsDetailsInterface
 import v2.view.callBackInterface.DatePickerCallBack
@@ -915,17 +912,11 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 fieldInput.hint = fieldData.placeHolder
                 fieldInput.text = isFieldFilled(fieldData.apiDetails.apiKey)
 
-                val apiURL = when (fieldData.apiDetails.apiKey) {
-                    "CompanyState" -> {
-                        fieldData.apiDetails.url + additionaFieldPinCode
-                    }
-                    "CompanyCity" -> {
-                        fieldData.apiDetails.url + additionaFieldPinCode
-                    }
-                    else -> {
-                        fieldData.apiDetails.url
-                    }
+                if (fieldData.apiDetails.apiKey == "CompanyState" || fieldData.apiDetails.apiKey == "CompanyCity") {
+                    setStateOrCityValue(fieldInput, fieldData.apiDetails.url)
                 }
+
+                val apiURL = fieldData.apiDetails.url
 
                 fieldInput.setOnClickListener(View.OnClickListener {
                     retrofitInterface.getFromWeb(apiURL)?.enqueue(object : Callback<Any> {
@@ -950,7 +941,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                         showToast("Something went wrong! Please try again!")
                                     }
                                 } else if (optionList.isNotEmpty() && optionList.size > 1) {
-                                    showDropDownDialog(fieldData.apiDetails.url,fieldData.label, optionList, object : AdditionalFieldsDetailsInterface {
+                                    showDropDownDialog(fieldData.apiDetails.url, fieldData.label, optionList, object : AdditionalFieldsDetailsInterface {
                                         override fun returnDetails(details: Details) {
                                             fieldInput.text = details.displayLabel
                                             if (isLastSection && isLastItem) {
@@ -968,17 +959,14 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                 }
 
                             } else {
-                                if (fieldData.apiDetails.apiKey == "CompanyState" || fieldData.apiDetails.apiKey == "CompanyCity") {
-                                    showToast("Enter Pincode")
-                                } else {
                                     showToast("Something went wrong! Please try again!")
-                                }
                             }
                         }
 
                         override fun onFailure(call: Call<Any>, t: Throwable) {
                             t.printStackTrace()
                         }
+
                     })
 
 
@@ -1051,6 +1039,35 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         }
 
         return currentFieldInputView
+    }
+
+    private fun setStateOrCityValue(fieldInput: TextView, url: String) {
+        val apiURL=url+additionaFieldPinCode
+        retrofitInterface.getFromWeb(apiURL)?.enqueue(object : Callback<Any> {
+            override fun onResponse(call: Call<Any>, response: Response<Any>) {
+                val strRes = Gson().toJson(response.body())
+                val dpRes = Gson().fromJson(strRes, APIDropDownResponse::class.java)
+                if (dpRes != null && dpRes.status) {
+                    val optionList = dpRes.data.details
+                    if (optionList.isNotEmpty() && optionList.size == 1) {
+                        if (listOf(optionList).any { true }) {
+                            val details = Details(optionList[0].displayLabel, optionList[0].value)
+                            fieldInput.text = details.displayLabel
+
+                        } else {
+                            showToast("Something went wrong! Please try again!")
+                        }
+                    }
+                } else {
+                    showToast("Something went wrong! Please try again!")
+                }
+            }
+
+            override fun onFailure(call: Call<Any>, t: Throwable) {
+                t.printStackTrace()
+            }
+        })
+
     }
 
     private fun validateInput(sectionName: String, fieldName: String, editTextVal: String, lastItem: Boolean, regexResponse: String?, apiKey: String, displayKey: String) {
@@ -1443,7 +1460,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         }
     }
 
-    private fun showDropDownDialog(apiURL:String,title: String, optionList: List<Details>, detailsCallBack: AdditionalFieldsDetailsInterface) {
+    private fun showDropDownDialog(apiURL: String, title: String, optionList: List<Details>, detailsCallBack: AdditionalFieldsDetailsInterface) {
 
         val returnDetailsCallBack: AdditionalFieldsDetailsInterface = detailsCallBack
         val dialog = Dialog(fragView.context, R.style.FullScreenDialogTheme)
@@ -1457,12 +1474,8 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         val recyclerView = dialog.findViewById<RecyclerView>(R.id.recyclerViewOptions)
         textViewTitle.text = title
 
-        var stringList = ArrayList<String>()
         var valueSet = false
         var details = Details("", "")
-        for (optionItem in optionList) {
-            stringList.add(optionItem.displayLabel)
-        }
         backToSoftOffer.setOnClickListener(View.OnClickListener {
             valueSet = false
             dialog.dismiss()
@@ -1475,7 +1488,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             false
         })
 
-        val reviewAdapter = StringDataRecyclerViewAdapter(stringList as List<String>, object : itemClickCallBack {
+        var reviewAdapter = AdditionalFieldsAdapter(apiURL, getStringList(optionList), object : itemClickCallBack {
             override fun itemClick(item: Any?, position: Int) {
                 val displayLabel = item as String
                 val value = optionList[position].value
@@ -1500,15 +1513,40 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             }
 
             override fun afterTextChanged(s: Editable) {
-                if (TextUtils.isEmpty(editTextAdditionalFieldsSearchOption.text)) {
-                    reviewAdapter.filter.filter("")
-                } else {
-                    reviewAdapter.filter.filter(editTextAdditionalFieldsSearchOption.text)
+                if (!TextUtils.isEmpty(s.toString())) {
+                    showProgressDialog(fragView.context)
+                    retrofitInterface.getFromWeb(apiURL + s.toString())?.enqueue(object : Callback<Any> {
+                        override fun onResponse(call: Call<Any>, response: Response<Any>) {
+                            val strRes = Gson().toJson(response.body())
+                            val dpRes = Gson().fromJson(strRes, APIDropDownResponse::class.java)
+                            if (dpRes != null && dpRes.status) {
+                                val filteredOptionList: List<Details> = dpRes.data.details
+                                if (filteredOptionList.isNotEmpty()) {
+                                    hideProgressDialog()
+                                    reviewAdapter.updateList(getStringList(filteredOptionList))
+                                }
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Any>, t: Throwable) {
+                            t.printStackTrace()
+                        }
+                    })
                 }
             }
         })
 
+
         dialog.show()
+    }
+
+    private fun getStringList(filteredOptionList: List<Details>): List<String> {
+        val stringList = ArrayList<String>()
+        for (option in filteredOptionList.indices) {
+            stringList.add(filteredOptionList[option].displayLabel)
+        }
+
+        return stringList
     }
 
     private fun setFocusOnView(textView: TextView) {
