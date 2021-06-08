@@ -180,14 +180,14 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                         currentImageKey = tile1APIKey
                         currentImageName = tile1ImageName
                         currentTextView = textViewAttachmentStatus
-                        attachDocument()
+                        attachDocument(IMAGE_GALLERY_CODE)
                     }
                 })
             } else {
                 currentImageKey = tileData1.docs[0].apiKey
                 currentImageName = textViewTitle.text.toString().trim()
                 currentTextView = textViewAttachmentStatus
-                attachDocument()
+                attachDocument(IMAGE_GALLERY_CODE)
             }
 
         })
@@ -201,22 +201,14 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                             currentImageKey = tile1APIKey
                             currentImageName = tile1ImageName
                             currentTextView = textViewAttachmentStatus
-                            if (checkPermissions(fragmentContext.context)) {
-                                openCamera()
-                            } else {
-                                callPermissions()
-                            }
+                            attachDocument(IMAGE_CAPTURE_CODE)
                         }
                     })
                 } else {
                     currentImageKey = tileData1.docs[0].apiKey
                     currentImageName = textViewTitle.text.toString().trim()
                     currentTextView = textViewAttachmentStatus
-                    if (checkPermissions(fragmentContext.context)) {
-                        openCamera()
-                    } else {
-                        callPermissions()
-                    }
+                    attachDocument(IMAGE_CAPTURE_CODE)
                 }
 
 
@@ -254,7 +246,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                             currentImageKey = tile2APIKey
                             currentImageName = tile2ImageName
                             currentTextView = textViewAttachmentStatus2
-                            attachDocument()
+                            attachDocument(IMAGE_GALLERY_CODE)
 
                         }
                     })
@@ -262,7 +254,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                     currentImageKey = tileData2.docs[0].apiKey
                     currentImageName = textViewTitle2.text.toString().trim()
                     currentTextView = textViewAttachmentStatus2
-                    attachDocument()
+                    attachDocument(IMAGE_GALLERY_CODE)
 
                 }
 
@@ -276,23 +268,15 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                                 currentImageKey = tile2APIKey
                                 currentImageName = tile2ImageName
                                 currentTextView = textViewAttachmentStatus2
-                                if (checkPermissions(activity)) {
-                                    openCamera()
-                                } else {
-                                    callPermissions()
-                                }
+                                attachDocument(IMAGE_CAPTURE_CODE)
+
                             }
                         })
                     } else {
                         currentImageKey = tile2APIKey
                         currentImageName = tile2ImageName
                         currentTextView = textViewAttachmentStatus2
-
-                        if (checkPermissions(activity)) {
-                            openCamera()
-                        } else {
-                            callPermissions()
-                        }
+                        attachDocument(IMAGE_CAPTURE_CODE)
                     }
             })
 
@@ -351,10 +335,18 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         dialog.show()
     }
 
-    private fun attachDocument() {
+    private fun attachDocument(code:Int) {
 
-        if (checkPermissions(activity)) {
-            openGallery()
+        if (checkPermissions(requireActivity())) {
+
+            if(code==IMAGE_CAPTURE_CODE)
+            {
+                openCamera()
+            }
+            else if(code==IMAGE_GALLERY_CODE)
+            {
+                openGallery()
+            }
         } else {
             callPermissions()
         }

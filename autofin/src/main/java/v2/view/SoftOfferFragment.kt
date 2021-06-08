@@ -950,7 +950,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                         showToast("Something went wrong! Please try again!")
                                     }
                                 } else if (optionList.isNotEmpty() && optionList.size > 1) {
-                                    showDropDownDialog(fieldData.label, optionList, object : AdditionalFieldsDetailsInterface {
+                                    showDropDownDialog(fieldData.apiDetails.url,fieldData.label, optionList, object : AdditionalFieldsDetailsInterface {
                                         override fun returnDetails(details: Details) {
                                             fieldInput.text = details.displayLabel
                                             if (isLastSection && isLastItem) {
@@ -1443,7 +1443,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         }
     }
 
-    private fun showDropDownDialog(title: String, optionList: List<Details>, detailsCallBack: AdditionalFieldsDetailsInterface) {
+    private fun showDropDownDialog(apiURL:String,title: String, optionList: List<Details>, detailsCallBack: AdditionalFieldsDetailsInterface) {
 
         val returnDetailsCallBack: AdditionalFieldsDetailsInterface = detailsCallBack
         val dialog = Dialog(fragView.context, R.style.FullScreenDialogTheme)
