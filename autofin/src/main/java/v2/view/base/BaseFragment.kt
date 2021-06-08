@@ -131,7 +131,12 @@ public open class BaseFragment : Fragment() {
     //region validation
 
     public fun isValidVehicleRegNo(vehicleRegNo: String): Boolean {
-        return Regex(pattern = "[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}").matches(vehicleRegNo)
+        val expression = "[a-zA-Z]{2}[0-9]{2}[a-zA-Z]{2}[0-9]{4}"
+        //return Regex(pattern = expression).matches(vehicleRegNo)
+
+        val pattern: Pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
+        val matcher: Matcher = pattern.matcher(vehicleRegNo)
+        return matcher.matches()
     }
 
     public fun validName(name: String): Boolean {
