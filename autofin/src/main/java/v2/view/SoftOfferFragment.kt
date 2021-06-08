@@ -121,7 +121,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     lateinit var additionalFieldsData: AdditionalFieldsData
     lateinit var additionalFieldAdapter: DataRecyclerViewAdapter
     var sectionMap = HashMap<String, ArrayList<FieldDetails>>()
-    var moveToBankOfferPage:Boolean=false
+    var moveToBankOfferPage: Boolean = false
     var stateList = ArrayList<Details>()
     var cityList = ArrayList<Details>()
     var checkList = ArrayList<Details>()
@@ -308,7 +308,11 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     val loanAmountVal = formatAmount(rounded.toString())
 
                     loanAmount = rounded.toString()
-                    tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + loanAmountVal
+                    if (rounded <= 1000) {
+                        tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + 0
+                        loanAmount = "0"
+                    } else
+                        tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + loanAmountVal
 
 
                 }
@@ -436,7 +440,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                         recyclerViewBankOffer.layoutManager = layoutManager
 
                         this.recyclerViewBankOffer.adapter = bankAdapter
-                        setFocusOnView()
+                        setFocusOnView(tvBankOfferTitleV2)
 
                     } else {
 
@@ -449,7 +453,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
                         setData()
                         showToast("No Bank Offers found!")
-                        setFocusOnView()
+                        setFocusOnView(tvBankOfferTitleV2)
 
                     }
 
@@ -480,15 +484,12 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
                 val bankOfferRes: SelectRecommendedBankOfferResponse? = apiResponse.data as SelectRecommendedBankOfferResponse?
-                if(bankOfferRes?.status == true)
-                {
+                if (bankOfferRes?.status == true) {
                     Log.i("TAG", "onBankResponse: " + bankOfferRes?.message)
                     addressViewModel.getCustomerDetails(
                             createCustomerDetailsRequest(customerId.toInt()),
                             Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL)
-                }
-                else
-                {
+                } else {
                     showToast(bankOfferRes?.message.toString())
                 }
 
@@ -612,7 +613,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     setAdditionalField()
 
                 } else {
-                    navigateToBankOfferStatus(customerId,customerDetailsResponse,"SoftOffer")
+                    navigateToBankOfferStatus(customerId, customerDetailsResponse, "SoftOffer")
                 }
             }
             ApiResponse.Status.ERROR -> {
@@ -691,11 +692,11 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 val kycDocumentRes: KYCDocumentResponse = mApiResponse.data as KYCDocumentResponse
                 if (kycDocumentRes.statusCode == "100") {
                     if (kycDocumentRes.data.groupedDoc.isNotEmpty() || kycDocumentRes.data.nonGroupedDoc.isNotEmpty())
-                        navigateToKYCDocumentUpload(customerId, kycDocumentRes, caseID,customerDetailsResponse)
+                        navigateToKYCDocumentUpload(customerId, kycDocumentRes, caseID, customerDetailsResponse)
                     else if (kycDocumentRes.data.groupedDoc.isEmpty() && kycDocumentRes.data.nonGroupedDoc.isEmpty())
-                        navigateToBankOfferStatus(customerId,customerDetailsResponse, "SoftOffer")
+                        navigateToBankOfferStatus(customerId, customerDetailsResponse, "SoftOffer")
                 } else {
-                    navigateToBankOfferStatus(customerId,customerDetailsResponse, "SoftOffer")
+                    navigateToBankOfferStatus(customerId, customerDetailsResponse, "SoftOffer")
                 }
 
             }
@@ -710,7 +711,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         }
 
     }
-
 
 
     // endregion Response
@@ -1203,18 +1203,15 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setData() {
 
-        if(initialCall)
-        {
+        if (initialCall) {
 
             tvLoanTenureVal.text = "$loanTenureDefault Years"
             skLoanAmount.max = loanAmountMaximum
 
-            if(loanAmountDefault!=1000){
+            if (loanAmountDefault != 1000) {
                 tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + loanAmountDefault
                 skLoanAmount.progress = loanAmountDefault
-            }
-            else
-            {
+            } else {
                 tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + 0
                 skLoanAmount.progress = 100000
 
@@ -1226,18 +1223,14 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             skTenure.min = loanTenureMinimum
             skTenure.max = loanTenureMaximum
 
-        }
-        else
-        {
-            loanAmountDefault=loanAmount.toInt()
-            loanTenureDefault=loanTenure.toInt()
+        } else {
+            loanAmountDefault = loanAmount.toInt()
+            loanTenureDefault = loanTenure.toInt()
 
-            if(loanAmountDefault!=1000){
+            if (loanAmountDefault != 1000) {
                 tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + loanAmountDefault
                 skLoanAmount.progress = loanAmountDefault
-            }
-            else
-            {
+            } else {
                 tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + 0
                 skLoanAmount.progress = 100000
 
@@ -1265,10 +1258,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         bankViewModel.setSelectRecommendedBankOffer(bankOffersForApplicationRequest, Global.customer_bank_baseURL + "select-recommended-bank")
     }
 
-    private fun setFocusOnView() {
-        scrollViewBankOffer.post(Runnable { tvBankOfferTitleV2.top.let { scrollViewBankOffer.scrollTo(0, it) } })
-    }
-
     private fun enablePostOfferLayout() {
 
         linearLayoutCalculation.visibility = View.GONE
@@ -1277,7 +1266,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         textViewSelectBankLabel.text = "You have selected " + customerDetailsResponse.data?.loanDetails?.bankName + " bank"
 
         addNewAddress(linearLayoutAddNewCurrentAddress, getString(R.string.v2_current_address))
-
     }
 
     override fun onClick(v: View?) {
@@ -1310,6 +1298,8 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         val buttonSubmitAddress = addressView.findViewById<Button>(R.id.buttonSubmitAddress)
 
         textViewTypeOfAddress.text = title
+        setFocusOnView(textViewTypeOfAddress)
+
         typeOfAddress = title
         if (title == getString(R.string.v2_current_address)) {
             checkboxIsPermanentAdd.visibility = View.VISIBLE
@@ -1342,13 +1332,10 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         })
 
         checkboxIsPermanentAdd.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(isChecked)
-            {
+            if (isChecked) {
                 checkboxIsPermanentAdd.isChecked = isChecked
                 isPermanentAddress = checkboxIsPermanentAdd.isChecked
-            }
-            else
-            {
+            } else {
                 checkboxIsPermanentAdd.isChecked = isChecked
                 isPermanentAddress = checkboxIsPermanentAdd.isChecked
 
@@ -1422,7 +1409,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             address3 = ""
 
             addNewAddress(linearLayoutAddNewPermanentAddress, getString(R.string.v2_permanent_address))
-            checkboxCurrentAndPermanentAddress.visibility= GONE
+            checkboxCurrentAndPermanentAddress.visibility = GONE
         }
 
         linearLayoutAddNewCurrentAddress.visibility = View.GONE
@@ -1522,6 +1509,10 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         })
 
         dialog.show()
+    }
+
+    private fun setFocusOnView(textView: TextView) {
+        scrollViewBankOffer.post(Runnable { textView.top.let { scrollViewBankOffer.scrollTo(0, it) } })
     }
 
 }

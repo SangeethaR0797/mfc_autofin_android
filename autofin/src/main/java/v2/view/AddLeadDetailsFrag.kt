@@ -699,6 +699,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             ll_last_name_input.setBackgroundResource(R.drawable.vtwo_input_bg)
             tv_lname_hint.visibility = View.GONE
 
+            ll_last_email_input.background = resources.getDrawable(R.drawable.vtwo_input_bg)
+            tv_email_hint.visibility = View.GONE
+
+
             basicDetails.FirstName = etFirstName.text.toString()
             basicDetails.LastName = etLastName.text.toString()
             val email = etEmailId.text.toString()
@@ -908,10 +912,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         })
     }
 
-    fun setTextChangedEmailId() {
+    private fun setTextChangedEmailId() {
         etEmailId.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
 
             }
 
@@ -2346,7 +2349,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     callCustomerDetailsApi(addLeadResponse.mData!!)
                     checkForNavToSoftOffer()
                 }
-                showToast(addLeadResponse?.message.toString())
 
             }
             ApiResponse.Status.ERROR -> {
