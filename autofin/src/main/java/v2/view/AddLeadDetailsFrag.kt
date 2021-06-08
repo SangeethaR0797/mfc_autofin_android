@@ -2143,7 +2143,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 })
 
 
-        rvEmploymentType.setAdapter(employmentDetailsAdapter)
+        rvEmploymentType.adapter = employmentDetailsAdapter
     }
 
     //region onResidentType
@@ -2197,7 +2197,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 })
 
 
-        rvResidenceTypeList.setAdapter(residenceTypeDetailsAdapter)
+        rvResidenceTypeList.adapter = residenceTypeDetailsAdapter
     }
     //endregion onResidentType
 
@@ -2611,5 +2611,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             cbTermsAndConditions.isClickable = false
     }
 
+
+    // Loan Details
+    // CurrentAddress
+    // Additional Fields
+    // Document upload status
 
 }

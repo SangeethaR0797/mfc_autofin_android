@@ -6,6 +6,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.text.*
 import android.text.style.ForegroundColorSpan
 import android.util.Log
@@ -148,6 +149,11 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     var address2 = ""
     var address3 = ""
     var isPermanentAddress = true
+    var delay: Long = 1000 // 1 seconds after user stops typing
+
+    var last_text_edit: Long = 0
+    var handler: Handler = Handler()
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -889,7 +895,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                 addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
                             } else if (isLastSection && isLastItem) {
                                 val editTextString: String = fieldInputValue.text.toString()
-
                                 val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
                                 addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
 
@@ -913,7 +918,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 fieldInput.text = isFieldFilled(fieldData.apiDetails.apiKey)
 
                 if (fieldData.apiDetails.apiKey == "CompanyState" || fieldData.apiDetails.apiKey == "CompanyCity") {
-                    setStateOrCityValue(fieldInput, fieldData.apiDetails.url)
+                    setStateOrCityValue(sectionName, fieldData.apiDetails.apiKey, fieldInput, fieldData.apiDetails.url)
                 }
 
                 val apiURL = fieldData.apiDetails.url
@@ -931,7 +936,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                         fieldInput.text = details.displayLabel
                                         if (isLastSection && isLastItem) {
                                             val editTextString: String = details.value
-
                                             val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
                                             addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
                                         } else {
@@ -959,7 +963,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                 }
 
                             } else {
-                                    showToast("Something went wrong! Please try again!")
+                                showToast("Something went wrong! Please try again!")
                             }
                         }
 
@@ -1041,8 +1045,9 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         return currentFieldInputView
     }
 
-    private fun setStateOrCityValue(fieldInput: TextView, url: String) {
-        val apiURL=url+additionaFieldPinCode
+    private fun setStateOrCityValue(sectionName: String, apiKey: String, fieldInput: TextView, url: String) {
+        val apiURL = url + additionaFieldPinCode
+        var textVal = ""
         retrofitInterface.getFromWeb(apiURL)?.enqueue(object : Callback<Any> {
             override fun onResponse(call: Call<Any>, response: Response<Any>) {
                 val strRes = Gson().toJson(response.body())
@@ -1053,13 +1058,15 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                         if (listOf(optionList).any { true }) {
                             val details = Details(optionList[0].displayLabel, optionList[0].value)
                             fieldInput.text = details.displayLabel
-
+                            textVal = fieldInput.text.toString()
+                            val currentFieldDetails = FieldDetails(apiKey, details.value, details.displayLabel)
+                            addToCurrentFilledFieldData(apiKey, currentFieldDetails, false, sectionName)
                         } else {
                             showToast("Something went wrong! Please try again!")
                         }
+                    } else {
+                        showToast("Something went wrong! Please try again!")
                     }
-                } else {
-                    showToast("Something went wrong! Please try again!")
                 }
             }
 
@@ -1067,35 +1074,58 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 t.printStackTrace()
             }
         })
-
     }
 
     private fun validateInput(sectionName: String, fieldName: String, editTextVal: String, lastItem: Boolean, regexResponse: String?, apiKey: String, displayKey: String) {
         if (editTextVal.isNotEmpty()) {
-            if (lastItem) {
-                if (regexResponse?.contains('{') == true) {
-                    val regex = Regex(regexResponse)
-                    if (regex.matches(editTextVal)) {
-                        val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
-                        addToCurrentFilledFieldData(fieldName, currentFieldDetails, true, sectionName)
-                        //  moveCurrentDetailsToMap(sectionName)
-                    } else {
-                        showToast("Please enter valid Input")
-                    }
-                } else {
+
+            if (regexResponse!=null) {
+                val regex = Regex(regexResponse)
+                if (regex.matches(editTextVal)) {
                     val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
-                    addToCurrentFilledFieldData(fieldName, currentFieldDetails, true, sectionName)
-                    //  moveCurrentDetailsToMap(sectionName)
-                    //refreshFieldView()
+                    if (lastItem)
+                        addToCurrentFilledFieldData(fieldName, currentFieldDetails, true, sectionName)
+                    else
+                        addToCurrentFilledFieldData(fieldName, currentFieldDetails, false, sectionName)
+
+                } else {
+                    showToast("Please enter valid $fieldName")
                 }
+
             } else {
                 val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
-                addToCurrentFilledFieldData(fieldName, currentFieldDetails, false, sectionName)
-            }
+                if (lastItem)
+                    addToCurrentFilledFieldData(fieldName, currentFieldDetails, true, sectionName)
+                else
+                    addToCurrentFilledFieldData(fieldName, currentFieldDetails, false, sectionName)
 
+            }
         } else {
             showToast("Please Fill the Field")
         }
+
+
+        /*if (lastItem) {
+            if (regexResponse?.contains('{') == true) {
+                val regex = Regex(regexResponse)
+                if (regex.matches(editTextVal)) {
+                    val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
+                    addToCurrentFilledFieldData(fieldName, currentFieldDetails, true, sectionName)
+                    //  moveCurrentDetailsToMap(sectionName)
+                } else {
+                    showToast("Please enter valid Input")
+                }
+            } else {
+                val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
+                addToCurrentFilledFieldData(fieldName, currentFieldDetails, true, sectionName)
+                //  moveCurrentDetailsToMap(sectionName)
+                //refreshFieldView()
+            }
+        } else {
+            val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
+            addToCurrentFilledFieldData(fieldName, currentFieldDetails, false, sectionName)
+        }
+*/
 
     }
 
@@ -1304,6 +1334,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         val buttonPinCodeCheck = addressView.findViewById<Button>(R.id.buttonPincodeCheck)
         val textViewState = addressView.findViewById<TextView>(R.id.textViewState)
         val textViewCity = addressView.findViewById<TextView>(R.id.textViewCity)
+        val textViewCityMovedInLbl = addressView.findViewById<TextView>(R.id.textViewCityMovedInLbl)
         val linearLayoutCityMovedInYear = addressView.findViewById<LinearLayout>(R.id.linearLayoutCityMovedInYear)
         val editTextCityMovedInYear = addressView.findViewById<EditText>(R.id.editTextCityMovedInYear)
 
@@ -1322,6 +1353,8 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             checkboxIsPermanentAdd.visibility = View.VISIBLE
         } else {
             checkboxIsPermanentAdd.visibility = View.GONE
+            linearLayoutCityMovedInYear.visibility = View.GONE
+            textViewCityMovedInLbl.visibility = View.GONE
         }
         editTextPinCode.setText(pincode)
         textViewState.text = state
@@ -1374,7 +1407,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     editTextAddress2.text.toString().isNotEmpty() &&
                     editTextAddress3.text.toString().isNotEmpty()) {
 
-                if (isPermanentAddress && cityMovedInYear.isEmpty()) {
+                if (linearLayoutCityMovedInYear.visibility == GONE && cityMovedInYear.isEmpty()) {
                     showToast("Please select city moved in year")
                 } else {
                     address1 = editTextAddress1.text.toString()
@@ -1505,6 +1538,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int,
                                        count: Int) {
                 if (s != "") {
+                    handler.removeCallbacks(input_finish_checker)
                 }
             }
 
@@ -1514,8 +1548,20 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
             override fun afterTextChanged(s: Editable) {
                 if (!TextUtils.isEmpty(s.toString())) {
+
+                    last_text_edit = System.currentTimeMillis()
+                    handler.removeCallbacksAndMessages(null)
+                    handler.postDelayed(input_finish_checker, delay)
+                }
+                  else {
+                    reviewAdapter.updateList(getStringList(optionList))
+                }
+            }
+           val input_finish_checker = Runnable {
+                if (System.currentTimeMillis() > last_text_edit + delay - 500) {
                     showProgressDialog(fragView.context)
-                    retrofitInterface.getFromWeb(apiURL + s.toString())?.enqueue(object : Callback<Any> {
+
+                    retrofitInterface.getFromWeb(apiURL + editTextAdditionalFieldsSearchOption.text.toString())?.enqueue(object : Callback<Any> {
                         override fun onResponse(call: Call<Any>, response: Response<Any>) {
                             val strRes = Gson().toJson(response.body())
                             val dpRes = Gson().fromJson(strRes, APIDropDownResponse::class.java)
@@ -1524,6 +1570,9 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                 if (filteredOptionList.isNotEmpty()) {
                                     hideProgressDialog()
                                     reviewAdapter.updateList(getStringList(filteredOptionList))
+                                } else {
+                                    hideProgressDialog()
+                                    showToast("No filter found for your query")
                                 }
                             }
                         }
@@ -1535,8 +1584,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 }
             }
         })
-
-
         dialog.show()
     }
 
