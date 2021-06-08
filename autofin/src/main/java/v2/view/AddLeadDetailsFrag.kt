@@ -941,12 +941,17 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 tvWorkExprianceErrorMessage.visibility = View.GONE
                 llAddWorkExpriance.setBackgroundResource(R.drawable.vtwo_input_bg)
                 etWorkExpriance.setTextColor(resources.getColor(R.color.vtwo_black))
-                if (TextUtils.isEmpty(etWorkExpriance.text)) {
+                if (TextUtils.isEmpty(etWorkExpriance.text) || etWorkExpriance.text.toString().equals("0")) {
                     addEmploymentDetailsRequest!!.Data!!.employmentDetails!!.TotalWorkExperience =
                             "0"
+                    cbMoreThanOneYearInCurrentOrganization.isChecked=false
+
+                    cbMoreThanOneYearInCurrentOrganization.visibility=View.GONE
+                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne =false
                 } else {
                     addEmploymentDetailsRequest!!.Data!!.employmentDetails!!.TotalWorkExperience =
                             etWorkExpriance.text.toString()
+                    cbMoreThanOneYearInCurrentOrganization.visibility=View.VISIBLE
                 }
 
             }
@@ -1263,6 +1268,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                 "Please enter total years of work experiences."
                         llAddWorkExpriance.setBackgroundResource(R.drawable.v2_error_input_bg)
                         etWorkExpriance.setTextColor(resources.getColor(R.color.error_red))
+                        scrollToBottom(llEmploymentSection)
 
                     }
                     //Step 7 Open Account Details Section
@@ -1538,21 +1544,30 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     //set Employment other details
                     if (!TextUtils.isEmpty(employmentType)) {
                         if (employmentType.equals("Self Employed")) {
-                            llWorkExpriance.visibility = View.GONE
-                            etWorkExpriance.setText("")
+                          //  llWorkExpriance.visibility = View.GONE
+                            if (customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience != null && customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience!!.toInt() > 0) {
+                                etWorkExpriance.setText(customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience!!)
+                            }
                             llAccoutDetailsSection.visibility = View.VISIBLE
                             tvBankTitle.setText(getString(R.string.primary_bank_account))
                             bankName =
                                     customerDetailsResponse.data!!.employmentDetails!!.primaryAccount
                             addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount =
                                     bankName
+
+                            cbMoreThanOneYearInCurrentOrganization.isChecked =
+                                customerDetailsResponse.data!!.employmentDetails!!.currentCompanyExpMoreThanOne!!
+                            addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne =
+                                customerDetailsResponse.data!!.employmentDetails!!.currentCompanyExpMoreThanOne!!
+
                             isEmploymentDataSaved = true
+                            cbMoreThanOneYearInCurrentOrganization.text=getString(R.string.more_than_one_year_in_current_Business)
                         } else {
                             bankName =
                                     customerDetailsResponse.data!!.employmentDetails!!.salaryAccount
                             addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount =
                                     bankName
-                            llWorkExpriance.visibility = View.VISIBLE
+                          //  llWorkExpriance.visibility = View.VISIBLE
                             tvBankTitle.setText(getString(R.string.salary_bank_account))
                             if (customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience != null && customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience!!.toInt() > 0) {
                                 etWorkExpriance.setText(customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience!!)
@@ -1563,6 +1578,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                             addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne =
                                     customerDetailsResponse.data!!.employmentDetails!!.currentCompanyExpMoreThanOne!!
                             isEmploymentDataSaved = true
+                            cbMoreThanOneYearInCurrentOrganization.text=getString(R.string.more_than_one_year_in_current_organization)
 
                         }
                         if (!TextUtils.isEmpty(bankName)) {
@@ -1808,7 +1824,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
 
         rvEmploymentType.addItemDecoration(GridItemDecoration(25, 2))
-        llWorkExpriance.visibility = View.GONE
+      //  llWorkExpriance.visibility = View.GONE
         rvEmploymentType.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
         masterViewModel.getEmploymentTypeDetails(Global.customerDetails_BaseURL + CommonStrings.EMPLOYEEMENT_END_POINT)
 
@@ -2088,7 +2104,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                     addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType =
                                             item.value
                                     if (item.value.equals("Self Employed")) {
-                                        llWorkExpriance.visibility = View.GONE
+                                       // llWorkExpriance.visibility = View.GONE
+                                        cbMoreThanOneYearInCurrentOrganization.text=getString(R.string.more_than_one_year_in_current_Business)
+
                                         etWorkExpriance.setText("")
                                         llAccoutDetailsSection.visibility = View.VISIBLE
                                         tvBankTitle.setText(getString(R.string.primary_bank_account))
@@ -2101,8 +2119,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                                 null
 
                                     } else {
-                                        llWorkExpriance.visibility = View.VISIBLE
+                                       // llWorkExpriance.visibility = View.VISIBLE
                                         tvBankTitle.setText(getString(R.string.salary_bank_account))
+                                        cbMoreThanOneYearInCurrentOrganization.text=getString(R.string.more_than_one_year_in_current_organization)
 
                                         if (addEmploymentDetailsRequest.Data?.employmentDetails?.PrimaryAccount?.isNotEmpty() == true) {
                                             addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount =

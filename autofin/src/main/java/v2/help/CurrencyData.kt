@@ -63,6 +63,6 @@ object CurrencyData {
 
         val Rupees = java.lang.String.join(" ", str).trim { it <= ' ' }
         val paise = if (decimal > 0) " And Paise " + words[Integer.valueOf((decimal - decimal % 10))] + " " + words[Integer.valueOf((decimal % 10))] else ""
-        return "Rupees $Rupees$paise Only"
+        return ("Rupees $Rupees$paise Only").toString().replace("  "," ")
     }
 }
