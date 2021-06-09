@@ -782,11 +782,9 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                             val fieldList: ArrayList<FieldDetails> = ArrayList<FieldDetails>(submitAdditionalFieldsList.values)
                             sectionMap[sectionData.sectionName] = fieldList
                             submitAdditionalFields()
-
                         }
                     } else {
-                        Log.i("SoftOffer", "generateSectionUI: " + "" + currentFilledFieldData.size + "=====" + fieldList.size)
-
+                        Log.i("SoftOffer", "generateSectionUI: " + "" + currentFilledFieldData.size + "=====>" + fieldList.size)
                         showToast("Please fill all fields")
                     }
                 })
@@ -814,14 +812,17 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         val cFieldList = fieldList
 
         for (fieldIndex in fieldList.indices) {
-            val fieldTitleText = fieldList[fieldIndex].label
-            val isMandatoryField = fieldList[fieldIndex].isMandatory
-            val titleView: View = getTitleView(fieldTitleText, isMandatoryField)
+            if(fieldList[fieldIndex].displayLabel)
+            {
+                val fieldTitleText = fieldList[fieldIndex].label
+                val isMandatoryField = fieldList[fieldIndex].isMandatory
+                val titleView: View = getTitleView(fieldTitleText, isMandatoryField)
+                linearLayout?.addView(titleView)
+            }
 
             val fieldVal: Fields = fieldList[fieldIndex]
             val fieldView: View? = linearLayout?.let { getFieldView(sectionName, fieldVal, cFieldList, fieldIndex == fieldList.size - 1, isLastSection, it) }
 
-            linearLayout?.addView(titleView)
             linearLayout?.addView(fieldView)
 
             if (fieldList[fieldIndex].apiDetails.apiKey == "CompanyPincode" && isFieldFilled(fieldList[fieldIndex].apiDetails.apiKey).isEmpty())
@@ -871,9 +872,9 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
                 // getVal
                 fieldInputValue.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
-                    if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER ||
+                    if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER || event!=null && event.keyCode == KeyEvent.KEYCODE_BACK ||
                             actionId == EditorInfo.IME_ACTION_DONE ||
-                            actionId == EditorInfo.IME_ACTION_NEXT) {
+                            actionId == EditorInfo.IME_ACTION_NEXT ) {
 
                         if (fieldInputValue.text.isNotEmpty()) {
 
@@ -888,12 +889,8 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                     showToast("Enter valid Pincode")
                                 }
 
-                            } else if (fieldData.apiDetails.apiKey == "CompanyAddress3") {
-                                val editTextString: String = fieldInputValue.text.toString()
+                            } else if (isLastSection && isLastItem || sectionName=="Address" && isLastItem) {
 
-                                val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
-                                addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
-                            } else if (isLastSection && isLastItem) {
                                 val editTextString: String = fieldInputValue.text.toString()
                                 val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
                                 addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
@@ -1079,7 +1076,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     private fun validateInput(sectionName: String, fieldName: String, editTextVal: String, lastItem: Boolean, regexResponse: String?, apiKey: String, displayKey: String) {
         if (editTextVal.isNotEmpty()) {
 
-            if (regexResponse!=null) {
+            if (regexResponse!=null && regexResponse.isNotEmpty()) {
                 val regex = Regex(regexResponse)
                 if (regex.matches(editTextVal)) {
                     val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
@@ -1131,6 +1128,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
     private fun addToCurrentFilledFieldData(fieldName: String, currentFieldDetails: FieldDetails, isLastItem: Boolean, sectionName: String) {
         currentFilledFieldData[fieldName] = currentFieldDetails
+        Log.i("TAG", "addToCurrentFilledFieldData: "+ currentFilledFieldData[fieldName]?.Value.toString())
         if (isLastItem)
             moveCurrentDetailsToMap(sectionName)
     }

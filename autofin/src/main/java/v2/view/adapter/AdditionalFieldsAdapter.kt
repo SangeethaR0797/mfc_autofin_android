@@ -76,6 +76,5 @@ class AdditionalFieldsAdapter(var apiURL: String, var dataListValue: List<String
     public fun updateList(filteredList: List<String>) {
         dataListFilter = filteredList
         notifyDataSetChanged()
-
     }
 }
