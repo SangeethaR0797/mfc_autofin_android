@@ -1,5 +1,6 @@
 package v2.view
 
+import android.widget.TextView.OnEditorActionListener
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
@@ -11,10 +12,8 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.util.Log
 import android.util.Patterns
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
+import android.view.*
+import android.view.inputmethod.EditorInfo
 import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
 import androidx.lifecycle.ViewModelProvider
@@ -1178,6 +1177,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                 }
             }
+        })
+
+        etAutoResidenceCity.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+            if (event != null && event.keyCode === KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_DONE) {
+                hideSoftKeyboard(etAutoResidenceCity)
+            }
+            false
         })
     }
 

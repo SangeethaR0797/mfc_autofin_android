@@ -568,6 +568,7 @@
                                     android:hint="@string/SelectResidenceCity"
                                     android:inputType="textPersonName"
                                     android:singleLine="true"
+                                    android:imeOptions="actionDone"
                                     android:textAppearance="@style/RobotoRegular"
                                     android:textColorHint="@color/vtwo_grey"
                                     android:textSize="@dimen/text_size_14sp" />
