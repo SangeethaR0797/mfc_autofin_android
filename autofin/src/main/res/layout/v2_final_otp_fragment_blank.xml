@@ -1,0 +1,148 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/vtwo_black"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/text_size_12dp"
+    android:paddingRight="@dimen/text_size_12dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white_corner"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/text_size_20dp"
+        android:paddingTop="@dimen/text_size_33dp"
+        android:paddingRight="@dimen/text_size_20dp"
+        android:paddingBottom="@dimen/text_size_33dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OTP has been sent to your mobile number"
+            android:textAppearance="@style/RobotoBold"
+            android:textColor="@color/vtwo_black"
+            android:textSize="@dimen/text_size_16sp" />
+
+        <TextView
+            android:id="@+id/textViewMobileNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_size_5dp"
+            android:layout_marginBottom="32dp"
+            android:text=""
+            android:textAppearance="@style/RobotoBold"
+            android:textColor="@color/vtwo_black"
+            android:textSize="@dimen/text_size_16sp" />
+
+        <LinearLayout
+            android:id="@+id/ll_otp_v2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_size_14dp"
+            android:orientation="vertical">
+
+            <utility.RobotoMedium
+                android:id="@+id/tvEnterFinalOTPV2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="@dimen/text_size_5dp"
+                android:text="Enter OTP"
+                android:textAppearance="@style/RobotoBold"
+                android:textColor="@color/vtwo_black"
+                android:textSize="@dimen/text_size_16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:id="@+id/llOTPNumInput"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_size_16sp"
+                    android:layout_marginBottom="@dimen/text_size_16sp"
+                    android:layout_weight="0.6"
+                    android:background="@drawable/vtwo_input_bg"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/etFinalOTPV2"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/text_size10dp"
+                        android:layout_marginTop="@dimen/text_size10dp"
+                        android:layout_marginRight="@dimen/text_size_14dp"
+                        android:layout_marginBottom="@dimen/text_size10dp"
+                        android:background="@android:color/transparent"
+                        android:hint="@string/otp_lbl"
+                        android:inputType="number"
+                        android:maxLength="6"
+
+                        android:singleLine="true"
+                        android:textAppearance="@style/RobotoRegular"
+                        android:textSize="@dimen/text_size_14dp" />
+                </LinearLayout>
+
+                <utility.RobotoMedium
+                    android:id="@+id/tvFinalOTPTimerV2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_size_20dp"
+                    android:layout_weight="0.4"
+                    android:padding="@dimen/text_size_14dp"
+                    android:text="@string/otp_timer_hint"
+                    android:textAppearance="@style/RobotoBold"
+                    android:textColor="@color/vtwo_black"
+                    android:textSize="@dimen/text_size_16sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvOTPEHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="13dp"
+                android:layout_marginBottom="5dp"
+                android:text="@string/vtwo_invalid_OTP"
+                android:textAppearance="@style/RobotoRegular"
+                android:textColor="@color/error_red"
+                android:textSize="@dimen/text_size_14sp"
+                android:textStyle="italic"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvFinalResendOTPV2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_5dp"
+                android:layout_marginTop="@dimen/text_size27dp"
+                android:text="@string/vtwo_resend_otp"
+                android:textAppearance="@style/RobotoMedium"
+                android:textColor="@color/vtwo_blue"
+                android:textSize="@dimen/text_size_14sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonSubmitFinalOTP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_size_33dp"
+            android:background="@drawable/vtwo_next_btn_bg"
+            android:paddingLeft="75dp"
+            android:paddingTop="13dp"
+            android:paddingRight="75dp"
+            android:paddingBottom="13dp"
+            android:text="SUBMIT"
+            android:textAppearance="@style/RobotoMedium"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_16sp" />
+    </LinearLayout>
+</LinearLayout>
