@@ -2382,11 +2382,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
                 if (addLeadResponse?.statusCode.equals("200") || addLeadResponse?.mData!! > 0) {
                     customerId = addLeadResponse?.mData.toString()
-                    showToast(addLeadResponse!!.message.toString())
                     llBirthDateSection.visibility = View.VISIBLE
                     //Create Request of Add Employment Details
                     addEmploymentDetailsRequest =
-                        createAddEmploymentDetailsRequest(addLeadResponse.mData!!)
+                        createAddEmploymentDetailsRequest(addLeadResponse?.mData!!)
                     addResidentDetailsRequest =
                         createAddResidentDetailsRequest(addLeadResponse.mData!!)
                     callCustomerDetailsApi(addLeadResponse.mData!!)
@@ -2418,7 +2417,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
                 if (addLeadResponse?.statusCode.equals("200") || addLeadResponse?.mData!! > 0) {
                     customerId = addLeadResponse?.mData.toString()
-                    showToast(addLeadResponse!!.message.toString())
                 }
                 showToast(addLeadResponse?.message.toString())
 

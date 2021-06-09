@@ -108,7 +108,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         buttonUploadDocument.setOnClickListener(View.OnClickListener {
             if (totalListSize == documentHashMap.size) {
                 showProgressDialog(requireActivity())
-                retrofitInterface.getFromWeb(getUploadKYCRequest(), "https://15.207.148.230:3003/api/kyc/upload-customer-kyc").enqueue(this)
+                retrofitInterface.getFromWeb(getUploadKYCRequest(), CommonStrings.UPLOAD_KYC_DOC_URL_V2).enqueue(this)
             } else {
                 showToast("Attach all the documents")
             }

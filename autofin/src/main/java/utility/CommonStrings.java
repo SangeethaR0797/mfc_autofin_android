@@ -190,4 +190,6 @@ public class CommonStrings {
     public static final String BANKTC_END_POINT="terms-and-contition/privacy-policy/";
     public static final String GET_FINAL_OTP_URL_END_POINT="generate-final-submit-otp";
     public static final String VALIDATE_FINAL_OTP="validate-final-submit-otp";
+    public static final String UPLOAD_KYC_DOC_URL_V2="https://15.207.148.230:3003/api/kyc/upload-customer-kyc";
+    public static final String BANK_BASE_URL="https://15.207.148.230:3004/api/Bank/";
 }
