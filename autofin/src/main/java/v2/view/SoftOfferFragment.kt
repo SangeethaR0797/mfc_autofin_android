@@ -812,8 +812,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         val cFieldList = fieldList
 
         for (fieldIndex in fieldList.indices) {
-            if(fieldList[fieldIndex].displayLabel)
-            {
+            if (fieldList[fieldIndex].displayLabel) {
                 val fieldTitleText = fieldList[fieldIndex].label
                 val isMandatoryField = fieldList[fieldIndex].isMandatory
                 val titleView: View = getTitleView(fieldTitleText, isMandatoryField)
@@ -869,12 +868,58 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
                 // prefill
                 fieldInputValue.setText(isFieldFilled(fieldData.apiDetails.apiKey))
+                fieldInputValue.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                    }
+
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    }
+
+                    override fun afterTextChanged(s: Editable?) {
+                        if (!TextUtils.isEmpty(s.toString())) {
+
+                            last_text_edit = System.currentTimeMillis()
+                            handler.removeCallbacksAndMessages(null)
+                            handler.postDelayed(input_finish_checker, delay)
+                        } else {
+                            showToast("Please enter Value")
+                        }
+                    }
+
+                    val input_finish_checker = Runnable {
+                        if (System.currentTimeMillis() > last_text_edit + delay - 500) {
+                            if (fieldData.apiDetails.apiKey == "CompanyPincode") {
+
+                                val editTextString: String = fieldInputValue.text.toString()
+                                if (editTextString.length == 6) {
+                                    additionaFieldPinCode = editTextString
+                                    validateInput(sectionName, fieldData.apiDetails.apiKey, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, editTextString)
+                                    refreshFieldView(sectionName, linearLayout, cFieldList, isLastSection)
+                                } else {
+                                    showToast("Enter valid Pincode")
+                                }
+
+                            } else if (isLastSection && isLastItem || sectionName == "Address" && isLastItem) {
+
+                                val editTextString: String = fieldInputValue.text.toString()
+                                val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
+                                addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
+
+                            } else {
+                                val editTextString: String = fieldInputValue.text.toString()
+                                validateInput(sectionName, fieldData.apiDetails.apiKey, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, editTextString)
+                            }
+
+                        }
+                    }
+
+                })
 
                 // getVal
                 fieldInputValue.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
-                    if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER || event!=null && event.keyCode == KeyEvent.KEYCODE_BACK ||
+                    if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER || event != null && event.keyCode == KeyEvent.KEYCODE_BACK ||
                             actionId == EditorInfo.IME_ACTION_DONE ||
-                            actionId == EditorInfo.IME_ACTION_NEXT ) {
+                            actionId == EditorInfo.IME_ACTION_NEXT) {
 
                         if (fieldInputValue.text.isNotEmpty()) {
 
@@ -889,7 +934,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                     showToast("Enter valid Pincode")
                                 }
 
-                            } else if (isLastSection && isLastItem || sectionName=="Address" && isLastItem) {
+                            } else if (isLastSection && isLastItem || sectionName == "Address" && isLastItem) {
 
                                 val editTextString: String = fieldInputValue.text.toString()
                                 val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
@@ -1076,7 +1121,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     private fun validateInput(sectionName: String, fieldName: String, editTextVal: String, lastItem: Boolean, regexResponse: String?, apiKey: String, displayKey: String) {
         if (editTextVal.isNotEmpty()) {
 
-            if (regexResponse!=null && regexResponse.isNotEmpty()) {
+            if (regexResponse != null && regexResponse.isNotEmpty()) {
                 val regex = Regex(regexResponse)
                 if (regex.matches(editTextVal)) {
                     val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
@@ -1128,7 +1173,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
     private fun addToCurrentFilledFieldData(fieldName: String, currentFieldDetails: FieldDetails, isLastItem: Boolean, sectionName: String) {
         currentFilledFieldData[fieldName] = currentFieldDetails
-        Log.i("TAG", "addToCurrentFilledFieldData: "+ currentFilledFieldData[fieldName]?.Value.toString())
+        Log.i("TAG", "addToCurrentFilledFieldData: " + currentFilledFieldData[fieldName]?.Value.toString())
         if (isLastItem)
             moveCurrentDetailsToMap(sectionName)
     }
@@ -1480,7 +1525,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         val fieldList: ArrayList<FieldDetails> = ArrayList<FieldDetails>(submitAdditionalFieldsList.values)
 
         val fieldDataRequest = FieldData(customerId.toInt(), fieldList)
-        val submitAdditionalFieldsRequest = SubmitAdditionalFieldRequest(CommonStrings.CUSTOMER_ID, CommonStrings.USER_TYPE, fieldDataRequest)
+        val submitAdditionalFieldsRequest = SubmitAdditionalFieldRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, fieldDataRequest)
         submitAdditionalFieldsViewModel.submitAdditionalFields(submitAdditionalFieldsRequest, Global.customerAPI_BaseURL + "submit-additional-details")
     }
 
@@ -1550,12 +1595,12 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     last_text_edit = System.currentTimeMillis()
                     handler.removeCallbacksAndMessages(null)
                     handler.postDelayed(input_finish_checker, delay)
-                }
-                  else {
+                } else {
                     reviewAdapter.updateList(getStringList(optionList))
                 }
             }
-           val input_finish_checker = Runnable {
+
+            val input_finish_checker = Runnable {
                 if (System.currentTimeMillis() > last_text_edit + delay - 500) {
                     showProgressDialog(fragView.context)
 
