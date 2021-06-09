@@ -64,7 +64,8 @@ class DataRecyclerViewAdapter(var context: Activity, var dataListValue: List<Dat
             holder.ivIcon.visibility = View.GONE
         } else {
            // holder.llTextData.visibility = View.GONE
-            holder.ivIcon.visibility = View.GONE
+           // holder.ivIcon.visibility = View.INVISIBLE
+            holder.ivIcon.visibility = View.VISIBLE
             Picasso.get()
                     .load(dataListFilter!![position].imageUrl)
                     .into(holder.ivIcon, object : Callback {
@@ -74,7 +75,7 @@ class DataRecyclerViewAdapter(var context: Activity, var dataListValue: List<Dat
                         }
 
                         override fun onError(ex: Exception) {
-                            holder.ivIcon.visibility = View.GONE
+                            holder.ivIcon.visibility = View.INVISIBLE
                             holder.llTextData.visibility = View.VISIBLE
                         }
                     })
