@@ -328,7 +328,6 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         buttonDocumentUpload.setOnClickListener(View.OnClickListener {
             if (selectedImage.apiKey.isNotEmpty()) {
                 documentSelectionCallBack.onSelectedDoc(selectedImage.apiKey, selectedImage.displayLabel.trim())
-                showToast(selectedImage.apiKey)
                 dialog.dismiss()
 
             } else {
