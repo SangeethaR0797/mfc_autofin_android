@@ -1373,29 +1373,29 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     //Step 19 All Data save
                     !TextUtils.isEmpty(customerId) && isEmploymentDataSaved == true && isResidentDataSaved == true -> {
 
-                        if (!addLeadRequest.hashCode()
-                                .equals(previousAddLeadRequest.hashCode())
+                        if (!addLeadRequest!!.hashCode()
+                                .equals(previousAddLeadRequest!!.hashCode())
                         ) {
                             callUpdateAddLeadBasicDetailsAPIApi()
                         }
 
-                        if (!addEmploymentDetailsRequest.hashCode()
-                                .equals(previousAddEmploymentDetailsRequest.hashCode())
+                        if (!addEmploymentDetailsRequest!!.hashCode()
+                                .equals(previousAddEmploymentDetailsRequest!!.hashCode())
                         ) {
                             callAddEmploymentDetails()
                         }
-                        if (!addResidentDetailsRequest.hashCode()
-                                .equals(previousAddResidentDetailsRequest.hashCode())
+                        if (!addResidentDetailsRequest!!.hashCode()
+                                .equals(previousAddResidentDetailsRequest!!.hashCode())
                         ) {
                             callAddResidentDetails()
                         }
 
                         //Step 20 All Data Uploaded
                         if (!TextUtils.isEmpty(customerId) &&
-                            addEmploymentDetailsRequest.hashCode()
-                                .equals(previousAddEmploymentDetailsRequest.hashCode()) &&
-                            addResidentDetailsRequest.hashCode()
-                                .equals(previousAddResidentDetailsRequest.hashCode())
+                            addEmploymentDetailsRequest!!.hashCode()
+                                .equals(previousAddEmploymentDetailsRequest!!.hashCode()) &&
+                            addResidentDetailsRequest!!.hashCode()
+                                .equals(previousAddResidentDetailsRequest!!.hashCode())
                         ) {
 
                             checkForNavToSoftOffer()

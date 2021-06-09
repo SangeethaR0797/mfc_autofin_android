@@ -14,7 +14,7 @@ data class CustomerDetailsResponse(
 
 @Parcelize
 data class CustomerDetailsData(
-        var additionalDetails: List<String>,
+        var additionalDetails: List<AdditionalDetailsData>,
         var documents: List<String>,
         var basicDetails: BasicDetails?,
         var caseId: String?,
@@ -121,4 +121,10 @@ data class PermanentAddress(
         var city: String?,
         var pincode: String?,
         var state: String?
+) : Parcelable
+
+@Parcelize
+data class AdditionalDetailsData(
+        var apiKey: String?,
+        var value: String
 ) : Parcelable
