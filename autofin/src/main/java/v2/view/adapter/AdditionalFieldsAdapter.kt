@@ -1,5 +1,6 @@
 package v2.view.adapter
 
+import android.telecom.Call
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,17 +9,19 @@ import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
+import v2.model.response.master.Details
+import v2.view.callBackInterface.AdditionalFieldsDetailsInterface
 import v2.view.callBackInterface.itemClickCallBack
 import java.util.*
 import kotlin.collections.ArrayList
 
-class AdditionalFieldsAdapter(var apiURL: String, var dataListValue: List<String>?, itemClick: itemClickCallBack?) : RecyclerView.Adapter<AdditionalFieldsAdapter.MyViewHolder>(), Filterable {
+class AdditionalFieldsAdapter(var apiURL: String, var dataListValue: List<Details>?, additionalFieldsCallBack: AdditionalFieldsDetailsInterface?) : RecyclerView.Adapter<AdditionalFieldsAdapter.MyViewHolder>(), Filterable {
 
-    public var dataListFilter: List<String>?
-    private var itemCallBack: itemClickCallBack = itemClick!!
+    public var dataListFilter: List<Details>?
+    private var detailsCallBack: AdditionalFieldsDetailsInterface = additionalFieldsCallBack!!
 
     init {
-        dataListFilter = dataListValue as List<String>
+        dataListFilter = dataListValue as List<Details>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -29,9 +32,9 @@ class AdditionalFieldsAdapter(var apiURL: String, var dataListValue: List<String
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.tvItem.text = dataListFilter!![position].toString()
+        holder.tvItem.text = dataListFilter!![position].displayLabel
         holder.tvItem.setOnClickListener(View.OnClickListener {
-            itemCallBack.itemClick(dataListFilter!![position], position)
+            detailsCallBack.returnDetails(dataListFilter!![position])
         })
     }
 
@@ -50,12 +53,12 @@ class AdditionalFieldsAdapter(var apiURL: String, var dataListValue: List<String
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charSearch = constraint.toString()
                 dataListFilter = if (charSearch.isEmpty()) {
-                    dataListValue as ArrayList<String>
+                    dataListValue as ArrayList<Details>
                 } else {
 
-                    val resultList = ArrayList<String>()
+                    val resultList = ArrayList<Details>()
                     for (row in dataListValue!!) {
-                        if (row.toLowerCase(Locale.getDefault()).contains(constraint.toString().toLowerCase(Locale.getDefault()))) {
+                        if (row.displayLabel.toLowerCase(Locale.getDefault()).contains(constraint.toString().toLowerCase(Locale.getDefault()))) {
                             resultList.add(row)
                         }
                     }
@@ -67,13 +70,13 @@ class AdditionalFieldsAdapter(var apiURL: String, var dataListValue: List<String
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                dataListFilter = results?.values as ArrayList<String>
+                dataListFilter = results?.values as ArrayList<Details>
                 notifyDataSetChanged()
             }
         }
     }
 
-    public fun updateList(filteredList: List<String>) {
+    public fun updateList(filteredList: List<Details>) {
         dataListFilter = filteredList
         notifyDataSetChanged()
     }

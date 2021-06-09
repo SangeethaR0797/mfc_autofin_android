@@ -1564,11 +1564,8 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             false
         })
 
-        var reviewAdapter = AdditionalFieldsAdapter(apiURL, getStringList(optionList), object : itemClickCallBack {
-            override fun itemClick(item: Any?, position: Int) {
-                val displayLabel = item as String
-                val value = optionList[position].value
-                details = Details(displayLabel, value)
+        var reviewAdapter = AdditionalFieldsAdapter(apiURL, optionList, object : AdditionalFieldsDetailsInterface {
+            override fun returnDetails(details:Details) {
                 returnDetailsCallBack.returnDetails(details)
                 dialog.dismiss()
             }
@@ -1577,6 +1574,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         val layoutManager = LinearLayoutManager(fragView.context)
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = reviewAdapter
+
         editTextAdditionalFieldsSearchOption.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int,
                                        count: Int) {
@@ -1596,7 +1594,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     handler.removeCallbacksAndMessages(null)
                     handler.postDelayed(input_finish_checker, delay)
                 } else {
-                    reviewAdapter.updateList(getStringList(optionList))
+                    reviewAdapter.updateList(optionList)
                 }
             }
 
@@ -1612,7 +1610,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                 val filteredOptionList: List<Details> = dpRes.data.details
                                 if (filteredOptionList.isNotEmpty()) {
                                     hideProgressDialog()
-                                    reviewAdapter.updateList(getStringList(filteredOptionList))
+                                    reviewAdapter.updateList(filteredOptionList)
                                 } else {
                                     hideProgressDialog()
                                     showToast("No filter found for your query")

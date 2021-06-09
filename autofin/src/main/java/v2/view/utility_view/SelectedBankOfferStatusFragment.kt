@@ -81,8 +81,6 @@ class SelectedBankOfferStatusFragment : BaseFragment() {
                 BankOffersViewModel::class.java
         )
 
-
-
         bankTAndCViewModel.getBankTermsAndConditionLiveData().observe(this) { mApiResponse: ApiResponse? ->
             onTermsAndConditionsResponse(
                     mApiResponse!!
@@ -191,7 +189,7 @@ class SelectedBankOfferStatusFragment : BaseFragment() {
 
             buttonDocumentSubmitWithOTP.setOnClickListener(View.OnClickListener {
                 if (cbBSTermsAndConditions.isChecked) {
-                    navigateToFinalOTPFragment(customerID,mobileNum,CustomLoanProcessCompletedData(salutation+" "+name,caseId))
+                    navigateToFinalOTPFragment(customerID.toString(),mobileNum,CustomLoanProcessCompletedData(salutation+" "+name,caseId))
                 } else {
                     showToast("Please check Terms and Condition and Privacy Policy")
                 }

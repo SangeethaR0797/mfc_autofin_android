@@ -70,6 +70,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     private var documentHashMap = HashMap<String, KYCUploadDocs>()
     private var listOfUploadImageURL = ArrayList<String>()
     private var caseId = ""
+    private var totalListSize=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,7 +106,8 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             addGroupedDocDataToCommonList()
 
         buttonUploadDocument.setOnClickListener(View.OnClickListener {
-            if (commonList.size == documentHashMap.size) {
+            if (totalListSize == documentHashMap.size) {
+                showProgressDialog(requireActivity())
                 retrofitInterface.getFromWeb(getUploadKYCRequest(), "https://15.207.148.230:3003/api/kyc/upload-customer-kyc").enqueue(this)
             } else {
                 showToast("Attach all the documents")
@@ -124,6 +126,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     private fun addNonGroupedDocDataToCommonList() {
         for (index in kycDocumentData.nonGroupedDoc.indices) {
             commonList.add(v2.model.response.master.GroupedDoc("", "", listOf(kycDocumentData.nonGroupedDoc[index])))
+            totalListSize++
         }
     }
 
@@ -131,6 +134,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
         for (index in kycDocumentData.groupedDoc.indices) {
             commonList.add(kycDocumentData.groupedDoc[index])
+            totalListSize += kycDocumentData.groupedDoc[index].docs.size
         }
     }
 
@@ -443,8 +447,8 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         if (key.isNotEmpty() && imageurl?.isNotEmpty() == true) {
             val document = KYCUploadDocs(key, imageurl.toString())
             documentHashMap[key] = document
+            Log.i("TAG", "onImageUploadCompleted: "+ documentHashMap[key]?.Key)
             currentTextView.text = "File attached"
-            showToast("$key Image Uploaded successfully")
             currentImageName = ""
             currentImageKey = ""
         } else {
@@ -454,6 +458,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     }
 
     override fun onResponse(call: Call<Any>, response: Response<Any>) {
+        hideProgressDialog()
         val strRes = Gson().toJson(response.body())
         val uploadKYCDocumentResponse = Gson().fromJson(strRes, UploadKYCResponse::class.java)
         if (uploadKYCDocumentResponse?.status == true) {
@@ -466,6 +471,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     }
 
     override fun onFailure(call: Call<Any>, t: Throwable) {
+        hideProgressDialog()
         t.printStackTrace()
     }
 

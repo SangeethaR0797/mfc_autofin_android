@@ -13,6 +13,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.mfc.autofin.framework.R
+import org.w3c.dom.Text
 import utility.CommonStrings
 import utility.Global
 import v2.model.dto.CustomLoanProcessCompletedData
@@ -25,28 +26,34 @@ import v2.model.response.bank_offers.ValidateFinalOTPResponse
 import v2.model_view.TransactionViewModel
 import v2.service.utility.ApiResponse
 import v2.view.base.BaseFragment
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import v2.view.utility_view.SelectedBankOfferStatusFragmentArgs
 
 class FinalOTPFragment : BaseFragment() {
 
     var currentOTP = ""
     private lateinit var transactionViewModel: TransactionViewModel
 
-    lateinit var loanProcessCompletedData: CustomLoanProcessCompletedData
-var mobileNum=""
-    lateinit var timer: CountDownTimer
-    var customerID=""
-    lateinit var fragmentContext: Context
+    private lateinit var textViewMobileNumber: TextView
+    private lateinit var etFinalOTPV2: EditText
+    private lateinit var tvFinalOTPTimerV2: TextView
+    private lateinit var tvFinalResendOTPV2: TextView
+    private lateinit var buttonSubmitFinalOTP: Button
 
+    lateinit var loanProcessCompletedData: CustomLoanProcessCompletedData
+    var mobileNum = ""
+    lateinit var timer: CountDownTimer
+    var customerID = ""
+    lateinit var fragmentContext: Context
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-         /*   cutomerId = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)*/
+            val safeArgs = FinalOTPFragmentArgs.fromBundle(it)
+            customerID = safeArgs.cusotmerID
+            mobileNum = safeArgs.mobileNumber
+            loanProcessCompletedData = safeArgs.loanData
+
         }
         transactionViewModel = ViewModelProvider(this).get(
                 TransactionViewModel::class.java
@@ -68,15 +75,38 @@ var mobileNum=""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        val view:View= inflater.inflate(R.layout.v2_final_otp_fragment_blank, container, false)
+        val view: View = inflater.inflate(R.layout.v2_final_otp_fragment_blank, container, false)
         fragmentContext = view.context
 
-        val textViewMobileNumber: TextView = view.findViewById(R.id.textViewMobileNumber)
+        textViewMobileNumber = view.findViewById(R.id.textViewMobileNumber)
 
-        val etFinalOTPV2: EditText =  view.findViewById(R.id.etFinalOTPV2)
-        val tvFinalOTPTimerV2: TextView =  view.findViewById(R.id.tvFinalOTPTimerV2)
-        val tvFinalResendOTPV2: TextView =  view.findViewById(R.id.tvFinalResendOTPV2)
-        val buttonSubmitFinalOTP: Button = view.findViewById(R.id.buttonSubmitFinalOTP)
+        etFinalOTPV2 = view.findViewById(R.id.etFinalOTPV2)
+        tvFinalOTPTimerV2 = view.findViewById(R.id.tvFinalOTPTimerV2)
+        tvFinalResendOTPV2 = view.findViewById(R.id.tvFinalResendOTPV2)
+
+        buttonSubmitFinalOTP = view.findViewById(R.id.buttonSubmitFinalOTP)
+
+        tvFinalResendOTPV2.setOnClickListener(View.OnClickListener {
+            timer.onFinish()
+            callGenerateFinalOTP()
+        })
+
+        buttonSubmitFinalOTP.setOnClickListener(View.OnClickListener {
+            if (etFinalOTPV2.text.toString().isNotEmpty()) {
+                currentOTP = etFinalOTPV2.text.toString()
+                timer.onFinish()
+                callValidateFinalOTP()
+            } else {
+                showToast("Enter OTP!")
+            }
+        })
+        callGenerateFinalOTP()
+        initView()
+        return view
+    }
+
+    private fun initView() {
+
         textViewMobileNumber.text = mobileNum.substring(0, 2) + "******" + mobileNum.substring(7, 9)
 
 
@@ -92,31 +122,20 @@ var mobileNum=""
                 timer.cancel()
             }
         }.start()
+
         etFinalOTPV2.setText(currentOTP)
 
-        tvFinalResendOTPV2.setOnClickListener(View.OnClickListener {
-            callGenerateFinalOTP()
-        })
+    }
 
-        buttonSubmitFinalOTP.setOnClickListener(View.OnClickListener {
-            if (etFinalOTPV2.text.toString().isNotEmpty()) {
-                currentOTP = etFinalOTPV2.text.toString()
 
-                callValidateFinalOTP()
-            } else {
-                showToast("Enter OTP!")
-            }
-        })
-
-        return view
+    private fun callGenerateFinalOTP() {
+        getFinalOTPRequest()?.let { it1 -> transactionViewModel.generateFinalOTP(it1, Global.customerAPI_BaseURL + CommonStrings.GET_FINAL_OTP_URL_END_POINT) }
     }
 
     private fun callValidateFinalOTP() {
+        getValidateFinalOTP()?.let { transactionViewModel.validateFinalOTP(it, Global.customerAPI_BaseURL + CommonStrings.VALIDATE_FINAL_OTP) }
     }
 
-    private fun callGenerateFinalOTP() {
-        getFinalOTPRequest()?.let { it1 -> transactionViewModel.generateFinalOTP(it1, Global.customerAPI_BaseURL + "generate-final-submit-otp") }
-    }
 
     private fun getFinalOTPRequest(): GenerateFinalOTPRequest? {
         val finalOTPData = customerID?.toInt()?.let { FinalOTPData(it, true) }
@@ -135,6 +154,7 @@ var mobileNum=""
                         mApiResponse.data as OTPResponse?
                 if (otpRes?.data != null) {
                     currentOTP = otpRes.data.toString()
+                    initView()
                 } else {
                     showToast("Something went wrong! Please try again later!")
                 }
