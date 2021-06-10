@@ -75,6 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="36dp"
+                android:layout_marginBottom="36dp"
                 android:background="@drawable/vtwo_next_btn_bg"
                 android:paddingLeft="83dp"
                 android:paddingTop="13dp"

@@ -30,9 +30,10 @@ data class Fields (
         @SerializedName("fieldType") var fieldType : String,
         @SerializedName("valueType") var valueType : String,
         @SerializedName("isMandatory") var isMandatory : Boolean,
-        @SerializedName("regexValidation") var regexValidation:String,
+        @SerializedName("displayLabel") var displayLabel : Boolean,
+        @SerializedName("regexValidation") var regexValidation : String,
         @SerializedName("apiDetails") var apiDetails : ApiDetails
-        )
+)
 
 data class Sections (
 

@@ -21,20 +21,17 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.mfc.autofin.framework.R
-import okhttp3.internal.format
 import utility.CommonStrings
 import utility.Global
 import v2.model.dto.CustomLoanProcessCompletedData
 import v2.model.request.*
 import v2.model.response.CustomerDetailsData
-import v2.model.response.CustomerDetailsResponse
 import v2.model.response.OTPResponse
 import v2.model.response.bank_offers.BankTAndCResponse
 import v2.model.response.bank_offers.ValidateFinalOTPResponse
 import v2.model_view.BankOffersViewModel
 import v2.model_view.TransactionViewModel
 import v2.service.utility.ApiResponse
-import v2.view.DocumentUploadFragmentArgs
 import v2.view.base.BaseFragment
 import java.lang.Exception
 
@@ -43,8 +40,7 @@ class SelectedBankOfferStatusFragment : BaseFragment() {
     private var param2: String? = null
     private lateinit var customerViewModel: TransactionViewModel
     private lateinit var bankTAndCViewModel: BankOffersViewModel
-    private lateinit var transactionViewModel: TransactionViewModel
-    var customerDetailsResponse: CustomerDetailsData? =null
+    var customerDetailsResponse: CustomerDetailsData? = null
     lateinit var textViewBSMake: TextView
     lateinit var textViewBSModelVariant: TextView
     lateinit var textViewBSVehicleDetails: TextView
@@ -56,7 +52,7 @@ class SelectedBankOfferStatusFragment : BaseFragment() {
     lateinit var textViewBSTermsAndCondition: TextView
     lateinit var cbBSTermsAndConditions: CheckBox
     lateinit var buttonDocumentSubmitWithOTP: Button
-    lateinit var loanProcessCompletedData: CustomLoanProcessCompletedData
+    lateinit var dialog: Dialog
 
     lateinit var fragmentContext: Context
     var mobileNum = ""
@@ -64,11 +60,9 @@ class SelectedBankOfferStatusFragment : BaseFragment() {
     var name = ""
     var caseId = ""
     var bankId = ""
-    var currentOTP = ""
     var bankTermsURL = ""
     var privacyPolicyURL = ""
 
-    lateinit var timer: CountDownTimer
     lateinit var fragmentView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,7 +70,7 @@ class SelectedBankOfferStatusFragment : BaseFragment() {
         arguments?.let {
             val safeArgs = SelectedBankOfferStatusFragmentArgs.fromBundle(it)
             customerID = safeArgs.customerID
-            customerDetailsResponse=safeArgs.CustomerResponse.data
+            customerDetailsResponse = safeArgs.CustomerResponse.data
         }
 
         customerViewModel = ViewModelProvider(this).get(
@@ -87,31 +81,12 @@ class SelectedBankOfferStatusFragment : BaseFragment() {
                 BankOffersViewModel::class.java
         )
 
-
-        transactionViewModel = ViewModelProvider(this).get(
-                TransactionViewModel::class.java
-        )
-
-
-
         bankTAndCViewModel.getBankTermsAndConditionLiveData().observe(this) { mApiResponse: ApiResponse? ->
             onTermsAndConditionsResponse(
                     mApiResponse!!
             )
         }
 
-        transactionViewModel.getGenerateFinalOTPLiveData().observe(this) { mApiResponse: ApiResponse? ->
-            onFinalOTPResponse(
-                    mApiResponse!!
-            )
-        }
-
-
-        transactionViewModel.getValidateFinalOTPLiveData().observe(this) { mApiResponse: ApiResponse? ->
-            onValidateOTPResponse(
-                    mApiResponse!!
-            )
-        }
 
     }
 
@@ -131,7 +106,7 @@ class SelectedBankOfferStatusFragment : BaseFragment() {
         buttonDocumentSubmitWithOTP = view.findViewById(R.id.buttonDocumentSubmitWithOTP)
         fragmentContext = view.context
         fragmentView = view
-        bankTAndCViewModel.getBankTermsAndConditionData("https://15.207.148.230:3004/api/Bank/" + CommonStrings.BANKTC_END_POINT + customerID)
+        bankTAndCViewModel.getBankTermsAndConditionData(CommonStrings.BANK_BASE_URL + CommonStrings.BANKTC_END_POINT + customerID)
 
         return view
     }
@@ -214,7 +189,7 @@ class SelectedBankOfferStatusFragment : BaseFragment() {
 
             buttonDocumentSubmitWithOTP.setOnClickListener(View.OnClickListener {
                 if (cbBSTermsAndConditions.isChecked) {
-                    getFinalOTPRequest()?.let { it1 -> transactionViewModel.generateFinalOTP(it1, Global.customerAPI_BaseURL + "generate-final-submit-otp") }
+                    navigateToFinalOTPFragment(customerID.toString(),mobileNum,CustomLoanProcessCompletedData(salutation+" "+name,caseId))
                 } else {
                     showToast("Please check Terms and Condition and Privacy Policy")
                 }
@@ -232,117 +207,6 @@ class SelectedBankOfferStatusFragment : BaseFragment() {
 
     }
 
-    private fun getFinalOTPRequest(): GenerateFinalOTPRequest? {
-        val finalOTPData = customerID?.toInt()?.let { FinalOTPData(it, true) }
-        val generateFinalOTPRequest = finalOTPData?.let { GenerateFinalOTPRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, it) }
-        return generateFinalOTPRequest
-    }
-
-
-    private fun onFinalOTPResponse(mApiResponse: ApiResponse) {
-        when (mApiResponse.status) {
-            ApiResponse.Status.LOADING -> {
-                showProgressDialog(fragmentContext)
-            }
-            ApiResponse.Status.SUCCESS -> {
-                hideProgressDialog()
-                val otpRes: OTPResponse? =
-                        mApiResponse.data as OTPResponse?
-                if (otpRes?.data != null) {
-                    currentOTP = otpRes.data.toString()
-                    generateOTPDialog()
-                } else {
-                    showToast("Something went wrong! Please try again later!")
-                }
-            }
-            ApiResponse.Status.ERROR -> {
-                hideProgressDialog()
-            }
-            else -> {
-                hideProgressDialog()
-                showToast("Please enter valid details")
-            }
-        }
-    }
-
-
-    private fun generateOTPDialog() {
-        val dialog = Dialog(fragmentContext, R.style.FullScreenDialogTheme)
-        dialog.setCancelable(false)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.v2_final_otp_layout)
-
-        val textViewMobileNumber: TextView = dialog.findViewById(R.id.textViewMobileNumber)
-
-        val etFinalOTPV2: EditText = dialog.findViewById(R.id.etFinalOTPV2)
-        val tvFinalOTPTimerV2: TextView = dialog.findViewById(R.id.tvFinalOTPTimerV2)
-        val tvFinalResendOTPV2: TextView = dialog.findViewById(R.id.tvFinalResendOTPV2)
-        val buttonSubmitFinalOTP: Button = dialog.findViewById(R.id.buttonSubmitFinalOTP)
-        textViewMobileNumber.text = mobileNum.substring(0, 2) + "******" + mobileNum.substring(7, 9)
-
-
-        timer = object : CountDownTimer(60000, 1000) {
-
-            @SuppressLint("SetTextI18n")
-            override fun onTick(millisUntilFinished: Long) {
-                tvFinalOTPTimerV2.text = "" + millisUntilFinished / 1000 + " Sec"
-            }
-
-            override fun onFinish() {
-                tvFinalOTPTimerV2.text = "0 Sec"
-                timer.cancel()
-            }
-        }.start()
-        etFinalOTPV2.setText(currentOTP)
-
-        tvFinalResendOTPV2.setOnClickListener(View.OnClickListener {
-            getFinalOTPRequest()?.let { it1 -> transactionViewModel.generateFinalOTP(it1, Global.customerAPI_BaseURL + "generate-final-submit-otp") }
-
-        })
-
-        buttonSubmitFinalOTP.setOnClickListener(View.OnClickListener {
-            if (etFinalOTPV2.text.toString().isNotEmpty()) {
-                currentOTP = etFinalOTPV2.text.toString()
-                getValidateFinalOTP()?.let { it1 -> transactionViewModel.validateFinalOTP(it1, Global.customerAPI_BaseURL + "validate-final-submit-otp") }
-
-            } else {
-                showToast("Enter OTP!")
-            }
-        })
-
-        dialog.show()
-    }
-
-    private fun getValidateFinalOTP(): ValidateFinalOTPRequest? {
-        return customerID?.let { ValidateOTPData(it.toInt(), currentOTP,true) }?.let { ValidateFinalOTPRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, it) }
-    }
-
-    private fun onValidateOTPResponse(mApiResponse: ApiResponse) {
-        when (mApiResponse.status) {
-            ApiResponse.Status.LOADING -> {
-            }
-            ApiResponse.Status.SUCCESS -> {
-                hideProgressDialog()
-                val validateFinalOTPRes: ValidateFinalOTPResponse? =
-                        mApiResponse.data as ValidateFinalOTPResponse?
-                if (validateFinalOTPRes?.status==true) {
-                    loanProcessCompletedData.customerName = salutation + " " + name
-                    loanProcessCompletedData.caseID = caseId
-                    navigateToSuccessFragment(loanProcessCompletedData)
-                } else {
-                    showToast("Please enter valid details")
-                }
-            }
-
-            ApiResponse.Status.ERROR -> {
-                hideProgressDialog()
-            }
-            else -> {
-                hideProgressDialog()
-                showToast("Please enter valid details")
-            }
-        }
-    }
 
 
 }

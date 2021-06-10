@@ -713,6 +713,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             ll_last_name_input.setBackgroundResource(R.drawable.vtwo_input_bg)
             tv_lname_hint.visibility = View.GONE
 
+            ll_last_email_input.background = resources.getDrawable(R.drawable.vtwo_input_bg)
+            tv_email_hint.visibility = View.GONE
+
+
             basicDetails.FirstName = etFirstName.text.toString()
             basicDetails.LastName = etLastName.text.toString()
             val email = etEmailId.text.toString()
@@ -943,10 +947,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         })
     }
 
-    fun setTextChangedEmailId() {
+    private fun setTextChangedEmailId() {
         etEmailId.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
 
             }
 
@@ -2195,7 +2198,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             })
 
 
-        rvEmploymentType.setAdapter(employmentDetailsAdapter)
+        rvEmploymentType.adapter = employmentDetailsAdapter
     }
 
     //region onResidentType
@@ -2249,7 +2252,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             })
 
 
-        rvResidenceTypeList.setAdapter(residenceTypeDetailsAdapter)
+        rvResidenceTypeList.adapter = residenceTypeDetailsAdapter
     }
     //endregion onResidentType
 
@@ -2411,17 +2414,15 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
                 if (addLeadResponse?.statusCode.equals("200") || addLeadResponse?.mData!! > 0) {
                     customerId = addLeadResponse?.mData.toString()
-                    showToast(addLeadResponse!!.message.toString())
                     llBirthDateSection.visibility = View.VISIBLE
                     //Create Request of Add Employment Details
                     addEmploymentDetailsRequest =
-                        createAddEmploymentDetailsRequest(addLeadResponse.mData!!)
+                        createAddEmploymentDetailsRequest(addLeadResponse?.mData!!)
                     addResidentDetailsRequest =
                         createAddResidentDetailsRequest(addLeadResponse.mData!!)
                     callCustomerDetailsApi(addLeadResponse.mData!!)
                     checkForNavToSoftOffer()
                 }
-                showToast(addLeadResponse?.message.toString())
 
             }
             ApiResponse.Status.ERROR -> {
@@ -2448,7 +2449,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
                 if (addLeadResponse?.statusCode.equals("200") || addLeadResponse?.mData!! > 0) {
                     customerId = addLeadResponse?.mData.toString()
-                    showToast(addLeadResponse!!.message.toString())
                 }
                 showToast(addLeadResponse?.message.toString())
 
@@ -2668,5 +2668,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             cbTermsAndConditions.isClickable = false
     }
 
+
+    // Loan Details
+    // CurrentAddress
+    // Additional Fields
+    // Document upload status
 
 }

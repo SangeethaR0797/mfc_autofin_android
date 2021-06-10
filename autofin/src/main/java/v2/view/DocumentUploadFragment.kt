@@ -70,6 +70,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     private var documentHashMap = HashMap<String, KYCUploadDocs>()
     private var listOfUploadImageURL = ArrayList<String>()
     private var caseId = ""
+    private var totalListSize=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,8 +106,9 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             addGroupedDocDataToCommonList()
 
         buttonUploadDocument.setOnClickListener(View.OnClickListener {
-            if (commonList.size == documentHashMap.size) {
-                retrofitInterface.getFromWeb(getUploadKYCRequest(), "https://15.207.148.230:3003/api/kyc/upload-customer-kyc").enqueue(this)
+            if (totalListSize == documentHashMap.size) {
+                showProgressDialog(requireActivity())
+                retrofitInterface.getFromWeb(getUploadKYCRequest(), CommonStrings.UPLOAD_KYC_DOC_URL_V2).enqueue(this)
             } else {
                 showToast("Attach all the documents")
             }
@@ -124,6 +126,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     private fun addNonGroupedDocDataToCommonList() {
         for (index in kycDocumentData.nonGroupedDoc.indices) {
             commonList.add(v2.model.response.master.GroupedDoc("", "", listOf(kycDocumentData.nonGroupedDoc[index])))
+            totalListSize++
         }
     }
 
@@ -131,6 +134,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
         for (index in kycDocumentData.groupedDoc.indices) {
             commonList.add(kycDocumentData.groupedDoc[index])
+            totalListSize += kycDocumentData.groupedDoc[index].docs.size
         }
     }
 
@@ -180,14 +184,14 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                         currentImageKey = tile1APIKey
                         currentImageName = tile1ImageName
                         currentTextView = textViewAttachmentStatus
-                        attachDocument()
+                        attachDocument(IMAGE_GALLERY_CODE)
                     }
                 })
             } else {
                 currentImageKey = tileData1.docs[0].apiKey
                 currentImageName = textViewTitle.text.toString().trim()
                 currentTextView = textViewAttachmentStatus
-                attachDocument()
+                attachDocument(IMAGE_GALLERY_CODE)
             }
 
         })
@@ -201,22 +205,14 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                             currentImageKey = tile1APIKey
                             currentImageName = tile1ImageName
                             currentTextView = textViewAttachmentStatus
-                            if (checkPermissions(fragmentContext.context)) {
-                                openCamera()
-                            } else {
-                                callPermissions()
-                            }
+                            attachDocument(IMAGE_CAPTURE_CODE)
                         }
                     })
                 } else {
                     currentImageKey = tileData1.docs[0].apiKey
                     currentImageName = textViewTitle.text.toString().trim()
                     currentTextView = textViewAttachmentStatus
-                    if (checkPermissions(fragmentContext.context)) {
-                        openCamera()
-                    } else {
-                        callPermissions()
-                    }
+                    attachDocument(IMAGE_CAPTURE_CODE)
                 }
 
 
@@ -254,7 +250,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                             currentImageKey = tile2APIKey
                             currentImageName = tile2ImageName
                             currentTextView = textViewAttachmentStatus2
-                            attachDocument()
+                            attachDocument(IMAGE_GALLERY_CODE)
 
                         }
                     })
@@ -262,7 +258,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                     currentImageKey = tileData2.docs[0].apiKey
                     currentImageName = textViewTitle2.text.toString().trim()
                     currentTextView = textViewAttachmentStatus2
-                    attachDocument()
+                    attachDocument(IMAGE_GALLERY_CODE)
 
                 }
 
@@ -276,23 +272,15 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                                 currentImageKey = tile2APIKey
                                 currentImageName = tile2ImageName
                                 currentTextView = textViewAttachmentStatus2
-                                if (checkPermissions(activity)) {
-                                    openCamera()
-                                } else {
-                                    callPermissions()
-                                }
+                                attachDocument(IMAGE_CAPTURE_CODE)
+
                             }
                         })
                     } else {
                         currentImageKey = tile2APIKey
                         currentImageName = tile2ImageName
                         currentTextView = textViewAttachmentStatus2
-
-                        if (checkPermissions(activity)) {
-                            openCamera()
-                        } else {
-                            callPermissions()
-                        }
+                        attachDocument(IMAGE_CAPTURE_CODE)
                     }
             })
 
@@ -340,7 +328,6 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         buttonDocumentUpload.setOnClickListener(View.OnClickListener {
             if (selectedImage.apiKey.isNotEmpty()) {
                 documentSelectionCallBack.onSelectedDoc(selectedImage.apiKey, selectedImage.displayLabel.trim())
-                showToast(selectedImage.apiKey)
                 dialog.dismiss()
 
             } else {
@@ -351,10 +338,18 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         dialog.show()
     }
 
-    private fun attachDocument() {
+    private fun attachDocument(code:Int) {
 
-        if (checkPermissions(activity)) {
-            openGallery()
+        if (checkPermissions(requireActivity())) {
+
+            if(code==IMAGE_CAPTURE_CODE)
+            {
+                openCamera()
+            }
+            else if(code==IMAGE_GALLERY_CODE)
+            {
+                openGallery()
+            }
         } else {
             callPermissions()
         }
@@ -451,8 +446,8 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         if (key.isNotEmpty() && imageurl?.isNotEmpty() == true) {
             val document = KYCUploadDocs(key, imageurl.toString())
             documentHashMap[key] = document
+            Log.i("TAG", "onImageUploadCompleted: "+ documentHashMap[key]?.Key)
             currentTextView.text = "File attached"
-            showToast("$key Image Uploaded successfully")
             currentImageName = ""
             currentImageKey = ""
         } else {
@@ -462,6 +457,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     }
 
     override fun onResponse(call: Call<Any>, response: Response<Any>) {
+        hideProgressDialog()
         val strRes = Gson().toJson(response.body())
         val uploadKYCDocumentResponse = Gson().fromJson(strRes, UploadKYCResponse::class.java)
         if (uploadKYCDocumentResponse?.status == true) {
@@ -474,6 +470,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     }
 
     override fun onFailure(call: Call<Any>, t: Throwable) {
+        hideProgressDialog()
         t.printStackTrace()
     }
 

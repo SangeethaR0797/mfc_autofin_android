@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
+import v2.FinalOTPFragmentDirections
 import v2.help.CurrencyData
 import v2.model.dto.AddLeadRequest
 import v2.model.dto.CustomLoanProcessCompletedData
@@ -324,13 +325,20 @@ public open class BaseFragment : Fragment() {
 
     }
 
-    public fun navigateToSuccessFragment(loanProcessCompletedData: CustomLoanProcessCompletedData) {
-        val directions=SelectedBankOfferStatusFragmentDirections.actionSelectedBankOfferStatusFragmentToBankSuccessMessageFragment(loanProcessCompletedData)
+
+    public fun navigateToFinalOTPFragment(customerId: String,mobileNum:String,loanProcessCompletedData: CustomLoanProcessCompletedData) {
+        val directions=SelectedBankOfferStatusFragmentDirections.actionSelectedBankOfferStatusFragmentToFinalOTPFragment(customerId,mobileNum,loanProcessCompletedData)
         view.let {
             it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
         }
     }
 
+    public fun navigateToSuccessFragment(loanProcessCompletedData: CustomLoanProcessCompletedData) {
+        val directions=FinalOTPFragmentDirections.actionFinalOTPFragmentToBankSuccessMessageFragment(loanProcessCompletedData)
+        view.let {
+            it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
+        }
+    }
 
 
     public fun openWebViewActivity(title: String?, url: String?) {

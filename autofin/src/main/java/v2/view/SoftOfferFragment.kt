@@ -6,6 +6,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.text.*
 import android.text.style.ForegroundColorSpan
 import android.util.Log
@@ -43,10 +44,7 @@ import v2.model_view.BankOffersViewModel
 import v2.model_view.MasterViewModel
 import v2.model_view.TransactionViewModel
 import v2.service.utility.ApiResponse
-import v2.view.adapter.DataRecyclerViewAdapter
-import v2.view.adapter.PostSoftOfferAdapter
-import v2.view.adapter.SoftOfferAdapter
-import v2.view.adapter.StringDataRecyclerViewAdapter
+import v2.view.adapter.*
 import v2.view.base.BaseFragment
 import v2.view.callBackInterface.AdditionalFieldsDetailsInterface
 import v2.view.callBackInterface.DatePickerCallBack
@@ -121,7 +119,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     lateinit var additionalFieldsData: AdditionalFieldsData
     lateinit var additionalFieldAdapter: DataRecyclerViewAdapter
     var sectionMap = HashMap<String, ArrayList<FieldDetails>>()
-    var moveToBankOfferPage:Boolean=false
+    var moveToBankOfferPage: Boolean = false
     var stateList = ArrayList<Details>()
     var cityList = ArrayList<Details>()
     var checkList = ArrayList<Details>()
@@ -151,6 +149,11 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     var address2 = ""
     var address3 = ""
     var isPermanentAddress = true
+    var delay: Long = 1000 // 1 seconds after user stops typing
+
+    var last_text_edit: Long = 0
+    var handler: Handler = Handler()
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -308,7 +311,11 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     val loanAmountVal = formatAmount(rounded.toString())
 
                     loanAmount = rounded.toString()
-                    tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + loanAmountVal
+                    if (rounded <= 1000) {
+                        tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + 0
+                        loanAmount = "0"
+                    } else
+                        tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + loanAmountVal
 
 
                 }
@@ -436,7 +443,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                         recyclerViewBankOffer.layoutManager = layoutManager
 
                         this.recyclerViewBankOffer.adapter = bankAdapter
-                        setFocusOnView()
+                        setFocusOnView(tvBankOfferTitleV2)
 
                     } else {
 
@@ -449,7 +456,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
                         setData()
                         showToast("No Bank Offers found!")
-                        setFocusOnView()
+                        setFocusOnView(tvBankOfferTitleV2)
 
                     }
 
@@ -480,15 +487,12 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
                 val bankOfferRes: SelectRecommendedBankOfferResponse? = apiResponse.data as SelectRecommendedBankOfferResponse?
-                if(bankOfferRes?.status == true)
-                {
+                if (bankOfferRes?.status == true) {
                     Log.i("TAG", "onBankResponse: " + bankOfferRes?.message)
                     addressViewModel.getCustomerDetails(
                             createCustomerDetailsRequest(customerId.toInt()),
                             Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL)
-                }
-                else
-                {
+                } else {
                     showToast(bankOfferRes?.message.toString())
                 }
 
@@ -612,7 +616,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     setAdditionalField()
 
                 } else {
-                    navigateToBankOfferStatus(customerId,customerDetailsResponse,"SoftOffer")
+                    navigateToBankOfferStatus(customerId, customerDetailsResponse, "SoftOffer")
                 }
             }
             ApiResponse.Status.ERROR -> {
@@ -691,11 +695,11 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 val kycDocumentRes: KYCDocumentResponse = mApiResponse.data as KYCDocumentResponse
                 if (kycDocumentRes.statusCode == "100") {
                     if (kycDocumentRes.data.groupedDoc.isNotEmpty() || kycDocumentRes.data.nonGroupedDoc.isNotEmpty())
-                        navigateToKYCDocumentUpload(customerId, kycDocumentRes, caseID,customerDetailsResponse)
+                        navigateToKYCDocumentUpload(customerId, kycDocumentRes, caseID, customerDetailsResponse)
                     else if (kycDocumentRes.data.groupedDoc.isEmpty() && kycDocumentRes.data.nonGroupedDoc.isEmpty())
-                        navigateToBankOfferStatus(customerId,customerDetailsResponse, "SoftOffer")
+                        navigateToBankOfferStatus(customerId, customerDetailsResponse, "SoftOffer")
                 } else {
-                    navigateToBankOfferStatus(customerId,customerDetailsResponse, "SoftOffer")
+                    navigateToBankOfferStatus(customerId, customerDetailsResponse, "SoftOffer")
                 }
 
             }
@@ -710,7 +714,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         }
 
     }
-
 
 
     // endregion Response
@@ -779,11 +782,9 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                             val fieldList: ArrayList<FieldDetails> = ArrayList<FieldDetails>(submitAdditionalFieldsList.values)
                             sectionMap[sectionData.sectionName] = fieldList
                             submitAdditionalFields()
-
                         }
                     } else {
-                        Log.i("SoftOffer", "generateSectionUI: " + "" + currentFilledFieldData.size + "=====" + fieldList.size)
-
+                        Log.i("SoftOffer", "generateSectionUI: " + "" + currentFilledFieldData.size + "=====>" + fieldList.size)
                         showToast("Please fill all fields")
                     }
                 })
@@ -811,14 +812,16 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         val cFieldList = fieldList
 
         for (fieldIndex in fieldList.indices) {
-            val fieldTitleText = fieldList[fieldIndex].label
-            val isMandatoryField = fieldList[fieldIndex].isMandatory
-            val titleView: View = getTitleView(fieldTitleText, isMandatoryField)
+            if (fieldList[fieldIndex].displayLabel) {
+                val fieldTitleText = fieldList[fieldIndex].label
+                val isMandatoryField = fieldList[fieldIndex].isMandatory
+                val titleView: View = getTitleView(fieldTitleText, isMandatoryField)
+                linearLayout?.addView(titleView)
+            }
 
             val fieldVal: Fields = fieldList[fieldIndex]
             val fieldView: View? = linearLayout?.let { getFieldView(sectionName, fieldVal, cFieldList, fieldIndex == fieldList.size - 1, isLastSection, it) }
 
-            linearLayout?.addView(titleView)
             linearLayout?.addView(fieldView)
 
             if (fieldList[fieldIndex].apiDetails.apiKey == "CompanyPincode" && isFieldFilled(fieldList[fieldIndex].apiDetails.apiKey).isEmpty())
@@ -865,10 +868,56 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
                 // prefill
                 fieldInputValue.setText(isFieldFilled(fieldData.apiDetails.apiKey))
+                fieldInputValue.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                    }
+
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    }
+
+                    override fun afterTextChanged(s: Editable?) {
+                        if (!TextUtils.isEmpty(s.toString())) {
+
+                            last_text_edit = System.currentTimeMillis()
+                            handler.removeCallbacksAndMessages(null)
+                            handler.postDelayed(input_finish_checker, delay)
+                        } else {
+                            showToast("Please enter Value")
+                        }
+                    }
+
+                    val input_finish_checker = Runnable {
+                        if (System.currentTimeMillis() > last_text_edit + delay - 500) {
+                            if (fieldData.apiDetails.apiKey == "CompanyPincode") {
+
+                                val editTextString: String = fieldInputValue.text.toString()
+                                if (editTextString.length == 6) {
+                                    additionaFieldPinCode = editTextString
+                                    validateInput(sectionName, fieldData.apiDetails.apiKey, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, editTextString)
+                                    refreshFieldView(sectionName, linearLayout, cFieldList, isLastSection)
+                                } else {
+                                    showToast("Enter valid Pincode")
+                                }
+
+                            } else if (isLastSection && isLastItem || sectionName == "Address" && isLastItem) {
+
+                                val editTextString: String = fieldInputValue.text.toString()
+                                val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
+                                addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
+
+                            } else {
+                                val editTextString: String = fieldInputValue.text.toString()
+                                validateInput(sectionName, fieldData.apiDetails.apiKey, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, editTextString)
+                            }
+
+                        }
+                    }
+
+                })
 
                 // getVal
                 fieldInputValue.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
-                    if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER ||
+                    if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER || event != null && event.keyCode == KeyEvent.KEYCODE_BACK ||
                             actionId == EditorInfo.IME_ACTION_DONE ||
                             actionId == EditorInfo.IME_ACTION_NEXT) {
 
@@ -885,14 +934,9 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                     showToast("Enter valid Pincode")
                                 }
 
-                            } else if (fieldData.apiDetails.apiKey == "CompanyAddress3") {
-                                val editTextString: String = fieldInputValue.text.toString()
+                            } else if (isLastSection && isLastItem || sectionName == "Address" && isLastItem) {
 
-                                val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
-                                addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
-                            } else if (isLastSection && isLastItem) {
                                 val editTextString: String = fieldInputValue.text.toString()
-
                                 val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
                                 addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
 
@@ -915,17 +959,11 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 fieldInput.hint = fieldData.placeHolder
                 fieldInput.text = isFieldFilled(fieldData.apiDetails.apiKey)
 
-                val apiURL = when (fieldData.apiDetails.apiKey) {
-                    "CompanyState" -> {
-                        fieldData.apiDetails.url + additionaFieldPinCode
-                    }
-                    "CompanyCity" -> {
-                        fieldData.apiDetails.url + additionaFieldPinCode
-                    }
-                    else -> {
-                        fieldData.apiDetails.url
-                    }
+                if (fieldData.apiDetails.apiKey == "CompanyState" || fieldData.apiDetails.apiKey == "CompanyCity") {
+                    setStateOrCityValue(sectionName, fieldData.apiDetails.apiKey, fieldInput, fieldData.apiDetails.url)
                 }
+
+                val apiURL = fieldData.apiDetails.url
 
                 fieldInput.setOnClickListener(View.OnClickListener {
                     retrofitInterface.getFromWeb(apiURL)?.enqueue(object : Callback<Any> {
@@ -940,7 +978,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                         fieldInput.text = details.displayLabel
                                         if (isLastSection && isLastItem) {
                                             val editTextString: String = details.value
-
                                             val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
                                             addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
                                         } else {
@@ -950,7 +987,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                         showToast("Something went wrong! Please try again!")
                                     }
                                 } else if (optionList.isNotEmpty() && optionList.size > 1) {
-                                    showDropDownDialog(fieldData.label, optionList, object : AdditionalFieldsDetailsInterface {
+                                    showDropDownDialog(fieldData.apiDetails.url, fieldData.label, optionList, object : AdditionalFieldsDetailsInterface {
                                         override fun returnDetails(details: Details) {
                                             fieldInput.text = details.displayLabel
                                             if (isLastSection && isLastItem) {
@@ -968,17 +1005,14 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                 }
 
                             } else {
-                                if (fieldData.apiDetails.apiKey == "CompanyState" || fieldData.apiDetails.apiKey == "CompanyCity") {
-                                    showToast("Enter Pincode")
-                                } else {
-                                    showToast("Something went wrong! Please try again!")
-                                }
+                                showToast("Something went wrong! Please try again!")
                             }
                         }
 
                         override fun onFailure(call: Call<Any>, t: Throwable) {
                             t.printStackTrace()
                         }
+
                     })
 
 
@@ -1053,37 +1087,93 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         return currentFieldInputView
     }
 
-    private fun validateInput(sectionName: String, fieldName: String, editTextVal: String, lastItem: Boolean, regexResponse: String?, apiKey: String, displayKey: String) {
-        if (editTextVal.isNotEmpty()) {
-            if (lastItem) {
-                if (regexResponse?.contains('{') == true) {
-                    val regex = Regex(regexResponse)
-                    if (regex.matches(editTextVal)) {
-                        val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
-                        addToCurrentFilledFieldData(fieldName, currentFieldDetails, true, sectionName)
-                        //  moveCurrentDetailsToMap(sectionName)
+    private fun setStateOrCityValue(sectionName: String, apiKey: String, fieldInput: TextView, url: String) {
+        val apiURL = url + additionaFieldPinCode
+        var textVal = ""
+        retrofitInterface.getFromWeb(apiURL)?.enqueue(object : Callback<Any> {
+            override fun onResponse(call: Call<Any>, response: Response<Any>) {
+                val strRes = Gson().toJson(response.body())
+                val dpRes = Gson().fromJson(strRes, APIDropDownResponse::class.java)
+                if (dpRes != null && dpRes.status) {
+                    val optionList = dpRes.data.details
+                    if (optionList.isNotEmpty() && optionList.size == 1) {
+                        if (listOf(optionList).any { true }) {
+                            val details = Details(optionList[0].displayLabel, optionList[0].value)
+                            fieldInput.text = details.displayLabel
+                            textVal = fieldInput.text.toString()
+                            val currentFieldDetails = FieldDetails(apiKey, details.value, details.displayLabel)
+                            addToCurrentFilledFieldData(apiKey, currentFieldDetails, false, sectionName)
+                        } else {
+                            showToast("Something went wrong! Please try again!")
+                        }
                     } else {
-                        showToast("Please enter valid Input")
+                        showToast("Something went wrong! Please try again!")
                     }
-                } else {
-                    val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
-                    addToCurrentFilledFieldData(fieldName, currentFieldDetails, true, sectionName)
-                    //  moveCurrentDetailsToMap(sectionName)
-                    //refreshFieldView()
                 }
-            } else {
-                val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
-                addToCurrentFilledFieldData(fieldName, currentFieldDetails, false, sectionName)
             }
 
+            override fun onFailure(call: Call<Any>, t: Throwable) {
+                t.printStackTrace()
+            }
+        })
+    }
+
+    private fun validateInput(sectionName: String, fieldName: String, editTextVal: String, lastItem: Boolean, regexResponse: String?, apiKey: String, displayKey: String) {
+        if (editTextVal.isNotEmpty()) {
+
+            if (regexResponse != null && regexResponse.isNotEmpty()) {
+                val regex = Regex(regexResponse)
+                if (regex.matches(editTextVal)) {
+                    val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
+                    if (lastItem)
+                        addToCurrentFilledFieldData(fieldName, currentFieldDetails, true, sectionName)
+                    else
+                        addToCurrentFilledFieldData(fieldName, currentFieldDetails, false, sectionName)
+
+                } else {
+                    showToast("Please enter valid $fieldName")
+                }
+
+            } else {
+                val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
+                if (lastItem)
+                    addToCurrentFilledFieldData(fieldName, currentFieldDetails, true, sectionName)
+                else
+                    addToCurrentFilledFieldData(fieldName, currentFieldDetails, false, sectionName)
+
+            }
         } else {
             showToast("Please Fill the Field")
         }
+
+
+        /*if (lastItem) {
+            if (regexResponse?.contains('{') == true) {
+                val regex = Regex(regexResponse)
+                if (regex.matches(editTextVal)) {
+                    val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
+                    addToCurrentFilledFieldData(fieldName, currentFieldDetails, true, sectionName)
+                    //  moveCurrentDetailsToMap(sectionName)
+                } else {
+                    showToast("Please enter valid Input")
+                }
+            } else {
+                val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
+                addToCurrentFilledFieldData(fieldName, currentFieldDetails, true, sectionName)
+                //  moveCurrentDetailsToMap(sectionName)
+                //refreshFieldView()
+            }
+        } else {
+            val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
+            addToCurrentFilledFieldData(fieldName, currentFieldDetails, false, sectionName)
+        }
+*/
 
     }
 
     private fun addToCurrentFilledFieldData(fieldName: String, currentFieldDetails: FieldDetails, isLastItem: Boolean, sectionName: String) {
         currentFilledFieldData[fieldName] = currentFieldDetails
+        Log.i("TAG", "addToCurrentFilledFieldData: " + currentFilledFieldData[fieldName]?.Value.toString())
         if (isLastItem)
             moveCurrentDetailsToMap(sectionName)
     }
@@ -1203,18 +1293,15 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setData() {
 
-        if(initialCall)
-        {
+        if (initialCall) {
 
             tvLoanTenureVal.text = "$loanTenureDefault Years"
             skLoanAmount.max = loanAmountMaximum
 
-            if(loanAmountDefault!=1000){
+            if (loanAmountDefault != 1000) {
                 tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + loanAmountDefault
                 skLoanAmount.progress = loanAmountDefault
-            }
-            else
-            {
+            } else {
                 tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + 0
                 skLoanAmount.progress = 100000
 
@@ -1226,18 +1313,14 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             skTenure.min = loanTenureMinimum
             skTenure.max = loanTenureMaximum
 
-        }
-        else
-        {
-            loanAmountDefault=loanAmount.toInt()
-            loanTenureDefault=loanTenure.toInt()
+        } else {
+            loanAmountDefault = loanAmount.toInt()
+            loanTenureDefault = loanTenure.toInt()
 
-            if(loanAmountDefault!=1000){
+            if (loanAmountDefault != 1000) {
                 tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + loanAmountDefault
                 skLoanAmount.progress = loanAmountDefault
-            }
-            else
-            {
+            } else {
                 tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + 0
                 skLoanAmount.progress = 100000
 
@@ -1265,10 +1348,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         bankViewModel.setSelectRecommendedBankOffer(bankOffersForApplicationRequest, Global.customer_bank_baseURL + "select-recommended-bank")
     }
 
-    private fun setFocusOnView() {
-        scrollViewBankOffer.post(Runnable { tvBankOfferTitleV2.top.let { scrollViewBankOffer.scrollTo(0, it) } })
-    }
-
     private fun enablePostOfferLayout() {
 
         linearLayoutCalculation.visibility = View.GONE
@@ -1277,7 +1356,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         textViewSelectBankLabel.text = "You have selected " + customerDetailsResponse.data?.loanDetails?.bankName + " bank"
 
         addNewAddress(linearLayoutAddNewCurrentAddress, getString(R.string.v2_current_address))
-
     }
 
     override fun onClick(v: View?) {
@@ -1299,6 +1377,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         val buttonPinCodeCheck = addressView.findViewById<Button>(R.id.buttonPincodeCheck)
         val textViewState = addressView.findViewById<TextView>(R.id.textViewState)
         val textViewCity = addressView.findViewById<TextView>(R.id.textViewCity)
+        val textViewCityMovedInLbl = addressView.findViewById<TextView>(R.id.textViewCityMovedInLbl)
         val linearLayoutCityMovedInYear = addressView.findViewById<LinearLayout>(R.id.linearLayoutCityMovedInYear)
         val editTextCityMovedInYear = addressView.findViewById<EditText>(R.id.editTextCityMovedInYear)
 
@@ -1310,11 +1389,15 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         val buttonSubmitAddress = addressView.findViewById<Button>(R.id.buttonSubmitAddress)
 
         textViewTypeOfAddress.text = title
+        setFocusOnView(textViewTypeOfAddress)
+
         typeOfAddress = title
         if (title == getString(R.string.v2_current_address)) {
             checkboxIsPermanentAdd.visibility = View.VISIBLE
         } else {
             checkboxIsPermanentAdd.visibility = View.GONE
+            linearLayoutCityMovedInYear.visibility = View.GONE
+            textViewCityMovedInLbl.visibility = View.GONE
         }
         editTextPinCode.setText(pincode)
         textViewState.text = state
@@ -1342,13 +1425,10 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         })
 
         checkboxIsPermanentAdd.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(isChecked)
-            {
+            if (isChecked) {
                 checkboxIsPermanentAdd.isChecked = isChecked
                 isPermanentAddress = checkboxIsPermanentAdd.isChecked
-            }
-            else
-            {
+            } else {
                 checkboxIsPermanentAdd.isChecked = isChecked
                 isPermanentAddress = checkboxIsPermanentAdd.isChecked
 
@@ -1370,7 +1450,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     editTextAddress2.text.toString().isNotEmpty() &&
                     editTextAddress3.text.toString().isNotEmpty()) {
 
-                if (isPermanentAddress && cityMovedInYear.isEmpty()) {
+                if (linearLayoutCityMovedInYear.visibility == GONE && cityMovedInYear.isEmpty()) {
                     showToast("Please select city moved in year")
                 } else {
                     address1 = editTextAddress1.text.toString()
@@ -1422,7 +1502,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             address3 = ""
 
             addNewAddress(linearLayoutAddNewPermanentAddress, getString(R.string.v2_permanent_address))
-            checkboxCurrentAndPermanentAddress.visibility= GONE
+            checkboxCurrentAndPermanentAddress.visibility = GONE
         }
 
         linearLayoutAddNewCurrentAddress.visibility = View.GONE
@@ -1445,7 +1525,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         val fieldList: ArrayList<FieldDetails> = ArrayList<FieldDetails>(submitAdditionalFieldsList.values)
 
         val fieldDataRequest = FieldData(customerId.toInt(), fieldList)
-        val submitAdditionalFieldsRequest = SubmitAdditionalFieldRequest(CommonStrings.CUSTOMER_ID, CommonStrings.USER_TYPE, fieldDataRequest)
+        val submitAdditionalFieldsRequest = SubmitAdditionalFieldRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, fieldDataRequest)
         submitAdditionalFieldsViewModel.submitAdditionalFields(submitAdditionalFieldsRequest, Global.customerAPI_BaseURL + "submit-additional-details")
     }
 
@@ -1456,7 +1536,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         }
     }
 
-    private fun showDropDownDialog(title: String, optionList: List<Details>, detailsCallBack: AdditionalFieldsDetailsInterface) {
+    private fun showDropDownDialog(apiURL: String, title: String, optionList: List<Details>, detailsCallBack: AdditionalFieldsDetailsInterface) {
 
         val returnDetailsCallBack: AdditionalFieldsDetailsInterface = detailsCallBack
         val dialog = Dialog(fragView.context, R.style.FullScreenDialogTheme)
@@ -1470,12 +1550,8 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         val recyclerView = dialog.findViewById<RecyclerView>(R.id.recyclerViewOptions)
         textViewTitle.text = title
 
-        var stringList = ArrayList<String>()
         var valueSet = false
         var details = Details("", "")
-        for (optionItem in optionList) {
-            stringList.add(optionItem.displayLabel)
-        }
         backToSoftOffer.setOnClickListener(View.OnClickListener {
             valueSet = false
             dialog.dismiss()
@@ -1488,11 +1564,8 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             false
         })
 
-        val reviewAdapter = StringDataRecyclerViewAdapter(stringList as List<String>, object : itemClickCallBack {
-            override fun itemClick(item: Any?, position: Int) {
-                val displayLabel = item as String
-                val value = optionList[position].value
-                details = Details(displayLabel, value)
+        var reviewAdapter = AdditionalFieldsAdapter(apiURL, optionList, object : AdditionalFieldsDetailsInterface {
+            override fun returnDetails(details:Details) {
                 returnDetailsCallBack.returnDetails(details)
                 dialog.dismiss()
             }
@@ -1501,10 +1574,12 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         val layoutManager = LinearLayoutManager(fragView.context)
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = reviewAdapter
+
         editTextAdditionalFieldsSearchOption.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int,
                                        count: Int) {
                 if (s != "") {
+                    handler.removeCallbacks(input_finish_checker)
                 }
             }
 
@@ -1513,15 +1588,57 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
             }
 
             override fun afterTextChanged(s: Editable) {
-                if (TextUtils.isEmpty(editTextAdditionalFieldsSearchOption.text)) {
-                    reviewAdapter.filter.filter("")
+                if (!TextUtils.isEmpty(s.toString())) {
+
+                    last_text_edit = System.currentTimeMillis()
+                    handler.removeCallbacksAndMessages(null)
+                    handler.postDelayed(input_finish_checker, delay)
                 } else {
-                    reviewAdapter.filter.filter(editTextAdditionalFieldsSearchOption.text)
+                    reviewAdapter.updateList(optionList)
+                }
+            }
+
+            val input_finish_checker = Runnable {
+                if (System.currentTimeMillis() > last_text_edit + delay - 500) {
+                    showProgressDialog(fragView.context)
+
+                    retrofitInterface.getFromWeb(apiURL + editTextAdditionalFieldsSearchOption.text.toString())?.enqueue(object : Callback<Any> {
+                        override fun onResponse(call: Call<Any>, response: Response<Any>) {
+                            val strRes = Gson().toJson(response.body())
+                            val dpRes = Gson().fromJson(strRes, APIDropDownResponse::class.java)
+                            if (dpRes != null && dpRes.status) {
+                                val filteredOptionList: List<Details> = dpRes.data.details
+                                if (filteredOptionList.isNotEmpty()) {
+                                    hideProgressDialog()
+                                    reviewAdapter.updateList(filteredOptionList)
+                                } else {
+                                    hideProgressDialog()
+                                    showToast("No filter found for your query")
+                                }
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Any>, t: Throwable) {
+                            t.printStackTrace()
+                        }
+                    })
                 }
             }
         })
-
         dialog.show()
+    }
+
+    private fun getStringList(filteredOptionList: List<Details>): List<String> {
+        val stringList = ArrayList<String>()
+        for (option in filteredOptionList.indices) {
+            stringList.add(filteredOptionList[option].displayLabel)
+        }
+
+        return stringList
+    }
+
+    private fun setFocusOnView(textView: TextView) {
+        scrollViewBankOffer.post(Runnable { textView.top.let { scrollViewBankOffer.scrollTo(0, it) } })
     }
 
 }

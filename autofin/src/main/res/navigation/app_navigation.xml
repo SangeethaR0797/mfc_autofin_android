@@ -132,12 +132,12 @@
         <argument
             android:name="customerID"
             app:argType="string" />
-        <action
-            android:id="@+id/action_selectedBankOfferStatusFragment_to_bankSuccessMessageFragment"
-            app:destination="@id/bankSuccessMessageFragment" />
         <argument
             android:name="CustomerResponse"
             app:argType="v2.model.response.CustomerDetailsResponse" />
+        <action
+            android:id="@+id/action_selectedBankOfferStatusFragment_to_finalOTPFragment"
+            app:destination="@id/finalOTPFragment" />
     </fragment>
     <fragment
         android:id="@+id/bankSuccessMessageFragment"
@@ -150,6 +150,21 @@
         <action
             android:id="@+id/action_bankSuccessMessageFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/finalOTPFragment"
+        android:name="v2.FinalOTPFragment"
+        android:label="FinalOTPFragment" >
+        <argument
+            android:name="cusotmerID"
+            app:argType="string" />
+        <argument android:name="mobileNumber" />
+        <argument
+            android:name="loanData"
+            app:argType="v2.model.dto.CustomLoanProcessCompletedData" />
+        <action
+            android:id="@+id/action_finalOTPFragment_to_bankSuccessMessageFragment"
+            app:destination="@id/bankSuccessMessageFragment" />
     </fragment>
 
 
