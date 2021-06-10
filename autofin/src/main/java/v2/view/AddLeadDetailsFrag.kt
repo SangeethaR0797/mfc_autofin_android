@@ -468,6 +468,20 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             var dataType: String? = data?.getStringExtra(CommonStrings.SELECTED_DATA_TYPE)
             if (dataType.equals(CommonStrings.BANK_DATA_CALL)) {
                 etSearchBank.setText(dataSelectionDTO!!.displayValue)
+                if (addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType.equals(
+                        "Self Employed"
+                    )
+                ) {
+                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount =
+                        dataSelectionDTO!!.displayValue
+                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount = null
+                } else {
+                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount = null
+                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount =
+                        dataSelectionDTO!!.displayValue
+                }
+                llNetIncome.visibility = View.VISIBLE
+
                 updateBankSelection(dataSelectionDTO.displayValue!!)
             }
 
@@ -2313,9 +2327,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         commonBankListDetailsAdapter =
             DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
                 override fun itemClick(item: Any?, position: Int) {
-                    etSearchBank.setText("")
                     var selectedBankDataSelectionDTO: DataSelectionDTO = item as DataSelectionDTO
                     updateBankSelection(selectedBankDataSelectionDTO.displayValue!!)
+                    etSearchBank.setText(selectedBankDataSelectionDTO.displayValue!!)
+
 
                 }
             })
