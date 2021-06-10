@@ -724,6 +724,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             ) {
                 ll_last_email_input.setBackgroundResource(R.drawable.vtwo_input_bg)
                 tv_email_hint.visibility = View.GONE
+                etEmailId.setTextColor(resources.getColor(R.color.vtwo_black))
+                ///7
                 basicDetails.Email = etEmailId.text.toString()
                 addLeadRequest.Data?.basicDetails = basicDetails
                 addLeadRequest.UserType = CommonStrings.USER_TYPE
@@ -742,17 +744,26 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             if (etFirstName.text.isEmpty() || addLeadRequest.Data!!.basicDetails!!.FirstName!!.isEmpty()) {
                 ll_first_name_input.setBackgroundResource(R.drawable.v2_error_layout_bg)
                 tv_fname_hint.visibility = View.VISIBLE
+            }else{
+                ll_first_name_input.setBackgroundResource(R.drawable.vtwo_input_bg)
+                tv_fname_hint.visibility = View.GONE
             }
             if (etLastName.text.isEmpty() || addLeadRequest.Data!!.basicDetails!!.LastName!!.isEmpty()) {
                 ll_last_name_input.setBackgroundResource(R.drawable.v2_error_layout_bg)
                 tv_lname_hint.visibility = View.VISIBLE
 
+            }else{
+                ll_last_name_input.setBackgroundResource(R.drawable.vtwo_input_bg)
+                tv_lname_hint.visibility = View.GONE
             }
             if (etEmailId.text.isEmpty() || addLeadRequest.Data!!.basicDetails!!.Email!!.isEmpty()) {
                 ll_last_email_input.setBackgroundResource(R.drawable.v2_error_layout_bg)
                 tv_email_hint.visibility = View.VISIBLE
                 tv_email_hint.setText("Please enter Email ID")
 
+            }else{
+                ll_last_email_input.setBackgroundResource(R.drawable.vtwo_input_bg)
+                tv_email_hint.visibility = View.GONE
             }
             if (salutation.isEmpty() || addLeadRequest.Data!!.basicDetails!!.Salutation!!.isEmpty()) {
                 showToast("Please select Salutation")
