@@ -8,6 +8,7 @@ import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
@@ -71,6 +72,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
     lateinit var etVehicleNumber: EditText
 
     lateinit var btnNext: Button
+    lateinit var viewEmpty: View
 
     lateinit var rvOwnership: RecyclerView
     lateinit var rvKilometresDriven: RecyclerView
@@ -126,6 +128,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
 
         }
 
+        viewEmpty = view.findViewById(R.id.view_empty)
         ivBack = view.findViewById(R.id.iv_back)
         scrollView1 = view.findViewById(R.id.scrollView1)
         tvTitle = view.findViewById(R.id.tv_title)
@@ -212,6 +215,14 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
         })
         var timer: Timer? = null
         var allowEdit: Boolean = true
+        etPrice.setOnFocusChangeListener(OnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                viewEmpty.visibility=View.VISIBLE
+                scrollToBottom(llVehiclePrice)
+            }else{
+                viewEmpty.visibility=View.GONE
+            }
+        })
         etPrice.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 
@@ -266,7 +277,14 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
 
             }
         })
-
+        etVehicleNumber.setOnFocusChangeListener(OnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                viewEmpty.visibility=View.VISIBLE
+                scrollToBottom(llVehicleNumber)
+            }else{
+                viewEmpty.visibility=View.GONE
+            }
+        })
         etVehicleNumber.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int,
                                        count: Int) {

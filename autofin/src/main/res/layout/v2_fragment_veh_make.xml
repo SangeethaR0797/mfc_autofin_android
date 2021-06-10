@@ -310,7 +310,13 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_16sp"
                 android:textStyle="bold" />
+            <View
+                android:visibility="gone"
+                android:id="@+id/view_empty"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_size_105dp"/>
         </LinearLayout>
+
     </ScrollView>
 
 </LinearLayout>
