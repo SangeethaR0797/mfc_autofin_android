@@ -1301,6 +1301,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         llEmploymentSection.visibility = View.VISIBLE
                         scrollToBottom(llEmploymentSection)
                     }
+
+                    llEmploymentSection.visibility == View.VISIBLE && addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType==null->{
+                        showToast("Please select employment type")
+                        scrollToBottom(llEmploymentSection)
+                    }
+
                     //Step 6 Validate Employment Details
                     llEmploymentSection.visibility == View.VISIBLE && llWorkExpriance.visibility == View.VISIBLE && TextUtils.isEmpty(
                         etWorkExpriance.text
