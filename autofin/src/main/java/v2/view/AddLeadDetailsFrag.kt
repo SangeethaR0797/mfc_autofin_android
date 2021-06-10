@@ -480,7 +480,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount =
                         dataSelectionDTO!!.displayValue
                 }
-                llNetIncome.visibility = View.VISIBLE
+                llNetIncomeSection.visibility = View.VISIBLE
 
                 updateBankSelection(dataSelectionDTO.displayValue!!)
             }
@@ -812,7 +812,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount =
                             item.displayValue
                     }
-                    llNetIncome.visibility = View.VISIBLE
+                    llNetIncomeSection.visibility = View.VISIBLE
 
 
                 } else {
