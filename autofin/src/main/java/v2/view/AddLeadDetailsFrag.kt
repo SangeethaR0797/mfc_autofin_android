@@ -1342,16 +1342,18 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         scrollToBottom(llEmploymentSection)
 
                     }
-                    //Bank validtion
-                    llEmploymentSection.visibility == View.VISIBLE && (addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount == null && addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount == null) -> {
-                        showToast(
-                            "Please select " + tvBankTitle.text.toString().toLowerCase() + "."
-                        )
-                        scrollToBottom(llAccoutDetailsSection)
-                    }
+
                     //Step 7 Open Account Details Section
                     llAccoutDetailsSection.visibility == View.GONE -> {
                         llAccoutDetailsSection.visibility = View.VISIBLE
+                        scrollToBottom(llAccoutDetailsSection)
+                    }
+
+                    //Bank validtion
+                    llAccoutDetailsSection.visibility == View.VISIBLE && (addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount == null && addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount == null) -> {
+                        showToast(
+                            "Please select " + tvBankTitle.text.toString().toLowerCase() + "."
+                        )
                         scrollToBottom(llAccoutDetailsSection)
                     }
                     llNetIncomeSection.visibility == View.GONE -> {
@@ -1431,18 +1433,18 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     //Step 19 All Data save
                     !TextUtils.isEmpty(customerId) && isEmploymentDataSaved == true && isResidentDataSaved == true -> {
 
-                        if (!addLeadRequest!!.hashCode()
+                        if (previousAddLeadRequest == null || !addLeadRequest!!.hashCode()
                                 .equals(previousAddLeadRequest!!.hashCode())
                         ) {
                             callUpdateAddLeadBasicDetailsAPIApi()
                         }
 
-                        if (!addEmploymentDetailsRequest!!.hashCode()
+                        if (addEmploymentDetailsRequest==null || !addEmploymentDetailsRequest!!.hashCode()
                                 .equals(previousAddEmploymentDetailsRequest!!.hashCode())
                         ) {
                             callAddEmploymentDetails()
                         }
-                        if (!addResidentDetailsRequest!!.hashCode()
+                        if (addResidentDetailsRequest==null || !addResidentDetailsRequest!!.hashCode()
                                 .equals(previousAddResidentDetailsRequest!!.hashCode())
                         ) {
                             callAddResidentDetails()
@@ -1726,7 +1728,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                     } else {
                         dataSelectionDTO.selected = false
-                        addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = 0
+                       // addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = 0
                     }
                 }
                 eMIDetailsAdapter.notifyDataSetChanged()
