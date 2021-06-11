@@ -345,6 +345,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         cbMoreThanOneYearInCurrentOrganization =
             view.findViewById(R.id.cb_more_than_one_year_in_current_organization)
+        cbMoreThanOneYearInCurrentOrganization.visibility = View.GONE
 
         rlEditYearOfExperience = view.findViewById(R.id.rl_edit_year_of_experience)
         rlEditYearOfExperience.visibility = View.GONE
@@ -971,6 +972,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     fun setTextChangeOfWorkExpirance() {
+        var timerWorkExpirance: Timer? = null
         etWorkExpriance.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 tvWorkExprianceErrorMessage.visibility = View.GONE
@@ -1001,7 +1003,25 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
 
             override fun afterTextChanged(s: Editable) {
+                if (timerWorkExpirance != null) {
+                    timerWorkExpirance!!.cancel();
 
+                }
+
+
+
+                timerWorkExpirance = Timer()
+                timerWorkExpirance!!.schedule(object : TimerTask() {
+                    override fun run() {
+                        if (etWorkExpriance.text.toString().equals("0")) {
+                            ThreadUtils.runOnUiThread(Runnable {
+                                showToast("Please enter work experience more than 0 year.")
+                                etWorkExpriance.setText("")
+                            })
+
+                        }
+                    }
+                }, 600)
 
             }
         })
