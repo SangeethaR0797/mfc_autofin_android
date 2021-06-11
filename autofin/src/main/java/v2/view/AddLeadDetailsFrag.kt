@@ -990,7 +990,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         false
                 } else {
                     addEmploymentDetailsRequest!!.Data!!.employmentDetails!!.TotalWorkExperience =
-                        etWorkExpriance.text.toString()
+                        etWorkExpriance.text.toString().toInt().toString()
                     cbMoreThanOneYearInCurrentOrganization.visibility = View.VISIBLE
                 }
 
@@ -2200,6 +2200,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                         null
 
                                 } else {
+                                    etWorkExpriance.setText("")
                                     // llWorkExpriance.visibility = View.VISIBLE
                                     tvBankTitle.setText(getString(R.string.salary_bank_account))
                                     cbMoreThanOneYearInCurrentOrganization.text =
