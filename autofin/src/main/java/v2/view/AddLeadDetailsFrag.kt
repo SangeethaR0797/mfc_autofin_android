@@ -748,7 +748,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             if (etFirstName.text.isEmpty() || addLeadRequest.Data!!.basicDetails!!.FirstName!!.isEmpty()) {
                 ll_first_name_input.setBackgroundResource(R.drawable.v2_error_layout_bg)
                 tv_fname_hint.visibility = View.VISIBLE
-            }else{
+            } else {
                 ll_first_name_input.setBackgroundResource(R.drawable.vtwo_input_bg)
                 tv_fname_hint.visibility = View.GONE
             }
@@ -756,7 +756,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 ll_last_name_input.setBackgroundResource(R.drawable.v2_error_layout_bg)
                 tv_lname_hint.visibility = View.VISIBLE
 
-            }else{
+            } else {
                 ll_last_name_input.setBackgroundResource(R.drawable.vtwo_input_bg)
                 tv_lname_hint.visibility = View.GONE
             }
@@ -765,7 +765,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 tv_email_hint.visibility = View.VISIBLE
                 tv_email_hint.setText("Please enter Email ID")
 
-            }else{
+            } else {
                 ll_last_email_input.setBackgroundResource(R.drawable.vtwo_input_bg)
                 tv_email_hint.visibility = View.GONE
             }
@@ -1304,8 +1304,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         llEmploymentSection.visibility = View.VISIBLE
                         scrollToBottom(llEmploymentSection)
                     }
-
-                    llEmploymentSection.visibility == View.VISIBLE && addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType==null->{
+                    //Employment type validtaion
+                    llEmploymentSection.visibility == View.VISIBLE && addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType == null -> {
                         showToast("Please select employment type")
                         scrollToBottom(llEmploymentSection)
                     }
@@ -1321,6 +1321,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         etWorkExpriance.setTextColor(resources.getColor(R.color.error_red))
                         scrollToBottom(llEmploymentSection)
 
+                    }
+                    //Bank validtion
+                    llEmploymentSection.visibility == View.VISIBLE && (addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount == null && addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount == null) -> {
+                        showToast(
+                            "Please select " + tvBankTitle.text.toString().toLowerCase() + "."
+                        )
+                        scrollToBottom(llAccoutDetailsSection)
                     }
                     //Step 7 Open Account Details Section
                     llAccoutDetailsSection.visibility == View.GONE -> {
