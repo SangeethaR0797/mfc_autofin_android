@@ -24,11 +24,12 @@ import v2.model_view.MasterViewModel
 import v2.service.utility.ApiResponse
 import v2.view.adapter.MenuForDashboardAdapter
 import v2.view.base.BaseFragment
+import v2.view.callBackInterface.AppTokenChangeInterface
 import v2.view.callBackInterface.itemClickCallBack
 import v2.view.utility_view.GridItemDecoration
 
 
-class DashboardFragment : BaseFragment(), View.OnClickListener {
+class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeInterface {
 
     lateinit var ivBack: ImageView
     lateinit var ivNotification: ImageView
@@ -42,6 +43,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
     private val hardCodedCustomerId = "1724"
     private val hardCodedCaseId = "0242210415000012"
     lateinit var dashboardViewModel: DashboardViewModel
+    lateinit var hostActivity: HostActivity
 
     companion object {
 
@@ -50,8 +52,29 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (hostActivity != null) {
+            hostActivity.appTokenChangeInterface = DashboardFragment@ this
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (hostActivity != null) {
+            hostActivity.appTokenChangeInterface = DashboardFragment@ this
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        hostActivity = activity as Activity as HostActivity
+
         kycDocumentViewModel = ViewModelProvider(this).get(MasterViewModel::class.java)
         dashboardViewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
 
@@ -62,7 +85,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
 
         dashboardViewModel.getDashboardDetailsLiveData()
             .observe(requireActivity()) { mApiResponse: ApiResponse? ->
-                onGetKYCDocumentResponse(mApiResponse!!)
+                onDashboardDetailsResponse(mApiResponse!!)
             }
 
 
@@ -89,15 +112,19 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
         return view
     }
 
-    fun setScreenData() {
+    override fun onTokenReceivedOrRefresh() {
         //Call Dashboard details
         dashboardViewModel.getDashboardDetails(
             DashBoardDetailsRequest(
                 CommonStrings.DEALER_ID,
                 CommonStrings.USER_TYPE,
                 "Dashboard"
-            ), Global.baseURL + CommonStrings.DASHBOARD_DETAILS_END_POINT
+            ), Global.customerAPI_BaseURL + CommonStrings.DASHBOARD_DETAILS_END_POINT
         )
+    }
+
+    fun setScreenData() {
+
 
     }
 
@@ -146,7 +173,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
                 "Registered",
                 MenuEnum.Registered.value,
                 null,
-                0,
+                dashboardDetailsResponse.data!!.registered!!,
                 R.drawable.ic_menu_registered,
                 R.drawable.v2_menu_dark_blue
             )
@@ -156,7 +183,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
                 "Soft offer",
                 MenuEnum.Soft_offer.value,
                 null,
-                0,
+                dashboardDetailsResponse.data!!.softOffer!!,
                 R.drawable.ic_menu_softoffers,
                 R.drawable.v2_menu_light_blue
             )
@@ -166,7 +193,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
                 "Logged in",
                 MenuEnum.Logged_In.value,
                 null,
-                0,
+                dashboardDetailsResponse.data!!.loggedIn!!,
                 R.drawable.ic_logged_in,
                 R.drawable.v2_menu_light_green
             )
@@ -175,8 +202,8 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
             getMenu(
                 "Approved",
                 MenuEnum.Approved.value,
-                null,
-                0,
+                dashboardDetailsResponse.data!!.commissionDetails!!.totalCommission!!.toString(),
+                dashboardDetailsResponse.data!!.approved!!,
                 R.drawable.ic_menu_approved,
                 R.drawable.v2_menu_bright_green
             )
@@ -186,7 +213,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
                 "Disbursed",
                 MenuEnum.Disbursed.value,
                 null,
-                0,
+                dashboardDetailsResponse.data!!.disbursed!!,
                 R.drawable.ic_menu_disbursed,
                 R.drawable.v2_menu_dark_green
             )
@@ -281,5 +308,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
         }
 
     }
+
+
 //endregion Observer
 }

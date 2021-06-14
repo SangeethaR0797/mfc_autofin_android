@@ -39,14 +39,14 @@ class MenuForDashboardAdapter(
 
         holder.tvMenuName.text = dataListFilter?.get(position)?.menuName
 
-        if (dataListFilter?.get(position)?.amount != null) {
+        if (dataListFilter?.get(position)?.amount != null && dataListFilter?.get(position)?.amount!!.toInt() > 0) {
             holder.tvAmount.visibility = View.VISIBLE
-            holder.tvAmount.text = dataListFilter?.get(position)?.amount
+            holder.tvAmount.text ="₹"+ dataListFilter?.get(position)?.amount
         } else {
             holder.tvAmount.visibility = View.GONE
         }
         if (dataListFilter?.get(position)?.menuIcon!! > 0) {
-            holder.ivIcon.scaleType=ImageView.ScaleType.FIT_XY
+            holder.ivIcon.scaleType = ImageView.ScaleType.FIT_XY
             holder.ivIcon.setBackgroundResource(dataListFilter?.get(position)?.menuIcon!!)
         }
 
