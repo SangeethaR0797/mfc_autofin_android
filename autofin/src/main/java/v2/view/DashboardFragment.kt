@@ -15,6 +15,7 @@ import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
 import v2.model.dto.MenuDTO
+import v2.model.enum_class.MenuEnum
 import v2.model.response.master.KYCDocumentResponse
 import v2.model_view.MasterViewModel
 import v2.service.utility.ApiResponse
@@ -144,12 +145,66 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
 
     fun setMenuDataAdapter() {
         val menuList: ArrayList<MenuDTO> = arrayListOf<MenuDTO>()
-        menuList?.add(getMenu("Registered", "Registered", null, 0, R.drawable.ic_menu_registered,R.drawable.v2_menu_dark_blue))
-        menuList?.add(getMenu("Soft offer", "Soft offer", null, 0, R.drawable.ic_menu_softoffers,R.drawable.v2_menu_light_blue))
-        menuList?.add(getMenu("Logged in", "Logged in", null, 0, R.drawable.ic_logged_in,R.drawable.v2_menu_light_green))
-        menuList?.add(getMenu("Approved", "Approved", null, 0, R.drawable.ic_menu_approved,R.drawable.v2_menu_bright_green))
-        menuList?.add(getMenu("Disbursed", "Disbursed", null, 0, R.drawable.ic_menu_disbursed,R.drawable.v2_menu_dark_green))
-        menuList?.add(getMenu("Add New", "Add New", null, 0, R.drawable.ic_menu_add,R.drawable.v2_menu_bright_yellow))
+        menuList.add(
+            getMenu(
+                "Registered",
+                MenuEnum.Registered.value,
+                null,
+                0,
+                R.drawable.ic_menu_registered,
+                R.drawable.v2_menu_dark_blue
+            )
+        )
+        menuList.add(
+            getMenu(
+                "Soft offer",
+                MenuEnum.Soft_offer.value,
+                null,
+                0,
+                R.drawable.ic_menu_softoffers,
+                R.drawable.v2_menu_light_blue
+            )
+        )
+        menuList.add(
+            getMenu(
+                "Logged in",
+                MenuEnum.Logged_In.value,
+                null,
+                0,
+                R.drawable.ic_logged_in,
+                R.drawable.v2_menu_light_green
+            )
+        )
+        menuList.add(
+            getMenu(
+                "Approved",
+                MenuEnum.Approved.value,
+                null,
+                0,
+                R.drawable.ic_menu_approved,
+                R.drawable.v2_menu_bright_green
+            )
+        )
+        menuList.add(
+            getMenu(
+                "Disbursed",
+                MenuEnum.Disbursed.value,
+                null,
+                0,
+                R.drawable.ic_menu_disbursed,
+                R.drawable.v2_menu_dark_green
+            )
+        )
+        menuList.add(
+            getMenu(
+                "Add New",
+                MenuEnum.Add_New.value,
+                null,
+                0,
+                R.drawable.ic_menu_add,
+                R.drawable.v2_menu_bright_yellow
+            )
+        )
 
 
         val layoutManagerStaggeredGridLayoutManager =
@@ -163,17 +218,23 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
             menuList,
             object : itemClickCallBack {
                 override fun itemClick(item: Any?, position: Int) {
-
+                    var m = item as MenuDTO
+                    m!!.menuCode?.let { showToast(it) }
                 }
             })
         rvMenu.setAdapter(menuForDashboardAdapter)
     }
 
     fun getMenu(
-        menuName: String?, menuCode: String?, amount: String?, total: Int, menuIcon: Int,backgroundResource: Int
+        menuName: String?,
+        menuCode: String?,
+        amount: String?,
+        total: Int,
+        menuIcon: Int,
+        backgroundResource: Int
     ): MenuDTO {
 
-        return MenuDTO(menuName, menuCode, amount, total, menuIcon,backgroundResource)
+        return MenuDTO(menuName, menuCode, amount, total, menuIcon, backgroundResource)
     }
 
 }
