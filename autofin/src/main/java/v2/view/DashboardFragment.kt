@@ -100,7 +100,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         ivBack = view.findViewById(R.id.iv_back)
         ivNotification = view.findViewById(R.id.iv_notification)
         etSearch = view.findViewById(R.id.et_search)
-        etSearch.isEnabled = false
+        etSearch.isFocusable=false
         llSearch = view.findViewById(R.id.ll_search)
         rvMenu = view.findViewById(R.id.rv_menu)
 
@@ -138,7 +138,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                     openNotificationFragment()
                 }
 
-                R.id.ll_search -> {
+                R.id.et_search -> {
                     openSearchFragment()
                 }
 
@@ -165,7 +165,11 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         showToast("Notification")
     }
 
+    fun openNextFragment(menuCode: String, menuName: String) {
+        showToast(menuCode + " >> " + menuName)
+    }
 
+    //region set Application menu
     fun setMenuDataAdapter(dashboardDetailsResponse: DashBoardDetailsResponse) {
         val menuList: ArrayList<MenuDTO> = arrayListOf<MenuDTO>()
         menuList.add(
@@ -233,7 +237,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         val layoutManagerStaggeredGridLayoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
-        rvMenu.addItemDecoration(GridItemDecoration(45, 2))
+        rvMenu.addItemDecoration(GridItemDecoration(30, 2))
 
         rvMenu.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
         menuForDashboardAdapter = MenuForDashboardAdapter(
@@ -242,7 +246,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             object : itemClickCallBack {
                 override fun itemClick(item: Any?, position: Int) {
                     var m = item as MenuDTO
-                    m!!.menuCode?.let { showToast(it) }
+                    openNextFragment(m.menuCode!!, m.menuName!!)
                 }
             })
         rvMenu.setAdapter(menuForDashboardAdapter)
@@ -260,6 +264,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         return MenuDTO(menuName, menuCode, amount, total, menuIcon, backgroundResource)
     }
 
+    //endregion set Application menu
     //region Observer
     private fun onDashboardDetailsResponse(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
