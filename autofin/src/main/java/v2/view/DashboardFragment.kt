@@ -16,12 +16,14 @@ import utility.CommonStrings
 import utility.Global
 import v2.model.dto.DashBoardDetailsRequest
 import v2.model.dto.DashBoardDetailsResponse
+import v2.model.dto.DataSelectionDTO
 import v2.model.dto.MenuDTO
 import v2.model.enum_class.MenuEnum
 import v2.model.response.master.KYCDocumentResponse
 import v2.model_view.DashboardViewModel
 import v2.model_view.MasterViewModel
 import v2.service.utility.ApiResponse
+import v2.view.adapter.DataRecyclerViewAdapter
 import v2.view.adapter.MenuForDashboardAdapter
 import v2.view.base.BaseFragment
 import v2.view.callBackInterface.AppTokenChangeInterface
@@ -37,6 +39,10 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     lateinit var llSearch: LinearLayout
     lateinit var rvMenu: RecyclerView
 
+    lateinit var rvCommissionDaysDays: RecyclerView
+    lateinit var tvTotalCommission: TextView
+    lateinit var tvPotentialCommission: TextView
+
     lateinit var menuForDashboardAdapter: MenuForDashboardAdapter
 
     lateinit var kycDocumentViewModel: MasterViewModel
@@ -44,6 +50,8 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     private val hardCodedCaseId = "0242210415000012"
     lateinit var dashboardViewModel: DashboardViewModel
     lateinit var hostActivity: HostActivity
+
+    lateinit var commissionDaysDaysDataAdapter: DataRecyclerViewAdapter
 
     companion object {
 
@@ -104,6 +112,11 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         llSearch = view.findViewById(R.id.ll_search)
         rvMenu = view.findViewById(R.id.rv_menu)
 
+        rvCommissionDaysDays = view.findViewById(R.id.rv_commission_days)
+        tvTotalCommission = view.findViewById(R.id.tv_total_commission)
+        tvPotentialCommission = view.findViewById(R.id.tv_potential_commission)
+
+
         ivBack.setOnClickListener(this)
         ivNotification.setOnClickListener(this)
         etSearch.setOnClickListener(this)
@@ -124,7 +137,48 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     }
 
     fun setScreenData() {
+        setCommissionDaysData()
 
+    }
+
+    private fun setCommissionDaysData() {
+
+        val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
+
+        list.add(DataSelectionDTO("30 days", null, "30", true))
+        list.add(DataSelectionDTO("60 days", null, "60", false))
+        list.add(DataSelectionDTO("90 days", "rd", "90", false))
+        list.add(DataSelectionDTO("All time", "th", "0", false))
+
+        commissionDaysDaysDataAdapter =
+            DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+                override fun itemClick(item: Any?, position: Int) {
+
+
+                    commissionDaysDaysDataAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                        run {
+                            if (index == position) {
+                                item.selected = true
+
+                            } else {
+                                item.selected = false
+                            }
+                        }
+                    }
+                    commissionDaysDaysDataAdapter.notifyDataSetChanged()
+                }
+            })
+
+
+        val layoutManagerStaggeredGridLayoutManager =
+            StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManagerGridLayoutManager = GridLayoutManager(activity, 4)
+
+        rvCommissionDaysDays.addItemDecoration(GridItemDecoration(25, 4))
+
+        rvCommissionDaysDays.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+
+        rvCommissionDaysDays.setAdapter(commissionDaysDaysDataAdapter)
 
     }
 
@@ -192,6 +246,13 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
     //region set Application menu
     fun setMenuDataAdapter(dashboardDetailsResponse: DashBoardDetailsResponse) {
+        tvTotalCommission.text = "₹" + formatAmount(
+            dashboardDetailsResponse.data!!.commissionDetails!!.totalCommission.toString()
+        )
+        tvPotentialCommission.text = "₹" + formatAmount(
+            dashboardDetailsResponse!!.data!!.commissionDetails!!.potentialCommission.toString()
+        )
+
         val menuList: ArrayList<MenuDTO> = arrayListOf<MenuDTO>()
         menuList.add(
             getMenu(

@@ -256,7 +256,7 @@
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/text_size_18dp"
+
                         android:background="@color/v2_grey" />
 
                     <LinearLayout
@@ -290,7 +290,7 @@
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_commission"
+                    android:id="@+id/rv_commission_days"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/text_size_20dp" />
