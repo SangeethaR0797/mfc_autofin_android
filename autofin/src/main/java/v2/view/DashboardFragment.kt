@@ -60,7 +60,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     override fun onStop() {
         super.onStop()
         if (hostActivity != null) {
-            hostActivity.appTokenChangeInterface = DashboardFragment@ this
+            hostActivity.appTokenChangeInterface = null
         }
     }
 
