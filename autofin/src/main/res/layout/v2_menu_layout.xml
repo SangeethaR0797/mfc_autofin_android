@@ -5,6 +5,7 @@
     android:id="@+id/ll_main_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+
     android:background="@drawable/v2_menu_dark_green"
     android:orientation="vertical">
 
@@ -63,7 +64,7 @@
             android:layout_marginTop="-20dp"
             android:background="#AAFFFFFF"
             android:maxLines="1"
-            android:padding="@dimen/text_size_8dp"
+            android:padding="@dimen/text_size_4dp"
             android:textAllCaps="true"
             android:textAppearance="@style/RobotoMedium"
             android:textColor="@color/vtwo_black"
