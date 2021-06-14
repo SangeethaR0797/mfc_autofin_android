@@ -14,9 +14,12 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
+import v2.model.dto.DashBoardDetailsRequest
+import v2.model.dto.DashBoardDetailsResponse
 import v2.model.dto.MenuDTO
 import v2.model.enum_class.MenuEnum
 import v2.model.response.master.KYCDocumentResponse
+import v2.model_view.DashboardViewModel
 import v2.model_view.MasterViewModel
 import v2.service.utility.ApiResponse
 import v2.view.adapter.MenuForDashboardAdapter
@@ -38,6 +41,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
     lateinit var kycDocumentViewModel: MasterViewModel
     private val hardCodedCustomerId = "1724"
     private val hardCodedCaseId = "0242210415000012"
+    lateinit var dashboardViewModel: DashboardViewModel
 
     companion object {
 
@@ -49,7 +53,14 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         kycDocumentViewModel = ViewModelProvider(this).get(MasterViewModel::class.java)
+        dashboardViewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
+
         kycDocumentViewModel.getKYCDocumentLiveData()
+            .observe(requireActivity()) { mApiResponse: ApiResponse? ->
+                onGetKYCDocumentResponse(mApiResponse!!)
+            }
+
+        dashboardViewModel.getDashboardDetailsLiveData()
             .observe(requireActivity()) { mApiResponse: ApiResponse? ->
                 onGetKYCDocumentResponse(mApiResponse!!)
             }
@@ -79,7 +90,15 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
     }
 
     fun setScreenData() {
-        setMenuDataAdapter()
+        //Call Dashboard details
+        dashboardViewModel.getDashboardDetails(
+            DashBoardDetailsRequest(
+                CommonStrings.DEALER_ID,
+                CommonStrings.USER_TYPE,
+                "Dashboard"
+            ), Global.baseURL + CommonStrings.DASHBOARD_DETAILS_END_POINT
+        )
+
     }
 
     override fun onClick(v: View?) {
@@ -119,31 +138,8 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
         showToast("Notification")
     }
 
-    private fun onGetKYCDocumentResponse(mApiResponse: ApiResponse) {
-        when (mApiResponse.status) {
-            ApiResponse.Status.LOADING -> {
-                showProgressDialog(requireContext())
-            }
-            ApiResponse.Status.SUCCESS -> {
-                hideProgressDialog()
 
-                val kycDocumentRes: KYCDocumentResponse = mApiResponse.data as KYCDocumentResponse
-
-            }
-            ApiResponse.Status.ERROR -> {
-                hideProgressDialog()
-                Log.i("SoftOfferFragment", ": " + ApiResponse.Status.ERROR)
-
-            }
-            else -> {
-                Log.i("SoftOfferFragment", ": ")
-            }
-        }
-
-    }
-
-
-    fun setMenuDataAdapter() {
+    fun setMenuDataAdapter(dashboardDetailsResponse: DashBoardDetailsResponse) {
         val menuList: ArrayList<MenuDTO> = arrayListOf<MenuDTO>()
         menuList.add(
             getMenu(
@@ -237,4 +233,53 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
         return MenuDTO(menuName, menuCode, amount, total, menuIcon, backgroundResource)
     }
 
+    //region Observer
+    private fun onDashboardDetailsResponse(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+
+                val dashboardDetailsResponse: DashBoardDetailsResponse =
+                    mApiResponse.data as DashBoardDetailsResponse
+                setMenuDataAdapter(dashboardDetailsResponse)
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+
+
+            }
+            else -> {
+
+            }
+        }
+
+    }
+
+    private fun onGetKYCDocumentResponse(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+
+                val kycDocumentRes: KYCDocumentResponse = mApiResponse.data as KYCDocumentResponse
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+                Log.i("SoftOfferFragment", ": " + ApiResponse.Status.ERROR)
+
+            }
+            else -> {
+                Log.i("SoftOfferFragment", ": ")
+            }
+        }
+
+    }
+//endregion Observer
 }
