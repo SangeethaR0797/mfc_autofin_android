@@ -147,7 +147,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
         menuList?.add(getMenu("Registered", "Registered", null, 0, R.drawable.ic_menu_registered,R.drawable.v2_menu_dark_blue))
         menuList?.add(getMenu("Soft offer", "Soft offer", null, 0, R.drawable.ic_menu_softoffers,R.drawable.v2_menu_light_blue))
         menuList?.add(getMenu("Logged in", "Logged in", null, 0, R.drawable.ic_logged_in,R.drawable.v2_menu_light_green))
-        menuList?.add(getMenu("Approved", "Approved", "₹10,45,000", 0, R.drawable.ic_menu_approved,R.drawable.v2_menu_bright_green))
+        menuList?.add(getMenu("Approved", "Approved", null, 0, R.drawable.ic_menu_approved,R.drawable.v2_menu_bright_green))
         menuList?.add(getMenu("Disbursed", "Disbursed", null, 0, R.drawable.ic_menu_disbursed,R.drawable.v2_menu_dark_green))
         menuList?.add(getMenu("Add New", "Add New", null, 0, R.drawable.ic_menu_add,R.drawable.v2_menu_bright_yellow))
 
