@@ -125,12 +125,176 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_menu"
-                android:nestedScrollingEnabled="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-60dp"
-                android:padding="@dimen/text_size_20dp"
-                android:layout_marginBottom="@dimen/text_size_16sp" />
+                android:layout_marginBottom="@dimen/text_size_16sp"
+                android:nestedScrollingEnabled="false"
+                android:padding="@dimen/text_size_20dp" />
+
+            <LinearLayout
+                android:id="@+id/ll_notice_board_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_20dp"
+                android:layout_marginRight="@dimen/text_size_20dp"
+                android:layout_marginBottom="@dimen/text_size_16sp"
+                android:background="@drawable/v2_edit_text_white_bg"
+                android:orientation="vertical"
+
+                android:padding="@dimen/text_size_14sp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/text_size_5dp"
+                        android:layout_weight="1"
+                        android:text="@string/notice_board"
+                        android:textAppearance="@style/RobotoBold"
+                        android:textColor="@color/vtwo_black"
+                        android:textSize="@dimen/text_size_16sp" />
+
+                    <TextView
+                        android:id="@+id/notice_board_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/text_size_5dp"
+                        android:background="@drawable/vtwo_input_bg"
+                        android:paddingLeft="@dimen/text_size_16sp"
+                        android:paddingTop="@dimen/text_size_5dp"
+                        android:paddingRight="@dimen/text_size_16sp"
+                        android:paddingBottom="@dimen/text_size_5dp"
+                        android:textAppearance="@style/RobotoRegular"
+                        android:textColor="@color/vtwo_black"
+                        android:textSize="@dimen/text_size_14dp"
+                        tools:text="03" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/view_height_1dp"
+                    android:layout_marginTop="@dimen/text_size_18dp"
+                    android:background="@color/v2_grey" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_notice_board"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_size_20dp"
+                    android:nestedScrollingEnabled="false" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_commission_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_20dp"
+                android:layout_marginRight="@dimen/text_size_20dp"
+                android:layout_marginBottom="@dimen/text_size_16sp"
+                android:background="@drawable/v2_edit_text_white_bg"
+                android:orientation="vertical"
+
+                android:padding="@dimen/text_size_14sp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_size_5dp"
+                    android:text="@string/commission"
+                    android:textAppearance="@style/RobotoBold"
+                    android:textColor="@color/vtwo_black"
+                    android:textSize="@dimen/text_size_16sp" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/view_height_1dp"
+                    android:layout_marginTop="@dimen/text_size_18dp"
+                    android:background="@color/v2_grey" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_size_20dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_total_commission"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/text_size_5dp"
+                            android:textAppearance="@style/RobotoBold"
+                            android:textColor="#00d478"
+                            android:textSize="@dimen/text_size25dp"
+                            tools:text="₹12,210" />
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/text_size_5dp"
+                            android:text="@string/total_commission"
+                            android:textAppearance="@style/RobotoBold"
+                            android:textColor="@color/vtwo_grey"
+                            android:textSize="@dimen/text_size_12dp" />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/text_size_18dp"
+                        android:background="@color/v2_grey" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/text_size_20dp">
+
+                        <TextView
+                            android:id="@+id/tv_potential_commission"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/text_size_5dp"
+                            android:textAppearance="@style/RobotoBold"
+                            android:textColor="#00d478"
+                            android:textSize="@dimen/text_size25dp"
+                            tools:text="₹15,675" />
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/text_size_5dp"
+                            android:text="@string/potential_commission"
+                            android:textAppearance="@style/RobotoBold"
+                            android:textColor="@color/vtwo_grey"
+                            android:textSize="@dimen/text_size_12dp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_commission"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_size_20dp" />
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

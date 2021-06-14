@@ -351,5 +351,9 @@
     <string name="v2_upload_button_label">UPLOAD</string>
     <string name="autofin_dashboard">Autofin Dashboard</string>
     <string name="search_by_lead_id_lead_name_phone_no_bank_name_los_id_case_id_etc">Search by : Lead id, Lead Name, phone no, Bank Name,\nLOS ID, Case ID, etc.</string>
+    <string name="notice_board">Notice Board</string>
+    <string name="commission">Commission</string>
+    <string name="total_commission">Total Commission</string>
+    <string name="potential_commission">Potential Commission</string>
 
 </resources>
