@@ -100,7 +100,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         ivBack = view.findViewById(R.id.iv_back)
         ivNotification = view.findViewById(R.id.iv_notification)
         etSearch = view.findViewById(R.id.et_search)
-        etSearch.isFocusable=false
+        etSearch.isFocusable = false
         llSearch = view.findViewById(R.id.ll_search)
         rvMenu = view.findViewById(R.id.rv_menu)
 
@@ -167,6 +167,27 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
     fun openNextFragment(menuCode: String, menuName: String) {
         showToast(menuCode + " >> " + menuName)
+        when (menuCode) {
+
+            MenuEnum.Registered.value -> {
+
+            }
+            MenuEnum.Soft_offer.value -> {
+
+            }
+            MenuEnum.Logged_In.value -> {
+
+            }
+            MenuEnum.Approved.value -> {
+
+            }
+            MenuEnum.Disbursed.value -> {
+
+            }
+            MenuEnum.Add_New.value -> {
+                navigateFromDashBoard(R.id.vehicleSelectionFrag2)
+            }
+        }
     }
 
     //region set Application menu
