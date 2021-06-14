@@ -10,5 +10,6 @@ class MenuDTO(
     public var amount: String? = null,
     public var total: Int,
     public var menuIcon: Int,
+    public var backgroundResource: Int
 
-    ) : Parcelable
+) : Parcelable

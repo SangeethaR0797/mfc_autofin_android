@@ -46,6 +46,7 @@ class MenuForDashboardAdapter(
             holder.tvAmount.visibility = View.GONE
         }
         if (dataListFilter?.get(position)?.menuIcon!! > 0) {
+            holder.ivIcon.scaleType=ImageView.ScaleType.FIT_XY
             holder.ivIcon.setBackgroundResource(dataListFilter?.get(position)?.menuIcon!!)
         }
 
@@ -53,6 +54,8 @@ class MenuForDashboardAdapter(
             itemCallBack.itemClick(dataListFilter?.get(position), position)
         })
 
+        holder.llMainLayout.setBackgroundResource(dataListFilter!![position].backgroundResource)
+        holder.llMainLayout.invalidate()
 
     }
 
