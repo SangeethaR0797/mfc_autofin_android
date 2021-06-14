@@ -1,22 +1,27 @@
 package v2.view
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
+import v2.model.dto.MenuDTO
 import v2.model.response.master.KYCDocumentResponse
 import v2.model_view.MasterViewModel
 import v2.service.utility.ApiResponse
+import v2.view.adapter.MenuForDashboardAdapter
 import v2.view.base.BaseFragment
+import v2.view.callBackInterface.itemClickCallBack
+import v2.view.utility_view.GridItemDecoration
 
 
 class DashboardFragment : BaseFragment(), View.OnClickListener {
@@ -27,10 +32,18 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
     lateinit var llSearch: LinearLayout
     lateinit var rvMenu: RecyclerView
 
+    lateinit var menuForDashboardAdapter: MenuForDashboardAdapter
 
     lateinit var kycDocumentViewModel: MasterViewModel
     private val hardCodedCustomerId = "1724"
     private val hardCodedCaseId = "0242210415000012"
+
+    companion object {
+
+        fun newInstance(): DashboardFragment {
+            return DashboardFragment()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +73,12 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
         ivNotification.setOnClickListener(this)
         etSearch.setOnClickListener(this)
         llSearch.setOnClickListener(this)
+        setScreenData()
         return view
+    }
+
+    fun setScreenData() {
+        setMenuDataAdapter()
     }
 
     override fun onClick(v: View?) {
@@ -74,7 +92,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
                 }
 
                 R.id.ll_search -> {
-                   openSearchFragment()
+                    openSearchFragment()
                 }
 
                 R.id.ll_search -> {
@@ -92,12 +110,11 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
-    fun openSearchFragment()
-    {
+    fun openSearchFragment() {
         showToast("Search")
     }
-    fun openNotificationFragment()
-    {
+
+    fun openNotificationFragment() {
         showToast("Notification")
     }
 
@@ -124,11 +141,53 @@ class DashboardFragment : BaseFragment(), View.OnClickListener {
 
     }
 
-    companion object {
 
-        fun newInstance(): DashboardFragment {
-            return DashboardFragment()
-        }
+
+    fun setMenuDataAdapter() {
+        val menuList: ArrayList<MenuDTO> = arrayListOf<MenuDTO>()
+        menuList?.add(getMenu("Registered", "Registered", null, 0, R.drawable.ic_menu_registered))
+        menuList?.add(getMenu("Registered", "Registered", null, 0, R.drawable.ic_menu_softoffers))
+        menuList?.add(getMenu("Registered", "Registered", null, 0, R.drawable.ic_menu_registered))
+        menuList?.add(getMenu("Registered", "Registered", null, 0, R.drawable.ic_menu_softoffers))
+        menuList?.add(getMenu("Registered", "Registered", null, 0, R.drawable.ic_menu_registered))
+        menuList?.add(getMenu("Registered", "Registered", null, 0, R.drawable.ic_menu_softoffers))
+
+        menuList?.add(getMenu("Registered", "Registered", null, 0, R.drawable.ic_menu_registered))
+        menuList?.add(getMenu("Registered", "Registered", null, 0, R.drawable.ic_menu_softoffers))
+        menuList?.add(getMenu("Registered", "Registered", null, 0, R.drawable.ic_menu_registered))
+        menuList?.add(getMenu("Registered", "Registered", null, 0, R.drawable.ic_menu_softoffers))
+        menuList?.add(getMenu("Registered", "Registered", null, 0, R.drawable.ic_menu_registered))
+        menuList?.add(getMenu("Registered", "Registered", null, 0, R.drawable.ic_menu_softoffers))
+
+        menuList?.add(getMenu("Registered", "Registered", null, 0, R.drawable.ic_menu_registered))
+        menuList?.add(getMenu("Registered", "Registered", null, 0, R.drawable.ic_menu_softoffers))
+        menuList?.add(getMenu("Registered", "Registered", null, 0, R.drawable.ic_menu_registered))
+        menuList?.add(getMenu("Registered", "Registered", null, 0, R.drawable.ic_menu_softoffers))
+        menuList?.add(getMenu("Registered", "Registered", null, 0, R.drawable.ic_menu_registered))
+        menuList?.add(getMenu("Registered", "Registered", null, 0, R.drawable.ic_menu_softoffers))
+
+        val layoutManagerStaggeredGridLayoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
+        rvMenu.addItemDecoration(GridItemDecoration(45, 2))
+
+        rvMenu.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+        menuForDashboardAdapter = MenuForDashboardAdapter(
+            activity as Activity,
+            menuList,
+            object : itemClickCallBack {
+                override fun itemClick(item: Any?, position: Int) {
+
+                }
+            })
+        rvMenu.setAdapter(menuForDashboardAdapter)
+    }
+
+    fun getMenu(
+        menuName: String?, menuCode: String?, amount: String?, total: Int, menuIcon: Int
+    ): MenuDTO {
+
+        return MenuDTO(menuName, menuCode, amount, total, menuIcon)
     }
 
 }

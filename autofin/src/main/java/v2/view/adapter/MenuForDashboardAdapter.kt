@@ -2,23 +2,20 @@ package v2.view.adapter
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
 import v2.model.dto.MenuDTO
 import v2.view.callBackInterface.itemClickCallBack
 
-class MenuAdapter(
+class MenuForDashboardAdapter(
     var context: Activity,
     var dataListValue: List<MenuDTO>?,
     itemClick: itemClickCallBack?
-) : RecyclerView.Adapter<MenuAdapter.MyViewHolder>(), Filterable {
+) : RecyclerView.Adapter<MenuForDashboardAdapter.MyViewHolder>(), Filterable {
 
     public var dataListFilter: List<MenuDTO>?
     private var itemCallBack: itemClickCallBack = itemClick!!

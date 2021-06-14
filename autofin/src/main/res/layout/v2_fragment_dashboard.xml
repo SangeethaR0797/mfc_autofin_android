@@ -7,10 +7,9 @@
     android:background="@color/vtwo_pale_grey"
     android:orientation="vertical">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -126,13 +125,15 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_menu"
+                android:nestedScrollingEnabled="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-40dp"
+                android:layout_marginTop="-60dp"
+                android:padding="@dimen/text_size_20dp"
                 android:layout_marginBottom="@dimen/text_size_16sp" />
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
 </RelativeLayout>
