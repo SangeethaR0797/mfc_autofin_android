@@ -60,14 +60,23 @@
 
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_data"
+            <LinearLayout
+                android:id="@+id/ll_data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_20dp"
                 android:layout_marginTop="-40dp"
+                android:layout_marginRight="@dimen/text_size_20dp"
                 android:layout_marginBottom="@dimen/text_size_16sp"
-                android:nestedScrollingEnabled="false"
-                android:padding="@dimen/text_size_20dp" />
+                android:background="@drawable/v2_white_bg"
+                android:nestedScrollingEnabled="false">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/text_size_20dp" />
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
