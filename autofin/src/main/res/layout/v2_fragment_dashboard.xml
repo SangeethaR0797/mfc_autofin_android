@@ -12,6 +12,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/ll_dash_board"
             android:layout_width="match_parent"
 
             android:layout_height="wrap_content"
@@ -353,11 +354,11 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_marginLeft="@dimen/text_size_20dp"
-                    android:layout_marginRight="@dimen/text_size_20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_20dp"
                     android:layout_marginTop="@dimen/text_size_20dp"
+                    android:layout_marginRight="@dimen/text_size_20dp"
                     android:layout_marginBottom="@dimen/text_size_5dp"
                     android:text="@string/our_banking_partner"
                     android:textAppearance="@style/RobotoBold"
@@ -368,8 +369,7 @@
                     android:id="@+id/rv_banking_partner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/text_size_18dp"
-                   />
+                    android:layout_marginTop="@dimen/text_size_18dp" />
             </LinearLayout>
 
         </LinearLayout>

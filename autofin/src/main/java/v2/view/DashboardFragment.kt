@@ -35,6 +35,7 @@ import v2.view.utility_view.GridItemDecoration
 
 class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeInterface {
 
+    lateinit var llDashBoard: LinearLayout
     lateinit var ivBack: ImageView
     lateinit var ivNotification: ImageView
     lateinit var etSearch: EditText
@@ -121,6 +122,9 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.v2_fragment_dashboard, container, false)
+
+        llDashBoard = view.findViewById(R.id.ll_dash_board)
+        llDashBoard.visibility = View.GONE
 
         ivBack = view.findViewById(R.id.iv_back)
         ivNotification = view.findViewById(R.id.iv_notification)
@@ -316,105 +320,108 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
     //region set Application menu
     fun setMenuDataAdapter(dashboardDetailsResponse: DashBoardDetailsResponse) {
-        tvTotalCommission.text = "₹" + formatAmount(
-            dashboardDetailsResponse.data!!.commissionDetails!!.totalCommission.toString()
-        )
-        tvPotentialCommission.text = "₹" + formatAmount(
-            dashboardDetailsResponse!!.data!!.commissionDetails!!.potentialCommission.toString()
-        )
-        if (dashboardDetailsResponse.data!!.noticeBoard!!.totalCount!! > 0) {
-            llNoticeBoardSection.visibility = View.VISIBLE
-            tvNoticeBoardCount.text =
-                dashboardDetailsResponse.data!!.noticeBoard!!.newCount.toString()
-            setNoticeBoardData(dashboardDetailsResponse.data!!.noticeBoard!!.notices as ArrayList<Notice>?)
-            if (dashboardDetailsResponse.data!!.noticeBoard!!.totalCount!! > 3) {
-                llViewAllNotice.visibility = View.VISIBLE
-            } else {
-                llViewAllNotice.visibility = View.GONE
-            }
-        } else {
-            llNoticeBoardSection.visibility = View.GONE
-        }
-
-        val menuList: ArrayList<MenuDTO> = arrayListOf<MenuDTO>()
-        menuList.add(
-            getMenu(
-                "Registered",
-                MenuEnum.Registered.value,
-                null,
-                dashboardDetailsResponse.data!!.registered!!,
-                R.drawable.ic_menu_registered,
-                R.drawable.v2_menu_dark_blue
+        if (dashboardDetailsResponse != null) {
+            llDashBoard.visibility = View.VISIBLE
+            tvTotalCommission.text = "₹" + formatAmount(
+                dashboardDetailsResponse.data!!.commissionDetails!!.totalCommission.toString()
             )
-        )
-        menuList.add(
-            getMenu(
-                "Soft offer",
-                MenuEnum.Soft_offer.value,
-                null,
-                dashboardDetailsResponse.data!!.softOffer!!,
-                R.drawable.ic_menu_softoffers,
-                R.drawable.v2_menu_light_blue
+            tvPotentialCommission.text = "₹" + formatAmount(
+                dashboardDetailsResponse!!.data!!.commissionDetails!!.potentialCommission.toString()
             )
-        )
-        menuList.add(
-            getMenu(
-                "Logged in",
-                MenuEnum.Logged_In.value,
-                null,
-                dashboardDetailsResponse.data!!.loggedIn!!,
-                R.drawable.ic_logged_in,
-                R.drawable.v2_menu_light_green
-            )
-        )
-        menuList.add(
-            getMenu(
-                "Approved",
-                MenuEnum.Approved.value,
-                dashboardDetailsResponse.data!!.commissionDetails!!.totalCommission!!.toString(),
-                dashboardDetailsResponse.data!!.approved!!,
-                R.drawable.ic_menu_approved,
-                R.drawable.v2_menu_bright_green
-            )
-        )
-        menuList.add(
-            getMenu(
-                "Disbursed",
-                MenuEnum.Disbursed.value,
-                null,
-                dashboardDetailsResponse.data!!.disbursed!!,
-                R.drawable.ic_menu_disbursed,
-                R.drawable.v2_menu_dark_green
-            )
-        )
-        menuList.add(
-            getMenu(
-                "Add New",
-                MenuEnum.Add_New.value,
-                null,
-                0,
-                R.drawable.ic_menu_add,
-                R.drawable.v2_menu_bright_yellow
-            )
-        )
-
-
-        val layoutManagerStaggeredGridLayoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
-        rvMenu.addItemDecoration(GridItemDecoration(30, 2))
-
-        rvMenu.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
-        menuForDashboardAdapter = MenuForDashboardAdapter(
-            activity as Activity,
-            menuList,
-            object : itemClickCallBack {
-                override fun itemClick(item: Any?, position: Int) {
-                    var m = item as MenuDTO
-                    openNextFragment(m.menuCode!!, m.menuName!!)
+            if (dashboardDetailsResponse.data!!.noticeBoard!!.totalCount!! > 0) {
+                llNoticeBoardSection.visibility = View.VISIBLE
+                tvNoticeBoardCount.text =
+                    dashboardDetailsResponse.data!!.noticeBoard!!.newCount.toString()
+                setNoticeBoardData(dashboardDetailsResponse.data!!.noticeBoard!!.notices as ArrayList<Notice>?)
+                if (dashboardDetailsResponse.data!!.noticeBoard!!.totalCount!! > 3) {
+                    llViewAllNotice.visibility = View.VISIBLE
+                } else {
+                    llViewAllNotice.visibility = View.GONE
                 }
-            })
-        rvMenu.setAdapter(menuForDashboardAdapter)
+            } else {
+                llNoticeBoardSection.visibility = View.GONE
+            }
+
+            val menuList: ArrayList<MenuDTO> = arrayListOf<MenuDTO>()
+            menuList.add(
+                getMenu(
+                    "Registered",
+                    MenuEnum.Registered.value,
+                    null,
+                    dashboardDetailsResponse.data!!.registered!!,
+                    R.drawable.ic_menu_registered,
+                    R.drawable.v2_menu_dark_blue
+                )
+            )
+            menuList.add(
+                getMenu(
+                    "Soft offer",
+                    MenuEnum.Soft_offer.value,
+                    null,
+                    dashboardDetailsResponse.data!!.softOffer!!,
+                    R.drawable.ic_menu_softoffers,
+                    R.drawable.v2_menu_light_blue
+                )
+            )
+            menuList.add(
+                getMenu(
+                    "Logged in",
+                    MenuEnum.Logged_In.value,
+                    null,
+                    dashboardDetailsResponse.data!!.loggedIn!!,
+                    R.drawable.ic_logged_in,
+                    R.drawable.v2_menu_light_green
+                )
+            )
+            menuList.add(
+                getMenu(
+                    "Approved",
+                    MenuEnum.Approved.value,
+                    dashboardDetailsResponse.data!!.commissionDetails!!.totalCommission!!.toString(),
+                    dashboardDetailsResponse.data!!.approved!!,
+                    R.drawable.ic_menu_approved,
+                    R.drawable.v2_menu_bright_green
+                )
+            )
+            menuList.add(
+                getMenu(
+                    "Disbursed",
+                    MenuEnum.Disbursed.value,
+                    null,
+                    dashboardDetailsResponse.data!!.disbursed!!,
+                    R.drawable.ic_menu_disbursed,
+                    R.drawable.v2_menu_dark_green
+                )
+            )
+            menuList.add(
+                getMenu(
+                    "Add New",
+                    MenuEnum.Add_New.value,
+                    null,
+                    0,
+                    R.drawable.ic_menu_add,
+                    R.drawable.v2_menu_bright_yellow
+                )
+            )
+
+
+            val layoutManagerStaggeredGridLayoutManager =
+                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
+            rvMenu.addItemDecoration(GridItemDecoration(30, 2))
+
+            rvMenu.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+            menuForDashboardAdapter = MenuForDashboardAdapter(
+                activity as Activity,
+                menuList,
+                object : itemClickCallBack {
+                    override fun itemClick(item: Any?, position: Int) {
+                        var m = item as MenuDTO
+                        openNextFragment(m.menuCode!!, m.menuName!!)
+                    }
+                })
+            rvMenu.setAdapter(menuForDashboardAdapter)
+        }
     }
 
     fun getMenu(
@@ -434,10 +441,12 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     private fun onDashboardDetailsResponse(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
+                llDashBoard.visibility = View.GONE
                 showProgressDialog(requireContext())
             }
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
+
 
                 val dashboardDetailsResponse: DashBoardDetailsResponse =
                     mApiResponse.data as DashBoardDetailsResponse
