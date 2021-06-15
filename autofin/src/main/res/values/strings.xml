@@ -355,5 +355,6 @@
     <string name="commission">Commission</string>
     <string name="total_commission">Total Commission</string>
     <string name="potential_commission">Potential Commission</string>
+    <string name="view_all">View All ❯</string>
 
 </resources>

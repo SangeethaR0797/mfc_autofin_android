@@ -39,6 +39,8 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     lateinit var rvMenu: RecyclerView
 
     lateinit var rvNoticeBoard: RecyclerView
+    lateinit var llViewAllNotice: LinearLayout
+    lateinit var llNoticeBoardSection: LinearLayout
 
     lateinit var rvCommissionDaysDays: RecyclerView
     lateinit var tvTotalCommission: TextView
@@ -117,6 +119,8 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
         rvNoticeBoard = view.findViewById(R.id.rv_notice_board)
         tvNoticeBoardCount = view.findViewById(R.id.tv_notice_board_count)
+        llViewAllNotice = view.findViewById(R.id.ll_view_all_notice)
+        llNoticeBoardSection = view.findViewById(R.id.ll_notice_board_section)
 
         rvCommissionDaysDays = view.findViewById(R.id.rv_commission_days)
         tvTotalCommission = view.findViewById(R.id.tv_total_commission)
@@ -127,6 +131,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         ivNotification.setOnClickListener(this)
         etSearch.setOnClickListener(this)
         llSearch.setOnClickListener(this)
+        llViewAllNotice.setOnClickListener(this)
         setScreenData()
         return view
     }
@@ -222,6 +227,9 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 R.id.ll_search -> {
                     openSearchFragment()
                 }
+                R.id.ll_view_all_notice -> {
+                    showToast("view_all_notice")
+                }
 
                 R.id.btnRegisteredList -> {
                     kycDocumentViewModel.getKYCDocumentResponse(Global.baseURL + CommonStrings.KYC_UPLOAD_URL_END_POINT + hardCodedCustomerId)
@@ -276,9 +284,17 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             dashboardDetailsResponse!!.data!!.commissionDetails!!.potentialCommission.toString()
         )
         if (dashboardDetailsResponse.data!!.noticeBoard!!.totalCount!! > 0) {
+            llNoticeBoardSection.visibility=View.VISIBLE
             tvNoticeBoardCount.text =
                 dashboardDetailsResponse.data!!.noticeBoard!!.newCount.toString()
             setNoticeBoardData(dashboardDetailsResponse.data!!.noticeBoard!!.notices as ArrayList<Notice>?)
+            if (dashboardDetailsResponse.data!!.noticeBoard!!.totalCount!! > 3) {
+                llViewAllNotice.visibility=View.VISIBLE
+            }else{
+                llViewAllNotice.visibility=View.GONE
+            }
+        }else{
+            llNoticeBoardSection.visibility=View.GONE
         }
 
         val menuList: ArrayList<MenuDTO> = arrayListOf<MenuDTO>()

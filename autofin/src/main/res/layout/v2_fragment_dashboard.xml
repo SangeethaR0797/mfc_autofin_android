@@ -195,6 +195,29 @@
                     android:layout_marginTop="@dimen/text_size_20dp"
                     android:layout_marginRight="@dimen/text_size_14dp"
                     android:nestedScrollingEnabled="false" />
+
+                <LinearLayout
+                    android:id="@+id/ll_view_all_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/text_size_12dp"
+                    android:layout_marginBottom="@dimen/text_size_16sp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/text_size_5dp"
+                        android:layout_weight="1"
+                        android:text="@string/view_all"
+                        android:textAppearance="@style/RobotoMedium"
+                        android:textColor="#0261ff"
+                        android:textSize="@dimen/text_size_16sp" />
+
+
+
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
