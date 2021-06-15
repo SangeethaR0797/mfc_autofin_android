@@ -333,7 +333,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 llNoticeBoardSection.visibility = View.VISIBLE
                 tvNoticeBoardCount.text =
                     dashboardDetailsResponse.data!!.noticeBoard!!.newCount.toString()
-                setNoticeBoardData(dashboardDetailsResponse.data!!.noticeBoard!!.noticeData as ArrayList<NoticeData>?)
+                setNoticeBoardData(dashboardDetailsResponse.data!!.noticeBoard!!.notices as ArrayList<NoticeData>?)
                 if (dashboardDetailsResponse.data!!.noticeBoard!!.totalCount!! > 3) {
                     llViewAllNotice.visibility = View.VISIBLE
                 } else {

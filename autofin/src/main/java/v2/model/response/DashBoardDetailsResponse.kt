@@ -28,7 +28,7 @@ data class CommissionDetails(
 
 data class NoticeBoard(
     var newCount: Int?,
-    var noticeData: List<NoticeData>?,
+    var notices: List<NoticeData>?,
     var totalCount: Int?
 )
 
