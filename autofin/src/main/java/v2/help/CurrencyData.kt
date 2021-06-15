@@ -1,8 +1,10 @@
 package v2.help
 
 import android.annotation.SuppressLint
+import com.amazonaws.util.StringUtils
 import java.math.BigDecimal
 import java.util.*
+
 //Reff https://zatackcoder.com/convert-number-to-indian-currency-in-java/
 
 object CurrencyData {
@@ -53,7 +55,10 @@ object CurrencyData {
             if (number > 0) {
                 val counter = str.size
                 val plural = if (counter > 0 && number > 9) "s" else ""
-                val tmp = if (number < 21) words[Integer.valueOf(number.toInt())].toString() + " " + digits[counter] + plural else words[Integer.valueOf(Math.floor((number / 10).toDouble()).toInt() * 10)].toString() + " " + words[Integer.valueOf((number % 10).toInt())] + " " + digits[counter] + plural
+                val tmp =
+                    if (number < 21) words[Integer.valueOf(number.toInt())].toString() + " " + digits[counter] + plural else words[Integer.valueOf(
+                        Math.floor((number / 10).toDouble()).toInt() * 10
+                    )].toString() + " " + words[Integer.valueOf((number % 10).toInt())] + " " + digits[counter] + plural
                 str.add(tmp)
             } else {
                 str.add("")
@@ -61,8 +66,20 @@ object CurrencyData {
         }
         Collections.reverse(str)
 
-        val Rupees = java.lang.String.join(" ", str).trim { it <= ' ' }
-        val paise = if (decimal > 0) " And Paise " + words[Integer.valueOf((decimal - decimal % 10))] + " " + words[Integer.valueOf((decimal % 10))] else ""
-        return ("Rupees $Rupees$paise Only").toString().replace("  "," ")
+        //val Rupees = java.lang.String.join(" ", str).trim { it <= ' ' }
+        val Rupees = getJoinString(str)
+        val paise =
+            if (decimal > 0) " And Paise " + words[Integer.valueOf((decimal - decimal % 10))] + " " + words[Integer.valueOf(
+                (decimal % 10)
+            )] else ""
+        return ("Rupees $Rupees$paise Only").toString().replace("  ", " ")
+    }
+
+    fun getJoinString(strArr: ArrayList<String?>): String {
+        var retrunString: String = ""
+        strArr.forEachIndexed { index, s -> retrunString = retrunString + " " + s }
+        retrunString = retrunString.trim()
+        return retrunString
+
     }
 }

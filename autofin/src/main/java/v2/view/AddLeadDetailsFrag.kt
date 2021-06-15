@@ -345,6 +345,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
         cbMoreThanOneYearInCurrentOrganization =
             view.findViewById(R.id.cb_more_than_one_year_in_current_organization)
+        cbMoreThanOneYearInCurrentOrganization.visibility = View.GONE
 
         rlEditYearOfExperience = view.findViewById(R.id.rl_edit_year_of_experience)
         rlEditYearOfExperience.visibility = View.GONE
@@ -748,7 +749,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             if (etFirstName.text.isEmpty() || addLeadRequest.Data!!.basicDetails!!.FirstName!!.isEmpty()) {
                 ll_first_name_input.setBackgroundResource(R.drawable.v2_error_layout_bg)
                 tv_fname_hint.visibility = View.VISIBLE
-            }else{
+            } else {
                 ll_first_name_input.setBackgroundResource(R.drawable.vtwo_input_bg)
                 tv_fname_hint.visibility = View.GONE
             }
@@ -756,7 +757,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 ll_last_name_input.setBackgroundResource(R.drawable.v2_error_layout_bg)
                 tv_lname_hint.visibility = View.VISIBLE
 
-            }else{
+            } else {
                 ll_last_name_input.setBackgroundResource(R.drawable.vtwo_input_bg)
                 tv_lname_hint.visibility = View.GONE
             }
@@ -765,7 +766,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 tv_email_hint.visibility = View.VISIBLE
                 tv_email_hint.setText("Please enter Email ID")
 
-            }else{
+            } else {
                 ll_last_email_input.setBackgroundResource(R.drawable.vtwo_input_bg)
                 tv_email_hint.visibility = View.GONE
             }
@@ -971,6 +972,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     }
 
     fun setTextChangeOfWorkExpirance() {
+        var timerWorkExpirance: Timer? = null
         etWorkExpriance.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 tvWorkExprianceErrorMessage.visibility = View.GONE
@@ -988,7 +990,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         false
                 } else {
                     addEmploymentDetailsRequest!!.Data!!.employmentDetails!!.TotalWorkExperience =
-                        etWorkExpriance.text.toString()
+                        etWorkExpriance.text.toString().toInt().toString()
                     cbMoreThanOneYearInCurrentOrganization.visibility = View.VISIBLE
                 }
 
@@ -1001,7 +1003,25 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             }
 
             override fun afterTextChanged(s: Editable) {
+                if (timerWorkExpirance != null) {
+                    timerWorkExpirance!!.cancel();
 
+                }
+
+
+
+                timerWorkExpirance = Timer()
+                timerWorkExpirance!!.schedule(object : TimerTask() {
+                    override fun run() {
+                        if (etWorkExpriance.text.toString().equals("0")) {
+                            ThreadUtils.runOnUiThread(Runnable {
+                                showToast("Please enter work experience more than 0 year.")
+                                etWorkExpriance.setText("")
+                            })
+
+                        }
+                    }
+                }, 600)
 
             }
         })
@@ -1304,8 +1324,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         llEmploymentSection.visibility = View.VISIBLE
                         scrollToBottom(llEmploymentSection)
                     }
-
-                    llEmploymentSection.visibility == View.VISIBLE && addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType==null->{
+                    //Employment type validtaion
+                    llEmploymentSection.visibility == View.VISIBLE && addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType == null -> {
                         showToast("Please select employment type")
                         scrollToBottom(llEmploymentSection)
                     }
@@ -1322,9 +1342,18 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         scrollToBottom(llEmploymentSection)
 
                     }
+
                     //Step 7 Open Account Details Section
                     llAccoutDetailsSection.visibility == View.GONE -> {
                         llAccoutDetailsSection.visibility = View.VISIBLE
+                        scrollToBottom(llAccoutDetailsSection)
+                    }
+
+                    //Bank validtion
+                    llAccoutDetailsSection.visibility == View.VISIBLE && (addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount == null && addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount == null) -> {
+                        showToast(
+                            "Please select " + tvBankTitle.text.toString().toLowerCase() + "."
+                        )
                         scrollToBottom(llAccoutDetailsSection)
                     }
                     llNetIncomeSection.visibility == View.GONE -> {
@@ -1404,18 +1433,18 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     //Step 19 All Data save
                     !TextUtils.isEmpty(customerId) && isEmploymentDataSaved == true && isResidentDataSaved == true -> {
 
-                        if (!addLeadRequest!!.hashCode()
+                        if (previousAddLeadRequest == null || !addLeadRequest!!.hashCode()
                                 .equals(previousAddLeadRequest!!.hashCode())
                         ) {
                             callUpdateAddLeadBasicDetailsAPIApi()
                         }
 
-                        if (!addEmploymentDetailsRequest!!.hashCode()
+                        if (addEmploymentDetailsRequest==null || !addEmploymentDetailsRequest!!.hashCode()
                                 .equals(previousAddEmploymentDetailsRequest!!.hashCode())
                         ) {
                             callAddEmploymentDetails()
                         }
-                        if (!addResidentDetailsRequest!!.hashCode()
+                        if (addResidentDetailsRequest==null || !addResidentDetailsRequest!!.hashCode()
                                 .equals(previousAddResidentDetailsRequest!!.hashCode())
                         ) {
                             callAddResidentDetails()
@@ -1699,7 +1728,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                     } else {
                         dataSelectionDTO.selected = false
-                        addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = 0
+                       // addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = 0
                     }
                 }
                 eMIDetailsAdapter.notifyDataSetChanged()
@@ -2173,6 +2202,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                         null
 
                                 } else {
+                                    etWorkExpriance.setText("")
                                     // llWorkExpriance.visibility = View.VISIBLE
                                     tvBankTitle.setText(getString(R.string.salary_bank_account))
                                     cbMoreThanOneYearInCurrentOrganization.text =
