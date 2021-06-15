@@ -14,15 +14,19 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
+import utility.CommonURLs
 import utility.Global
 import v2.model.dto.*
 import v2.model.enum_class.MenuEnum
+import v2.model.request.NoticeBoardRequest
+import v2.model.response.CommonResponse
 import v2.model.response.NoticeData
 import v2.model.response.RuleEngineBankData
 import v2.model.response.RuleEngineBanksResponse
 import v2.model.response.master.KYCDocumentResponse
 import v2.model_view.DashboardViewModel
 import v2.model_view.MasterViewModel
+import v2.model_view.NoticeBoardViewModel
 import v2.service.utility.ApiResponse
 import v2.view.adapter.DataRecyclerViewAdapter
 import v2.view.adapter.MenuForDashboardAdapter
@@ -68,6 +72,8 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     lateinit var noticeRecyclerViewAdapter: NoticeRecyclerViewAdapter
     lateinit var partnerBankRecyclerViewAdapter: PartnerBankRecyclerViewAdapter
 
+    lateinit var noticeBoardViewModel: NoticeBoardViewModel
+
     companion object {
 
         fun newInstance(): DashboardFragment {
@@ -100,6 +106,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
         kycDocumentViewModel = ViewModelProvider(this).get(MasterViewModel::class.java)
         dashboardViewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
+        noticeBoardViewModel = ViewModelProvider(this).get(NoticeBoardViewModel::class.java)
 
         kycDocumentViewModel.getKYCDocumentLiveData()
             .observe(requireActivity()) { mApiResponse: ApiResponse? ->
@@ -113,6 +120,11 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         dashboardViewModel.getRuleEngineBanksLiveData()
             .observe(requireActivity()) { mApiResponse: ApiResponse? ->
                 onRuleEngineBanksResponse(mApiResponse!!)
+            }
+
+        noticeBoardViewModel.getNoticeBoardActionLiveData()
+            .observe(requireActivity()) { mApiResponse: ApiResponse? ->
+                onNoticeBoardActionResponse(mApiResponse!!)
             }
 
 
@@ -225,7 +237,12 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             NoticeRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
                 override fun itemClick(item: Any?, position: Int) {
                     var notice = item as NoticeData
-
+                    noticeBoardViewModel.noticeBoardAction(
+                        NoticeBoardRequest(
+                            notice.noticeBoardId, CommonStrings.DEALER_ID,
+                            CommonStrings.USER_TYPE
+                        ), Global.customerAPI_BaseURL + CommonStrings.NOTICE_BOARD_ACTION_END_POINT
+                    )
 
                 }
             })
@@ -501,6 +518,29 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 hideProgressDialog()
 
                 val kycDocumentRes: KYCDocumentResponse = mApiResponse.data as KYCDocumentResponse
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+                Log.i("SoftOfferFragment", ": " + ApiResponse.Status.ERROR)
+
+            }
+            else -> {
+                Log.i("SoftOfferFragment", ": ")
+            }
+        }
+
+    }
+
+    private fun onNoticeBoardActionResponse(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                //showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+
+                val commonResponse: CommonResponse = mApiResponse.data as CommonResponse
 
             }
             ApiResponse.Status.ERROR -> {
