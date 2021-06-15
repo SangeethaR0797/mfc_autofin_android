@@ -175,7 +175,7 @@
         android:label="NoticeBoardAndNotificationFragment"
         tools:layout="@layout/v2_fragment_noticeboard">
         <argument
-            android:name="ScreenType"
+            android:name="screenType"
             app:argType="string" />
     </fragment>
 

@@ -290,7 +290,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                     activity?.onBackPressed()
                 }
                 R.id.iv_notification -> {
-                    openNotificationFragment()
+                    navigateNoticeBoardAndNotificationFragment("Notification")
                 }
 
                 R.id.et_search -> {
@@ -301,7 +301,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                     openSearchFragment()
                 }
                 R.id.ll_view_all_notice -> {
-                    showToast("view_all_notice")
+                    navigateNoticeBoardAndNotificationFragment("Notice Board")
                 }
 
                 R.id.btnRegisteredList -> {
