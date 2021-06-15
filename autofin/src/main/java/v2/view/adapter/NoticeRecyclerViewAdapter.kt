@@ -2,27 +2,25 @@ package v2.view.adapter
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
-import v2.model.dto.Notice
+
+import v2.model.response.NoticeData
 
 import v2.view.callBackInterface.itemClickCallBack
 
-class NoticeRecyclerViewAdapter(var context: Activity, var dataListValue: List<Notice>?, itemClick: itemClickCallBack?) : RecyclerView.Adapter<NoticeRecyclerViewAdapter.MyViewHolder>(), Filterable {
+class NoticeRecyclerViewAdapter(var context: Activity, var dataListValue: List<NoticeData>?, itemClick: itemClickCallBack?) : RecyclerView.Adapter<NoticeRecyclerViewAdapter.MyViewHolder>(), Filterable {
 
-    public var dataListFilter: List<Notice>?
+    public var dataListFilter: List<NoticeData>?
     private var itemCallBack: itemClickCallBack = itemClick!!
     private var mContext: Activity = context
 
     init {
-        dataListFilter = dataListValue as List<Notice>
+        dataListFilter = dataListValue as List<NoticeData>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -72,9 +70,9 @@ class NoticeRecyclerViewAdapter(var context: Activity, var dataListValue: List<N
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charSearch = constraint.toString()
                 dataListFilter = if (charSearch.isEmpty()) {
-                    dataListValue as ArrayList<Notice>
+                    dataListValue as ArrayList<NoticeData>
                 } else {
-                    val resultList = ArrayList<Notice>()
+                    val resultList = ArrayList<NoticeData>()
                     for (row in dataListValue!!) {
                         if (row.text.toString().toLowerCase().contains(constraint.toString().toLowerCase())) {
                             resultList.add(row)
@@ -88,7 +86,7 @@ class NoticeRecyclerViewAdapter(var context: Activity, var dataListValue: List<N
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                dataListFilter = results?.values as ArrayList<Notice>
+                dataListFilter = results?.values as ArrayList<NoticeData>
                 notifyDataSetChanged()
             }
         }

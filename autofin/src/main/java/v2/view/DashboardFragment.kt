@@ -17,6 +17,7 @@ import utility.CommonStrings
 import utility.Global
 import v2.model.dto.*
 import v2.model.enum_class.MenuEnum
+import v2.model.response.NoticeData
 import v2.model.response.RuleEngineBankData
 import v2.model.response.RuleEngineBanksResponse
 import v2.model.response.master.KYCDocumentResponse
@@ -216,14 +217,14 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
     }
 
-    private fun setNoticeBoardData(list: ArrayList<Notice>?) {
+    private fun setNoticeBoardData(list: ArrayList<NoticeData>?) {
         val layoutManager = LinearLayoutManager(activity)
         rvNoticeBoard.layoutManager = layoutManager
 
         noticeRecyclerViewAdapter =
             NoticeRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
                 override fun itemClick(item: Any?, position: Int) {
-                    var notice = item as Notice
+                    var notice = item as NoticeData
 
 
                 }
@@ -332,7 +333,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 llNoticeBoardSection.visibility = View.VISIBLE
                 tvNoticeBoardCount.text =
                     dashboardDetailsResponse.data!!.noticeBoard!!.newCount.toString()
-                setNoticeBoardData(dashboardDetailsResponse.data!!.noticeBoard!!.notices as ArrayList<Notice>?)
+                setNoticeBoardData(dashboardDetailsResponse.data!!.noticeBoard!!.noticeData as ArrayList<NoticeData>?)
                 if (dashboardDetailsResponse.data!!.noticeBoard!!.totalCount!! > 3) {
                     llViewAllNotice.visibility = View.VISIBLE
                 } else {

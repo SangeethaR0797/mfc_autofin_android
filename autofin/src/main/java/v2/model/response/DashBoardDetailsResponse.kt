@@ -1,5 +1,7 @@
 package v2.model.dto
 
+import v2.model.response.NoticeData
+
 data class DashBoardDetailsResponse(
     var `data`: Data?,
     var message: Any?,
@@ -26,20 +28,11 @@ data class CommissionDetails(
 
 data class NoticeBoard(
     var newCount: Int?,
-    var notices: List<Notice>?,
+    var noticeData: List<NoticeData>?,
     var totalCount: Int?
 )
 
-data class Notice(
-    var bankId: String?,
-    var caseId: String?,
-    var customerId: Int?,
-    var description: String?,
-    var isNew: Boolean?,
-    var messageKey: String?,
-    var noticeBoardId: Int?,
-    var text: String?
-)
+
 
 
 
