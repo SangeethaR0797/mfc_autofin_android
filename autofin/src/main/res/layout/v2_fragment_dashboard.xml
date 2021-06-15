@@ -139,14 +139,17 @@
                 android:layout_marginLeft="@dimen/text_size_20dp"
                 android:layout_marginRight="@dimen/text_size_20dp"
                 android:layout_marginBottom="@dimen/text_size_16sp"
-                android:background="@drawable/v2_edit_text_white_bg"
+                android:background="@drawable/v2_white_bg"
                 android:orientation="vertical"
 
-                android:padding="@dimen/text_size_14sp">
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_14dp"
+                    android:layout_marginTop="@dimen/text_size_14dp"
+                    android:layout_marginRight="@dimen/text_size_14dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -160,7 +163,7 @@
                         android:textSize="@dimen/text_size_16sp" />
 
                     <TextView
-                        android:id="@+id/notice_board_count"
+                        android:id="@+id/tv_notice_board_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/text_size_5dp"
@@ -179,14 +182,18 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/view_height_1dp"
+                    android:layout_marginLeft="-10dp"
                     android:layout_marginTop="@dimen/text_size_18dp"
+                    android:layout_marginRight="-10dp"
                     android:background="@color/v2_grey" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_notice_board"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_14dp"
                     android:layout_marginTop="@dimen/text_size_20dp"
+                    android:layout_marginRight="@dimen/text_size_14dp"
                     android:nestedScrollingEnabled="false" />
             </LinearLayout>
 
@@ -197,15 +204,19 @@
                 android:layout_marginLeft="@dimen/text_size_20dp"
                 android:layout_marginRight="@dimen/text_size_20dp"
                 android:layout_marginBottom="@dimen/text_size_16sp"
-                android:background="@drawable/v2_edit_text_white_bg"
+                android:background="@drawable/v2_white_bg"
                 android:orientation="vertical"
 
-                android:padding="@dimen/text_size_14sp">
+                >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/text_size_5dp"
+
+                    android:layout_marginLeft="@dimen/text_size_14dp"
+                    android:layout_marginTop="@dimen/text_size_20dp"
+                    android:layout_marginRight="@dimen/text_size_14dp"
+                    android:layout_marginBottom="@dimen/text_size_5dp"
                     android:text="@string/commission"
                     android:textAppearance="@style/RobotoBold"
                     android:textColor="@color/vtwo_black"
@@ -215,13 +226,17 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/view_height_1dp"
+                    android:layout_marginLeft="-10dp"
                     android:layout_marginTop="@dimen/text_size_18dp"
+                    android:layout_marginRight="-10dp"
                     android:background="@color/v2_grey" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_14dp"
                     android:layout_marginTop="@dimen/text_size_20dp"
+                    android:layout_marginRight="@dimen/text_size_14dp"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -293,7 +308,9 @@
                     android:id="@+id/rv_commission_days"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/text_size_20dp" />
+                    android:layout_marginLeft="@dimen/text_size_14dp"
+                    android:layout_marginTop="@dimen/text_size_20dp"
+                    android:layout_marginRight="@dimen/text_size_14dp" />
             </LinearLayout>
 
         </LinearLayout>

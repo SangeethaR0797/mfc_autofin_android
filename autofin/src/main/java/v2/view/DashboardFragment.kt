@@ -43,6 +43,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     lateinit var rvCommissionDaysDays: RecyclerView
     lateinit var tvTotalCommission: TextView
     lateinit var tvPotentialCommission: TextView
+    lateinit var tvNoticeBoardCount: TextView
 
     lateinit var menuForDashboardAdapter: MenuForDashboardAdapter
 
@@ -115,6 +116,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         rvMenu = view.findViewById(R.id.rv_menu)
 
         rvNoticeBoard = view.findViewById(R.id.rv_notice_board)
+        tvNoticeBoardCount = view.findViewById(R.id.tv_notice_board_count)
 
         rvCommissionDaysDays = view.findViewById(R.id.rv_commission_days)
         tvTotalCommission = view.findViewById(R.id.tv_total_commission)
@@ -273,7 +275,9 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         tvPotentialCommission.text = "₹" + formatAmount(
             dashboardDetailsResponse!!.data!!.commissionDetails!!.potentialCommission.toString()
         )
-        if (dashboardDetailsResponse.data!!.noticeBoard!!.newCount!! > 0) {
+        if (dashboardDetailsResponse.data!!.noticeBoard!!.totalCount!! > 0) {
+            tvNoticeBoardCount.text =
+                dashboardDetailsResponse.data!!.noticeBoard!!.newCount.toString()
             setNoticeBoardData(dashboardDetailsResponse.data!!.noticeBoard!!.notices as ArrayList<Notice>?)
         }
 
