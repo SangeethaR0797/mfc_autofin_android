@@ -1,5 +1,6 @@
 package v2.model.dto
 
+import v2.model.response.CommissionDetails
 import v2.model.response.NoticeData
 
 data class DashBoardDetailsResponse(
@@ -20,11 +21,7 @@ data class Data(
     var softOffer: Int?
 )
 
-data class CommissionDetails(
-    var forDays: Int?,
-    var potentialCommission: Int?,
-    var totalCommission: Int?
-)
+
 
 data class NoticeBoard(
     var newCount: Int?,
