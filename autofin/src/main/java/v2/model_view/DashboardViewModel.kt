@@ -17,7 +17,9 @@ class DashboardViewModel(application: Application) : BaseViewModel(application) 
     }
 
     //region DashboardDetails
-    private val mDashboardDetailsLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+    private val mDashboardDetailsLiveData: MutableLiveData<ApiResponse> =
+        MutableLiveData<ApiResponse>()
+
     public fun getDashboardDetailsLiveData(): MutableLiveData<ApiResponse> {
         return mDashboardDetailsLiveData
     }
@@ -25,30 +27,64 @@ class DashboardViewModel(application: Application) : BaseViewModel(application) 
 
     public fun getDashboardDetails(request: DashBoardDetailsRequest, url: String?) {
         repository.getDashboardDetails(request, url)?.subscribeOn(Schedulers.io())
-                ?.observeOn(AndroidSchedulers.mainThread())
-                ?.doOnSubscribe { d -> mDashboardDetailsLiveData.setValue(ApiResponse.loading()) }
-                ?.let {
-                    disposables.add(
-                            it
-                                    .subscribe(
-                                            { result ->
-                                                mDashboardDetailsLiveData.setValue(result?.let {
-                                                    ApiResponse.success(
-                                                            it
-                                                    )
-                                                })
-                                            }
-                                    ) { throwable ->
-                                        mDashboardDetailsLiveData.setValue(
-                                                ApiResponse.error(
-                                                        throwable
-                                                )
-                                        )
-                                    })
-                }
+            ?.observeOn(AndroidSchedulers.mainThread())
+            ?.doOnSubscribe { d -> mDashboardDetailsLiveData.setValue(ApiResponse.loading()) }
+            ?.let {
+                disposables.add(
+                    it
+                        .subscribe(
+                            { result ->
+                                mDashboardDetailsLiveData.setValue(result?.let {
+                                    ApiResponse.success(
+                                        it
+                                    )
+                                })
+                            }
+                        ) { throwable ->
+                            mDashboardDetailsLiveData.setValue(
+                                ApiResponse.error(
+                                    throwable
+                                )
+                            )
+                        })
+            }
     }
     //endregion DashboardDetails
 
-   
+    //region getRuleEngineBanks
+    private val mRuleEngineBanksLiveData: MutableLiveData<ApiResponse> =
+        MutableLiveData<ApiResponse>()
+
+    public fun getRuleEngineBanksLiveData(): MutableLiveData<ApiResponse> {
+        return mRuleEngineBanksLiveData
+    }
+
+
+    public fun getRuleEngineBanks(url: String?) {
+        repository.getRuleEngineBanks(url)?.subscribeOn(Schedulers.io())
+            ?.observeOn(AndroidSchedulers.mainThread())
+            ?.doOnSubscribe { d -> mRuleEngineBanksLiveData.setValue(ApiResponse.loading()) }
+            ?.let {
+                disposables.add(
+                    it
+                        .subscribe(
+                            { result ->
+                                mRuleEngineBanksLiveData.setValue(result?.let {
+                                    ApiResponse.success(
+                                        it
+                                    )
+                                })
+                            }
+                        ) { throwable ->
+                            mRuleEngineBanksLiveData.setValue(
+                                ApiResponse.error(
+                                    throwable
+                                )
+                            )
+                        })
+            }
+    }
+    //endregion getRuleEngineBanks
+
 
 }

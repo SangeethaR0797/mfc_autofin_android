@@ -3,24 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_main_layout"
-    android:layout_width="379dp"
-    android:layout_height="372dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/text_size_20dp"
+    android:layout_marginLeft="@dimen/text_size_20dp"
     android:background="@drawable/v2_white_bg"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="@dimen/text_size_20dp">
+    android:padding="@dimen/text_size_30dp">
 
     <ImageView
         android:id="@+id/iv_icon"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_width="140dp"
+        android:layout_height="@dimen/text_size_30dp"
+        android:scaleType="fitXY"
         tools:srcCompat="@drawable/ic_hdfc" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_size_30dp"
+
         android:gravity="center">
 
         <ImageView
@@ -30,6 +33,7 @@
             app:srcCompat="@drawable/ic_offer_icon" />
 
         <LinearLayout
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/text_size10dp"
@@ -45,13 +49,13 @@
                 tools:text="8.25%" />
 
             <TextView
-                 android:layout_width="wrap_content"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/rate_of_intrest"
                 android:textAppearance="@style/RobotoRegular"
                 android:textColor="@color/grey_color"
                 android:textSize="@dimen/text_size_12dp"
-                android:textStyle="italic"
-                android:text="@string/rate_of_intrest" />
+                android:textStyle="italic" />
 
         </LinearLayout>
     </LinearLayout>
@@ -61,7 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/text_size_5dp"
+        android:layout_marginTop="@dimen/text_size_22dp"
 
         android:text="@string/know_more"
         android:textAppearance="@style/RobotoMedium"

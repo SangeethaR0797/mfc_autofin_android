@@ -17,6 +17,8 @@ import utility.CommonStrings
 import utility.Global
 import v2.model.dto.*
 import v2.model.enum_class.MenuEnum
+import v2.model.response.RuleEngineBankData
+import v2.model.response.RuleEngineBanksResponse
 import v2.model.response.master.KYCDocumentResponse
 import v2.model_view.DashboardViewModel
 import v2.model_view.MasterViewModel
@@ -24,6 +26,7 @@ import v2.service.utility.ApiResponse
 import v2.view.adapter.DataRecyclerViewAdapter
 import v2.view.adapter.MenuForDashboardAdapter
 import v2.view.adapter.NoticeRecyclerViewAdapter
+import v2.view.adapter.PartnerBankRecyclerViewAdapter
 import v2.view.base.BaseFragment
 import v2.view.callBackInterface.AppTokenChangeInterface
 import v2.view.callBackInterface.itemClickCallBack
@@ -61,6 +64,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
     lateinit var commissionDaysDaysDataAdapter: DataRecyclerViewAdapter
     lateinit var noticeRecyclerViewAdapter: NoticeRecyclerViewAdapter
+    lateinit var partnerBankRecyclerViewAdapter: PartnerBankRecyclerViewAdapter
 
     companion object {
 
@@ -103,6 +107,10 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         dashboardViewModel.getDashboardDetailsLiveData()
             .observe(requireActivity()) { mApiResponse: ApiResponse? ->
                 onDashboardDetailsResponse(mApiResponse!!)
+            }
+        dashboardViewModel.getRuleEngineBanksLiveData()
+            .observe(requireActivity()) { mApiResponse: ApiResponse? ->
+                onRuleEngineBanksResponse(mApiResponse!!)
             }
 
 
@@ -151,6 +159,9 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 CommonStrings.USER_TYPE,
                 "Dashboard"
             ), Global.customerAPI_BaseURL + CommonStrings.DASHBOARD_DETAILS_END_POINT
+        )
+        dashboardViewModel.getRuleEngineBanks(
+            Global.baseURL + CommonStrings.GET_RULE_ENGINE_BANKS_END_POINT
         )
     }
 
@@ -216,6 +227,27 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         rvNoticeBoard.adapter = noticeRecyclerViewAdapter
 
     }
+
+    private fun setPartnerBanksDetails(ruleEngineBanksResponse: RuleEngineBanksResponse) {
+        ruleEngineBanksResponse.data
+        val layoutManager = LinearLayoutManager(activity)
+        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        rvBankingPartner.layoutManager = layoutManager
+
+        partnerBankRecyclerViewAdapter =
+            PartnerBankRecyclerViewAdapter(
+                activity as Activity,
+                ruleEngineBanksResponse.data,
+                object : itemClickCallBack {
+                    override fun itemClick(item: Any?, position: Int) {
+                        var ruleEngineBankData = item as RuleEngineBankData
+                        showToast("Know More")
+
+                    }
+                })
+        rvBankingPartner.adapter = partnerBankRecyclerViewAdapter
+    }
+
 
     override fun onClick(v: View?) {
         if (v != null) {
@@ -423,6 +455,32 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         }
 
     }
+
+    private fun onRuleEngineBanksResponse(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+
+                val ruleEngineBanksResponse: RuleEngineBanksResponse =
+                    mApiResponse.data as RuleEngineBanksResponse
+                setPartnerBanksDetails(ruleEngineBanksResponse)
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+
+
+            }
+            else -> {
+
+            }
+        }
+
+    }
+
 
     private fun onGetKYCDocumentResponse(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {

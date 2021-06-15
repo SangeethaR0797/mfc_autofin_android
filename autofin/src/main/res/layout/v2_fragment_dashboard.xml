@@ -347,13 +347,14 @@
                 android:id="@+id/ll_banking_partner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/text_size_20dp"
-                android:layout_marginRight="@dimen/text_size_20dp"
+
                 android:layout_marginBottom="@dimen/text_size_16sp"
 
                 android:orientation="vertical">
 
                 <TextView
+                    android:layout_marginLeft="@dimen/text_size_20dp"
+                    android:layout_marginRight="@dimen/text_size_20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/text_size_20dp"
@@ -368,7 +369,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/text_size_18dp"
-                    android:layout_marginRight="@dimen/text_size_14dp" />
+                   />
             </LinearLayout>
 
         </LinearLayout>
