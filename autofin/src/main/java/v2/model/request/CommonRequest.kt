@@ -1,6 +1,6 @@
 package v2.model.request
 
-data class NoticeBoardRequest(
+data class CommonRequest(
     var Data: Int?,
     var UserId: String?,
     var UserType: String?

@@ -14,11 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
-import utility.CommonURLs
 import utility.Global
 import v2.model.dto.*
 import v2.model.enum_class.MenuEnum
-import v2.model.request.NoticeBoardRequest
+import v2.model.request.CommonRequest
 import v2.model.response.CommonResponse
 import v2.model.response.NoticeData
 import v2.model.response.RuleEngineBankData
@@ -237,12 +236,15 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             NoticeRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
                 override fun itemClick(item: Any?, position: Int) {
                     var notice = item as NoticeData
-                    noticeBoardViewModel.noticeBoardAction(
-                        NoticeBoardRequest(
-                            notice.noticeBoardId, CommonStrings.DEALER_ID,
-                            CommonStrings.USER_TYPE
-                        ), Global.customerAPI_BaseURL + CommonStrings.NOTICE_BOARD_ACTION_END_POINT
-                    )
+                    if (notice.isNew == true) {
+                        noticeBoardViewModel.noticeBoardAction(
+                            CommonRequest(
+                                notice.noticeBoardId, CommonStrings.DEALER_ID,
+                                CommonStrings.USER_TYPE
+                            ),
+                            Global.customerAPI_BaseURL + CommonStrings.NOTICE_BOARD_ACTION_END_POINT
+                        )
+                    }
 
                 }
             })

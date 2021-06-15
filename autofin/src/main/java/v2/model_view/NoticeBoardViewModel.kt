@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import v2.model.request.NoticeBoardRequest
+import v2.model.request.CommonRequest
 import v2.model_view.Base.BaseViewModel
 import v2.repository.NoticeBoardRepository
 import v2.service.utility.ApiResponse
@@ -25,7 +25,7 @@ class NoticeBoardViewModel(application: Application) : BaseViewModel(application
     }
 
 
-    public fun noticeBoardAction(request: NoticeBoardRequest, url: String?) {
+    public fun noticeBoardAction(request: CommonRequest, url: String?) {
         repository.noticeBoardAction(request, url)?.subscribeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
             ?.doOnSubscribe { d -> mNoticeBoardActionLiveData.setValue(ApiResponse.loading()) }
@@ -61,7 +61,7 @@ class NoticeBoardViewModel(application: Application) : BaseViewModel(application
     }
 
 
-    public fun getNoticeBoardDetails(request: NoticeBoardRequest, url: String?) {
+    public fun getNoticeBoardDetails(request: CommonRequest, url: String?) {
         repository.getNoticeBoardData(request, url)?.subscribeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
             ?.doOnSubscribe { d -> mNoticeBoardDetailsLiveData.setValue(ApiResponse.loading()) }
