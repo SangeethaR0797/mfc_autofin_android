@@ -9,15 +9,13 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
-import v2.model.dto.DashBoardDetailsRequest
-import v2.model.dto.DashBoardDetailsResponse
-import v2.model.dto.DataSelectionDTO
-import v2.model.dto.MenuDTO
+import v2.model.dto.*
 import v2.model.enum_class.MenuEnum
 import v2.model.response.master.KYCDocumentResponse
 import v2.model_view.DashboardViewModel
@@ -25,6 +23,7 @@ import v2.model_view.MasterViewModel
 import v2.service.utility.ApiResponse
 import v2.view.adapter.DataRecyclerViewAdapter
 import v2.view.adapter.MenuForDashboardAdapter
+import v2.view.adapter.NoticeRecyclerViewAdapter
 import v2.view.base.BaseFragment
 import v2.view.callBackInterface.AppTokenChangeInterface
 import v2.view.callBackInterface.itemClickCallBack
@@ -39,6 +38,8 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     lateinit var llSearch: LinearLayout
     lateinit var rvMenu: RecyclerView
 
+    lateinit var rvNoticeBoard: RecyclerView
+
     lateinit var rvCommissionDaysDays: RecyclerView
     lateinit var tvTotalCommission: TextView
     lateinit var tvPotentialCommission: TextView
@@ -52,6 +53,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     lateinit var hostActivity: HostActivity
 
     lateinit var commissionDaysDaysDataAdapter: DataRecyclerViewAdapter
+    lateinit var noticeRecyclerViewAdapter: NoticeRecyclerViewAdapter
 
     companion object {
 
@@ -112,6 +114,8 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         llSearch = view.findViewById(R.id.ll_search)
         rvMenu = view.findViewById(R.id.rv_menu)
 
+        rvNoticeBoard = view.findViewById(R.id.rv_notice_board)
+
         rvCommissionDaysDays = view.findViewById(R.id.rv_commission_days)
         tvTotalCommission = view.findViewById(R.id.tv_total_commission)
         tvPotentialCommission = view.findViewById(R.id.tv_potential_commission)
@@ -138,6 +142,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
     fun setScreenData() {
         setCommissionDaysData()
+
 
     }
 
@@ -179,6 +184,22 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         rvCommissionDaysDays.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
 
         rvCommissionDaysDays.setAdapter(commissionDaysDaysDataAdapter)
+
+    }
+
+    private fun setNoticeBoardData(list: ArrayList<Notice>?) {
+        val layoutManager = LinearLayoutManager(activity)
+        rvNoticeBoard.layoutManager = layoutManager
+
+        noticeRecyclerViewAdapter =
+            NoticeRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+                override fun itemClick(item: Any?, position: Int) {
+                    var notice = item as Notice
+
+
+                }
+            })
+        rvNoticeBoard.adapter = noticeRecyclerViewAdapter
 
     }
 
@@ -252,6 +273,9 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         tvPotentialCommission.text = "₹" + formatAmount(
             dashboardDetailsResponse!!.data!!.commissionDetails!!.potentialCommission.toString()
         )
+        if (dashboardDetailsResponse.data!!.noticeBoard!!.newCount!! > 0) {
+            setNoticeBoardData(dashboardDetailsResponse.data!!.noticeBoard!!.notices as ArrayList<Notice>?)
+        }
 
         val menuList: ArrayList<MenuDTO> = arrayListOf<MenuDTO>()
         menuList.add(

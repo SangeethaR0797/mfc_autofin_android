@@ -2,54 +2,68 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ll_main_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/text_size_15dp"
-    android:orientation="horizontal"
-    android:paddingTop="@dimen/text_size_18dp">
-
-    <ImageView
-        android:layout_marginTop="@dimen/text_size_5dp"
-        android:id="@+id/iv_icon"
-        android:layout_width="@dimen/text_size_8dp"
-        android:layout_height="@dimen/text_size_8dp"
-        android:layout_marginLeft="@dimen/text_size_12dp"
-        android:layout_marginBottom="@dimen/text_size_8dp"
-        android:scaleType="fitCenter"
-        app:srcCompat="@drawable/ic_small_black_circle" />
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/ll_text_data"
+        android:id="@+id/ll_main_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/text_size_8dp"
+        android:layout_marginBottom="@dimen/text_size_15dp"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/text_size_15dp">
 
-        android:layout_marginRight="@dimen/text_size_12dp"
-        android:layout_marginBottom="@dimen/text_size_8dp"
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="@dimen/text_size_8dp"
+            android:layout_height="@dimen/text_size_8dp"
+            android:layout_marginLeft="@dimen/text_size_12dp"
+            android:layout_marginTop="@dimen/text_size_5dp"
+            android:layout_marginBottom="@dimen/text_size_8dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_small_black_circle" />
 
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tv_item"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/ll_text_data"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:textAppearance="@style/RobotoMedium"
-            android:textColor="@color/vtwo_black"
-            android:textSize="@dimen/text_size_14sp"
-            tools:text="Thor Odinson's Loan Has been disbursed" />
+            android:layout_marginLeft="@dimen/text_size_8dp"
 
-        <TextView
-            android:id="@+id/tv_item_small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="2"
-            android:textAppearance="@style/RobotoRegular"
-            android:textColor="@color/vtwo_light_grey"
-            android:textSize="@dimen/text_size10dp"
-            android:textStyle="italic"
-            tools:text="Congratulations! the loan for Thor Odinson, LOS ID : 2254 for HONDA CIVIC 1.8 VX AT has been disbursed by HDFC. Congratulations! the loan for Thor Odinson, LOS ID : 2254 for HONDA CIVIC 1.8 VX AT has been disbursed by HDFC." />
+            android:layout_marginRight="@dimen/text_size_12dp"
+
+
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textAppearance="@style/RobotoMedium"
+                android:textColor="@color/vtwo_black"
+                android:textSize="@dimen/text_size_14sp"
+                tools:text="Thor Odinson's Loan Has been disbursed" />
+
+            <TextView
+                android:id="@+id/tv_item_small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:textAppearance="@style/RobotoRegular"
+                android:textColor="@color/vtwo_light_grey"
+                android:textSize="@dimen/text_size10dp"
+                android:textStyle="italic"
+                tools:text="Congratulations! the loan for Thor Odinson, LOS ID : 2254 for HONDA CIVIC 1.8 VX AT has been disbursed by HDFC. Congratulations! the loan for Thor Odinson, LOS ID : 2254 for HONDA CIVIC 1.8 VX AT has been disbursed by HDFC." />
+        </LinearLayout>
+
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_height_1dp"
+        android:layout_marginLeft="@dimen/text_size_18dp"
+        android:layout_marginRight="@dimen/text_size_18dp"
+        android:layout_marginBottom="@dimen/text_size_18dp"
+        android:background="@color/v2_grey" />
 </LinearLayout>
