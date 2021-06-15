@@ -357,5 +357,7 @@
     <string name="potential_commission">Potential Commission</string>
     <string name="view_all">View All ❯</string>
     <string name="our_banking_partner">Our Banking Partner</string>
+    <string name="know_more">Know More ❯</string>
+    <string name="rate_of_intrest">Rate of intrest</string>
 
 </resources>
