@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,14 +25,14 @@
             android:layout_marginBottom="@dimen/text_size10dp"
             android:layout_weight="1"
             android:background="@android:color/transparent"
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"
+
             android:inputType="textCapCharacters|textPostalAddress"
-
-
             android:singleLine="true"
             android:textAppearance="@style/RobotoRegular"
             android:textColorHint="@color/vtwo_grey"
-            android:textSize="@dimen/text_size_14sp"
-            android:importantForAutofill="no" />
+            android:textSize="@dimen/text_size_14sp" />
 
 
     </LinearLayout>

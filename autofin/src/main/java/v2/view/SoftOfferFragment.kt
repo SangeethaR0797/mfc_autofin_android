@@ -50,6 +50,8 @@ import v2.view.callBackInterface.AdditionalFieldsDetailsInterface
 import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.callBackInterface.itemClickCallBack
 import v2.view.utility_view.GridItemDecoration
+import android.view.View.OnFocusChangeListener
+
 
 
 class SoftOfferFragment : BaseFragment(), OnClickListener {
@@ -868,6 +870,9 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
                 // prefill
                 fieldInputValue.setText(isFieldFilled(fieldData.apiDetails.apiKey))
+
+
+
                 fieldInputValue.addTextChangedListener(object : TextWatcher {
                     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                     }
@@ -899,7 +904,8 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                     showToast("Enter valid Pincode")
                                 }
 
-                            } else if (isLastSection && isLastItem || sectionName == "Address" && isLastItem) {
+                            }
+                            else if (isLastSection && isLastItem || sectionName == "Address" && isLastItem) {
 
                                 val editTextString: String = fieldInputValue.text.toString()
                                 val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
@@ -921,34 +927,16 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                             actionId == EditorInfo.IME_ACTION_DONE ||
                             actionId == EditorInfo.IME_ACTION_NEXT) {
 
-                        if (fieldInputValue.text.isNotEmpty()) {
-
-                            if (fieldData.apiDetails.apiKey == "CompanyPincode") {
-
-                                val editTextString: String = fieldInputValue.text.toString()
-                                if (editTextString.length == 6) {
-                                    additionaFieldPinCode = editTextString
-                                    validateInput(sectionName, fieldData.apiDetails.apiKey, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, editTextString)
-                                    refreshFieldView(sectionName, linearLayout, cFieldList, isLastSection)
-                                } else {
-                                    showToast("Enter valid Pincode")
-                                }
-
-                            } else if (isLastSection && isLastItem || sectionName == "Address" && isLastItem) {
-
-                                val editTextString: String = fieldInputValue.text.toString()
-                                val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
-                                addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
-
-                            } else {
-                                val editTextString: String = fieldInputValue.text.toString()
-                                validateInput(sectionName, fieldData.apiDetails.apiKey, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, editTextString)
-                            }
-
-                        } else
-                            showToast("Please fill the field")
+                    updateEditTextValues(fieldInputValue,fieldData,sectionName,isLastItem,linearLayout,cFieldList,isLastSection)
                     }
                     false
+                })
+
+                fieldInputValue.setOnFocusChangeListener(OnFocusChangeListener { v, hasFocus ->
+                    if (!hasFocus)
+                    {
+                        updateEditTextValues(fieldInputValue, fieldData, sectionName, isLastItem, linearLayout, cFieldList, isLastSection)
+                    }
                 })
 
 
@@ -1085,6 +1073,37 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         }
 
         return currentFieldInputView
+    }
+
+    private fun updateEditTextValues(fieldInputValue:EditText,fieldData:Fields,sectionName: String,isLastItem:Boolean,linearLayout:LinearLayout,cFieldList: List<Fields>,isLastSection:Boolean)
+    {
+        if (fieldInputValue.text.isNotEmpty()) {
+
+            if (fieldData.apiDetails.apiKey == "CompanyPincode") {
+
+                val editTextString: String = fieldInputValue.text.toString()
+                if (editTextString.length == 6) {
+                    additionaFieldPinCode = editTextString
+                    validateInput(sectionName, fieldData.apiDetails.apiKey, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, editTextString)
+                    refreshFieldView(sectionName, linearLayout, cFieldList, isLastSection)
+                } else {
+                    showToast("Enter valid Pincode")
+                }
+
+            } else if (isLastSection && isLastItem || sectionName == "Address" && isLastItem) {
+
+                val editTextString: String = fieldInputValue.text.toString()
+                val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
+                addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
+
+            } else {
+                val editTextString: String = fieldInputValue.text.toString()
+                validateInput(sectionName, fieldData.apiDetails.apiKey, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, editTextString)
+            }
+
+        } else
+            showToast("Please fill the field")
+
     }
 
     private fun setStateOrCityValue(sectionName: String, apiKey: String, fieldInput: TextView, url: String) {

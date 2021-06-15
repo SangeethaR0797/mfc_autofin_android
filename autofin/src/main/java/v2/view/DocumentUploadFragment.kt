@@ -392,7 +392,8 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     }
 
     private fun openGallery() {
-        val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        val gallery = Intent(Intent.ACTION_GET_CONTENT)
+        gallery.type = "*/*"
         requireActivity().startActivityForResult(gallery, IMAGE_GALLERY_CODE)
     }
 
@@ -422,7 +423,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                     val picturePath = cursor.getString(columnIndex)
                     cursor.close()
                     file = File(picturePath)
-                    compressImage(file?.path)
+                    //compressImage(file?.path)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
