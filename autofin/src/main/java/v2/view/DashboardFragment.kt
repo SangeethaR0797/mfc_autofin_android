@@ -47,6 +47,10 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     lateinit var tvPotentialCommission: TextView
     lateinit var tvNoticeBoardCount: TextView
 
+
+    lateinit var rvBankingPartner: RecyclerView
+    lateinit var llBankingPartner: LinearLayout
+
     lateinit var menuForDashboardAdapter: MenuForDashboardAdapter
 
     lateinit var kycDocumentViewModel: MasterViewModel
@@ -125,6 +129,9 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         rvCommissionDaysDays = view.findViewById(R.id.rv_commission_days)
         tvTotalCommission = view.findViewById(R.id.tv_total_commission)
         tvPotentialCommission = view.findViewById(R.id.tv_potential_commission)
+
+        rvBankingPartner = view.findViewById(R.id.rv_banking_partner)
+        llBankingPartner = view.findViewById(R.id.ll_banking_partner)
 
 
         ivBack.setOnClickListener(this)
@@ -284,17 +291,17 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             dashboardDetailsResponse!!.data!!.commissionDetails!!.potentialCommission.toString()
         )
         if (dashboardDetailsResponse.data!!.noticeBoard!!.totalCount!! > 0) {
-            llNoticeBoardSection.visibility=View.VISIBLE
+            llNoticeBoardSection.visibility = View.VISIBLE
             tvNoticeBoardCount.text =
                 dashboardDetailsResponse.data!!.noticeBoard!!.newCount.toString()
             setNoticeBoardData(dashboardDetailsResponse.data!!.noticeBoard!!.notices as ArrayList<Notice>?)
             if (dashboardDetailsResponse.data!!.noticeBoard!!.totalCount!! > 3) {
-                llViewAllNotice.visibility=View.VISIBLE
-            }else{
-                llViewAllNotice.visibility=View.GONE
+                llViewAllNotice.visibility = View.VISIBLE
+            } else {
+                llViewAllNotice.visibility = View.GONE
             }
-        }else{
-            llNoticeBoardSection.visibility=View.GONE
+        } else {
+            llNoticeBoardSection.visibility = View.GONE
         }
 
         val menuList: ArrayList<MenuDTO> = arrayListOf<MenuDTO>()
