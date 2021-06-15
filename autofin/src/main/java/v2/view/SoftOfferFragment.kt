@@ -50,8 +50,6 @@ import v2.view.callBackInterface.AdditionalFieldsDetailsInterface
 import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.callBackInterface.itemClickCallBack
 import v2.view.utility_view.GridItemDecoration
-import android.view.View.OnFocusChangeListener
-
 
 
 class SoftOfferFragment : BaseFragment(), OnClickListener {
@@ -904,8 +902,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                     showToast("Enter valid Pincode")
                                 }
 
-                            }
-                            else if (isLastSection && isLastItem || sectionName == "Address" && isLastItem) {
+                            } else if (isLastSection && isLastItem || sectionName == "Address" && isLastItem) {
 
                                 val editTextString: String = fieldInputValue.text.toString()
                                 val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
@@ -927,14 +924,13 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                             actionId == EditorInfo.IME_ACTION_DONE ||
                             actionId == EditorInfo.IME_ACTION_NEXT) {
 
-                    updateEditTextValues(fieldInputValue,fieldData,sectionName,isLastItem,linearLayout,cFieldList,isLastSection)
+                        updateEditTextValues(fieldInputValue, fieldData, sectionName, isLastItem, linearLayout, cFieldList, isLastSection)
                     }
                     false
                 })
 
                 fieldInputValue.setOnFocusChangeListener(OnFocusChangeListener { v, hasFocus ->
-                    if (!hasFocus)
-                    {
+                    if (!hasFocus) {
                         updateEditTextValues(fieldInputValue, fieldData, sectionName, isLastItem, linearLayout, cFieldList, isLastSection)
                     }
                 })
@@ -1075,7 +1071,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         return currentFieldInputView
     }
 
-    private fun updateEditTextValues(fieldInputValue:EditText,fieldData:Fields,sectionName: String,isLastItem:Boolean,linearLayout:LinearLayout,cFieldList: List<Fields>,isLastSection:Boolean)
+    private fun updateEditTextValues(fieldInputValue: EditText, fieldData: Fields, sectionName: String, isLastItem: Boolean, linearLayout: LinearLayout, cFieldList: List<Fields>, isLastSection: Boolean)
     {
         if (fieldInputValue.text.isNotEmpty()) {
 
@@ -1275,8 +1271,12 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
 
     private fun refreshFieldView(sectionName: String, linearLayout: LinearLayout, cFieldList: List<Fields>, isLastItem: Boolean) {
-        linearLayout.removeAllViews()
-        generateFieldUI(sectionName, linearLayout, cFieldList, isLastItem)
+        handler.postDelayed({
+                            linearLayout.removeAllViews()
+            generateFieldUI(sectionName, linearLayout, cFieldList, isLastItem)
+
+        },500)
+
     }
 
 
@@ -1584,7 +1584,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         })
 
         var reviewAdapter = AdditionalFieldsAdapter(apiURL, optionList, object : AdditionalFieldsDetailsInterface {
-            override fun returnDetails(details:Details) {
+            override fun returnDetails(details: Details) {
                 returnDetailsCallBack.returnDetails(details)
                 dialog.dismiss()
             }
