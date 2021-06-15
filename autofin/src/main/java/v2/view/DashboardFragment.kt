@@ -18,10 +18,7 @@ import utility.Global
 import v2.model.dto.*
 import v2.model.enum_class.MenuEnum
 import v2.model.request.CommonRequest
-import v2.model.response.CommonResponse
-import v2.model.response.NoticeData
-import v2.model.response.RuleEngineBankData
-import v2.model.response.RuleEngineBanksResponse
+import v2.model.response.*
 import v2.model.response.master.KYCDocumentResponse
 import v2.model_view.DashboardViewModel
 import v2.model_view.MasterViewModel
@@ -126,6 +123,11 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 onNoticeBoardActionResponse(mApiResponse!!)
             }
 
+        dashboardViewModel.getDealerCommissionLiveData()
+            .observe(requireActivity()) { mApiResponse: ApiResponse? ->
+                onCommissionDetailsResponse(mApiResponse!!)
+            }
+
 
     }
 
@@ -199,6 +201,14 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         commissionDaysDaysDataAdapter =
             DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
                 override fun itemClick(item: Any?, position: Int) {
+
+                    dashboardViewModel.getDealerCommission(
+                        CommonRequest(
+                            (item as DataSelectionDTO).value!!.toInt(), CommonStrings.DEALER_ID,
+                            CommonStrings.USER_TYPE
+                        ),
+                        Global.customerAPI_BaseURL + CommonStrings.DEALER_COMMISSION_END_POINT
+                    )
 
 
                     commissionDaysDaysDataAdapter.dataListFilter!!.forEachIndexed { index, item ->
@@ -543,6 +553,36 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 hideProgressDialog()
 
                 val commonResponse: CommonResponse = mApiResponse.data as CommonResponse
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+                Log.i("SoftOfferFragment", ": " + ApiResponse.Status.ERROR)
+
+            }
+            else -> {
+                Log.i("SoftOfferFragment", ": ")
+            }
+        }
+
+    }
+
+    private fun onCommissionDetailsResponse(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+
+                val commissionDetailsResponse: CommissionDetailsResponse =
+                    mApiResponse.data as CommissionDetailsResponse
+                tvTotalCommission.text = "₹" + formatAmount(
+                    commissionDetailsResponse!!.data!!.totalCommission.toString()
+                )
+                tvPotentialCommission.text = "₹" + formatAmount(
+                    commissionDetailsResponse!!.data!!.potentialCommission.toString()
+                )
 
             }
             ApiResponse.Status.ERROR -> {
