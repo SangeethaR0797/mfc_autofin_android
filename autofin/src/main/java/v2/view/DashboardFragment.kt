@@ -335,7 +335,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
 
     fun openNextFragment(menuCode: String, menuName: String) {
-        showToast(menuCode + " >> " + menuName)
+
         when (menuCode) {
 
             MenuEnum.Registered.value -> {
