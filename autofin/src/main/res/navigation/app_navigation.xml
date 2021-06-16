@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_noticeBoardAndNotificationFragment"
             app:destination="@id/noticeBoardAndNotificationFragment" />
+        <action
+            android:id="@+id/action_applicationListFragment"
+            app:destination="@id/applicationListFragment" />
     </fragment>
     <fragment
         android:id="@+id/registeredListFragmentNav"
@@ -177,6 +180,18 @@
         <argument
             android:name="screenType"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/applicationListFragment"
+        android:name="v2.view.ApplicationListFragment"
+        android:label="ApplicationListFragment"
+        tools:layout="@layout/v2_fragment_application_list">
+        <argument
+            android:name="screenType"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_noticeBoardAndNotificationFragment"
+            app:destination="@id/noticeBoardAndNotificationFragment" />
     </fragment>
 
 

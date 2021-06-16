@@ -329,22 +329,20 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     }
 
     fun openSearchFragment() {
-        showToast("Search")
+        navigateApplicationListFragment("Search")
     }
 
-    fun openNotificationFragment() {
-        showToast("Notification")
-    }
+
 
     fun openNextFragment(menuCode: String, menuName: String) {
         showToast(menuCode + " >> " + menuName)
         when (menuCode) {
 
             MenuEnum.Registered.value -> {
-
+                navigateApplicationListFragment("Registered")
             }
             MenuEnum.Soft_offer.value -> {
-
+                navigateApplicationListFragment("SoftOffer")
             }
             MenuEnum.Logged_In.value -> {
 

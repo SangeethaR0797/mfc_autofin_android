@@ -388,6 +388,14 @@ public open class BaseFragment : Fragment() {
             Navigation.findNavController(it).navigate(directions)
         }
     }
+
+    public fun navigateApplicationListFragment(screenType: String) {
+        val directions =
+            DashboardFragmentDirections.actionApplicationListFragment(screenType!!)
+        view?.let {
+            Navigation.findNavController(it).navigate(directions)
+        }
+    }
     //endregion screen Navigation
 
     //region message
