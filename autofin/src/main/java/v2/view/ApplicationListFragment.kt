@@ -1,33 +1,24 @@
 package v2.view
 
-import android.app.Activity
 import android.os.Bundle
-import android.util.Log
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.mfc.autofin.framework.R
-import utility.CommonStrings
-import utility.Global
-import v2.model.request.CommonRequest
-import v2.model.response.CommonResponse
-import v2.model.response.NoticeBoardDataResponse
-import v2.model.response.NoticeData
-import v2.model_view.DashboardViewModel
-import v2.model_view.NoticeBoardViewModel
-import v2.service.utility.ApiResponse
-import v2.view.adapter.NoticeRecyclerViewAdapter
 import v2.view.base.BaseFragment
-import v2.view.callBackInterface.itemClickCallBack
-
+import java.util.*
+import android.widget.TextView.OnEditorActionListener
 
 class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
@@ -107,6 +98,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
             llSearchSection.visibility = View.GONE
             viewEmptyBlack.visibility = View.GONE
         }
+        setTextChangeOfetAutoResidenceCity()
     }
 
     override fun onClick(v: View?) {
@@ -126,6 +118,64 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 }
             }
         }
+    }
+
+    fun setTextChangeOfetAutoResidenceCity() {
+        var timerWait: Timer? = null
+        var allowEditCity: Boolean = true
+        etSearch.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int, count: Int,
+                after: Int
+            ) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                try {
+                    if (timerWait != null) {
+                        timerWait!!.cancel();
+
+                    }
+                    allowEditCity = true
+                    if (TextUtils.isEmpty(etSearch.text.toString())) {
+                        allowEditCity = true
+                    }
+                    if (allowEditCity == true) {
+                        timerWait = Timer()
+                        timerWait!!.schedule(object : TimerTask() {
+                            override fun run() {
+
+
+                                allowEditCity = false
+                                ThreadUtils.runOnUiThread(Runnable {
+                                    //call Search
+                                    if (!TextUtils.isEmpty(etSearch.text.toString())) {
+                                            showToast("Start search")
+                                    }
+                                });
+
+
+                            }
+                        }, 600)
+                    } else {
+
+                    }
+                } catch (e: Exception) {
+
+                }
+            }
+        })
+
+        etSearch.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+            if (event != null && event.keyCode === KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_DONE) {
+                hideSoftKeyboard(etSearch)
+            }
+            false
+        })
     }
 
 
