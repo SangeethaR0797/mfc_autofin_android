@@ -69,7 +69,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     lateinit var partnerBankRecyclerViewAdapter: PartnerBankRecyclerViewAdapter
 
     lateinit var noticeBoardViewModel: NoticeBoardViewModel
-    var rootView: View?=null
+    var rootView: View? = null
 
     companion object {
 
@@ -138,7 +138,9 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     ): View? {
 
         if (rootView != null) {
+            setRefreshData()
             return rootView
+
         } else {
             rootView = inflater.inflate(R.layout.v2_fragment_dashboard, container, false)
 
@@ -175,7 +177,12 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         return rootView
     }
 
+
     override fun onTokenReceivedOrRefresh() {
+        setRefreshData()
+    }
+
+    private fun setRefreshData() {
         //Call Dashboard details
         dashboardViewModel.getDashboardDetails(
             DashBoardDetailsRequest(
@@ -440,13 +447,14 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 )
             )
 
+            if (rvMenu.layoutManager == null) {
+                val layoutManagerStaggeredGridLayoutManager =
+                    StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
+                rvMenu.addItemDecoration(GridItemDecoration(30, 2))
+                rvMenu.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+            }
 
-            val layoutManagerStaggeredGridLayoutManager =
-                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-            val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
-            rvMenu.addItemDecoration(GridItemDecoration(30, 2))
-
-            rvMenu.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
             menuForDashboardAdapter = MenuForDashboardAdapter(
                 activity as Activity,
                 menuList,
@@ -477,7 +485,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     private fun onDashboardDetailsResponse(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
-                llDashBoard.visibility = View.GONE
+                // llDashBoard.visibility = View.GONE
                 showProgressDialog(requireContext())
             }
             ApiResponse.Status.SUCCESS -> {
