@@ -1,0 +1,137 @@
+package v2.view.adapter
+
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.RecyclerView
+import com.mfc.autofin.framework.R
+import v2.model.response.ApplicationDataItems
+
+import v2.view.callBackInterface.ApplicationListClickCallBack
+
+class ApplicationListAdapter(
+    var context: Activity,
+    var dataListValue: List<ApplicationDataItems>?,
+    itemClick: ApplicationListClickCallBack?
+) : RecyclerView.Adapter<ApplicationListAdapter.MyViewHolder>(), Filterable {
+
+    public var dataListFilter: List<ApplicationDataItems>?
+    private var itemCallBack: ApplicationListClickCallBack = itemClick!!
+    private var mContext: Activity = context
+
+    init {
+        dataListFilter = dataListValue as List<ApplicationDataItems>
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val listItem =
+            layoutInflater.inflate(R.layout.v2_application_item_data_layout, parent, false)
+
+        return MyViewHolder(listItem)
+    }
+
+    @SuppressLint("ResourceAsColor")
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+
+        holder.tvStatus.text = dataListFilter!![position].status.toString()
+        holder.tvApplicantName.text =
+            dataListFilter?.get(position)?.firstName + " " + dataListFilter?.get(position)?.lastName
+        holder.tvVehicleDetails.text =
+            dataListFilter!![position].make.toString() + " " + dataListFilter!![position].model.toString()
+
+        holder.tvBankIcon.visibility = View.GONE
+
+        holder.tvCaseId.text = dataListFilter!![position].caseId!!.toString()
+        holder.tvLOSId.text = dataListFilter!![position].losId!!.toString()
+        holder.tvDate.text = dataListFilter!![position].createdDate!!.toString()
+
+
+
+
+
+        holder.clMainLayout.setOnClickListener(View.OnClickListener {
+            itemCallBack.onItemClick(dataListFilter?.get(position), position)
+        })
+        holder.rlCall.setOnClickListener(View.OnClickListener {
+            itemCallBack.onCallClick(dataListFilter?.get(position), position)
+        })
+        holder.btnComplete.setOnClickListener(View.OnClickListener {
+            itemCallBack.onCompleteClick(dataListFilter?.get(position), position)
+        })
+
+    }
+
+
+    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var clMainLayout: ConstraintLayout
+        var tvStatus: TextView
+        var tvApplicantName: TextView
+        var tvVehicleDetails: TextView
+        var ivIcon: ImageView
+        var tvBankIcon: ImageView
+        var rlCall: RelativeLayout
+        var tvCaseId: TextView
+        var tvLOSId: TextView
+        var tvDate: TextView
+        var btnComplete: Button
+
+        init {
+            clMainLayout = itemView.findViewById(R.id.cl_main_layout)
+
+            tvStatus = itemView.findViewById(R.id.tv_status)
+            tvApplicantName = itemView.findViewById(R.id.tv_applicant_name)
+
+            tvVehicleDetails = itemView.findViewById(R.id.tv_vehicle_details)
+            ivIcon = itemView.findViewById(R.id.iv_icon)
+            tvBankIcon = itemView.findViewById(R.id.tv_bank_icon)
+            rlCall = itemView.findViewById(R.id.rl_call)
+            tvCaseId = itemView.findViewById(R.id.tv_case_id)
+            tvLOSId = itemView.findViewById(R.id.tv_los_id)
+            tvDate = itemView.findViewById(R.id.tv_date)
+            btnComplete = itemView.findViewById(R.id.btn_complete)
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return dataListFilter!!.size
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charSearch = constraint.toString()
+                dataListFilter = if (charSearch.isEmpty()) {
+                    dataListValue as ArrayList<ApplicationDataItems>
+                } else {
+                    val resultList = ArrayList<ApplicationDataItems>()
+                    for (row in dataListValue!!) {
+                        if (row.customerId.toString().toLowerCase()
+                                .contains(
+                                    constraint.toString().toLowerCase()
+                                ) || row.customerMobile.toString().toLowerCase()
+                                .contains(constraint.toString().toLowerCase())
+                        ) {
+                            resultList.add(row)
+                        }
+                    }
+                    resultList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = dataListFilter
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                dataListFilter = results?.values as ArrayList<ApplicationDataItems>
+                notifyDataSetChanged()
+            }
+        }
+    }
+
+
+}
