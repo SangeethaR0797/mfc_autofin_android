@@ -67,4 +67,9 @@ interface TransactionEndPoint {
     @POST
     fun validateFinalOTP(@Body request: ValidateFinalOTPRequest, @Url url: String?): Observable<ValidateFinalOTPResponse?>?
 
+
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST
+    fun getApplicationList(@Body request: ApplicationListRequest, @Url url: String?): Observable<ApplicationListResponse?>?
+
 }
