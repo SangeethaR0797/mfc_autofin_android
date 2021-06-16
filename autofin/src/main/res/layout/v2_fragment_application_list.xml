@@ -203,6 +203,41 @@
                     android:nestedScrollingEnabled="true" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/ll_no_data_found"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/ll_data"
+                android:layout_marginLeft="@dimen/text_size_20dp"
+                android:layout_marginRight="@dimen/text_size_20dp"
+                android:layout_marginBottom="@dimen/text_size_16sp"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+
+                    android:text="@string/no_leads_found"
+                    android:textAppearance="@style/RobotoBold"
+                    android:textColor="@color/error_red"
+                    android:textSize="@dimen/text_size_14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_size_12dp"
+                    android:gravity="center"
+
+                    android:text="@string/try_and_search_by_phone_no_bank_name_los_id_case_id_etc"
+                    android:textAppearance="@style/RobotoRegular"
+                    android:textColor="@color/grey_color"
+                    android:textSize="@dimen/text_size11dp"
+                    android:textStyle="italic" />
+            </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/ll_progress"

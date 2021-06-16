@@ -47,6 +47,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
     lateinit var ivSearch: ImageView
     lateinit var rvData: RecyclerView
     lateinit var llData: LinearLayout
+    lateinit var llNoDataFound: LinearLayout
     lateinit var llSearch: LinearLayout
     lateinit var llSearchSection: LinearLayout
     lateinit var viewEmptyBlack: View
@@ -110,14 +111,17 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         ivSearch = rootView!!.findViewById(R.id.iv_search)
         rvData = rootView!!.findViewById(R.id.rv_data)
         llData = rootView!!.findViewById(R.id.ll_data)
+        llNoDataFound = rootView!!.findViewById(R.id.ll_no_data_found)
         viewEmptyBlack = rootView!!.findViewById(R.id.view_empty_black)
         llSearchSection = rootView!!.findViewById(R.id.ll_search_section)
         llSearch = rootView!!.findViewById(R.id.ll_search)
         etSearch = rootView!!.findViewById(R.id.et_search)
         tvSearchResult = rootView!!.findViewById(R.id.tv_search_result)
+
         tvSearchResult.visibility = View.GONE
 
         tvResultCount.visibility = View.GONE
+        llNoDataFound.visibility = View.GONE
         llData.visibility = View.GONE
         llProgress.visibility = View.GONE
 
@@ -258,6 +262,10 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         if (response != null && response.data != null && response.data!!.customers != null && response.data!!.customers!!.size > 0) {
             if (PAGE_NUMBER == 1) {
                 TOTAL = response.data!!.total!!
+                if (TOTAL == 0) {
+                    llNoDataFound.visibility = View.VISIBLE
+                    return
+                }
                 layoutManager = LinearLayoutManager(activity)
                 rvData.layoutManager = layoutManager
                 tvResultCount.visibility = View.VISIBLE
@@ -297,6 +305,8 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
             rvData.addOnScrollListener(recyclerViewOnScrollListener)
 
+        }else if(response!!.data!!.total==0){
+            llNoDataFound.visibility = View.VISIBLE
         }
 
 
