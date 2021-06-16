@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/cl_main_layout"
+    android:layout_marginBottom="@dimen/text_size_20dp"
     android:background="@drawable/v2_white_bg"
     android:padding="@dimen/text_size_20dp">
 
@@ -50,7 +51,7 @@
         android:layout_marginTop="@dimen/text_size_16sp"
 
         android:background="@color/v2_grey"
-        app:layout_constraintTop_toBottomOf="@+id/tv_bank_icon" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_status" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_basic"
@@ -94,8 +95,9 @@
         android:id="@+id/rl_call"
         android:layout_width="@dimen/text_size_48dp"
         android:layout_height="@dimen/text_size_48dp"
+        android:elevation="@dimen/text_size10dp"
         android:background="@drawable/ic_gray_circle"
-        android:padding="8dp"
+        android:padding="@dimen/text_size_12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/cl_basic">
 
@@ -194,6 +196,7 @@
         tools:ignore="MissingConstraints" />
 
     <Button
+        android:layout_marginTop="@dimen/text_size_20dp"
         android:id="@+id/btn_complete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -209,5 +212,6 @@
         android:textSize="@dimen/text_size_16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cl_application_details" />
+        app:layout_constraintTop_toBottomOf="@+id/rl_call"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

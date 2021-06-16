@@ -1,14 +1,16 @@
 package v2.model.request
 
 data class ApplicationListRequest(
-    var Data: Data?,
+    var Data: ApplicationListRequestData?,
     var UserId: String?,
     var UserType: String?
 )
 
-data class Data(
+data class ApplicationListRequestData(
     var Key: String?,
+    var Status: String?,
+    var BankName: String?,
     var PageNo: Int?,
-    var PerPage: Int?,
-    var Status: String?
+    var PerPage: Int?
+
 )

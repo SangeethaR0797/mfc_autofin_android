@@ -46,8 +46,24 @@ class ApplicationListAdapter(
 
         holder.tvBankIcon.visibility = View.GONE
 
-        holder.tvCaseId.text = dataListFilter!![position].caseId!!.toString()
-        holder.tvLOSId.text = dataListFilter!![position].losId!!.toString()
+        if (dataListFilter!![position].caseId != null) {
+            holder.tvCaseId.visibility = View.VISIBLE
+            holder.tvCaseIdCaption.visibility = View.VISIBLE
+            holder.tvCaseId.text = dataListFilter!![position].caseId!!.toString()
+        } else {
+            holder.tvCaseId.visibility = View.GONE
+            holder.tvCaseIdCaption.visibility = View.GONE
+        }
+
+        if (dataListFilter!![position].losId != null) {
+            holder.tvLOSId.visibility = View.VISIBLE
+            holder.tvLOSIdCaption.visibility = View.VISIBLE
+            holder.tvLOSId.text = dataListFilter!![position].losId!!.toString()
+        } else {
+            holder.tvLOSId.visibility = View.GONE
+            holder.tvLOSIdCaption.visibility = View.GONE
+        }
+
         holder.tvDate.text = dataListFilter!![position].createdDate!!.toString()
 
 
@@ -76,7 +92,9 @@ class ApplicationListAdapter(
         var tvBankIcon: ImageView
         var rlCall: RelativeLayout
         var tvCaseId: TextView
+        var tvCaseIdCaption: TextView
         var tvLOSId: TextView
+        var tvLOSIdCaption: TextView
         var tvDate: TextView
         var btnComplete: Button
 
@@ -91,7 +109,9 @@ class ApplicationListAdapter(
             tvBankIcon = itemView.findViewById(R.id.tv_bank_icon)
             rlCall = itemView.findViewById(R.id.rl_call)
             tvCaseId = itemView.findViewById(R.id.tv_case_id)
+            tvCaseIdCaption = itemView.findViewById(R.id.tv_case_id_caption)
             tvLOSId = itemView.findViewById(R.id.tv_los_id)
+            tvLOSIdCaption = itemView.findViewById(R.id.tv_los_id_caption)
             tvDate = itemView.findViewById(R.id.tv_date)
             btnComplete = itemView.findViewById(R.id.btn_complete)
         }

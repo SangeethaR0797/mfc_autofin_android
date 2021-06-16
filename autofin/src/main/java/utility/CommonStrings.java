@@ -197,4 +197,5 @@ public class CommonStrings {
     public static final String NOTICE_BOARD_ACTION_END_POINT="action-notice-board";
     public static final String NOTICE_BOARD_DETAILS_END_POINT="notice-board";
     public static final String DEALER_COMMISSION_END_POINT="dealer-commission";
+    public static final String SEARCH_APPLICATION_END_POINT="filter";
 }
