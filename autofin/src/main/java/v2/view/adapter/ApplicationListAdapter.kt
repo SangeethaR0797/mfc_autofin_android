@@ -25,6 +25,7 @@ class ApplicationListAdapter(
 
     init {
         dataListFilter = dataListValue as List<ApplicationDataItems>
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -39,7 +40,7 @@ class ApplicationListAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         holder.tvStatus.text = dataListFilter!![position].status.toString()
-        holder.tvApplicantName.text =
+        holder.tvApplicantName.text =position.toString()+") "+
             dataListFilter?.get(position)?.firstName + " " + dataListFilter?.get(position)?.lastName
         holder.tvVehicleDetails.text =
             dataListFilter!![position].make.toString() + " " + dataListFilter!![position].model.toString()
