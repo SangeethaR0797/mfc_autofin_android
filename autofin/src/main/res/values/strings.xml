@@ -360,5 +360,8 @@
     <string name="know_more">Know More ❯</string>
     <string name="rate_of_intrest">Rate of intrest</string>
     <string name="search_result">Search Result</string>
+    <string name="case_id">Case Id -</string>
+    <string name="los_id">| LOS Id -</string>
+    <string name="complete">Complete ❯</string>
 
 </resources>
