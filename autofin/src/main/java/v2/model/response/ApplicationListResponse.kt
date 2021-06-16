@@ -2,7 +2,7 @@ package v2.model.response
 
 data class ApplicationListResponse(
     var `data`: ApplicationData?,
-    var message: Any?,
+    var message: String?,
     var status: Boolean?,
     var statusCode: String?
 )
@@ -13,26 +13,26 @@ data class ApplicationData(
 )
 
 data class ApplicationDataItems(
-    var bankName: Any?,
+    var bankName: String?,
     var caseId: String?,
     var createdDate: String?,
     var customerId: Int?,
     var customerMobile: String?,
-    var emi: Any?,
+    var emi: String?,
     var firstName: String?,
     var fuelType: String?,
     var kMs: String?,
     var lastName: String?,
-    var loanAmount: Any?,
-    var losId: Any?,
+    var loanAmount: String?,
+    var losId: String?,
     var make: String?,
     var model: String?,
     var ownerShip: String?,
     var registrationYear: Int?,
-    var roi: Any?,
+    var roi: String?,
     var status: String?,
     var subStatus: String?,
-    var tenure: Any?,
+    var tenure: String?,
     var variant: String?,
     var vehiclePrice: String?
 )
