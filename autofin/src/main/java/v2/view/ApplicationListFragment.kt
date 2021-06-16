@@ -38,6 +38,7 @@ import java.util.*
 
 class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
+    lateinit var llProgress: LinearLayout
     lateinit var tvTitle: TextView
     lateinit var tvResultCount: TextView
     lateinit var ivBack: ImageView
@@ -101,6 +102,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
     fun initializationOfObject() {
         tvTitle = rootView!!.findViewById(R.id.tv_title)
+        llProgress = rootView!!.findViewById(R.id.ll_progress)
         tvResultCount = rootView!!.findViewById(R.id.tv_result_count)
         ivBack = rootView!!.findViewById(R.id.iv_back)
         ivNotification = rootView!!.findViewById(R.id.iv_notification)
@@ -116,6 +118,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
         tvResultCount.visibility = View.GONE
         llData.visibility = View.GONE
+        llProgress.visibility = View.GONE
 
         tvTitle.text = screenType
 
@@ -188,6 +191,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                                 ThreadUtils.runOnUiThread(Runnable {
                                     //call Search
                                     if (!TextUtils.isEmpty(etSearch.text.toString())) {
+                                        PAGE_NUMBER = 0
                                         callSearchAPI()
                                     }
                                 });
@@ -283,11 +287,15 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
                 isLoading = true
-                showProgressDialog(requireContext())
+                if(PAGE_NUMBER==1) {
+                    showProgressDialog(requireContext())
+                }else{
+                    llProgress.visibility=View.VISIBLE
+                }
             }
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
-
+                llProgress.visibility=View.GONE
                 val response: ApplicationListResponse? =
                     mApiResponse.data as ApplicationListResponse?
                 setResultData(response)
@@ -296,7 +304,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
             }
             ApiResponse.Status.ERROR -> {
                 hideProgressDialog()
-
+                llProgress.visibility=View.GONE
             }
             else -> {
 

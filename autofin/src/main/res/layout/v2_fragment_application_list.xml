@@ -7,207 +7,236 @@
     android:background="@color/vtwo_pale_grey"
     android:orientation="vertical">
 
-   <!-- <androidx.core.widget.NestedScrollView
+    <!-- <androidx.core.widget.NestedScrollView
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">-->
+
+    <LinearLayout
+        android:id="@+id/ll_main_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">-->
+
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/ll_main_layout"
-            android:layout_width="match_parent"
 
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+
+            android:orientation="vertical"
+            tools:context="v2.view.VehicleSelectionFrag">
 
             <LinearLayout
-
+                style="@style/v2_toolbar_style"
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
+                android:paddingTop="@dimen/text_size_18dp">
 
-                android:orientation="vertical"
-                tools:context="v2.view.VehicleSelectionFrag">
-
-                <LinearLayout
-                    style="@style/v2_toolbar_style"
-                    android:layout_width="match_parent"
-
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/text_size_18dp">
-
-                    <ImageView
-                        android:id="@+id/iv_back"
-                        android:layout_width="@dimen/text_size_24dp"
-                        android:layout_height="@dimen/text_size_24dp"
-                        android:layout_marginBottom="@dimen/text_size_8dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        app:srcCompat="@drawable/ic_vtwo_back_arrow" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/text_size_5dp"
-                        android:layout_marginLeft="@dimen/text_size_5dp"
-                        android:layout_marginEnd="@dimen/text_size_5dp"
-                        android:layout_marginRight="@dimen/text_size_5dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tv_title"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            tools:text="@string/autofin_dashboard"
-                            android:textAppearance="@style/RobotoBold"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_20dp" />
-
-                        <TextView
-                            android:layout_marginTop="@dimen/text_size_5dp"
-                            android:id="@+id/tv_result_count"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            tools:text="Total 10 leads"
-                            android:textAppearance="@style/RobotoRegular"
-                            android:textStyle="italic"
-                            android:textColor="@color/grey_color"
-                            android:textSize="@dimen/text_size_14sp" />
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/iv_notification"
-                        android:layout_width="@dimen/text_size_24dp"
-                        android:layout_height="@dimen/text_size_24dp"
-                        android:layout_marginLeft="@dimen/text_size_15dp"
-                        android:layout_marginBottom="@dimen/text_size_8dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        app:srcCompat="@drawable/ic_notifications" />
-
-                    <ImageView
-                        android:id="@+id/iv_search"
-                        android:layout_width="@dimen/text_size_24dp"
-                        android:layout_height="@dimen/text_size_24dp"
-                        android:layout_marginLeft="@dimen/text_size_15dp"
-                        android:layout_marginBottom="@dimen/text_size_8dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        app:srcCompat="@drawable/ic_search_24px"
-                        app:tint="@color/white" />
-
-                </LinearLayout>
+                <ImageView
+                    android:id="@+id/iv_back"
+                    android:layout_width="@dimen/text_size_24dp"
+                    android:layout_height="@dimen/text_size_24dp"
+                    android:layout_marginBottom="@dimen/text_size_8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:srcCompat="@drawable/ic_vtwo_back_arrow" />
 
                 <LinearLayout
-                    android:id="@+id/ll_search_section"
-                    style="@style/v2_toolbar_style_dashboard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-10dp"
-
+                    android:layout_marginStart="@dimen/text_size_5dp"
+                    android:layout_marginLeft="@dimen/text_size_5dp"
+                    android:layout_marginEnd="@dimen/text_size_5dp"
+                    android:layout_marginRight="@dimen/text_size_5dp"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:id="@+id/ll_search"
+                    <TextView
+                        android:id="@+id/tv_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/text_size_30dp"
-                        android:layout_marginBottom="@dimen/text_size10dp"
-                        android:background="@drawable/v2_edit_text_white_bg"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingLeft="@dimen/text_size_14dp"
-                        android:paddingTop="@dimen/text_size_18dp"
-                        android:paddingRight="@dimen/text_size_14dp"
-                        android:paddingBottom="@dimen/text_size_18dp">
-
-                        <EditText
-                            android:id="@+id/et_search"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:background="@android:color/transparent"
-                            android:hint="@string/search"
-                            android:imeOptions="actionDone"
-                            android:inputType="text"
-                            android:maxLength="11"
-                            android:singleLine="true"
-                            android:textAppearance="@style/RobotoRegular"
-                            android:textColorHint="@color/vtwo_grey"
-                            android:textSize="@dimen/text_size_14sp" />
-
-                        <View
-                            android:layout_width="@dimen/view_height_1dp"
-                            android:layout_height="@dimen/text_size_24dp"
-                            android:layout_marginRight="@dimen/text_size_15dp"
-                            android:background="@color/vtwo_grey" />
-
-                        <ImageView
-                            android:layout_width="@dimen/text_size_24dp"
-                            android:layout_height="@dimen/text_size_24dp"
-
-                            app:srcCompat="@drawable/ic_search_24px" />
-
-                    </LinearLayout>
-
-
-                    <TextView
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/text_size_11dp"
-                        android:layout_marginTop="@dimen/text_size_15dp"
-
-                        android:text="@string/search_by_lead_id_lead_name_phone_no_bank_name_los_id_case_id_etc"
                         android:textAppearance="@style/RobotoBold"
-                        android:textColor="@color/vtwo_grey"
-                        android:textSize="@dimen/text_size_11dp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_20dp"
+                        tools:text="@string/autofin_dashboard" />
 
                     <TextView
-                        android:id="@+id/tv_search_result"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tv_result_count"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/text_size_11dp"
-                        android:layout_marginTop="@dimen/text_size_30dp"
-
-                        android:text="@string/search_result"
-                        android:textAppearance="@style/RobotoMedium"
-                        android:textColor="@color/white"
+                        android:layout_marginTop="@dimen/text_size_5dp"
+                        android:textAppearance="@style/RobotoRegular"
+                        android:textColor="@color/grey_color"
                         android:textSize="@dimen/text_size_14sp"
-                        android:textStyle="bold" />
+                        android:textStyle="italic"
+                        tools:text="Total 10 leads" />
                 </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_notification"
+                    android:layout_width="@dimen/text_size_24dp"
+                    android:layout_height="@dimen/text_size_24dp"
+                    android:layout_marginLeft="@dimen/text_size_15dp"
+                    android:layout_marginBottom="@dimen/text_size_8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:srcCompat="@drawable/ic_notifications" />
+
+                <ImageView
+                    android:id="@+id/iv_search"
+                    android:layout_width="@dimen/text_size_24dp"
+                    android:layout_height="@dimen/text_size_24dp"
+                    android:layout_marginLeft="@dimen/text_size_15dp"
+                    android:layout_marginBottom="@dimen/text_size_8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:srcCompat="@drawable/ic_search_24px"
+                    app:tint="@color/white" />
 
             </LinearLayout>
 
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/ll_search_section"
+                style="@style/v2_toolbar_style_dashboard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-3dp">
+                android:layout_marginTop="-10dp"
 
-                <View
-                    android:id="@+id/view_empty_black"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/text_size_64dp"
-                    android:background="@color/vtwo_black" />
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/ll_data"
+                    android:id="@+id/ll_search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/text_size_20dp"
-                    android:layout_marginRight="@dimen/text_size_20dp"
-                    android:layout_marginBottom="@dimen/text_size_16sp"
+                    android:layout_marginTop="@dimen/text_size_30dp"
+                    android:layout_marginBottom="@dimen/text_size10dp"
+                    android:background="@drawable/v2_edit_text_white_bg"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/text_size_14dp"
+                    android:paddingTop="@dimen/text_size_18dp"
+                    android:paddingRight="@dimen/text_size_14dp"
+                    android:paddingBottom="@dimen/text_size_18dp">
 
-                    android:nestedScrollingEnabled="false">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_data"
+                    <EditText
+                        android:id="@+id/et_search"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="true"
-                         />
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:hint="@string/search"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:maxLength="11"
+                        android:singleLine="true"
+                        android:textAppearance="@style/RobotoRegular"
+                        android:textColorHint="@color/vtwo_grey"
+                        android:textSize="@dimen/text_size_14sp" />
+
+                    <View
+                        android:layout_width="@dimen/view_height_1dp"
+                        android:layout_height="@dimen/text_size_24dp"
+                        android:layout_marginRight="@dimen/text_size_15dp"
+                        android:background="@color/vtwo_grey" />
+
+                    <ImageView
+                        android:layout_width="@dimen/text_size_24dp"
+                        android:layout_height="@dimen/text_size_24dp"
+
+                        app:srcCompat="@drawable/ic_search_24px" />
+
                 </LinearLayout>
 
-            </RelativeLayout>
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_11dp"
+                    android:layout_marginTop="@dimen/text_size_15dp"
+
+                    android:text="@string/search_by_lead_id_lead_name_phone_no_bank_name_los_id_case_id_etc"
+                    android:textAppearance="@style/RobotoBold"
+                    android:textColor="@color/vtwo_grey"
+                    android:textSize="@dimen/text_size_11dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_search_result"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_11dp"
+                    android:layout_marginTop="@dimen/text_size_30dp"
+
+                    android:text="@string/search_result"
+                    android:textAppearance="@style/RobotoMedium"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
         </LinearLayout>
-   <!-- </androidx.core.widget.NestedScrollView>-->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-3dp">
+
+            <View
+                android:id="@+id/view_empty_black"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_size_64dp"
+                android:background="@color/vtwo_black" />
+
+            <LinearLayout
+                android:id="@+id/ll_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_20dp"
+                android:layout_marginRight="@dimen/text_size_20dp"
+                android:layout_marginBottom="@dimen/text_size_16sp"
+
+                android:nestedScrollingEnabled="false">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="true" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_progress"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ProgressBar
+                    android:id="@+id/progressBar1"
+                    android:layout_width="@dimen/text_size_24dp"
+                    android:layout_height="@dimen/text_size_24dp"
+                    android:layout_centerInParent="true"
+                    android:indeterminateTint="@color/hint_color"
+                    android:padding="@dimen/text_size_5dp" />
+
+                <TextView
+                    android:id="@+id/tvLoadingInPB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+
+                    android:text="@string/loading"
+                    android:textAppearance="@style/RobotoBold"
+                    android:textColor="@color/hint_color"
+                    android:textSize="@dimen/text_size_12dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+    <!-- </androidx.core.widget.NestedScrollView>-->
 
 
 </RelativeLayout>
