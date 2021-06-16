@@ -8,11 +8,11 @@ data class ApplicationListResponse(
 )
 
 data class ApplicationData(
-    var customers: List<Customer>?,
+    var customers: List<ApplicationDataItems>?,
     var total: Int?
 )
 
-data class Customer(
+data class ApplicationDataItems(
     var bankName: Any?,
     var caseId: String?,
     var createdDate: String?,
