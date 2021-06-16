@@ -56,12 +56,14 @@ class ApplicationListAdapter(
         }
 
         if (dataListFilter!![position].losId != null) {
+            holder.btnComplete.visibility = View.GONE
             holder.tvLOSId.visibility = View.VISIBLE
             holder.tvLOSIdCaption.visibility = View.VISIBLE
             holder.tvLOSId.text = dataListFilter!![position].losId!!.toString()
         } else {
             holder.tvLOSId.visibility = View.GONE
             holder.tvLOSIdCaption.visibility = View.GONE
+            holder.btnComplete.visibility = View.VISIBLE
         }
 
         holder.tvDate.text = dataListFilter!![position].createdDate!!.toString()
