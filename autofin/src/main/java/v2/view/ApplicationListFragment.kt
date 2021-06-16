@@ -134,6 +134,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
             ivNotification.visibility = View.GONE
             llSearchSection.visibility = View.GONE
             viewEmptyBlack.visibility = View.GONE
+            callApplicationStatusWiseFilterAPI()
         }
         setTextChangeOfetAutoResidenceCity()
     }
@@ -233,6 +234,23 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         )
     }
 
+    private fun callApplicationStatusWiseFilterAPI() {
+        PAGE_NUMBER = PAGE_NUMBER + 1
+        transactionViewModel.getApplicationList(
+            ApplicationListRequest(
+                ApplicationListRequestData(
+                    null,
+                    screenType,
+                    null,
+                    PAGE_NUMBER,
+                    PER_PAGE
+                ), CommonStrings.DEALER_ID,
+                CommonStrings.USER_TYPE
+            ),
+            Global.customerAPI_BaseURL + CommonStrings.APPLICATION_STATUS_WISE_FILTER_END_POINT
+        )
+    }
+
     private fun setResultData(response: ApplicationListResponse?) {
         if (response != null && response.data != null && response.data!!.customers != null && response.data!!.customers!!.size > 0) {
             if (PAGE_NUMBER == 1) {
@@ -287,15 +305,15 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
                 isLoading = true
-                if(PAGE_NUMBER==1) {
+                if (PAGE_NUMBER == 1) {
                     showProgressDialog(requireContext())
-                }else{
-                    llProgress.visibility=View.VISIBLE
+                } else {
+                    llProgress.visibility = View.VISIBLE
                 }
             }
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
-                llProgress.visibility=View.GONE
+                llProgress.visibility = View.GONE
                 val response: ApplicationListResponse? =
                     mApiResponse.data as ApplicationListResponse?
                 setResultData(response)
@@ -304,7 +322,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
             }
             ApiResponse.Status.ERROR -> {
                 hideProgressDialog()
-                llProgress.visibility=View.GONE
+                llProgress.visibility = View.GONE
             }
             else -> {
 
@@ -329,7 +347,11 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 val firstVisibleItemPosition: Int = layoutManager!!.findFirstVisibleItemPosition()
                 if (!isLoading && applicationListAdapter.itemCount < TOTAL) {
                     if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0 && totalItemCount >= PAGE_SIZE) {
-                        callSearchAPI()
+                        if (screenType.equals("Search")) {
+                            callSearchAPI()
+                        } else {
+                            callApplicationStatusWiseFilterAPI()
+                        }
                     }
                 }
             }
