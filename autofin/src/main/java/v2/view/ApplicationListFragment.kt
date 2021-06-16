@@ -32,7 +32,7 @@ import v2.service.utility.ApiResponse
 import v2.view.adapter.ApplicationListAdapter
 import v2.view.base.BaseFragment
 import v2.view.callBackInterface.ApplicationListClickCallBack
-import v2.view.utility_view.EndlessScrollListener
+
 import java.util.*
 
 
@@ -59,7 +59,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
     var PAGE_NUMBER: Int = 0
     var TOTAL: Int = 0
     lateinit var applicationListAdapter: ApplicationListAdapter
-    private var scrollListener: EndlessScrollListener? = null
+
     var layoutManager: LinearLayoutManager? = null
     var isLoading: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
