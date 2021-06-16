@@ -264,7 +264,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 if (TOTAL > 1) {
                     tvResultCount.text = "Total " + TOTAL.toString() + " leads"
                 } else {
-                    tvResultCount.text = "Total " + TOTAL.toString() + " leads"
+                    tvResultCount.text = "Total " + TOTAL.toString() + " lead"
                 }
                 applicationListAdapter =
                     ApplicationListAdapter(

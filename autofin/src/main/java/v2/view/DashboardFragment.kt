@@ -345,13 +345,13 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 navigateApplicationListFragment("SoftOffer")
             }
             MenuEnum.Logged_In.value -> {
-
+                navigateApplicationListFragment("LoggedIn")
             }
             MenuEnum.Approved.value -> {
-
+                navigateApplicationListFragment("Approved")
             }
             MenuEnum.Disbursed.value -> {
-
+                navigateApplicationListFragment("Disbursed")
             }
             MenuEnum.Add_New.value -> {
                 navigateFromDashBoard(R.id.vehicleSelectionFrag2)
