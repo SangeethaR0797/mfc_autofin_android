@@ -16,6 +16,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
+import androidx.core.view.marginLeft
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -131,6 +132,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
             ivSearch.visibility = View.GONE
 
         } else {
+            rvData.setPadding(0, llData.marginLeft, 0, 0)
             ivNotification.visibility = View.GONE
             llSearchSection.visibility = View.GONE
             viewEmptyBlack.visibility = View.GONE
@@ -149,7 +151,8 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                     navigateNoticeBoardAndNotificationFragment("Notification")
                 }
                 R.id.iv_search -> {
-                    llSearchSection.visibility = View.VISIBLE
+                    navigateApplicationListFragment("Search")
+
                 }
                 R.id.ll_search -> {
                     etSearch.requestFocus()
