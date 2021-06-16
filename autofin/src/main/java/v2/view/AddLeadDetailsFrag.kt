@@ -157,6 +157,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     private var previousAddResidentDetailsRequest: AddResidentDetailsRequest? = null
     lateinit var previousAddLeadRequest: AddLeadRequest
 
+    var rootView: View? = null
+
     //region fragment core function
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -273,118 +275,122 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_add_lead_details, container, false)
-        arguments?.let {
-            val safeArgs = AddLeadDetailsFragArgs.fromBundle(it)
-            addLeadRequest = safeArgs.addLeadRequestDetails
-            if (addLeadRequest.Data!!.basicDetails == null) {
-                var basicDetails = BasicDetails()
-                addLeadRequest.Data!!.basicDetails = basicDetails;
+        if (rootView != null) {
+            return rootView
+        } else {
+            rootView = inflater.inflate(R.layout.fragment_add_lead_details, container, false)
+            arguments?.let {
+                val safeArgs = AddLeadDetailsFragArgs.fromBundle(it)
+                addLeadRequest = safeArgs.addLeadRequestDetails
+                if (addLeadRequest.Data!!.basicDetails == null) {
+                    var basicDetails = BasicDetails()
+                    addLeadRequest.Data!!.basicDetails = basicDetails;
 
+                }
             }
+            initViews(rootView)
         }
-        initViews(view)
 
-        return view
+        return rootView
     }
 
 
     private fun initViews(view: View?) {
-        scrollView1 = view?.findViewById(R.id.scrollView1)!!
-        ivBackToVehDetails = view?.findViewById(R.id.ivBackToVehDetails)!!
-        etMobileNumberV2 = view?.findViewById(R.id.etMobileNumberV2)!!
+        scrollView1 = rootView!!.findViewById(R.id.scrollView1)!!
+        ivBackToVehDetails = rootView!!.findViewById(R.id.ivBackToVehDetails)!!
+        etMobileNumberV2 = rootView!!.findViewById(R.id.etMobileNumberV2)!!
 
-        etOTPV2 = view.findViewById(R.id.etOTPV2)!!
-        llOTPNumInput = view.findViewById(R.id.llOTPNumInput)!!
-        tvOTPEHint = view.findViewById(R.id.tvOTPEHint)
+        etOTPV2 = rootView!!.findViewById(R.id.etOTPV2)!!
+        llOTPNumInput = rootView!!.findViewById(R.id.llOTPNumInput)!!
+        tvOTPEHint = rootView!!.findViewById(R.id.tvOTPEHint)
 
-        cbTermsAndConditions = view.findViewById(R.id.cbTermsAndConditions)
-        tvResendOTPV2 = view.findViewById(R.id.tvResendOTPV2)
-        tvOTPTimerV2 = view.findViewById(R.id.tvOTPTimerV2)
-        btnMobileNum = view.findViewById(R.id.btnMobileNum)
-        ll_otp_v2 = view.findViewById(R.id.ll_otp_v2)
+        cbTermsAndConditions = rootView!!.findViewById(R.id.cbTermsAndConditions)
+        tvResendOTPV2 = rootView!!.findViewById(R.id.tvResendOTPV2)
+        tvOTPTimerV2 = rootView!!.findViewById(R.id.tvOTPTimerV2)
+        btnMobileNum = rootView!!.findViewById(R.id.btnMobileNum)
+        ll_otp_v2 = rootView!!.findViewById(R.id.ll_otp_v2)
         ll_otp_v2.visibility = View.GONE
-        llTAndC = view.findViewById(R.id.llTAndC)
-        textViewTermsAndCondition = view.findViewById(R.id.textViewTermsAndCondition)
+        llTAndC = rootView!!.findViewById(R.id.llTAndC)
+        textViewTermsAndCondition = rootView!!.findViewById(R.id.textViewTermsAndCondition)
 
-        rv_salutation = view.findViewById(R.id.rv_salutation)
-        llNameAndEmailV2 = view.findViewById(R.id.llNameAndEmailV2)
-        etFirstName = view.findViewById(R.id.et_first_name)
-        etLastName = view.findViewById(R.id.et_last_name)
-        etEmailId = view.findViewById(R.id.et_email)
+        rv_salutation = rootView!!.findViewById(R.id.rv_salutation)
+        llNameAndEmailV2 = rootView!!.findViewById(R.id.llNameAndEmailV2)
+        etFirstName = rootView!!.findViewById(R.id.et_first_name)
+        etLastName = rootView!!.findViewById(R.id.et_last_name)
+        etEmailId = rootView!!.findViewById(R.id.et_email)
         ll_otp_v2.visibility = View.GONE
-        llTAndC = view.findViewById(R.id.llTAndC)
+        llTAndC = rootView!!.findViewById(R.id.llTAndC)
 
 
         make = addLeadRequest.Data?.addLeadVehicleDetails?.Make.toString()
         model = addLeadRequest.Data?.addLeadVehicleDetails?.Model.toString()
         variant = addLeadRequest.Data?.addLeadVehicleDetails?.Variant.toString()
 
-        llBirthDate = view.findViewById(R.id.ll_date)
-        etBirthDate = view.findViewById(R.id.et_date)
-        tvBirthErrorMessage = view.findViewById(R.id.tv_birth_error_message)
+        llBirthDate = rootView!!.findViewById(R.id.ll_date)
+        etBirthDate = rootView!!.findViewById(R.id.et_date)
+        tvBirthErrorMessage = rootView!!.findViewById(R.id.tv_birth_error_message)
         tvBirthErrorMessage.visibility = View.GONE
 
 
-        rvEmploymentType = view.findViewById(R.id.rv_employment_type)
-        llWorkExpriance = view.findViewById(R.id.ll_work_expriance)
-        etWorkExpriance = view.findViewById(R.id.et_work_expriance)
-        llAddWorkExpriance = view.findViewById(R.id.ll_add_work_expriance)
-        tvWorkExprianceErrorMessage = view.findViewById(R.id.tv_work_expriance_error_message)
+        rvEmploymentType = rootView!!.findViewById(R.id.rv_employment_type)
+        llWorkExpriance = rootView!!.findViewById(R.id.ll_work_expriance)
+        etWorkExpriance = rootView!!.findViewById(R.id.et_work_expriance)
+        llAddWorkExpriance = rootView!!.findViewById(R.id.ll_add_work_expriance)
+        tvWorkExprianceErrorMessage = rootView!!.findViewById(R.id.tv_work_expriance_error_message)
         tvWorkExprianceErrorMessage.visibility = View.GONE
 
-        llBirthDateSection = view.findViewById(R.id.ll_birth_date_section)
-        llEmploymentSection = view.findViewById(R.id.ll_employment_section)
-        llAccoutDetailsSection = view.findViewById(R.id.ll_accout_details_section)
+        llBirthDateSection = rootView!!.findViewById(R.id.ll_birth_date_section)
+        llEmploymentSection = rootView!!.findViewById(R.id.ll_employment_section)
+        llAccoutDetailsSection = rootView!!.findViewById(R.id.ll_accout_details_section)
 
-        etSearchBank = view.findViewById(R.id.et_search_bank)
+        etSearchBank = rootView!!.findViewById(R.id.et_search_bank)
         etSearchBank.isFocusable = false
-        rvBankList = view.findViewById(R.id.rv_bank_list)
-        tvBankTitle = view.findViewById(R.id.tv_bank_title)
-        llAddSearchBank = view.findViewById(R.id.ll_search_bank)
+        rvBankList = rootView!!.findViewById(R.id.rv_bank_list)
+        tvBankTitle = rootView!!.findViewById(R.id.tv_bank_title)
+        llAddSearchBank = rootView!!.findViewById(R.id.ll_search_bank)
 
         cbMoreThanOneYearInCurrentOrganization =
-            view.findViewById(R.id.cb_more_than_one_year_in_current_organization)
+            rootView!!.findViewById(R.id.cb_more_than_one_year_in_current_organization)
         cbMoreThanOneYearInCurrentOrganization.visibility = View.GONE
 
-        rlEditYearOfExperience = view.findViewById(R.id.rl_edit_year_of_experience)
+        rlEditYearOfExperience = rootView!!.findViewById(R.id.rl_edit_year_of_experience)
         rlEditYearOfExperience.visibility = View.GONE
 
-        llNetIncomeSection = view.findViewById(R.id.ll_net_income_section)
-        llNetIncome = view.findViewById(R.id.ll_net_income)
-        etNetIncome = view.findViewById(R.id.et_net_income)
-        tvNetIncomeErrorMessage = view.findViewById(R.id.tv_net_income_error_message)
-        tvNetIncomeInWords = view.findViewById(R.id.tv_net_income_in_words)
+        llNetIncomeSection = rootView!!.findViewById(R.id.ll_net_income_section)
+        llNetIncome = rootView!!.findViewById(R.id.ll_net_income)
+        etNetIncome = rootView!!.findViewById(R.id.et_net_income)
+        tvNetIncomeErrorMessage = rootView!!.findViewById(R.id.tv_net_income_error_message)
+        tvNetIncomeInWords = rootView!!.findViewById(R.id.tv_net_income_in_words)
 
         tvNetIncomeErrorMessage.visibility = View.GONE
 
-        llEMISection = view.findViewById(R.id.ll_emi_section)
-        llEMI = view.findViewById(R.id.ll_emi)
-        etEMI = view.findViewById(R.id.et_emi)
-        tvEMIErrorMessage = view.findViewById(R.id.tv_emi_error_message)
-        tvEMIInWords = view.findViewById(R.id.tv_emi_in_words)
-        rvEMIList = view.findViewById(R.id.rv_emi_list)
-        llEmiDetails = view.findViewById(R.id.ll_emi_details)
+        llEMISection = rootView!!.findViewById(R.id.ll_emi_section)
+        llEMI = rootView!!.findViewById(R.id.ll_emi)
+        etEMI = rootView!!.findViewById(R.id.et_emi)
+        tvEMIErrorMessage = rootView!!.findViewById(R.id.tv_emi_error_message)
+        tvEMIInWords = rootView!!.findViewById(R.id.tv_emi_in_words)
+        rvEMIList = rootView!!.findViewById(R.id.rv_emi_list)
+        llEmiDetails = rootView!!.findViewById(R.id.ll_emi_details)
         llEmiDetails.visibility = View.GONE
 
         tvEMIErrorMessage.visibility = View.GONE
 
 
-        llResidenceTypeSection = view.findViewById(R.id.ll_residence_type_section)
-        llResidenceType = view.findViewById(R.id.ll_residence_type)
-        etAutoResidenceCity = view.findViewById(R.id.et_residence_type)
-        tvResidenceTypeErrorMessage = view.findViewById(R.id.tv_residence_type_error_message)
+        llResidenceTypeSection = rootView!!.findViewById(R.id.ll_residence_type_section)
+        llResidenceType = rootView!!.findViewById(R.id.ll_residence_type)
+        etAutoResidenceCity = rootView!!.findViewById(R.id.et_residence_type)
+        tvResidenceTypeErrorMessage = rootView!!.findViewById(R.id.tv_residence_type_error_message)
 
-        rvResidenceTypeList = view.findViewById(R.id.rv_residence_type_list)
-        rvResidenceYears = view.findViewById(R.id.rv_residence_year)
-        llResidenceTypeDetails = view.findViewById(R.id.ll_residence_type_details)
+        rvResidenceTypeList = rootView!!.findViewById(R.id.rv_residence_type_list)
+        rvResidenceYears = rootView!!.findViewById(R.id.rv_residence_year)
+        llResidenceTypeDetails = rootView!!.findViewById(R.id.ll_residence_type_details)
 
         tvResidenceTypeErrorMessage.visibility = View.GONE
 
-        llPanNumberSection = view.findViewById(R.id.ll_pan_number_section)
-        llPanNumber = view.findViewById(R.id.ll_pan_number)
-        etPanNumber = view.findViewById(R.id.et_pan_number)
-        tvPanNumberErrorMessage = view.findViewById(R.id.tv_pan_number_error_message)
+        llPanNumberSection = rootView!!.findViewById(R.id.ll_pan_number_section)
+        llPanNumber = rootView!!.findViewById(R.id.ll_pan_number)
+        etPanNumber = rootView!!.findViewById(R.id.et_pan_number)
+        tvPanNumberErrorMessage = rootView!!.findViewById(R.id.tv_pan_number_error_message)
 
 
         tvPanNumberErrorMessage.visibility = View.GONE
@@ -1439,12 +1445,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                             callUpdateAddLeadBasicDetailsAPIApi()
                         }
 
-                        if (addEmploymentDetailsRequest==null || !addEmploymentDetailsRequest!!.hashCode()
+                        if (addEmploymentDetailsRequest == null || !addEmploymentDetailsRequest!!.hashCode()
                                 .equals(previousAddEmploymentDetailsRequest!!.hashCode())
                         ) {
                             callAddEmploymentDetails()
                         }
-                        if (addResidentDetailsRequest==null || !addResidentDetailsRequest!!.hashCode()
+                        if (addResidentDetailsRequest == null || !addResidentDetailsRequest!!.hashCode()
                                 .equals(previousAddResidentDetailsRequest!!.hashCode())
                         ) {
                             callAddResidentDetails()
@@ -1728,7 +1734,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                     } else {
                         dataSelectionDTO.selected = false
-                       // addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = 0
+                        // addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = 0
                     }
                 }
                 eMIDetailsAdapter.notifyDataSetChanged()

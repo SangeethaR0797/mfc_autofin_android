@@ -69,6 +69,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     lateinit var partnerBankRecyclerViewAdapter: PartnerBankRecyclerViewAdapter
 
     lateinit var noticeBoardViewModel: NoticeBoardViewModel
+    var rootView: View?=null
 
     companion object {
 
@@ -135,38 +136,43 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.v2_fragment_dashboard, container, false)
 
-        llDashBoard = view.findViewById(R.id.ll_dash_board)
-        llDashBoard.visibility = View.GONE
+        if (rootView != null) {
+            return rootView
+        } else {
+            rootView = inflater.inflate(R.layout.v2_fragment_dashboard, container, false)
 
-        ivBack = view.findViewById(R.id.iv_back)
-        ivNotification = view.findViewById(R.id.iv_notification)
-        etSearch = view.findViewById(R.id.et_search)
-        etSearch.isFocusable = false
-        llSearch = view.findViewById(R.id.ll_search)
-        rvMenu = view.findViewById(R.id.rv_menu)
+            llDashBoard = rootView!!.findViewById(R.id.ll_dash_board)
+            llDashBoard.visibility = View.GONE
 
-        rvNoticeBoard = view.findViewById(R.id.rv_notice_board)
-        tvNoticeBoardCount = view.findViewById(R.id.tv_notice_board_count)
-        llViewAllNotice = view.findViewById(R.id.ll_view_all_notice)
-        llNoticeBoardSection = view.findViewById(R.id.ll_notice_board_section)
+            ivBack = rootView!!.findViewById(R.id.iv_back)
+            ivNotification = rootView!!.findViewById(R.id.iv_notification)
+            etSearch = rootView!!.findViewById(R.id.et_search)
+            etSearch.isFocusable = false
+            llSearch = rootView!!.findViewById(R.id.ll_search)
+            rvMenu = rootView!!.findViewById(R.id.rv_menu)
 
-        rvCommissionDaysDays = view.findViewById(R.id.rv_commission_days)
-        tvTotalCommission = view.findViewById(R.id.tv_total_commission)
-        tvPotentialCommission = view.findViewById(R.id.tv_potential_commission)
+            rvNoticeBoard = rootView!!.findViewById(R.id.rv_notice_board)
+            tvNoticeBoardCount = rootView!!.findViewById(R.id.tv_notice_board_count)
+            llViewAllNotice = rootView!!.findViewById(R.id.ll_view_all_notice)
+            llNoticeBoardSection = rootView!!.findViewById(R.id.ll_notice_board_section)
 
-        rvBankingPartner = view.findViewById(R.id.rv_banking_partner)
-        llBankingPartner = view.findViewById(R.id.ll_banking_partner)
+            rvCommissionDaysDays = rootView!!.findViewById(R.id.rv_commission_days)
+            tvTotalCommission = rootView!!.findViewById(R.id.tv_total_commission)
+            tvPotentialCommission = rootView!!.findViewById(R.id.tv_potential_commission)
+
+            rvBankingPartner = rootView!!.findViewById(R.id.rv_banking_partner)
+            llBankingPartner = rootView!!.findViewById(R.id.ll_banking_partner)
 
 
-        ivBack.setOnClickListener(this)
-        ivNotification.setOnClickListener(this)
-        etSearch.setOnClickListener(this)
-        llSearch.setOnClickListener(this)
-        llViewAllNotice.setOnClickListener(this)
-        setScreenData()
-        return view
+            ivBack.setOnClickListener(this)
+            ivNotification.setOnClickListener(this)
+            etSearch.setOnClickListener(this)
+            llSearch.setOnClickListener(this)
+            llViewAllNotice.setOnClickListener(this)
+            setScreenData()
+        }
+        return rootView
     }
 
     override fun onTokenReceivedOrRefresh() {
