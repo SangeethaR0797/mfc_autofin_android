@@ -109,6 +109,16 @@ class SoftOfferFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        arguments?.let {
+            val safeArgs = SoftOfferFragmentArgs.fromBundle(it)
+            customerDetailsResponse = safeArgs.CustomerDetails
+            caseID = customerDetailsResponse.data?.caseId.toString()
+            //caseID = "0242210316000103"
+            customerId = safeArgs.customerId
+
+            //customerId = "448"
+        }
+
         // region Loan-MasterViewModel
 
         loanAmountViewModel = ViewModelProvider(this).get(MasterViewModel::class.java)
@@ -140,19 +150,33 @@ class SoftOfferFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.v2_soft_offer_loading_fragment, container, false)
-        arguments?.let {
-            val safeArgs = SoftOfferFragmentArgs.fromBundle(it)
-            customerDetailsResponse = safeArgs.CustomerDetails
-            caseID = customerDetailsResponse.data?.caseId.toString()
-            //caseID = "0242210316000103"
-            customerId = safeArgs.customerId
-
-            //customerId = "448"
-        }
-        if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            initViews(view)
-        }
+        fragView=view
+        checkLeadStatus()
         return view
+    }
+
+    private fun checkLeadStatus() {
+        when (customerDetailsResponse.data?.status) {
+            getString(R.string.v2_lead_status_lender_selected)->
+            {
+                if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    initViews(fragView)
+                }
+            }
+            getString(R.string.v2_lead_status_lender_selected) -> {
+                navigateToAddressAndAdditionalFieldsFragment(customerId.toInt(),customerDetailsResponse)
+            }
+            getString(R.string.v2_lead_status_bank_form_filled) -> {
+            //navigateToKYCDocumentUpload()
+            }
+            getString(R.string.v2_lead_status_document_upload) -> {
+                // navigateToBankSummary
+            }
+            getString(R.string.v2_lead_status_submitted_to_bank) -> {
+                // navigate To Final screen
+            }
+        }
+
     }
 
     @SuppressLint("NewApi")
