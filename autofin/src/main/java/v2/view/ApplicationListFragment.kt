@@ -24,12 +24,16 @@ import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
+import v2.model.dto.AddLeadRequest
 import v2.model.enum_class.ApplicationStatusEnum
 import v2.model.enum_class.ScreenTypeEnum
 import v2.model.request.ApplicationListRequest
 import v2.model.request.ApplicationListRequestData
 import v2.model.request.CustomerRequest
 import v2.model.request.ResetCustomerJourneyDataRequest
+import v2.model.request.add_lead.AddLeadData
+import v2.model.request.add_lead.AddLeadVehicleDetails
+import v2.model.request.add_lead.BasicDetails
 import v2.model.response.ApplicationDataItems
 import v2.model.response.ApplicationListResponse
 import v2.model.response.CustomerDetailsResponse
@@ -70,6 +74,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
     var layoutManager: LinearLayoutManager? = null
     var isLoading: Boolean = false
+    var selectedCustomerId: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         transactionViewModel = ViewModelProvider(this).get(
@@ -270,6 +275,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
     }
 
     fun callCustomerDetailsApi(customerIdValue: Int) {
+
         transactionViewModel.getCustomerDetails(
             createCustomerDetailsRequest(customerIdValue),
             Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL
@@ -324,11 +330,12 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                                     )) ||
                                     (applicationDataItems.status.equals(ApplicationStatusEnum.KYC_Done.value) && applicationDataItems.subStatus.equals(
                                         ApplicationStatusEnum.KYC_Done.value
-                                    ))||
+                                    )) ||
                                     (applicationDataItems.status.equals(ApplicationStatusEnum.KYC_Done.value) && applicationDataItems.subStatus.equals(
                                         ApplicationStatusEnum.Employment_Details_Submitted.value
                                     ))
                                 ) {
+                                    selectedCustomerId = applicationDataItems!!.customerId!!
                                     callCustomerDetailsApi(applicationDataItems!!.customerId!!)
                                 } else {
                                     showToast("Soft offer")
@@ -370,15 +377,49 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
             )) ||
             (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse.data!!.subStatus.equals(
                 ApplicationStatusEnum.KYC_Done.value
-            ))||
+            )) ||
             (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse.data!!.subStatus.equals(
                 ApplicationStatusEnum.Employment_Details_Submitted.value
             ))
 
         ) {
-            showToast("Lead Details Fragment")
+            var addLeadRequest = AddLeadRequest()
+            var vehicleDetails = AddLeadVehicleDetails()
+
+            vehicleDetails!!.RegistrationYear =
+                customerResponse.data!!.vehicleDetails!!.registrationYear
+            vehicleDetails!!.Make = customerResponse.data!!.vehicleDetails!!.make
+            vehicleDetails!!.Model = customerResponse.data!!.vehicleDetails!!.model
+            vehicleDetails!!.Variant = customerResponse.data!!.vehicleDetails!!.variant
+            vehicleDetails!!.Ownership = customerResponse.data!!.vehicleDetails!!.ownership
+            vehicleDetails!!.VehicleNumber = customerResponse.data!!.vehicleDetails!!.vehicleNumber
+            vehicleDetails!!.KMs = customerResponse.data!!.vehicleDetails!!.kMs
+            vehicleDetails!!.FuelType = customerResponse.data!!.vehicleDetails!!.fuelType
+
+            var basicDetails = BasicDetails()
+            basicDetails.FirstName =
+                customerResponse.data!!.basicDetails!!.firstName
+            basicDetails.LastName =
+                customerResponse.data!!.basicDetails!!.lastName
+            basicDetails.Email =
+                customerResponse.data!!.basicDetails!!.email
+            basicDetails.Salutation =
+                customerResponse.data!!.basicDetails!!.salutation
+            basicDetails.CustomerMobile =
+                customerResponse.data!!.basicDetails!!.customerMobile
+
+            var data = AddLeadData()
+
+            data!!.addLeadVehicleDetails = vehicleDetails
+            data!!.basicDetails = basicDetails
+            addLeadRequest.Data = data
+            navigateToAddLeadFragment(
+                addLeadRequest,
+                selectedCustomerId,
+                customerResponse.data!!.basicDetails!!.customerMobile
+            )
         } else {
-            //Open Soft offer fragment
+            showToast("Open Soft offer fragment")
         }
 
     }
@@ -422,12 +463,11 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 showProgressDialog(requireContext())
             }
             ApiResponse.Status.SUCCESS -> {
-
+                hideProgressDialog()
                 val customerResponse: CustomerDetailsResponse? =
                     mApiResponse.data as CustomerDetailsResponse?
                 checkForNextScreenAfterCustomerResponse(customerResponse)
 
-                hideProgressDialog()
 
             }
             ApiResponse.Status.ERROR -> {

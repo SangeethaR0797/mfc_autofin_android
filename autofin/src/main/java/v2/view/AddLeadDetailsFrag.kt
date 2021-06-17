@@ -161,6 +161,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     //region fragment core function
 
+    var selectedCustomerIdForEdit: Int = 0
+    var selectedCustomerMobileNumberForEdit: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -282,6 +285,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             arguments?.let {
                 val safeArgs = AddLeadDetailsFragArgs.fromBundle(it)
                 addLeadRequest = safeArgs.addLeadRequestDetails
+                selectedCustomerIdForEdit = safeArgs.customerId
+                selectedCustomerMobileNumberForEdit = safeArgs.mobile
                 if (addLeadRequest.Data!!.basicDetails == null) {
                     var basicDetails = BasicDetails()
                     addLeadRequest.Data!!.basicDetails = basicDetails;
@@ -463,6 +468,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         setEMIDetailsAdapter()
         setResidenceTypeAdapter()
         setResidenceYearsAdapter()
+
+        if (selectedCustomerIdForEdit > 0 && selectedCustomerIdForEdit != null) {
+            showToast("This is edit flow now")
+        }
 
 
     }

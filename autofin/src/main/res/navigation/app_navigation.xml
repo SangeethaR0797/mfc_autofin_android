@@ -205,6 +205,9 @@
         <action
             android:id="@+id/action_applicationListFragment"
             app:destination="@id/applicationListFragment" />
+        <action
+            android:id="@+id/action_addOrUpdateVehicleDetailsMakeFrag_to_addLeadDetailsFrag"
+            app:destination="@id/addLeadDetailsFrag" />
     </fragment>
 
 
