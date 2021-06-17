@@ -28,8 +28,11 @@ import v2.model.enum_class.ApplicationStatusEnum
 import v2.model.enum_class.ScreenTypeEnum
 import v2.model.request.ApplicationListRequest
 import v2.model.request.ApplicationListRequestData
+import v2.model.request.CustomerRequest
+import v2.model.request.ResetCustomerJourneyDataRequest
 import v2.model.response.ApplicationDataItems
 import v2.model.response.ApplicationListResponse
+import v2.model.response.CustomerDetailsResponse
 import v2.model_view.TransactionViewModel
 import v2.service.utility.ApiResponse
 import v2.view.adapter.ApplicationListAdapter
@@ -76,6 +79,12 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         transactionViewModel.getApplicationListLiveData()
             .observe(requireActivity(), { mApiResponse: ApiResponse? ->
                 onApplicationList(
+                    mApiResponse!!
+                )
+            })
+        transactionViewModel.getCustomerDetailsLiveData()
+            .observe(requireActivity(), { mApiResponse: ApiResponse? ->
+                onCustomerDetails(
                     mApiResponse!!
                 )
             })
@@ -260,6 +269,24 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         )
     }
 
+    fun callCustomerDetailsApi(customerIdValue: Int) {
+        transactionViewModel.getCustomerDetails(
+            createCustomerDetailsRequest(customerIdValue),
+            Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL
+        )
+
+    }
+
+    fun createCustomerDetailsRequest(customerId: Int): CustomerRequest {
+        var customerDetailsRequest = CustomerRequest()
+        customerDetailsRequest.UserId = CommonStrings.DEALER_ID
+        customerDetailsRequest.UserType = CommonStrings.USER_TYPE
+        var customerJourneyDataRequest = ResetCustomerJourneyDataRequest();
+        customerJourneyDataRequest.CustomerId = customerId.toString()
+        customerDetailsRequest.Data = customerJourneyDataRequest
+        return customerDetailsRequest
+    }
+
     private fun setResultData(response: ApplicationListResponse?) {
         if (response != null && response.data != null && response.data!!.customers != null && response.data!!.customers!!.size > 0) {
             if (PAGE_NUMBER == 1) {
@@ -297,9 +324,12 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                                     )) ||
                                     (applicationDataItems.status.equals(ApplicationStatusEnum.KYC_Done.value) && applicationDataItems.subStatus.equals(
                                         ApplicationStatusEnum.KYC_Done.value
+                                    ))||
+                                    (applicationDataItems.status.equals(ApplicationStatusEnum.KYC_Done.value) && applicationDataItems.subStatus.equals(
+                                        ApplicationStatusEnum.Employment_Details_Submitted.value
                                     ))
                                 ) {
-                                    showToast("Lead details")
+                                    callCustomerDetailsApi(applicationDataItems!!.customerId!!)
                                 } else {
                                     showToast("Soft offer")
                                 }
@@ -330,6 +360,29 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
     }
 
+    private fun checkForNextScreenAfterCustomerResponse(customerResponse: CustomerDetailsResponse?) {
+
+        if ((customerResponse!!.data!!.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse!!.data!!.subStatus.equals(
+                ApplicationStatusEnum.Registered.value
+            )) ||
+            (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse!!.data!!.subStatus.equals(
+                ApplicationStatusEnum.Employment_Details_Submitted.value
+            )) ||
+            (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse.data!!.subStatus.equals(
+                ApplicationStatusEnum.KYC_Done.value
+            ))||
+            (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse.data!!.subStatus.equals(
+                ApplicationStatusEnum.Employment_Details_Submitted.value
+            ))
+
+        ) {
+            showToast("Lead Details Fragment")
+        } else {
+            //Open Soft offer fragment
+        }
+
+    }
+
     //region Observer
     private fun onApplicationList(mApiResponse: ApiResponse) {
         parseCommonResponse(mApiResponse)
@@ -357,6 +410,32 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
             }
             else -> {
 
+            }
+        }
+
+    }
+
+    private fun onCustomerDetails(mApiResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+
+                val customerResponse: CustomerDetailsResponse? =
+                    mApiResponse.data as CustomerDetailsResponse?
+                checkForNextScreenAfterCustomerResponse(customerResponse)
+
+                hideProgressDialog()
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+            }
+            else -> {
+                hideProgressDialog()
+                showToast("Please enter valid details")
             }
         }
 
