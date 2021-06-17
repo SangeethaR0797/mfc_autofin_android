@@ -15,7 +15,7 @@ data class CustomerDetailsResponse(
 @Parcelize
 data class CustomerDetailsData(
         var additionalDetails: List<AdditionalDetailsData>,
-        var documents: List<String>,
+        var documents: List<AdditionalDetailsData>,
         var basicDetails: BasicDetails?,
         var caseId: String?,
         var dealerDetails: DealerDetails?,

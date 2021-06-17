@@ -132,7 +132,7 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
 
                 }
                 R.id.btn_complete -> {
-
+                    checkForNextNavigation()
                 }
                 R.id.tv_view_all -> {
                     activity?.onBackPressed()
@@ -238,14 +238,76 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
 
     }
 
+    private fun checkForNextNavigation() {
+
+        if ((customerResponse!!.data!!.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse!!.data!!.subStatus.equals(
+                ApplicationStatusEnum.Registered.value
+            )) ||
+            (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse!!.data!!.subStatus.equals(
+                ApplicationStatusEnum.Employment_Details_Submitted.value
+            )) ||
+            (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse!!.data!!.subStatus.equals(
+                ApplicationStatusEnum.KYC_Done.value
+            )) ||
+            (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse!!.data!!.subStatus.equals(
+                ApplicationStatusEnum.Employment_Details_Submitted.value
+            ))
+
+        ) {
+            var addLeadRequest = AddLeadRequest()
+            var vehicleDetails = AddLeadVehicleDetails()
+
+            vehicleDetails!!.RegistrationYear =
+                customerResponse!!.data!!.vehicleDetails!!.registrationYear
+            vehicleDetails!!.Make = customerResponse!!.data!!.vehicleDetails!!.make
+            vehicleDetails!!.Model = customerResponse!!.data!!.vehicleDetails!!.model
+            vehicleDetails!!.Variant = customerResponse!!.data!!.vehicleDetails!!.variant
+            vehicleDetails!!.Ownership = customerResponse!!.data!!.vehicleDetails!!.ownership
+            vehicleDetails!!.VehicleNumber =
+                customerResponse!!.data!!.vehicleDetails!!.vehicleNumber
+            vehicleDetails!!.KMs = customerResponse!!.data!!.vehicleDetails!!.kMs
+            vehicleDetails!!.FuelType = customerResponse!!.data!!.vehicleDetails!!.fuelType
+
+            var basicDetails = BasicDetails()
+            basicDetails.FirstName =
+                customerResponse!!.data!!.basicDetails!!.firstName
+            basicDetails.LastName =
+                customerResponse!!.data!!.basicDetails!!.lastName
+            basicDetails.Email =
+                customerResponse!!.data!!.basicDetails!!.email
+            basicDetails.Salutation =
+                customerResponse!!.data!!.basicDetails!!.salutation
+            basicDetails.CustomerMobile =
+                customerResponse!!.data!!.basicDetails!!.customerMobile
+
+            var data = AddLeadData()
+
+            data!!.addLeadVehicleDetails = vehicleDetails
+            data!!.basicDetails = basicDetails
+            addLeadRequest.Data = data
+            navigateToAddLeadFragment(
+                addLeadRequest,
+                customerId.toInt(),
+                customerResponse!!.data!!.basicDetails!!.customerMobile
+            )
+        } else {
+            navToSoftOffer(customerResponse!!, customerId)
+        }
+
+    }
+
     //region observer
     private fun onCustomerDetails(mApiResponse: ApiResponse) {
         parseCommonResponse(mApiResponse)
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
+                btnComplete.visibility = View.GONE
+                llData.visibility = View.GONE
                 showProgressDialog(requireContext())
             }
             ApiResponse.Status.SUCCESS -> {
+                btnComplete.visibility = View.VISIBLE
+                llData.visibility = View.VISIBLE
                 hideProgressDialog()
                 customerResponse = mApiResponse.data as CustomerDetailsResponse?
                 setCustomerData()
