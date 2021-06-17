@@ -73,7 +73,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     var basicDetails = BasicDetails()
     lateinit var rv_salutation: RecyclerView
     lateinit var masterViewModel: MasterViewModel
-    lateinit var salutationAdapter: DataRecyclerViewAdapter
+    var salutationAdapter: DataRecyclerViewAdapter? = null
     lateinit var llNameAndEmailV2: LinearLayout
     lateinit var etFirstName: EditText
     lateinit var etLastName: EditText
@@ -88,8 +88,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     var userId: String = ""
     var userType: String = ""
     var salutation: String = ""
-    lateinit var employmentDetailsAdapter: DataRecyclerViewAdapter
-    lateinit var commonBankListDetailsAdapter: DataRecyclerViewAdapter
+    var employmentDetailsAdapter: DataRecyclerViewAdapter?=null
+    var commonBankListDetailsAdapter: DataRecyclerViewAdapter?=null
 
     lateinit var etBirthDate: EditText
     lateinit var etWorkExpriance: EditText
@@ -137,8 +137,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var rvResidenceTypeList: RecyclerView
     lateinit var rvResidenceYears: RecyclerView
     lateinit var llResidenceTypeDetails: LinearLayout
-    lateinit var residenceTypeDetailsAdapter: DataRecyclerViewAdapter
-    lateinit var residenceYearsAdapter: DataRecyclerViewAdapter
+    var residenceTypeDetailsAdapter: DataRecyclerViewAdapter?=null
+    var residenceYearsAdapter: DataRecyclerViewAdapter?=null
 
     lateinit var llPanNumberSection: LinearLayout
     lateinit var llPanNumber: LinearLayout
@@ -470,9 +470,34 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
         setResidenceYearsAdapter()
 
         if (selectedCustomerIdForEdit > 0 && selectedCustomerIdForEdit != null) {
-            showToast("This is edit flow now")
+            customerId = selectedCustomerIdForEdit.toString()
+            setDataForEditFlow()
         }
 
+
+    }
+
+    fun setDataForEditFlow() {
+        showProgressDialog(requireContext())
+        if (salutationAdapter != null && salutationAdapter!!.itemCount > 0 && employmentDetailsAdapter != null && employmentDetailsAdapter!!.itemCount > 0
+            && commonBankListDetailsAdapter != null && commonBankListDetailsAdapter!!.itemCount > 0 && residenceTypeDetailsAdapter != null && residenceTypeDetailsAdapter!!.itemCount > 0
+            && residenceYearsAdapter != null && residenceYearsAdapter!!.itemCount > 0
+        ) {
+            displayNameLayout()
+            etMobileNumberV2.setText(selectedCustomerMobileNumberForEdit)
+            callCustomerDetailsApi(selectedCustomerIdForEdit)
+            etMobileNumberV2.setTextColor(resources.getColor(R.color.black))
+        } else {
+            Log.d("EditWait", "EditWait")
+            Timer()!!.schedule(object : TimerTask() {
+                override fun run() {
+                    ThreadUtils.runOnUiThread(Runnable {
+                        setDataForEditFlow()
+                    });
+
+                }
+            }, 3000)
+        }
 
     }
 
@@ -813,7 +838,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     fun updateBankSelection(selectedBankDisplayName: String) {
         var isFound: Boolean = false
-        commonBankListDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
+        commonBankListDetailsAdapter!!.dataListFilter!!.forEachIndexed { index, item ->
             run {
                 var previousSelectedValue = item.selected
 
@@ -839,13 +864,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     item.selected = false
                 }
                 if (previousSelectedValue != item.selected) {
-                    commonBankListDetailsAdapter.notifyItemChanged(index)
+                    commonBankListDetailsAdapter!!.notifyItemChanged(index)
                 }
 
             }
         }
 
-        //commonBankListDetailsAdapter.notifyDataSetChanged()
+        //commonBankListDetailsAdapter!!.notifyDataSetChanged()
         scrollToBottom(llAccoutDetailsSection)
         if (!isFound) {
             etSearchBank.setText(selectedBankDisplayName)
@@ -1525,7 +1550,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
             if (salutation != null) {
-                salutationAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
+                salutationAdapter!!.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
                     if (dataSelectionDTO.displayValue.toString() == salutation) {
                         dataSelectionDTO.selected = true
                         salutation = dataSelectionDTO.value!!
@@ -1534,7 +1559,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                         dataSelectionDTO.selected = false
                     }
                 }
-                salutationAdapter.notifyDataSetChanged()
+                salutationAdapter!!.notifyDataSetChanged()
             }
 
         } catch (eNull: NullPointerException) {
@@ -1620,7 +1645,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 //Set Employment Details
                 if (customerDetailsResponse.data!!.employmentDetails != null) {
                     llEmploymentSection.visibility = View.VISIBLE
-                    employmentDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
+                    employmentDetailsAdapter!!.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
                         if (dataSelectionDTO.displayValue.toString()
                                 .equals(customerDetailsResponse.data!!.employmentDetails!!.employmentType)
                         ) {
@@ -1633,7 +1658,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                             dataSelectionDTO.selected = false
                         }
                     }
-                    employmentDetailsAdapter.notifyDataSetChanged()
+                    employmentDetailsAdapter!!.notifyDataSetChanged()
 
 
                     //set Employment other details
@@ -1684,14 +1709,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     }
                     //set Bank Details
                     if (!TextUtils.isEmpty(bankName)) {
-                        commonBankListDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
+                        commonBankListDetailsAdapter!!.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
                             if (dataSelectionDTO.displayValue.toString().equals(bankName)) {
                                 dataSelectionDTO.selected = true
                             } else {
                                 dataSelectionDTO.selected = false
                             }
                         }
-                        commonBankListDetailsAdapter.notifyDataSetChanged()
+                        commonBankListDetailsAdapter!!.notifyDataSetChanged()
                         llAccoutDetailsSection.visibility = View.VISIBLE
                     }
 
@@ -1753,7 +1778,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                     //Set residenceType
                     if (customerDetailsResponse.data!!.residentialDetails!!.residenceType != null) {
                         llResidenceTypeSection.visibility = View.VISIBLE
-                        residenceTypeDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
+                        residenceTypeDetailsAdapter!!.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
                             if (dataSelectionDTO.value.toString()
                                     .equals(customerDetailsResponse.data!!.residentialDetails!!.residenceType)
                             ) {
@@ -1764,12 +1789,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                 dataSelectionDTO.selected = false
                             }
                         }
-                        residenceTypeDetailsAdapter.notifyDataSetChanged()
+                        residenceTypeDetailsAdapter!!.notifyDataSetChanged()
 
                         //set noOfYearInResident
                         if (customerDetailsResponse.data!!.residentialDetails!!.noOfYearInResident != null) {
 
-                            residenceYearsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
+                            residenceYearsAdapter!!.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
                                 if (dataSelectionDTO.value.toString()
                                         .equals(customerDetailsResponse.data!!.residentialDetails!!.noOfYearInResident.toString())
                                 ) {
@@ -1780,7 +1805,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                                     dataSelectionDTO.selected = false
                                 }
                             }
-                            residenceYearsAdapter.notifyDataSetChanged()
+                            residenceYearsAdapter!!.notifyDataSetChanged()
                         }
                         //set Customer Resident City
                         if (customerDetailsResponse.data!!.residentialDetails!!.customerCity != null) {
@@ -1839,7 +1864,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 override fun itemClick(item: Any?, position: Int) {
 
 
-                    salutationAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                    salutationAdapter!!.dataListFilter!!.forEachIndexed { index, item ->
                         run {
                             if (index == position) {
                                 item.selected = true
@@ -1851,7 +1876,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                             }
                         }
                     }
-                    salutationAdapter.notifyDataSetChanged()
+                    salutationAdapter!!.notifyDataSetChanged()
                     scrollToBottom(llBirthDateSection)
                 }
             })
@@ -2194,7 +2219,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 override fun itemClick(item: Any?, position: Int) {
 
 
-                    employmentDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                    employmentDetailsAdapter!!.dataListFilter!!.forEachIndexed { index, item ->
                         run {
                             if (index == position) {
                                 item.selected = true
@@ -2237,7 +2262,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                         }
                     }
-                    employmentDetailsAdapter.notifyDataSetChanged()
+                    employmentDetailsAdapter!!.notifyDataSetChanged()
                     scrollToBottom(llEmploymentSection)
                 }
             })
@@ -2277,7 +2302,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 override fun itemClick(item: Any?, position: Int) {
 
 
-                    residenceTypeDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                    residenceTypeDetailsAdapter!!.dataListFilter!!.forEachIndexed { index, item ->
                         run {
                             if (index == position) {
                                 item.selected = true
@@ -2291,7 +2316,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                         }
                     }
-                    residenceTypeDetailsAdapter.notifyDataSetChanged()
+                    residenceTypeDetailsAdapter!!.notifyDataSetChanged()
                     scrollToBottom(llResidenceTypeSection)
                 }
             })
@@ -2332,7 +2357,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 override fun itemClick(item: Any?, position: Int) {
 
 
-                    residenceYearsAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                    residenceYearsAdapter!!.dataListFilter!!.forEachIndexed { index, item ->
                         run {
                             if (index == position) {
                                 item.selected = true
@@ -2345,7 +2370,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
                         }
                     }
-                    residenceYearsAdapter.notifyDataSetChanged()
+                    residenceYearsAdapter!!.notifyDataSetChanged()
                     scrollToBottom(llPanNumberSection)
                 }
             })
