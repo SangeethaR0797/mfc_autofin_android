@@ -407,6 +407,14 @@ public open class BaseFragment : Fragment() {
             Navigation.findNavController(it).navigate(directions)
         }
     }
+
+    public fun navigateApplicationDetailsFragment(customerId: Int) {
+        val directions =
+            ApplicationListFragmentDirections.actionApplicationDetailsFragment(customerId)
+        view?.let {
+            Navigation.findNavController(it).navigate(directions)
+        }
+    }
     //endregion screen Navigation
 
     //region message
