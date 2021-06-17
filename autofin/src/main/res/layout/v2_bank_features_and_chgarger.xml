@@ -1,0 +1,257 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/ll_main_layout"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/v2_toolbar_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+
+                android:padding="0dp"
+                tools:context="v2.view.VehicleSelectionFrag">
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/text_size_20dp">
+
+                    <ImageView
+                        android:id="@+id/iv_back"
+                        android:layout_width="@dimen/text_size_24dp"
+                        android:layout_height="@dimen/text_size_24dp"
+                        android:layout_marginBottom="@dimen/text_size_8dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        app:srcCompat="@drawable/ic_vtwo_back_arrow" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/text_size_5dp"
+                        android:layout_marginLeft="@dimen/text_size_5dp"
+                        android:layout_marginEnd="@dimen/text_size_5dp"
+                        android:layout_marginRight="@dimen/text_size_5dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/RobotoBold"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_20dp"
+                            tools:text="@string/autofin_dashboard" />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_20dp"
+                android:layout_marginTop="@dimen/text_size_20dp"
+                android:layout_marginRight="@dimen/text_size_20dp"
+                android:layout_marginBottom="@dimen/text_size_16sp"
+                android:textAppearance="@style/RobotoMedium"
+                android:textColor="@color/vtwo_black"
+                android:textSize="@dimen/text_size_26dp"
+                tools:text="Loan Against Car from HDFC Bank" />
+
+            <TextView
+                android:id="@+id/tv_descriptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_20dp"
+                android:layout_marginTop="@dimen/text_size_20dp"
+                android:layout_marginRight="@dimen/text_size_20dp"
+                android:layout_marginBottom="@dimen/text_size_16sp"
+                android:textAppearance="@style/RobotoRegular"
+                android:textColor="@color/vtwo_black"
+                android:textSize="@dimen/text_size_14sp"
+                tools:text="Did you know you could use your car to raise funds from HDFC Bank which can further be used for various purposes like for renovating your house, for higher education or a foreign trip. You just need to apply for a loan against your car and you can get a loan of up to 160% of current valuation of your car.Avail our top-up loan against car loan when you maintain a clear payment record for a minimum of 9 months." />
+
+            <LinearLayout
+                android:id="@+id/ll_next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_20dp"
+                android:layout_marginTop="@dimen/text_size_20dp"
+                android:layout_marginRight="@dimen/text_size_20dp"
+                android:layout_marginBottom="@dimen/text_size_16sp"
+                android:background="@drawable/vtwo_input_yellow"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="@dimen/text_size_20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/check_your_eligibility"
+                    android:textAppearance="@style/RobotoMedium"
+                    android:textColor="@color/vtwo_black"
+                    android:textSize="@dimen/text_size_16sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_15dp"
+                    app:srcCompat="@drawable/ic_big_next_arrow" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_features_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_20dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginRight="@dimen/text_size_20dp"
+                android:layout_marginBottom="@dimen/text_size_16sp"
+
+                android:orientation="vertical"
+
+                >
+
+                <TextView
+                    android:id="@+id/tv_features_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="@string/features_of_loan_against_car_from"
+                    android:textAppearance="@style/RobotoMedium"
+                    android:textColor="@color/vtwo_black"
+                    android:textSize="@dimen/text_size_18dp" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_features_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="@dimen/text_size_20dp"
+                    android:layout_marginRight="@dimen/text_size_14dp"
+                    android:nestedScrollingEnabled="false" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_charges_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_20dp"
+                android:layout_marginTop="@dimen/text_size_20dp"
+                android:layout_marginRight="@dimen/text_size_20dp"
+                android:layout_marginBottom="@dimen/text_size_16sp"
+
+                android:orientation="vertical"
+
+                >
+
+                <TextView
+                    android:id="@+id/tv_charges_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="@string/interest_rates_amp_other_charges_for_loan_against_car_from"
+                    android:textAppearance="@style/RobotoMedium"
+                    android:textColor="@color/vtwo_black"
+                    android:textSize="@dimen/text_size_18dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_size_15dp"
+                    android:background="@color/vtwo_input_field_grey"
+                    android:padding="@dimen/text_size_15dp"
+                    android:text="@string/features_of_loan_against_car_from"
+                    android:textAppearance="@style/RobotoMedium"
+                    android:textColor="@color/vtwo_black"
+                    android:textSize="@dimen/text_size_14sp" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_charges_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="@dimen/text_size_20dp"
+                    android:layout_marginRight="@dimen/text_size_14dp"
+                    android:nestedScrollingEnabled="false" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_height_1dp"
+                android:layout_marginTop="60dp"
+                android:background="@color/v2_grey" />
+
+            <LinearLayout
+                android:id="@+id/ll_banking_partner_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_20dp"
+                android:layout_marginTop="@dimen/text_size_30dp"
+                android:layout_marginRight="@dimen/text_size_20dp"
+                android:layout_marginBottom="@dimen/text_size_16sp"
+
+                android:orientation="vertical"
+
+                >
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="@string/our_other_banking_partner"
+                    android:textAppearance="@style/RobotoMedium"
+                    android:textColor="@color/vtwo_black"
+                    android:textSize="@dimen/text_size_16sp" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_banking_partner_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="@dimen/text_size_20dp"
+                    android:layout_marginRight="@dimen/text_size_14dp"
+                    android:nestedScrollingEnabled="false" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</RelativeLayout>
