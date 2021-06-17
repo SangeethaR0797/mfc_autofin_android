@@ -1,0 +1,379 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+    android:background="@color/vtwo_pale_grey"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/ll_dash_board"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/v2_toolbar_style_dashboard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical"
+                tools:context="v2.view.VehicleSelectionFrag">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/text_size_18dp">
+
+                    <ImageView
+                        android:id="@+id/iv_back"
+                        android:layout_width="@dimen/text_size_24dp"
+                        android:layout_height="@dimen/text_size_24dp"
+                        android:layout_marginBottom="@dimen/text_size_8dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        app:srcCompat="@drawable/ic_vtwo_back_arrow" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/text_size_5dp"
+                        android:layout_marginLeft="@dimen/text_size_5dp"
+                        android:layout_marginEnd="@dimen/text_size_5dp"
+                        android:layout_marginRight="@dimen/text_size_5dp"
+                        android:layout_weight="1"
+                        android:text="@string/autofin_dashboard"
+                        android:textAppearance="@style/RobotoBold"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_20dp" />
+
+                    <ImageView
+                        android:id="@+id/iv_notification"
+                        android:layout_width="@dimen/text_size_24dp"
+                        android:layout_height="@dimen/text_size_24dp"
+                        android:layout_marginBottom="@dimen/text_size_8dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        app:srcCompat="@drawable/ic_notifications" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/ll_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_size_30dp"
+                    android:layout_marginBottom="@dimen/text_size10dp"
+                    android:background="@drawable/v2_edit_text_white_bg"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/text_size_14dp"
+                    android:paddingTop="@dimen/text_size_18dp"
+                    android:paddingRight="@dimen/text_size_14dp"
+                    android:paddingBottom="@dimen/text_size_18dp">
+
+                    <EditText
+                        android:id="@+id/et_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:hint="@string/search"
+                        android:imeOptions="actionDone"
+                        android:inputType="textCapCharacters"
+                        android:maxLength="11"
+                        android:singleLine="true"
+                        android:textAppearance="@style/RobotoRegular"
+                        android:textColorHint="@color/vtwo_grey"
+                        android:textSize="@dimen/text_size_14sp" />
+
+                    <View
+                        android:layout_width="@dimen/view_height_1dp"
+                        android:layout_height="@dimen/text_size_24dp"
+                        android:layout_marginRight="@dimen/text_size_15dp"
+                        android:background="@color/vtwo_grey" />
+
+                    <ImageView
+                        android:layout_width="@dimen/text_size_24dp"
+                        android:layout_height="@dimen/text_size_24dp"
+
+                        app:srcCompat="@drawable/ic_search_24px" />
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/tvLoadingInPB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_11dp"
+                    android:layout_marginTop="@dimen/text_size_15dp"
+                    android:layout_marginBottom="@dimen/text_size_64dp"
+                    android:text="@string/search_by_lead_id_lead_name_phone_no_bank_name_los_id_case_id_etc"
+                    android:textAppearance="@style/RobotoBold"
+                    android:textColor="@color/vtwo_grey"
+                    android:textSize="@dimen/text_size_11dp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-60dp"
+                android:layout_marginBottom="@dimen/text_size_16sp"
+                android:nestedScrollingEnabled="false"
+                android:padding="@dimen/text_size_20dp" />
+
+            <LinearLayout
+                android:id="@+id/ll_notice_board_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_20dp"
+                android:layout_marginRight="@dimen/text_size_20dp"
+                android:layout_marginBottom="@dimen/text_size_16sp"
+                android:background="@drawable/v2_white_bg"
+                android:orientation="vertical"
+
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_14dp"
+                    android:layout_marginTop="@dimen/text_size_14dp"
+                    android:layout_marginRight="@dimen/text_size_14dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/text_size_5dp"
+                        android:layout_weight="1"
+                        android:text="@string/notice_board"
+                        android:textAppearance="@style/RobotoBold"
+                        android:textColor="@color/vtwo_black"
+                        android:textSize="@dimen/text_size_16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_notice_board_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/text_size_5dp"
+                        android:background="@drawable/vtwo_input_bg"
+                        android:paddingLeft="@dimen/text_size_16sp"
+                        android:paddingTop="@dimen/text_size_5dp"
+                        android:paddingRight="@dimen/text_size_16sp"
+                        android:paddingBottom="@dimen/text_size_5dp"
+                        android:textAppearance="@style/RobotoRegular"
+                        android:textColor="@color/vtwo_black"
+                        android:textSize="@dimen/text_size_14dp"
+                        tools:text="03" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/view_height_1dp"
+                    android:layout_marginLeft="-10dp"
+                    android:layout_marginTop="@dimen/text_size_18dp"
+                    android:layout_marginRight="-10dp"
+                    android:background="@color/v2_grey" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_notice_board"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_14dp"
+                    android:layout_marginTop="@dimen/text_size_20dp"
+                    android:layout_marginRight="@dimen/text_size_14dp"
+                    android:nestedScrollingEnabled="false" />
+
+                <LinearLayout
+                    android:id="@+id/ll_view_all_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/text_size_12dp"
+                    android:layout_marginBottom="@dimen/text_size_16sp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/text_size_5dp"
+                        android:layout_weight="1"
+                        android:text="@string/view_all"
+                        android:textAppearance="@style/RobotoMedium"
+                        android:textColor="#0261ff"
+                        android:textSize="@dimen/text_size_16sp" />
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_commission_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_20dp"
+                android:layout_marginRight="@dimen/text_size_20dp"
+                android:layout_marginBottom="@dimen/text_size_16sp"
+                android:background="@drawable/v2_white_bg"
+                android:orientation="vertical"
+
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginLeft="@dimen/text_size_14dp"
+                    android:layout_marginTop="@dimen/text_size_20dp"
+                    android:layout_marginRight="@dimen/text_size_14dp"
+                    android:layout_marginBottom="@dimen/text_size_5dp"
+                    android:text="@string/commission"
+                    android:textAppearance="@style/RobotoBold"
+                    android:textColor="@color/vtwo_black"
+                    android:textSize="@dimen/text_size_16sp" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/view_height_1dp"
+                    android:layout_marginLeft="-10dp"
+                    android:layout_marginTop="@dimen/text_size_18dp"
+                    android:layout_marginRight="-10dp"
+                    android:background="@color/v2_grey" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_14dp"
+                    android:layout_marginTop="@dimen/text_size_20dp"
+                    android:layout_marginRight="@dimen/text_size_14dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_total_commission"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/text_size_5dp"
+                            android:textAppearance="@style/RobotoBold"
+                            android:textColor="#00d478"
+                            android:textSize="@dimen/text_size25dp"
+                            tools:text="₹12,210" />
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/text_size_5dp"
+                            android:text="@string/total_commission"
+                            android:textAppearance="@style/RobotoBold"
+                            android:textColor="@color/vtwo_grey"
+                            android:textSize="@dimen/text_size_12dp" />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+
+                        android:background="@color/v2_grey" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingLeft="@dimen/text_size_20dp">
+
+                        <TextView
+                            android:id="@+id/tv_potential_commission"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/text_size_5dp"
+                            android:textAppearance="@style/RobotoBold"
+                            android:textColor="#00d478"
+                            android:textSize="@dimen/text_size25dp"
+                            tools:text="₹15,675" />
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/text_size_5dp"
+                            android:text="@string/potential_commission"
+                            android:textAppearance="@style/RobotoBold"
+                            android:textColor="@color/vtwo_grey"
+                            android:textSize="@dimen/text_size_12dp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_commission_days"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_14dp"
+                    android:layout_marginTop="@dimen/text_size_20dp"
+
+                    android:layout_marginRight="@dimen/text_size_14dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_height_1dp"
+
+                android:layout_marginTop="@dimen/text_size_30dp"
+                android:background="@color/v2_grey2" />
+
+            <LinearLayout
+                android:id="@+id/ll_banking_partner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginBottom="@dimen/text_size_16sp"
+
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_20dp"
+                    android:layout_marginTop="@dimen/text_size_20dp"
+                    android:layout_marginRight="@dimen/text_size_20dp"
+                    android:layout_marginBottom="@dimen/text_size_5dp"
+                    android:text="@string/our_banking_partner"
+                    android:textAppearance="@style/RobotoBold"
+                    android:textColor="@color/vtwo_black"
+                    android:textSize="@dimen/text_size_16sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_banking_partner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_size_18dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</RelativeLayout>

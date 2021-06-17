@@ -6,6 +6,7 @@ import android.graphics.Rect
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
@@ -24,6 +25,7 @@ import v2.model_view.AuthenticationViewModel
 import v2.service.utility.ApiResponse
 import v2.utility.connectivity.ConnectivityReceiver
 import v2.utility.connectivity.ConnectivityReceiverListener
+import v2.view.callBackInterface.AppTokenChangeInterface
 
 
 class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
@@ -32,9 +34,15 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
     var authenticationViewModel: AuthenticationViewModel? = null
     private var myConnectivityReceiver: ConnectivityReceiver? = null
 
+    var appTokenChangeInterface: AppTokenChangeInterface? = null
+
+
     private fun broadcastIntent() {
         myConnectivityReceiver = ConnectivityReceiver()
-        registerReceiver(myConnectivityReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+        registerReceiver(
+            myConnectivityReceiver,
+            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        )
     }
 
     override fun onNetworkConnectionChanged(isConnected: Boolean) {
@@ -81,50 +89,67 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
 
 
         authenticationViewModel = ViewModelProvider(this@HostActivity).get(
-                AuthenticationViewModel::class.java
+            AuthenticationViewModel::class.java
         )
 
 
 
 
         authenticationViewModel!!.getTokenDetailsLiveDataData()
-                .observe(this, { mApiResponse: ApiResponse? ->
-                    onTokenDetails(
-                            mApiResponse!!
-                    )
-                })
+            .observe(this, { mApiResponse: ApiResponse? ->
+                onTokenDetails(
+                    mApiResponse!!
+                )
+            })
 
-        authenticationViewModel!!.getToken(getTokenRequest()!!, Global.customerDetails_BaseURL + CommonStrings.TOKEN_URL_END)
+        authenticationViewModel!!.getToken(
+            getTokenRequest()!!,
+            Global.customerDetails_BaseURL + CommonStrings.TOKEN_URL_END
+        )
 
         authenticationViewModel!!.getIBB_TokenDetailsLiveDataData()
-                .observe(this, { mApiResponse: ApiResponse? ->
-                    onIBB_TokenDetails(
-                            mApiResponse!!
-                    )
-                })
+            .observe(this, { mApiResponse: ApiResponse? ->
+                onIBB_TokenDetails(
+                    mApiResponse!!
+                )
+            })
 
-        authenticationViewModel!!.getIBBToken(getIBB_TokenRequest()!!, Global.ibb_base_url + CommonStrings.IBB_ACCESS_TOKEN_URL_END)
+        authenticationViewModel!!.getIBBToken(
+            getIBB_TokenRequest()!!,
+            Global.ibb_base_url + CommonStrings.IBB_ACCESS_TOKEN_URL_END
+        )
 
 
     }
 
     private fun get_IBB_MasterDetailsRequest(): Get_IBB_MasterDetailsRequest? {
-        return Get_IBB_MasterDetailsRequest(CommonStrings.IBB_TOKEN_VALUE, "year", "0", "app", null, null, null, null)
+        return Get_IBB_MasterDetailsRequest(
+            CommonStrings.IBB_TOKEN_VALUE,
+            "year",
+            "0",
+            "app",
+            null,
+            null,
+            null,
+            null
+        )
     }
 
     private fun getTokenRequest(): GetTokenDetailsRequest? {
         return GetTokenDetailsRequest(
-                CommonStrings.DEALER_ID,
-                CommonStrings.USER_TYPE,
-                CommonStrings.USER_TYPE,
-                "Token")
+            CommonStrings.DEALER_ID,
+            CommonStrings.USER_TYPE,
+            CommonStrings.USER_TYPE,
+            "Token"
+        )
 
     }
 
     private fun getIBB_TokenRequest(): Get_IBB_TokenRequest? {
         return Get_IBB_TokenRequest(
-                CommonStrings.IBB_PASSWORD,
-                CommonStrings.IBB_USERNAME)
+            CommonStrings.IBB_PASSWORD,
+            CommonStrings.IBB_USERNAME
+        )
 
     }
 
@@ -133,10 +158,15 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
             ApiResponse.Status.LOADING -> {
             }
             ApiResponse.Status.SUCCESS -> {
-                val tokenResponse: TokenDetailsResponse? = mApiResponse.data as TokenDetailsResponse?
-                CommonMethods.setValueAgainstKey(this@HostActivity, CommonStrings.PREFF_ENCRYPT_TOKEN, tokenResponse!!.data.toString())
+                val tokenResponse: TokenDetailsResponse? =
+                    mApiResponse.data as TokenDetailsResponse?
+                CommonMethods.setValueAgainstKey(
+                    this@HostActivity,
+                    CommonStrings.PREFF_ENCRYPT_TOKEN,
+                    tokenResponse!!.data.toString()
+                )
                 CommonStrings.TOKEN_VALUE = tokenResponse!!.data.toString()
-
+                refresh()
 
             }
             ApiResponse.Status.ERROR -> {
@@ -151,8 +181,13 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
             }
             ApiResponse.Status.SUCCESS -> {
                 val tokenResponse: IBB_TokenResponse? = mApiResponse.data as IBB_TokenResponse?
-                CommonMethods.setValueAgainstKey(this@HostActivity, CommonStrings.PREFF_ENCRYPT_IBB_TOKEN, tokenResponse!!.access_token.toString())
+                CommonMethods.setValueAgainstKey(
+                    this@HostActivity,
+                    CommonStrings.PREFF_ENCRYPT_IBB_TOKEN,
+                    tokenResponse!!.access_token.toString()
+                )
                 CommonStrings.IBB_TOKEN_VALUE = tokenResponse!!.access_token.toString()
+                refresh()
             }
             ApiResponse.Status.ERROR -> {
             }
@@ -188,5 +223,14 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
         }
     }
 
+    fun refresh() {
+        if (!TextUtils.isEmpty(CommonStrings.TOKEN_VALUE) &&
+            !TextUtils.isEmpty(CommonStrings.IBB_ACCESS_TOKEN_URL_END) &&
+            appTokenChangeInterface != null
+        ) {
+
+            appTokenChangeInterface!!.onTokenReceivedOrRefresh()
+        }
+    }
 
 }

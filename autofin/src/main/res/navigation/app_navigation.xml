@@ -14,18 +14,23 @@
         <action
             android:id="@+id/action_dashboardFragment_to_vehicleSelectionFrag2"
             app:destination="@id/vehicleSelectionFrag2" />
+        <action
+            android:id="@+id/action_noticeBoardAndNotificationFragment"
+            app:destination="@id/noticeBoardAndNotificationFragment" />
+        <action
+            android:id="@+id/action_applicationListFragment"
+            app:destination="@id/applicationListFragment" />
     </fragment>
     <fragment
         android:id="@+id/registeredListFragmentNav"
         android:name="v2.view.RegisteredListFragment"
         android:label="fragment_registered_list"
-        tools:layout="@layout/fragment_registered_list" >
-    </fragment>
+        tools:layout="@layout/fragment_registered_list"></fragment>
     <fragment
         android:id="@+id/addOrUpdateVehicleDetailsMakeFrag"
         android:name="v2.view.AddOrUpdateVehicleDetailsMakeFrag"
         android:label="v2_fragment_veh_make"
-        tools:layout="@layout/v2_fragment_veh_make" >
+        tools:layout="@layout/v2_fragment_veh_make">
         <argument
             android:name="addLeadRequestDetails"
             app:argType="v2.model.dto.AddLeadRequest" />
@@ -37,7 +42,7 @@
         android:id="@+id/vehicleSelectionFrag2"
         android:name="v2.view.VehicleSelectionFrag"
         android:label="fragment_vehicle_selection"
-        tools:layout="@layout/fragment_vehicle_selection" >
+        tools:layout="@layout/fragment_vehicle_selection">
         <action
             android:id="@+id/action_vehicleSelectionFrag2_to_addOrUpdateVehicleDetailsMakeFrag"
             app:destination="@id/addOrUpdateVehicleDetailsMakeFrag" />
@@ -68,26 +73,36 @@
         <argument
             android:name="addLeadRequestDetails"
             app:argType="v2.model.dto.AddLeadRequest" />
+        <argument
+            android:name="customerId"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="mobile"
+            app:argType="string"
+            app:nullable="true" />
         <action
             android:id="@+id/action_addLeadDetailsFrag_to_softOfferFragment2"
             app:destination="@id/softOfferFragment2" />
         <action
             android:id="@+id/action_addLeadDetailsFrag_to_webViewActivity"
             app:destination="@id/webViewActivity" />
+
+
     </fragment>
     <fragment
         android:id="@+id/softOfferFragment2"
         android:name="v2.view.SoftOfferFragment"
         android:label="fragment_soft_offer"
-        tools:layout="@layout/fragment_soft_offer"
-        app:popUpTo="@+id/addLeadDetailsFrag">
+        app:popUpTo="@+id/addLeadDetailsFrag"
+        tools:layout="@layout/fragment_soft_offer">
         <argument
             android:name="CustomerDetails"
             app:argType="v2.model.response.CustomerDetailsResponse" />
         <argument
             android:name="customerId"
-            app:argType="string"
-            android:defaultValue="0" />
+            android:defaultValue="0"
+            app:argType="string" />
         <action
             android:id="@+id/action_softOfferFragment2_to_documentUploadFragment"
             app:destination="@id/documentUploadFragment" />
@@ -106,11 +121,11 @@
         android:id="@+id/documentUploadFragment"
         android:name="v2.view.DocumentUploadFragment"
         android:label="v2_fragment_document_upload"
-        tools:layout="@layout/v2_fragment_document_upload" >
+        tools:layout="@layout/v2_fragment_document_upload">
         <argument
             android:name="CustomerId"
-            app:argType="string"
-            android:defaultValue="0"/>
+            android:defaultValue="0"
+            app:argType="string" />
         <argument
             android:name="KYCDocuments"
             app:argType="v2.model.response.master.KYCDocumentResponse" />
@@ -128,7 +143,7 @@
         android:id="@+id/selectedBankOfferStatusFragment"
         android:name="v2.view.utility_view.SelectedBankOfferStatusFragment"
         android:label="v2_fragment_selected_bank_offer_status"
-        tools:layout="@layout/v2_fragment_selected_bank_offer_status" >
+        tools:layout="@layout/v2_fragment_selected_bank_offer_status">
         <argument
             android:name="customerID"
             app:argType="string" />
@@ -143,7 +158,7 @@
         android:id="@+id/bankSuccessMessageFragment"
         android:name="v2.view.BankSuccessMessageFragment"
         android:label="v2_fragment_bank_success_message"
-        tools:layout="@layout/v2_fragment_bank_success_message" >
+        tools:layout="@layout/v2_fragment_bank_success_message">
         <argument
             android:name="LoanProcessData"
             app:argType="v2.model.dto.CustomLoanProcessCompletedData" />
@@ -154,7 +169,7 @@
     <fragment
         android:id="@+id/finalOTPFragment"
         android:name="v2.FinalOTPFragment"
-        android:label="FinalOTPFragment" >
+        android:label="FinalOTPFragment">
         <argument
             android:name="cusotmerID"
             app:argType="string" />
@@ -165,6 +180,37 @@
         <action
             android:id="@+id/action_finalOTPFragment_to_bankSuccessMessageFragment"
             app:destination="@id/bankSuccessMessageFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/noticeBoardAndNotificationFragment"
+        android:name="v2.view.NoticeBoardAndNotificationFragment"
+        android:label="NoticeBoardAndNotificationFragment"
+        tools:layout="@layout/v2_fragment_noticeboard">
+        <argument
+            android:name="screenType"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/applicationListFragment"
+        android:name="v2.view.ApplicationListFragment"
+        android:label="ApplicationListFragment"
+        tools:layout="@layout/v2_fragment_application_list">
+        <argument
+            android:name="screenType"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_noticeBoardAndNotificationFragment"
+            app:destination="@id/noticeBoardAndNotificationFragment" />
+        <action
+            android:id="@+id/action_applicationListFragment"
+            app:destination="@id/applicationListFragment" />
+        <action
+            android:id="@+id/action_addOrUpdateVehicleDetailsMakeFrag_to_addLeadDetailsFrag"
+            app:destination="@id/addLeadDetailsFrag" />
+        <action
+            android:id="@+id/action_addLeadDetailsFrag_to_softOfferFragment2"
+            app:destination="@id/softOfferFragment2" />
     </fragment>
 
 

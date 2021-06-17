@@ -69,9 +69,9 @@ public open class BaseFragment : Fragment() {
 
 
     public fun stringToDateString(
-            value: String,
-            sourceDateFormat: String,
-            targetDateFormat: String
+        value: String,
+        sourceDateFormat: String,
+        targetDateFormat: String
     ): String {
         val date = SimpleDateFormat(sourceDateFormat).parse(value)
         return SimpleDateFormat(targetDateFormat).format(date)
@@ -79,8 +79,8 @@ public open class BaseFragment : Fragment() {
 
     val dateSetListener = object : DatePickerDialog.OnDateSetListener {
         override fun onDateSet(
-                view: DatePicker, year: Int, monthOfYear: Int,
-                dayOfMonth: Int
+            view: DatePicker, year: Int, monthOfYear: Int,
+            dayOfMonth: Int
         ) {
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, monthOfYear)
@@ -98,10 +98,10 @@ public open class BaseFragment : Fragment() {
     }
 
     public fun callDatePickerDialog(
-            lastSelectedDateValue: String?,
-            minDate: Date?,
-            maxDate: Date?,
-            datepickerCallBack: DatePickerCallBack
+        lastSelectedDateValue: String?,
+        minDate: Date?,
+        maxDate: Date?,
+        datepickerCallBack: DatePickerCallBack
     ) {
         datePickerCallBack = datepickerCallBack
         var d: Int? = cal.get(Calendar.DAY_OF_MONTH)
@@ -149,7 +149,8 @@ public open class BaseFragment : Fragment() {
 
 
     public fun isEmailValid(email: String?): Boolean {
-        val expression = "(?:[a-z0-9!#\$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#\$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)])"
+        val expression =
+            "(?:[a-z0-9!#\$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#\$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)])"
         val pattern: Pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
         val matcher: Matcher = pattern.matcher(email)
         return matcher.matches()
@@ -210,10 +211,10 @@ public open class BaseFragment : Fragment() {
     public fun formatVehNum(regNo: String): String {
         val separator = "-"
         var formattedRegNum =
-                regNo.substring(0, 2) + separator + regNo.substring(2, 4) + separator + regNo.substring(
-                        4,
-                        6
-                ) + separator + regNo.substring(6, 10)
+            regNo.substring(0, 2) + separator + regNo.substring(2, 4) + separator + regNo.substring(
+                4,
+                6
+            ) + separator + regNo.substring(6, 10)
         return formattedRegNum
     }
 
@@ -230,9 +231,9 @@ public open class BaseFragment : Fragment() {
 
     public fun navigateToStockResFrag(stockDetails: StockDetails) {
         val stockDirection =
-                VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToStockAPIFragment(
-                        stockDetails
-                )
+            VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToStockAPIFragment(
+                stockDetails
+            )
         view?.let {
             Navigation.findNavController(it).navigate(stockDirection)
         }
@@ -251,9 +252,9 @@ public open class BaseFragment : Fragment() {
 
     public fun navigateToAddOrUpdateVehicleDetails(addLeadRequest: AddLeadRequest) {
         val directions =
-                VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(
-                        addLeadRequest!!
-                )
+            VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(
+                addLeadRequest!!
+            )
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }
@@ -263,23 +264,34 @@ public open class BaseFragment : Fragment() {
     public fun navigateToMobileNumber() {
         view?.let {
             Navigation.findNavController(it)
-                    .navigate(R.id.action_addOrUpdateVehicleDetailsMakeFrag_to_addLeadDetailsFrag)
+                .navigate(R.id.action_addOrUpdateVehicleDetailsMakeFrag_to_addLeadDetailsFrag)
         }
     }
 
-    public fun navigateToAddLeadFragment(addLeadRequest: AddLeadRequest) {
+    public fun navigateToAddLeadFragment(
+        addLeadRequest: AddLeadRequest,
+        customerId: Int,
+        mobile: String?
+    ) {
         val directions =
-                AddOrUpdateVehicleDetailsMakeFragDirections.actionAddOrUpdateVehicleDetailsMakeFragToAddLeadDetailsFrag(
-                        addLeadRequest!!
-                )
+            AddOrUpdateVehicleDetailsMakeFragDirections.actionAddOrUpdateVehicleDetailsMakeFragToAddLeadDetailsFrag(
+                addLeadRequest!!, customerId, mobile
+            )
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }
     }
 
-    public fun stockToAddLeadFragment(addLeadRequest: AddLeadRequest) {
+    public fun stockToAddLeadFragment(
+        addLeadRequest: AddLeadRequest, customerId: Int,
+        mobile: String?
+    ) {
         val directions =
-                StockAPIFragmentDirections.actionStockAPIFragmentToAddLeadDetailsFrag(addLeadRequest!!)
+            StockAPIFragmentDirections.actionStockAPIFragmentToAddLeadDetailsFrag(
+                addLeadRequest!!,
+                customerId,
+                mobile
+            )
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }
@@ -287,37 +299,57 @@ public open class BaseFragment : Fragment() {
 
 
     public fun navToSoftOffer(
-            customerDetailsResponse: CustomerDetailsResponse,
-            customerId: String
+        customerDetailsResponse: CustomerDetailsResponse,
+        customerId: String
     ) {
         val directions = AddLeadDetailsFragDirections.actionAddLeadDetailsFragToSoftOfferFragment2(
-                customerDetailsResponse!!,
-                customerId
+            customerDetailsResponse!!,
+            customerId
         )
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }
     }
 
-    public fun navigateToKYCDocumentUpload(customerId: String, kycDocumentData: KYCDocumentResponse, caseID: String,customerData:CustomerDetailsResponse) {
-        val directions=SoftOfferFragmentDirections.actionSoftOfferFragment2ToDocumentUploadFragment(customerId,kycDocumentData,caseID,customerData)
+    public fun navigateToKYCDocumentUpload(
+        customerId: String,
+        kycDocumentData: KYCDocumentResponse,
+        caseID: String,
+        customerData: CustomerDetailsResponse
+    ) {
+        val directions =
+            SoftOfferFragmentDirections.actionSoftOfferFragment2ToDocumentUploadFragment(
+                customerId,
+                kycDocumentData,
+                caseID,
+                customerData
+            )
         view.let {
             it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
         }
     }
 
-    public fun  navigateToBankOfferStatus(customerId: String,customerDetails:CustomerDetailsResponse,fragment:String) {
+    public fun navigateToBankOfferStatus(
+        customerId: String,
+        customerDetails: CustomerDetailsResponse,
+        fragment: String
+    ) {
 
-        if(fragment=="SoftOffer")
-        {
-            val directions=SoftOfferFragmentDirections.actionSoftOfferFragment2ToSelectedBankOfferStatusFragment(customerId,customerDetails)
+        if (fragment == "SoftOffer") {
+            val directions =
+                SoftOfferFragmentDirections.actionSoftOfferFragment2ToSelectedBankOfferStatusFragment(
+                    customerId,
+                    customerDetails
+                )
             view.let {
                 it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
             }
-        }
-        else
-        {
-            val directions=DocumentUploadFragmentDirections.actionDocumentUploadFragmentToSelectedBankOfferStatusFragment(customerId,customerDetails)
+        } else {
+            val directions =
+                DocumentUploadFragmentDirections.actionDocumentUploadFragmentToSelectedBankOfferStatusFragment(
+                    customerId,
+                    customerDetails
+                )
             view.let {
                 it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
             }
@@ -326,15 +358,27 @@ public open class BaseFragment : Fragment() {
     }
 
 
-    public fun navigateToFinalOTPFragment(customerId: String,mobileNum:String,loanProcessCompletedData: CustomLoanProcessCompletedData) {
-        val directions=SelectedBankOfferStatusFragmentDirections.actionSelectedBankOfferStatusFragmentToFinalOTPFragment(customerId,mobileNum,loanProcessCompletedData)
+    public fun navigateToFinalOTPFragment(
+        customerId: String,
+        mobileNum: String,
+        loanProcessCompletedData: CustomLoanProcessCompletedData
+    ) {
+        val directions =
+            SelectedBankOfferStatusFragmentDirections.actionSelectedBankOfferStatusFragmentToFinalOTPFragment(
+                customerId,
+                mobileNum,
+                loanProcessCompletedData
+            )
         view.let {
             it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
         }
     }
 
     public fun navigateToSuccessFragment(loanProcessCompletedData: CustomLoanProcessCompletedData) {
-        val directions=FinalOTPFragmentDirections.actionFinalOTPFragmentToBankSuccessMessageFragment(loanProcessCompletedData)
+        val directions =
+            FinalOTPFragmentDirections.actionFinalOTPFragmentToBankSuccessMessageFragment(
+                loanProcessCompletedData
+            )
         view.let {
             it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
         }
@@ -348,6 +392,21 @@ public open class BaseFragment : Fragment() {
         startActivity(intent)
     }
 
+    public fun navigateNoticeBoardAndNotificationFragment(screenType: String) {
+        val directions =
+            DashboardFragmentDirections.actionNoticeBoardAndNotificationFragment(screenType!!)
+        view?.let {
+            Navigation.findNavController(it).navigate(directions)
+        }
+    }
+
+    public fun navigateApplicationListFragment(screenType: String) {
+        val directions =
+            DashboardFragmentDirections.actionApplicationListFragment(screenType!!)
+        view?.let {
+            Navigation.findNavController(it).navigate(directions)
+        }
+    }
     //endregion screen Navigation
 
     //region message
@@ -362,8 +421,8 @@ public open class BaseFragment : Fragment() {
 
             val inflater = layoutInflater!!
             val layout: View = inflater.inflate(
-                    R.layout.v2_toast_layout,
-                    activity?.findViewById(R.id.toast_layout_root) as ViewGroup?
+                R.layout.v2_toast_layout,
+                activity?.findViewById(R.id.toast_layout_root) as ViewGroup?
             )
 
             val image: ImageView = layout.findViewById<View>(R.id.image) as ImageView
@@ -387,10 +446,10 @@ public open class BaseFragment : Fragment() {
         try {
             if (activity?.currentFocus != null) {
                 val inputMethodManager = activity?.getSystemService(
-                        Activity.INPUT_METHOD_SERVICE
+                    Activity.INPUT_METHOD_SERVICE
                 ) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(
-                        activity?.currentFocus!!.windowToken, 0
+                    activity?.currentFocus!!.windowToken, 0
                 )
             } else {
                 activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
@@ -403,10 +462,10 @@ public open class BaseFragment : Fragment() {
         try {
             if (view != null) {
                 val inputMethodManager = activity?.getSystemService(
-                        Activity.INPUT_METHOD_SERVICE
+                    Activity.INPUT_METHOD_SERVICE
                 ) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(
-                        view.windowToken, 0
+                    view.windowToken, 0
                 )
             } else {
                 activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
@@ -440,19 +499,19 @@ public open class BaseFragment : Fragment() {
     // Progress Dialog region starts
 
     private fun getAlertDialog(
-            context: Context,
-            layout: Int,
-            setCancellationOnTouchOutside: Boolean
+        context: Context,
+        layout: Int,
+        setCancellationOnTouchOutside: Boolean
     ): AlertDialog {
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
         val customLayout: View =
-                layoutInflater.inflate(layout, null)
+            layoutInflater.inflate(layout, null)
         builder.setView(customLayout)
         val dialog = builder.create()
         dialog.setCanceledOnTouchOutside(setCancellationOnTouchOutside)
         dialog!!.getWindow()!!.setLayout(
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
         )
         return dialog
     }
@@ -460,9 +519,9 @@ public open class BaseFragment : Fragment() {
     fun showProgressDialog(context: Context): AlertDialog {
         if (alertDialog == null) {
             alertDialog = getAlertDialog(
-                    context,
-                    R.layout.layout_progress_dialog,
-                    setCancellationOnTouchOutside = false
+                context,
+                R.layout.layout_progress_dialog,
+                setCancellationOnTouchOutside = false
             )
 
         }

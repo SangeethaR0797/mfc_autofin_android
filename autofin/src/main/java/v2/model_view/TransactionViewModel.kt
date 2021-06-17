@@ -498,4 +498,37 @@ class TransactionViewModel(application: Application) : BaseViewModel(application
     }
 //endregion ValidateFinalOTP
 
+    //region ApplicationList
+    private val mApplicationListLiveData: MutableLiveData<ApiResponse> = MutableLiveData<ApiResponse>()
+    public fun getApplicationListLiveData(): MutableLiveData<ApiResponse> {
+        return mApplicationListLiveData
+    }
+
+
+    public fun getApplicationList(request: ApplicationListRequest, url: String?) {
+        repository.getApplicationList(request, url)?.subscribeOn(Schedulers.io())
+            ?.observeOn(AndroidSchedulers.mainThread())
+            ?.doOnSubscribe { d -> mApplicationListLiveData.setValue(ApiResponse.loading()) }
+            ?.let {
+                disposables.add(
+                    it
+                        .subscribe(
+                            { result ->
+                                mApplicationListLiveData.setValue(result?.let {
+                                    ApiResponse.success(
+                                        it
+                                    )
+                                })
+                            }
+                        ) { throwable ->
+                            mApplicationListLiveData.setValue(
+                                ApiResponse.error(
+                                    throwable
+                                )
+                            )
+                        })
+            }
+    }
+//endregion ApplicationList
+
 }

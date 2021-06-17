@@ -349,5 +349,21 @@
     <string name="v2_no_attachment_found_lbl">No Attachment Found</string>
     <string name="v2_text_view_select_label">Please choose one from below</string>
     <string name="v2_upload_button_label">UPLOAD</string>
+    <string name="autofin_dashboard">Autofin Dashboard</string>
+    <string name="search_by_lead_id_lead_name_phone_no_bank_name_los_id_case_id_etc">Search by : Lead id, Lead Name, phone no, Bank Name,\nLOS ID, Case ID, etc.</string>
+    <string name="notice_board">Notice Board</string>
+    <string name="commission">Commission</string>
+    <string name="total_commission">Total Commission</string>
+    <string name="potential_commission">Potential Commission</string>
+    <string name="view_all">View All ❯</string>
+    <string name="our_banking_partner">Our Banking Partner</string>
+    <string name="know_more">Know More ❯</string>
+    <string name="rate_of_intrest">Rate of intrest</string>
+    <string name="search_result">Search Result</string>
+    <string name="case_id">Case Id -</string>
+    <string name="los_id">| LOS Id -</string>
+    <string name="complete">Complete ❯</string>
+    <string name="no_leads_found">No Leads Found</string>
+    <string name="try_and_search_by_phone_no_bank_name_los_id_case_id_etc">Try and search by: phone no, Bank Name, LOS ID, Case ID, etc.</string>
 
 </resources>

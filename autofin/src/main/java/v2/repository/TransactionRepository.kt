@@ -74,4 +74,8 @@ class TransactionRepository {
         return transactionEndPoint.validateFinalOTP(request, url)
     }
 
+    fun getApplicationList(request: ApplicationListRequest, url: String?): Observable<ApplicationListResponse?>? {
+        return transactionEndPoint.getApplicationList(request, url)
+    }
+
 }

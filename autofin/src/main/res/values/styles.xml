@@ -175,6 +175,12 @@
         <item name="android:orientation">horizontal</item>
         <item name="android:gravity">left</item>
     </style>
+    <style name="v2_toolbar_style_dashboard">
+        <item name="android:background">@color/vtwo_black</item>
+        <item name="android:padding">20dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">left</item>
+    </style>
 
     <style name="v2_toolbar_style_white">
         <item name="android:background">@color/white</item>
