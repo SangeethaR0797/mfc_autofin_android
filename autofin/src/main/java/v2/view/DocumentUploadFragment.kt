@@ -27,7 +27,6 @@ import kotlinx.android.synthetic.main.soft_offer_action_bar.*
 import kotlinx.android.synthetic.main.v2_custom_document_parent_layout.*
 import kyc.ImageUploadCompleted
 import kyc.ImageUploadTask
-import model.kyc_model.Doc
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,9 +36,7 @@ import v2.model.request.KYCDocumentUploadDataRequest
 import v2.model.request.KYCUploadDocs
 import v2.model.request.KYCUploadDocumentData
 import v2.model.response.CustomerDetailsResponse
-import v2.model.response.FieldDetails
 import v2.model.response.UploadKYCResponse
-import v2.model.response.master.APIDropDownResponse
 import v2.model.response.master.Docs
 import v2.model.response.master.KYCDocumentData
 import v2.view.adapter.KYCDocumentListAdapter
@@ -197,23 +194,23 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         })
 
         imageViewCamera.setOnClickListener(View.OnClickListener {
-                if (isTile1IsGrouped) {
-                    showImageSelectionDialog(tileData1.groupName, tileData1.docs, object : DocumentSelectionCallBack {
-                        override fun onSelectedDoc(apiKey: String, displayLabel: String) {
-                            tile1APIKey = apiKey
-                            tile1ImageName = displayLabel.trim()
-                            currentImageKey = tile1APIKey
-                            currentImageName = tile1ImageName
-                            currentTextView = textViewAttachmentStatus
-                            attachDocument(IMAGE_CAPTURE_CODE)
-                        }
-                    })
-                } else {
-                    currentImageKey = tileData1.docs[0].apiKey
-                    currentImageName = textViewTitle.text.toString().trim()
-                    currentTextView = textViewAttachmentStatus
-                    attachDocument(IMAGE_CAPTURE_CODE)
-                }
+            if (isTile1IsGrouped) {
+                showImageSelectionDialog(tileData1.groupName, tileData1.docs, object : DocumentSelectionCallBack {
+                    override fun onSelectedDoc(apiKey: String, displayLabel: String) {
+                        tile1APIKey = apiKey
+                        tile1ImageName = displayLabel.trim()
+                        currentImageKey = tile1APIKey
+                        currentImageName = tile1ImageName
+                        currentTextView = textViewAttachmentStatus
+                        attachDocument(IMAGE_CAPTURE_CODE)
+                    }
+                })
+            } else {
+                currentImageKey = tileData1.docs[0].apiKey
+                currentImageName = textViewTitle.text.toString().trim()
+                currentTextView = textViewAttachmentStatus
+                attachDocument(IMAGE_CAPTURE_CODE)
+            }
 
 
         })
@@ -264,24 +261,24 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
             })
             imageViewCamera2.setOnClickListener(View.OnClickListener {
-                    if (isTile2IsGrouped) {
-                        showImageSelectionDialog(tileData2.groupName, tileData2.docs, object : DocumentSelectionCallBack {
-                            override fun onSelectedDoc(apiKey: String, displayLabel: String) {
-                                tile2APIKey = apiKey
-                                tile2ImageName = displayLabel.trim()
-                                currentImageKey = tile2APIKey
-                                currentImageName = tile2ImageName
-                                currentTextView = textViewAttachmentStatus2
-                                attachDocument(IMAGE_CAPTURE_CODE)
+                if (isTile2IsGrouped) {
+                    showImageSelectionDialog(tileData2.groupName, tileData2.docs, object : DocumentSelectionCallBack {
+                        override fun onSelectedDoc(apiKey: String, displayLabel: String) {
+                            tile2APIKey = apiKey
+                            tile2ImageName = displayLabel.trim()
+                            currentImageKey = tile2APIKey
+                            currentImageName = tile2ImageName
+                            currentTextView = textViewAttachmentStatus2
+                            attachDocument(IMAGE_CAPTURE_CODE)
 
-                            }
-                        })
-                    } else {
-                        currentImageKey = tile2APIKey
-                        currentImageName = tile2ImageName
-                        currentTextView = textViewAttachmentStatus2
-                        attachDocument(IMAGE_CAPTURE_CODE)
-                    }
+                        }
+                    })
+                } else {
+                    currentImageKey = tile2APIKey
+                    currentImageName = tile2ImageName
+                    currentTextView = textViewAttachmentStatus2
+                    attachDocument(IMAGE_CAPTURE_CODE)
+                }
             })
 
             columnLayout1.addView(columnView1)
@@ -338,7 +335,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         dialog.show()
     }
 
-    private fun attachDocument(code:Int) {
+    private fun attachDocument(code: Int) {
 
         if (checkPermissions(requireActivity())) {
 
@@ -447,8 +444,13 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         if (key.isNotEmpty() && imageurl?.isNotEmpty() == true) {
             val document = KYCUploadDocs(key, imageurl.toString())
             documentHashMap[key] = document
-            Log.i("TAG", "onImageUploadCompleted: "+ documentHashMap[key]?.Key)
+            Log.i("TAG", "onImageUploadCompleted: " + documentHashMap[key]?.Key)
             currentTextView.text = "File attached"
+            currentTextView.setTextColor(resources.getColor(R.color.v2_green))
+            currentTextView.compoundDrawablePadding=10
+            val img = resources.getDrawable(R.drawable.ic_green_tick)
+            img.setBounds(0, 0, 30, 30)
+            currentTextView.setCompoundDrawables(img, null, null, null)
             currentImageName = ""
             currentImageKey = ""
         } else {
@@ -463,7 +465,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         val uploadKYCDocumentResponse = Gson().fromJson(strRes, UploadKYCResponse::class.java)
         if (uploadKYCDocumentResponse?.status == true) {
             listOfUploadImageURL = uploadKYCDocumentResponse.data as ArrayList<String>
-            navigateToBankOfferStatus(customerId,customerDetailsResponse, "DocUpload")
+            navigateToBankOfferStatus(customerId, customerDetailsResponse, "DocUpload")
         } else {
             if (uploadKYCDocumentResponse?.message != null)
                 showToast(uploadKYCDocumentResponse.message)

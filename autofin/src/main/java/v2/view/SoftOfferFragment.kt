@@ -361,7 +361,8 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         })
 
         // endregion ChangeAndClickListeners
-
+        imageViewEditCurrentAddress.setOnClickListener(this)
+        imageViewEditPermanentAddress.setOnClickListener(this)
 
     }
 
@@ -549,7 +550,8 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     state = pinCodeData.state
                     city = pinCodeData.city
 
-                    linearLayoutAddNewPermanentAddress.visibility = View.VISIBLE
+                    //linearLayoutAddNewPermanentAddress.visibility = View.VISIBLE
+
                     if (typeOfAddress == getString(R.string.v2_current_address)) {
                         linearLayoutAddNewCurrentAddress.removeAllViews()
                         addNewAddress(linearLayoutAddNewCurrentAddress, getString(R.string.v2_current_address))
@@ -579,8 +581,28 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 hideProgressDialog()
                 val response: SimpleResponse? = mApiResponse.data as SimpleResponse?
 //                additionalFieldsViewModel.getAdditionalFieldsData(CustomerRequest(ResetCustomerJourneyDataRequest(customerId), CommonStrings.USER_TYPE, CommonStrings.USER_TYPE), Global.baseURL + CommonStrings.ADDITIONAL_FIELDS_URL)
-                additionalFieldsViewModel.getAdditionalFieldsData(CustomerRequest(ResetCustomerJourneyDataRequest(customerId), CommonStrings.USER_TYPE, CommonStrings.USER_TYPE), Global.baseURL + CommonStrings.ADDITIONAL_FIELDS_URL)
+                linearLayoutAddNewPermanentAddress.removeAllViews()
+                linearLayoutAddNewPermanentAddress.visibility = View.GONE
+                linearLayoutEditCurrentAddress.visibility = View.VISIBLE
 
+                if (!isPermanentAddress)
+                    linearLayoutEditPermanentAddress.visibility = View.VISIBLE
+                else
+                {
+                    linearLayoutEditPermanentAddress.visibility = View.GONE
+                    linearLayoutAddNewPermanentAddress.visibility=View.GONE
+                }
+
+               /* if(!isPermanentAddress)
+                {
+                    linearLayoutAddNewPermanentAddress.removeAllViews()
+                    linearLayoutAddNewPermanentAddress.visibility = View.GONE
+
+                }
+               */
+
+                if (linearLayoutAdditionalFieldsUILayout.visibility != VISIBLE)
+                    additionalFieldsViewModel.getAdditionalFieldsData(CustomerRequest(ResetCustomerJourneyDataRequest(customerId), CommonStrings.USER_TYPE, CommonStrings.USER_TYPE), Global.baseURL + CommonStrings.ADDITIONAL_FIELDS_URL)
             }
             ApiResponse.Status.ERROR -> {
                 hideProgressDialog()
@@ -718,7 +740,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
     // endregion Response
 
-    fun createCustomerDetailsRequest(customerId: Int): CustomerRequest {
+    private fun createCustomerDetailsRequest(customerId: Int): CustomerRequest {
         var customerDetailsRequest = CustomerRequest()
         customerDetailsRequest.UserId = CommonStrings.DEALER_ID
         customerDetailsRequest.UserType = CommonStrings.USER_TYPE
@@ -771,13 +793,14 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     linearLayout.addView(currentSectionTitle)
                 }
 
+                if (currentFilledFieldData.size == fieldList.size) {
+                    addressButton.setBackgroundResource(R.drawable.vtwo_next_btn_bg)
+                }
                 addressButton.setOnClickListener(View.OnClickListener {
                     if (currentFilledFieldData.size == fieldList.size) {
                         if (sectionData.type == "Address" && !isLastSection) {
-                            addressButton.setBackgroundResource(R.drawable.vtwo_next_btn_bg)
                             moveCurrentDetailsToMap(sectionData.sectionName)
                         } else {
-                            addressButton.setBackgroundResource(R.drawable.vtwo_next_btn_bg)
                             submitAdditionalFieldsList.putAll(currentFilledFieldData)
                             val fieldList: ArrayList<FieldDetails> = ArrayList<FieldDetails>(submitAdditionalFieldsList.values)
                             sectionMap[sectionData.sectionName] = fieldList
@@ -890,29 +913,30 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     }
 
                     val input_finish_checker = Runnable {
-                        if (System.currentTimeMillis() > last_text_edit + delay - 500) {
-                            if (fieldData.apiDetails.apiKey == "CompanyPincode") {
+                        if (System.currentTimeMillis() > last_text_edit + delay - 1000) {
+                            updateEditTextValues(fieldInputValue, fieldData, sectionName, isLastItem, linearLayout, cFieldList, isLastSection)
+                            /* if (fieldData.apiDetails.apiKey == "CompanyPincode") {
 
-                                val editTextString: String = fieldInputValue.text.toString()
-                                if (editTextString.length == 6) {
-                                    additionaFieldPinCode = editTextString
-                                    validateInput(sectionName, fieldData.apiDetails.apiKey, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, editTextString)
-                                    refreshFieldView(sectionName, linearLayout, cFieldList, isLastSection)
-                                } else {
-                                    showToast("Enter valid Pincode")
-                                }
+                                 val editTextString: String = fieldInputValue.text.toString()
+                                 if (editTextString.length == 6) {
+                                     additionaFieldPinCode = editTextString
+                                     validateInput(sectionName, fieldData.apiDetails.apiKey, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, editTextString)
+                                     refreshFieldView(sectionName, linearLayout, cFieldList, isLastSection)
+                                 } else {
+                                     showToast("Enter valid Pincode")
+                                 }
 
-                            } else if (isLastSection && isLastItem || sectionName == "Address" && isLastItem) {
+                             } else if (sectionName == "Address" && isLastItem) {
 
-                                val editTextString: String = fieldInputValue.text.toString()
-                                val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
-                                addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
+                                 val editTextString: String = fieldInputValue.text.toString()
+                                 val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
+                                 addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
 
-                            } else {
-                                val editTextString: String = fieldInputValue.text.toString()
-                                validateInput(sectionName, fieldData.apiDetails.apiKey, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, editTextString)
-                            }
-
+                             } else {
+                                 val editTextString: String = fieldInputValue.text.toString()
+                                 validateInput(sectionName, fieldData.apiDetails.apiKey, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, editTextString)
+                             }
+*/
                         }
                     }
 
@@ -929,11 +953,11 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     false
                 })
 
-                fieldInputValue.setOnFocusChangeListener(OnFocusChangeListener { v, hasFocus ->
+                fieldInputValue.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
                     if (!hasFocus) {
                         updateEditTextValues(fieldInputValue, fieldData, sectionName, isLastItem, linearLayout, cFieldList, isLastSection)
                     }
-                })
+                }
 
 
             }
@@ -1033,7 +1057,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                                                         addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, true, sectionName)
                                                     }
 
-
                                                 } else {
                                                     item.selected = false
                                                 }
@@ -1071,8 +1094,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         return currentFieldInputView
     }
 
-    private fun updateEditTextValues(fieldInputValue: EditText, fieldData: Fields, sectionName: String, isLastItem: Boolean, linearLayout: LinearLayout, cFieldList: List<Fields>, isLastSection: Boolean)
-    {
+    private fun updateEditTextValues(fieldInputValue: EditText, fieldData: Fields, sectionName: String, isLastItem: Boolean, linearLayout: LinearLayout, cFieldList: List<Fields>, isLastSection: Boolean) {
         if (fieldInputValue.text.isNotEmpty()) {
 
             if (fieldData.apiDetails.apiKey == "CompanyPincode") {
@@ -1086,7 +1108,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     showToast("Enter valid Pincode")
                 }
 
-            } else if (isLastSection && isLastItem || sectionName == "Address" && isLastItem) {
+            } else if (sectionName == "Address" && isLastItem || isLastSection && isLastItem) {
 
                 val editTextString: String = fieldInputValue.text.toString()
                 val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
@@ -1256,6 +1278,13 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 textViewOfficeAddress1.text = isFieldFilled1(sectionData.fields[0].apiDetails.apiKey)
                 textViewOfficeAddress2.text = isFieldFilled1(sectionData.fields[4].apiDetails.apiKey) + "," + isFieldFilled1(sectionData.fields[5].apiDetails.apiKey)
                 textViewOfficeAddress3.text = isFieldFilled1(sectionData.fields[6].apiDetails.apiKey) + "," + isFieldFilled1(sectionData.fields[1].apiDetails.apiKey)
+                imageViewEditOfficeAddress.setOnClickListener(View.OnClickListener {
+                    if (sectionData.fields[1].apiDetails.apiKey == "CompanyPincode")
+                        additionaFieldPinCode = ""
+
+                    sectionMap.remove(sectionData.sectionName)
+                    refreshFieldView()
+                })
             }
             "Standard" -> {
                 view = LayoutInflater.from(fragView.context).inflate(R.layout.v2_edit_dropdown_layout, linearLayoutAdditionalFieldsUILayout, false)
@@ -1264,6 +1293,10 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                 val editValText: TextView = view.findViewById(R.id.textViewEditDropDown)
                 titleText.text = sectionData.sectionName
                 editValText.text = isFieldFilled1(sectionData.fields[0].apiDetails.apiKey)
+                imageViewEdit.setOnClickListener(View.OnClickListener {
+                    sectionMap.remove(sectionData.sectionName)
+                    refreshFieldView()
+                })
             }
         }
         return view
@@ -1272,17 +1305,20 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
     private fun refreshFieldView(sectionName: String, linearLayout: LinearLayout, cFieldList: List<Fields>, isLastItem: Boolean) {
         handler.postDelayed({
-                            linearLayout.removeAllViews()
+            linearLayout.removeAllViews()
             generateFieldUI(sectionName, linearLayout, cFieldList, isLastItem)
 
-        },500)
+        }, 500)
 
     }
 
-
     private fun refreshFieldView() {
-        linearLayoutAdditionalFieldsUILayout.removeAllViews()
-        setAdditionalField()
+        handler.postDelayed({
+            linearLayoutAdditionalFieldsUILayout.removeAllViews()
+            setAdditionalField()
+
+        }, 500)
+
     }
 
 
@@ -1379,6 +1415,18 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
+            R.id.imageViewEditCurrentAddress -> {
+                linearLayoutEditCurrentAddress.visibility = GONE
+                linearLayoutAddNewCurrentAddress.visibility = VISIBLE
+                linearLayoutAddNewCurrentAddress.removeAllViews()
+                addNewAddress(linearLayoutAddNewCurrentAddress, getString(R.string.v2_current_address))
+            }
+            R.id.imageViewEditPermanentAddress -> {
+                linearLayoutEditPermanentAddress.visibility = GONE
+                linearLayoutAddNewPermanentAddress.visibility = VISIBLE
+                linearLayoutAddNewPermanentAddress.removeAllViews()
+                addNewAddress(linearLayoutAddNewPermanentAddress, getString(R.string.v2_permanent_address))
+            }
 
         }
 
@@ -1446,10 +1494,10 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
         checkboxIsPermanentAdd.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 checkboxIsPermanentAdd.isChecked = isChecked
-                isPermanentAddress = checkboxIsPermanentAdd.isChecked
+                isPermanentAddress = true
             } else {
                 checkboxIsPermanentAdd.isChecked = isChecked
-                isPermanentAddress = checkboxIsPermanentAdd.isChecked
+                isPermanentAddress = false
 
             }
 
@@ -1469,7 +1517,7 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     editTextAddress2.text.toString().isNotEmpty() &&
                     editTextAddress3.text.toString().isNotEmpty()) {
 
-                if (linearLayoutCityMovedInYear.visibility == GONE && cityMovedInYear.isEmpty()) {
+                if (linearLayoutCityMovedInYear.visibility == VISIBLE && cityMovedInYear.isEmpty()) {
                     showToast("Please select city moved in year")
                 } else {
                     address1 = editTextAddress1.text.toString()
@@ -1484,7 +1532,6 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
                     }
 
                 }
-
             } else {
                 showToast("Please enter all Fields")
             }
@@ -1501,27 +1548,40 @@ class SoftOfferFragment : BaseFragment(), OnClickListener {
 
         currentAddress = CurrentAddress(isPermanentAddress, pincode, address)
         if (isPermanentAddress) {
+
             permanentAddress = PermanentAddress(pincode, address)
             val addressData = AddressData(customerId.toInt(), currentAddress, permanentAddress, cityMovedInYear)
             val updateAddressRequest = UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, addressData)
 
             addressViewModel.updateAddress(updateAddressRequest, Global.customerAPI_BaseURL + CommonStrings.UPDATE_ADDRESS_URL)
+
+            checkboxCurrentAndPermanentAddress.visibility = VISIBLE
+
             checkboxCurrentAndPermanentAddress.isChecked = true
             checkboxCurrentAndPermanentAddress.isClickable = false
             checkboxCurrentAndPermanentAddress.isFocusable = false
 
+            linearLayoutEditPermanentAddress.visibility = View.GONE
+            linearLayoutAddNewPermanentAddress.visibility = View.GONE
 
         } else {
-            linearLayoutAddNewPermanentAddress.visibility = View.VISIBLE
+            linearLayoutEditCurrentAddress.visibility=View.VISIBLE
             pincode = ""
             state = ""
             city = ""
             address1 = ""
             address2 = ""
             address3 = ""
-
-            addNewAddress(linearLayoutAddNewPermanentAddress, getString(R.string.v2_permanent_address))
             checkboxCurrentAndPermanentAddress.visibility = GONE
+
+            if (linearLayoutAddNewPermanentAddress.visibility != VISIBLE && linearLayoutEditPermanentAddress.visibility != VISIBLE) {
+                linearLayoutAddNewPermanentAddress.visibility = View.VISIBLE
+                addNewAddress(linearLayoutAddNewPermanentAddress, getString(R.string.v2_permanent_address))
+            }else
+            {
+
+            }
+
         }
 
         linearLayoutAddNewCurrentAddress.visibility = View.GONE

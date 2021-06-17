@@ -127,7 +127,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
-                app:srcCompat="@drawable/ic_v2_personal_details_disabled" />
+                app:srcCompat="@drawable/ic_edit" />
 
         </LinearLayout>
 
@@ -293,7 +293,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
-                app:srcCompat="@drawable/ic_v2_personal_details_disabled"
+                app:srcCompat="@drawable/ic_edit"
                 tools:ignore="ContentDescription" />
 
         </LinearLayout>
