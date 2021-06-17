@@ -363,7 +363,10 @@
     <string name="case_id">Case Id -</string>
     <string name="los_id">| LOS Id -</string>
     <string name="complete">Complete ❯</string>
+    <string name="complete1">Complete</string>
     <string name="no_leads_found">No Leads Found</string>
     <string name="try_and_search_by_phone_no_bank_name_los_id_case_id_etc">Try and search by: phone no, Bank Name, LOS ID, Case ID, etc.</string>
+    <string name="leads_details">Leads Details</string>
+    <string name="registered">Registered</string>
 
 </resources>
