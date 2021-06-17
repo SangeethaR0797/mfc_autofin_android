@@ -49,18 +49,17 @@ import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.callBackInterface.itemClickCallBack
 import v2.view.utility_view.GridItemDecoration
 
-public class AddressAndAdditionalFieldsFragment : BaseFragment(),View.OnClickListener {
+public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickListener {
 
     lateinit var linearLayoutAddNewCurrentAddress: LinearLayout
     lateinit var linearLayoutEditCurrentAddress: LinearLayout
     lateinit var linearLayoutAddNewPermanentAddress: LinearLayout
     lateinit var linearLayoutEditPermanentAddress: LinearLayout
     lateinit var linearLayoutAdditionalFieldsUILayout: LinearLayout
-    lateinit var scrollViewPostOffer:ScrollView
+    lateinit var scrollViewPostOffer: ScrollView
     lateinit var checkboxCurrentAndPermanentAddress: CheckBox
     lateinit var imageViewEditCurrentAddress: ImageView
     lateinit var imageViewEditPermanentAddress: ImageView
-
 
     lateinit var textViewSelectBankLabel: TextView
     lateinit var textViewCurrentAddress1: TextView
@@ -72,15 +71,13 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(),View.OnClickLis
     lateinit var textViewPermanentAddress3: TextView
     private var additionaFieldPinCode: String = ""
 
-
-    lateinit var currentAddress: CurrentAddress
+    lateinit var currentAddress:CurrentAddress
     lateinit var permanentAddress: PermanentAddress
     lateinit var additionalFieldsData: AdditionalFieldsData
     lateinit var additionalFieldAdapter: DataRecyclerViewAdapter
     var sectionMap = HashMap<String, ArrayList<FieldDetails>>()
     private val currentFilledFieldData = HashMap<String, FieldDetails>()
     private val submitAdditionalFieldsList = HashMap<String, FieldDetails>()
-
 
     lateinit var fragView: View
 
@@ -119,8 +116,8 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(),View.OnClickLis
         super.onCreate(savedInstanceState)
         arguments?.let {
             val safeArgs = AddressAndAdditionalFieldsFragmentArgs.fromBundle(it)
-            customerId=safeArgs.customerID.toString()
-            customerDetailsResponse=safeArgs.customerDetailsResponse
+            customerId = safeArgs.customerID.toString()
+            customerDetailsResponse = safeArgs.customerDetailsResponse
 
         }
 
@@ -191,14 +188,14 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(),View.OnClickLis
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        val view:View=inflater.inflate(R.layout.v2_address_additional_fields_fragment, container, false)
-        fragView=view
+        val view: View = inflater.inflate(R.layout.v2_address_additional_fields_fragment, container, false)
+        fragView = view
         initView(view)
         return view
     }
 
     private fun initView(view: View) {
-        scrollViewPostOffer=view.findViewById(R.id.scrollViewPostOffer)
+        scrollViewPostOffer = view.findViewById(R.id.scrollViewPostOffer)
         linearLayoutAddNewCurrentAddress = view.findViewById(R.id.linearLayoutAddNewCurrentAddress)
         linearLayoutEditCurrentAddress = view.findViewById(R.id.linearLayoutEditCurrentAddress)
         linearLayoutAddNewPermanentAddress = view.findViewById(R.id.linearLayoutAddNewPermanentAddress)
@@ -225,9 +222,235 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(),View.OnClickLis
         imageViewEditCurrentAddress.setOnClickListener(this)
         imageViewEditPermanentAddress.setOnClickListener(this)
 
+        initiateView()
         addNewAddress(linearLayoutAddNewCurrentAddress, getString(R.string.v2_current_address))
 
     }
+
+    private fun initiateView() {
+        if(customerDetailsResponse.data!=null)
+        {
+            val customerData = customerDetailsResponse.data
+            if (customerData?.residentialDetails?.currentAddress?.addressLine1?.isNotEmpty() == true)
+            {
+                val currentAddress1= customerDetailsResponse.data?.residentialDetails?.currentAddress
+             showEditCurrentAddress()
+            }
+            else
+            {
+                showNewCurrentAddress()
+            }
+        }
+
+    }
+
+    private fun showNewCurrentAddress() {
+        TODO("Not yet implemented")
+    }
+
+    private fun showEditCurrentAddress() {
+        linearLayoutEditCurrentAddress.visibility=View.VISIBLE
+        textViewCurrentAddress1.text = address1
+        textViewCurrentAddress2.text = address2
+        textViewCurrentAddress3.text = address3 + ", " + pincode
+
+        if(isPermanentAddress)
+        {
+            checkboxCurrentAndPermanentAddress.visibility=View.VISIBLE
+            checkboxCurrentAndPermanentAddress.isChecked = true
+            checkboxCurrentAndPermanentAddress.isClickable = false
+            checkboxCurrentAndPermanentAddress.isFocusable = false
+
+            if(linearLayoutAddNewPermanentAddress.visibility==View.VISIBLE)
+                linearLayoutAddNewPermanentAddress.visibility=View.GONE
+
+            if(linearLayoutEditPermanentAddress.visibility==View.VISIBLE)
+                linearLayoutEditPermanentAddress.visibility=View.GONE
+
+            initiateAdditionalFields()
+        }
+        else
+        {
+            if(customerDetailsResponse.data?.residentialDetails?.permanentAddress?.addressLine1?.isNotEmpty()==true)
+            {
+                showEditPermanentAddress()
+            }
+            else
+            {
+                showNewPermanentAddress()
+            }
+        }
+
+    }
+
+    private fun initiateAdditionalFields() {
+
+            if(linearLayoutAdditionalFieldsUILayout.visibility!=View.VISIBLE)
+            {
+                additionalFieldsViewModel.getAdditionalFieldsData(CustomerRequest(ResetCustomerJourneyDataRequest(customerId), CommonStrings.USER_TYPE, CommonStrings.USER_TYPE), Global.baseURL + CommonStrings.ADDITIONAL_FIELDS_URL)
+            }
+    }
+
+    private fun showNewPermanentAddress() {
+        TODO("Not yet implemented")
+    }
+
+    private fun showEditPermanentAddress() {
+        TODO("Not yet implemented")
+    }
+
+    //region AddressFunctions
+    private fun addNewAddress(linearLayout: LinearLayout, title: String) {
+
+        if (title == getString(R.string.v2_permanent_address))
+            linearLayoutEditCurrentAddress.visibility = View.VISIBLE
+
+        val addressView: View = LayoutInflater.from(fragView.context).inflate(R.layout.v2_add_new_address_layout, linearLayout, false)
+        val textViewTypeOfAddress = addressView.findViewById<TextView>(R.id.textViewTypeOfAddress)
+        val editTextPinCode = addressView.findViewById<EditText>(R.id.editTextPinCode)
+        val buttonPinCodeCheck = addressView.findViewById<Button>(R.id.buttonPincodeCheck)
+        val textViewState = addressView.findViewById<TextView>(R.id.textViewState)
+        val textViewCity = addressView.findViewById<TextView>(R.id.textViewCity)
+        val textViewCityMovedInLbl = addressView.findViewById<TextView>(R.id.textViewCityMovedInLbl)
+        val linearLayoutCityMovedInYear = addressView.findViewById<LinearLayout>(R.id.linearLayoutCityMovedInYear)
+        val editTextCityMovedInYear = addressView.findViewById<EditText>(R.id.editTextCityMovedInYear)
+
+        val editTextAddress1 = addressView.findViewById<EditText>(R.id.editTextAddress1)
+        val editTextAddress2 = addressView.findViewById<EditText>(R.id.editTextAddress2)
+        val editTextAddress3 = addressView.findViewById<EditText>(R.id.editTextAddress3)
+        val checkboxIsPermanentAdd = addressView.findViewById<CheckBox>(R.id.checkboxIsPermanentAdd)
+
+        val buttonSubmitAddress = addressView.findViewById<Button>(R.id.buttonSubmitAddress)
+
+        textViewTypeOfAddress.text = title
+        setFocusOnView(textViewTypeOfAddress)
+
+        typeOfAddress = title
+        if (title == getString(R.string.v2_current_address)) {
+            checkboxIsPermanentAdd.visibility = View.VISIBLE
+        } else {
+            checkboxIsPermanentAdd.visibility = View.GONE
+            linearLayoutCityMovedInYear.visibility = View.GONE
+            textViewCityMovedInLbl.visibility = View.GONE
+        }
+        editTextPinCode.setText(pincode)
+        textViewState.text = state
+        textViewCity.text = city
+
+        linearLayoutCityMovedInYear.setOnClickListener(View.OnClickListener {
+            var lastSelectedDate = ""
+
+            /*  lastSelectedDate = if (editTextCityMovedInYear.text.toString().isNotEmpty())
+                  editTextCityMovedInYear.text.toString()
+              else
+                  getTodayDate().toString()
+  */
+
+            callDatePickerDialog(
+                    lastSelectedDate,
+                    null,
+                    getTodayDate(),
+                    object : DatePickerCallBack {
+                        override fun dateSelected(dateDisplayValue: String, dateValue: String) {
+                            editTextCityMovedInYear.setText(dateDisplayValue)
+                            cityMovedInYear = dateValue
+                        }
+                    })
+        })
+
+        checkboxIsPermanentAdd.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                checkboxIsPermanentAdd.isChecked = isChecked
+                isPermanentAddress = true
+            } else {
+                checkboxIsPermanentAdd.isChecked = isChecked
+                isPermanentAddress = false
+
+            }
+
+        }
+        buttonPinCodeCheck.setOnClickListener(View.OnClickListener {
+            if (editTextPinCode.text.toString().isNotEmpty() && editTextPinCode.text.toString().length == 6) {
+                pinCodeViewModel.getPinCodeData(Global.customerDetails_BaseURL + "Pincode/city/" + editTextPinCode.text.toString())
+            } else
+                showToast("Please enter valid PinCode")
+        })
+
+        buttonSubmitAddress.setOnClickListener(View.OnClickListener {
+            if (editTextPinCode.text.toString().isNotEmpty() &&
+                    textViewState.text.toString().isNotEmpty() &&
+                    textViewCity.text.toString().isNotEmpty() &&
+                    editTextAddress1.text.toString().isNotEmpty() &&
+                    editTextAddress2.text.toString().isNotEmpty() &&
+                    editTextAddress3.text.toString().isNotEmpty()) {
+
+                if (linearLayoutCityMovedInYear.visibility == View.VISIBLE && cityMovedInYear.isEmpty()) {
+                    showToast("Please select city moved in year")
+                } else {
+                    address1 = editTextAddress1.text.toString()
+                    address2 = editTextAddress2.text.toString()
+                    address3 = editTextAddress3.text.toString()
+                    address = "$address1***$address2***$address3"
+
+                    if (typeOfAddress == getString(R.string.v2_current_address)) {
+                        submitCurrentAddress()
+                    } else if (typeOfAddress == getString(R.string.v2_permanent_address)) {
+                        submitPermanentAddress()
+                    }
+
+                }
+            } else {
+                showToast("Please enter all Fields")
+            }
+        })
+        linearLayout.addView(addressView)
+    }
+
+
+    private fun submitCurrentAddress() {
+
+        currentAddress = CurrentAddress(isPermanentAddress, pincode, address)
+        if (isPermanentAddress) {
+
+            permanentAddress = PermanentAddress(pincode, address)
+            val addressData = AddressData(customerId.toInt(), currentAddress, permanentAddress, cityMovedInYear)
+            val updateAddressRequest = UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, addressData)
+
+            addressViewModel.updateAddress(updateAddressRequest, Global.customerAPI_BaseURL + CommonStrings.UPDATE_ADDRESS_URL)
+        } else {
+            pincode = ""
+            state = ""
+            city = ""
+            address1 = ""
+            address2 = ""
+            address3 = ""
+            checkboxCurrentAndPermanentAddress.visibility = View.GONE
+
+            if (linearLayoutAddNewPermanentAddress.visibility != View.VISIBLE && linearLayoutEditPermanentAddress.visibility != View.VISIBLE) {
+                linearLayoutAddNewPermanentAddress.visibility = View.VISIBLE
+                addNewAddress(linearLayoutAddNewPermanentAddress, getString(R.string.v2_permanent_address))
+            } else {
+
+            }
+
+        }
+        showEditCurrentAddress()
+    }
+
+    private fun submitPermanentAddress() {
+
+        textViewPermanentAddress1.text = address1
+        textViewPermanentAddress2.text = address2
+        textViewPermanentAddress3.text = "$address3, $pincode"
+        permanentAddress = PermanentAddress(pincode, address)
+        val addressData = AddressData(customerId.toInt(), currentAddress, permanentAddress, cityMovedInYear)
+        val updateAddressRequest = UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, addressData)
+
+        addressViewModel.updateAddress(updateAddressRequest, Global.customerAPI_BaseURL + CommonStrings.UPDATE_ADDRESS_URL)
+    }
+
+    //endregion AddressFunctions
+
 
     // region OnResponse
 
@@ -309,10 +532,9 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(),View.OnClickLis
 
                 if (!isPermanentAddress)
                     linearLayoutEditPermanentAddress.visibility = View.VISIBLE
-                else
-                {
+                else {
                     linearLayoutEditPermanentAddress.visibility = View.GONE
-                    linearLayoutAddNewPermanentAddress.visibility=View.GONE
+                    linearLayoutAddNewPermanentAddress.visibility = View.GONE
                 }
 
                 /* if(!isPermanentAddress)
@@ -323,8 +545,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(),View.OnClickLis
                  }
                 */
 
-                if (linearLayoutAdditionalFieldsUILayout.visibility != View.VISIBLE)
-                    additionalFieldsViewModel.getAdditionalFieldsData(CustomerRequest(ResetCustomerJourneyDataRequest(customerId), CommonStrings.USER_TYPE, CommonStrings.USER_TYPE), Global.baseURL + CommonStrings.ADDITIONAL_FIELDS_URL)
+                initiateAdditionalFields()
             }
             ApiResponse.Status.ERROR -> {
                 hideProgressDialog()
@@ -355,7 +576,6 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(),View.OnClickLis
 
                     additionalFieldsData = response.data
                     linearLayoutAdditionalFieldsUILayout.visibility = View.VISIBLE
-
                     setAdditionalField()
 
                 } else {
@@ -1039,172 +1259,6 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(),View.OnClickLis
     }
 
 
-    private fun addNewAddress(linearLayout: LinearLayout, title: String) {
-
-        if (title == getString(R.string.v2_permanent_address))
-            linearLayoutEditCurrentAddress.visibility = View.VISIBLE
-
-        val addressView: View = LayoutInflater.from(fragView.context).inflate(R.layout.v2_add_new_address_layout, linearLayout, false)
-        val textViewTypeOfAddress = addressView.findViewById<TextView>(R.id.textViewTypeOfAddress)
-        val editTextPinCode = addressView.findViewById<EditText>(R.id.editTextPinCode)
-        val buttonPinCodeCheck = addressView.findViewById<Button>(R.id.buttonPincodeCheck)
-        val textViewState = addressView.findViewById<TextView>(R.id.textViewState)
-        val textViewCity = addressView.findViewById<TextView>(R.id.textViewCity)
-        val textViewCityMovedInLbl = addressView.findViewById<TextView>(R.id.textViewCityMovedInLbl)
-        val linearLayoutCityMovedInYear = addressView.findViewById<LinearLayout>(R.id.linearLayoutCityMovedInYear)
-        val editTextCityMovedInYear = addressView.findViewById<EditText>(R.id.editTextCityMovedInYear)
-
-        val editTextAddress1 = addressView.findViewById<EditText>(R.id.editTextAddress1)
-        val editTextAddress2 = addressView.findViewById<EditText>(R.id.editTextAddress2)
-        val editTextAddress3 = addressView.findViewById<EditText>(R.id.editTextAddress3)
-        val checkboxIsPermanentAdd = addressView.findViewById<CheckBox>(R.id.checkboxIsPermanentAdd)
-
-        val buttonSubmitAddress = addressView.findViewById<Button>(R.id.buttonSubmitAddress)
-
-        textViewTypeOfAddress.text = title
-        setFocusOnView(textViewTypeOfAddress)
-
-        typeOfAddress = title
-        if (title == getString(R.string.v2_current_address)) {
-            checkboxIsPermanentAdd.visibility = View.VISIBLE
-        } else {
-            checkboxIsPermanentAdd.visibility = View.GONE
-            linearLayoutCityMovedInYear.visibility = View.GONE
-            textViewCityMovedInLbl.visibility = View.GONE
-        }
-        editTextPinCode.setText(pincode)
-        textViewState.text = state
-        textViewCity.text = city
-
-        linearLayoutCityMovedInYear.setOnClickListener(View.OnClickListener {
-            var lastSelectedDate = ""
-
-            /*  lastSelectedDate = if (editTextCityMovedInYear.text.toString().isNotEmpty())
-                  editTextCityMovedInYear.text.toString()
-              else
-                  getTodayDate().toString()
-  */
-
-            callDatePickerDialog(
-                    lastSelectedDate,
-                    null,
-                    getTodayDate(),
-                    object : DatePickerCallBack {
-                        override fun dateSelected(dateDisplayValue: String, dateValue: String) {
-                            editTextCityMovedInYear.setText(dateDisplayValue)
-                            cityMovedInYear = dateValue
-                        }
-                    })
-        })
-
-        checkboxIsPermanentAdd.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                checkboxIsPermanentAdd.isChecked = isChecked
-                isPermanentAddress = true
-            } else {
-                checkboxIsPermanentAdd.isChecked = isChecked
-                isPermanentAddress = false
-
-            }
-
-        }
-        buttonPinCodeCheck.setOnClickListener(View.OnClickListener {
-            if (editTextPinCode.text.toString().isNotEmpty() && editTextPinCode.text.toString().length == 6) {
-                pinCodeViewModel.getPinCodeData(Global.customerDetails_BaseURL + "Pincode/city/" + editTextPinCode.text.toString())
-            } else
-                showToast("Please enter valid PinCode")
-        })
-
-        buttonSubmitAddress.setOnClickListener(View.OnClickListener {
-            if (editTextPinCode.text.toString().isNotEmpty() &&
-                    textViewState.text.toString().isNotEmpty() &&
-                    textViewCity.text.toString().isNotEmpty() &&
-                    editTextAddress1.text.toString().isNotEmpty() &&
-                    editTextAddress2.text.toString().isNotEmpty() &&
-                    editTextAddress3.text.toString().isNotEmpty()) {
-
-                if (linearLayoutCityMovedInYear.visibility == View.VISIBLE && cityMovedInYear.isEmpty()) {
-                    showToast("Please select city moved in year")
-                } else {
-                    address1 = editTextAddress1.text.toString()
-                    address2 = editTextAddress2.text.toString()
-                    address3 = editTextAddress3.text.toString()
-                    address = "$address1***$address2***$address3"
-
-                    if (typeOfAddress == getString(R.string.v2_current_address)) {
-                        submitCurrentAddress()
-                    } else if (typeOfAddress == getString(R.string.v2_permanent_address)) {
-                        submitPermanentAddress()
-                    }
-
-                }
-            } else {
-                showToast("Please enter all Fields")
-            }
-        })
-        linearLayout.addView(addressView)
-    }
-
-
-    private fun submitCurrentAddress() {
-        textViewCurrentAddress1.text = address1
-        textViewCurrentAddress2.text = address2
-        textViewCurrentAddress3.text = address3 + ", " + pincode
-
-
-        currentAddress = CurrentAddress(isPermanentAddress, pincode, address)
-        if (isPermanentAddress) {
-
-            permanentAddress = PermanentAddress(pincode, address)
-            val addressData = AddressData(customerId.toInt(), currentAddress, permanentAddress, cityMovedInYear)
-            val updateAddressRequest = UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, addressData)
-
-            addressViewModel.updateAddress(updateAddressRequest, Global.customerAPI_BaseURL + CommonStrings.UPDATE_ADDRESS_URL)
-
-            checkboxCurrentAndPermanentAddress.visibility = View.VISIBLE
-
-            checkboxCurrentAndPermanentAddress.isChecked = true
-            checkboxCurrentAndPermanentAddress.isClickable = false
-            checkboxCurrentAndPermanentAddress.isFocusable = false
-
-            linearLayoutEditPermanentAddress.visibility = View.GONE
-            linearLayoutAddNewPermanentAddress.visibility = View.GONE
-
-        } else {
-            linearLayoutEditCurrentAddress.visibility=View.VISIBLE
-            pincode = ""
-            state = ""
-            city = ""
-            address1 = ""
-            address2 = ""
-            address3 = ""
-            checkboxCurrentAndPermanentAddress.visibility = View.GONE
-
-            if (linearLayoutAddNewPermanentAddress.visibility != View.VISIBLE && linearLayoutEditPermanentAddress.visibility != View.VISIBLE) {
-                linearLayoutAddNewPermanentAddress.visibility = View.VISIBLE
-                addNewAddress(linearLayoutAddNewPermanentAddress, getString(R.string.v2_permanent_address))
-            }else
-            {
-
-            }
-
-        }
-
-        linearLayoutAddNewCurrentAddress.visibility = View.GONE
-
-    }
-
-    private fun submitPermanentAddress() {
-
-        textViewPermanentAddress1.text = address1
-        textViewPermanentAddress2.text = address2
-        textViewPermanentAddress3.text = "$address3, $pincode"
-        permanentAddress = PermanentAddress(pincode, address)
-        val addressData = AddressData(customerId.toInt(), currentAddress, permanentAddress, cityMovedInYear)
-        val updateAddressRequest = UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, addressData)
-
-        addressViewModel.updateAddress(updateAddressRequest, Global.customerAPI_BaseURL + CommonStrings.UPDATE_ADDRESS_URL)
-    }
 
     private fun submitAdditionalFields() {
         val fieldList: ArrayList<FieldDetails> = ArrayList<FieldDetails>(submitAdditionalFieldsList.values)
@@ -1331,8 +1385,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(),View.OnClickLis
     }
 
     override fun onClick(v: View?) {
-        when(v?.id)
-        {
+        when (v?.id) {
             R.id.imageViewEditCurrentAddress -> {
                 linearLayoutEditCurrentAddress.visibility = View.GONE
                 linearLayoutAddNewCurrentAddress.visibility = View.VISIBLE

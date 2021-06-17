@@ -54,7 +54,6 @@ import v2.view.utility_view.GridItemDecoration
 
 class SoftOfferFragment : BaseFragment() {
 
-
     var initialCall: Boolean = true
     private var caseID: String = ""
     lateinit var scrollViewBankOffer: ScrollView
