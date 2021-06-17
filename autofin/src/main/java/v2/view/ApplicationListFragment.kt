@@ -322,24 +322,8 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
                             override fun onCompleteClick(item: Any?, position: Int) {
                                 var applicationDataItems = item as ApplicationDataItems
-                                if ((applicationDataItems.status.equals(ApplicationStatusEnum.Registered.value) && applicationDataItems.subStatus.equals(
-                                        ApplicationStatusEnum.Registered.value
-                                    )) ||
-                                    (applicationDataItems.status.equals(ApplicationStatusEnum.Registered.value) && applicationDataItems.subStatus.equals(
-                                        ApplicationStatusEnum.Employment_Details_Submitted.value
-                                    )) ||
-                                    (applicationDataItems.status.equals(ApplicationStatusEnum.KYC_Done.value) && applicationDataItems.subStatus.equals(
-                                        ApplicationStatusEnum.KYC_Done.value
-                                    )) ||
-                                    (applicationDataItems.status.equals(ApplicationStatusEnum.KYC_Done.value) && applicationDataItems.subStatus.equals(
-                                        ApplicationStatusEnum.Employment_Details_Submitted.value
-                                    ))
-                                ) {
-                                    selectedCustomerId = applicationDataItems!!.customerId!!
-                                    callCustomerDetailsApi(applicationDataItems!!.customerId!!)
-                                } else {
-                                    showToast("Soft offer")
-                                }
+                                selectedCustomerId = applicationDataItems!!.customerId!!
+                                callCustomerDetailsApi(applicationDataItems!!.customerId!!)
                             }
 
                             override fun onCallClick(item: Any?, position: Int) {
@@ -419,7 +403,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 customerResponse.data!!.basicDetails!!.customerMobile
             )
         } else {
-            showToast("Open Soft offer fragment")
+            navToSoftOffer(customerResponse, selectedCustomerId.toString())
         }
 
     }
