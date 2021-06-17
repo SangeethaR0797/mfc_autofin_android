@@ -17,6 +17,7 @@ import utility.CommonStrings
 import utility.Global
 import v2.model.dto.*
 import v2.model.enum_class.MenuEnum
+import v2.model.enum_class.ScreenTypeEnum
 import v2.model.request.CommonRequest
 import v2.model.response.*
 import v2.model.response.master.KYCDocumentResponse
@@ -303,7 +304,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                     activity?.onBackPressed()
                 }
                 R.id.iv_notification -> {
-                    navigateNoticeBoardAndNotificationFragment("Notification")
+                    navigateNoticeBoardAndNotificationFragment(ScreenTypeEnum.Notification.value)
                 }
 
                 R.id.et_search -> {
@@ -314,7 +315,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                     openSearchFragment()
                 }
                 R.id.ll_view_all_notice -> {
-                    navigateNoticeBoardAndNotificationFragment("Notice Board")
+                    navigateNoticeBoardAndNotificationFragment(ScreenTypeEnum.Notice_Board.value)
                 }
 
                 R.id.btnRegisteredList -> {
@@ -329,9 +330,8 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     }
 
     fun openSearchFragment() {
-        navigateApplicationListFragment("Search")
+        navigateApplicationListFragment(ScreenTypeEnum.Search.value)
     }
-
 
 
     fun openNextFragment(menuCode: String, menuName: String) {
@@ -339,19 +339,19 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         when (menuCode) {
 
             MenuEnum.Registered.value -> {
-                navigateApplicationListFragment("Registered")
+                navigateApplicationListFragment(ScreenTypeEnum.Registered.value)
             }
             MenuEnum.Soft_offer.value -> {
-                navigateApplicationListFragment("SoftOffer")
+                navigateApplicationListFragment(ScreenTypeEnum.SoftOffer.value)
             }
             MenuEnum.Logged_In.value -> {
-                navigateApplicationListFragment("LoggedIn")
+                navigateApplicationListFragment(ScreenTypeEnum.LoggedIn.value)
             }
             MenuEnum.Approved.value -> {
-                navigateApplicationListFragment("Approved")
+                navigateApplicationListFragment(ScreenTypeEnum.Approved.value)
             }
             MenuEnum.Disbursed.value -> {
-                navigateApplicationListFragment("Disbursed")
+                navigateApplicationListFragment(ScreenTypeEnum.Disbursed.value)
             }
             MenuEnum.Add_New.value -> {
                 navigateFromDashBoard(R.id.vehicleSelectionFrag2)

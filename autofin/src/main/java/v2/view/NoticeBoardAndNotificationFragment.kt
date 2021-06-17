@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
+import v2.model.enum_class.ScreenTypeEnum
 import v2.model.request.CommonRequest
 import v2.model.response.CommonResponse
 import v2.model.response.NoticeBoardDataResponse
@@ -65,7 +66,7 @@ class NoticeBoardAndNotificationFragment : BaseFragment(), View.OnClickListener 
 
         ivBack.setOnClickListener(this)
 
-        if (screenType.equals("Notice Board")) {
+        if (screenType.equals(ScreenTypeEnum.Notice_Board.value)) {
             noticeBoardViewModel.getNoticeBoardDetails(
                 CommonRequest(
                     0, CommonStrings.DEALER_ID,
@@ -73,7 +74,7 @@ class NoticeBoardAndNotificationFragment : BaseFragment(), View.OnClickListener 
                 ),
                 Global.customerAPI_BaseURL + CommonStrings.NOTICE_BOARD_DETAILS_END_POINT
             )
-        } else if (screenType.equals("Notification")) {
+        } else if (screenType.equals(ScreenTypeEnum.Notification.value)) {
 
         }
     }

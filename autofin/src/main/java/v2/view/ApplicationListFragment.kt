@@ -24,6 +24,7 @@ import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
+import v2.model.enum_class.ScreenTypeEnum
 import v2.model.request.ApplicationListRequest
 import v2.model.request.ApplicationListRequestData
 import v2.model.response.ApplicationDataItems
@@ -132,7 +133,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         ivSearch.setOnClickListener(this)
         llSearch.setOnClickListener(this)
 
-        if (screenType.equals("Search")) {
+        if (screenType.equals(ScreenTypeEnum.Search.value)) {
             ivSearch.visibility = View.GONE
 
         } else {
@@ -152,10 +153,10 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                     activity?.onBackPressed()
                 }
                 R.id.iv_notification -> {
-                    navigateNoticeBoardAndNotificationFragment("Notification")
+                    navigateNoticeBoardAndNotificationFragment(ScreenTypeEnum.Notification.value)
                 }
                 R.id.iv_search -> {
-                    navigateApplicationListFragment("Search")
+                    navigateApplicationListFragment(ScreenTypeEnum.Search.value)
 
                 }
                 R.id.ll_search -> {
@@ -360,7 +361,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 val firstVisibleItemPosition: Int = layoutManager!!.findFirstVisibleItemPosition()
                 if (!isLoading && applicationListAdapter.itemCount < TOTAL) {
                     if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0 && totalItemCount >= PAGE_SIZE) {
-                        if (screenType.equals("Search")) {
+                        if (screenType.equals(ScreenTypeEnum.Search.value)) {
                             callSearchAPI()
                         } else {
                             callApplicationStatusWiseFilterAPI()
