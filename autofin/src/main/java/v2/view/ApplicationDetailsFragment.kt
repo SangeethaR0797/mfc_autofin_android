@@ -22,6 +22,8 @@ import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
 import v2.model.dto.AddLeadRequest
+import v2.model.dto.DataSelectionDTO
+import v2.model.dto.KeyValueDTO
 import v2.model.enum_class.ApplicationStatusEnum
 import v2.model.enum_class.ScreenTypeEnum
 import v2.model.request.ApplicationListRequest
@@ -37,8 +39,10 @@ import v2.model.response.CustomerDetailsResponse
 import v2.model_view.TransactionViewModel
 import v2.service.utility.ApiResponse
 import v2.view.adapter.ApplicationListAdapter
+import v2.view.adapter.KeyValueRecyclerViewAdapter
 import v2.view.base.BaseFragment
 import v2.view.callBackInterface.ApplicationListClickCallBack
+import v2.view.callBackInterface.itemClickCallBack
 
 import java.util.*
 
@@ -162,7 +166,74 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
             tvTitle.text =
                 customerResponse!!.data!!.basicDetails!!.firstName + " " + customerResponse!!.data!!.basicDetails!!.lastName
             tvStatus.text = customerResponse!!.data!!.status
-            tvSubTitle.text = customerResponse!!.data!!.vehicleDetails!!.make+customerResponse!!.data!!.vehicleDetails!!.model
+            tvSubTitle.text =
+                customerResponse!!.data!!.vehicleDetails!!.make + customerResponse!!.data!!.vehicleDetails!!.model
+            val list: ArrayList<KeyValueDTO> = arrayListOf<KeyValueDTO>()
+            list.add(KeyValueDTO("Case id", customerResponse!!.data!!.caseId))
+            list.add(
+                KeyValueDTO(
+                    "Name",
+                    customerResponse!!.data!!.basicDetails!!.firstName + " " + customerResponse!!.data!!.basicDetails!!.lastName
+                )
+            )
+            list.add(
+                KeyValueDTO(
+                    "Mobile No",
+                    customerResponse!!.data!!.basicDetails!!.customerMobile
+                )
+            )
+            list.add(KeyValueDTO("Email", customerResponse!!.data!!.basicDetails!!.email))
+
+            list.add(KeyValueDTO("Make", customerResponse!!.data!!.vehicleDetails!!.make))
+            list.add(KeyValueDTO("Model", customerResponse!!.data!!.vehicleDetails!!.model))
+            list.add(KeyValueDTO("Variant", customerResponse!!.data!!.vehicleDetails!!.variant))
+            list.add(
+                KeyValueDTO(
+                    "Year",
+                    customerResponse!!.data!!.vehicleDetails!!.registrationYear.toString()
+                )
+            )
+            list.add(
+                KeyValueDTO(
+                    "Owner",
+                    customerResponse!!.data!!.vehicleDetails!!.ownership.toString()
+                )
+            )
+            if (customerResponse!!.data!!.employmentDetails!!.salaryAccount != null) {
+                list.add(
+                    KeyValueDTO(
+                        "Owner",
+                        customerResponse!!.data!!.employmentDetails!!.salaryAccount
+                    )
+                )
+            } else if (customerResponse!!.data!!.employmentDetails!!.primaryAccount != null) {
+                list.add(
+                    KeyValueDTO(
+                        "Owner",
+                        customerResponse!!.data!!.employmentDetails!!.primaryAccount
+                    )
+                )
+            }
+
+            if (customerResponse!!.data!!.loanDetails != null && customerResponse!!.data!!.loanDetails!!.loanAmount != null) {
+                list.add(
+                    KeyValueDTO(
+                        "Loan Amount",
+                        formatAmount(customerResponse!!.data!!.loanDetails!!.loanAmount!!)
+                    )
+                )
+            }
+            var keyValueRecyclerViewAdapter =
+                KeyValueRecyclerViewAdapter(activity as Activity, list, object :
+                    itemClickCallBack {
+                    override fun itemClick(item: Any?, position: Int) {
+
+
+                    }
+                })
+            var layoutManager = LinearLayoutManager(activity)
+            rvData.layoutManager = layoutManager
+            rvData.adapter = keyValueRecyclerViewAdapter
         }
 
     }
