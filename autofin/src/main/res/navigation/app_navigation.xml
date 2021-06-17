@@ -104,11 +104,8 @@
             android:defaultValue="0"
             app:argType="string" />
         <action
-            android:id="@+id/action_softOfferFragment2_to_documentUploadFragment"
-            app:destination="@id/documentUploadFragment" />
-        <action
-            android:id="@+id/action_softOfferFragment2_to_selectedBankOfferStatusFragment"
-            app:destination="@id/selectedBankOfferStatusFragment" />
+            android:id="@+id/action_softOfferFragment2_to_addressAndAdditionalFieldsFragment"
+            app:destination="@id/addressAndAdditionalFieldsFragment" />
 
     </fragment>
     <activity
@@ -211,6 +208,24 @@
         <action
             android:id="@+id/action_addLeadDetailsFrag_to_softOfferFragment2"
             app:destination="@id/softOfferFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/addressAndAdditionalFieldsFragment"
+        android:name="v2.view.AddressAndAdditionalFieldsFragment"
+        android:label="v2_address_additional_fields_fragment"
+        tools:layout="@layout/v2_address_additional_fields_fragment" >
+        <argument
+            android:name="customerID"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_addressAndAdditionalFieldsFragment_to_documentUploadFragment"
+            app:destination="@id/documentUploadFragment" />
+        <action
+            android:id="@+id/action_addressAndAdditionalFieldsFragment_to_selectedBankOfferStatusFragment"
+            app:destination="@id/selectedBankOfferStatusFragment" />
+        <argument
+            android:name="customerDetailsResponse"
+            app:argType="v2.model.response.CustomerDetailsResponse" />
     </fragment>
 
 

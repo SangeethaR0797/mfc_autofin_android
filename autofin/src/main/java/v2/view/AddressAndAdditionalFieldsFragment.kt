@@ -114,23 +114,38 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(),View.OnClickLis
 
     private var list = ArrayList<DataSelectionDTO>()
 
-
-
-
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
+            val safeArgs = AddressAndAdditionalFieldsFragmentArgs.fromBundle(it)
+            customerId=safeArgs.customerID.toString()
+            customerDetailsResponse=safeArgs.customerDetailsResponse
 
         }
 
         pinCodeViewModel = ViewModelProvider(this).get(MasterViewModel::class.java)
-        pinCodeViewModel.getPinCodeDataLiveData().observe(this) { mApiResponse: ApiResponse? ->
-            onPinCodeResponse(mApiResponse!!)
-        }
+
         addressViewModel = ViewModelProvider(this).get(
                 TransactionViewModel::class.java
         )
+        additionalFieldsViewModel = ViewModelProvider(this).get(
+                TransactionViewModel::class.java
+        )
+
+        additionalFieldsAPIViewModel = ViewModelProvider(this).get(
+                MasterViewModel::class.java
+        )
+
+        submitAdditionalFieldsViewModel = ViewModelProvider(this).get(
+                TransactionViewModel::class.java
+        )
+
+        kycDocumentViewModel = ViewModelProvider(this).get(MasterViewModel::class.java)
+
+        pinCodeViewModel.getPinCodeDataLiveData().observe(this) { mApiResponse: ApiResponse? ->
+            onPinCodeResponse(mApiResponse!!)
+        }
 
         addressViewModel.getUpdateAddressLiveData()
                 .observe(requireActivity()) { mApiResponse: ApiResponse? ->
@@ -145,18 +160,11 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(),View.OnClickLis
                     )
                 })
 
-        additionalFieldsViewModel = ViewModelProvider(this).get(
-                TransactionViewModel::class.java
-        )
-
         additionalFieldsViewModel.getAdditionalFieldsLiveData().observe(requireActivity()) { mApiResponse: ApiResponse? ->
             onAdditionalFieldsResponse(
                     mApiResponse!!
             )
         }
-        additionalFieldsAPIViewModel = ViewModelProvider(this).get(
-                MasterViewModel::class.java
-        )
 
         additionalFieldsAPIViewModel.getAdditionalFieldAPILiveData().observe(requireActivity()) { mApiResponse: ApiResponse? ->
             onAdditionalFieldAPIResponse(
@@ -164,9 +172,6 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(),View.OnClickLis
             )
         }
 
-        submitAdditionalFieldsViewModel = ViewModelProvider(this).get(
-                TransactionViewModel::class.java
-        )
 
         submitAdditionalFieldsViewModel.mSubmitAdditionalFieldsLiveData().observe(requireActivity()) { mApiResponse: ApiResponse? ->
             onSubmitOfAdditionFields(
@@ -174,7 +179,6 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(),View.OnClickLis
             )
         }
 
-        kycDocumentViewModel = ViewModelProvider(this).get(MasterViewModel::class.java)
         kycDocumentViewModel.getKYCDocumentLiveData().observe(requireActivity()) { mApiResponse: ApiResponse? ->
             onGetKYCDocumentResponse(mApiResponse!!)
         }
@@ -185,37 +189,10 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(),View.OnClickLis
 
     }
 
-    private fun onCustomerDetails(mApiResponse: ApiResponse) {
-        parseCommonResponse(mApiResponse)
-        when (mApiResponse.status) {
-            ApiResponse.Status.LOADING -> {
-                showProgressDialog(requireContext())
-            }
-            ApiResponse.Status.SUCCESS -> {
-                hideProgressDialog()
-
-                val customerResponse: CustomerDetailsResponse? =
-                        mApiResponse.data as CustomerDetailsResponse?
-                if (customerResponse != null) {
-                    customerDetailsResponse = customerResponse
-                }
-
-                // InitViews
-            }
-            ApiResponse.Status.ERROR -> {
-                hideProgressDialog()
-            }
-            else -> {
-                hideProgressDialog()
-                showToast("Please enter valid details")
-            }
-        }
-    }
-
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         val view:View=inflater.inflate(R.layout.v2_address_additional_fields_fragment, container, false)
+        fragView=view
         initView(view)
         return view
     }
@@ -250,30 +227,37 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(),View.OnClickLis
 
         addNewAddress(linearLayoutAddNewCurrentAddress, getString(R.string.v2_current_address))
 
-
-
-    }
-
-    override fun onClick(v: View?) {
-        when(v?.id)
-        {
-            R.id.imageViewEditCurrentAddress -> {
-                linearLayoutEditCurrentAddress.visibility = View.GONE
-                linearLayoutAddNewCurrentAddress.visibility = View.VISIBLE
-                linearLayoutAddNewCurrentAddress.removeAllViews()
-                addNewAddress(linearLayoutAddNewCurrentAddress, getString(R.string.v2_current_address))
-            }
-            R.id.imageViewEditPermanentAddress -> {
-                linearLayoutEditPermanentAddress.visibility = View.GONE
-                linearLayoutAddNewPermanentAddress.visibility = View.VISIBLE
-                linearLayoutAddNewPermanentAddress.removeAllViews()
-                addNewAddress(linearLayoutAddNewPermanentAddress, getString(R.string.v2_permanent_address))
-            }
-
-        }
     }
 
     // region OnResponse
+
+    private fun onCustomerDetails(mApiResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+
+                val customerResponse: CustomerDetailsResponse? =
+                        mApiResponse.data as CustomerDetailsResponse?
+                if (customerResponse != null) {
+                    customerDetailsResponse = customerResponse
+                }
+
+                // InitViews
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+            }
+            else -> {
+                hideProgressDialog()
+                showToast("Please enter valid details")
+            }
+        }
+    }
+
     private fun onPinCodeResponse(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
@@ -1344,6 +1328,25 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(),View.OnClickLis
 
     private fun setFocusOnView(textView: TextView) {
         scrollViewPostOffer.post(Runnable { textView.top.let { scrollViewPostOffer.scrollTo(0, it) } })
+    }
+
+    override fun onClick(v: View?) {
+        when(v?.id)
+        {
+            R.id.imageViewEditCurrentAddress -> {
+                linearLayoutEditCurrentAddress.visibility = View.GONE
+                linearLayoutAddNewCurrentAddress.visibility = View.VISIBLE
+                linearLayoutAddNewCurrentAddress.removeAllViews()
+                addNewAddress(linearLayoutAddNewCurrentAddress, getString(R.string.v2_current_address))
+            }
+            R.id.imageViewEditPermanentAddress -> {
+                linearLayoutEditPermanentAddress.visibility = View.GONE
+                linearLayoutAddNewPermanentAddress.visibility = View.VISIBLE
+                linearLayoutAddNewPermanentAddress.removeAllViews()
+                addNewAddress(linearLayoutAddNewPermanentAddress, getString(R.string.v2_permanent_address))
+            }
+
+        }
     }
 
 

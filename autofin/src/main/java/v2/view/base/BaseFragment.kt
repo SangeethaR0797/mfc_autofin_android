@@ -318,7 +318,7 @@ public open class BaseFragment : Fragment() {
         customerData: CustomerDetailsResponse
     ) {
         val directions =
-            SoftOfferFragmentDirections.actionSoftOfferFragment2ToDocumentUploadFragment(
+            AddressAndAdditionalFieldsFragmentDirections.actionAddressAndAdditionalFieldsFragmentToDocumentUploadFragment(
                 customerId,
                 kycDocumentData,
                 caseID,
@@ -337,7 +337,7 @@ public open class BaseFragment : Fragment() {
 
         if (fragment == "SoftOffer") {
             val directions =
-                SoftOfferFragmentDirections.actionSoftOfferFragment2ToSelectedBankOfferStatusFragment(
+                AddressAndAdditionalFieldsFragmentDirections.actionAddressAndAdditionalFieldsFragmentToSelectedBankOfferStatusFragment(
                     customerId,
                     customerDetails
                 )
@@ -403,6 +403,15 @@ public open class BaseFragment : Fragment() {
     public fun navigateApplicationListFragment(screenType: String) {
         val directions =
             DashboardFragmentDirections.actionApplicationListFragment(screenType!!)
+        view?.let {
+            Navigation.findNavController(it).navigate(directions)
+        }
+    }
+
+    public fun navigateToAddressAndAdditionalFieldsFragment(customerId: Int,customerDetails: CustomerDetailsResponse)
+    {
+        val directions =
+                SoftOfferFragmentDirections.actionSoftOfferFragment2ToAddressAndAdditionalFieldsFragment(customerId,customerDetails)
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }

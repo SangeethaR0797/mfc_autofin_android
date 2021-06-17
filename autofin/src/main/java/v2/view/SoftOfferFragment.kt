@@ -71,7 +71,6 @@ class SoftOfferFragment : BaseFragment() {
     lateinit var llBankOfferParent: LinearLayout
     lateinit var linearLayoutCalculation: LinearLayout
     lateinit var llSoftOfferDialog: LinearLayout
-    lateinit var linearLayoutPostOffer: LinearLayout
 
     lateinit var tvLoanAmountVal: TextView
     lateinit var tvLoanTenureVal: TextView
@@ -167,7 +166,6 @@ class SoftOfferFragment : BaseFragment() {
             llBankOfferParent = view.findViewById(R.id.llBankOfferParent)
             llSoftOfferDialog = view.findViewById(R.id.llSoftOfferDialog)
             linearLayoutCalculation = view.findViewById(R.id.linearLayoutCalculation)
-            linearLayoutPostOffer = view.findViewById(R.id.linearLayoutPostOffer)
 
             tvLoanAmountVal = view.findViewById(R.id.tvLoanAmountValV2)
             tvLoanTenureVal = view.findViewById(R.id.tvLoanTenureValV2)
@@ -369,7 +367,7 @@ class SoftOfferFragment : BaseFragment() {
                 val bankOfferRes: SelectRecommendedBankOfferResponse? = apiResponse.data as SelectRecommendedBankOfferResponse?
                 if (bankOfferRes?.status == true) {
                     Log.i("TAG", "onBankResponse: " + bankOfferRes?.message)
-                   // navigateToAddressAndAdditionalFieldsFragment
+                    navigateToAddressAndAdditionalFieldsFragment(customerId.toInt(),customerDetailsResponse)
                 } else {
                     showToast(bankOfferRes?.message.toString())
                 }
