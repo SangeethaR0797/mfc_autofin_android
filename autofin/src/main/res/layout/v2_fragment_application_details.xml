@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
 
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/vtwo_pale_grey"
     android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
@@ -61,194 +61,150 @@
                             android:textSize="@dimen/text_size_20dp"
                             tools:text="@string/autofin_dashboard" />
 
+                        <TextView
+                            android:id="@+id/tv_sub_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/text_size_5dp"
+                            android:textAppearance="@style/RobotoRegular"
+                            android:textColor="@color/grey_color"
+                            android:textSize="@dimen/text_size_14sp"
 
+                            tools:text="Honda city sports 2015" />
                     </LinearLayout>
 
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/view_height_1dp"
+                    android:background="#36EEEFFC" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_30dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/text_size_20dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_small_blue_circle" />
+
+                    <TextView
+                        android:id="@+id/tv_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/text_size_8dp"
+                        android:layout_marginLeft="@dimen/text_size_8dp"
+                        android:layout_weight="1"
+                        android:textAppearance="@style/RobotoRegular"
+                        android:textColor="@color/grey_color"
+                        android:textSize="@dimen/text_size_14sp"
+                        android:textStyle="italic"
+                        tools:text="@string/registered" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_call"
+                        android:layout_width="@dimen/text_size_48dp"
+                        android:layout_height="@dimen/text_size_48dp"
+                        android:background="@drawable/ic_black_light_circle"
+                        android:elevation="@dimen/text_size10dp"
+                        android:padding="@dimen/text_size_12dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitXY"
+                            app:srcCompat="@drawable/ic_call_24px"
+                            app:tint="#00d478" />
+                    </RelativeLayout>
+                </LinearLayout>
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/text_size_20dp"
-                android:layout_marginTop="@dimen/text_size_20dp"
-                android:layout_marginRight="@dimen/text_size_20dp"
-                android:layout_marginBottom="@dimen/text_size_16sp"
-                android:textAppearance="@style/RobotoMedium"
-                android:textColor="@color/vtwo_black"
-                android:textSize="@dimen/text_size_26dp"
-                tools:text="Loan Against Car from HDFC Bank" />
-
-            <TextView
-                android:id="@+id/tv_descriptions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/text_size_20dp"
-                android:layout_marginTop="@dimen/text_size_20dp"
-                android:layout_marginRight="@dimen/text_size_20dp"
-                android:layout_marginBottom="@dimen/text_size_16sp"
-                android:textAppearance="@style/RobotoRegular"
-                android:textColor="@color/vtwo_black"
-                android:textSize="@dimen/text_size_14sp"
-                tools:text="Did you know you could use your car to raise funds from HDFC Bank which can further be used for various purposes like for renovating your house, for higher education or a foreign trip. You just need to apply for a loan against your car and you can get a loan of up to 160% of current valuation of your car.Avail our top-up loan against car loan when you maintain a clear payment record for a minimum of 9 months." />
-
             <LinearLayout
-                android:id="@+id/ll_next"
+                android:id="@+id/ll_data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/text_size_20dp"
                 android:layout_marginTop="@dimen/text_size_20dp"
                 android:layout_marginRight="@dimen/text_size_20dp"
                 android:layout_marginBottom="@dimen/text_size_16sp"
-                android:background="@drawable/vtwo_input_yellow"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="@dimen/text_size_20dp">
+                android:background="@drawable/v2_white_bg"
+                android:orientation="vertical"
+
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_14dp"
+                    android:layout_marginTop="@dimen/text_size_14dp"
+                    android:layout_marginRight="@dimen/text_size_14dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/text_size_5dp"
+                        android:layout_weight="1"
+                        android:text="@string/leads_details"
+                        android:textAppearance="@style/RobotoRegular"
+                        android:textColor="@color/vtwo_black"
+                        android:textSize="@dimen/text_size_12dp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/view_height_1dp"
+                    android:layout_marginLeft="@dimen/text_size_14dp"
+                    android:layout_marginTop="@dimen/text_size_18dp"
+                    android:layout_marginRight="@dimen/text_size_14dp"
+                    android:background="@color/v2_grey" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_14dp"
+                    android:layout_marginTop="@dimen/text_size_20dp"
+                    android:layout_marginRight="@dimen/text_size_14dp"
+                    android:nestedScrollingEnabled="false" />
 
                 <TextView
+
+                    android:id="@+id/tv_view_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/check_your_eligibility"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/text_size_16sp"
+                    android:layout_marginBottom="@dimen/text_size_16sp"
+                    android:text="@string/view_all"
                     android:textAppearance="@style/RobotoMedium"
-                    android:textColor="@color/vtwo_black"
+                    android:textColor="#0261ff"
                     android:textSize="@dimen/text_size_16sp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/text_size_15dp"
-                    app:srcCompat="@drawable/ic_big_next_arrow" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_features_data"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/btn_complete"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/text_size_20dp"
-                android:layout_marginTop="60dp"
-                android:layout_marginRight="@dimen/text_size_20dp"
-                android:layout_marginBottom="@dimen/text_size_16sp"
-
-                android:orientation="vertical"
-
-                >
-
-                <TextView
-                    android:id="@+id/tv_features_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:text="@string/features_of_loan_against_car_from"
-                    android:textAppearance="@style/RobotoMedium"
-                    android:textColor="@color/vtwo_black"
-                    android:textSize="@dimen/text_size_18dp" />
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_features_data"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:layout_marginTop="@dimen/text_size_20dp"
-                    android:layout_marginRight="@dimen/text_size_14dp"
-                    android:nestedScrollingEnabled="false" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_charges_data"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/text_size_20dp"
-                android:layout_marginTop="@dimen/text_size_20dp"
-                android:layout_marginRight="@dimen/text_size_20dp"
-                android:layout_marginBottom="@dimen/text_size_16sp"
-
-                android:orientation="vertical"
-
-                >
-
-                <TextView
-                    android:id="@+id/tv_charges_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:text="@string/interest_rates_amp_other_charges_for_loan_against_car_from"
-                    android:textAppearance="@style/RobotoMedium"
-                    android:textColor="@color/vtwo_black"
-                    android:textSize="@dimen/text_size_18dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/text_size_15dp"
-                    android:background="@color/vtwo_input_field_grey"
-                    android:padding="@dimen/text_size_15dp"
-                    android:text="@string/features_of_loan_against_car_from"
-                    android:textAppearance="@style/RobotoMedium"
-                    android:textColor="@color/vtwo_black"
-                    android:textSize="@dimen/text_size_14sp" />
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_charges_data"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:layout_marginTop="@dimen/text_size_20dp"
-                    android:layout_marginRight="@dimen/text_size_14dp"
-                    android:nestedScrollingEnabled="false" />
-
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/view_height_1dp"
-                android:layout_marginTop="60dp"
-                android:background="@color/v2_grey" />
-
-            <LinearLayout
-                android:id="@+id/ll_banking_partner_data"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/text_size_20dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="@dimen/text_size_30dp"
-                android:layout_marginRight="@dimen/text_size_20dp"
-                android:layout_marginBottom="@dimen/text_size_16sp"
-
-                android:orientation="vertical"
-
-                >
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:text="@string/our_other_banking_partner"
-                    android:textAppearance="@style/RobotoMedium"
-                    android:textColor="@color/vtwo_black"
-                    android:textSize="@dimen/text_size_16sp" />
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_banking_partner_data"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:layout_marginTop="@dimen/text_size_20dp"
-                    android:layout_marginRight="@dimen/text_size_14dp"
-                    android:nestedScrollingEnabled="false" />
-
-
-            </LinearLayout>
-
+                android:layout_marginBottom="@dimen/text_size40dp"
+                android:background="@drawable/vtwo_next_btn_bg"
+                android:paddingLeft="85dp"
+                android:paddingRight="85dp"
+                android:text="@string/complete1"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_16sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
