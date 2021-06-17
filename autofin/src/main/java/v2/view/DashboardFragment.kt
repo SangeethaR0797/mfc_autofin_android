@@ -289,7 +289,10 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 object : itemClickCallBack {
                     override fun itemClick(item: Any?, position: Int) {
                         var ruleEngineBankData = item as RuleEngineBankData
-                        showToast("Know More")
+                        navigateBankFeaturesAndChargesFragment(
+                            ruleEngineBankData.bankName!!,
+                            ruleEngineBankData!!.id!!
+                        )
 
                     }
                 })

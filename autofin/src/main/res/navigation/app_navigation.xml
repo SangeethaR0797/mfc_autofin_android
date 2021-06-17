@@ -20,6 +20,9 @@
         <action
             android:id="@+id/action_applicationListFragment"
             app:destination="@id/applicationListFragment" />
+        <action
+            android:id="@+id/action_bankFeaturesAndChargesFragment"
+            app:destination="@id/bankFeaturesAndChargesFragment" />
     </fragment>
     <fragment
         android:id="@+id/registeredListFragmentNav"
@@ -234,6 +237,25 @@
             android:name="customerId"
             android:defaultValue="0"
             app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/bankFeaturesAndChargesFragment"
+        android:name="v2.view.BankFeaturesAndChargesFragment"
+        android:label="BankFeaturesAndChargesFragment"
+        tools:layout="@layout/v2_bank_features_and_chgarger">
+
+        <argument
+            android:name="bankId"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="bankName"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_bankFeaturesAndChargesFragment"
+            app:destination="@id/bankFeaturesAndChargesFragment" />
+
     </fragment>
 
 </navigation>

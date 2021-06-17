@@ -415,6 +415,14 @@ public open class BaseFragment : Fragment() {
             Navigation.findNavController(it).navigate(directions)
         }
     }
+
+    public fun navigateBankFeaturesAndChargesFragment(bankName: String, bankId: Int) {
+        val directions =
+            DashboardFragmentDirections.actionBankFeaturesAndChargesFragment(bankId, bankName!!)
+        view?.let {
+            Navigation.findNavController(it).navigate(directions)
+        }
+    }
     //endregion screen Navigation
 
     //region message
