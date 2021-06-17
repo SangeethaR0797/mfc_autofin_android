@@ -110,7 +110,7 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
 
                 }
                 R.id.btnVehicleReg -> {
-                    stockToAddLeadFragment(addLeadRequest)
+                    stockToAddLeadFragment(addLeadRequest,0,null)
                 }
 
             }

@@ -268,19 +268,30 @@ public open class BaseFragment : Fragment() {
         }
     }
 
-    public fun navigateToAddLeadFragment(addLeadRequest: AddLeadRequest) {
+    public fun navigateToAddLeadFragment(
+        addLeadRequest: AddLeadRequest,
+        customerId: Int,
+        mobile: String?
+    ) {
         val directions =
             AddOrUpdateVehicleDetailsMakeFragDirections.actionAddOrUpdateVehicleDetailsMakeFragToAddLeadDetailsFrag(
-                addLeadRequest!!
+                addLeadRequest!!, customerId, mobile
             )
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }
     }
 
-    public fun stockToAddLeadFragment(addLeadRequest: AddLeadRequest) {
+    public fun stockToAddLeadFragment(
+        addLeadRequest: AddLeadRequest, customerId: Int,
+        mobile: String?
+    ) {
         val directions =
-            StockAPIFragmentDirections.actionStockAPIFragmentToAddLeadDetailsFrag(addLeadRequest!!)
+            StockAPIFragmentDirections.actionStockAPIFragmentToAddLeadDetailsFrag(
+                addLeadRequest!!,
+                customerId,
+                mobile
+            )
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }
