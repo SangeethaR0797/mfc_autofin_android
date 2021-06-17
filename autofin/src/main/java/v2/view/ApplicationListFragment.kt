@@ -24,6 +24,7 @@ import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
+import v2.model.enum_class.ApplicationStatusEnum
 import v2.model.enum_class.ScreenTypeEnum
 import v2.model.request.ApplicationListRequest
 import v2.model.request.ApplicationListRequestData
@@ -282,14 +283,30 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                         object :
                             ApplicationListClickCallBack {
                             override fun onItemClick(item: Any?, position: Int) {
+                                var applicationDataItems = item as ApplicationDataItems
                                 showToast("onItemClick")
                             }
 
                             override fun onCompleteClick(item: Any?, position: Int) {
-                                showToast("onCompleteClick")
+                                var applicationDataItems = item as ApplicationDataItems
+                                if ((applicationDataItems.status.equals(ApplicationStatusEnum.Registered.value) && applicationDataItems.subStatus.equals(
+                                        ApplicationStatusEnum.Registered.value
+                                    )) ||
+                                    (applicationDataItems.status.equals(ApplicationStatusEnum.Registered.value) && applicationDataItems.subStatus.equals(
+                                        ApplicationStatusEnum.Employment_Details_Submitted.value
+                                    )) ||
+                                    (applicationDataItems.status.equals(ApplicationStatusEnum.KYC_Done.value) && applicationDataItems.subStatus.equals(
+                                        ApplicationStatusEnum.KYC_Done.value
+                                    ))
+                                ) {
+                                    showToast("Lead details")
+                                } else {
+                                    showToast("Soft offer")
+                                }
                             }
 
                             override fun onCallClick(item: Any?, position: Int) {
+                                var applicationDataItems = item as ApplicationDataItems
                                 showToast("onCallClick")
                             }
 
@@ -306,7 +323,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
             rvData.addOnScrollListener(recyclerViewOnScrollListener)
 
-        }else if(response!!.data!!.total==0){
+        } else if (response!!.data!!.total == 0) {
             llNoDataFound.visibility = View.VISIBLE
         }
 
