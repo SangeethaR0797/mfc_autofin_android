@@ -353,6 +353,9 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
             if (customerDetailsResponse.data?.residentialDetails?.permanentAddress?.addressLine1?.isNotEmpty() == true || permanentAddress.Pincode.isNotEmpty())
             {
+                if(linearLayoutAddNewPermanentAddress.visibility==View.VISIBLE)
+                    linearLayoutAddNewPermanentAddress.visibility=View.GONE
+
                 showEditPermanentAddress()
             } else {
                 showNewPermanentAddress()
