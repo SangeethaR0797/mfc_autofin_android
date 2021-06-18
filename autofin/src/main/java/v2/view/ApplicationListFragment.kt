@@ -311,7 +311,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 }
                 applicationListAdapter =
                     ApplicationListAdapter(
-                        activity as Activity,
+                        ApplicationListFragment@ this,
                         response.data!!.customers!!,
                         object :
                             ApplicationListClickCallBack {

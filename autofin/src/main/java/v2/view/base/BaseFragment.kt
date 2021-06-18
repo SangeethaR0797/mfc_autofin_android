@@ -52,6 +52,7 @@ public open class BaseFragment : Fragment() {
     var cal = Calendar.getInstance()
     private lateinit var datePickerCallBack: DatePickerCallBack
     public val DATE_FORMATE_DDMMYYYY = "dd/MM/yyyy"
+    public val DATE_FORMATE_DDMMMYYYY = "dd MMM yyyy"
     public val DATE_FORMATE_YYYYMMDD = "yyyy-MM-dd"
 
     //region DatePicker

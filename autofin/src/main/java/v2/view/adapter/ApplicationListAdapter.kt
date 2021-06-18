@@ -10,18 +10,19 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
 import v2.model.response.ApplicationDataItems
+import v2.view.base.BaseFragment
 
 import v2.view.callBackInterface.ApplicationListClickCallBack
 
 class ApplicationListAdapter(
-    var context: Activity,
+    var baseFragment: BaseFragment,
     var dataListValue: List<ApplicationDataItems>?,
     itemClick: ApplicationListClickCallBack?
 ) : RecyclerView.Adapter<ApplicationListAdapter.MyViewHolder>(), Filterable {
 
     public var dataListFilter: List<ApplicationDataItems>?
     private var itemCallBack: ApplicationListClickCallBack = itemClick!!
-    private var mContext: Activity = context
+    private var mBaseFragment: BaseFragment = baseFragment
 
     init {
         dataListFilter = dataListValue as List<ApplicationDataItems>
@@ -40,8 +41,8 @@ class ApplicationListAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         holder.tvStatus.text = dataListFilter!![position].status.toString()
-        holder.tvApplicantName.text =position.toString()+") "+
-            dataListFilter?.get(position)?.firstName + " " + dataListFilter?.get(position)?.lastName
+        holder.tvApplicantName.text = position.toString() + ") " +
+                dataListFilter?.get(position)?.firstName + " " + dataListFilter?.get(position)?.lastName
         holder.tvVehicleDetails.text =
             dataListFilter!![position].make.toString() + " " + dataListFilter!![position].model.toString()
 
@@ -66,8 +67,16 @@ class ApplicationListAdapter(
             holder.tvLOSIdCaption.visibility = View.GONE
             holder.btnComplete.visibility = View.VISIBLE
         }
-
-        holder.tvDate.text = dataListFilter!![position].createdDate!!.toString()
+        if (mBaseFragment != null) {
+            var displayValue = mBaseFragment.stringToDateString(
+                dataListFilter!![position].createdDate!!.toString(),
+                mBaseFragment.DATE_FORMATE_YYYYMMDD,
+                mBaseFragment.DATE_FORMATE_DDMMMYYYY
+            )
+            holder.tvDate.text = displayValue
+        } else {
+            holder.tvDate.text = dataListFilter!![position].createdDate!!.toString()
+        }
 
 
 
