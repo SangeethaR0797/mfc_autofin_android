@@ -72,7 +72,9 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
     private var additionaFieldPinCode: String = ""
 
     lateinit var currentAddress: CurrentAddress
+    lateinit var currentAddressResponse: v2.model.response.CurrentAddress
     lateinit var permanentAddress: PermanentAddress
+    lateinit var permanentAddressResponse: v2.model.response.PermanentAddress
     lateinit var additionalFieldsData: AdditionalFieldsData
     lateinit var additionalFieldAdapter: DataRecyclerViewAdapter
     var sectionMap = HashMap<String, ArrayList<FieldDetails>>()
@@ -91,7 +93,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
     var address1 = ""
     var address2 = ""
     var address3 = ""
-    var isPermanentAddress = true
+    var isPermanentAddress = false
     var cityMovedInYear: String = ""
     private var caseID: String = ""
     var delay: Long = 1000 // 1 seconds after user stops typing
@@ -230,7 +232,9 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         if (customerDetailsResponse.data != null) {
             val customerData = customerDetailsResponse.data
             if (customerData?.residentialDetails?.currentAddress?.addressLine1?.isNotEmpty() == true) {
-                val currentAddress1 = customerDetailsResponse.data?.residentialDetails?.currentAddress
+                currentAddressResponse = customerDetailsResponse.data?.residentialDetails?.currentAddress!!
+                permanentAddressResponse = customerDetailsResponse.data?.residentialDetails?.permanentAddress!!
+                isPermanentAddress= customerDetailsResponse.data?.residentialDetails?.currentAddress?.isPermanent == true
                 showEditCurrentAddress()
             } else {
                 showNewCurrentAddress()
@@ -263,7 +267,8 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
         typeOfAddress = resources.getString(R.string.v2_current_address)
 
-            checkboxIsPermanentAdd.visibility = View.VISIBLE
+        checkboxIsPermanentAdd.visibility = View.VISIBLE
+        isPermanentAddress = checkboxIsPermanentAdd.isChecked
 
         editTextPinCode.setText(pincode)
         textViewState.text = state
@@ -318,7 +323,8 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                     address3 = editTextAddress3.text.toString()
                     address = "$address1***$address2***$address3"
                     submitCurrentAddress()
-                }} else {
+                }
+            } else {
                 showToast("Please enter all Fields")
             }
         })
@@ -327,13 +333,13 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
     }
 
     private fun showEditCurrentAddress() {
-        if(linearLayoutAddNewCurrentAddress.visibility==View.VISIBLE)
-            linearLayoutAddNewCurrentAddress.visibility=View.GONE
+        if (linearLayoutAddNewCurrentAddress.visibility == View.VISIBLE)
+            linearLayoutAddNewCurrentAddress.visibility = View.GONE
 
         linearLayoutEditCurrentAddress.visibility = View.VISIBLE
-        textViewCurrentAddress1.text = address1
-        textViewCurrentAddress2.text = address2
-        textViewCurrentAddress3.text = address3 + ", " + pincode
+        textViewCurrentAddress1.text = currentAddressResponse.addressLine1
+        textViewCurrentAddress2.text = currentAddressResponse.addressLine2
+        textViewCurrentAddress3.text = currentAddressResponse.addressLine3 + ", " + currentAddressResponse.pincode
 
         if (isPermanentAddress) {
             checkboxCurrentAndPermanentAddress.visibility = View.VISIBLE
@@ -350,29 +356,22 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
             initiateAdditionalFields()
         } else {
             checkboxCurrentAndPermanentAddress.visibility = View.GONE
-
-            if (customerDetailsResponse.data?.residentialDetails?.permanentAddress?.addressLine1?.isNotEmpty() == true || permanentAddress.Pincode.isNotEmpty())
-            {
-                if(linearLayoutAddNewPermanentAddress.visibility==View.VISIBLE)
-                    linearLayoutAddNewPermanentAddress.visibility=View.GONE
-
-                showEditPermanentAddress()
-            } else {
+            if (permanentAddressResponse.pincode.isNullOrEmpty()) {
                 showNewPermanentAddress()
+            } else {
+                showEditPermanentAddress()
             }
         }
 
     }
 
-    private fun initiateAdditionalFields() {
-
-        if (linearLayoutAdditionalFieldsUILayout.visibility != View.VISIBLE) {
-            additionalFieldsViewModel.getAdditionalFieldsData(CustomerRequest(ResetCustomerJourneyDataRequest(customerId), CommonStrings.USER_TYPE, CommonStrings.USER_TYPE), Global.baseURL + CommonStrings.ADDITIONAL_FIELDS_URL)
-        }
-    }
 
     private fun showNewPermanentAddress() {
 
+        if (linearLayoutEditPermanentAddress.visibility == View.VISIBLE)
+            linearLayoutEditPermanentAddress.visibility = View.GONE
+
+        linearLayoutAddNewPermanentAddress.visibility=View.VISIBLE
         val addressView: View = LayoutInflater.from(fragView.context).inflate(R.layout.v2_add_new_address_layout, linearLayoutAddNewPermanentAddress, false)
         val textViewTypeOfAddress = addressView.findViewById<TextView>(R.id.textViewTypeOfAddress)
         val editTextPinCode = addressView.findViewById<EditText>(R.id.editTextPinCode)
@@ -417,12 +416,12 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                     editTextAddress2.text.toString().isNotEmpty() &&
                     editTextAddress3.text.toString().isNotEmpty()) {
 
-                    address1 = editTextAddress1.text.toString()
-                    address2 = editTextAddress2.text.toString()
-                    address3 = editTextAddress3.text.toString()
-                    address = "$address1***$address2***$address3"
+                address1 = editTextAddress1.text.toString()
+                address2 = editTextAddress2.text.toString()
+                address3 = editTextAddress3.text.toString()
+                address = "$address1***$address2***$address3"
 
-                        submitPermanentAddress()
+                submitPermanentAddress()
 
             } else {
                 showToast("Please enter all Fields")
@@ -433,13 +432,18 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
     }
 
     private fun showEditPermanentAddress() {
-            textViewPermanentAddress1.text = address1
-            textViewPermanentAddress2.text = address2
-            textViewPermanentAddress3.text = "$address3, $pincode"
 
+        if (linearLayoutAddNewPermanentAddress.visibility == View.VISIBLE)
+            linearLayoutAddNewPermanentAddress.visibility = View.GONE
+
+        linearLayoutEditPermanentAddress.visibility=View.VISIBLE
+
+        textViewPermanentAddress1.text = permanentAddressResponse.addressLine1
+        textViewPermanentAddress2.text = permanentAddressResponse.addressLine2
+        textViewPermanentAddress3.text = "${permanentAddressResponse.addressLine3}, ${permanentAddressResponse.pincode}"
+        initiateAdditionalFields()
     }
 
-    //region AddressFunctions
 
     private fun submitCurrentAddress() {
 
@@ -453,8 +457,16 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
             addressViewModel.updateAddress(updateAddressRequest, Global.customerAPI_BaseURL + CommonStrings.UPDATE_ADDRESS_URL)
 
+        } else {
+            currentAddressResponse = v2.model.response.CurrentAddress(address1, address2, address3, city, isPermanentAddress, pincode, state)
+            address1 = ""
+            address2 = ""
+            address3 = ""
+            city = ""
+            pincode = ""
+            state = ""
+            showEditCurrentAddress()
         }
-        showEditCurrentAddress()
     }
 
     private fun submitPermanentAddress() {
@@ -466,7 +478,15 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         addressViewModel.updateAddress(updateAddressRequest, Global.customerAPI_BaseURL + CommonStrings.UPDATE_ADDRESS_URL)
     }
 
-    //endregion AddressFunctions
+    //region AddressFunctions
+
+
+    private fun initiateAdditionalFields() {
+
+        if (linearLayoutAdditionalFieldsUILayout.visibility != View.VISIBLE) {
+            additionalFieldsViewModel.getAdditionalFieldsData(CustomerRequest(ResetCustomerJourneyDataRequest(customerId), CommonStrings.USER_TYPE, CommonStrings.USER_TYPE), Global.baseURL + CommonStrings.ADDITIONAL_FIELDS_URL)
+        }
+    }
 
 
     // region OnResponse
@@ -543,9 +563,25 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                 val response: SimpleResponse? = mApiResponse.data as SimpleResponse?
 
                 if (typeOfAddress == getString(R.string.v2_current_address)) {
+                    currentAddressResponse = v2.model.response.CurrentAddress(address1, address2, address3, city, isPermanentAddress, pincode, state)
+                    permanentAddressResponse = v2.model.response.PermanentAddress(address1, address2, address3, city, pincode, state)
+                    address1 = ""
+                    address2 = ""
+                    address3 = ""
+                    city = ""
+                    pincode = ""
+                    state = ""
                     showEditCurrentAddress()
                 } else if (typeOfAddress == getString(R.string.v2_permanent_address)) {
-                 showEditPermanentAddress()
+                    permanentAddressResponse = v2.model.response.PermanentAddress(address1, address2, address3, city, pincode, state)
+                    address1 = ""
+                    address2 = ""
+                    address3 = ""
+                    city = ""
+                    pincode = ""
+                    state = ""
+
+                    showEditPermanentAddress()
                 }
 
             }
