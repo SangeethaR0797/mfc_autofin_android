@@ -1,50 +1,26 @@
 package v2.view
 
 import android.app.Activity
-import android.nfc.tech.MifareUltralight.PAGE_SIZE
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextUtils
-import android.text.TextWatcher
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.widget.*
-import android.widget.TextView.OnEditorActionListener
-import androidx.core.view.marginLeft
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
-import v2.model.dto.AddLeadRequest
-import v2.model.dto.DataSelectionDTO
-import v2.model.dto.KeyValueDTO
-import v2.model.enum_class.ApplicationStatusEnum
-import v2.model.enum_class.ScreenTypeEnum
-import v2.model.request.ApplicationListRequest
-import v2.model.request.ApplicationListRequestData
-import v2.model.request.CustomerRequest
-import v2.model.request.ResetCustomerJourneyDataRequest
-import v2.model.request.add_lead.AddLeadData
-import v2.model.request.add_lead.AddLeadVehicleDetails
-import v2.model.request.add_lead.BasicDetails
-import v2.model.response.ApplicationDataItems
-import v2.model.response.ApplicationListResponse
-import v2.model.response.CustomerDetailsResponse
-import v2.model_view.TransactionViewModel
+import v2.model.response.BankFeaturesAndChargesResponse
+import v2.model.response.RuleEngineBankData
+import v2.model_view.DashboardViewModel
 import v2.service.utility.ApiResponse
-import v2.view.adapter.ApplicationListAdapter
-import v2.view.adapter.KeyValueRecyclerViewAdapter
+import v2.view.adapter.PartnerBankRecyclerViewAdapter
 import v2.view.base.BaseFragment
-import v2.view.callBackInterface.ApplicationListClickCallBack
 import v2.view.callBackInterface.itemClickCallBack
-
-import java.util.*
 
 
 class BankFeaturesAndChargesFragment : BaseFragment(), View.OnClickListener {
@@ -71,9 +47,15 @@ class BankFeaturesAndChargesFragment : BaseFragment(), View.OnClickListener {
     var bankId: Int = 0
     var bankName: String? = null
 
+    lateinit var dashboardViewModel: DashboardViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        dashboardViewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
+        dashboardViewModel.getBankFeaturesAndChargesDetailsLiveData()
+            .observe(requireActivity()) { mApiResponse: ApiResponse? ->
+                onBankFeaturesAndChargesDetails(mApiResponse!!)
+            }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -132,6 +114,10 @@ class BankFeaturesAndChargesFragment : BaseFragment(), View.OnClickListener {
         tvTitle.text = bankName
         tvFeaturesTitle.text = tvFeaturesTitle.text.toString() + " " + bankName
         tvChargesTitle.text = tvChargesTitle.text.toString() + " " + bankName
+
+        dashboardViewModel.getBankFeaturesAndChargesDetails(
+            Global.baseURL + CommonStrings.GET_BANKS_FEATURES_AND_CHARGES_END_POINT + bankId
+        )
     }
 
     override fun onClick(v: View?) {
@@ -148,6 +134,60 @@ class BankFeaturesAndChargesFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
+    private fun setPartnerBanksDetails(otherPartners: List<RuleEngineBankData>) {
+        if (otherPartners != null && otherPartners!!.size > 0) {
+            llParnerBankData.visibility = View.VISIBLE
+            val layoutManager = LinearLayoutManager(activity)
+            layoutManager.orientation = LinearLayoutManager.HORIZONTAL
+            rvPartnerBankData.layoutManager = layoutManager
+
+            var partnerBankRecyclerViewAdapter =
+                PartnerBankRecyclerViewAdapter(
+                    activity as Activity,
+                    otherPartners,
+                    object : itemClickCallBack {
+                        override fun itemClick(item: Any?, position: Int) {
+                            var ruleEngineBankData = item as RuleEngineBankData
+                            navigateBankFeaturesAndChargesFragment(
+                                ruleEngineBankData.bankName!!,
+                                ruleEngineBankData!!.id!!
+                            )
+
+                        }
+                    })
+            rvPartnerBankData.adapter = partnerBankRecyclerViewAdapter
+        }
+    }
+
+    //region observer
+    private fun onBankFeaturesAndChargesDetails(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+
+                val bankFeaturesAndChargesResponse: BankFeaturesAndChargesResponse =
+                    mApiResponse.data as BankFeaturesAndChargesResponse
+                if (bankFeaturesAndChargesResponse != null && bankFeaturesAndChargesResponse.data != null && bankFeaturesAndChargesResponse!!.data!!.otherPartners != null) {
+                    setPartnerBanksDetails(bankFeaturesAndChargesResponse!!.data!!.otherPartners!!)
+                }
+
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+
+
+            }
+            else -> {
+
+            }
+        }
+
+    }
+//endregion observer
 
 }
 

@@ -189,6 +189,7 @@ public class CommonStrings {
     public static final String KYC_UPLOAD_URL_END_POINT="Masters/kyc-documents/";
     public static final String DASHBOARD_DETAILS_END_POINT="dashboard";
     public static final String GET_RULE_ENGINE_BANKS_END_POINT="Bank/get-rule-engine-banks";
+    public static final String GET_BANKS_FEATURES_AND_CHARGES_END_POINT="Bank/get-bank-features/";
     public static final String BANKTC_END_POINT="terms-and-contition/privacy-policy/";
     public static final String GET_FINAL_OTP_URL_END_POINT="generate-final-submit-otp";
     public static final String VALIDATE_FINAL_OTP="validate-final-submit-otp";

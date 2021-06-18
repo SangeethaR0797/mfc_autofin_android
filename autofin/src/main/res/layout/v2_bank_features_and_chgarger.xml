@@ -208,7 +208,6 @@
             </LinearLayout>
 
 
-
             <LinearLayout
                 android:id="@+id/ll_banking_partner_data"
                 android:layout_width="match_parent"
@@ -219,18 +218,20 @@
                 android:orientation="vertical"
 
                 >
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/view_height_1dp"
                     android:layout_marginTop="60dp"
                     android:background="@color/v2_grey" />
-                <TextView
-                    android:layout_marginLeft="@dimen/text_size_20dp"
-                    android:layout_marginRight="@dimen/text_size_20dp"
-                    android:layout_marginTop="@dimen/text_size_30dp"
 
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_20dp"
+
+                    android:layout_marginTop="@dimen/text_size_30dp"
+                    android:layout_marginRight="@dimen/text_size_20dp"
 
                     android:text="@string/our_other_banking_partner"
                     android:textAppearance="@style/RobotoMedium"
@@ -242,11 +243,11 @@
                     android:id="@+id/rv_banking_partner_data"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/text_size_20dp"
-                    android:layout_marginRight="@dimen/text_size_20dp"
-                    android:layout_marginTop="@dimen/text_size_20dp"
 
-                    android:nestedScrollingEnabled="false" />
+                    android:layout_marginTop="@dimen/text_size_20dp"
+                    android:nestedScrollingEnabled="false"
+
+                    android:paddingRight="@dimen/text_size_20dp" />
 
 
             </LinearLayout>
