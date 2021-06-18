@@ -327,6 +327,9 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
     }
 
     private fun showEditCurrentAddress() {
+        if(linearLayoutAddNewCurrentAddress.visibility==View.VISIBLE)
+            linearLayoutAddNewCurrentAddress.visibility=View.GONE
+
         linearLayoutEditCurrentAddress.visibility = View.VISIBLE
         textViewCurrentAddress1.text = address1
         textViewCurrentAddress2.text = address2
@@ -346,6 +349,8 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
             initiateAdditionalFields()
         } else {
+            checkboxCurrentAndPermanentAddress.visibility = View.GONE
+
             if (customerDetailsResponse.data?.residentialDetails?.permanentAddress?.addressLine1?.isNotEmpty() == true || permanentAddress.Pincode.isNotEmpty())
             {
                 showEditPermanentAddress()
@@ -425,12 +430,9 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
     }
 
     private fun showEditPermanentAddress() {
-        if(!isPermanentAddress)
-        {
             textViewPermanentAddress1.text = address1
             textViewPermanentAddress2.text = address2
             textViewPermanentAddress3.text = "$address3, $pincode"
-        }
 
     }
 
@@ -657,9 +659,9 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                     if (kycDocumentRes.data.groupedDoc.isNotEmpty() || kycDocumentRes.data.nonGroupedDoc.isNotEmpty())
                         navigateToKYCDocumentUpload(customerId, kycDocumentRes, caseID, customerDetailsResponse)
                     else if (kycDocumentRes.data.groupedDoc.isEmpty() && kycDocumentRes.data.nonGroupedDoc.isEmpty())
-                        navigateToBankOfferStatus(customerId, customerDetailsResponse, "SoftOffer")
+                        navigateToBankOfferStatus(customerId, customerDetailsResponse, "AddressAdditionalFields")
                 } else {
-                    navigateToBankOfferStatus(customerId, customerDetailsResponse, "SoftOffer")
+                    navigateToBankOfferStatus(customerId, customerDetailsResponse, "AddressAdditionalFields")
                 }
 
             }

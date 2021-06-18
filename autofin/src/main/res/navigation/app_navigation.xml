@@ -106,6 +106,15 @@
         <action
             android:id="@+id/action_softOfferFragment2_to_addressAndAdditionalFieldsFragment"
             app:destination="@id/addressAndAdditionalFieldsFragment" />
+        <action
+            android:id="@+id/action_softOfferFragment2_to_documentUploadFragment"
+            app:destination="@id/documentUploadFragment" />
+        <action
+            android:id="@+id/action_softOfferFragment2_to_selectedBankOfferStatusFragment"
+            app:destination="@id/selectedBankOfferStatusFragment" />
+        <action
+            android:id="@+id/action_softOfferFragment2_to_bankSuccessMessageFragment"
+            app:destination="@id/bankSuccessMessageFragment" />
 
     </fragment>
     <activity

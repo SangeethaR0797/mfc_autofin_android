@@ -366,8 +366,9 @@
     <string name="no_leads_found">No Leads Found</string>
     <string name="try_and_search_by_phone_no_bank_name_los_id_case_id_etc">Try and search by: phone no, Bank Name, LOS ID, Case ID, etc.</string>
     <string name="v2_lead_status_document_upload">Document Uploaded</string>
-    <string name="v2_lead_status_lender_selected">Lender selected</string>
-    <string name="v2_lead_status_bank_form_filled">" Bank Form Filled"</string>
+    <string name="v2_lead_status_lender_selected">Lender Selected</string>
+    <string name="v2_lead_status_bank_form_filled">Banks Form Filled</string>
     <string name="v2_lead_status_submitted_to_bank">Submitted to Bank</string>
+    <string name="v2_lead_status_kyc_done">KYC Done</string>
 
 </resources>

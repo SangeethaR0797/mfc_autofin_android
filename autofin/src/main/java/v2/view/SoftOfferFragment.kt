@@ -29,6 +29,7 @@ import retrofit2.Response
 import retrofit_config.RetroBase.retrofitInterface
 import utility.CommonStrings
 import utility.Global
+import v2.model.dto.CustomLoanProcessCompletedData
 import v2.model.dto.DataSelectionDTO
 import v2.model.request.*
 import v2.model.request.CurrentAddress
@@ -53,6 +54,13 @@ import v2.view.utility_view.GridItemDecoration
 
 
 class SoftOfferFragment : BaseFragment() {
+
+    lateinit var loanAmountViewModel: MasterViewModel
+    lateinit var bankViewModel: BankOffersViewModel
+    lateinit var transactionViewModel: TransactionViewModel
+
+
+    lateinit var fragView: View
 
     var initialCall: Boolean = true
     private var caseID: String = ""
@@ -81,18 +89,6 @@ class SoftOfferFragment : BaseFragment() {
 
     lateinit var buttonLoanDetailsSubmit: Button
 
-    lateinit var loanAmountViewModel: MasterViewModel
-    lateinit var bankViewModel: BankOffersViewModel
-
-    var moveToBankOfferPage: Boolean = false
-    var stateList = ArrayList<Details>()
-    var cityList = ArrayList<Details>()
-    var professionList = ArrayList<Details>()
-    var companyList = ArrayList<Details>()
-    var educationList = ArrayList<Details>()
-
-
-    lateinit var fragView: View
     var loanAmountDefault: Int = 0
     var loanTenureDefault: Int = 0
     var loanAmountMaximum: Int = 0
@@ -123,16 +119,25 @@ class SoftOfferFragment : BaseFragment() {
 
         loanAmountViewModel = ViewModelProvider(this).get(MasterViewModel::class.java)
 
+        bankViewModel = ViewModelProvider(this).get(
+                BankOffersViewModel::class.java
+        )
+
+        transactionViewModel=ViewModelProvider(this).get(
+                TransactionViewModel::class.java
+        )
+
         loanAmountViewModel.getBankOfferLoanLiveData().observe(this) { mApiResponse: ApiResponse? ->
             onLoanAmountResponse(mApiResponse!!)
+        }
+
+        loanAmountViewModel.getKYCDocumentLiveData().observe(requireActivity()) { mApiResponse: ApiResponse? ->
+            onGetKYCDocumentResponse(mApiResponse!!)
         }
 
         //endregion Loan-MasterViewModel
 
 
-        bankViewModel = ViewModelProvider(this).get(
-                BankOffersViewModel::class.java
-        )
         bankViewModel.getBankOffersForLeadApplicationLiveData().observe(this) { mApiResponse: ApiResponse? ->
             onBankResponse(
                     mApiResponse!!
@@ -145,64 +150,75 @@ class SoftOfferFragment : BaseFragment() {
             )
         }
 
+        transactionViewModel.getCustomerDetailsLiveData()
+                .observe(requireActivity(), { mApiResponse: ApiResponse? ->
+                    onCustomerDetails(
+                            mApiResponse!!
+                    )
+                })
+
+
     }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.v2_soft_offer_loading_fragment, container, false)
         fragView=view
-        checkLeadStatus()
+        if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            initViews()
+        }
         return view
     }
 
     private fun checkLeadStatus() {
         when (customerDetailsResponse.data?.status) {
-            getString(R.string.v2_lead_status_lender_selected)->
+            getString(R.string.v2_lead_status_kyc_done)->
             {
-                if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    initViews(fragView)
-                }
+                loanAmountViewModel.getBankOffersLoanAmount(Global.customerAPI_Master_URL + CommonStrings.LOAN_AMOUNT_URL + customerId)
             }
             getString(R.string.v2_lead_status_lender_selected) -> {
-                navigateToAddressAndAdditionalFieldsFragment(customerId.toInt(),customerDetailsResponse)
+                transactionViewModel.getCustomerDetails(
+                        createCustomerDetailsRequest(customerId.toInt()),
+                        Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL)
             }
             getString(R.string.v2_lead_status_bank_form_filled) -> {
-            //navigateToKYCDocumentUpload()
+                loanAmountViewModel.getKYCDocumentResponse(Global.baseURL + CommonStrings.KYC_UPLOAD_URL_END_POINT + customerId)
             }
             getString(R.string.v2_lead_status_document_upload) -> {
-                // navigateToBankSummary
+                navigateToBankOfferStatusFromSoftOffer(customerId, customerDetailsResponse)
             }
             getString(R.string.v2_lead_status_submitted_to_bank) -> {
-                // navigate To Final screen
+                val salutation=customerDetailsResponse.data?.basicDetails?.salutation
+                val name=customerDetailsResponse.data?.basicDetails?.firstName+" "+customerDetailsResponse.data?.basicDetails?.lastName
+                val caseId=customerDetailsResponse.data?.caseId
+                caseId?.let { CustomLoanProcessCompletedData(salutation+" "+name, it) }?.let { navigateToBankSuccessPageFromSoftOffer(it) }
             }
         }
 
     }
 
     @SuppressLint("NewApi")
-    private fun initViews(view: View?) {
-        if (view != null) {
-            fragView = view
-            ivBackToRedDetails = view.findViewById(R.id.ivBackToRedDetails)
-            scrollViewBankOffer = view.findViewById(R.id.scrollViewBankOffer)
+    private fun initViews() {
+        if (fragView != null) {
+            ivBackToRedDetails = fragView.findViewById(R.id.ivBackToRedDetails)
+            scrollViewBankOffer = fragView.findViewById(R.id.scrollViewBankOffer)
 
-            llBankOfferParent = view.findViewById(R.id.llBankOfferParent)
-            llSoftOfferDialog = view.findViewById(R.id.llSoftOfferDialog)
-            linearLayoutCalculation = view.findViewById(R.id.linearLayoutCalculation)
+            llBankOfferParent = fragView.findViewById(R.id.llBankOfferParent)
+            llSoftOfferDialog = fragView.findViewById(R.id.llSoftOfferDialog)
+            linearLayoutCalculation = fragView.findViewById(R.id.linearLayoutCalculation)
 
-            tvLoanAmountVal = view.findViewById(R.id.tvLoanAmountValV2)
-            tvLoanTenureVal = view.findViewById(R.id.tvLoanTenureValV2)
-            tvBankOfferTitleV2 = view.findViewById(R.id.tvBankOfferTitleV2)
-            textViewNoDataFound = view.findViewById(R.id.textViewNoDataFound)
+            tvLoanAmountVal = fragView.findViewById(R.id.tvLoanAmountValV2)
+            tvLoanTenureVal = fragView.findViewById(R.id.tvLoanTenureValV2)
+            tvBankOfferTitleV2 = fragView.findViewById(R.id.tvBankOfferTitleV2)
+            textViewNoDataFound = fragView.findViewById(R.id.textViewNoDataFound)
 
-            skLoanAmount = view.findViewById(R.id.skLoanAmount)
-            skTenure = view.findViewById(R.id.skTenure)
+            skLoanAmount = fragView.findViewById(R.id.skLoanAmount)
+            skTenure = fragView.findViewById(R.id.skTenure)
 
-            buttonLoanDetailsSubmit = view.findViewById(R.id.buttonLoanDetailsSubmit)
+            buttonLoanDetailsSubmit = fragView.findViewById(R.id.buttonLoanDetailsSubmit)
 
-            recyclerViewBankOffer = view.findViewById(R.id.recyclerViewBankOffer)
-
-            loanAmountViewModel.getBankOffersLoanAmount(Global.customerAPI_Master_URL + CommonStrings.LOAN_AMOUNT_URL + customerId)
+            recyclerViewBankOffer = fragView.findViewById(R.id.recyclerViewBankOffer)
 
             // region ChangeAndClickListeners
 
@@ -237,7 +253,6 @@ class SoftOfferFragment : BaseFragment() {
                 loanTenure = progress.toString()
                 tvLoanTenureVal.text = "$loanTenure Years"
 
-
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -263,11 +278,69 @@ class SoftOfferFragment : BaseFragment() {
         })
 
         // endregion ChangeAndClickListeners
-
+checkLeadStatus()
     }
 
 
     // region Response
+
+    private fun onCustomerDetails(mApiResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+
+                val customerResponse: CustomerDetailsResponse? =
+                        mApiResponse.data as CustomerDetailsResponse?
+                if (customerResponse != null) {
+                    customerDetailsResponse = customerResponse
+                    navigateToAddressAndAdditionalFieldsFragment(customerId.toInt(),customerDetailsResponse)
+
+                }
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+            }
+            else -> {
+                hideProgressDialog()
+                showToast("Please enter valid details")
+            }
+        }
+    }
+
+    private fun onGetKYCDocumentResponse(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+
+                val kycDocumentRes: KYCDocumentResponse = mApiResponse.data as KYCDocumentResponse
+                if (kycDocumentRes.statusCode == "100") {
+                    if (kycDocumentRes.data.groupedDoc.isNotEmpty() || kycDocumentRes.data.nonGroupedDoc.isNotEmpty())
+                        navigateToKYCDocumentUploadFromSoftOffer(customerId, kycDocumentRes, caseID, customerDetailsResponse)
+                    else if (kycDocumentRes.data.groupedDoc.isEmpty() && kycDocumentRes.data.nonGroupedDoc.isEmpty())
+                        navigateToBankOfferStatusFromSoftOffer(customerId, customerDetailsResponse)
+                } else {
+                    navigateToBankOfferStatusFromSoftOffer(customerId, customerDetailsResponse)
+                }
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+                Log.i("SoftOfferFragment", ": " + ApiResponse.Status.ERROR)
+
+            }
+            else -> {
+                Log.i("SoftOfferFragment", ": ")
+            }
+        }
+
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun onLoanAmountResponse(mApiResponse: ApiResponse) {
@@ -390,7 +463,9 @@ class SoftOfferFragment : BaseFragment() {
                 val bankOfferRes: SelectRecommendedBankOfferResponse? = apiResponse.data as SelectRecommendedBankOfferResponse?
                 if (bankOfferRes?.status == true) {
                     Log.i("TAG", "onBankResponse: " + bankOfferRes?.message)
-                    navigateToAddressAndAdditionalFieldsFragment(customerId.toInt(),customerDetailsResponse)
+                    transactionViewModel.getCustomerDetails(
+                            createCustomerDetailsRequest(customerId.toInt()),
+                            Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL)
                 } else {
                     showToast(bankOfferRes?.message.toString())
                 }
@@ -494,6 +569,17 @@ class SoftOfferFragment : BaseFragment() {
     private fun setFocusOnView(textView: TextView) {
         scrollViewBankOffer.post(Runnable { textView.top.let { scrollViewBankOffer.scrollTo(0, it) } })
     }
+
+    private fun createCustomerDetailsRequest(customerId: Int): CustomerRequest {
+        var customerDetailsRequest = CustomerRequest()
+        customerDetailsRequest.UserId = CommonStrings.DEALER_ID
+        customerDetailsRequest.UserType = CommonStrings.USER_TYPE
+        var customerJourneyDataRequest = ResetCustomerJourneyDataRequest();
+        customerJourneyDataRequest.CustomerId = customerId.toString()
+        customerDetailsRequest.Data = customerJourneyDataRequest
+        return customerDetailsRequest
+    }
+
 
 }
 

@@ -311,6 +311,24 @@ public open class BaseFragment : Fragment() {
         }
     }
 
+    public fun navigateToKYCDocumentUploadFromSoftOffer(
+            customerId: String,
+            kycDocumentData: KYCDocumentResponse,
+            caseID: String,
+            customerData: CustomerDetailsResponse
+    ) {
+        val directions =
+                SoftOfferFragmentDirections.actionSoftOfferFragment2ToDocumentUploadFragment(
+                        customerId,
+                        kycDocumentData,
+                        caseID,
+                        customerData
+                )
+        view.let {
+            it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
+        }
+    }
+
     public fun navigateToKYCDocumentUpload(
         customerId: String,
         kycDocumentData: KYCDocumentResponse,
@@ -329,13 +347,28 @@ public open class BaseFragment : Fragment() {
         }
     }
 
+    public fun navigateToBankOfferStatusFromSoftOffer(
+            customerId: String,
+            customerDetails: CustomerDetailsResponse) {
+
+            val directions =
+                    SoftOfferFragmentDirections.actionSoftOfferFragment2ToSelectedBankOfferStatusFragment(
+                            customerId,
+                            customerDetails
+                    )
+            view.let {
+                it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
+            }
+
+    }
+
     public fun navigateToBankOfferStatus(
         customerId: String,
         customerDetails: CustomerDetailsResponse,
         fragment: String
     ) {
 
-        if (fragment == "SoftOffer") {
+        if (fragment == "AddressAdditionalFields") {
             val directions =
                 AddressAndAdditionalFieldsFragmentDirections.actionAddressAndAdditionalFieldsFragmentToSelectedBankOfferStatusFragment(
                     customerId,
@@ -369,6 +402,17 @@ public open class BaseFragment : Fragment() {
                 mobileNum,
                 loanProcessCompletedData
             )
+        view.let {
+            it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
+        }
+    }
+
+
+    public fun navigateToBankSuccessPageFromSoftOffer(loanProcessCompletedData: CustomLoanProcessCompletedData) {
+        val directions =
+                SoftOfferFragmentDirections.actionSoftOfferFragment2ToBankSuccessMessageFragment(
+                        loanProcessCompletedData
+                )
         view.let {
             it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
         }
