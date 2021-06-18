@@ -389,8 +389,14 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     }
 
     private fun openGallery() {
-        val gallery = Intent(Intent.ACTION_GET_CONTENT)
-        gallery.type = "*/*"
+
+        //val gallery = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        //gallery.type = "*/*"
+        //gallery.action = Intent.ACTION_GET_CONTENT
+        //gallery.putExtra("return-data", true)
+
+        val gallery = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+
         requireActivity().startActivityForResult(gallery, IMAGE_GALLERY_CODE)
     }
 
