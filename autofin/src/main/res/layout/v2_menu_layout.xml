@@ -5,7 +5,7 @@
     android:id="@+id/ll_main_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
+    android:elevation="@dimen/text_size10dp"
     android:background="@drawable/v2_menu_dark_green"
     android:orientation="vertical">
 

@@ -317,7 +317,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                             ApplicationListClickCallBack {
                             override fun onItemClick(item: Any?, position: Int) {
                                 var applicationDataItems = item as ApplicationDataItems
-                                showToast("onItemClick")
+                                navigateApplicationDetailsFragment(applicationDataItems!!.customerId!!)
                             }
 
                             override fun onCompleteClick(item: Any?, position: Int) {

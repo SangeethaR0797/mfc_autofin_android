@@ -8,16 +8,28 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class TokenDetailsResponse(
-        @Expose
-        @SerializedName("status")
-        var status: Boolean,
-        @Expose
-        @SerializedName("message")
-        var message: String,
-        @Expose
-        @SerializedName("statusCode")
-        var statusCode: String,
-        @Expose
-        @SerializedName("data")
-        var data: String
+    @Expose
+    @SerializedName("status")
+    var status: Boolean,
+    @Expose
+    @SerializedName("message")
+    var message: String,
+    @Expose
+    @SerializedName("statusCode")
+    var statusCode: String,
+    @Expose
+    @SerializedName("data")
+    var data: TokenDetails
 ) : Parcelable
+
+@Parcelize
+data class TokenDetails(
+
+    @Expose
+    @SerializedName("token")
+    var token: String,
+    @Expose
+    @SerializedName("expiresOn")
+    var expiresOn: String,
+
+    ) : Parcelable

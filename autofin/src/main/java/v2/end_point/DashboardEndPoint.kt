@@ -5,6 +5,7 @@ import retrofit2.http.*
 import v2.model.dto.DashBoardDetailsRequest
 import v2.model.dto.DashBoardDetailsResponse
 import v2.model.request.CommonRequest
+import v2.model.response.BankFeaturesAndChargesResponse
 import v2.model.response.CommissionDetailsResponse
 
 import v2.model.response.RuleEngineBanksResponse
@@ -29,5 +30,9 @@ interface DashboardEndPoint {
         @Body request: CommonRequest,
         @Url url: String?
     ): Observable<CommissionDetailsResponse?>?
+
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @GET
+    fun getBankFeaturesAndChargesDetails(@Url url: String?): Observable<BankFeaturesAndChargesResponse?>?
 
 }

@@ -123,5 +123,40 @@ class DashboardViewModel(application: Application) : BaseViewModel(application) 
     }
     //endregion getDealerCommission
 
+    //region getBankFeaturesAndChargesDetails
+    private val mBankFeaturesAndChargesDetailsLiveData: MutableLiveData<ApiResponse> =
+        MutableLiveData<ApiResponse>()
+
+    public fun getBankFeaturesAndChargesDetailsLiveData(): MutableLiveData<ApiResponse> {
+        return mBankFeaturesAndChargesDetailsLiveData
+    }
+
+
+    public fun getBankFeaturesAndChargesDetails(url: String?) {
+        repository.getBankFeaturesAndChargesDetails(url)?.subscribeOn(Schedulers.io())
+            ?.observeOn(AndroidSchedulers.mainThread())
+            ?.doOnSubscribe { d -> mBankFeaturesAndChargesDetailsLiveData.setValue(ApiResponse.loading()) }
+            ?.let {
+                disposables.add(
+                    it
+                        .subscribe(
+                            { result ->
+                                mBankFeaturesAndChargesDetailsLiveData.setValue(result?.let {
+                                    ApiResponse.success(
+                                        it
+                                    )
+                                })
+                            }
+                        ) { throwable ->
+                            mBankFeaturesAndChargesDetailsLiveData.setValue(
+                                ApiResponse.error(
+                                    throwable
+                                )
+                            )
+                        })
+            }
+    }
+    //endregion getBankFeaturesAndChargesDetails
+
 
 }

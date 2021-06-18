@@ -357,12 +357,14 @@
     <string name="potential_commission">Potential Commission</string>
     <string name="view_all">View All ❯</string>
     <string name="our_banking_partner">Our Banking Partner</string>
+    <string name="our_other_banking_partner">Our Other Banking Partner</string>
     <string name="know_more">Know More ❯</string>
     <string name="rate_of_intrest">Rate of intrest</string>
     <string name="search_result">Search Result</string>
     <string name="case_id">Case Id -</string>
     <string name="los_id">| LOS Id -</string>
     <string name="complete">Complete ❯</string>
+    <string name="complete1">Complete</string>
     <string name="no_leads_found">No Leads Found</string>
     <string name="try_and_search_by_phone_no_bank_name_los_id_case_id_etc">Try and search by: phone no, Bank Name, LOS ID, Case ID, etc.</string>
     <string name="v2_lead_status_document_upload">Document Uploaded</string>
@@ -370,5 +372,11 @@
     <string name="v2_lead_status_bank_form_filled">Banks Form Filled</string>
     <string name="v2_lead_status_submitted_to_bank">Submitted to Bank</string>
     <string name="v2_lead_status_kyc_done">KYC Done</string>
+    <string name="leads_details">Leads Details</string>
+    <string name="registered">Registered</string>
+    <string name="features_of_loan_against_car_from">Features of Loan Against Car from</string>
+    <string name="interest_rates_amp_other_charges_for_loan_against_car_from"><![CDATA[Interest Rates & Other Charges for Loan Against Car from]]></string>
+    <string name="check_your_eligibility">Check Your Eligibility</string>
+    <string name="used_car_loan_amp_loan_against_car"><![CDATA[Used Car Loan & Loan Against Car]]></string>
 
 </resources>
