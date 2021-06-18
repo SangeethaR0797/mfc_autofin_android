@@ -57,6 +57,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     private lateinit var buttonUploadDocument: Button
     lateinit var linearLayoutImageUpload: LinearLayout
     lateinit var customerDetailsResponse: CustomerDetailsResponse
+    lateinit var ivBackToRedDetails: ImageView
 
     private var currentImageName = ""
     private var currentImageKey = ""
@@ -67,7 +68,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     private var documentHashMap = HashMap<String, KYCUploadDocs>()
     private var listOfUploadImageURL = ArrayList<String>()
     private var caseId = ""
-    private var totalListSize=0
+    private var totalListSize = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +77,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             customerId = safeArgs.CustomerId
             kycDocumentData = safeArgs.KYCDocuments.data
             caseId = safeArgs.caseID
-            customerDetailsResponse=safeArgs.customerData
+            customerDetailsResponse = safeArgs.customerData
 
         }
     }
@@ -93,6 +94,8 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     }
 
     private fun initViews(view: View?) {
+        ivBackToRedDetails = view?.findViewById(R.id.ivBackFromDocumentUpload)!!
+
         linearLayoutImageUpload = view?.findViewById(R.id.linearLayoutImageUpload)!!
         buttonUploadDocument = view.findViewById(R.id.buttonUploadDocument)!!
 
@@ -101,6 +104,10 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
         if (kycDocumentData.groupedDoc.isNotEmpty())
             addGroupedDocDataToCommonList()
+
+        ivBackToRedDetails.setOnClickListener(View.OnClickListener {
+            activity?.onBackPressed()
+        })
 
         buttonUploadDocument.setOnClickListener(View.OnClickListener {
             if (totalListSize == documentHashMap.size) {
@@ -339,12 +346,9 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
         if (checkPermissions(requireActivity())) {
 
-            if(code==IMAGE_CAPTURE_CODE)
-            {
+            if (code == IMAGE_CAPTURE_CODE) {
                 openCamera()
-            }
-            else if(code==IMAGE_GALLERY_CODE)
-            {
+            } else if (code == IMAGE_GALLERY_CODE) {
                 openGallery()
             }
         } else {
@@ -395,7 +399,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         //gallery.action = Intent.ACTION_GET_CONTENT
         //gallery.putExtra("return-data", true)
 
-        val gallery = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
 
         requireActivity().startActivityForResult(gallery, IMAGE_GALLERY_CODE)
     }
@@ -446,6 +450,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             }
         }
     }
+
     override fun onImageUploadCompleted(key: String, imageurl: String?, statuscode: Int) {
         if (key.isNotEmpty() && imageurl?.isNotEmpty() == true) {
             val document = KYCUploadDocs(key, imageurl.toString())
@@ -453,14 +458,14 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             Log.i("TAG", "onImageUploadCompleted: " + documentHashMap[key]?.Key)
             currentTextView.text = "File attached"
             currentTextView.setTextColor(resources.getColor(R.color.v2_green))
-            currentTextView.compoundDrawablePadding=10
+            currentTextView.compoundDrawablePadding = 10
             val img = resources.getDrawable(R.drawable.ic_green_tick)
             img.setBounds(0, 0, 30, 30)
             currentTextView.setCompoundDrawables(img, null, null, null)
             currentImageName = ""
             currentImageKey = ""
         } else {
-          showToast("Please attach image again")
+            showToast("Please attach image again")
         }
 
     }

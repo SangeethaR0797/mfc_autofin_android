@@ -97,7 +97,6 @@
         android:id="@+id/softOfferFragment2"
         android:name="v2.view.SoftOfferFragment"
         android:label="fragment_soft_offer"
-        app:popUpTo="@+id/addLeadDetailsFrag"
         tools:layout="@layout/fragment_soft_offer">
         <argument
             android:name="CustomerDetails"

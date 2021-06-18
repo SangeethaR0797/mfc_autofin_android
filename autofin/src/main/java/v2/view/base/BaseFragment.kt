@@ -297,6 +297,19 @@ public open class BaseFragment : Fragment() {
         }
     }
 
+    public fun navToSoftOfferFromApplicationListFragment(
+            customerDetailsResponse: CustomerDetailsResponse,
+            customerId: String
+    ) {
+        val directions = ApplicationDetailsFragmentDirections.actionAddLeadDetailsFragToSoftOfferFragment2(
+                customerDetailsResponse!!,
+                customerId
+        )
+        view?.let {
+            Navigation.findNavController(it).navigate(directions)
+        }
+    }
+
 
     public fun navToSoftOffer(
         customerDetailsResponse: CustomerDetailsResponse,

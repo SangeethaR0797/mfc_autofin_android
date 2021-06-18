@@ -123,7 +123,7 @@ class SoftOfferFragment : BaseFragment() {
                 BankOffersViewModel::class.java
         )
 
-        transactionViewModel=ViewModelProvider(this).get(
+        transactionViewModel = ViewModelProvider(this).get(
                 TransactionViewModel::class.java
         )
 
@@ -164,7 +164,7 @@ class SoftOfferFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.v2_soft_offer_loading_fragment, container, false)
-        fragView=view
+        fragView = view
         if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             initViews()
         }
@@ -173,8 +173,7 @@ class SoftOfferFragment : BaseFragment() {
 
     private fun checkLeadStatus() {
         when (customerDetailsResponse.data?.status) {
-            getString(R.string.v2_lead_status_kyc_done)->
-            {
+            getString(R.string.v2_lead_status_kyc_done) -> {
                 loanAmountViewModel.getBankOffersLoanAmount(Global.customerAPI_Master_URL + CommonStrings.LOAN_AMOUNT_URL + customerId)
             }
             getString(R.string.v2_lead_status_lender_selected) -> {
@@ -189,10 +188,10 @@ class SoftOfferFragment : BaseFragment() {
                 navigateToBankOfferStatusFromSoftOffer(customerId, customerDetailsResponse)
             }
             getString(R.string.v2_lead_status_submitted_to_bank) -> {
-                val salutation=customerDetailsResponse.data?.basicDetails?.salutation
-                val name=customerDetailsResponse.data?.basicDetails?.firstName+" "+customerDetailsResponse.data?.basicDetails?.lastName
-                val caseId=customerDetailsResponse.data?.caseId
-                caseId?.let { CustomLoanProcessCompletedData(salutation+" "+name, it) }?.let { navigateToBankSuccessPageFromSoftOffer(it) }
+                val salutation = customerDetailsResponse.data?.basicDetails?.salutation
+                val name = customerDetailsResponse.data?.basicDetails?.firstName + " " + customerDetailsResponse.data?.basicDetails?.lastName
+                val caseId = customerDetailsResponse.data?.caseId
+                caseId?.let { CustomLoanProcessCompletedData(salutation + " " + name, it) }?.let { navigateToBankSuccessPageFromSoftOffer(it) }
             }
         }
 
@@ -278,7 +277,7 @@ class SoftOfferFragment : BaseFragment() {
         })
 
         // endregion ChangeAndClickListeners
-checkLeadStatus()
+        checkLeadStatus()
     }
 
 
@@ -297,7 +296,7 @@ checkLeadStatus()
                         mApiResponse.data as CustomerDetailsResponse?
                 if (customerResponse != null) {
                     customerDetailsResponse = customerResponse
-                    navigateToAddressAndAdditionalFieldsFragment(customerId.toInt(),customerDetailsResponse)
+                    navigateToAddressAndAdditionalFieldsFragment(customerId.toInt(), customerDetailsResponse)
 
                 }
             }
@@ -482,9 +481,6 @@ checkLeadStatus()
         }
         Log.i("TAG", "onBankResponse: " + apiResponse.status)
     }
-
-
-
 
 
     // endregion Response

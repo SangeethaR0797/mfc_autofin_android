@@ -216,6 +216,7 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
         super.onBackPressed()
     }
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         for (fragment in supportFragmentManager.primaryNavigationFragment!!.childFragmentManager.fragments) {
