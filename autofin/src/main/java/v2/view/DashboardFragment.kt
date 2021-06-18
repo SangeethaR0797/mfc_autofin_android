@@ -321,9 +321,6 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                     navigateNoticeBoardAndNotificationFragment(ScreenTypeEnum.Notice_Board.value)
                 }
 
-                R.id.btnRegisteredList -> {
-                    kycDocumentViewModel.getKYCDocumentResponse(Global.baseURL + CommonStrings.KYC_UPLOAD_URL_END_POINT + hardCodedCustomerId)
-                }
 
                 R.id.btnNewVehicle -> {
                     navigateFromDashBoard(R.id.vehicleSelectionFrag2)
