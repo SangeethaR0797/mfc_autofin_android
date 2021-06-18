@@ -196,7 +196,7 @@ public class CommonStrings {
     public static final String UPLOAD_KYC_DOC_URL_V2="https://15.207.148.230:3003/api/kyc/upload-customer-kyc";
     public static final String BANK_BASE_URL="https://15.207.148.230:3004/api/Bank/";
     public static final String NOTICE_BOARD_ACTION_END_POINT="action-notice-board";
-    public static final String NOTIFICATION_ACTION_END_POINT="action-notice-board";
+    public static final String NOTIFICATION_ACTION_END_POINT="action-notification";
     public static final String NOTICE_BOARD_DETAILS_END_POINT="notice-board";
     public static final String NOTIFICATION_DETAILS_END_POINT="notifications";
     public static final String DEALER_COMMISSION_END_POINT="dealer-commission";
