@@ -28,6 +28,8 @@
         android:textAppearance="@style/RobotoRegular"
         android:textColor="@color/grey_color"
         android:textSize="@dimen/text_size10sp"
+        android:minLines="2"
+        android:maxLines="2"
         android:textStyle="italic" />
 
     <LinearLayout

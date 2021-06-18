@@ -12,6 +12,7 @@
     android:layout_height="match_parent"
     android:layout_weight="1"
     android:orientation="horizontal"
+    android:gravity="start|top"
     android:layout_marginBottom="@dimen/text_size_14dp"/>
     <LinearLayout
         android:id="@+id/linearLayoutImageUploadTile2"
@@ -20,5 +21,6 @@
         android:layout_weight="1"
         android:layout_marginLeft="@dimen/text_size_14dp"
         android:orientation="horizontal"
+        android:gravity="start|top"
         android:layout_marginBottom="@dimen/text_size_14dp"/>
 </LinearLayout>
