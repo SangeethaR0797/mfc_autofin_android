@@ -134,6 +134,7 @@
                 android:padding="@dimen/text_size_20dp" />
 
             <LinearLayout
+                android:elevation="@dimen/text_size10dp"
                 android:id="@+id/ll_commission_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -251,6 +252,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:elevation="@dimen/text_size10dp"
                 android:id="@+id/ll_notice_board_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
