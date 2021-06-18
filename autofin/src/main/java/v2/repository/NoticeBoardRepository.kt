@@ -5,6 +5,7 @@ import v2.end_point.NoticeboardEndPoint
 import v2.model.request.CommonRequest
 import v2.model.response.CommonResponse
 import v2.model.response.NoticeBoardDataResponse
+import v2.model.response.NotificationsListResponse
 import v2.service.ApiServiceGenerator
 
 class NoticeBoardRepository {
@@ -28,6 +29,13 @@ class NoticeBoardRepository {
         url: String?
     ): Observable<NoticeBoardDataResponse?>? {
         return noticeboardEndPoint.getNoticeBoardData(request, url)
+    }
+
+    fun getNotificationsList(
+        request: CommonRequest,
+        url: String?
+    ): Observable<NotificationsListResponse?>? {
+        return noticeboardEndPoint.getNotificationsList(request, url)
     }
 
 

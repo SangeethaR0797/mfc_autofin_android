@@ -87,4 +87,40 @@ class NoticeBoardViewModel(application: Application) : BaseViewModel(application
     }
     //endregion getNoticeBoardDetails
 
+    //region getNotificationsList
+    private val mNotificationsListLiveData: MutableLiveData<ApiResponse> =
+        MutableLiveData<ApiResponse>()
+
+    public fun getNotificationsListLiveData(): MutableLiveData<ApiResponse> {
+        return mNotificationsListLiveData
+    }
+
+
+    public fun getNotificationsList(request: CommonRequest, url: String?) {
+        repository.getNotificationsList(request, url)?.subscribeOn(Schedulers.io())
+            ?.observeOn(AndroidSchedulers.mainThread())
+            ?.doOnSubscribe { d -> mNotificationsListLiveData.setValue(ApiResponse.loading()) }
+            ?.let {
+                disposables.add(
+                    it
+                        .subscribe(
+                            { result ->
+                                mNotificationsListLiveData.setValue(result?.let {
+                                    ApiResponse.success(
+                                        it
+                                    )
+                                })
+                            }
+                        ) { throwable ->
+                            mNotificationsListLiveData.setValue(
+                                ApiResponse.error(
+                                    throwable
+                                )
+                            )
+                        })
+            }
+    }
+    //endregion getNotificationsList
+
+
 }
