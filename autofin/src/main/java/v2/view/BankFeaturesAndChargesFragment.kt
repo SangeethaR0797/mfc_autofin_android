@@ -110,6 +110,7 @@ class BankFeaturesAndChargesFragment : BaseFragment(), View.OnClickListener {
 
 
         ivBack.setOnClickListener(this)
+        llNext.setOnClickListener(this)
 
         llParnerBankData.visibility = View.GONE
         llChargesData.visibility = View.GONE
@@ -132,7 +133,7 @@ class BankFeaturesAndChargesFragment : BaseFragment(), View.OnClickListener {
                     activity?.onBackPressed()
                 }
                 R.id.ll_next -> {
-
+                    navigateFromDashBoard(R.id.vehicleSelectionFrag2)
                 }
 
             }

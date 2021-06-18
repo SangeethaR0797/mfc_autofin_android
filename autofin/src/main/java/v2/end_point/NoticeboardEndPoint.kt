@@ -5,6 +5,7 @@ import retrofit2.http.*
 import v2.model.request.CommonRequest
 import v2.model.response.CommonResponse
 import v2.model.response.NoticeBoardDataResponse
+import v2.model.response.NotificationsListResponse
 
 interface NoticeboardEndPoint {
     @Headers("Content-Type: application/json; charset=utf-8")
@@ -20,4 +21,11 @@ interface NoticeboardEndPoint {
         @Body request: CommonRequest,
         @Url url: String?
     ): Observable<NoticeBoardDataResponse?>?
+
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST
+    fun getNotificationsList(
+        @Body request: CommonRequest,
+        @Url url: String?
+    ): Observable<NotificationsListResponse?>?
 }
