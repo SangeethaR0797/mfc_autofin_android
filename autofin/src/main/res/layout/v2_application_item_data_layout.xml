@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/cl_main_layout"
     android:layout_marginBottom="@dimen/text_size_20dp"
+    android:elevation="@dimen/text_size_5dp"
     android:background="@drawable/v2_white_bg"
     android:padding="@dimen/text_size_20dp">
 
