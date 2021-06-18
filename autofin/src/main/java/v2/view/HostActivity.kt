@@ -163,9 +163,9 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
                 CommonMethods.setValueAgainstKey(
                     this@HostActivity,
                     CommonStrings.PREFF_ENCRYPT_TOKEN,
-                    tokenResponse!!.data.toString()
+                    tokenResponse!!.data!!.token.toString()
                 )
-                CommonStrings.TOKEN_VALUE = tokenResponse!!.data.toString()
+                CommonStrings.TOKEN_VALUE = tokenResponse!!.data!!.token.toString()
                 refresh()
 
             }
