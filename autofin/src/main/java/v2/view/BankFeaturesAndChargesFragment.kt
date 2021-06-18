@@ -170,8 +170,15 @@ class BankFeaturesAndChargesFragment : BaseFragment(), View.OnClickListener {
 
                 val bankFeaturesAndChargesResponse: BankFeaturesAndChargesResponse =
                     mApiResponse.data as BankFeaturesAndChargesResponse
-                if (bankFeaturesAndChargesResponse != null && bankFeaturesAndChargesResponse.data != null && bankFeaturesAndChargesResponse!!.data!!.otherPartners != null) {
-                    setPartnerBanksDetails(bankFeaturesAndChargesResponse!!.data!!.otherPartners!!)
+                if (bankFeaturesAndChargesResponse != null && bankFeaturesAndChargesResponse.data != null) {
+                    llNext.visibility = View.VISIBLE
+                    tvHeader.text =
+                        bankFeaturesAndChargesResponse!!.data!!.descriptions!![0]!!.header!!
+                    tvDescriptions.text =
+                        bankFeaturesAndChargesResponse!!.data!!.descriptions!![0]!!.values!!
+                    if (bankFeaturesAndChargesResponse!!.data!!.otherPartners != null) {
+                        setPartnerBanksDetails(bankFeaturesAndChargesResponse!!.data!!.otherPartners!!)
+                    }
                 }
 
 
