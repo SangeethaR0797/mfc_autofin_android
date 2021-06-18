@@ -5,6 +5,7 @@ import v2.end_point.DashboardEndPoint
 import v2.model.dto.DashBoardDetailsRequest
 import v2.model.dto.DashBoardDetailsResponse
 import v2.model.request.CommonRequest
+import v2.model.response.BankFeaturesAndChargesResponse
 import v2.model.response.CommissionDetailsResponse
 
 import v2.model.response.RuleEngineBanksResponse
@@ -37,6 +38,12 @@ class DashboardRepository {
         url: String?
     ): Observable<CommissionDetailsResponse?>? {
         return dashboardEndPoint.getDealerCommission(request, url)
+    }
+
+    fun getBankFeaturesAndChargesDetails(
+        url: String?
+    ): Observable<BankFeaturesAndChargesResponse?>? {
+        return dashboardEndPoint.getBankFeaturesAndChargesDetails(url)
     }
 
 
