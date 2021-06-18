@@ -14,10 +14,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
+import v2.model.dto.KeyValueDTO
 import v2.model.response.BankFeaturesAndChargesResponse
 import v2.model.response.RuleEngineBankData
 import v2.model_view.DashboardViewModel
 import v2.service.utility.ApiResponse
+import v2.view.adapter.BankChargesRecyclerViewAdapter
+import v2.view.adapter.BankFeaturesRecyclerViewAdapter
 import v2.view.adapter.PartnerBankRecyclerViewAdapter
 import v2.view.base.BaseFragment
 import v2.view.callBackInterface.itemClickCallBack
@@ -31,6 +34,7 @@ class BankFeaturesAndChargesFragment : BaseFragment(), View.OnClickListener {
     lateinit var tvDescriptions: TextView
     lateinit var tvFeaturesTitle: TextView
     lateinit var tvChargesTitle: TextView
+    lateinit var tvChargesSubTitle: TextView
 
     lateinit var ivBack: ImageView
 
@@ -98,6 +102,7 @@ class BankFeaturesAndChargesFragment : BaseFragment(), View.OnClickListener {
 
         llChargesData = rootView!!.findViewById(R.id.ll_charges_data)
         tvChargesTitle = rootView!!.findViewById(R.id.tv_charges_title)
+        tvChargesSubTitle = rootView!!.findViewById(R.id.tv_charges_sub_title)
         rvChargesData = rootView!!.findViewById(R.id.rv_charges_data)
 
         llParnerBankData = rootView!!.findViewById(R.id.ll_banking_partner_data)
@@ -132,6 +137,46 @@ class BankFeaturesAndChargesFragment : BaseFragment(), View.OnClickListener {
 
             }
         }
+    }
+
+    private fun setBankFeaturesDetails(values: List<String>) {
+        if (values.size > 0) {
+            val layoutManager = LinearLayoutManager(activity)
+            rvFeaturesData.layoutManager = layoutManager
+            llFeaturesData.visibility = View.VISIBLE
+            var bankFeaturesRecyclerViewAdapter = BankFeaturesRecyclerViewAdapter(
+                activity as Activity,
+                values,
+                object : itemClickCallBack {
+                    override fun itemClick(item: Any?, position: Int) {
+                        var dataItem = item as String
+
+
+                    }
+                })
+            rvFeaturesData.adapter = bankFeaturesRecyclerViewAdapter
+        }
+
+    }
+
+    private fun setBankChargesDetails(values: List<KeyValueDTO>) {
+        if (values.size > 0) {
+            val layoutManager = LinearLayoutManager(activity)
+            rvChargesData.layoutManager = layoutManager
+            llChargesData.visibility = View.VISIBLE
+            var bankChargesRecyclerViewAdapter = BankChargesRecyclerViewAdapter(
+                activity as Activity,
+                values,
+                object : itemClickCallBack {
+                    override fun itemClick(item: Any?, position: Int) {
+                        var dataItem = item as String
+
+
+                    }
+                })
+            rvChargesData.adapter = bankChargesRecyclerViewAdapter
+        }
+
     }
 
     private fun setPartnerBanksDetails(otherPartners: List<RuleEngineBankData>) {
@@ -178,6 +223,20 @@ class BankFeaturesAndChargesFragment : BaseFragment(), View.OnClickListener {
                         bankFeaturesAndChargesResponse!!.data!!.descriptions!![0]!!.values!!
                     if (bankFeaturesAndChargesResponse!!.data!!.otherPartners != null) {
                         setPartnerBanksDetails(bankFeaturesAndChargesResponse!!.data!!.otherPartners!!)
+                    }
+                    if (bankFeaturesAndChargesResponse!!.data!!.features != null && bankFeaturesAndChargesResponse!!.data!!.features!![0].values != null) {
+                        setBankFeaturesDetails(bankFeaturesAndChargesResponse!!.data!!.features!![0].values!!)
+                        tvFeaturesTitle.text =
+                            bankFeaturesAndChargesResponse!!.data!!.features!![0].header
+                    }
+
+                    if (bankFeaturesAndChargesResponse!!.data!!.charges != null && bankFeaturesAndChargesResponse!!.data!!.charges!![0].values != null) {
+
+                        tvChargesTitle.text =
+                            bankFeaturesAndChargesResponse!!.data!!.charges!![0].header
+                        tvChargesSubTitle.text =
+                            bankFeaturesAndChargesResponse!!.data!!.charges!![0].subHeader
+                        setBankChargesDetails(bankFeaturesAndChargesResponse!!.data!!.charges!![0].values!!)
                     }
                 }
 

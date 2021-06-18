@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/text_size_15dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="@dimen/text_size_8dp"
+            android:layout_height="@dimen/text_size_8dp"
+
+            android:layout_marginTop="@dimen/text_size_5dp"
+            android:layout_marginBottom="@dimen/text_size_8dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_small_black_circle" />
+
+        <LinearLayout
+            android:id="@+id/ll_text_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_size_8dp"
+
+            android:layout_marginRight="@dimen/text_size_12dp"
+
+
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textAppearance="@style/RobotoRegular"
+                android:textColor="@color/vtwo_black"
+                android:textSize="@dimen/text_size_14sp"
+                tools:text="Thor Odinson's Loan Has been disbursed" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

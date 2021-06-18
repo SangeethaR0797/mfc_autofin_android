@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class KeyValueDTO(
+data class KeyValueDTO(
     public var key: String? = null,
     public var value: String? = null,
 ) : Parcelable

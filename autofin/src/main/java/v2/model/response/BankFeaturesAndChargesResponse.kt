@@ -1,5 +1,7 @@
 package v2.model.response
 
+import v2.model.dto.KeyValueDTO
+
 data class BankFeaturesAndChargesResponse(
     var `data`: DataDetails?,
     var message: String?,
@@ -17,7 +19,7 @@ data class DataDetails(
 data class Charge(
     var header: String?,
     var subHeader: String?,
-    var values: List<Value>?
+    var values: List<KeyValueDTO>?
 )
 
 data class Description(
@@ -34,7 +36,3 @@ data class Feature(
 
 
 
-data class Value(
-    var key: String?,
-    var value: String?
-)
