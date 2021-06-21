@@ -134,7 +134,6 @@
                 android:padding="@dimen/text_size_20dp" />
 
             <LinearLayout
-                android:elevation="@dimen/text_size10dp"
                 android:id="@+id/ll_commission_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -142,6 +141,7 @@
                 android:layout_marginRight="@dimen/text_size_20dp"
                 android:layout_marginBottom="@dimen/text_size_16sp"
                 android:background="@drawable/v2_white_bg"
+                android:elevation="@dimen/text_size10dp"
                 android:orientation="vertical"
 
                 >
@@ -252,7 +252,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:elevation="@dimen/text_size10dp"
                 android:id="@+id/ll_notice_board_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -260,6 +259,7 @@
                 android:layout_marginRight="@dimen/text_size_20dp"
                 android:layout_marginBottom="@dimen/text_size_16sp"
                 android:background="@drawable/v2_white_bg"
+                android:elevation="@dimen/text_size10dp"
                 android:orientation="vertical"
 
                 >
@@ -337,6 +337,202 @@
 
 
                 </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_emi_calculator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_size_20dp"
+                android:layout_marginRight="@dimen/text_size_20dp"
+                android:layout_marginBottom="@dimen/text_size_16sp"
+                android:background="@drawable/v2_white_bg"
+                android:elevation="@dimen/text_size10dp"
+                android:orientation="vertical"
+
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginLeft="@dimen/text_size_14dp"
+                    android:layout_marginTop="@dimen/text_size_20dp"
+                    android:layout_marginRight="@dimen/text_size_14dp"
+                    android:layout_marginBottom="@dimen/text_size_5dp"
+                    android:text="@string/emi_calculator"
+                    android:textAppearance="@style/RobotoBold"
+                    android:textColor="@color/vtwo_black"
+                    android:textSize="@dimen/text_size_16sp" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/view_height_1dp"
+                    android:layout_marginLeft="-10dp"
+                    android:layout_marginTop="@dimen/text_size_18dp"
+                    android:layout_marginRight="-10dp"
+                    android:background="@color/v2_grey" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_14dp"
+                    android:layout_marginTop="@dimen/text_size_20dp"
+                    android:layout_marginRight="@dimen/text_size_14dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/loan_amount"
+                        android:textAppearance="@style/RobotoMedium"
+                        android:textColor="@color/vtwo_black"
+                        android:textSize="@dimen/text_size_14dp" />
+
+                    <TextView
+                        android:id="@+id/tv_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:background="@drawable/vtwo_input_bg"
+                        android:gravity="center_vertical|right"
+                        android:paddingLeft="@dimen/text_size_16sp"
+                        android:paddingTop="@dimen/text_size_5dp"
+                        android:paddingRight="@dimen/text_size_16sp"
+                        android:paddingBottom="@dimen/text_size_5dp"
+                        android:textAppearance="@style/RobotoMedium"
+                        android:textColor="@color/vtwo_black"
+                        android:textSize="@dimen/text_size_14dp"
+                        tools:text="03" />
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/sk_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvLoanAmountSB"
+                    android:layout_marginLeft="@dimen/text_size10dp"
+                    android:layout_marginTop="@dimen/text_size_20dp"
+                    android:layout_marginRight="@dimen/text_size10dp"
+                    android:padding="0dp"
+                    android:progressBackgroundTint="@color/vtwo_grey"
+                    android:progressTint="@color/vtwo_yellow"
+                    android:thumb="@drawable/ic_seek_bar_icon" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_14dp"
+                    android:layout_marginTop="@dimen/text_size_20dp"
+                    android:layout_marginRight="@dimen/text_size_14dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/year"
+                        android:textAppearance="@style/RobotoMedium"
+                        android:textColor="@color/vtwo_black"
+                        android:textSize="@dimen/text_size_14dp" />
+
+                    <TextView
+                        android:id="@+id/tv_year"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:background="@drawable/vtwo_input_bg"
+                        android:gravity="center_vertical|right"
+                        android:paddingLeft="@dimen/text_size_16sp"
+                        android:paddingTop="@dimen/text_size_5dp"
+                        android:paddingRight="@dimen/text_size_16sp"
+                        android:paddingBottom="@dimen/text_size_5dp"
+                        android:textAppearance="@style/RobotoMedium"
+                        android:textColor="@color/vtwo_black"
+                        android:textSize="@dimen/text_size_14dp"
+                        tools:text="03" />
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/sk_year"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvLoanAmountSB"
+                    android:layout_marginLeft="@dimen/text_size10dp"
+                    android:layout_marginTop="@dimen/text_size_20dp"
+                    android:layout_marginRight="@dimen/text_size10dp"
+                    android:padding="0dp"
+                    android:progressBackgroundTint="@color/vtwo_grey"
+                    android:progressTint="@color/vtwo_yellow"
+                    android:thumb="@drawable/ic_seek_bar_icon" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_size_14dp"
+                    android:layout_marginTop="@dimen/text_size_20dp"
+                    android:layout_marginRight="@dimen/text_size_14dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/interest_rate"
+                        android:textAppearance="@style/RobotoMedium"
+                        android:textColor="@color/vtwo_black"
+                        android:textSize="@dimen/text_size_14dp" />
+
+                    <TextView
+                        android:id="@+id/tv_interest_rate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:background="@drawable/vtwo_input_bg"
+                        android:gravity="center_vertical|right"
+                        android:paddingLeft="@dimen/text_size_16sp"
+                        android:paddingTop="@dimen/text_size_5dp"
+                        android:paddingRight="@dimen/text_size_16sp"
+                        android:paddingBottom="@dimen/text_size_5dp"
+                        android:textAppearance="@style/RobotoMedium"
+                        android:textColor="@color/vtwo_black"
+                        android:textSize="@dimen/text_size_14dp"
+                        tools:text="03" />
+                </LinearLayout>
+
+                <SeekBar
+                    android:padding="0dp"
+                    android:id="@+id/sk_interest_rate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvLoanAmountSB"
+                    android:layout_marginLeft="@dimen/text_size10dp"
+                    android:layout_marginTop="@dimen/text_size_20dp"
+                    android:layout_marginRight="@dimen/text_size10dp"
+                    android:layout_marginBottom="@dimen/text_size_30dp"
+
+                    android:progressBackgroundTint="@color/vtwo_grey"
+                    android:progressTint="@color/vtwo_yellow"
+                    android:thumb="@drawable/ic_seek_bar_icon" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/view_height_1dp"
+                    android:layout_marginLeft="@dimen/text_size_14dp"
+
+                    android:layout_marginRight="@dimen/text_size_14dp"
+                    android:layout_marginBottom="@dimen/text_size_30dp"
+                    android:background="@color/v2_grey" />
+
+
             </LinearLayout>
 
 
