@@ -20,6 +20,8 @@ import v2.model.dto.*
 import v2.model.enum_class.MenuEnum
 import v2.model.enum_class.ScreenTypeEnum
 import v2.model.request.CommonRequest
+import v2.model.request.EmiRequest
+import v2.model.request.EmiRequestData
 import v2.model.response.*
 import v2.model.response.master.KYCDocumentResponse
 import v2.model_view.DashboardViewModel
@@ -139,6 +141,10 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         dashboardViewModel.getDealerCommissionLiveData()
             .observe(requireActivity()) { mApiResponse: ApiResponse? ->
                 onCommissionDetailsResponse(mApiResponse!!)
+            }
+        dashboardViewModel.getEmiAmountLiveData()
+            .observe(requireActivity()) { mApiResponse: ApiResponse? ->
+                onEmiAmountResponse(mApiResponse!!)
             }
 
 
@@ -278,6 +284,20 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
     }
 
+    fun callEmiData() {
+        dashboardViewModel.getEmiAmount(
+            EmiRequest(
+                EmiRequestData(
+                    skAmount.progress,
+                    skInterestRate.progress,
+                    (skYear.progress * 12)
+                ),
+                CommonStrings.DEALER_ID,
+                CommonStrings.USER_TYPE
+            ),
+            Global.emi_baseURL + CommonStrings.GET_EMI_AMOUNT_END_POINT
+        )
+    }
 
     override fun onTokenReceivedOrRefresh() {
         setRefreshData()
@@ -295,6 +315,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         dashboardViewModel.getRuleEngineBanks(
             Global.baseURL + CommonStrings.GET_RULE_ENGINE_BANKS_END_POINT
         )
+        callEmiData()
     }
 
     fun setScreenData() {
@@ -407,7 +428,8 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                     activity?.onBackPressed()
                 }
                 R.id.btn_apply_now -> {
-                    showToast("Call EMI Calculator")
+                    showProgressDialog(requireContext())
+                    callEmiData()
                 }
                 R.id.iv_notification -> {
                     navigateNoticeBoardAndNotificationFragment(ScreenTypeEnum.Notification.value)
@@ -698,6 +720,35 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 tvPotentialCommission.text = "₹" + formatAmount(
                     commissionDetailsResponse!!.data!!.potentialCommission.toString()
                 )
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+                Log.i("SoftOfferFragment", ": " + ApiResponse.Status.ERROR)
+
+            }
+            else -> {
+                Log.i("SoftOfferFragment", ": ")
+            }
+        }
+
+    }
+
+    private fun onEmiAmountResponse(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+
+                val emiResponse: EmiResponse =
+                    mApiResponse.data as EmiResponse
+                if (emiResponse != null && emiResponse!!.data != null) {
+                    tvEmiAmount.text = "₹" + formatAmount(
+                        emiResponse!!.data!!.toInt().toString()
+                    )
+                }
 
             }
             ApiResponse.Status.ERROR -> {

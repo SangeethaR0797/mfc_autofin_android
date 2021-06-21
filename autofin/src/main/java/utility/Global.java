@@ -12,4 +12,5 @@ public class Global
     public static String customerAPI_Master_URL = customerDetails_BaseURL+"masters/";
     public static String customer_bank_baseURL=commonURLs.customer_bank_baseURL;
     public static String document_upload_baseURL=commonURLs.document_upload_baseURL;
+    public static String emi_baseURL=commonURLs.emi_baseURL;
 }

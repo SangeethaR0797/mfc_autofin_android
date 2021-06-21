@@ -202,4 +202,5 @@ public class CommonStrings {
     public static final String DEALER_COMMISSION_END_POINT="dealer-commission";
     public static final String SEARCH_APPLICATION_END_POINT="filter";
     public static final String APPLICATION_STATUS_WISE_FILTER_END_POINT="filter-by-status";
+    public static final String GET_EMI_AMOUNT_END_POINT="emi-calculator";
 }

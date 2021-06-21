@@ -9,6 +9,7 @@ public class CommonURLs {
     public String customerAPI_BaseURL = "";
     public String customer_bank_baseURL = "";
     public String document_upload_baseURL = "";
+    public String emi_baseURL = "";
 
     public CommonURLs(String environment) {
         this.environment = environment;
@@ -21,6 +22,7 @@ public class CommonURLs {
             stock_details_base_url = "https://15.207.148.230:3004/api/";
             customer_bank_baseURL = "https://15.207.148.230:3002/api/bank/";
             document_upload_baseURL="https://15.207.148.230:3003/api/";
+            emi_baseURL="https://15.207.148.230:3002/api/rule-engine/";
         } else if (this.environment.equalsIgnoreCase("Production")) {
 
         }
