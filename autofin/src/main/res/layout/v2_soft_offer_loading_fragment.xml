@@ -122,7 +122,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tvLoanAmountSB"
                         android:layout_marginTop="@dimen/text_size_17dp"
-                        android:thumb="@drawable/ic_vtwo_personal_details"
+                        android:thumb="@drawable/ic_seek_bar_icon"
                         android:progressBackgroundTint="@color/vtwo_grey"
                         android:progressTint="@color/vtwo_yellow"
                         tools:ignore="UnusedAttribute" />
@@ -160,7 +160,7 @@
                         android:layout_below="@+id/tvTenureSB"
                         android:layout_marginTop="@dimen/text_size_17dp"
                         android:layout_marginBottom="@dimen/text_size_20dp"
-                        android:thumb="@drawable/ic_vtwo_personal_details"
+                        android:thumb="@drawable/ic_seek_bar_icon"
                         android:progressBackgroundTint="@color/vtwo_grey"
                         android:progressTint="@color/vtwo_yellow"
                         tools:ignore="UnusedAttribute" />
