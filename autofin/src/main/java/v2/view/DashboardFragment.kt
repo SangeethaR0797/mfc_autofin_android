@@ -2,12 +2,14 @@ package v2.view
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -215,7 +217,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         return rootView
     }
 
-    @SuppressLint("NewApi")
+
     private fun setSeekBarEvent() {
 
 
@@ -266,13 +268,17 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
             }
         })
-        skAmount.min = 50000
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            skAmount.min = 50000
+            skYear.min = 1
+            skInterestRate.min = 8
+        }
         skAmount.max = 5000000
 
-        skYear.min = 1
+
         skYear.max = 12
 
-        skInterestRate.min = 8
+
         skInterestRate.max = 25
 
 
