@@ -1,5 +1,6 @@
 package v2.view
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
 import android.util.Log
@@ -56,6 +57,16 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
     lateinit var rvBankingPartner: RecyclerView
     lateinit var llBankingPartner: LinearLayout
+
+    lateinit var tvAmount: TextView
+    lateinit var tvYear: TextView
+    lateinit var tvInterestRate: TextView
+    lateinit var tvEmiAmount: TextView
+    lateinit var btnApplyNow: TextView
+
+    lateinit var skAmount: SeekBar
+    lateinit var skYear: SeekBar
+    lateinit var skInterestRate: SeekBar
 
     lateinit var menuForDashboardAdapter: MenuForDashboardAdapter
 
@@ -133,6 +144,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -168,14 +180,102 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             llBankingPartner = rootView!!.findViewById(R.id.ll_banking_partner)
 
 
+            tvAmount = rootView!!.findViewById(R.id.tv_amount)
+            tvYear = rootView!!.findViewById(R.id.tv_year)
+            tvInterestRate = rootView!!.findViewById(R.id.tv_interest_rate)
+            tvEmiAmount = rootView!!.findViewById(R.id.tv_emi_amount)
+            btnApplyNow = rootView!!.findViewById(R.id.btn_apply_now)
+
+            tvAmount.isSingleLine = true
+            tvYear.isSingleLine = true
+            tvInterestRate.isSingleLine = true
+            tvEmiAmount.isSingleLine = true
+            btnApplyNow.isSingleLine = true
+
+            skAmount = rootView!!.findViewById(R.id.sk_amount)
+            skYear = rootView!!.findViewById(R.id.sk_year)
+            skInterestRate = rootView!!.findViewById(R.id.sk_interest_rate)
+
+            setSeekBarEvent()
+
             ivBack.setOnClickListener(this)
             ivNotification.setOnClickListener(this)
             etSearch.setOnClickListener(this)
             llSearch.setOnClickListener(this)
             llViewAllNotice.setOnClickListener(this)
+            btnApplyNow.setOnClickListener(this)
             setScreenData()
         }
         return rootView
+    }
+
+    @SuppressLint("NewApi")
+    private fun setSeekBarEvent() {
+
+
+        skAmount.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
+                tvAmount.text =
+                    resources.getString(R.string.rupees_symbol) + " " + formatAmount(progress.toString())
+
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+
+            }
+        })
+        skYear.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
+                if (progress > 1) {
+                    tvYear.text = (progress.toString()) + " Years"
+                } else {
+                    tvYear.text = (progress.toString()) + " Year"
+                }
+
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+
+            }
+        })
+
+        skInterestRate.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
+                tvInterestRate.text = (progress.toString()) + "%"
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+
+            }
+        })
+        skAmount.min = 50000
+        skAmount.max = 5000000
+
+        skYear.min = 1
+        skYear.max = 12
+
+        skInterestRate.min = 8
+        skInterestRate.max = 25
+
+
+        skAmount.progress = 50000
+        skYear.progress = 1
+        skInterestRate.progress = 8
+
+
+
     }
 
 
@@ -305,6 +405,9 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             when (v.id) {
                 R.id.iv_back -> {
                     activity?.onBackPressed()
+                }
+                R.id.btn_apply_now -> {
+                    showToast("Call EMI Calculator")
                 }
                 R.id.iv_notification -> {
                     navigateNoticeBoardAndNotificationFragment(ScreenTypeEnum.Notification.value)
