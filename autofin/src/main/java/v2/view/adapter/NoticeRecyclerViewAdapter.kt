@@ -38,9 +38,32 @@ class NoticeRecyclerViewAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         holder.tvItem.text = dataListFilter!![position].text!!.replace("  ", " ")!!.toString()
-        holder.tvItemSmall.text = dataListFilter?.get(position)?.description!!.replace("  ", " ")!!.toString()
-
+        var desc =
+            dataListFilter?.get(position)?.description!!.replace("  ", " ")!!.toString()
+        holder.tvItemSmall.text = desc
+        if (dataListFilter?.get(position)!!.showMore == true) {
+            holder.tvItem.maxLines = 5
+            holder.tvItemSmall.maxLines = 500
+            holder.tvShowMore.text = "Less"
+        } else {
+            holder.tvItem.maxLines = 2
+            holder.tvItemSmall.maxLines = 2
+            holder.tvShowMore.text = "More"
+        }
         holder.llMainLayout.setOnClickListener(View.OnClickListener {
+            if (dataListFilter?.get(position)!!.showMore == false || dataListFilter?.get(position)!!.showMore == null) {
+                dataListFilter?.get(position)!!.showMore = true
+            } else {
+                dataListFilter?.get(position)!!.showMore = false
+            }
+            itemCallBack.itemClick(dataListFilter?.get(position), position)
+        })
+        holder.tvShowMore.setOnClickListener(View.OnClickListener {
+            if (dataListFilter?.get(position)!!.showMore == false || dataListFilter?.get(position)!!.showMore == null) {
+                dataListFilter?.get(position)!!.showMore = true
+            } else {
+                dataListFilter?.get(position)!!.showMore = false
+            }
             itemCallBack.itemClick(dataListFilter?.get(position), position)
         })
 
@@ -50,6 +73,7 @@ class NoticeRecyclerViewAdapter(
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tvItem: TextView
+        var tvShowMore: TextView
         var tvItemSmall: TextView
         var llMainLayout: LinearLayout
         var llTextData: LinearLayout
@@ -61,6 +85,7 @@ class NoticeRecyclerViewAdapter(
             llMainLayout = itemView.findViewById(R.id.ll_main_layout)
             llTextData = itemView.findViewById(R.id.ll_text_data)
             ivIcon = itemView.findViewById(R.id.iv_icon)
+            tvShowMore = itemView.findViewById(R.id.tv_show_more)
         }
     }
 

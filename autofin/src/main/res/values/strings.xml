@@ -382,6 +382,7 @@
     <string name="loan_amount">Loan Amount</string>
     <string name="year">Year</string>
     <string name="interest_rate">Interest Rate</string>
+    <string name="more">More</string>
 
 
 </resources>

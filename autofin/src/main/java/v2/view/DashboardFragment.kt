@@ -281,7 +281,6 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         skInterestRate.progress = 8
 
 
-
     }
 
     fun callEmiData() {
@@ -390,10 +389,11 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                             Global.customerAPI_BaseURL + CommonStrings.NOTICE_BOARD_ACTION_END_POINT
                         )
                     }
-
+                    noticeRecyclerViewAdapter.notifyItemChanged(position)
                 }
             })
         rvNoticeBoard.adapter = noticeRecyclerViewAdapter
+
 
     }
 

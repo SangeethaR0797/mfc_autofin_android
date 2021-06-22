@@ -7,10 +7,11 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:animateLayoutChanges="true"
         android:id="@+id/ll_main_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/text_size_15dp"
+        android:layout_marginBottom="@dimen/text_size_8dp"
         android:orientation="horizontal"
         android:paddingTop="@dimen/text_size_15dp">
 
@@ -29,8 +30,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/text_size_8dp"
-
-            android:layout_marginRight="@dimen/text_size_12dp"
 
 
             android:orientation="vertical">
@@ -55,15 +54,31 @@
                 android:textSize="@dimen/text_size10dp"
                 android:textStyle="italic"
                 tools:text="Congratulations! the loan for Thor Odinson, LOS ID : 2254 for HONDA CIVIC 1.8 VX AT has been disbursed by HDFC. Congratulations! the loan for Thor Odinson, LOS ID : 2254 for HONDA CIVIC 1.8 VX AT has been disbursed by HDFC." />
+
         </LinearLayout>
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tv_show_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginBottom="@dimen/text_size_12dp"
+        android:background="@drawable/vtwo_input_bg"
+        android:paddingLeft="@dimen/text_size_16sp"
+        android:paddingTop="@dimen/text_size_5dp"
+        android:paddingRight="@dimen/text_size_16sp"
+        android:paddingBottom="@dimen/text_size_5dp"
+        android:text="@string/more"
+        android:textAppearance="@style/RobotoBold"
+        android:textColor="@color/vtwo_black"
+        android:textSize="@dimen/text_size_12dp" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/view_height_1dp"
-        android:layout_marginLeft="@dimen/text_size_18dp"
-        android:layout_marginRight="@dimen/text_size_18dp"
-        android:layout_marginBottom="@dimen/text_size_18dp"
+
+
         android:background="@color/v2_grey" />
 </LinearLayout>

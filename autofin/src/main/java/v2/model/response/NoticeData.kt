@@ -8,5 +8,6 @@ data class NoticeData(
     var isNew: Boolean?,
     var messageKey: String?,
     var noticeBoardId: Int?,
-    var text: String?
+    var text: String?,
+    var showMore: Boolean?=false
 )

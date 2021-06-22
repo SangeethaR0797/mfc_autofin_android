@@ -36,6 +36,7 @@ class NoticeBoardAndNotificationFragment : BaseFragment(), View.OnClickListener 
     lateinit var screenType: String
     lateinit var noticeBoardViewModel: NoticeBoardViewModel
     lateinit var noticeRecyclerViewAdapter: NoticeRecyclerViewAdapter
+    lateinit var notificationRecyclerViewAdapter :NotificationRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -127,7 +128,7 @@ class NoticeBoardAndNotificationFragment : BaseFragment(), View.OnClickListener 
                             Global.customerAPI_BaseURL + CommonStrings.NOTICE_BOARD_ACTION_END_POINT
                         )
                     }
-
+                    noticeRecyclerViewAdapter.notifyItemChanged(position)
                 }
             })
         rvData.adapter = noticeRecyclerViewAdapter
@@ -138,7 +139,7 @@ class NoticeBoardAndNotificationFragment : BaseFragment(), View.OnClickListener 
         val layoutManager = LinearLayoutManager(activity)
         rvData.layoutManager = layoutManager
 
-        var notificationRecyclerViewAdapter =
+         notificationRecyclerViewAdapter =
             NotificationRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
                 override fun itemClick(item: Any?, position: Int) {
                     var notificationItemData = item as NotificationItemData
@@ -151,7 +152,7 @@ class NoticeBoardAndNotificationFragment : BaseFragment(), View.OnClickListener 
                             Global.customerAPI_BaseURL + CommonStrings.NOTIFICATION_ACTION_END_POINT
                         )
                     }
-
+                    notificationRecyclerViewAdapter.notifyItemChanged(position)
                 }
             })
         rvData.adapter = notificationRecyclerViewAdapter

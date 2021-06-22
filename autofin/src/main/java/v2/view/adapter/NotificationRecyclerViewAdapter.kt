@@ -14,7 +14,11 @@ import v2.model.response.NotificationItemData
 
 import v2.view.callBackInterface.itemClickCallBack
 
-class NotificationRecyclerViewAdapter(var context: Activity, var dataListValue: List<NotificationItemData>?, itemClick: itemClickCallBack?) : RecyclerView.Adapter<NotificationRecyclerViewAdapter.MyViewHolder>(), Filterable {
+class NotificationRecyclerViewAdapter(
+    var context: Activity,
+    var dataListValue: List<NotificationItemData>?,
+    itemClick: itemClickCallBack?
+) : RecyclerView.Adapter<NotificationRecyclerViewAdapter.MyViewHolder>(), Filterable {
 
     public var dataListFilter: List<NotificationItemData>?
     private var itemCallBack: itemClickCallBack = itemClick!!
@@ -35,12 +39,40 @@ class NotificationRecyclerViewAdapter(var context: Activity, var dataListValue: 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         holder.tvItem.text = dataListFilter!![position].message!!.replace("  ", " ")!!.toString()
-        holder.tvItemSmall.text = dataListFilter?.get(position)?.description!!.replace("  ", " ")!!.toString()
+        var desc = dataListFilter?.get(position)?.description!!.replace("  ", " ")!!.toString()
+        holder.tvItemSmall.text = desc
 
+
+        if (dataListFilter?.get(position)!!.showMore == true) {
+            holder.tvItemSmall.maxLines = 500
+            holder.tvShowMore.text = "Less"
+            holder.tvItem.maxLines = 5
+        } else {
+            holder.tvItemSmall.maxLines = 2
+            holder.tvShowMore.text = "More"
+            holder.tvItem.maxLines = 2
+        }
+        /*holder.tvShowMore.setOnClickListener(View.OnClickListener {
+            itemCallBack.itemClick(dataListFilter?.get(position), position)
+        })*/
         holder.llMainLayout.setOnClickListener(View.OnClickListener {
+            if (dataListFilter?.get(position)!!.showMore == false || dataListFilter?.get(position)!!.showMore == null) {
+                dataListFilter?.get(position)!!.showMore = true
+            } else {
+                dataListFilter?.get(position)!!.showMore = false
+            }
+
             itemCallBack.itemClick(dataListFilter?.get(position), position)
         })
+        holder.tvShowMore.setOnClickListener(View.OnClickListener {
+            if (dataListFilter?.get(position)!!.showMore == false || dataListFilter?.get(position)!!.showMore == null) {
+                dataListFilter?.get(position)!!.showMore = true
+            } else {
+                dataListFilter?.get(position)!!.showMore = false
+            }
 
+            itemCallBack.itemClick(dataListFilter?.get(position), position)
+        })
 
 
     }
@@ -48,6 +80,7 @@ class NotificationRecyclerViewAdapter(var context: Activity, var dataListValue: 
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tvItem: TextView
+        var tvShowMore: TextView
         var tvItemSmall: TextView
         var llMainLayout: LinearLayout
         var llTextData: LinearLayout
@@ -59,6 +92,7 @@ class NotificationRecyclerViewAdapter(var context: Activity, var dataListValue: 
             llMainLayout = itemView.findViewById(R.id.ll_main_layout)
             llTextData = itemView.findViewById(R.id.ll_text_data)
             ivIcon = itemView.findViewById(R.id.iv_icon)
+            tvShowMore = itemView.findViewById(R.id.tv_show_more)
         }
     }
 
@@ -75,7 +109,9 @@ class NotificationRecyclerViewAdapter(var context: Activity, var dataListValue: 
                 } else {
                     val resultList = ArrayList<NotificationItemData>()
                     for (row in dataListValue!!) {
-                        if (row.message.toString().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        if (row.message.toString().toLowerCase()
+                                .contains(constraint.toString().toLowerCase())
+                        ) {
                             resultList.add(row)
                         }
                     }
