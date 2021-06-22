@@ -4,17 +4,14 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.text.*
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.view.inputmethod.EditorInfo
 import android.widget.*
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
@@ -80,7 +77,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
     var sectionMap = HashMap<String, ArrayList<FieldDetails>>()
     private val currentFilledFieldData = HashMap<String, FieldDetails>()
     private val submitAdditionalFieldsList = HashMap<String, FieldDetails>()
-
+    private val mandatoryFieldsList = HashMap<String, String>()
     lateinit var fragView: View
 
     var checkList = ArrayList<Details>()
@@ -108,7 +105,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
     lateinit var submitAdditionalFieldsViewModel: TransactionViewModel
     lateinit var kycDocumentViewModel: MasterViewModel
     lateinit var customerDetailsResponse: CustomerDetailsResponse
-    lateinit var ivBackFromAddressAndAdditionalFields:ImageView
+    lateinit var ivBackFromAddressAndAdditionalFields: ImageView
 
     var handler: Handler = Handler()
 
@@ -204,7 +201,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         linearLayoutAddNewPermanentAddress = view.findViewById(R.id.linearLayoutAddNewPermanentAddress)
         linearLayoutEditPermanentAddress = view.findViewById(R.id.linearLayoutEditPermanentAddress)
         linearLayoutAdditionalFieldsUILayout = view.findViewById(R.id.linearLayoutAdditionalFieldsUILayout)
-        ivBackFromAddressAndAdditionalFields=view.findViewById(R.id.ivBackFromAddressAndAdditionalFields)
+        ivBackFromAddressAndAdditionalFields = view.findViewById(R.id.ivBackFromAddressAndAdditionalFields)
         imageViewEditCurrentAddress = view.findViewById(R.id.imageViewEditCurrentAddress)
         imageViewEditPermanentAddress = view.findViewById(R.id.imageViewEditPermanentAddress)
 
@@ -235,7 +232,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
             if (customerData?.residentialDetails?.currentAddress?.addressLine1?.isNotEmpty() == true) {
                 currentAddressResponse = customerDetailsResponse.data?.residentialDetails?.currentAddress!!
                 permanentAddressResponse = customerDetailsResponse.data?.residentialDetails?.permanentAddress!!
-                isPermanentAddress= customerDetailsResponse.data?.residentialDetails?.currentAddress?.isPermanent == true
+                isPermanentAddress = customerDetailsResponse.data?.residentialDetails?.currentAddress?.isPermanent == true
                 showEditCurrentAddress()
             } else {
                 showNewCurrentAddress()
@@ -372,7 +369,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         if (linearLayoutEditPermanentAddress.visibility == View.VISIBLE)
             linearLayoutEditPermanentAddress.visibility = View.GONE
 
-        linearLayoutAddNewPermanentAddress.visibility=View.VISIBLE
+        linearLayoutAddNewPermanentAddress.visibility = View.VISIBLE
         val addressView: View = LayoutInflater.from(fragView.context).inflate(R.layout.v2_add_new_address_layout, linearLayoutAddNewPermanentAddress, false)
         val textViewTypeOfAddress = addressView.findViewById<TextView>(R.id.textViewTypeOfAddress)
         val editTextPinCode = addressView.findViewById<EditText>(R.id.editTextPinCode)
@@ -437,7 +434,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         if (linearLayoutAddNewPermanentAddress.visibility == View.VISIBLE)
             linearLayoutAddNewPermanentAddress.visibility = View.GONE
 
-        linearLayoutEditPermanentAddress.visibility=View.VISIBLE
+        linearLayoutEditPermanentAddress.visibility = View.VISIBLE
 
         textViewPermanentAddress1.text = permanentAddressResponse.addressLine1
         textViewPermanentAddress2.text = permanentAddressResponse.addressLine2
@@ -747,8 +744,6 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
             if (sectionData.type == "Address" || isLastSection) {
 
-                // if section is not
-
                 currentSectionLayout = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_address_parent_layout, linearLayoutAdditionalFieldsUILayout, false)
 
                 val linearLayout = currentSectionLayout.findViewById<LinearLayout>(R.id.linearLayoutCustomAddressSectionLayout)
@@ -762,9 +757,11 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                     linearLayout.addView(currentSectionTitle)
                 }
 
-                if (currentFilledFieldData.size == fieldList.size) {
+
+                if (isAllMandatoryFieldsFilledInCurrentSection()) {
                     addressButton.setBackgroundResource(R.drawable.vtwo_next_btn_bg)
                 }
+
                 addressButton.setOnClickListener(View.OnClickListener {
                     if (currentFilledFieldData.size == fieldList.size) {
                         if (sectionData.type == "Address" && !isLastSection) {
@@ -798,10 +795,17 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         return currentSectionLayout
     }
 
+    private fun isAllMandatoryFieldsFilledInCurrentSection(): Boolean {
+
+       /* for (index in mandatoryFieldsList.iterator())
+        {
+            if(currentFilledFieldData.containsKey(mandatoryFieldsList.get()))
+        }*/
+        return true
+    }
+
 
     private fun generateFieldUI(sectionName: String, linearLayout: LinearLayout?, fieldList: List<Fields>, isLastSection: Boolean) {
-
-        val cFieldList = fieldList
 
         for (fieldIndex in fieldList.indices) {
             if (fieldList[fieldIndex].displayLabel) {
@@ -811,8 +815,11 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                 linearLayout?.addView(titleView)
             }
 
+            if (fieldList[fieldIndex].isMandatory) {
+                mandatoryFieldsList[fieldList[fieldIndex].apiDetails.apiKey] = sectionName
+            }
             val fieldVal: Fields = fieldList[fieldIndex]
-            val fieldView: View? = linearLayout?.let { getFieldView(sectionName, fieldVal, cFieldList, fieldIndex == fieldList.size - 1, isLastSection, it) }
+            val fieldView: View? = linearLayout?.let { getFieldView(sectionName, fieldVal, fieldList, fieldIndex == fieldList.size - 1, isLastSection, it) }
 
             linearLayout?.addView(fieldView)
 
@@ -882,30 +889,9 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                     }
 
                     val input_finish_checker = Runnable {
-                        if (System.currentTimeMillis() > last_text_edit + delay - 1000) {
+                        if (System.currentTimeMillis() > last_text_edit + delay - 3000) {
                             updateEditTextValues(fieldInputValue, fieldData, sectionName, isLastItem, linearLayout, cFieldList, isLastSection)
-                            /* if (fieldData.apiDetails.apiKey == "CompanyPincode") {
 
-                                 val editTextString: String = fieldInputValue.text.toString()
-                                 if (editTextString.length == 6) {
-                                     additionaFieldPinCode = editTextString
-                                     validateInput(sectionName, fieldData.apiDetails.apiKey, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, editTextString)
-                                     refreshFieldView(sectionName, linearLayout, cFieldList, isLastSection)
-                                 } else {
-                                     showToast("Enter valid Pincode")
-                                 }
-
-                             } else if (sectionName == "Address" && isLastItem) {
-
-                                 val editTextString: String = fieldInputValue.text.toString()
-                                 val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
-                                 addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
-
-                             } else {
-                                 val editTextString: String = fieldInputValue.text.toString()
-                                 validateInput(sectionName, fieldData.apiDetails.apiKey, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, editTextString)
-                             }
-*/
                         }
                     }
 
@@ -1276,7 +1262,6 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         handler.postDelayed({
             linearLayout.removeAllViews()
             generateFieldUI(sectionName, linearLayout, cFieldList, isLastItem)
-
         }, 500)
 
     }
@@ -1285,7 +1270,6 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         handler.postDelayed({
             linearLayoutAdditionalFieldsUILayout.removeAllViews()
             setAdditionalField()
-
         }, 500)
 
     }
@@ -1424,8 +1408,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.ivBackFromAddressAndAdditionalFields->
-            {
+            R.id.ivBackFromAddressAndAdditionalFields -> {
                 activity?.onBackPressed()
             }
             R.id.imageViewEditCurrentAddress -> {
