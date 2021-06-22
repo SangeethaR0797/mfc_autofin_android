@@ -153,11 +153,14 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         if (screenType.equals(ScreenTypeEnum.Search.value)) {
             ivSearch.visibility = View.GONE
             tvTitle.text = "Search"
+            etSearch.requestFocus()
+
         } else if (screenType.equals(ScreenTypeEnum.StausWithSearch.value)
         ) {
             ivSearch.visibility = View.GONE
             tvTitle.text = screenStatus
             callApplicationStatusWiseFilterAPI(null)
+            etSearch.requestFocus()
         } else {
             tvTitle.text = screenStatus
             rvData.setPadding(0, llData.marginLeft, 0, 0)
