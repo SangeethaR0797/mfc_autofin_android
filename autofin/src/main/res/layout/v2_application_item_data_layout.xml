@@ -2,12 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_main_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/cl_main_layout"
     android:layout_marginBottom="@dimen/text_size_20dp"
-    android:elevation="@dimen/text_size_5dp"
     android:background="@drawable/v2_white_bg"
+    android:elevation="@dimen/text_size_5dp"
     android:padding="@dimen/text_size_20dp">
 
     <ImageView
@@ -24,7 +24,7 @@
 
     <TextView
         android:id="@+id/tv_status"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/text_size_5dp"
         android:maxLines="1"
@@ -32,6 +32,7 @@
         android:textColor="@color/grey_color"
         android:textSize="@dimen/text_size_14sp"
         android:textStyle="italic"
+        app:layout_constraintEnd_toStartOf="@+id/tv_bank_icon"
         app:layout_constraintStart_toEndOf="@+id/iv_icon"
         tools:ignore="MissingConstraints"
         tools:text="Bank Form Filled" />
@@ -56,15 +57,17 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_basic"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/text_size_16sp"
+        android:layout_marginRight="@dimen/text_size_8dp"
+        app:layout_constraintEnd_toStartOf="@id/rl_call"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line">
 
         <TextView
             android:id="@+id/tv_applicant_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:textAppearance="@style/RobotoMedium"
@@ -73,12 +76,13 @@
             android:textStyle="italic"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+
             tools:ignore="MissingConstraints"
             tools:text="Wanda Maximoff" />
 
         <TextView
             android:id="@+id/tv_vehicle_details"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_size_5dp"
             android:maxLines="1"
@@ -96,8 +100,8 @@
         android:id="@+id/rl_call"
         android:layout_width="@dimen/text_size_48dp"
         android:layout_height="@dimen/text_size_48dp"
-        android:elevation="@dimen/text_size10dp"
         android:background="@drawable/ic_gray_circle"
+        android:elevation="@dimen/text_size10dp"
         android:padding="@dimen/text_size_12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/cl_basic">
@@ -197,22 +201,18 @@
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:layout_marginTop="@dimen/text_size_20dp"
         android:id="@+id/btn_complete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="@dimen/text_size_20dp"
         android:background="@drawable/vtwo_next_btn_bg"
-        android:paddingLeft="@dimen/text_size_20dp"
-        android:paddingTop="@dimen/text_size_5dp"
-        android:paddingRight="@dimen/text_size_20dp"
-        android:paddingBottom="@dimen/text_size_5dp"
+
         android:text="@string/complete"
         android:textAllCaps="true"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_14sp"
+        android:textSize="@dimen/text_size_12dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rl_call"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/rl_call" />
 </androidx.constraintlayout.widget.ConstraintLayout>
