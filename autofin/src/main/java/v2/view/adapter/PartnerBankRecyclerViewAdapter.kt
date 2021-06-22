@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.view.marginRight
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
 import com.squareup.picasso.Callback
@@ -57,6 +58,12 @@ class PartnerBankRecyclerViewAdapter(
         holder.llMainLayout.setOnClickListener(View.OnClickListener {
             itemCallBack.itemClick(dataListFilter?.get(position), position)
         })
+        if (dataListFilter!!.size - 1 == position) {
+
+            val params = holder.rlRoot.layoutParams as ViewGroup.MarginLayoutParams
+            params.rightMargin = holder.llMainLayout.paddingLeft
+            holder.rlRoot.layoutParams = params
+        }
     }
 
 
@@ -64,10 +71,12 @@ class PartnerBankRecyclerViewAdapter(
         var tvRateOfIntrest: TextView
         var tvKnowMore: TextView
         var llMainLayout: LinearLayout
+        var rlRoot: RelativeLayout
 
         var ivIcon: ImageView
 
         init {
+            rlRoot = itemView.findViewById(R.id.rl_root)
             tvRateOfIntrest = itemView.findViewById(R.id.tv_rate_of_intrest)
             tvKnowMore = itemView.findViewById(R.id.tv_know_more)
             llMainLayout = itemView.findViewById(R.id.ll_main_layout)
