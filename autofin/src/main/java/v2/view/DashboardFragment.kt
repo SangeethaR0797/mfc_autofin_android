@@ -274,11 +274,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             skInterestRate.min = 8
         }
         skAmount.max = 5000000
-
-
         skYear.max = 12
-
-
         skInterestRate.max = 25
 
 
@@ -290,6 +286,10 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     }
 
     fun callEmiData() {
+
+
+        skYear.progress < 1
+        skInterestRate.progress < 8
         dashboardViewModel.getEmiAmount(
             EmiRequest(
                 EmiRequestData(
@@ -434,8 +434,19 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                     activity?.onBackPressed()
                 }
                 R.id.btn_apply_now -> {
-                    showProgressDialog(requireContext())
-                    callEmiData()
+                    if (skAmount.progress < 50000) {
+                        showToast("Please select minimum loan Amount ₹ 50000.")
+                    } else if (skYear.progress < 1) {
+                        showToast("Please select minimum loan Tenure 1 year.")
+                    } else if (skInterestRate.progress < 8
+                    ) {
+                        showToast("Please select minimum loan Interest rate 8 %.")
+                    }else{
+                        showProgressDialog(requireContext())
+                        callEmiData()
+                    }
+
+
                 }
                 R.id.iv_notification -> {
                     navigateNoticeBoardAndNotificationFragment(ScreenTypeEnum.Notification.value)
