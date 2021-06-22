@@ -16,7 +16,8 @@ data class NotificationsData(
 data class NotificationItemData(
     var description: String?,
     var isNew: Boolean?,
-    var showMore: Boolean?=false,
+    var showMore: Boolean? = false,
+    var visibilityOfShowMore: Boolean? = false,
     var message: String?,
     var notificationId: Int?,
     var notificationKey: String?

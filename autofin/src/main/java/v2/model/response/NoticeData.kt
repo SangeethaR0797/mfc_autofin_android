@@ -9,5 +9,6 @@ data class NoticeData(
     var messageKey: String?,
     var noticeBoardId: Int?,
     var text: String?,
-    var showMore: Boolean?=false
+    var showMore: Boolean?=false,
+    var visibilityOfShowMore: Boolean?=false
 )

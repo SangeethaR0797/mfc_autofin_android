@@ -2,6 +2,7 @@ package v2.view.adapter
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,6 +73,28 @@ class NotificationRecyclerViewAdapter(
             }
 
             itemCallBack.itemClick(dataListFilter?.get(position), position)
+        })
+
+        holder.tvShowMore.post(Runnable {
+            if (dataListFilter?.get(position)!!.visibilityOfShowMore == null) {
+                val l: Layout = holder.tvItemSmall.getLayout()
+                if (l != null) {
+                    val lines: Int = l.lineCount
+                    if (lines > 0) {
+                        if (l.getEllipsisCount(lines - 1) > 0) {
+                            dataListFilter?.get(position)!!.visibilityOfShowMore = true
+                        } else {
+                            dataListFilter?.get(position)!!.visibilityOfShowMore
+                        }
+                    }
+                }
+            }
+
+            if (dataListFilter?.get(position)!!.visibilityOfShowMore == true) {
+                holder.tvShowMore.visibility = View.VISIBLE
+            } else {
+                holder.tvShowMore.visibility = View.GONE
+            }
         })
 
 
