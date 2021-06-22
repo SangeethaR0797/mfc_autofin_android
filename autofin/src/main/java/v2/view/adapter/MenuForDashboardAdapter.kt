@@ -9,6 +9,7 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
 import v2.model.dto.MenuDTO
+import v2.model.enum_class.MenuEnum
 import v2.view.callBackInterface.itemClickCallBack
 
 class MenuForDashboardAdapter(
@@ -34,14 +35,21 @@ class MenuForDashboardAdapter(
 
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-
-        holder.tvCount.text = dataListFilter!![position].total.toString()
+        if (dataListFilter!![position].menuCode.equals(MenuEnum.Add_New.value)) {
+            holder.tvCount.text = " ";
+        } else {
+            if (dataListFilter!![position].total < 10) {
+                holder.tvCount.text = "0" + dataListFilter!![position].total.toString()
+            } else {
+                holder.tvCount.text = dataListFilter!![position].total.toString()
+            }
+        }
 
         holder.tvMenuName.text = dataListFilter?.get(position)?.menuName
 
         if (dataListFilter?.get(position)?.amount != null && dataListFilter?.get(position)?.amount!!.toInt() > 0) {
             holder.tvAmount.visibility = View.VISIBLE
-            holder.tvAmount.text ="₹"+ dataListFilter?.get(position)?.amount
+            holder.tvAmount.text = "₹" + dataListFilter?.get(position)?.amount
         } else {
             holder.tvAmount.visibility = View.GONE
         }
