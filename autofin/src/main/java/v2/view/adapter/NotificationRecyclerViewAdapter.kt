@@ -34,8 +34,8 @@ class NotificationRecyclerViewAdapter(var context: Activity, var dataListValue: 
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.tvItem.text = dataListFilter!![position].message
-        holder.tvItemSmall.text = dataListFilter?.get(position)?.description
+        holder.tvItem.text = dataListFilter!![position].message!!.replace("  ", " ")!!.toString()
+        holder.tvItemSmall.text = dataListFilter?.get(position)?.description!!.replace("  ", " ")!!.toString()
 
         holder.llMainLayout.setOnClickListener(View.OnClickListener {
             itemCallBack.itemClick(dataListFilter?.get(position), position)

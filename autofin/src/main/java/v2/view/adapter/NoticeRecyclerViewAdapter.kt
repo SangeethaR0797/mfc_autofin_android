@@ -13,7 +13,11 @@ import v2.model.response.NoticeData
 
 import v2.view.callBackInterface.itemClickCallBack
 
-class NoticeRecyclerViewAdapter(var context: Activity, var dataListValue: List<NoticeData>?, itemClick: itemClickCallBack?) : RecyclerView.Adapter<NoticeRecyclerViewAdapter.MyViewHolder>(), Filterable {
+class NoticeRecyclerViewAdapter(
+    var context: Activity,
+    var dataListValue: List<NoticeData>?,
+    itemClick: itemClickCallBack?
+) : RecyclerView.Adapter<NoticeRecyclerViewAdapter.MyViewHolder>(), Filterable {
 
     public var dataListFilter: List<NoticeData>?
     private var itemCallBack: itemClickCallBack = itemClick!!
@@ -33,13 +37,12 @@ class NoticeRecyclerViewAdapter(var context: Activity, var dataListValue: List<N
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.tvItem.text = dataListFilter!![position].text
-        holder.tvItemSmall.text = dataListFilter?.get(position)?.description
+        holder.tvItem.text = dataListFilter!![position].text!!.replace("  ", " ")!!.toString()
+        holder.tvItemSmall.text = dataListFilter?.get(position)?.description!!.replace("  ", " ")!!.toString()
 
         holder.llMainLayout.setOnClickListener(View.OnClickListener {
             itemCallBack.itemClick(dataListFilter?.get(position), position)
         })
-
 
 
     }
@@ -74,7 +77,9 @@ class NoticeRecyclerViewAdapter(var context: Activity, var dataListValue: List<N
                 } else {
                     val resultList = ArrayList<NoticeData>()
                     for (row in dataListValue!!) {
-                        if (row.text.toString().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        if (row.text.toString().toLowerCase()
+                                .contains(constraint.toString().toLowerCase())
+                        ) {
                             resultList.add(row)
                         }
                     }
