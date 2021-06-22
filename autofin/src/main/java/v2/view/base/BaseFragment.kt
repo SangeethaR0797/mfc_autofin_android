@@ -445,9 +445,9 @@ public open class BaseFragment : Fragment() {
         }
     }
 
-    public fun navigateApplicationListFragment(screenType: String) {
+    public fun navigateApplicationListFragment(screenType: String,screenStatus:String?) {
         val directions =
-            DashboardFragmentDirections.actionApplicationListFragment(screenType!!)
+            DashboardFragmentDirections.actionApplicationListFragment(screenType!!,screenStatus)
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }

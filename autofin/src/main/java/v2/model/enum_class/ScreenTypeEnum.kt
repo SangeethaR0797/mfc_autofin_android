@@ -2,6 +2,7 @@ package v2.model.enum_class
 
 enum class ScreenTypeEnum(val value: String) {
     Search("Search"),
+    StausWithSearch("StausWithSearch"),
     Notification("Notification"),
     Notice_Board("Notice Board"),
     Registered("Registered"),

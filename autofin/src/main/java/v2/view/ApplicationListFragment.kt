@@ -64,6 +64,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
     lateinit var tvSearchResult: TextView
 
     lateinit var screenType: String
+    var screenStatus: String? = null
     var rootView: View? = null
     lateinit var transactionViewModel: TransactionViewModel
 
@@ -112,6 +113,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
             arguments?.let {
                 val safeArgs = ApplicationListFragmentArgs.fromBundle(it)
                 screenType = safeArgs.screenType
+                screenStatus = safeArgs.screenStatus
             }
             initializationOfObject()
         }
@@ -141,7 +143,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         llData.visibility = View.GONE
         llProgress.visibility = View.GONE
 
-        tvTitle.text = screenType
+
 
         ivBack.setOnClickListener(this)
         ivNotification.setOnClickListener(this)
@@ -150,13 +152,19 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
         if (screenType.equals(ScreenTypeEnum.Search.value)) {
             ivSearch.visibility = View.GONE
-
+            tvTitle.text = "Search"
+        } else if (screenType.equals(ScreenTypeEnum.StausWithSearch.value)
+        ) {
+            ivSearch.visibility = View.GONE
+            tvTitle.text = screenStatus
+            callApplicationStatusWiseFilterAPI(null)
         } else {
+            tvTitle.text = screenStatus
             rvData.setPadding(0, llData.marginLeft, 0, 0)
             ivNotification.visibility = View.GONE
             llSearchSection.visibility = View.GONE
             viewEmptyBlack.visibility = View.GONE
-            callApplicationStatusWiseFilterAPI()
+            callApplicationStatusWiseFilterAPI(null)
         }
         setTextChangeOfetAutoResidenceCity()
     }
@@ -171,7 +179,10 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                     navigateNoticeBoardAndNotificationFragment(ScreenTypeEnum.Notification.value)
                 }
                 R.id.iv_search -> {
-                    navigateApplicationListFragment(ScreenTypeEnum.Search.value)
+                    navigateApplicationListFragment(
+                        ScreenTypeEnum.StausWithSearch.value,
+                        screenStatus
+                    )
 
                 }
                 R.id.ll_search -> {
@@ -216,7 +227,12 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                                     //call Search
                                     if (!TextUtils.isEmpty(etSearch.text.toString())) {
                                         PAGE_NUMBER = 0
-                                        callSearchAPI()
+                                        if (screenType.equals(ScreenTypeEnum.Search.value)) {
+                                            callSearchAPI()
+                                        } else {
+                                            callApplicationStatusWiseFilterAPI(etSearch.text.toString())
+                                        }
+
                                     }
                                 });
 
@@ -257,13 +273,13 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         )
     }
 
-    private fun callApplicationStatusWiseFilterAPI() {
+    private fun callApplicationStatusWiseFilterAPI(searchKey: String?) {
         PAGE_NUMBER = PAGE_NUMBER + 1
         transactionViewModel.getApplicationList(
             ApplicationListRequest(
                 ApplicationListRequestData(
-                    null,
-                    screenType,
+                    searchKey,
+                    screenStatus,
                     null,
                     PAGE_NUMBER,
                     PER_PAGE
@@ -484,7 +500,11 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                         if (screenType.equals(ScreenTypeEnum.Search.value)) {
                             callSearchAPI()
                         } else {
-                            callApplicationStatusWiseFilterAPI()
+                            if (TextUtils.isEmpty(etSearch.text.toString())) {
+                                callApplicationStatusWiseFilterAPI(null)
+                            } else {
+                                callApplicationStatusWiseFilterAPI(etSearch.text.toString())
+                            }
                         }
                     }
                 }

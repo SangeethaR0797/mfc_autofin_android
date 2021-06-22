@@ -472,7 +472,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     }
 
     fun openSearchFragment() {
-        navigateApplicationListFragment(ScreenTypeEnum.Search.value)
+        navigateApplicationListFragment(ScreenTypeEnum.Search.value,null)
     }
 
 
@@ -481,19 +481,19 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         when (menuCode) {
 
             MenuEnum.Registered.value -> {
-                navigateApplicationListFragment(ScreenTypeEnum.Registered.value)
+                navigateApplicationListFragment(ScreenTypeEnum.Registered.value,ScreenTypeEnum.Registered.value)
             }
             MenuEnum.Soft_offer.value -> {
-                navigateApplicationListFragment(ScreenTypeEnum.SoftOffer.value)
+                navigateApplicationListFragment(ScreenTypeEnum.SoftOffer.value,ScreenTypeEnum.SoftOffer.value)
             }
             MenuEnum.Logged_In.value -> {
-                navigateApplicationListFragment(ScreenTypeEnum.LoggedIn.value)
+                navigateApplicationListFragment(ScreenTypeEnum.LoggedIn.value,ScreenTypeEnum.LoggedIn.value)
             }
             MenuEnum.Approved.value -> {
-                navigateApplicationListFragment(ScreenTypeEnum.Approved.value)
+                navigateApplicationListFragment(ScreenTypeEnum.Approved.value,ScreenTypeEnum.Approved.value)
             }
             MenuEnum.Disbursed.value -> {
-                navigateApplicationListFragment(ScreenTypeEnum.Disbursed.value)
+                navigateApplicationListFragment(ScreenTypeEnum.Disbursed.value,ScreenTypeEnum.Disbursed.value)
             }
             MenuEnum.Add_New.value -> {
                 navigateFromDashBoard(R.id.vehicleSelectionFrag2)

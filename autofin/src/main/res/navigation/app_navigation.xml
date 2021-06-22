@@ -208,6 +208,10 @@
         <argument
             android:name="screenType"
             app:argType="string" />
+        <argument
+            android:name="screenStatus"
+            app:argType="string"
+            app:nullable="true" />
         <action
             android:id="@+id/action_noticeBoardAndNotificationFragment"
             app:destination="@id/noticeBoardAndNotificationFragment" />
