@@ -140,7 +140,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
     private fun getUploadKYCRequest(): KYCDocumentUploadDataRequest {
         val docList: ArrayList<KYCUploadDocs> = ArrayList<KYCUploadDocs>(documentHashMap.values)
-        val kycUploadDocumentData = KYCUploadDocumentData(customerId.toInt(), caseId, docList)
+        val kycUploadDocumentData = KYCUploadDocumentData(customerId.toInt(),caseId, docList)
         val kycDocumentUploadDataRequest = KYCDocumentUploadDataRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, kycUploadDocumentData)
         return kycDocumentUploadDataRequest
     }
@@ -191,7 +191,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             tile1APIKey = tileData1.docs[0].apiKey
             tile1ImageName = textViewTitle.text.toString().trim()
         } else {
-            textViewTitle.text = tileData1.groupName
+            setMandatoryTitle(textViewTitle,tileData1.groupName)
             textViewImageDescription.text = tileData1.description
         }
 
@@ -262,7 +262,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                 tile2APIKey = tileData2.docs[0].apiKey
                 tile2ImageName = textViewTitle2.text.toString().trim()
             } else {
-                textViewTitle2.text = tileData2.groupName
+                setMandatoryTitle(textViewTitle2,tileData2.groupName)
                 textViewImageDescription2.text = tileData2.description
             }
 
@@ -514,6 +514,23 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     override fun onFailure(call: Call<Any>, t: Throwable) {
         hideProgressDialog()
         t.printStackTrace()
+    }
+
+    private fun setMandatoryTitle(textView:TextView,titleText:String)
+    {
+        val text = "$titleText "
+        val colored = getString(R.string.lbl_asterick)
+        val builder = SpannableStringBuilder()
+
+        builder.append(text)
+        val start = builder.length
+        builder.append(colored)
+        val end = builder.length
+
+        builder.setSpan(ForegroundColorSpan(Color.RED), start, end,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        textView.text = builder
     }
 
     private fun isGroupedDocFilled(): Boolean {

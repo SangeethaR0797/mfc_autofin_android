@@ -164,7 +164,7 @@ class FinalOTPFragment : BaseFragment() {
                 val otpRes: OTPResponse? =
                         mApiResponse.data as OTPResponse?
 
-                showToast(otpRes?.message.toString())
+                showToast("Something went wrong ")
             }
             else -> {
                 hideProgressDialog()

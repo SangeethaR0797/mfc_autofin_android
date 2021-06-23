@@ -118,6 +118,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
             val safeArgs = AddressAndAdditionalFieldsFragmentArgs.fromBundle(it)
             customerId = safeArgs.customerID.toString()
             customerDetailsResponse = safeArgs.customerDetailsResponse
+            caseID=customerDetailsResponse.data?.caseId.toString()
 
         }
 
