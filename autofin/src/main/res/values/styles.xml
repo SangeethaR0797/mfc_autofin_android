@@ -224,4 +224,18 @@
          <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <style name="v2_next_button_style">android:layout_gravity="center"
+        <item name="android:layout_marginTop">38dp</item>
+        <item name="android:layout_marginBottom">38dp</item>
+        <item name="android:paddingLeft">85dp</item>
+        <item name="android:paddingRight">85dp</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingBottom">13dp</item>
+        <item name="android:text">@string/next</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+        <item name="android:textAppearance">@style/RobotoMedium</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
 </resources>

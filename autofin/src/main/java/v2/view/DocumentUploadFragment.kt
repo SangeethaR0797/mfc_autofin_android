@@ -9,9 +9,13 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -99,30 +103,44 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         linearLayoutImageUpload = view?.findViewById(R.id.linearLayoutImageUpload)!!
         buttonUploadDocument = view.findViewById(R.id.buttonUploadDocument)!!
 
-        if (kycDocumentData.nonGroupedDoc.isNotEmpty())
-            addNonGroupedDocDataToCommonList()
+        if(commonList.isEmpty())
+        {
+            if (kycDocumentData.nonGroupedDoc.isNotEmpty())
+                addNonGroupedDocDataToCommonList()
 
-        if (kycDocumentData.groupedDoc.isNotEmpty())
-            addGroupedDocDataToCommonList()
+            if (kycDocumentData.groupedDoc.isNotEmpty())
+                addGroupedDocDataToCommonList()
+
+        }
 
         ivBackToRedDetails.setOnClickListener(View.OnClickListener {
             activity?.onBackPressed()
         })
 
         buttonUploadDocument.setOnClickListener(View.OnClickListener {
-            if (totalListSize == documentHashMap.size) {
-                showProgressDialog(requireActivity())
-                retrofitInterface.getFromWeb(getUploadKYCRequest(), CommonStrings.UPLOAD_KYC_DOC_URL_V2).enqueue(this)
-            } else {
-                showToast("Attach all the documents")
+            if (kycDocumentData.groupedDoc.isNotEmpty())
+            {
+                if(isGroupedDocFilled())
+                {
+                    showProgressDialog(requireActivity())
+                    retrofitInterface.getFromWeb(getUploadKYCRequest(), CommonStrings.UPLOAD_KYC_DOC_URL_V2).enqueue(this)
+                }
+                else {
+                    showToast("Attach anyone document for each Mandatory each document group")
+                }
+            }
+            else
+            {
+                navigateToBankOfferStatus(customerId, customerDetailsResponse, "DocUpload")
             }
         })
         generateDocumentTileUI()
     }
 
+
     private fun getUploadKYCRequest(): KYCDocumentUploadDataRequest {
         val docList: ArrayList<KYCUploadDocs> = ArrayList<KYCUploadDocs>(documentHashMap.values)
-        val kycUploadDocumentData = KYCUploadDocumentData(customerId.toInt(), caseId, docList)
+        val kycUploadDocumentData = KYCUploadDocumentData(customerId.toInt(),caseId, docList)
         val kycDocumentUploadDataRequest = KYCDocumentUploadDataRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, kycUploadDocumentData)
         return kycDocumentUploadDataRequest
     }
@@ -130,7 +148,6 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     private fun addNonGroupedDocDataToCommonList() {
         for (index in kycDocumentData.nonGroupedDoc.indices) {
             commonList.add(v2.model.response.master.GroupedDoc("", "", listOf(kycDocumentData.nonGroupedDoc[index])))
-            totalListSize++
         }
     }
 
@@ -174,9 +191,12 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             tile1APIKey = tileData1.docs[0].apiKey
             tile1ImageName = textViewTitle.text.toString().trim()
         } else {
-            textViewTitle.text = tileData1.groupName
+            setMandatoryTitle(textViewTitle,tileData1.groupName)
             textViewImageDescription.text = tileData1.description
         }
+
+        if(documentHashMap.keys.contains(tile1APIKey))
+            setFileAttachedText(textViewAttachmentStatus)
 
         imageViewGallery.setOnClickListener(View.OnClickListener {
             currentTextView = textViewAttachmentStatus
@@ -235,15 +255,19 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             val imageViewCamera2: ImageView = columnView2.findViewById(R.id.imageViewCamera)
             val textViewAttachmentStatus2: TextView = columnView2.findViewById(R.id.textViewAttachmentStatus)
             currentTextView = textViewAttachmentStatus2
+
             if (!isTile2IsGrouped) {
                 textViewTitle2.text = tileData2.docs[0].displayLabel
                 textViewImageDescription2.text = tileData2.docs[0].description
-                tile1APIKey = tileData2.docs[0].apiKey
-                tile1ImageName = textViewTitle2.text.toString().trim()
+                tile2APIKey = tileData2.docs[0].apiKey
+                tile2ImageName = textViewTitle2.text.toString().trim()
             } else {
-                textViewTitle2.text = tileData1.groupName
-                textViewImageDescription2.text = tileData1.description
+                setMandatoryTitle(textViewTitle2,tileData2.groupName)
+                textViewImageDescription2.text = tileData2.description
             }
+
+            if(documentHashMap.keys.contains(tile2APIKey))
+                setFileAttachedText(textViewAttachmentStatus2)
 
             imageViewGallery2.setOnClickListener(View.OnClickListener {
                 if (isTile2IsGrouped) {
@@ -456,18 +480,22 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             val document = KYCUploadDocs(key, imageurl.toString())
             documentHashMap[key] = document
             Log.i("TAG", "onImageUploadCompleted: " + documentHashMap[key]?.Key)
-            currentTextView.text = "File attached"
-            currentTextView.setTextColor(resources.getColor(R.color.v2_green))
-            currentTextView.compoundDrawablePadding = 10
-            val img = resources.getDrawable(R.drawable.ic_green_tick)
-            img.setBounds(0, 0, 30, 30)
-            currentTextView.setCompoundDrawables(img, null, null, null)
+            setFileAttachedText(currentTextView)
             currentImageName = ""
             currentImageKey = ""
         } else {
-            showToast("Please attach image again")
+            showToast("Please attach again")
         }
 
+    }
+
+    private fun setFileAttachedText(textView:TextView) {
+        textView.text = "File attached"
+        textView.setTextColor(resources.getColor(R.color.v2_green))
+        textView.compoundDrawablePadding = 10
+        val img = resources.getDrawable(R.drawable.ic_green_tick)
+        img.setBounds(0, 0, 30, 30)
+        textView.setCompoundDrawables(img, null, null, null)
     }
 
     override fun onResponse(call: Call<Any>, response: Response<Any>) {
@@ -487,5 +515,47 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         hideProgressDialog()
         t.printStackTrace()
     }
+
+    private fun setMandatoryTitle(textView:TextView,titleText:String)
+    {
+        val text = "$titleText "
+        val colored = getString(R.string.lbl_asterick)
+        val builder = SpannableStringBuilder()
+
+        builder.append(text)
+        val start = builder.length
+        builder.append(colored)
+        val end = builder.length
+
+        builder.setSpan(ForegroundColorSpan(Color.RED), start, end,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        textView.text = builder
+    }
+
+    private fun isGroupedDocFilled(): Boolean {
+        var docFilled=false
+        var docCount=0
+        var docMap=HashMap<String,String>()
+
+        if(documentHashMap.size>=kycDocumentData.groupedDoc.size)
+        {
+            for(index in kycDocumentData.groupedDoc.indices)
+            {
+                val docList= kycDocumentData.groupedDoc[index].docs
+                for (docIndex in docList.indices)
+                {
+
+                    if(documentHashMap.containsKey(docList[docIndex].apiKey))
+                    {
+                        docMap[kycDocumentData.groupedDoc[index].groupName] = docList[docIndex].apiKey
+                    }
+                }
+
+            }
+        }
+        return docMap.size==kycDocumentData.groupedDoc.size
+    }
+
 
 }
