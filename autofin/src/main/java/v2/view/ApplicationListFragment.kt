@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
 import androidx.core.view.marginLeft
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
@@ -25,6 +27,7 @@ import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
 import v2.model.dto.AddLeadRequest
+import v2.model.dto.CustomLoanProcessCompletedData
 import v2.model.enum_class.ApplicationStatusEnum
 import v2.model.enum_class.ScreenTypeEnum
 import v2.model.request.ApplicationListRequest
@@ -37,6 +40,8 @@ import v2.model.request.add_lead.BasicDetails
 import v2.model.response.ApplicationDataItems
 import v2.model.response.ApplicationListResponse
 import v2.model.response.CustomerDetailsResponse
+import v2.model.response.master.KYCDocumentResponse
+import v2.model_view.MasterViewModel
 import v2.model_view.TransactionViewModel
 import v2.service.utility.ApiResponse
 import v2.view.adapter.ApplicationListAdapter
@@ -62,11 +67,14 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
     lateinit var viewEmptyBlack: View
     lateinit var etSearch: EditText
     lateinit var tvSearchResult: TextView
+    lateinit var cust:CustomerDetailsResponse
 
     lateinit var screenType: String
     var screenStatus: String? = null
     var rootView: View? = null
     lateinit var transactionViewModel: TransactionViewModel
+    lateinit var masterViewModel: MasterViewModel
+
 
     var PER_PAGE: Int = 10
     var PAGE_NUMBER: Int = 0
@@ -82,6 +90,8 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
             TransactionViewModel::class.java
         )
 
+        masterViewModel=ViewModelProvider(this).get(MasterViewModel::class.java)
+
         transactionViewModel.getApplicationListLiveData()
             .observe(requireActivity(), { mApiResponse: ApiResponse? ->
                 onApplicationList(
@@ -94,7 +104,13 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                     mApiResponse!!
                 )
             })
+
+        masterViewModel.getKYCDocumentLiveData().observe(requireActivity()) { mApiResponse: ApiResponse? ->
+            onGetKYCDocumentResponse(mApiResponse!!)
+        }
+
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -422,7 +438,28 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 customerResponse.data!!.basicDetails!!.customerMobile
             )
         } else {
-            navToSoftOffer(customerResponse, selectedCustomerId.toString())
+            when (customerResponse.data?.status) {
+                getString(R.string.v2_lead_status_kyc_done) -> {
+                    navToSoftOffer(customerResponse, selectedCustomerId.toString(),CommonStrings.APPLICATION_LIST_FRAGMENT_TAG)
+                }
+                getString(R.string.v2_lead_status_lender_selected) -> {
+                    navigateToAddressAdditionalFields(selectedCustomerId, customerResponse)
+                }
+                getString(R.string.v2_lead_status_bank_form_filled) -> {
+                    cust=customerResponse
+                    masterViewModel.getKYCDocumentResponse(Global.baseURL + CommonStrings.KYC_UPLOAD_URL_END_POINT + selectedCustomerId)
+                }
+                getString(R.string.v2_lead_status_document_upload) -> {
+                    navigateToBankOfferStatusFromApplicationListFrag(selectedCustomerId, customerResponse)
+                }
+                getString(R.string.v2_lead_status_submitted_to_bank) -> {
+                    val salutation = customerResponse.data?.basicDetails?.salutation
+                    val name = customerResponse.data?.basicDetails?.firstName + " " + customerResponse.data?.basicDetails?.lastName
+                    val caseId = customerResponse.data?.caseId
+                    caseId?.let { CustomLoanProcessCompletedData(salutation + " " + name, it) }?.let { navigateToBankSuccessPageFromSoftOffer(it) }
+                }
+            }
+
         }
 
     }
@@ -484,6 +521,36 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
     }
 
+    private fun onGetKYCDocumentResponse(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+
+                val kycDocumentRes: KYCDocumentResponse = mApiResponse.data as KYCDocumentResponse
+                if (kycDocumentRes.statusCode == "100") {
+                    if (kycDocumentRes.data.groupedDoc.isNotEmpty() || kycDocumentRes.data.nonGroupedDoc.isNotEmpty())
+                        cust.data?.caseId?.let { navigateToKYCDocumentUploadFromApplicationList(selectedCustomerId.toString(), kycDocumentRes, it,cust) }
+                    else if (kycDocumentRes.data.groupedDoc.isEmpty() && kycDocumentRes.data.nonGroupedDoc.isEmpty())
+                        navigateToBankOfferStatusFromApplicationListFrag(selectedCustomerId, cust)
+                } else {
+                    navigateToBankOfferStatusFromApplicationListFrag(selectedCustomerId, cust)
+                }
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+                Log.i("SoftOfferFragment", ": " + ApiResponse.Status.ERROR)
+
+            }
+            else -> {
+                Log.i("SoftOfferFragment", ": ")
+            }
+        }
+    }
+
 
 //endregion Observer
 
@@ -495,12 +562,12 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val visibleItemCount: Int = layoutManager!!.getChildCount()
-                val totalItemCount: Int = layoutManager!!.getItemCount()
+                val visibleItemCount: Int = layoutManager!!.childCount
+                val totalItemCount: Int = layoutManager!!.itemCount
                 val firstVisibleItemPosition: Int = layoutManager!!.findFirstVisibleItemPosition()
                 if (!isLoading && applicationListAdapter.itemCount < TOTAL) {
                     if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0 && totalItemCount >= PAGE_SIZE) {
-                        if (screenType.equals(ScreenTypeEnum.Search.value)) {
+                        if (screenType == ScreenTypeEnum.Search.value) {
                             callSearchAPI()
                         } else {
                             if (TextUtils.isEmpty(etSearch.text.toString())) {

@@ -655,7 +655,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             addResidentDetailsRequest.hashCode()
                 .equals(previousAddResidentDetailsRequest.hashCode())
         ) {
-            navToSoftOffer(customerDetailsResponse, customerId)
+            navToSoftOffer(customerDetailsResponse, customerId,CommonStrings.ADD_LEAD_FRAGMENT_TAG)
         }
     }
 

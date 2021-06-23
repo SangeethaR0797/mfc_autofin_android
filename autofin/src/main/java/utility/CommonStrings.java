@@ -203,4 +203,9 @@ public class CommonStrings {
     public static final String SEARCH_APPLICATION_END_POINT="filter";
     public static final String APPLICATION_STATUS_WISE_FILTER_END_POINT="filter-by-status";
     public static final String GET_EMI_AMOUNT_END_POINT="emi-calculator";
+    public static final String ADD_LEAD_FRAGMENT_TAG="ADD_LEAD_FRAGMENT";
+    public static final String SOFT_OFFER_FRAGMENT_TAG="SOFT_OFFER_FRAGMENT";
+    public static final String APPLICATION_LIST_FRAGMENT_TAG="APPLICATION_LIST_FRAGMENT";
+    public static final String APPLICATION_LEADS_FRAGMENT_TAG="APPLICATION_LEADS_FRAGMENT";
+
 }

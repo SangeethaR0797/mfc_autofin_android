@@ -291,7 +291,7 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                 customerResponse!!.data!!.basicDetails!!.customerMobile
             )
         } else {
-            navToSoftOffer(customerResponse!!, customerId)
+            navToSoftOffer(customerResponse!!, customerId,CommonStrings.APPLICATION_LEADS_FRAGMENT_TAG)
         }
 
     }

@@ -108,6 +108,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
     lateinit var submitAdditionalFieldsViewModel: TransactionViewModel
     lateinit var kycDocumentViewModel: MasterViewModel
     lateinit var customerDetailsResponse: CustomerDetailsResponse
+    lateinit var ivBackFromAddressAndAdditionalFields:ImageView
 
     var handler: Handler = Handler()
 
@@ -203,7 +204,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         linearLayoutAddNewPermanentAddress = view.findViewById(R.id.linearLayoutAddNewPermanentAddress)
         linearLayoutEditPermanentAddress = view.findViewById(R.id.linearLayoutEditPermanentAddress)
         linearLayoutAdditionalFieldsUILayout = view.findViewById(R.id.linearLayoutAdditionalFieldsUILayout)
-
+        ivBackFromAddressAndAdditionalFields=view.findViewById(R.id.ivBackFromAddressAndAdditionalFields)
         imageViewEditCurrentAddress = view.findViewById(R.id.imageViewEditCurrentAddress)
         imageViewEditPermanentAddress = view.findViewById(R.id.imageViewEditPermanentAddress)
 
@@ -220,7 +221,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
 
         textViewSelectBankLabel.text = "You have selected " + customerDetailsResponse.data?.loanDetails?.bankName + " bank"
-
+        ivBackFromAddressAndAdditionalFields.setOnClickListener(this)
         imageViewEditCurrentAddress.setOnClickListener(this)
         imageViewEditPermanentAddress.setOnClickListener(this)
 
@@ -1423,6 +1424,10 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
     override fun onClick(v: View?) {
         when (v?.id) {
+            R.id.ivBackFromAddressAndAdditionalFields->
+            {
+                activity?.onBackPressed()
+            }
             R.id.imageViewEditCurrentAddress -> {
                 linearLayoutEditCurrentAddress.visibility = View.GONE
                 linearLayoutAddNewCurrentAddress.visibility = View.VISIBLE
