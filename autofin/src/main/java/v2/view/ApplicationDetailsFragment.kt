@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import android.widget.*
 import android.widget.TextView.OnEditorActionListener
 import androidx.core.view.marginLeft
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
@@ -22,6 +24,7 @@ import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
 import v2.model.dto.AddLeadRequest
+import v2.model.dto.CustomLoanProcessCompletedData
 import v2.model.dto.DataSelectionDTO
 import v2.model.dto.KeyValueDTO
 import v2.model.enum_class.ApplicationStatusEnum
@@ -36,6 +39,8 @@ import v2.model.request.add_lead.BasicDetails
 import v2.model.response.ApplicationDataItems
 import v2.model.response.ApplicationListResponse
 import v2.model.response.CustomerDetailsResponse
+import v2.model.response.master.KYCDocumentResponse
+import v2.model_view.MasterViewModel
 import v2.model_view.TransactionViewModel
 import v2.service.utility.ApiResponse
 import v2.view.adapter.ApplicationListAdapter
@@ -60,14 +65,17 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
     lateinit var rlCall: RelativeLayout
     lateinit var btnComplete: Button
     lateinit var transactionViewModel: TransactionViewModel
+    lateinit var masterViewModel: MasterViewModel
 
     var rootView: View? = null
     var customerResponse: CustomerDetailsResponse? = null
+    lateinit var cust: CustomerDetailsResponse
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         transactionViewModel = ViewModelProvider(this).get(
             TransactionViewModel::class.java
         )
+        masterViewModel = ViewModelProvider(this).get(MasterViewModel::class.java)
 
 
         transactionViewModel.getCustomerDetailsLiveData()
@@ -76,6 +84,12 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     mApiResponse!!
                 )
             })
+
+        masterViewModel.getKYCDocumentLiveData()
+            .observe(requireActivity()) { mApiResponse: ApiResponse? ->
+                onGetKYCDocumentResponse(mApiResponse!!)
+            }
+
 
     }
 
@@ -291,7 +305,36 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                 customerResponse!!.data!!.basicDetails!!.customerMobile
             )
         } else {
-            navToSoftOffer(customerResponse!!, customerId,CommonStrings.APPLICATION_LEADS_FRAGMENT_TAG)
+            when (customerResponse!!.data?.status) {
+                getString(R.string.v2_lead_status_kyc_done) -> {
+                    navToSoftOffer(
+                        customerResponse!!,
+                        customerId.toString(),
+                        CommonStrings.APPLICATION_LIST_FRAGMENT_TAG
+                    )
+                }
+                getString(R.string.v2_lead_status_lender_selected) -> {
+                    navigateToAddressAdditionalFields(customerId.toInt(), customerResponse!!)
+                }
+                getString(R.string.v2_lead_status_bank_form_filled) -> {
+                    cust = customerResponse!!
+                    masterViewModel.getKYCDocumentResponse(Global.baseURL + CommonStrings.KYC_UPLOAD_URL_END_POINT + customerId)
+                }
+                getString(R.string.v2_lead_status_document_upload) -> {
+                    navigateToBankOfferStatusFromApplicationListFrag(
+                        customerId.toInt(),
+                        customerResponse!!
+                    )
+                }
+                getString(R.string.v2_lead_status_submitted_to_bank) -> {
+                    val salutation = customerResponse!!.data?.basicDetails?.salutation
+                    val name =
+                        customerResponse!!.data?.basicDetails?.firstName + " " + customerResponse!!.data?.basicDetails?.lastName
+                    val caseId = customerResponse!!.data?.caseId
+                    caseId?.let { CustomLoanProcessCompletedData(salutation + " " + name, it) }
+                        ?.let { navigateToBankSuccessPageFromSoftOffer(it) }
+                }
+            }
         }
 
     }
@@ -326,6 +369,42 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
     }
 
 
+    private fun onGetKYCDocumentResponse(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+
+                val kycDocumentRes: KYCDocumentResponse = mApiResponse.data as KYCDocumentResponse
+                if (kycDocumentRes.statusCode == "100") {
+                    if (kycDocumentRes.data.groupedDoc.isNotEmpty() || kycDocumentRes.data.nonGroupedDoc.isNotEmpty())
+                        cust.data?.caseId?.let {
+                            navigateToKYCDocumentUploadFromApplicationList(
+                                customerId.toString(),
+                                kycDocumentRes,
+                                it,
+                                cust
+                            )
+                        }
+                    else if (kycDocumentRes.data.groupedDoc.isEmpty() && kycDocumentRes.data.nonGroupedDoc.isEmpty())
+                        navigateToBankOfferStatusFromApplicationListFrag(customerId.toInt(), cust)
+                } else {
+                    navigateToBankOfferStatusFromApplicationListFrag(customerId.toInt(), cust)
+                }
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+                Log.i("SoftOfferFragment", ": " + ApiResponse.Status.ERROR)
+
+            }
+            else -> {
+                Log.i("SoftOfferFragment", ": ")
+            }
+        }
+    }
     //endregion observer
 
 
