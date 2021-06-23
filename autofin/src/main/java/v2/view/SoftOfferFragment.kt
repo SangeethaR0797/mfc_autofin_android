@@ -364,7 +364,7 @@ class SoftOfferFragment : BaseFragment() {
 
                     } else {
 
-                        //textViewNoDataFound.visibility = View.VISIBLE
+                        textViewNoDataFound.visibility = View.VISIBLE
                         llBankOfferParent.setBackgroundResource(R.drawable.v2_soft_offer_bg)
                         llSoftOfferDialog.visibility = View.GONE
                         linearLayoutCalculation.visibility = View.VISIBLE
@@ -372,7 +372,7 @@ class SoftOfferFragment : BaseFragment() {
                         recyclerViewBankOffer.visibility = View.GONE
 
                         setData()
-                        showToast("No Bank Offers found!")
+                      //  showToast("No Bank Offers found!")
                         setFocusOnView(tvBankOfferTitleV2)
 
                     }

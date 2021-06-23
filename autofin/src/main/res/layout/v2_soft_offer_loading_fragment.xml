@@ -325,7 +325,7 @@
                     android:layout_marginTop="200dp"
                     android:layout_marginBottom="50dp"
                     android:text="No Bank Offers found"
-                    android:textColor="@color/vtwo_light_grey"
+                    android:textColor="@color/error_red"
                     android:textSize="@dimen/text_size_14sp"
                     android:textStyle="italic"
                     android:visibility="gone"
