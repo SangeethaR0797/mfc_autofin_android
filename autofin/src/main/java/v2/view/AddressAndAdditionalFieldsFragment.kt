@@ -57,6 +57,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
     lateinit var checkboxCurrentAndPermanentAddress: CheckBox
     lateinit var imageViewEditCurrentAddress: ImageView
     lateinit var imageViewEditPermanentAddress: ImageView
+    lateinit var currentSectionButton:Button
 
     lateinit var textViewSelectBankLabel: TextView
     lateinit var textViewCurrentAddress1: TextView
@@ -96,7 +97,6 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
     var delay: Long = 1000 // 1 seconds after user stops typing
 
     var last_text_edit: Long = 0
-
 
     lateinit var pinCodeViewModel: MasterViewModel
     lateinit var addressViewModel: TransactionViewModel
@@ -742,13 +742,27 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
             currentSectionLayout = generateEditSectionUI(sectionData)
         } else {
 
+
             if (sectionData.type == "Address" || isLastSection) {
+
+                if(currentFilledFieldData.isEmpty())
+                {
+                    if(mandatoryFieldsList.isEmpty())
+                    addMandatoryFieldsToMandatoryList(fieldList)
+                    else
+                    {
+                        mandatoryFieldsList.clear()
+                        addMandatoryFieldsToMandatoryList(fieldList)
+                    }
+
+                }
 
                 currentSectionLayout = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_address_parent_layout, linearLayoutAdditionalFieldsUILayout, false)
 
                 val linearLayout = currentSectionLayout.findViewById<LinearLayout>(R.id.linearLayoutCustomAddressSectionLayout)
 
                 val addressButton = currentSectionLayout.findViewById<Button>(R.id.buttonSubmitAddressDetails)
+                currentSectionButton=addressButton
 
                 if (sectionData.displayName) {
                     val currentSectionTitle: View = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_title_text_view, linearLayout, false)
@@ -757,19 +771,16 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                     linearLayout.addView(currentSectionTitle)
                 }
 
-
-                if (isAllMandatoryFieldsFilledInCurrentSection()) {
-                    addressButton.setBackgroundResource(R.drawable.vtwo_next_btn_bg)
-                }
-
                 addressButton.setOnClickListener(View.OnClickListener {
-                    if (currentFilledFieldData.size == fieldList.size) {
+                    if (isAllMandatoryFieldsFilledInCurrentSection()) {
                         if (sectionData.type == "Address" && !isLastSection) {
                             moveCurrentDetailsToMap(sectionData.sectionName)
                         } else {
                             submitAdditionalFieldsList.putAll(currentFilledFieldData)
                             val fieldList: ArrayList<FieldDetails> = ArrayList<FieldDetails>(submitAdditionalFieldsList.values)
                             sectionMap[sectionData.sectionName] = fieldList
+                            currentFilledFieldData.clear()
+                            mandatoryFieldsList.clear()
                             submitAdditionalFields()
                         }
                     } else {
@@ -781,6 +792,8 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                 generateFieldUI(sectionData.sectionName, linearLayout, fieldList, true)
 
             } else {
+                addMandatoryFieldsToMandatoryList(fieldList)
+
                 currentSectionLayout = LayoutInflater.from(fragView.context).inflate(R.layout.v2_custom_parent_layout, linearLayoutAdditionalFieldsUILayout, false)
                 val linearLayout = currentSectionLayout.findViewById<LinearLayout>(R.id.linearLayoutCustomParentLayout)
                 if (sectionData.displayName) {
@@ -795,13 +808,18 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         return currentSectionLayout
     }
 
-    private fun isAllMandatoryFieldsFilledInCurrentSection(): Boolean {
+    private fun addMandatoryFieldsToMandatoryList(fieldList: List<Fields>) {
 
-       /* for (index in mandatoryFieldsList.iterator())
-        {
-            if(currentFilledFieldData.containsKey(mandatoryFieldsList.get()))
-        }*/
-        return true
+       for(index in fieldList.indices)
+       {
+           if (fieldList[index].isMandatory)
+               mandatoryFieldsList[fieldList[index].apiDetails.apiKey] = "empty"
+       }
+
+    }
+
+    private fun isAllMandatoryFieldsFilledInCurrentSection(): Boolean {
+        return !mandatoryFieldsList.values.contains("empty")
     }
 
 
@@ -813,10 +831,6 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                 val isMandatoryField = fieldList[fieldIndex].isMandatory
                 val titleView: View = getTitleView(fieldTitleText, isMandatoryField)
                 linearLayout?.addView(titleView)
-            }
-
-            if (fieldList[fieldIndex].isMandatory) {
-                mandatoryFieldsList[fieldList[fieldIndex].apiDetails.apiKey] = sectionName
             }
             val fieldVal: Fields = fieldList[fieldIndex]
             val fieldView: View? = linearLayout?.let { getFieldView(sectionName, fieldVal, fieldList, fieldIndex == fieldList.size - 1, isLastSection, it) }
@@ -867,8 +881,6 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
                 // prefill
                 fieldInputValue.setText(isFieldFilled(fieldData.apiDetails.apiKey))
-
-
 
                 fieldInputValue.addTextChangedListener(object : TextWatcher {
                     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -923,61 +935,65 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                 fieldInput.text = isFieldFilled(fieldData.apiDetails.apiKey)
 
                 if (fieldData.apiDetails.apiKey == "CompanyState" || fieldData.apiDetails.apiKey == "CompanyCity") {
-                    setStateOrCityValue(sectionName, fieldData.apiDetails.apiKey, fieldInput, fieldData.apiDetails.url)
+                    setStateOrCityValue(sectionName, fieldData.apiDetails.apiKey, fieldInput, fieldData.isMandatory,fieldData.apiDetails.url)
                 }
 
                 val apiURL = fieldData.apiDetails.url
 
                 fieldInput.setOnClickListener(View.OnClickListener {
-                    RetroBase.retrofitInterface.getFromWeb(apiURL)?.enqueue(object : Callback<Any> {
-                        override fun onResponse(call: Call<Any>, response: Response<Any>) {
-                            val strRes = Gson().toJson(response.body())
-                            val dpRes = Gson().fromJson(strRes, APIDropDownResponse::class.java)
-                            if (dpRes != null && dpRes.status) {
-                                val optionList = dpRes.data.details
-                                if (optionList.isNotEmpty() && optionList.size == 1) {
-                                    if (listOf(optionList).any { true }) {
-                                        val details = Details(optionList[0].displayLabel, optionList[0].value)
-                                        fieldInput.text = details.displayLabel
-                                        if (isLastSection && isLastItem) {
-                                            val editTextString: String = details.value
-                                            val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
-                                            addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
-                                        } else {
-                                            validateInput(sectionName, fieldData.apiDetails.apiKey, details.value, isLastItem, "", fieldData.apiDetails.apiKey, details.displayLabel)
-                                        }
-                                    } else {
-                                        showToast("Something went wrong! Please try again!")
-                                    }
-                                } else if (optionList.isNotEmpty() && optionList.size > 1) {
-                                    showDropDownDialog(fieldData.apiDetails.url, fieldData.label, optionList, object : AdditionalFieldsDetailsInterface {
-                                        override fun returnDetails(details: Details) {
+                    if(fieldData.apiDetails.apiKey != "CompanyState" && fieldData.apiDetails.apiKey != "CompanyCity")
+                    {
+                        RetroBase.retrofitInterface.getFromWeb(apiURL)?.enqueue(object : Callback<Any> {
+                            override fun onResponse(call: Call<Any>, response: Response<Any>) {
+                                val strRes = Gson().toJson(response.body())
+                                val dpRes = Gson().fromJson(strRes, APIDropDownResponse::class.java)
+                                if (dpRes != null && dpRes.status) {
+                                    val optionList = dpRes.data.details
+                                    if (optionList.isNotEmpty() && optionList.size == 1) {
+                                        if (listOf(optionList).any { true }) {
+                                            val details = Details(optionList[0].displayLabel, optionList[0].value)
                                             fieldInput.text = details.displayLabel
                                             if (isLastSection && isLastItem) {
                                                 val editTextString: String = details.value
-
                                                 val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
-                                                addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
+                                                addToCurrentFilledFieldData(fieldData.apiDetails.apiKey,fieldData.isMandatory, currentFieldDetails, false, sectionName)
                                             } else {
-                                                validateInput(sectionName, fieldData.apiDetails.apiKey, details.value, isLastItem, "", fieldData.apiDetails.apiKey, details.displayLabel)
+                                                validateInput(sectionName, fieldData.apiDetails.apiKey, details.value,fieldData.isMandatory, isLastItem, "", fieldData.apiDetails.apiKey, details.displayLabel)
                                             }
-
+                                        } else {
+                                            showToast("Something went wrong! Please try again!")
                                         }
-                                    })
+                                    } else if (optionList.isNotEmpty() && optionList.size > 1) {
+                                        showDropDownDialog(fieldData.apiDetails.url, fieldData.label, optionList, object : AdditionalFieldsDetailsInterface {
+                                            override fun returnDetails(details: Details) {
+                                                fieldInput.text = details.displayLabel
+                                                if (isLastSection && isLastItem) {
+                                                    val editTextString: String = details.value
 
+                                                    val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
+                                                    addToCurrentFilledFieldData(fieldData.apiDetails.apiKey,fieldData.isMandatory, currentFieldDetails, false, sectionName)
+                                                } else {
+                                                    validateInput(sectionName, fieldData.apiDetails.apiKey, details.value,fieldData.isMandatory,isLastItem, "", fieldData.apiDetails.apiKey, details.displayLabel)
+                                                }
+
+                                            }
+                                        })
+
+                                    }
+
+                                } else {
+                                    showToast("Something went wrong! Please try again!")
                                 }
-
-                            } else {
-                                showToast("Something went wrong! Please try again!")
                             }
-                        }
 
-                        override fun onFailure(call: Call<Any>, t: Throwable) {
-                            t.printStackTrace()
-                        }
+                            override fun onFailure(call: Call<Any>, t: Throwable) {
+                                t.printStackTrace()
+                            }
 
-                    })
+                        })
 
+
+                    }
 
                 })
             }
@@ -1006,10 +1022,10 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                                                     if (isLastSection && isLastItem) {
 
                                                         val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, value, displayLabel)
-                                                        addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
+                                                        addToCurrentFilledFieldData(fieldData.apiDetails.apiKey,fieldData.isMandatory, currentFieldDetails, false, sectionName)
                                                     } else {
                                                         val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, value, displayLabel)
-                                                        addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, true, sectionName)
+                                                        addToCurrentFilledFieldData(fieldData.apiDetails.apiKey,fieldData.isMandatory, currentFieldDetails, true, sectionName)
                                                     }
 
                                                 } else {
@@ -1057,7 +1073,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                 val editTextString: String = fieldInputValue.text.toString()
                 if (editTextString.length == 6) {
                     additionaFieldPinCode = editTextString
-                    validateInput(sectionName, fieldData.apiDetails.apiKey, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, editTextString)
+                    validateInput(sectionName, fieldData.apiDetails.apiKey, editTextString,fieldData.isMandatory, isLastItem,fieldData.regexValidation, fieldData.apiDetails.apiKey, editTextString)
                     refreshFieldView(sectionName, linearLayout, cFieldList, isLastSection)
                 } else {
                     showToast("Enter valid Pincode")
@@ -1067,11 +1083,11 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
                 val editTextString: String = fieldInputValue.text.toString()
                 val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
-                addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, currentFieldDetails, false, sectionName)
+                addToCurrentFilledFieldData(fieldData.apiDetails.apiKey, fieldData.isMandatory,currentFieldDetails, false, sectionName)
 
             } else {
                 val editTextString: String = fieldInputValue.text.toString()
-                validateInput(sectionName, fieldData.apiDetails.apiKey, editTextString, isLastItem, fieldData.regexValidation, fieldData.apiDetails.apiKey, editTextString)
+                validateInput(sectionName, fieldData.apiDetails.apiKey, editTextString,fieldData.isMandatory, isLastItem,fieldData.regexValidation, fieldData.apiDetails.apiKey, editTextString)
             }
 
         } else
@@ -1079,7 +1095,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
     }
 
-    private fun setStateOrCityValue(sectionName: String, apiKey: String, fieldInput: TextView, url: String) {
+    private fun setStateOrCityValue(sectionName: String, apiKey: String, fieldInput: TextView, isMandatory:Boolean,url: String) {
         val apiURL = url + additionaFieldPinCode
         var textVal = ""
         RetroBase.retrofitInterface.getFromWeb(apiURL)?.enqueue(object : Callback<Any> {
@@ -1094,7 +1110,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                             fieldInput.text = details.displayLabel
                             textVal = fieldInput.text.toString()
                             val currentFieldDetails = FieldDetails(apiKey, details.value, details.displayLabel)
-                            addToCurrentFilledFieldData(apiKey, currentFieldDetails, false, sectionName)
+                            addToCurrentFilledFieldData(apiKey, isMandatory,currentFieldDetails, false, sectionName)
                         } else {
                             showToast("Something went wrong! Please try again!")
                         }
@@ -1110,7 +1126,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         })
     }
 
-    private fun validateInput(sectionName: String, fieldName: String, editTextVal: String, lastItem: Boolean, regexResponse: String?, apiKey: String, displayKey: String) {
+    private fun validateInput(sectionName: String, fieldName: String, editTextVal: String,isMandatory: Boolean, lastItem: Boolean, regexResponse: String?, apiKey: String, displayKey: String) {
         if (editTextVal.isNotEmpty()) {
 
             if (regexResponse != null && regexResponse.isNotEmpty()) {
@@ -1118,9 +1134,9 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                 if (regex.matches(editTextVal)) {
                     val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
                     if (lastItem)
-                        addToCurrentFilledFieldData(fieldName, currentFieldDetails, true, sectionName)
+                        addToCurrentFilledFieldData(fieldName,isMandatory, currentFieldDetails, true, sectionName)
                     else
-                        addToCurrentFilledFieldData(fieldName, currentFieldDetails, false, sectionName)
+                        addToCurrentFilledFieldData(fieldName,isMandatory, currentFieldDetails, false, sectionName)
 
                 } else {
                     showToast("Please enter valid $fieldName")
@@ -1129,9 +1145,9 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
             } else {
                 val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
                 if (lastItem)
-                    addToCurrentFilledFieldData(fieldName, currentFieldDetails, true, sectionName)
+                    addToCurrentFilledFieldData(fieldName, isMandatory,currentFieldDetails, true, sectionName)
                 else
-                    addToCurrentFilledFieldData(fieldName, currentFieldDetails, false, sectionName)
+                    addToCurrentFilledFieldData(fieldName,isMandatory, currentFieldDetails, false, sectionName)
 
             }
         } else {
@@ -1163,9 +1179,24 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
     }
 
-    private fun addToCurrentFilledFieldData(fieldName: String, currentFieldDetails: FieldDetails, isLastItem: Boolean, sectionName: String) {
+    private fun addToCurrentFilledFieldData(fieldName: String, isMandatory: Boolean,currentFieldDetails: FieldDetails, isLastItem: Boolean, sectionName: String) {
         currentFilledFieldData[fieldName] = currentFieldDetails
         Log.i("TAG", "addToCurrentFilledFieldData: " + currentFilledFieldData[fieldName]?.Value.toString())
+        if(isMandatory)
+        {
+            mandatoryFieldsList[currentFieldDetails.APIKey] = currentFieldDetails.Value
+
+            if(currentFilledFieldData.size>=mandatoryFieldsList.size)
+            {
+                if(isAllMandatoryFieldsFilledInCurrentSection() && !isLastItem)
+                        currentSectionButton.background=resources.getDrawable(R.drawable.vtwo_next_btn_bg)
+            }
+            else
+            {
+                currentSectionButton.background=resources.getDrawable(R.drawable.v2_rounded_light_grey_bg)
+            }
+        }
+
         if (isLastItem)
             moveCurrentDetailsToMap(sectionName)
     }
@@ -1177,6 +1208,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
         sectionMap[sectionName] = fieldList
         currentFilledFieldData.clear()
+        mandatoryFieldsList.clear()
         refreshFieldView()
     }
 
