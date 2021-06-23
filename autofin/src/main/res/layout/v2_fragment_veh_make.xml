@@ -215,12 +215,12 @@
                     android:id="@+id/tv_vehicle_price_error_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:text="error message"
-
                     android:textAppearance="@style/RobotoRegular"
+
                     android:textColor="@color/error_red"
                     android:textSize="@dimen/text_size_12dp"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"
+                    tools:text="error message" />
 
                 <TextView
                     android:id="@+id/tv_vehicle_price_in_words"
@@ -291,8 +291,8 @@
                     android:textAppearance="@style/RobotoRegular"
                     android:textColor="@color/error_red"
                     android:textSize="@dimen/text_size_12dp"
-                    tools:text="error message"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"
+                    tools:text="error message" />
 
             </LinearLayout>
 
@@ -310,11 +310,13 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_16sp"
                 android:textStyle="bold" />
+
             <View
-                android:visibility="gone"
+
                 android:id="@+id/view_empty"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/text_size_105dp"/>
+                android:layout_height="250dp"
+                android:visibility="gone" />
         </LinearLayout>
 
     </ScrollView>

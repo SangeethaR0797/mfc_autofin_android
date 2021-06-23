@@ -3,6 +3,7 @@ package v2.view
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.mfc.autofin.framework.R
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import utility.CommonStrings
 import utility.Global
 import v2.model.dto.AddLeadRequest
@@ -44,7 +46,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 @SuppressLint("ResourceAsColor")
-class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
+class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibilityEventListener {
 
 
     // TODO: Rename and change types of parameters
@@ -88,14 +90,55 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-                AddOrUpdateVehicleDetailsMakeFrag().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
+            AddOrUpdateVehicleDetailsMakeFrag().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
                 }
+            }
     }
 
+    //region KeyBoardVisible
+    override fun onVisibilityChanged(isKeyBoardVisible: Boolean) {
+        if (viewEmpty != null) {
+            if (isKeyBoardVisible) {
+                if (viewEmpty.visibility == View.VISIBLE) {
+                    viewEmpty.visibility = View.GONE
+                    Thread.sleep(200)
+                }
+
+                viewEmpty.visibility = View.VISIBLE
+
+                val view = requireActivity().currentFocus
+                if (view != null && view is EditText) {
+                    var viewToScroll: View? = null
+
+                    if (etPrice.hasFocus()) {
+                        viewToScroll = llVehiclePrice
+                    } else if (etVehicleNumber.hasFocus()) {
+                        viewToScroll = llVehicleNumber
+                    }
+                    scrollToBottom(viewToScroll!!)
+                    /* Handler().postDelayed({
+                         ThreadUtils.runOnUiThread(Runnable {
+
+                         })
+
+                     }, 500)*/
+                }
+
+            } else {
+                viewEmpty.visibility = View.GONE
+                val view = requireActivity().currentFocus
+                if (view != null && view is EditText) {
+                    view.clearFocus()
+                }
+
+            }
+        }
+    }
+
+    //endregion KeyBoardVisible
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -103,23 +146,28 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
             param2 = it.getString(ARG_PARAM2)
         }
         masterViewModel = ViewModelProvider(this@AddOrUpdateVehicleDetailsMakeFrag).get(
-                MasterViewModel::class.java
+            MasterViewModel::class.java
         )
         masterViewModel!!.getKmsDrivenLiveData()
-                .observe(this@AddOrUpdateVehicleDetailsMakeFrag, { mApiResponse: ApiResponse? ->
-                    onKmsDrivenResponse(
-                            mApiResponse!!
-                    )
-                })
+            .observe(this@AddOrUpdateVehicleDetailsMakeFrag, { mApiResponse: ApiResponse? ->
+                onKmsDrivenResponse(
+                    mApiResponse!!
+                )
+            })
     }
+
     fun scrollToBottom(nextView: View) {
+
         scrollView1.post {
             // scrollView1.fullScroll(View.FOCUS_DOWN)
             scrollView1.scrollTo(0, nextView.top);
         }
     }
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.v2_fragment_veh_make, container, false)
 
         arguments?.let {
@@ -161,7 +209,8 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
         etVehicleNumber = view.findViewById(R.id.et_vehicle_number)
 
         tvTitle.text = addLeadRequest.Data?.addLeadVehicleDetails?.Make
-        tvSelectedText.text = "" + addLeadRequest.Data?.addLeadVehicleDetails?.RegistrationYear + "-" + addLeadRequest.Data?.addLeadVehicleDetails?.Make + "-" + addLeadRequest.Data?.addLeadVehicleDetails?.Model + "-" + addLeadRequest.Data?.addLeadVehicleDetails?.Variant
+        tvSelectedText.text =
+            "" + addLeadRequest.Data?.addLeadVehicleDetails?.RegistrationYear + "-" + addLeadRequest.Data?.addLeadVehicleDetails?.Make + "-" + addLeadRequest.Data?.addLeadVehicleDetails?.Model + "-" + addLeadRequest.Data?.addLeadVehicleDetails?.Variant
         addEvent()
         if (addLeadRequest?.Data?.addLeadVehicleDetails?.Ownership == null || addLeadRequest?.Data?.addLeadVehicleDetails?.KMs == null || addLeadRequest?.Data?.addLeadVehicleDetails?.FuelType == null) {
             llKilometresDriven.visibility = View.GONE
@@ -170,6 +219,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
             llVehicleNumber.visibility = View.GONE
             btnNext.visibility = View.GONE
         }
+        setKeyBoardShowHideEvent(AddOrUpdateVehicleDetailsMakeFrag@ this)
 
         addOwnershipDetails()
         addFuleDetails()
@@ -182,8 +232,14 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
 
 
     private fun addEvent() {
-        ivBack.setOnClickListener(View.OnClickListener { activity?.onBackPressed() })
-        llPrice.setOnClickListener(View.OnClickListener { etPrice.requestFocus() })
+        ivBack.setOnClickListener(View.OnClickListener {
+            activity?.onBackPressed()
+            showKeyBoardByForced()
+        })
+        llPrice.setOnClickListener(View.OnClickListener {
+            etPrice.requestFocus()
+            showKeyBoardByForced()
+        })
         llAddVehicleNumber.setOnClickListener(View.OnClickListener { etVehicleNumber.requestFocus() })
 
         btnNext.setOnClickListener(View.OnClickListener {
@@ -193,16 +249,25 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                 etPrice.setTextColor(resources.getColor(R.color.error_red))
                 tvVehiclePriceErrorMessage.visibility = View.VISIBLE
                 tvVehiclePriceErrorMessage.text = ("Please enter price details.")
-            } else if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(View.GONE)) {
+            } else if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(
+                    View.GONE
+                )
+            ) {
                 llVehicleNumber.visibility = View.VISIBLE
                 scrollToBottom(llVehicleNumber)
-            } else if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(View.VISIBLE)) {
+            } else if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(
+                    View.VISIBLE
+                )
+            ) {
                 llAddVehicleNumber.setBackgroundResource(R.drawable.v2_error_input_bg)
                 etVehicleNumber.setTextColor(resources.getColor(R.color.error_red))
                 tvVehicleNumberErrorMessage.visibility = View.VISIBLE
                 tvVehicleNumberErrorMessage.text = ("Please enter vehicle registration No.")
 
-            } else if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber != null && !isValidVehicleRegNo(addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber!!)) {
+            } else if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber != null && !isValidVehicleRegNo(
+                    addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber!!
+                )
+            ) {
 
                 llAddVehicleNumber.setBackgroundResource(R.drawable.v2_error_input_bg)
                 etVehicleNumber.setTextColor(resources.getColor(R.color.error_red))
@@ -210,27 +275,22 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                 tvVehicleNumberErrorMessage.text = ("Please enter valid vehicle registration No.")
             } else {
 
-                navigateToAddLeadFragment(addLeadRequest,0,null)
+                navigateToAddLeadFragment(addLeadRequest, 0, null)
             }
         })
         var timer: Timer? = null
         var allowEdit: Boolean = true
-        etPrice.setOnFocusChangeListener(OnFocusChangeListener { v, hasFocus ->
-            if (hasFocus) {
-                viewEmpty.visibility=View.VISIBLE
-                scrollToBottom(llVehiclePrice)
-            }else{
-                viewEmpty.visibility=View.GONE
-            }
-        })
         etPrice.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 
 
             }
 
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
-                                           after: Int) {
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int, count: Int,
+                after: Int
+            ) {
+
             }
 
             override fun afterTextChanged(s: Editable) {
@@ -241,7 +301,10 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                     timer!!.cancel();
 
                 }
-                if (!unformatAmount(etPrice.text.toString()).equals(addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice) || TextUtils.isEmpty(etPrice.text.toString()) || TextUtils.isEmpty(addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice)) {
+                if (!unformatAmount(etPrice.text.toString()).equals(addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice) || TextUtils.isEmpty(
+                        etPrice.text.toString()
+                    ) || TextUtils.isEmpty(addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice)
+                ) {
                     allowEdit = true
                 }
                 if (allowEdit == true) {
@@ -250,17 +313,20 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
                         override fun run() {
 
                             if (TextUtils.isEmpty(etPrice.text)) {
-                                addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice = null
+                                addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice =
+                                    null
                             } else {
 
-                                addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice = unformatAmount(etPrice.text.toString())
+                                addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice =
+                                    unformatAmount(etPrice.text.toString())
                             }
                             allowEdit = false
                             ThreadUtils.runOnUiThread(Runnable {
 
                                 if (!TextUtils.isEmpty(etPrice.text.toString())) {
                                     etPrice.setText(formatAmount(unformatAmount(etPrice.text.toString())))
-                                    tvVehiclePriceInWords.text = (getAmountInWords(unformatAmount(etPrice.text.toString())))
+                                    tvVehiclePriceInWords.text =
+                                        (getAmountInWords(unformatAmount(etPrice.text.toString())))
                                     etPrice.setSelection(etPrice.text.toString().length)
                                 } else {
                                     tvVehiclePriceInWords.text = ""
@@ -277,31 +343,28 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
 
             }
         })
-        etVehicleNumber.setOnFocusChangeListener(OnFocusChangeListener { v, hasFocus ->
-            if (hasFocus) {
-                viewEmpty.visibility=View.VISIBLE
-                scrollToBottom(llVehicleNumber)
-            }else{
-                viewEmpty.visibility=View.GONE
-            }
-        })
         etVehicleNumber.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int,
-                                       count: Int) {
+            override fun onTextChanged(
+                s: CharSequence, start: Int, before: Int,
+                count: Int
+            ) {
                 llAddVehicleNumber.setBackgroundResource(R.drawable.vtwo_input_bg)
                 etVehicleNumber.setTextColor(resources.getColor(R.color.vtwo_black))
                 tvVehicleNumberErrorMessage.visibility = View.GONE
             }
 
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int,
-                                           after: Int) {
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int, count: Int,
+                after: Int
+            ) {
             }
 
             override fun afterTextChanged(s: Editable) {
                 if (TextUtils.isEmpty(etVehicleNumber.text)) {
                     addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber = null
                 } else {
-                    addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber = etVehicleNumber.text.toString()
+                    addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber =
+                        etVehicleNumber.text.toString()
                 }
             }
         })
@@ -319,28 +382,31 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
         list.add(DataSelectionDTO("4", "th", "4", false))
         list.add(DataSelectionDTO("5", "th", "5", false))
 
-        ownershipDetailsAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
-            override fun itemClick(item: Any?, position: Int) {
+        ownershipDetailsAdapter =
+            DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+                override fun itemClick(item: Any?, position: Int) {
 
 
-                ownershipDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
-                    run {
-                        if (index == position) {
-                            item.selected = true
-                            addLeadRequest.Data?.addLeadVehicleDetails?.Ownership = item.value?.toInt()
-                            llKilometresDriven.visibility = View.VISIBLE
-                            scrollToBottom(llKilometresDriven)
-                        } else {
-                            item.selected = false
+                    ownershipDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                        run {
+                            if (index == position) {
+                                item.selected = true
+                                addLeadRequest.Data?.addLeadVehicleDetails?.Ownership =
+                                    item.value?.toInt()
+                                llKilometresDriven.visibility = View.VISIBLE
+                                scrollToBottom(llKilometresDriven)
+                            } else {
+                                item.selected = false
+                            }
                         }
                     }
+                    ownershipDetailsAdapter.notifyDataSetChanged()
                 }
-                ownershipDetailsAdapter.notifyDataSetChanged()
-            }
-        })
+            })
 
 
-        val layoutManagerStaggeredGridLayoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManagerStaggeredGridLayoutManager =
+            StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         val layoutManagerGridLayoutManager = GridLayoutManager(activity, 3)
 
         rvOwnership.addItemDecoration(GridItemDecoration(25, 3))
@@ -360,29 +426,31 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
         list.add(DataSelectionDTO("CNG", null, "CNG", false))
         list.add(DataSelectionDTO("LPG", null, "LPG", false))
 
-        fuleDetailsAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
-            override fun itemClick(item: Any?, position: Int) {
+        fuleDetailsAdapter =
+            DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+                override fun itemClick(item: Any?, position: Int) {
 
 
-                fuleDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
-                    run {
-                        if (index == position) {
-                            item.selected = true
-                            llVehiclePrice.visibility = View.VISIBLE
-                            scrollToBottom(llVehiclePrice)
-                            btnNext.visibility = View.VISIBLE
-                            addLeadRequest.Data?.addLeadVehicleDetails?.FuelType = item.value
-                        } else {
-                            item.selected = false
+                    fuleDetailsAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                        run {
+                            if (index == position) {
+                                item.selected = true
+                                llVehiclePrice.visibility = View.VISIBLE
+                                scrollToBottom(llVehiclePrice)
+                                btnNext.visibility = View.VISIBLE
+                                addLeadRequest.Data?.addLeadVehicleDetails?.FuelType = item.value
+                            } else {
+                                item.selected = false
+                            }
                         }
                     }
+                    fuleDetailsAdapter.notifyDataSetChanged()
                 }
-                fuleDetailsAdapter.notifyDataSetChanged()
-            }
-        })
+            })
 
 
-        val layoutManagerStaggeredGridLayoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManagerStaggeredGridLayoutManager =
+            StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         val layoutManagerGridLayoutManager = GridLayoutManager(activity, 3)
 
         rvFuleType.addItemDecoration(GridItemDecoration(25, 3))
@@ -419,28 +487,30 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
 
 
 
-        kmsDrivenAdapter = DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
-            override fun itemClick(item: Any?, position: Int) {
+        kmsDrivenAdapter =
+            DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+                override fun itemClick(item: Any?, position: Int) {
 
 
-                kmsDrivenAdapter.dataListFilter!!.forEachIndexed { index, item ->
-                    run {
-                        if (index == position) {
-                            item.selected = true
-                            llFuleType.visibility = View.VISIBLE
-                            scrollToBottom(llFuleType)
-                            addLeadRequest?.Data?.addLeadVehicleDetails?.KMs = item.value
-                        } else {
-                            item.selected = false
+                    kmsDrivenAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                        run {
+                            if (index == position) {
+                                item.selected = true
+                                llFuleType.visibility = View.VISIBLE
+                                scrollToBottom(llFuleType)
+                                addLeadRequest?.Data?.addLeadVehicleDetails?.KMs = item.value
+                            } else {
+                                item.selected = false
+                            }
                         }
                     }
+                    kmsDrivenAdapter.notifyDataSetChanged()
                 }
-                kmsDrivenAdapter.notifyDataSetChanged()
-            }
-        })
+            })
 
 
-        val layoutManagerStaggeredGridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManagerStaggeredGridLayoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
 
         rvKilometresDriven.addItemDecoration(GridItemDecoration(25, 2))
@@ -453,21 +523,27 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment() {
     private fun setLastSelectedData() {
         if (addLeadRequest.Data?.addLeadVehicleDetails?.Ownership != null) {
             ownershipDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
-                dataSelectionDTO.selected = addLeadRequest.Data?.addLeadVehicleDetails?.Ownership?.toString().equals(dataSelectionDTO.value) == true
+                dataSelectionDTO.selected =
+                    addLeadRequest.Data?.addLeadVehicleDetails?.Ownership?.toString()
+                        .equals(dataSelectionDTO.value) == true
             }
             ownershipDetailsAdapter.notifyDataSetChanged()
         }
         if (addLeadRequest.Data?.addLeadVehicleDetails?.KMs != null) {
             kmsDrivenAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
-                dataSelectionDTO.selected = addLeadRequest.Data?.addLeadVehicleDetails?.KMs?.equals(dataSelectionDTO.value) == true
+                dataSelectionDTO.selected =
+                    addLeadRequest.Data?.addLeadVehicleDetails?.KMs?.equals(dataSelectionDTO.value) == true
             }
             kmsDrivenAdapter.notifyDataSetChanged()
         }
         if (addLeadRequest.Data?.addLeadVehicleDetails?.FuelType != null) {
             fuleDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
-                dataSelectionDTO.selected = addLeadRequest.Data?.addLeadVehicleDetails?.FuelType?.equals(dataSelectionDTO.value) == true
+                dataSelectionDTO.selected =
+                    addLeadRequest.Data?.addLeadVehicleDetails?.FuelType?.equals(dataSelectionDTO.value) == true
             }
             fuleDetailsAdapter.notifyDataSetChanged()
         }
     }
+
+
 }
