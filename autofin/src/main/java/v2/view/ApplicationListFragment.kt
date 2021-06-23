@@ -90,7 +90,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
             TransactionViewModel::class.java
         )
 
-        masterViewModel=ViewModelProvider(this).get(MasterViewModel::class.java)
+        masterViewModel = ViewModelProvider(this).get(MasterViewModel::class.java)
 
         transactionViewModel.getApplicationListLiveData()
             .observe(requireActivity(), { mApiResponse: ApiResponse? ->
@@ -105,9 +105,10 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 )
             })
 
-        masterViewModel.getKYCDocumentLiveData().observe(requireActivity()) { mApiResponse: ApiResponse? ->
-            onGetKYCDocumentResponse(mApiResponse!!)
-        }
+        masterViewModel.getKYCDocumentLiveData()
+            .observe(requireActivity()) { mApiResponse: ApiResponse? ->
+                onGetKYCDocumentResponse(mApiResponse!!)
+            }
 
     }
 
@@ -165,11 +166,13 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         ivNotification.setOnClickListener(this)
         ivSearch.setOnClickListener(this)
         llSearch.setOnClickListener(this)
+        etSearch.setOnClickListener(this)
 
         if (screenType.equals(ScreenTypeEnum.Search.value)) {
             ivSearch.visibility = View.GONE
             tvTitle.text = "Search"
             etSearch.requestFocus()
+            showKeyBoardByForced()
 
         } else if (screenType.equals(ScreenTypeEnum.StausWithSearch.value)
         ) {
@@ -177,6 +180,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
             tvTitle.text = screenStatus
             callApplicationStatusWiseFilterAPI(null)
             etSearch.requestFocus()
+            showKeyBoardByForced()
         } else {
             tvTitle.text = screenStatus
             rvData.setPadding(0, llData.marginLeft, 0, 0)
@@ -206,6 +210,11 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 }
                 R.id.ll_search -> {
                     etSearch.requestFocus()
+                    showKeyBoardByForced()
+                }
+                R.id.et_search -> {
+                    etSearch.requestFocus()
+                    showKeyBoardByForced()
                 }
             }
         }
@@ -440,23 +449,32 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         } else {
             when (customerResponse.data?.status) {
                 getString(R.string.v2_lead_status_kyc_done) -> {
-                    navToSoftOffer(customerResponse, selectedCustomerId.toString(),CommonStrings.APPLICATION_LIST_FRAGMENT_TAG)
+                    navToSoftOffer(
+                        customerResponse,
+                        selectedCustomerId.toString(),
+                        CommonStrings.APPLICATION_LIST_FRAGMENT_TAG
+                    )
                 }
                 getString(R.string.v2_lead_status_lender_selected) -> {
                     navigateToAddressAdditionalFields(selectedCustomerId, customerResponse)
                 }
                 getString(R.string.v2_lead_status_bank_form_filled) -> {
-                    cust=customerResponse
+                    cust = customerResponse
                     masterViewModel.getKYCDocumentResponse(Global.baseURL + CommonStrings.KYC_UPLOAD_URL_END_POINT + selectedCustomerId)
                 }
                 getString(R.string.v2_lead_status_document_upload) -> {
-                    navigateToBankOfferStatusFromApplicationListFrag(selectedCustomerId, customerResponse)
+                    navigateToBankOfferStatusFromApplicationListFrag(
+                        selectedCustomerId,
+                        customerResponse
+                    )
                 }
                 getString(R.string.v2_lead_status_submitted_to_bank) -> {
                     val salutation = customerResponse.data?.basicDetails?.salutation
-                    val name = customerResponse.data?.basicDetails?.firstName + " " + customerResponse.data?.basicDetails?.lastName
+                    val name =
+                        customerResponse.data?.basicDetails?.firstName + " " + customerResponse.data?.basicDetails?.lastName
                     val caseId = customerResponse.data?.caseId
-                    caseId?.let { CustomLoanProcessCompletedData(salutation + " " + name, it) }?.let { navigateToBankSuccessPageFromSoftOffer(it) }
+                    caseId?.let { CustomLoanProcessCompletedData(salutation + " " + name, it) }
+                        ?.let { navigateToBankSuccessPageFromSoftOffer(it) }
                 }
             }
 
@@ -532,7 +550,14 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 val kycDocumentRes: KYCDocumentResponse = mApiResponse.data as KYCDocumentResponse
                 if (kycDocumentRes.statusCode == "100") {
                     if (kycDocumentRes.data.groupedDoc.isNotEmpty() || kycDocumentRes.data.nonGroupedDoc.isNotEmpty())
-                        cust.data?.caseId?.let { navigateToKYCDocumentUploadFromApplicationList(selectedCustomerId.toString(), kycDocumentRes, it,cust) }
+                        cust.data?.caseId?.let {
+                            navigateToKYCDocumentUploadFromApplicationList(
+                                selectedCustomerId.toString(),
+                                kycDocumentRes,
+                                it,
+                                cust
+                            )
+                        }
                     else if (kycDocumentRes.data.groupedDoc.isEmpty() && kycDocumentRes.data.nonGroupedDoc.isEmpty())
                         navigateToBankOfferStatusFromApplicationListFrag(selectedCustomerId, cust)
                 } else {
