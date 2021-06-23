@@ -772,6 +772,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
                 etEmailId.setTextColor(resources.getColor(R.color.vtwo_black))
                 ///7
                 basicDetails.Email = etEmailId.text.toString()
+                if (TextUtils.isEmpty(basicDetails.Salutation)) {
+                    basicDetails.Salutation = salutation
+                }
                 addLeadRequest.Data?.basicDetails = basicDetails
                 addLeadRequest.UserType = CommonStrings.USER_TYPE
                 addLeadRequest.UserId = CommonStrings.DEALER_ID
