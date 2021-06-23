@@ -57,7 +57,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
     lateinit var checkboxCurrentAndPermanentAddress: CheckBox
     lateinit var imageViewEditCurrentAddress: ImageView
     lateinit var imageViewEditPermanentAddress: ImageView
-    lateinit var currentSectionButton:Button
+    private lateinit var currentSectionButton:Button
 
     lateinit var textViewSelectBankLabel: TextView
     lateinit var textViewCurrentAddress1: TextView

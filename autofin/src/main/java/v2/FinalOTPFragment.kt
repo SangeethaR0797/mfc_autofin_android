@@ -161,6 +161,10 @@ class FinalOTPFragment : BaseFragment() {
             }
             ApiResponse.Status.ERROR -> {
                 hideProgressDialog()
+                val otpRes: OTPResponse? =
+                        mApiResponse.data as OTPResponse?
+
+                showToast(otpRes?.message.toString())
             }
             else -> {
                 hideProgressDialog()
