@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.Activity.bank_offer_activities.AdditionalFieldsActivity;
@@ -17,12 +18,16 @@ import v2.view.HostActivity;
 public class MainActivity extends AppCompatActivity {
 
     private Button mLaunchAutofin;
+    private TextView tvBuildDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mLaunchAutofin = findViewById(R.id.launchAutofin);
+        tvBuildDate = findViewById(R.id.tvBuildDate);
+        tvBuildDate.setText("Build on " + BuildConfig.BUILD_TIMESTAMP.toString());
         mLaunchAutofin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

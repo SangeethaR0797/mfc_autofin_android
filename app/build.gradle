@@ -15,6 +15,9 @@ android {
         dexOptions {
             javaMaxHeapSize "4g"
         }
+        def date = new Date()
+        def formattedDate = date.format('dd MMM yyyy hh:mm a')
+        buildConfigField "String", "BUILD_TIMESTAMP", "\"" + formattedDate + "\""
     }
 
     compileOptions {
