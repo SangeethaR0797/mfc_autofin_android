@@ -711,7 +711,7 @@
                     <View
                         android:id="@+id/view_empty"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/text_size_105dp"/>
+                        android:layout_height="250dp"/>
 
                 </LinearLayout>
             </ScrollView>

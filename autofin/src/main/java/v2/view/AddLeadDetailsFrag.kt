@@ -188,7 +188,20 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                         viewToScroll = llMobileNum
                     } else if (etFirstName.hasFocus() || etLastName.hasFocus() || etEmailId.hasFocus()) {
                         viewToScroll = llNameAndEmailV2
+                    } else if (etWorkExpriance.hasFocus()) {
+                        viewToScroll = llEmploymentSection
+                    } else if (etNetIncome.hasFocus()) {
+                        viewToScroll = llNetIncomeSection
+                    } else if (etEMI.hasFocus()) {
+                        viewToScroll = llEMISection
+                    } else if (etAutoResidenceCity.hasFocus()) {
+                        viewToScroll = llResidenceTypeSection
+                    } else if (etPanNumber.hasFocus()) {
+                        viewToScroll = llPanNumberSection
                     }
+
+
+
                     if (viewToScroll != null) {
                         scrollToBottom(viewToScroll!!)
                     }
