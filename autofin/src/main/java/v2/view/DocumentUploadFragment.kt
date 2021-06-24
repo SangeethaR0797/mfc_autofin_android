@@ -41,6 +41,7 @@ import v2.model.response.CustomerDetailsResponse
 import v2.model.response.UploadKYCResponse
 import v2.model.response.master.Docs
 import v2.model.response.master.KYCDocumentData
+import v2.utility.RealPathUtil
 import v2.view.adapter.KYCDocumentListAdapter
 import v2.view.base.BaseFragment
 import v2.view.callBackInterface.DocumentSelectionCallBack
@@ -460,12 +461,13 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     fileUri = data?.data
-                    val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+                    var picturePath = RealPathUtil().getRealPath(requireContext(), fileUri!!)
+                   /* val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
                     val cursor: Cursor? = fileUri?.let { requireActivity().contentResolver.query(it, filePathColumn, null, null, null) }
                     cursor?.moveToFirst()
                     val columnIndex = cursor?.getColumnIndex(filePathColumn[0])
                     val picturePath = columnIndex?.let { cursor?.getString(it) }
-                    cursor?.close()
+                    cursor?.close()*/
                     file = File(picturePath)
                    // compressImage(file?.path)
                 } catch (e: Exception) {
