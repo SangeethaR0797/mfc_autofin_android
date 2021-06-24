@@ -118,7 +118,10 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibilityEven
                     } else if (etVehicleNumber.hasFocus()) {
                         viewToScroll = llVehicleNumber
                     }
-                    scrollToBottom(viewToScroll!!)
+
+                    if (viewToScroll != null) {
+                        scrollToBottom(viewToScroll!!)
+                    }
                     /* Handler().postDelayed({
                          ThreadUtils.runOnUiThread(Runnable {
 
@@ -156,11 +159,12 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibilityEven
             })
     }
 
-    fun scrollToBottom(nextView: View) {
-
-        scrollView1.post {
-            // scrollView1.fullScroll(View.FOCUS_DOWN)
-            scrollView1.scrollTo(0, nextView.top);
+    fun scrollToBottom(nextView: View?) {
+        if (nextView != null) {
+            scrollView1.post {
+                // scrollView1.fullScroll(View.FOCUS_DOWN)
+                scrollView1.scrollTo(0, nextView.top);
+            }
         }
     }
 
