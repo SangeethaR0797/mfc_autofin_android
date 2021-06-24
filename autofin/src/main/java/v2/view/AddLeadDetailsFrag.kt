@@ -24,6 +24,7 @@ import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.mfc.autofin.framework.R
 import kotlinx.android.synthetic.main.v2_reg_name_email_layout.*
 import kotlinx.android.synthetic.main.vtwo_mobile_num_layout.*
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import utility.CommonStrings
 import utility.Global
 import v2.model.dto.AddLeadRequest
@@ -50,14 +51,17 @@ import v2.view.utility_view.GridItemDecoration
 import java.util.*
 
 
-public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
+public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
+    KeyboardVisibilityEventListener {
 
 
     private var onClickNext: Boolean = false
     lateinit var validateLeadDataRes: ValidateLeadDataResponse
     lateinit var etMobileNumberV2: EditText
+    lateinit var llMobileNum: LinearLayout
     lateinit var ivBackToVehDetails: ImageView
     lateinit var scrollView1: ScrollView
+    lateinit var viewEmpty: View
     lateinit var etOTPV2: EditText
     lateinit var llOTPNumInput: LinearLayout
     lateinit var cbTermsAndConditions: CheckBox
@@ -88,8 +92,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     var userId: String = ""
     var userType: String = ""
     var salutation: String = ""
-    var employmentDetailsAdapter: DataRecyclerViewAdapter?=null
-    var commonBankListDetailsAdapter: DataRecyclerViewAdapter?=null
+    var employmentDetailsAdapter: DataRecyclerViewAdapter? = null
+    var commonBankListDetailsAdapter: DataRecyclerViewAdapter? = null
 
     lateinit var etBirthDate: EditText
     lateinit var etWorkExpriance: EditText
@@ -137,8 +141,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
     lateinit var rvResidenceTypeList: RecyclerView
     lateinit var rvResidenceYears: RecyclerView
     lateinit var llResidenceTypeDetails: LinearLayout
-    var residenceTypeDetailsAdapter: DataRecyclerViewAdapter?=null
-    var residenceYearsAdapter: DataRecyclerViewAdapter?=null
+    var residenceTypeDetailsAdapter: DataRecyclerViewAdapter? = null
+    var residenceYearsAdapter: DataRecyclerViewAdapter? = null
 
     lateinit var llPanNumberSection: LinearLayout
     lateinit var llPanNumber: LinearLayout
@@ -163,6 +167,44 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
     var selectedCustomerIdForEdit: Int = 0
     var selectedCustomerMobileNumberForEdit: String? = null
+
+
+    //region KeyBoardVisible
+    override fun onVisibilityChanged(isKeyBoardVisible: Boolean) {
+        if (viewEmpty != null) {
+            if (isKeyBoardVisible) {
+                if (viewEmpty.visibility == View.VISIBLE) {
+                    viewEmpty.visibility = View.GONE
+                    Thread.sleep(200)
+                }
+
+                viewEmpty.visibility = View.VISIBLE
+
+                val view = requireActivity().currentFocus
+                if (view != null && view is EditText) {
+                    var viewToScroll: View? = null
+
+                    if (etMobileNumberV2.hasFocus() || etOTPV2.hasFocus()) {
+                        viewToScroll = llMobileNum
+                    } else if (etFirstName.hasFocus() || etLastName.hasFocus() || etEmailId.hasFocus()) {
+                        viewToScroll = llNameAndEmailV2
+                    }
+                    scrollToBottom(viewToScroll!!)
+
+                }
+
+            } else {
+                viewEmpty.visibility = View.GONE
+                val view = requireActivity().currentFocus
+                if (view != null && view is EditText) {
+                    view.clearFocus()
+                }
+
+            }
+        }
+    }
+
+    //endregion KeyBoardVisible
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -301,9 +343,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
 
 
     private fun initViews(view: View?) {
+        setKeyBoardShowHideEvent(AddLeadDetailsFrag@ this)
+
         scrollView1 = rootView!!.findViewById(R.id.scrollView1)!!
+        viewEmpty = rootView!!.findViewById(R.id.view_empty)!!
         ivBackToVehDetails = rootView!!.findViewById(R.id.ivBackToVehDetails)!!
         etMobileNumberV2 = rootView!!.findViewById(R.id.etMobileNumberV2)!!
+        llMobileNum = rootView!!.findViewById(R.id.llMobileNum)!!
 
         etOTPV2 = rootView!!.findViewById(R.id.etOTPV2)!!
         llOTPNumInput = rootView!!.findViewById(R.id.llOTPNumInput)!!
@@ -655,14 +701,16 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener {
             addResidentDetailsRequest.hashCode()
                 .equals(previousAddResidentDetailsRequest.hashCode())
         ) {
-            navToSoftOffer(customerDetailsResponse, customerId,CommonStrings.ADD_LEAD_FRAGMENT_TAG)
+            navToSoftOffer(customerDetailsResponse, customerId, CommonStrings.ADD_LEAD_FRAGMENT_TAG)
         }
     }
 
     fun scrollToBottom(nextView: View) {
-        scrollView1.post {
-            // scrollView1.fullScroll(View.FOCUS_DOWN)
-            scrollView1.scrollTo(0, nextView.top);
+        if (nextView != null) {
+            scrollView1.post {
+                // scrollView1.fullScroll(View.FOCUS_DOWN)
+                scrollView1.scrollTo(0, nextView.top);
+            }
         }
     }
 
