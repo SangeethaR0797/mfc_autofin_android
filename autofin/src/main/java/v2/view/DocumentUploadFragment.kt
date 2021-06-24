@@ -467,7 +467,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                     val picturePath = columnIndex?.let { cursor?.getString(it) }
                     cursor?.close()
                     file = File(picturePath)
-                   // compressImage(file?.path)
+                    compressImage(file?.path)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -566,7 +566,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
             }
         }
-        return docMap.size==kycDocumentData.groupedDoc.size
+        return docMap.size==kycDocumentData.groupedDoc.size+kycDocumentData.nonGroupedDoc.size
     }
 
     fun getRealPathFromURI(context: Context, contentUri: Uri?): String? {
