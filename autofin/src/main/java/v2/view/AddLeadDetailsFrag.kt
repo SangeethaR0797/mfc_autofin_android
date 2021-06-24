@@ -189,7 +189,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                     } else if (etFirstName.hasFocus() || etLastName.hasFocus() || etEmailId.hasFocus()) {
                         viewToScroll = llNameAndEmailV2
                     }
-                    scrollToBottom(viewToScroll!!)
+                    if (viewToScroll != null) {
+                        scrollToBottom(viewToScroll!!)
+                    }
 
                 }
 
@@ -705,7 +707,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
         }
     }
 
-    fun scrollToBottom(nextView: View) {
+    fun scrollToBottom(nextView: View?) {
         if (nextView != null) {
             scrollView1.post {
                 // scrollView1.fullScroll(View.FOCUS_DOWN)
