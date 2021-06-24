@@ -11,6 +11,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Spannable
@@ -26,9 +27,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import com.google.gson.Gson
 import com.mfc.autofin.framework.R
-import kotlinx.android.synthetic.main.fragment_o_t_p_bottom_sheet_list_dialog.*
-import kotlinx.android.synthetic.main.soft_offer_action_bar.*
-import kotlinx.android.synthetic.main.v2_custom_document_parent_layout.*
 import kyc.ImageUploadCompleted
 import kyc.ImageUploadTask
 import retrofit2.Call
@@ -118,19 +116,14 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         })
 
         buttonUploadDocument.setOnClickListener(View.OnClickListener {
-            if (kycDocumentData.groupedDoc.isNotEmpty())
-            {
-                if(isGroupedDocFilled())
-                {
+            if (kycDocumentData.groupedDoc.isNotEmpty()) {
+                if (isGroupedDocFilled()) {
                     showProgressDialog(requireActivity())
                     retrofitInterface.getFromWeb(getUploadKYCRequest(), CommonStrings.UPLOAD_KYC_DOC_URL_V2).enqueue(this)
-                }
-                else {
+                } else {
                     showToast("Attach anyone document for each Mandatory each document group")
                 }
-            }
-            else
-            {
+            } else {
                 navigateToBankOfferStatus(customerId, customerDetailsResponse, "DocUpload")
             }
         })
@@ -140,7 +133,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
     private fun getUploadKYCRequest(): KYCDocumentUploadDataRequest {
         val docList: ArrayList<KYCUploadDocs> = ArrayList<KYCUploadDocs>(documentHashMap.values)
-        val kycUploadDocumentData = KYCUploadDocumentData(customerId.toInt(),caseId, docList)
+        val kycUploadDocumentData = KYCUploadDocumentData(customerId.toInt(), caseId, docList)
         val kycDocumentUploadDataRequest = KYCDocumentUploadDataRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, kycUploadDocumentData)
         return kycDocumentUploadDataRequest
     }
@@ -191,7 +184,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             tile1APIKey = tileData1.docs[0].apiKey
             tile1ImageName = textViewTitle.text.toString().trim()
         } else {
-            setMandatoryTitle(textViewTitle,tileData1.groupName)
+            setMandatoryTitle(textViewTitle, tileData1.groupName)
             textViewImageDescription.text = tileData1.description
         }
 
@@ -262,7 +255,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                 tile2APIKey = tileData2.docs[0].apiKey
                 tile2ImageName = textViewTitle2.text.toString().trim()
             } else {
-                setMandatoryTitle(textViewTitle2,tileData2.groupName)
+                setMandatoryTitle(textViewTitle2, tileData2.groupName)
                 textViewImageDescription2.text = tileData2.description
             }
 
@@ -418,16 +411,36 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
     private fun openGallery() {
 
-        //val gallery = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        //gallery.type = "*/*"
-        //gallery.action = Intent.ACTION_GET_CONTENT
-        //gallery.putExtra("return-data", true)
-
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        //gallery.type = "";
+        gallery.type="image/*|application/pdf/*"
+        val mimetypes = arrayOf("image/*", "application/*")
 
-        requireActivity().startActivityForResult(gallery, IMAGE_GALLERY_CODE)
+        gallery.action = Intent.ACTION_GET_CONTENT
+        gallery.addCategory(Intent.CATEGORY_OPENABLE)
+        gallery.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes)
+
+        requireActivity().startActivityForResult(getFileChooserIntent(), IMAGE_GALLERY_CODE)
     }
 
+    private fun getFileChooserIntent(): Intent? {
+        val mimeTypes = arrayOf("image/*", "application/pdf")
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            intent.type = if (mimeTypes.size == 1) mimeTypes[0] else "*/*"
+            if (mimeTypes.size > 0) {
+                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+            }
+        } else {
+            var mimeTypesStr = ""
+            for (mimeType in mimeTypes) {
+                mimeTypesStr += "$mimeType|"
+            }
+            intent.type = mimeTypesStr.substring(0, mimeTypesStr.length - 1)
+        }
+        return intent
+    }
 
     private fun compressImage(path: String?) {
         try {
@@ -449,17 +462,16 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                     fileUri = data?.data
                     val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
                     val cursor: Cursor? = fileUri?.let { requireActivity().contentResolver.query(it, filePathColumn, null, null, null) }
-                    cursor!!.moveToFirst()
-                    val columnIndex = cursor.getColumnIndex(filePathColumn[0])
-                    val picturePath = cursor.getString(columnIndex)
-                    cursor.close()
+                    cursor?.moveToFirst()
+                    val columnIndex = cursor?.getColumnIndex(filePathColumn[0])
+                    val picturePath = columnIndex?.let { cursor?.getString(it) }
+                    cursor?.close()
                     file = File(picturePath)
-                    //compressImage(file?.path)
+                   // compressImage(file?.path)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
                 ImageUploadTask(activity, file?.path, CommonStrings.DEALER_ID + "/" + customerId, currentImageName, currentImageKey, requestCode, this).execute()
-
             }
         } else if (requestCode == IMAGE_CAPTURE_CODE) {
             if (resultCode == Activity.RESULT_OK) {
@@ -489,7 +501,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
     }
 
-    private fun setFileAttachedText(textView:TextView) {
+    private fun setFileAttachedText(textView: TextView) {
         textView.text = "File attached"
         textView.setTextColor(resources.getColor(R.color.v2_green))
         textView.compoundDrawablePadding = 10
@@ -516,7 +528,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         t.printStackTrace()
     }
 
-    private fun setMandatoryTitle(textView:TextView,titleText:String)
+    private fun setMandatoryTitle(textView: TextView, titleText: String)
     {
         val text = "$titleText "
         val colored = getString(R.string.lbl_asterick)
@@ -536,7 +548,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     private fun isGroupedDocFilled(): Boolean {
         var docFilled=false
         var docCount=0
-        var docMap=HashMap<String,String>()
+        var docMap=HashMap<String, String>()
 
         if(documentHashMap.size>=kycDocumentData.groupedDoc.size)
         {
@@ -557,5 +569,17 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         return docMap.size==kycDocumentData.groupedDoc.size
     }
 
+    fun getRealPathFromURI(context: Context, contentUri: Uri?): String? {
+        var cursor: Cursor? = null
+        return try {
+            val proj = arrayOf(MediaStore.Images.Media.DATA)
+            cursor = context.contentResolver.query(contentUri!!, proj, null, null, null)
+            val column_index = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            cursor.moveToFirst()
+            cursor.getString(column_index)
+        } finally {
+            cursor?.close()
+        }
+    }
 
 }
