@@ -185,7 +185,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             tile1APIKey = tileData1.docs[0].apiKey
             tile1ImageName = textViewTitle.text.toString().trim()
         } else {
-            setMandatoryTitle(textViewTitle, tileData1.groupName)
+            textViewTitle.text=tileData1.groupName
             textViewImageDescription.text = tileData1.description
         }
 
@@ -256,7 +256,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                 tile2APIKey = tileData2.docs[0].apiKey
                 tile2ImageName = textViewTitle2.text.toString().trim()
             } else {
-                setMandatoryTitle(textViewTitle2, tileData2.groupName)
+                textViewTitle2.text=tileData2.groupName
                 textViewImageDescription2.text = tileData2.description
             }
 
@@ -568,20 +568,19 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
             }
         }
+        if(documentHashMap.size>=kycDocumentData.nonGroupedDoc.size)
+        {
+            for(index in kycDocumentData.nonGroupedDoc.indices)
+            {
+                    if(documentHashMap.containsKey(kycDocumentData.nonGroupedDoc[index].apiKey))
+                    {
+                        docMap[kycDocumentData.nonGroupedDoc[index].displayLabel.trim()] = kycDocumentData.nonGroupedDoc[index].apiKey
+                    }
+
+            }
+        }
         return docMap.size==kycDocumentData.groupedDoc.size+kycDocumentData.nonGroupedDoc.size
     }
 
-    fun getRealPathFromURI(context: Context, contentUri: Uri?): String? {
-        var cursor: Cursor? = null
-        return try {
-            val proj = arrayOf(MediaStore.Images.Media.DATA)
-            cursor = context.contentResolver.query(contentUri!!, proj, null, null, null)
-            val column_index = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-            cursor.moveToFirst()
-            cursor.getString(column_index)
-        } finally {
-            cursor?.close()
-        }
-    }
 
 }
