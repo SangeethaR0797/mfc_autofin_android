@@ -47,9 +47,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/vehicle_details_container"
                 android:orientation="vertical"
-                android:paddingRight="@dimen/text_size_16sp"
                 android:paddingLeft="@dimen/text_size_16sp"
                 android:paddingTop="@dimen/text_size_16sp"
+                android:paddingRight="@dimen/text_size_16sp"
                 android:paddingBottom="@dimen/text_size25dp">
 
                 <utility.RobotoMedium
@@ -129,6 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:padding="@dimen/text_size10dp"
                 android:text="@string/vtwo_search_car_lbl"
                 android:textColor="@color/vtwo_blue"
                 android:textSize="@dimen/text_size_16sp" />
