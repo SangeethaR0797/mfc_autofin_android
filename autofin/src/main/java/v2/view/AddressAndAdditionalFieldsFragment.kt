@@ -1189,8 +1189,9 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
             if(currentFilledFieldData.size>=mandatoryFieldsList.size)
             {
-                if(isAllMandatoryFieldsFilledInCurrentSection() && !isLastItem)
-                        currentSectionButton.background=resources.getDrawable(R.drawable.vtwo_next_btn_bg)
+                if(isAllMandatoryFieldsFilledInCurrentSection() && !isLastItem) {
+                    currentSectionButton.background=resources.getDrawable(R.drawable.vtwo_next_btn_bg)
+                }
             }
             else
             {
