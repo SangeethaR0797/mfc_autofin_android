@@ -189,7 +189,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             textViewImageDescription.text = tileData1.description
         }
 
-        if(documentHashMap.keys.contains(tile1APIKey))
+        if(documentHashMap.keys.contains(tile1APIKey) )
             setFileAttachedText(textViewAttachmentStatus)
 
         imageViewGallery.setOnClickListener(View.OnClickListener {
@@ -469,11 +469,20 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                     val picturePath = columnIndex?.let { cursor?.getString(it) }
                     cursor?.close()*/
                     file = File(picturePath)
-                    compressImage(file?.path)
+                 /*   if(isValidImageSize(file))
+                        showToast("Success")
+                    else
+                        showToast("Large file")
+*/
+                  compressImage(file?.path)
+
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
+                if(isValidImageSize(file))
                 ImageUploadTask(activity, file?.path, CommonStrings.DEALER_ID + "/" + customerId, currentImageName, currentImageKey, requestCode, this).execute()
+            else
+                showToast("Selected file size is greater than maximum limit. Maximum file size limit is 1.5MB")
             }
         } else if (requestCode == IMAGE_CAPTURE_CODE) {
             if (resultCode == Activity.RESULT_OK) {
@@ -483,10 +492,26 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                     } catch (e: java.lang.Exception) {
                         e.printStackTrace()
                     }
+                    if(isValidImageSize(file))
                     ImageUploadTask(activity, file?.absolutePath, CommonStrings.DEALER_ID + "/" + customerId, currentImageName, currentImageKey, requestCode, this).execute()
+                    else
+                        showToast("Selected file size is greater than maximum limit. Maximum file size limit is 1.5MB")
+
                 }
             }
         }
+    }
+
+    private fun isValidImageSize(file: File?): Boolean {
+        return if(file!=null)
+        {
+            val fileSizeInBytes=file.length()
+            val fileSizeInKB=fileSizeInBytes/1024
+            val fileSizeInMB=fileSizeInKB/1024
+            fileSizeInMB<=1.5
+        }
+        else
+            false
     }
 
     override fun onImageUploadCompleted(key: String, imageurl: String?, statuscode: Int) {
