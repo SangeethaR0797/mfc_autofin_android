@@ -11,6 +11,7 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import androidx.loader.content.CursorLoader
 
+
 public class RealPathUtil {
     fun getRealPath(context: Context, fileUri: Uri): String? {
         val realPath: String?
@@ -83,11 +84,39 @@ public class RealPathUtil {
                 // TODO handle non-primary volumes
             } else if (isDownloadsDocument(uri)) {
                 val id = DocumentsContract.getDocumentId(uri)
-                val contentUri: Uri = ContentUris.withAppendedId(
-                    Uri.parse("content://downloads/public_downloads"),
-                    java.lang.Long.valueOf(id)
+
+                if (id != null && id.startsWith("raw:")) {
+                    return id.substring(4);
+                }
+
+                val contentUriPrefixesToTry = arrayOf(
+                    "content://downloads/public_downloads",
+                    "content://downloads/my_downloads",
+                    "content://downloads/all_downloads"
                 )
-                return getDataColumn(context, contentUri, null, null)
+                var contentUri: Uri? = null
+                for (contentUriPrefix in contentUriPrefixesToTry) {
+                    contentUri = ContentUris.withAppendedId(
+                        Uri.parse(contentUriPrefix),
+                        java.lang.Long.valueOf(id)
+                    )
+                    try {
+                        if (contentUri != null) {
+                            val path = getDataColumn(context, contentUri, null, null)
+                            if (path != null) {
+                                return path
+                            }
+                        }
+                    } catch (e: Exception) {
+                    }
+                }
+
+
+                /* val contentUri: Uri = ContentUris.withAppendedId(
+                     Uri.parse("content://downloads/public_downloads"),
+                     java.lang.Long.valueOf(id)
+                 )*/
+                return null
             } else if (isMediaDocument(uri)) {
                 val docId = DocumentsContract.getDocumentId(uri)
                 val split = docId.split(":").toTypedArray()
