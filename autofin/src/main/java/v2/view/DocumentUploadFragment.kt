@@ -117,16 +117,24 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         })
 
         buttonUploadDocument.setOnClickListener(View.OnClickListener {
-            if (kycDocumentData.groupedDoc.isNotEmpty()) {
-                if (isGroupedDocFilled()) {
-                    showProgressDialog(requireActivity())
-                    retrofitInterface.getFromWeb(getUploadKYCRequest(), CommonStrings.UPLOAD_KYC_DOC_URL_V2).enqueue(this)
-                } else {
-                    showToast("Attach anyone document for each Mandatory each document group")
-                }
-            } else {
+            if(customerDetailsResponse.data?.status=="Document Uploaded")
+            {
                 navigateToBankOfferStatus(customerId, customerDetailsResponse, "DocUpload")
             }
+            else
+            {
+                if (kycDocumentData.groupedDoc.isNotEmpty()) {
+                    if (isGroupedDocFilled()) {
+                        showProgressDialog(requireActivity())
+                        retrofitInterface.getFromWeb(getUploadKYCRequest(), CommonStrings.UPLOAD_KYC_DOC_URL_V2).enqueue(this)
+                    } else {
+                        showToast("Attach anyone document for each Mandatory each document group")
+                    }
+                } else {
+                    navigateToBankOfferStatus(customerId, customerDetailsResponse, "DocUpload")
+                }
+            }
+
         })
         generateDocumentTileUI()
     }
@@ -189,7 +197,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             textViewImageDescription.text = tileData1.description
         }
 
-        if(documentHashMap.keys.contains(tile1APIKey) )
+        if(documentHashMap.keys.contains(tile1APIKey) || isCurrentGroupDocFilled(tileData1.docs))
             setFileAttachedText(textViewAttachmentStatus)
 
         imageViewGallery.setOnClickListener(View.OnClickListener {
@@ -260,7 +268,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                 textViewImageDescription2.text = tileData2.description
             }
 
-            if(documentHashMap.keys.contains(tile2APIKey))
+            if(documentHashMap.keys.contains(tile2APIKey) || isCurrentGroupDocFilled(tileData2.docs))
                 setFileAttachedText(textViewAttachmentStatus2)
 
             imageViewGallery2.setOnClickListener(View.OnClickListener {
@@ -320,6 +328,16 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
         columnLayout2.addView(getColumnLayout(columnLayout2, tileData2))
 */
+    }
+
+    private fun isCurrentGroupDocFilled(docs: List<Docs>): Boolean {
+        var docFilled:Boolean=false
+        for(index in docs.indices)
+        {
+            if(documentHashMap.keys.contains(docs[index].apiKey))
+                docFilled=true
+        }
+        return docFilled
     }
 
     private fun showImageSelectionDialog(groupName: String, docs: List<Docs>, documentSelectionCallBack: DocumentSelectionCallBack) {
@@ -462,24 +480,25 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                 try {
                     fileUri = data?.data
                     var picturePath = RealPathUtil().getRealPath(requireContext(), fileUri!!)
-                   /* val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+                    /* val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
                     val cursor: Cursor? = fileUri?.let { requireActivity().contentResolver.query(it, filePathColumn, null, null, null) }
                     cursor?.moveToFirst()
                     val columnIndex = cursor?.getColumnIndex(filePathColumn[0])
                     val picturePath = columnIndex?.let { cursor?.getString(it) }
                     cursor?.close()*/
                     file = File(picturePath)
-                 /*   if(isValidImageSize(file))
+                  /*  if (isValidImageSize(file))
                         showToast("Success")
                     else
                         showToast("Large file")
 */
-                  compressImage(file?.path)
+                     compressImage(file?.path)
 
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-                if(isValidImageSize(file))
+
+              if(isValidImageSize(file))
                 ImageUploadTask(activity, file?.path, CommonStrings.DEALER_ID + "/" + customerId, currentImageName, currentImageKey, requestCode, this).execute()
             else
                 showToast("Selected file size is greater than maximum limit. Maximum file size limit is 1.5MB")
