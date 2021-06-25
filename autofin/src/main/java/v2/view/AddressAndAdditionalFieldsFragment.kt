@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.os.Handler
 import android.text.*
@@ -12,6 +13,7 @@ import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
@@ -1190,12 +1192,19 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
             if(currentFilledFieldData.size>=mandatoryFieldsList.size)
             {
                 if(isAllMandatoryFieldsFilledInCurrentSection() && !isLastItem) {
-                    currentSectionButton.background=resources.getDrawable(R.drawable.vtwo_next_btn_bg)
+                  //  currentSectionButton.background=resources.getDrawable(R.drawable.vtwo_next_btn_bg)
+                    currentSectionButton.background.setColorFilter(ContextCompat.getColor(requireContext(), R.color.vtwo_black), PorterDuff.Mode.MULTIPLY);
+
+                  //  currentSectionButton.setPadding(85,13,85,13)
                 }
             }
             else
             {
-                currentSectionButton.background=resources.getDrawable(R.drawable.v2_rounded_light_grey_bg)
+                currentSectionButton.background.setColorFilter(ContextCompat.getColor(requireContext(), R.color.vtwo_pale_grey), PorterDuff.Mode.MULTIPLY);
+
+            //  currentSectionButton.background=resources.getDrawable(R.drawable.v2_rounded_light_grey_bg)
+               // currentSectionButton.setPadding(85,13,85,13)
+
             }
         }
 
