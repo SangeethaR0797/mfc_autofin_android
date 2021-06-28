@@ -220,7 +220,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         textViewPermanentAddress3 = view.findViewById(R.id.textViewPermanentAddress3)
 
 
-        textViewSelectBankLabel.text = "You have selected " + customerDetailsResponse.data?.loanDetails?.bankName + " bank"
+        textViewSelectBankLabel.text = "You have selected " + customerDetailsResponse.data?.loanDetails?.bankName
         ivBackFromAddressAndAdditionalFields.setOnClickListener(this)
         imageViewEditCurrentAddress.setOnClickListener(this)
         imageViewEditPermanentAddress.setOnClickListener(this)
@@ -895,9 +895,20 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                     override fun afterTextChanged(s: Editable?) {
                         if (!TextUtils.isEmpty(s.toString())) {
 
-                            last_text_edit = System.currentTimeMillis()
-                            handler.removeCallbacksAndMessages(null)
-                            handler.postDelayed(input_finish_checker, delay)
+                            if (fieldData.apiDetails.apiKey == "CompanyPincode") {
+                                if(s?.length==6)
+                                updateEditTextValues(fieldInputValue, fieldData, sectionName, isLastItem, linearLayout, cFieldList, isLastSection)
+                                else if(s?.length!! >6)
+                                    showToast("Enter valid Pincode")
+                            }
+                            else
+                            {
+                                last_text_edit = System.currentTimeMillis()
+                                handler.removeCallbacksAndMessages(null)
+                                handler.postDelayed(input_finish_checker, delay)
+                            }
+
+
                         } else {
                             showToast("Please enter Value")
                         }
@@ -905,8 +916,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
                     val input_finish_checker = Runnable {
                         if (System.currentTimeMillis() > last_text_edit + delay - 3000) {
-                            updateEditTextValues(fieldInputValue, fieldData, sectionName, isLastItem, linearLayout, cFieldList, isLastSection)
-
+                                updateEditTextValues(fieldInputValue, fieldData, sectionName, isLastItem, linearLayout, cFieldList, isLastSection)
                         }
                     }
 
