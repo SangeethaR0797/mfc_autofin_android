@@ -704,16 +704,16 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
     private fun submitPermanentAddress() {
 
-        permanentAddress = PermanentAddress(pincode, address)
-        val addressData =
-            AddressData(customerId.toInt(), currentAddress, permanentAddress, cityMovedInYear)
-        val updateAddressRequest =
-            UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, addressData)
+            permanentAddress = PermanentAddress(pincode, address)
+            val addressData =
+                AddressData(customerId.toInt(), currentAddress, permanentAddress, cityMovedInYear)
+            val updateAddressRequest =
+                UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, addressData)
 
-        addressViewModel.updateAddress(
-            updateAddressRequest,
-            Global.customerAPI_BaseURL + CommonStrings.UPDATE_ADDRESS_URL
-        )
+            addressViewModel.updateAddress(
+                updateAddressRequest,
+                Global.customerAPI_BaseURL + CommonStrings.UPDATE_ADDRESS_URL
+            )
     }
 
     //region AddressFunctions
@@ -1299,6 +1299,8 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                 currentFieldInputView = LayoutInflater.from(fragView.context)
                     .inflate(R.layout.v2_custom_input_text_view, linearLayout, false)
                 val fieldInput: TextView = currentFieldInputView.findViewById(R.id.textViewDropDown)
+                val linearLayoutCustomDropDownTextView: TextView =
+                    currentFieldInputView.findViewById(R.id.linearLayoutCustomDropDownTextView)
                 fieldInput.hint = fieldData.placeHolder
                 fieldInput.text = isFieldFilled(fieldData.apiDetails.apiKey)
 
@@ -1314,7 +1316,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
                 val apiURL = fieldData.apiDetails.url
 
-                fieldInput.setOnClickListener(View.OnClickListener {
+                linearLayoutCustomDropDownTextView.setOnClickListener(View.OnClickListener {
                     if (fieldData.apiDetails.apiKey != "CompanyState" && fieldData.apiDetails.apiKey != "CompanyCity") {
                         RetroBase.retrofitInterface.getFromWeb(apiURL)
                             ?.enqueue(object : Callback<Any> {
