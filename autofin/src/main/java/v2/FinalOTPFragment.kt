@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.os.CountDownTimer
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.mfc.autofin.framework.R
-import org.w3c.dom.Text
 import utility.CommonStrings
 import utility.Global
 import v2.model.dto.CustomLoanProcessCompletedData
@@ -26,7 +24,6 @@ import v2.model.response.bank_offers.ValidateFinalOTPResponse
 import v2.model_view.TransactionViewModel
 import v2.service.utility.ApiResponse
 import v2.view.base.BaseFragment
-import v2.view.utility_view.SelectedBankOfferStatusFragmentArgs
 
 class FinalOTPFragment : BaseFragment() {
 
@@ -87,14 +84,14 @@ class FinalOTPFragment : BaseFragment() {
         buttonSubmitFinalOTP = view.findViewById(R.id.buttonSubmitFinalOTP)
 
         tvFinalResendOTPV2.setOnClickListener(View.OnClickListener {
-            timer.onFinish()
+            timer.cancel()
             callGenerateFinalOTP()
         })
 
         buttonSubmitFinalOTP.setOnClickListener(View.OnClickListener {
             if (etFinalOTPV2.text.toString().isNotEmpty()) {
                 currentOTP = etFinalOTPV2.text.toString()
-                timer.onFinish()
+                timer.cancel()
                 callValidateFinalOTP()
             } else {
                 showToast("Enter OTP!")
@@ -108,8 +105,11 @@ class FinalOTPFragment : BaseFragment() {
     private fun initView() {
 
         textViewMobileNumber.text = mobileNum.substring(0, 2) + "******" + mobileNum.substring(7, 9)
+        etFinalOTPV2.setText(currentOTP)
+    }
 
-
+    private fun initiateTimer()
+    {
         timer = object : CountDownTimer(60000, 1000) {
 
             @SuppressLint("SetTextI18n")
@@ -118,15 +118,12 @@ class FinalOTPFragment : BaseFragment() {
             }
 
             override fun onFinish() {
-                tvFinalOTPTimerV2.text = "0 Sec"
                 timer.cancel()
+                tvFinalOTPTimerV2.text = "0 Sec"
             }
         }.start()
 
-        etFinalOTPV2.setText(currentOTP)
-
     }
-
 
     private fun callGenerateFinalOTP() {
         getFinalOTPRequest()?.let { it1 -> transactionViewModel.generateFinalOTP(it1, Global.customerAPI_BaseURL + CommonStrings.GET_FINAL_OTP_URL_END_POINT) }
@@ -148,13 +145,15 @@ class FinalOTPFragment : BaseFragment() {
             ApiResponse.Status.LOADING -> {
                 showProgressDialog(fragmentContext)
             }
+
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
                 val otpRes: OTPResponse? =
                         mApiResponse.data as OTPResponse?
                 if (otpRes?.data != null) {
                     currentOTP = otpRes.data.toString()
-                    initView()
+                    etFinalOTPV2.setText(currentOTP)
+                    initiateTimer()
                 } else {
                     showToast("Something went wrong! Please try again later!")
                 }
@@ -163,7 +162,6 @@ class FinalOTPFragment : BaseFragment() {
                 hideProgressDialog()
                 val otpRes: OTPResponse? =
                         mApiResponse.data as OTPResponse?
-
                 showToast("Something went wrong ")
             }
             else -> {
