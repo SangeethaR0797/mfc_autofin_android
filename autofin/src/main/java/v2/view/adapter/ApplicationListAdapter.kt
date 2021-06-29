@@ -64,12 +64,10 @@ class ApplicationListAdapter(
         } else {
             holder.tvLOSId.visibility = View.GONE
             holder.tvLOSIdCaption.visibility = View.GONE
-            if(dataListFilter!![position].status==baseFragment.resources.getString(R.string.v2_lead_status_submitted_to_bank)){
+            if(dataListFilter!![position].status==baseFragment.resources.getString(R.string.v2_lead_status_submitted_to_bank))
                 holder.btnComplete.text =baseFragment.resources.getString(R.string.btn_lbl_view_details)
-            }else
-            {
+            else
                 holder.btnComplete.text =baseFragment.resources.getString(R.string.btn_lbl_complete)
-            }
             holder.btnComplete.visibility = View.VISIBLE
         }
         if (mBaseFragment != null) {
