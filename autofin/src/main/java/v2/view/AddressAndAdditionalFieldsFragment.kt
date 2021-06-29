@@ -51,6 +51,8 @@ import v2.view.callBackInterface.AdditionalFieldsDetailsInterface
 import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.callBackInterface.itemClickCallBack
 import v2.view.utility_view.GridItemDecoration
+import java.lang.Exception
+import java.lang.NullPointerException
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -83,7 +85,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
     lateinit var currentAddress: CurrentAddress
     lateinit var currentAddressResponse: v2.model.response.CurrentAddress
     lateinit var permanentAddress: PermanentAddress
-    lateinit var permanentAddressResponse: v2.model.response.PermanentAddress
+    var permanentAddressResponse: v2.model.response.PermanentAddress? = null
     lateinit var additionalFieldsData: AdditionalFieldsData
     lateinit var additionalFieldAdapter: DataRecyclerViewAdapter
     var sectionMap = HashMap<String, ArrayList<FieldDetails>>()
@@ -123,14 +125,23 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
     private var list = ArrayList<DataSelectionDTO>()
     lateinit var viewEmpty: View
 
-    lateinit var editTextCurrentAddress1: EditText
-    lateinit var linearLayoutCurrentAddress1: LinearLayout
+    var editTextCurrentAddress1: EditText? = null
+    var linearLayoutCurrentAddress1: LinearLayout? = null
 
-    lateinit var editTextCurrentAddress2: EditText
-    lateinit var linearLayoutCurrentAddress2: LinearLayout
+    var editTextCurrentAddress2: EditText? = null
+    var linearLayoutCurrentAddress2: LinearLayout? = null
 
-    lateinit var editTextCurrentAddress3: EditText
-    lateinit var linearLayoutCurrentAddress3: LinearLayout
+    var editTextCurrentAddress3: EditText? = null
+    var linearLayoutCurrentAddress3: LinearLayout? = null
+
+    var editTextPermanentAddress1: EditText? = null
+    var linearLayoutPermanentAddress1: LinearLayout? = null
+
+    var editTextPermanentAddress2: EditText? = null
+    var linearLayoutPermanentAddress2: LinearLayout? = null
+
+    var editTextPermanentAddress3: EditText? = null
+    var linearLayoutPermanentAddress3: LinearLayout? = null
 
     override fun onVisibilityChanged(isKeyBoardVisible: Boolean) {
         if (viewEmpty != null) {
@@ -162,12 +173,18 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
     fun checkForFocusAndScroll(view: View) {
         var viewToScroll: View? = null
         var etCrrent = view as EditText
-        if (editTextCurrentAddress1.hasFocus()) {
+        if (editTextCurrentAddress1 != null && editTextCurrentAddress1!!.hasFocus()) {
             viewToScroll = linearLayoutCurrentAddress1
-        } else if (editTextCurrentAddress2.hasFocus()) {
+        } else if (editTextCurrentAddress2 != null && editTextCurrentAddress2!!.hasFocus()) {
             viewToScroll = linearLayoutCurrentAddress2
-        } else if (editTextCurrentAddress3.hasFocus()) {
+        } else if (editTextCurrentAddress3 != null && editTextCurrentAddress3!!.hasFocus()) {
             viewToScroll = linearLayoutCurrentAddress3
+        } else if (editTextPermanentAddress1 != null && editTextPermanentAddress1!!.hasFocus()) {
+            viewToScroll = linearLayoutPermanentAddress1
+        } else if (editTextPermanentAddress2 != null && editTextPermanentAddress2!!.hasFocus()) {
+            viewToScroll = linearLayoutPermanentAddress2
+        } else if (editTextPermanentAddress3 != null && editTextPermanentAddress3!!.hasFocus()) {
+            viewToScroll = linearLayoutPermanentAddress3
         } else if (etCrrent.hasFocus() || etCrrent.hasFocus()) {
             viewToScroll = linearLayoutAddNewCurrentAddress
         }
@@ -394,23 +411,23 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         linearLayoutCurrentAddress3 =
             addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress3)
 
-        editTextCurrentAddress1.setOnFocusChangeListener(View.OnFocusChangeListener { view, hasFocus ->
+        editTextCurrentAddress1!!.setOnFocusChangeListener(View.OnFocusChangeListener { view, hasFocus ->
             if (hasFocus) {
                 viewEmpty.visibility = View.GONE
-                checkForFocusAndScroll(editTextCurrentAddress1)
+                checkForFocusAndScroll(editTextCurrentAddress1!!)
             }
         })
-        editTextCurrentAddress2.setOnFocusChangeListener(View.OnFocusChangeListener { view, hasFocus ->
+        editTextCurrentAddress2!!.setOnFocusChangeListener(View.OnFocusChangeListener { view, hasFocus ->
             if (hasFocus) {
                 viewEmpty.visibility = View.GONE
-                checkForFocusAndScroll(editTextCurrentAddress2)
+                checkForFocusAndScroll(editTextCurrentAddress2!!)
 
             }
         })
-        editTextCurrentAddress3.setOnFocusChangeListener(View.OnFocusChangeListener { view, hasFocus ->
+        editTextCurrentAddress3!!.setOnFocusChangeListener(View.OnFocusChangeListener { view, hasFocus ->
             if (hasFocus) {
                 viewEmpty.visibility = View.GONE
-                checkForFocusAndScroll(editTextCurrentAddress3)
+                checkForFocusAndScroll(editTextCurrentAddress3!!)
             }
         })
 
@@ -469,17 +486,17 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
             if (editTextPinCode.text.toString().isNotEmpty() &&
                 textViewState.text.toString().isNotEmpty() &&
                 textViewCity.text.toString().isNotEmpty() &&
-                editTextCurrentAddress1.text.toString().isNotEmpty() &&
-                editTextCurrentAddress2.text.toString().isNotEmpty() &&
-                editTextCurrentAddress3.text.toString().isNotEmpty()
+                editTextCurrentAddress1!!.text.toString().isNotEmpty() &&
+                editTextCurrentAddress2!!.text.toString().isNotEmpty() &&
+                editTextCurrentAddress3!!.text.toString().isNotEmpty()
             ) {
 
                 if (linearLayoutCityMovedInYear.visibility == View.VISIBLE && cityMovedInYear.isEmpty()) {
                     showToast("Please select city moved in year")
                 } else {
-                    address1 = editTextCurrentAddress1.text.toString()
-                    address2 = editTextCurrentAddress2.text.toString()
-                    address3 = editTextCurrentAddress3.text.toString()
+                    address1 = editTextCurrentAddress1!!.text.toString()
+                    address2 = editTextCurrentAddress2!!.text.toString()
+                    address3 = editTextCurrentAddress3!!.text.toString()
                     address = "$address1***$address2***$address3"
                     submitCurrentAddress()
                 }
@@ -516,9 +533,10 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
             initiateAdditionalFields()
         } else {
             checkboxCurrentAndPermanentAddress.visibility = View.GONE
-            if (permanentAddressResponse.pincode.isNullOrEmpty()) {
+            if (permanentAddressResponse != null && permanentAddressResponse!!.pincode.isNullOrEmpty()) {
                 showNewPermanentAddress()
             } else {
+                permanentAddressResponse
                 showEditPermanentAddress()
             }
         }
@@ -543,11 +561,38 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         val linearLayoutCityMovedInYear =
             addressView.findViewById<LinearLayout>(R.id.linearLayoutCityMovedInYear)
 
-        val editTextAddress1 = addressView.findViewById<EditText>(R.id.editTextAddress1)
-        val editTextAddress2 = addressView.findViewById<EditText>(R.id.editTextAddress2)
+        editTextPermanentAddress1 = addressView.findViewById<EditText>(R.id.editTextAddress1)
+        linearLayoutPermanentAddress1 =
+            addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress)
 
-        val editTextAddress3 = addressView.findViewById<EditText>(R.id.editTextAddress3)
-        val linearLayoutAddress3 = addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress3)
+        editTextPermanentAddress2 = addressView.findViewById<EditText>(R.id.editTextAddress2)
+        linearLayoutPermanentAddress2 =
+            addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress2)
+
+        editTextPermanentAddress3 = addressView.findViewById<EditText>(R.id.editTextAddress3)
+        linearLayoutPermanentAddress3 =
+            addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress3)
+
+
+        editTextPermanentAddress1!!.setOnFocusChangeListener(View.OnFocusChangeListener { view, hasFocus ->
+            if (hasFocus) {
+                viewEmpty.visibility = View.GONE
+                checkForFocusAndScroll(editTextPermanentAddress1!!)
+            }
+        })
+
+        editTextPermanentAddress2!!.setOnFocusChangeListener(View.OnFocusChangeListener { view, hasFocus ->
+            if (hasFocus) {
+                viewEmpty.visibility = View.GONE
+                checkForFocusAndScroll(editTextPermanentAddress2!!)
+            }
+        })
+        editTextPermanentAddress3!!.setOnFocusChangeListener(View.OnFocusChangeListener { view, hasFocus ->
+            if (hasFocus) {
+                viewEmpty.visibility = View.GONE
+                checkForFocusAndScroll(editTextPermanentAddress3!!)
+            }
+        })
 
         val checkboxIsPermanentAdd = addressView.findViewById<CheckBox>(R.id.checkboxIsPermanentAdd)
 
@@ -579,14 +624,14 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
             if (editTextPinCode.text.toString().isNotEmpty() &&
                 textViewState.text.toString().isNotEmpty() &&
                 textViewCity.text.toString().isNotEmpty() &&
-                editTextAddress1.text.toString().isNotEmpty() &&
-                editTextAddress2.text.toString().isNotEmpty() &&
-                editTextAddress3.text.toString().isNotEmpty()
+                editTextPermanentAddress1!!.text.toString().isNotEmpty() &&
+                editTextPermanentAddress2!!.text.toString().isNotEmpty() &&
+                editTextPermanentAddress3!!.text.toString().isNotEmpty()
             ) {
 
-                address1 = editTextAddress1.text.toString()
-                address2 = editTextAddress2.text.toString()
-                address3 = editTextAddress3.text.toString()
+                address1 = editTextPermanentAddress1!!.text.toString()
+                address2 = editTextPermanentAddress2!!.text.toString()
+                address3 = editTextPermanentAddress3!!.text.toString()
                 address = "$address1***$address2***$address3"
 
                 submitPermanentAddress()
@@ -605,11 +650,17 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
             linearLayoutAddNewPermanentAddress.visibility = View.GONE
 
         linearLayoutEditPermanentAddress.visibility = View.VISIBLE
+        try {
+            textViewPermanentAddress1.text = permanentAddressResponse!!.addressLine1!!
+            textViewPermanentAddress2.text = permanentAddressResponse!!.addressLine2!!
+            textViewPermanentAddress3.text =
+                "${permanentAddressResponse!!.addressLine3!!}, ${permanentAddressResponse!!.pincode!!}"
+        } catch (ex: NullPointerException) {
 
-        textViewPermanentAddress1.text = permanentAddressResponse.addressLine1
-        textViewPermanentAddress2.text = permanentAddressResponse.addressLine2
-        textViewPermanentAddress3.text =
-            "${permanentAddressResponse.addressLine3}, ${permanentAddressResponse.pincode}"
+        } catch (ex: Exception) {
+
+        }
+
         initiateAdditionalFields()
     }
 
