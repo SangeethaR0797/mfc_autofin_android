@@ -25,6 +25,12 @@ class BankSuccessMessageFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        arguments?.let {
+            val safeArgs = BankSuccessMessageFragmentArgs.fromBundle(it)
+            custId = safeArgs.LoanProcessData.customerId
+            name=safeArgs.LoanProcessData.customerName
+            caseID=safeArgs.LoanProcessData.caseID
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +43,6 @@ class BankSuccessMessageFragment : BaseFragment() {
         textViewCustomerName.text=name
         textViewCustCaseId.text=caseIDPrefix+caseID
         buttonViewStatus.setOnClickListener(View.OnClickListener {
-            activity?.finish()
             navigateToLeadDetailsFromFinalScreen(custId)
         })
 
