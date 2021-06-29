@@ -177,6 +177,12 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
 
     private fun setCustomerData() {
         if (customerResponse != null) {
+
+            if(customerResponse?.data?.status==getString(R.string.v2_lead_status_submitted_to_bank))
+               btnComplete.visibility=View.GONE
+            else
+                btnComplete.visibility=View.VISIBLE
+
             tvTitle.text =
                 customerResponse!!.data!!.basicDetails!!.firstName + " " + customerResponse!!.data!!.basicDetails!!.lastName
             tvStatus.text = customerResponse!!.data!!.status
@@ -331,7 +337,7 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     val name =
                         customerResponse!!.data?.basicDetails?.firstName + " " + customerResponse!!.data?.basicDetails?.lastName
                     val caseId = customerResponse!!.data?.caseId
-                    caseId?.let { CustomLoanProcessCompletedData(salutation + " " + name, it) }
+                    caseId?.let { CustomLoanProcessCompletedData(customerId.toInt(),salutation + " " + name, it) }
                         ?.let { navigateToBankSuccessPageFromSoftOffer(it) }
                 }
             }

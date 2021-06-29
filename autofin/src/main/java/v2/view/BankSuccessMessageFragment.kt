@@ -14,6 +14,7 @@ import v2.view.utility_view.SelectedBankOfferStatusFragmentArgs
 
 class BankSuccessMessageFragment : BaseFragment() {
 
+    var custId=0
     var name=""
     var caseID=""
     val bankAppIdPrefix="Your bank application ID is "
@@ -25,12 +26,7 @@ class BankSuccessMessageFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            val safeArgs = BankSuccessMessageFragmentArgs.fromBundle(it)
-            name=safeArgs.LoanProcessData.customerName
-            caseID=safeArgs.LoanProcessData.caseID
-
-        }
+        
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +38,8 @@ class BankSuccessMessageFragment : BaseFragment() {
         textViewCustomerName.text=name
         textViewCustCaseId.text=caseIDPrefix+caseID
         buttonViewStatus.setOnClickListener(View.OnClickListener {
-            showToast("Development Under Progress")
+            activity?.finish()
+            navigateToLeadDetailsFromFinalScreen(custId)
         })
 
 

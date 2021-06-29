@@ -164,6 +164,9 @@
         <action
             android:id="@+id/action_bankSuccessMessageFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment" />
+        <action
+            android:id="@+id/action_bankSuccessMessageFragment_to_applicationDetailsFragment"
+            app:destination="@id/applicationDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/finalOTPFragment"

@@ -549,6 +549,15 @@ public open class BaseFragment : Fragment() {
             Navigation.findNavController(it).navigate(directions)
         }
     }
+
+    public fun navigateToLeadDetailsFromFinalScreen(customerId: Int) {
+        view?.let { Navigation.findNavController(it).navigate(R.id.action_bankSuccessMessageFragment_to_dashboardFragment) }
+      /*  val directions =
+                BankSuccessMessageFragmentDirections.actionBankSuccessMessageFragmentToApplicationDetailsFragment(customerId)
+        view?.let {
+            Navigation.findNavController(it).navigate(directions)
+        }
+*/    }
     //endregion screen Navigation
 
     //region message
