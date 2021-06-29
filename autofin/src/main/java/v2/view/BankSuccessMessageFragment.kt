@@ -25,7 +25,6 @@ class BankSuccessMessageFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +40,6 @@ class BankSuccessMessageFragment : BaseFragment() {
             activity?.finish()
             navigateToLeadDetailsFromFinalScreen(custId)
         })
-
 
         return view
     }

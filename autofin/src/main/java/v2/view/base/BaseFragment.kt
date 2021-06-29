@@ -551,13 +551,22 @@ public open class BaseFragment : Fragment() {
     }
 
     public fun navigateToLeadDetailsFromFinalScreen(customerId: Int) {
-        view?.let { Navigation.findNavController(it).navigate(R.id.action_bankSuccessMessageFragment_to_dashboardFragment) }
-      /*  val directions =
+       // view?.let { Navigation.findNavController(it).navigate(R.id.action_bankSuccessMessageFragment_to_dashboardFragment) }
+       val directions =
                 BankSuccessMessageFragmentDirections.actionBankSuccessMessageFragmentToApplicationDetailsFragment(customerId)
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }
-*/    }
+   }
+
+    public fun navigateToLeadDetails(customerId: Int)
+    {
+        val directions =
+                ApplicationListFragmentDirections.actionApplicationDetailsFragment(customerId)
+        view?.let {
+            Navigation.findNavController(it).navigate(directions)
+        }
+    }
     //endregion screen Navigation
 
     //region message
