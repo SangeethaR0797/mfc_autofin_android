@@ -111,6 +111,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         if (hostActivity != null) {
             hostActivity.appTokenChangeInterface = DashboardFragment@ this
         }
+        hideSoftKeyboard()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
