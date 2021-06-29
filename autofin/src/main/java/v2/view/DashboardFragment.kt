@@ -484,10 +484,16 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 navigateApplicationListFragment(ScreenTypeEnum.Registered.value,ScreenTypeEnum.Registered.value)
             }
             MenuEnum.Soft_offer.value -> {
+                navigateApplicationListFragment(ScreenTypeEnum.SoftOffer.value,getString(R.string.v2_soft_offer_title))
+
+/*
                 navigateApplicationListFragment(ScreenTypeEnum.SoftOffer.value,ScreenTypeEnum.SoftOffer.value)
+*/
             }
             MenuEnum.Logged_In.value -> {
-                navigateApplicationListFragment(ScreenTypeEnum.LoggedIn.value,ScreenTypeEnum.LoggedIn.value)
+                navigateApplicationListFragment(ScreenTypeEnum.LoggedIn.value,getString(R.string.v2_logged_in_title))
+
+                // navigateApplicationListFragment(ScreenTypeEnum.LoggedIn.value,ScreenTypeEnum.LoggedIn.value)
             }
             MenuEnum.Approved.value -> {
                 navigateApplicationListFragment(ScreenTypeEnum.Approved.value,ScreenTypeEnum.Approved.value)
