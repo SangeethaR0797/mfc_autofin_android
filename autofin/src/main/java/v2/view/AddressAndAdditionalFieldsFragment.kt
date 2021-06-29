@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.google.gson.Gson
 import com.mfc.autofin.framework.R
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
@@ -50,6 +51,9 @@ import v2.view.callBackInterface.AdditionalFieldsDetailsInterface
 import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.callBackInterface.itemClickCallBack
 import v2.view.utility_view.GridItemDecoration
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickListener,
@@ -119,6 +123,15 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
     private var list = ArrayList<DataSelectionDTO>()
     lateinit var viewEmpty: View
 
+    lateinit var editTextCurrentAddress1: EditText
+    lateinit var linearLayoutCurrentAddress1: LinearLayout
+
+    lateinit var editTextCurrentAddress2: EditText
+    lateinit var linearLayoutCurrentAddress2: LinearLayout
+
+    lateinit var editTextCurrentAddress3: EditText
+    lateinit var linearLayoutCurrentAddress3: LinearLayout
+
     override fun onVisibilityChanged(isKeyBoardVisible: Boolean) {
         if (viewEmpty != null) {
             if (isKeyBoardVisible) {
@@ -127,34 +140,11 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                     Thread.sleep(200)
                 }
 
-                if (viewEmpty.visibility == View.GONE) {
-
-                    viewEmpty.visibility = View.VISIBLE
-
-                }
-
 
                 val view = requireActivity().currentFocus
                 if (view != null && view is EditText) {
-                    var viewToScroll: View? = null
-                    var etCrrent = view as EditText
-                    if (etCrrent.hasFocus() || etCrrent.hasFocus()) {
-                        viewToScroll = linearLayoutAddNewCurrentAddress
-                    }
+                    checkForFocusAndScroll(view)
 
-
-
-                    if (viewToScroll != null) {
-
-                        scrollToBottom(viewToScroll!!)
-                        //scrollToRow(linearLayoutAddNewCurrentAddress,etCrrent)
-                    }
-
-                    (view as EditText).setOnFocusChangeListener(View.OnFocusChangeListener { view, hasFocus ->
-                        if (!hasFocus) {
-                          //  viewEmpty.visibility = View.GONE
-                        }
-                    })
 
                 }
 
@@ -166,6 +156,40 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                 }
 
             }
+        }
+    }
+
+    fun checkForFocusAndScroll(view: View) {
+        var viewToScroll: View? = null
+        var etCrrent = view as EditText
+        if (editTextCurrentAddress1.hasFocus()) {
+            viewToScroll = linearLayoutCurrentAddress1
+        } else if (editTextCurrentAddress2.hasFocus()) {
+            viewToScroll = linearLayoutCurrentAddress2
+        } else if (editTextCurrentAddress3.hasFocus()) {
+            viewToScroll = linearLayoutCurrentAddress3
+        } else if (etCrrent.hasFocus() || etCrrent.hasFocus()) {
+            viewToScroll = linearLayoutAddNewCurrentAddress
+        }
+
+
+
+        if (viewToScroll != null) {
+            if (viewEmpty.visibility == View.GONE) {
+                Timer()!!.schedule(object : TimerTask() {
+                    override fun run() {
+                        ThreadUtils.runOnUiThread(Runnable {
+                            viewEmpty.visibility = View.VISIBLE
+                            scrollToBottom(viewToScroll!!)
+                            //scrollToRow(linearLayoutAddNewCurrentAddress,etCrrent)
+                        });
+
+                    }
+                }, 300)
+
+
+            }
+
         }
     }
 
@@ -358,9 +382,38 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         val editTextCityMovedInYear =
             addressView.findViewById<EditText>(R.id.editTextCityMovedInYear)
 
-        val editTextAddress1 = addressView.findViewById<EditText>(R.id.editTextAddress1)
-        val editTextAddress2 = addressView.findViewById<EditText>(R.id.editTextAddress2)
-        val editTextAddress3 = addressView.findViewById<EditText>(R.id.editTextAddress3)
+        editTextCurrentAddress1 = addressView.findViewById<EditText>(R.id.editTextAddress1)
+        linearLayoutCurrentAddress1 =
+            addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress)
+
+        editTextCurrentAddress2 = addressView.findViewById<EditText>(R.id.editTextAddress2)
+        linearLayoutCurrentAddress2 =
+            addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress2)
+
+        editTextCurrentAddress3 = addressView.findViewById<EditText>(R.id.editTextAddress3)
+        linearLayoutCurrentAddress3 =
+            addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress3)
+
+        editTextCurrentAddress1.setOnFocusChangeListener(View.OnFocusChangeListener { view, hasFocus ->
+            if (hasFocus) {
+                viewEmpty.visibility = View.GONE
+                checkForFocusAndScroll(editTextCurrentAddress1)
+            }
+        })
+        editTextCurrentAddress2.setOnFocusChangeListener(View.OnFocusChangeListener { view, hasFocus ->
+            if (hasFocus) {
+                viewEmpty.visibility = View.GONE
+                checkForFocusAndScroll(editTextCurrentAddress2)
+
+            }
+        })
+        editTextCurrentAddress3.setOnFocusChangeListener(View.OnFocusChangeListener { view, hasFocus ->
+            if (hasFocus) {
+                viewEmpty.visibility = View.GONE
+                checkForFocusAndScroll(editTextCurrentAddress3)
+            }
+        })
+
         val checkboxIsPermanentAdd = addressView.findViewById<CheckBox>(R.id.checkboxIsPermanentAdd)
 
         val buttonSubmitAddress = addressView.findViewById<Button>(R.id.buttonSubmitAddress)
@@ -416,17 +469,17 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
             if (editTextPinCode.text.toString().isNotEmpty() &&
                 textViewState.text.toString().isNotEmpty() &&
                 textViewCity.text.toString().isNotEmpty() &&
-                editTextAddress1.text.toString().isNotEmpty() &&
-                editTextAddress2.text.toString().isNotEmpty() &&
-                editTextAddress3.text.toString().isNotEmpty()
+                editTextCurrentAddress1.text.toString().isNotEmpty() &&
+                editTextCurrentAddress2.text.toString().isNotEmpty() &&
+                editTextCurrentAddress3.text.toString().isNotEmpty()
             ) {
 
                 if (linearLayoutCityMovedInYear.visibility == View.VISIBLE && cityMovedInYear.isEmpty()) {
                     showToast("Please select city moved in year")
                 } else {
-                    address1 = editTextAddress1.text.toString()
-                    address2 = editTextAddress2.text.toString()
-                    address3 = editTextAddress3.text.toString()
+                    address1 = editTextCurrentAddress1.text.toString()
+                    address2 = editTextCurrentAddress2.text.toString()
+                    address3 = editTextCurrentAddress3.text.toString()
                     address = "$address1***$address2***$address3"
                     submitCurrentAddress()
                 }
@@ -492,7 +545,10 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
         val editTextAddress1 = addressView.findViewById<EditText>(R.id.editTextAddress1)
         val editTextAddress2 = addressView.findViewById<EditText>(R.id.editTextAddress2)
+
         val editTextAddress3 = addressView.findViewById<EditText>(R.id.editTextAddress3)
+        val linearLayoutAddress3 = addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress3)
+
         val checkboxIsPermanentAdd = addressView.findViewById<CheckBox>(R.id.checkboxIsPermanentAdd)
 
         val buttonSubmitAddress = addressView.findViewById<Button>(R.id.buttonSubmitAddress)
