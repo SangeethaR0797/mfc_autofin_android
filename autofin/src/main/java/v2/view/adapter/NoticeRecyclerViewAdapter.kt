@@ -2,6 +2,7 @@ package v2.view.adapter
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.os.Build
 import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
@@ -90,6 +91,14 @@ class NoticeRecyclerViewAdapter(
                 holder.tvShowMore.visibility = View.GONE
             }
         })
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (dataListFilter?.get(position)!!.isNew == true) {
+                holder.tvItem.setTextAppearance(R.style.RobotoBold)
+            } else {
+                holder.tvItem.setTextAppearance(R.style.RobotoRegular)
+            }
+        }
 
 
     }

@@ -127,6 +127,7 @@ class NoticeBoardAndNotificationFragment : BaseFragment(), View.OnClickListener 
                             ),
                             Global.customerAPI_BaseURL + CommonStrings.NOTICE_BOARD_ACTION_END_POINT
                         )
+                        notice.isNew=false
                     }
                     noticeRecyclerViewAdapter.notifyItemChanged(position)
                 }
@@ -151,6 +152,7 @@ class NoticeBoardAndNotificationFragment : BaseFragment(), View.OnClickListener 
                             ),
                             Global.customerAPI_BaseURL + CommonStrings.NOTIFICATION_ACTION_END_POINT
                         )
+                        notificationItemData.isNew=false
                     }
                     notificationRecyclerViewAdapter.notifyItemChanged(position)
                 }

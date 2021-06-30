@@ -62,7 +62,6 @@
                 android:hint="@string/search"
                 android:imeOptions="actionDone"
                 android:inputType="textCapCharacters"
-                android:maxLength="11"
                 android:singleLine="true"
                 android:textAppearance="@style/RobotoRegular"
                 android:textColorHint="@color/vtwo_grey"

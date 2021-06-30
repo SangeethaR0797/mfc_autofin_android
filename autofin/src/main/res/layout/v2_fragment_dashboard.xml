@@ -53,14 +53,36 @@
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_20dp" />
 
-                    <ImageView
-                        android:id="@+id/iv_notification"
-                        android:layout_width="@dimen/text_size_24dp"
-                        android:layout_height="@dimen/text_size_24dp"
+                    <RelativeLayout
+                        android:id="@+id/rl_notification"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/text_size_8dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        app:srcCompat="@drawable/ic_notifications" />
+                        android:gravity="end">
 
+                        <ImageView
+                            android:id="@+id/iv_notification"
+                            android:layout_width="@dimen/text_size_24dp"
+                            android:layout_height="@dimen/text_size_24dp"
+                            android:layout_marginStart="@dimen/text_size_8dp"
+
+                            android:layout_marginLeft="@dimen/text_size_8dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            app:srcCompat="@drawable/ic_notifications" />
+
+                        <TextView
+                            android:layout_marginLeft="-10dp"
+                            android:id="@+id/tv_notification_count"
+                            android:layout_width="@dimen/text_size_16sp"
+                            android:layout_height="@dimen/text_size_16sp"
+                            android:layout_toRightOf="@id/iv_notification"
+                            android:background="@drawable/ic_red_circle"
+                            android:gravity="center"
+                            android:text="00+"
+                            android:textAppearance="@style/RobotoMedium"
+                            android:textColor="@color/white"
+                            android:textSize="7sp" />
+                    </RelativeLayout>
                 </LinearLayout>
 
 
@@ -187,9 +209,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/text_size_5dp"
+                            android:singleLine="true"
                             android:textAppearance="@style/RobotoBold"
                             android:textColor="#00d478"
-                            android:textSize="@dimen/text_size25dp"
+                            android:textSize="@dimen/text_size_22dp"
                             tools:text="₹12,210" />
 
                         <TextView
@@ -223,9 +246,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/text_size_5dp"
+                            android:singleLine="true"
                             android:textAppearance="@style/RobotoBold"
                             android:textColor="#00d478"
-                            android:textSize="@dimen/text_size25dp"
+                            android:textSize="@dimen/text_size_22dp"
                             tools:text="₹15,675" />
 
                         <TextView
@@ -579,7 +603,7 @@
                         android:paddingTop="@dimen/text_size_5dp"
                         android:paddingRight="@dimen/text_size_20dp"
                         android:paddingBottom="@dimen/text_size_5dp"
-                        android:text="@string/lbl_apply_now"
+                        android:text="@string/calculate_emi"
                         android:textAllCaps="true"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_14sp"

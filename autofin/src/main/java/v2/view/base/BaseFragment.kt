@@ -16,7 +16,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
@@ -545,6 +544,24 @@ public open class BaseFragment : Fragment() {
     public fun navigateBankFeaturesAndChargesFragment(bankName: String, bankId: Int) {
         val directions =
             DashboardFragmentDirections.actionBankFeaturesAndChargesFragment(bankId, bankName!!)
+        view?.let {
+            Navigation.findNavController(it).navigate(directions)
+        }
+    }
+
+    public fun navigateToLeadDetailsFromFinalScreen(customerId: Int) {
+       // view?.let { Navigation.findNavController(it).navigate(R.id.action_bankSuccessMessageFragment_to_dashboardFragment) }
+       val directions =
+                BankSuccessMessageFragmentDirections.actionBankSuccessMessageFragmentToApplicationDetailsFragment(customerId)
+        view?.let {
+            Navigation.findNavController(it).navigate(directions)
+        }
+   }
+
+    public fun navigateToLeadDetails(customerId: Int)
+    {
+        val directions =
+                ApplicationListFragmentDirections.actionApplicationDetailsFragment(customerId)
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }

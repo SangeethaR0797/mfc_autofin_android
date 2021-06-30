@@ -14,11 +14,16 @@ import com.squareup.picasso.Picasso
 import v2.model.dto.DataSelectionDTO
 import v2.view.callBackInterface.itemClickCallBack
 
-class DataRecyclerViewAdapter(var context: Activity, var dataListValue: List<DataSelectionDTO>?, itemClick: itemClickCallBack?) : RecyclerView.Adapter<DataRecyclerViewAdapter.MyViewHolder>(), Filterable {
+class DataRecyclerViewAdapter(
+    var context: Activity,
+    var dataListValue: List<DataSelectionDTO>?,
+    itemClick: itemClickCallBack?
+) : RecyclerView.Adapter<DataRecyclerViewAdapter.MyViewHolder>(), Filterable {
 
     public var dataListFilter: List<DataSelectionDTO>?
     private var itemCallBack: itemClickCallBack = itemClick!!
     private var mContext: Activity = context
+    public var resourceLayoutFile: Int = 0
 
     init {
         dataListFilter = dataListValue as List<DataSelectionDTO>
@@ -26,9 +31,13 @@ class DataRecyclerViewAdapter(var context: Activity, var dataListValue: List<Dat
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val listItem = layoutInflater.inflate(R.layout.v2_data_item_layout, parent, false)
-
-        return MyViewHolder(listItem)
+        if (resourceLayoutFile == 0) {
+            val listItem = layoutInflater.inflate(R.layout.v2_data_item_layout, parent, false)
+            return MyViewHolder(listItem)
+        } else {
+            val listItem = layoutInflater.inflate(resourceLayoutFile, parent, false)
+            return MyViewHolder(listItem)
+        }
     }
 
     @SuppressLint("ResourceAsColor")
@@ -63,22 +72,22 @@ class DataRecyclerViewAdapter(var context: Activity, var dataListValue: List<Dat
             holder.llTextData.visibility = View.VISIBLE
             holder.ivIcon.visibility = View.GONE
         } else {
-           // holder.llTextData.visibility = View.GONE
-           // holder.ivIcon.visibility = View.INVISIBLE
+            // holder.llTextData.visibility = View.GONE
+            // holder.ivIcon.visibility = View.INVISIBLE
             holder.ivIcon.visibility = View.VISIBLE
             Picasso.get()
-                    .load(dataListFilter!![position].imageUrl)
-                    .into(holder.ivIcon, object : Callback {
-                        override fun onSuccess() {
-                            holder.ivIcon.visibility = View.VISIBLE
-                            holder.llTextData.visibility = View.GONE
-                        }
+                .load(dataListFilter!![position].imageUrl)
+                .into(holder.ivIcon, object : Callback {
+                    override fun onSuccess() {
+                        holder.ivIcon.visibility = View.VISIBLE
+                        holder.llTextData.visibility = View.GONE
+                    }
 
-                        override fun onError(ex: Exception) {
-                            holder.ivIcon.visibility = View.INVISIBLE
-                            holder.llTextData.visibility = View.VISIBLE
-                        }
-                    })
+                    override fun onError(ex: Exception) {
+                        holder.ivIcon.visibility = View.INVISIBLE
+                        holder.llTextData.visibility = View.VISIBLE
+                    }
+                })
 
 
         }
@@ -114,7 +123,9 @@ class DataRecyclerViewAdapter(var context: Activity, var dataListValue: List<Dat
                 } else {
                     val resultList = ArrayList<DataSelectionDTO>()
                     for (row in dataListValue!!) {
-                        if (row.displayValue.toString().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        if (row.displayValue.toString().toLowerCase()
+                                .contains(constraint.toString().toLowerCase())
+                        ) {
                             resultList.add(row)
                         }
                     }

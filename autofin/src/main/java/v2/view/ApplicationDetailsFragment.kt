@@ -177,11 +177,17 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
 
     private fun setCustomerData() {
         if (customerResponse != null) {
+
+            if(customerResponse?.data?.status==getString(R.string.v2_lead_status_submitted_to_bank))
+               btnComplete.visibility=View.GONE
+            else
+                btnComplete.visibility=View.VISIBLE
+
             tvTitle.text =
                 customerResponse!!.data!!.basicDetails!!.firstName + " " + customerResponse!!.data!!.basicDetails!!.lastName
             tvStatus.text = customerResponse!!.data!!.status
             tvSubTitle.text =
-                customerResponse!!.data!!.vehicleDetails!!.make + customerResponse!!.data!!.vehicleDetails!!.model
+                customerResponse!!.data!!.vehicleDetails!!.make +" "+ customerResponse!!.data!!.vehicleDetails!!.model
             val list: ArrayList<KeyValueDTO> = arrayListOf<KeyValueDTO>()
             list.add(KeyValueDTO("Case id", customerResponse!!.data!!.caseId))
             list.add(
@@ -216,14 +222,14 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
             if (customerResponse!!.data!!.employmentDetails!!.salaryAccount != null) {
                 list.add(
                     KeyValueDTO(
-                        "Owner",
+                        "Bank",
                         customerResponse!!.data!!.employmentDetails!!.salaryAccount
                     )
                 )
             } else if (customerResponse!!.data!!.employmentDetails!!.primaryAccount != null) {
                 list.add(
                     KeyValueDTO(
-                        "Owner",
+                        "Bank",
                         customerResponse!!.data!!.employmentDetails!!.primaryAccount
                     )
                 )
@@ -331,7 +337,7 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     val name =
                         customerResponse!!.data?.basicDetails?.firstName + " " + customerResponse!!.data?.basicDetails?.lastName
                     val caseId = customerResponse!!.data?.caseId
-                    caseId?.let { CustomLoanProcessCompletedData(salutation + " " + name, it) }
+                    caseId?.let { CustomLoanProcessCompletedData(customerId.toInt(),salutation + " " + name, it) }
                         ?.let { navigateToBankSuccessPageFromSoftOffer(it) }
                 }
             }

@@ -285,7 +285,7 @@
     <string name="vtwo_bank_details">Bank Info</string>
     <string name="vtwo_reg_title">Registration</string>
     <string name="vtwo_enter_mob_no">Enter mobile no</string>
-    <string name="vtwo_otp_hint">OTP Will be send to this Number</string>
+    <string name="vtwo_otp_hint">OTP Will sent to this Number</string>
     <string name="vtwo_mobile_num_hint">Mobile No</string>
     <string name="vtwo_country_code">+91</string>
     <string name="otp_timer_hint">0 Sec</string>
@@ -362,7 +362,7 @@
     <string name="rate_of_intrest">Rate of intrest</string>
     <string name="search_result">Search Result</string>
     <string name="case_id">Case Id -</string>
-    <string name="los_id">| LOS Id -</string>
+    <string name="los_id">LOS Id -</string>
     <string name="complete">Complete ❯</string>
     <string name="complete1">Complete</string>
     <string name="no_leads_found">No Leads Found</string>
@@ -383,6 +383,8 @@
     <string name="year">Year</string>
     <string name="interest_rate">Interest Rate</string>
     <string name="more">More</string>
+    <string name="v2_logged_in_title">Logged In</string>
+    <string name="calculate_emi">Calculate EMI</string>
 
 
 </resources>

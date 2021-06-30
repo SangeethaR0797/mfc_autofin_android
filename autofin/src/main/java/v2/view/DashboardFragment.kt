@@ -57,6 +57,8 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     lateinit var tvTotalCommission: TextView
     lateinit var tvPotentialCommission: TextView
     lateinit var tvNoticeBoardCount: TextView
+    lateinit var tvNotificationCount: TextView
+    lateinit var rlNotification: RelativeLayout
 
 
     lateinit var rvBankingPartner: RecyclerView
@@ -178,6 +180,9 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
             rvNoticeBoard = rootView!!.findViewById(R.id.rv_notice_board)
             tvNoticeBoardCount = rootView!!.findViewById(R.id.tv_notice_board_count)
+            tvNotificationCount = rootView!!.findViewById(R.id.tv_notification_count)
+            rlNotification = rootView!!.findViewById(R.id.rl_notification)
+            tvNotificationCount.visibility = View.GONE
             llViewAllNotice = rootView!!.findViewById(R.id.ll_view_all_notice)
             llNoticeBoardSection = rootView!!.findViewById(R.id.ll_notice_board_section)
 
@@ -209,6 +214,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
             ivBack.setOnClickListener(this)
             ivNotification.setOnClickListener(this)
+            rlNotification.setOnClickListener(this)
             etSearch.setOnClickListener(this)
             llSearch.setOnClickListener(this)
             llViewAllNotice.setOnClickListener(this)
@@ -336,8 +342,8 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
         list.add(DataSelectionDTO("30 days", null, "30", true))
         list.add(DataSelectionDTO("60 days", null, "60", false))
-        list.add(DataSelectionDTO("90 days", "rd", "90", false))
-        list.add(DataSelectionDTO("All time", "th", "0", false))
+        list.add(DataSelectionDTO("90 days", null, "90", false))
+        list.add(DataSelectionDTO("All time", null, "0", false))
 
         commissionDaysDaysDataAdapter =
             DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
@@ -371,10 +377,10 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
         val layoutManagerGridLayoutManager = GridLayoutManager(activity, 4)
 
-        rvCommissionDaysDays.addItemDecoration(GridItemDecoration(25, 4))
+        rvCommissionDaysDays.addItemDecoration(GridItemDecoration(15, 4))
 
         rvCommissionDaysDays.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
-
+        commissionDaysDaysDataAdapter.resourceLayoutFile = R.layout.v2_data_item_layout_small
         rvCommissionDaysDays.setAdapter(commissionDaysDaysDataAdapter)
 
     }
@@ -442,7 +448,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                     } else if (skInterestRate.progress < 8
                     ) {
                         showToast("Please select minimum loan Interest rate 8 %.")
-                    }else{
+                    } else {
                         showProgressDialog(requireContext())
                         callEmiData()
                     }
@@ -450,6 +456,9 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
                 }
                 R.id.iv_notification -> {
+                    navigateNoticeBoardAndNotificationFragment(ScreenTypeEnum.Notification.value)
+                }
+                R.id.rl_notification -> {
                     navigateNoticeBoardAndNotificationFragment(ScreenTypeEnum.Notification.value)
                 }
 
@@ -473,7 +482,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     }
 
     fun openSearchFragment() {
-        navigateApplicationListFragment(ScreenTypeEnum.Search.value,null)
+        navigateApplicationListFragment(ScreenTypeEnum.Search.value, null)
     }
 
 
@@ -482,19 +491,40 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         when (menuCode) {
 
             MenuEnum.Registered.value -> {
-                navigateApplicationListFragment(ScreenTypeEnum.Registered.value,ScreenTypeEnum.Registered.value)
+                navigateApplicationListFragment(
+                    ScreenTypeEnum.Registered.value,
+                    ScreenTypeEnum.Registered.value
+                )
             }
             MenuEnum.Soft_offer.value -> {
+                navigateApplicationListFragment(
+                    ScreenTypeEnum.SoftOffer.value,
+                    getString(R.string.v2_soft_offer_title)
+                )
+
+/*
                 navigateApplicationListFragment(ScreenTypeEnum.SoftOffer.value,ScreenTypeEnum.SoftOffer.value)
+*/
             }
             MenuEnum.Logged_In.value -> {
-                navigateApplicationListFragment(ScreenTypeEnum.LoggedIn.value,ScreenTypeEnum.LoggedIn.value)
+                navigateApplicationListFragment(
+                    ScreenTypeEnum.LoggedIn.value,
+                    getString(R.string.v2_logged_in_title)
+                )
+
+                // navigateApplicationListFragment(ScreenTypeEnum.LoggedIn.value,ScreenTypeEnum.LoggedIn.value)
             }
             MenuEnum.Approved.value -> {
-                navigateApplicationListFragment(ScreenTypeEnum.Approved.value,ScreenTypeEnum.Approved.value)
+                navigateApplicationListFragment(
+                    ScreenTypeEnum.Approved.value,
+                    ScreenTypeEnum.Approved.value
+                )
             }
             MenuEnum.Disbursed.value -> {
-                navigateApplicationListFragment(ScreenTypeEnum.Disbursed.value,ScreenTypeEnum.Disbursed.value)
+                navigateApplicationListFragment(
+                    ScreenTypeEnum.Disbursed.value,
+                    ScreenTypeEnum.Disbursed.value
+                )
             }
             MenuEnum.Add_New.value -> {
                 navigateFromDashBoard(R.id.vehicleSelectionFrag2)
@@ -515,7 +545,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             if (dashboardDetailsResponse.data!!.noticeBoard!!.totalCount!! > 0) {
                 llNoticeBoardSection.visibility = View.VISIBLE
                 tvNoticeBoardCount.text =
-                    dashboardDetailsResponse.data!!.noticeBoard!!.newCount.toString()
+                    dashboardDetailsResponse.data!!.noticeBoard!!.totalCount.toString()
                 setNoticeBoardData(dashboardDetailsResponse.data!!.noticeBoard!!.notices as ArrayList<NoticeData>?)
                 if (dashboardDetailsResponse.data!!.noticeBoard!!.totalCount!! > 3) {
                     llViewAllNotice.visibility = View.VISIBLE
@@ -525,6 +555,17 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             } else {
                 llNoticeBoardSection.visibility = View.GONE
             }
+            tvNotificationCount.visibility = View.GONE
+            if (dashboardDetailsResponse.data!!.newNotificationCount!! > 0) {
+                tvNotificationCount.visibility = View.VISIBLE
+                if (dashboardDetailsResponse.data!!.newNotificationCount!! > 99) {
+                    tvNotificationCount.text = "99+"
+                } else {
+                    tvNotificationCount.text =
+                        dashboardDetailsResponse.data!!.newNotificationCount!!.toString()
+                }
+            }
+
 
             val menuList: ArrayList<MenuDTO> = arrayListOf<MenuDTO>()
             menuList.add(
