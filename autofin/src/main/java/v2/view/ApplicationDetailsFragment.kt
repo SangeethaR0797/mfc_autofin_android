@@ -187,7 +187,7 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                 customerResponse!!.data!!.basicDetails!!.firstName + " " + customerResponse!!.data!!.basicDetails!!.lastName
             tvStatus.text = customerResponse!!.data!!.status
             tvSubTitle.text =
-                customerResponse!!.data!!.vehicleDetails!!.make + customerResponse!!.data!!.vehicleDetails!!.model
+                customerResponse!!.data!!.vehicleDetails!!.make +" "+ customerResponse!!.data!!.vehicleDetails!!.model
             val list: ArrayList<KeyValueDTO> = arrayListOf<KeyValueDTO>()
             list.add(KeyValueDTO("Case id", customerResponse!!.data!!.caseId))
             list.add(
