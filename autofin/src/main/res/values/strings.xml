@@ -362,7 +362,7 @@
     <string name="rate_of_intrest">Rate of intrest</string>
     <string name="search_result">Search Result</string>
     <string name="case_id">Case Id -</string>
-    <string name="los_id">| LOS Id -</string>
+    <string name="los_id">LOS Id -</string>
     <string name="complete">Complete ❯</string>
     <string name="complete1">Complete</string>
     <string name="no_leads_found">No Leads Found</string>
