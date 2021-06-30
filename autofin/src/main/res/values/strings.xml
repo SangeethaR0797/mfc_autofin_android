@@ -384,6 +384,7 @@
     <string name="interest_rate">Interest Rate</string>
     <string name="more">More</string>
     <string name="v2_logged_in_title">Logged In</string>
+    <string name="calculate_emi">Calculate EMI</string>
 
 
 </resources>

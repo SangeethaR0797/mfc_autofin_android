@@ -581,7 +581,7 @@
                         android:paddingTop="@dimen/text_size_5dp"
                         android:paddingRight="@dimen/text_size_20dp"
                         android:paddingBottom="@dimen/text_size_5dp"
-                        android:text="@string/lbl_apply_now"
+                        android:text="@string/calculate_emi"
                         android:textAllCaps="true"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_14sp"
