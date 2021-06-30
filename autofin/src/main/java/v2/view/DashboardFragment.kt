@@ -341,8 +341,8 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
         list.add(DataSelectionDTO("30 days", null, "30", true))
         list.add(DataSelectionDTO("60 days", null, "60", false))
-        list.add(DataSelectionDTO("90 days", "rd", "90", false))
-        list.add(DataSelectionDTO("All time", "th", "0", false))
+        list.add(DataSelectionDTO("90 days", null, "90", false))
+        list.add(DataSelectionDTO("All time", null, "0", false))
 
         commissionDaysDaysDataAdapter =
             DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
@@ -376,10 +376,10 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
         val layoutManagerGridLayoutManager = GridLayoutManager(activity, 4)
 
-        rvCommissionDaysDays.addItemDecoration(GridItemDecoration(25, 4))
+        rvCommissionDaysDays.addItemDecoration(GridItemDecoration(15, 4))
 
         rvCommissionDaysDays.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
-
+        commissionDaysDaysDataAdapter.resourceLayoutFile = R.layout.v2_data_item_layout_small
         rvCommissionDaysDays.setAdapter(commissionDaysDaysDataAdapter)
 
     }
