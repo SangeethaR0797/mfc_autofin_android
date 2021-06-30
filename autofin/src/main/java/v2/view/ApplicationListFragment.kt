@@ -307,7 +307,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
             ApplicationListRequest(
                 ApplicationListRequestData(
                     searchKey,
-                    screenStatus,
+                    screenStatus?.replace("\\s".toRegex(),""),
                     null,
                     PAGE_NUMBER,
                     PER_PAGE

@@ -92,7 +92,12 @@ class ApplicationListAdapter(
             itemCallBack.onCallClick(dataListFilter?.get(position), position)
         })
         holder.btnComplete.setOnClickListener(View.OnClickListener {
-            itemCallBack.onCompleteClick(dataListFilter?.get(position), position)
+            if(dataListFilter!![position].status==baseFragment.resources.getString(R.string.v2_lead_status_submitted_to_bank))
+            {
+                itemCallBack.onItemClick(dataListFilter?.get(position), position)
+            }else
+                itemCallBack.onCompleteClick(dataListFilter?.get(position), position)
+
         })
 
     }
