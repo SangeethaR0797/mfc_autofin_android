@@ -469,12 +469,14 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                     )
                 }
                 getString(R.string.v2_lead_status_submitted_to_bank) -> {
-                    val salutation = customerResponse.data?.basicDetails?.salutation
+                    /*val salutation = customerResponse.data?.basicDetails?.salutation
                     val name =
                         customerResponse.data?.basicDetails?.firstName + " " + customerResponse.data?.basicDetails?.lastName
                     val caseId = customerResponse.data?.caseId
-                    caseId?.let { CustomLoanProcessCompletedData(salutation + " " + name, it) }
+                    caseId?.let { CustomLoanProcessCompletedData(selectedCustomerId,salutation + " " + name, it) }
                         ?.let { navigateToBankSuccessPageFromSoftOffer(it) }
+*/
+                    navigateToLeadDetails(selectedCustomerId)
                 }
             }
 

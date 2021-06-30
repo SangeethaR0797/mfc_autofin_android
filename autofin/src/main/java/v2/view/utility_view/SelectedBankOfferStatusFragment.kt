@@ -189,7 +189,7 @@ class SelectedBankOfferStatusFragment : BaseFragment() {
 
             buttonDocumentSubmitWithOTP.setOnClickListener(View.OnClickListener {
                 if (cbBSTermsAndConditions.isChecked) {
-                    navigateToFinalOTPFragment(customerID.toString(),mobileNum,CustomLoanProcessCompletedData(salutation+" "+name,caseId))
+                    customerID?.let { it1 -> CustomLoanProcessCompletedData(it1?.toInt(),salutation+" "+name,caseId) }?.let { it2 -> navigateToFinalOTPFragment(customerID.toString(),mobileNum, it2) }
                 } else {
                     showToast("Please check Terms and Condition and Privacy Policy")
                 }
