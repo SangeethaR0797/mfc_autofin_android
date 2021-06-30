@@ -266,7 +266,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
 
                             }
-                        }, 600)
+                        }, 3000)
                     } else {
 
                     }
