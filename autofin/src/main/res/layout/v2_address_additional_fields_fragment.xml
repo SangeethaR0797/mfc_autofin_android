@@ -1,489 +1,517 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@color/pale_grey"
-    tools:context="v2.view.AddressAndAdditionalFieldsFragment">
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/vtwo_pale_grey">
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/text_size_15dp"
-        android:background="@drawable/vtwo_new_toolbar_bg">
-        <LinearLayout
-            android:id="@+id/llSoftOfferDetails"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/ivBackFromAddressAndAdditionalFields"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/text_size_8dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                app:srcCompat="@drawable/ic_vtwo_back_arrow" />
-            <utility.RobotoMedium
-                android:id="@+id/textViewSoftOfferAppBarTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/v2_soft_offer_title"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_18dp"
-                android:layout_marginLeft="@dimen/text_size_5dp"/>
-        </LinearLayout>
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="@dimen/text_size10dp">
-            <ImageView
-                android:id="@+id/ivVehDetailsSB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/text_size_14dp"
-                app:srcCompat="@drawable/ic_vtwo_vehicle_details" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
-                android:text="@string/vtwo_car_info"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:layout_marginTop="@dimen/text_size_4dp"
-                android:layout_below="@+id/ivVehDetailsSB"/>
-            <View
-                android:id="@+id/vehToPersonalDetails"
-                android:layout_width="88dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="13dp"
-                android:background="@color/vtwo_yellow"
-                android:layout_marginLeft="@dimen/text_size_8dp"
-                android:layout_toRightOf="@id/ivVehDetailsSB"
-                android:layout_marginStart="@dimen/text_size_8dp"
-                android:layout_toEndOf="@id/ivVehDetailsSB" />
-
-            <ImageView
-                android:id="@+id/ivPersonalDetailsSB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/text_size_12dp"
-                android:layout_toRightOf="@id/vehToPersonalDetails"
-                app:srcCompat="@drawable/ic_v2_personal_details_disabled"
-                android:layout_toEndOf="@id/vehToPersonalDetails" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ivPersonalDetailsSB"
-                android:layout_marginLeft="-9dp"
-                android:layout_marginTop="6dp"
-                android:layout_toRightOf="@id/vehToPersonalDetails"
-                android:fontFamily="@font/roboto_regular"
-                android:text="@string/vtwo_personal_info"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
-
-            <View
-                android:id="@+id/personalToBankDetails"
-                android:layout_width="88dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="13dp"
-                android:background="@color/vtwo_yellow"
-                android:layout_marginLeft="@dimen/text_size_8dp"
-                android:layout_toRightOf="@id/ivPersonalDetailsSB"
-                android:layout_marginStart="@dimen/text_size_8dp"
-                android:layout_toEndOf="@id/ivPersonalDetailsSB" />
-            <ImageView
-                android:id="@+id/ivBankDetailsSB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
-                android:layout_marginLeft="@dimen/text_size_12dp"
-                android:layout_toRightOf="@id/personalToBankDetails"
-                app:srcCompat="@drawable/ic_v2_bank_details_enabled"
-                android:layout_toEndOf="@id/personalToBankDetails" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
-                android:text="@string/vtwo_bank_details"
-                android:textColor="@color/yello"
-                android:textSize="12sp"
-                android:layout_below="@+id/ivBankDetailsSB"
-                android:layout_marginTop="@dimen/text_size_4dp"
-                android:layout_toRightOf="@id/personalToBankDetails"/>
-
-        </RelativeLayout>
-    </LinearLayout>    <ScrollView
-        android:id="@+id/scrollViewPostOffer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fillViewport="true">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:background="@color/pale_grey"
+            android:orientation="vertical"
+            tools:context="v2.view.AddressAndAdditionalFieldsFragment">
 
-            <TextView
-                android:id="@+id/textViewSelectBankLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="23dp"
-                android:layout_marginLeft="23dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="4dp"
-                android:gravity="start"
-                android:text="You have selected bank name"
-                android:textAppearance="@style/RobotoRegular"
-                android:textColor="@color/vtwo_light_grey"
-                android:textSize="@dimen/text_size_12dp"
-                android:textStyle="italic"
-                tools:ignore="SpUsage" />
-
-            <ImageView
-                android:id="@+id/imageViewSelectedBankName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="23dp"
-                android:layout_marginLeft="23dp"
-                android:layout_marginBottom="6dp"
-                tools:ignore="ContentDescription" />
-
-            <TextView
-                android:id="@+id/textViewEnterBelowDetails"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="23dp"
-                android:layout_marginLeft="23dp"
-                android:layout_marginBottom="@dimen/text_size_19dp"
-                android:gravity="start"
-                android:text="@string/v2_please_enter_below_details"
-                android:textAppearance="@style/RobotoRegular"
-                android:textColor="@color/vtwo_black"
-                android:textSize="@dimen/text_size_14sp" />
-
-            <!-- <LinearLayout
-                 android:id="@+id/linearLayoutEquiFaxAddress"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:layout_marginLeft="@dimen/text_size_12dp"
-                 android:layout_marginRight="@dimen/text_size_12dp"
-                 android:orientation="vertical"
-                 android:background="@drawable/white_corner"
-                 android:paddingBottom="@dimen/text_size_30dp">
-
-                     <TextView
-                         android:id="@+id/textViewSelectYourCurrentAddress"
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:layout_marginStart="@dimen/text_size_20dp"
-                         android:layout_marginLeft="@dimen/text_size_20dp"
-                         android:layout_marginTop="@dimen/text_size_30dp"
-                         android:layout_marginBottom="@dimen/text_size_21dp"
-                         android:gravity="start"
-                         android:text="@string/v2_please_select_current_address"
-                         android:textAppearance="@style/RobotoBold"
-                         android:textColor="@color/vtwo_black"
-                         android:textSize="@dimen/text_size_16sp" />
-
-                     <View
-                         android:layout_width="match_parent"
-                         android:layout_height="1dp"
-                         android:layout_marginLeft="@dimen/text_size_20dp"
-                         android:layout_marginRight="@dimen/text_size_20dp"
-                         android:background="@color/v2_grey" />
-
-
-                 </LinearLayout>
-         -->
             <LinearLayout
-                android:id="@+id/linearLayoutAddNewCurrentAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/text_size_12dp"
-                android:layout_marginTop="@dimen/text_size_16sp"
-                android:layout_marginRight="@dimen/text_size_12dp"
+                android:background="@drawable/vtwo_new_toolbar_bg"
                 android:orientation="vertical"
-                android:visibility="visible" />
-            <!--region EditCurrentAddress-->
-            <LinearLayout
-                android:id="@+id/linearLayoutEditCurrentAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/text_size_12dp"
-                android:layout_marginTop="@dimen/text_size_16sp"
-                android:layout_marginRight="@dimen/text_size_12dp"
-                android:background="@drawable/v2_edit_address_bg"
-                android:orientation="vertical"
-                android:paddingStart="@dimen/text_size_20dp"
-                android:paddingLeft="@dimen/text_size_20dp"
-                android:paddingTop="@dimen/text_size_30dp"
-                android:paddingEnd="@dimen/text_size_17dp"
-                android:paddingRight="@dimen/text_size_17dp"
-                android:paddingBottom="@dimen/text_size_37dp"
-                android:visibility="gone">
+                android:padding="@dimen/text_size_15dp">
 
                 <LinearLayout
+                    android:id="@+id/llSoftOfferDetails"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/text_size_21dp"
-                    android:weightSum="1">
-
-                    <TextView
-                        android:id="@+id/textViewCurrentAddressEdit"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.8"
-                        android:gravity="start"
-                        android:text="@string/v2_current_address"
-                        android:textAppearance="@style/RobotoBold"
-                        android:textColor="@color/vtwo_black"
-                        android:textSize="@dimen/text_size_16sp" />
+                    android:layout_height="wrap_content">
 
                     <ImageView
-                        android:id="@+id/imageViewEditCurrentAddress"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.2"
-                        app:srcCompat="@drawable/ic_edit" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/v2_grey" />
-
-                <TextView
-                    android:id="@+id/textViewCurrentAddress1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginTop="@dimen/text_size_21dp"
-                    android:layout_marginRight="60dp"
-                    android:text="Address1"
-                    android:textAppearance="@style/RobotoRegular"
-                    android:textColor="@color/vtwo_grey"
-                    android:textSize="@dimen/text_size_14sp"
-                    android:textStyle="italic" />
-
-                <TextView
-                    android:id="@+id/textViewCurrentAddress2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginRight="60dp"
-                    android:text="Address 2"
-                    android:textAppearance="@style/RobotoRegular"
-                    android:textColor="@color/vtwo_grey"
-                    android:textSize="@dimen/text_size_14sp"
-                    android:textStyle="italic" />
-
-                <TextView
-                    android:id="@+id/textViewCurrentAddress3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginRight="60dp"
-                    android:text="Address 3"
-                    android:textAppearance="@style/RobotoRegular"
-                    android:textColor="@color/vtwo_grey"
-                    android:textSize="@dimen/text_size_14sp"
-                    android:textStyle="italic" />
-
-                <CheckBox
-                    android:id="@+id/checkboxCurrentAndPermanentAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/text_size25dp"
-                    android:drawablePadding="7dp"
-                    android:buttonTint="@color/vtwo_black"
-                    android:text="@string/v2_this_is_also_my_permanent_address"
-                    android:textAppearance="@font/roboto_regular"
-                    android:textColor="@color/vtwo_black"
-                    android:textSize="@dimen/text_size_16sp" />
-
-            </LinearLayout>
-
-            <!--endregion EditCurrentAddress-->
-
-            <!--
-                <LinearLayout
-                    android:id="@+id/linearLayoutPermanentAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/text_size_12dp"
-                    android:layout_marginTop="@dimen/text_size_16sp"
-                    android:layout_marginRight="@dimen/text_size_12dp"
-                    android:background="@drawable/white_corner"
-                    android:orientation="vertical"
-                    android:paddingBottom="@dimen/text_size_30dp"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/textViewPermanentAddressLbl"
+                        android:id="@+id/ivBackFromAddressAndAdditionalFields"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/text_size_20dp"
-                        android:layout_marginLeft="@dimen/text_size_20dp"
-                        android:layout_marginTop="@dimen/text_size_30dp"
-                        android:layout_marginBottom="@dimen/text_size_21dp"
-                        android:gravity="start"
-                        android:text="@string/v2_permanent_address"
-                        android:textAppearance="@style/RobotoBold"
-                        android:textColor="@color/vtwo_black"
-                        android:textSize="@dimen/text_size_16sp" />
+                        android:layout_marginBottom="@dimen/text_size_8dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        app:srcCompat="@drawable/ic_vtwo_back_arrow" />
+
+                    <utility.RobotoMedium
+                        android:id="@+id/textViewSoftOfferAppBarTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/text_size_5dp"
+                        android:text="@string/v2_soft_offer_title"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_18dp" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/text_size10dp">
+
+                    <ImageView
+                        android:id="@+id/ivVehDetailsSB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/text_size_14dp"
+                        app:srcCompat="@drawable/ic_vtwo_vehicle_details" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ivVehDetailsSB"
+                        android:layout_marginTop="@dimen/text_size_4dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/vtwo_car_info"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
 
                     <View
-                        android:layout_width="match_parent"
+                        android:id="@+id/vehToPersonalDetails"
+                        android:layout_width="88dp"
                         android:layout_height="1dp"
-                        android:layout_marginLeft="@dimen/text_size_20dp"
-                        android:layout_marginRight="@dimen/text_size_20dp"
-                        android:background="@color/v2_grey" />
+                        android:layout_marginStart="@dimen/text_size_8dp"
+                        android:layout_marginLeft="@dimen/text_size_8dp"
+                        android:layout_marginTop="13dp"
+                        android:layout_toEndOf="@id/ivVehDetailsSB"
+                        android:layout_toRightOf="@id/ivVehDetailsSB"
+                        android:background="@color/vtwo_yellow" />
 
-                    <Button
-                        android:id="@+id/buttonAddNewPermanentAddress"
+                    <ImageView
+                        android:id="@+id/ivPersonalDetailsSB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="38dp"
-                        android:background="@drawable/v2_black_outline"
-                        android:paddingLeft="@dimen/text_size_64dp"
-                        android:paddingTop="13dp"
-                        android:paddingRight="@dimen/text_size_64dp"
-                        android:paddingBottom="13dp"
-                        android:text="@string/v2_add_new"
-                        android:textAppearance="@style/RobotoMedium"
-                        android:textColor="@color/vtwo_black"
-                        android:textSize="@dimen/text_size_16sp" />
+                        android:layout_marginLeft="@dimen/text_size_12dp"
+                        android:layout_toEndOf="@id/vehToPersonalDetails"
+                        android:layout_toRightOf="@id/vehToPersonalDetails"
+                        app:srcCompat="@drawable/ic_v2_personal_details_disabled" />
 
-                </LinearLayout>-->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ivPersonalDetailsSB"
+                        android:layout_marginLeft="-9dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_toRightOf="@id/vehToPersonalDetails"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/vtwo_personal_info"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
 
-            <LinearLayout
-                android:id="@+id/linearLayoutAddNewPermanentAddress"
+                    <View
+                        android:id="@+id/personalToBankDetails"
+                        android:layout_width="88dp"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="@dimen/text_size_8dp"
+                        android:layout_marginLeft="@dimen/text_size_8dp"
+                        android:layout_marginTop="13dp"
+                        android:layout_toEndOf="@id/ivPersonalDetailsSB"
+                        android:layout_toRightOf="@id/ivPersonalDetailsSB"
+                        android:background="@color/vtwo_yellow" />
+
+                    <ImageView
+                        android:id="@+id/ivBankDetailsSB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/text_size_12dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_toEndOf="@id/personalToBankDetails"
+                        android:layout_toRightOf="@id/personalToBankDetails"
+                        app:srcCompat="@drawable/ic_v2_bank_details_enabled" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ivBankDetailsSB"
+                        android:layout_marginTop="@dimen/text_size_4dp"
+                        android:layout_toRightOf="@id/personalToBankDetails"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/vtwo_bank_details"
+                        android:textColor="@color/yello"
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <ScrollView
+                android:id="@+id/scrollViewPostOffer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/text_size_12dp"
-                android:layout_marginTop="@dimen/text_size_16sp"
-                android:layout_marginRight="@dimen/text_size_12dp"
-                android:orientation="vertical"
-                android:visibility="gone" />
-            <!--region EditPermanentAddress-->
-            <LinearLayout
-                android:id="@+id/linearLayoutEditPermanentAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/text_size_12dp"
-                android:layout_marginTop="@dimen/text_size_16sp"
-                android:layout_marginRight="@dimen/text_size_12dp"
-                android:layout_marginBottom="@dimen/text_size_30dp"
-                android:background="@drawable/v2_edit_address_bg"
-                android:orientation="vertical"
-                android:paddingStart="@dimen/text_size_20dp"
-                android:paddingLeft="@dimen/text_size_20dp"
-                android:paddingTop="@dimen/text_size_30dp"
-                android:paddingEnd="@dimen/text_size_17dp"
-                android:paddingRight="@dimen/text_size_17dp"
-                android:paddingBottom="@dimen/text_size_37dp"
-                android:visibility="gone">
+                android:fillViewport="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/text_size_21dp"
-                    android:weightSum="1">
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textViewPermanentAddressEdit"
-                        android:layout_width="0dp"
+                        android:id="@+id/textViewSelectBankLabel"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.8"
+                        android:layout_marginStart="23dp"
+                        android:layout_marginLeft="23dp"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginBottom="4dp"
                         android:gravity="start"
-                        android:text="@string/v2_permanent_address"
-                        android:textAppearance="@style/RobotoBold"
-                        android:textColor="@color/vtwo_black"
-                        android:textSize="@dimen/text_size_16sp" />
+                        android:text="You have selected bank name"
+                        android:textAppearance="@style/RobotoRegular"
+                        android:textColor="@color/vtwo_light_grey"
+                        android:textSize="@dimen/text_size_12dp"
+                        android:textStyle="italic"
+                        tools:ignore="SpUsage" />
 
                     <ImageView
-                        android:id="@+id/imageViewEditPermanentAddress"
-                        android:layout_width="0dp"
+                        android:id="@+id/imageViewSelectedBankName"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.2"
-                        app:srcCompat="@drawable/ic_edit"
+                        android:layout_marginStart="23dp"
+                        android:layout_marginLeft="23dp"
+                        android:layout_marginBottom="6dp"
                         tools:ignore="ContentDescription" />
 
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/textViewEnterBelowDetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="23dp"
+                        android:layout_marginLeft="23dp"
+                        android:layout_marginBottom="@dimen/text_size_19dp"
+                        android:gravity="start"
+                        android:text="@string/v2_please_enter_below_details"
+                        android:textAppearance="@style/RobotoRegular"
+                        android:textColor="@color/vtwo_black"
+                        android:textSize="@dimen/text_size_14sp" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/v2_grey" />
+                    <!-- <LinearLayout
+                         android:id="@+id/linearLayoutEquiFaxAddress"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_marginLeft="@dimen/text_size_12dp"
+                         android:layout_marginRight="@dimen/text_size_12dp"
+                         android:orientation="vertical"
+                         android:background="@drawable/white_corner"
+                         android:paddingBottom="@dimen/text_size_30dp">
 
-                <TextView
-                    android:id="@+id/textViewPermanentAddress1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginTop="@dimen/text_size_21dp"
-                    android:layout_marginRight="60dp"
-                    android:text="Address1"
-                    android:textAppearance="@style/RobotoRegular"
-                    android:textColor="@color/vtwo_grey"
-                    android:textSize="@dimen/text_size_14sp"
-                    android:textStyle="italic" />
+                             <TextView
+                                 android:id="@+id/textViewSelectYourCurrentAddress"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:layout_marginStart="@dimen/text_size_20dp"
+                                 android:layout_marginLeft="@dimen/text_size_20dp"
+                                 android:layout_marginTop="@dimen/text_size_30dp"
+                                 android:layout_marginBottom="@dimen/text_size_21dp"
+                                 android:gravity="start"
+                                 android:text="@string/v2_please_select_current_address"
+                                 android:textAppearance="@style/RobotoBold"
+                                 android:textColor="@color/vtwo_black"
+                                 android:textSize="@dimen/text_size_16sp" />
 
-                <TextView
-                    android:id="@+id/textViewPermanentAddress2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginRight="60dp"
-                    android:text="Address 2"
-                    android:textAppearance="@style/RobotoRegular"
-                    android:textColor="@color/vtwo_grey"
-                    android:textSize="@dimen/text_size_14sp"
-                    android:textStyle="italic" />
+                             <View
+                                 android:layout_width="match_parent"
+                                 android:layout_height="1dp"
+                                 android:layout_marginLeft="@dimen/text_size_20dp"
+                                 android:layout_marginRight="@dimen/text_size_20dp"
+                                 android:background="@color/v2_grey" />
 
-                <TextView
-                    android:id="@+id/textViewPermanentAddress3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginRight="60dp"
-                    android:text="Address 3"
-                    android:textAppearance="@style/RobotoRegular"
-                    android:textColor="@color/vtwo_grey"
-                    android:textSize="@dimen/text_size_14sp"
-                    android:textStyle="italic" />
 
-            </LinearLayout>
-
-            <!--endregion EditPermanentAddress-->
-
-            <!-- region AdditionalFields-->
-            <LinearLayout
-                android:id="@+id/linearLayoutAdditionalFieldsUILayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/text_size_12dp"
+                         </LinearLayout>
+                 -->
+                    <LinearLayout
+                        android:id="@+id/linearLayoutAddNewCurrentAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/text_size_12dp"
                 android:layout_marginTop="@dimen/text_size_16sp"
-                android:layout_marginRight="@dimen/text_size_12dp"
-                android:layout_marginBottom="@dimen/text_size_30dp"
-                android:orientation="vertical"
-                android:visibility="gone" />
+                        android:layout_marginRight="@dimen/text_size_12dp"
+                        android:orientation="vertical"
+                        android:visibility="visible" />
+                    <!--region EditCurrentAddress-->
+                    <LinearLayout
+                        android:id="@+id/linearLayoutEditCurrentAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/text_size_12dp"
+                        android:layout_marginTop="@dimen/text_size_16sp"
+                        android:layout_marginRight="@dimen/text_size_12dp"
+                        android:background="@drawable/v2_edit_address_bg"
+                        android:orientation="vertical"
+                        android:paddingStart="@dimen/text_size_20dp"
+                        android:paddingLeft="@dimen/text_size_20dp"
+                        android:paddingTop="@dimen/text_size_30dp"
+                        android:paddingEnd="@dimen/text_size_17dp"
+                        android:paddingRight="@dimen/text_size_17dp"
+                        android:paddingBottom="@dimen/text_size_37dp"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/text_size_21dp"
+                            android:weightSum="1">
+
+                            <TextView
+                                android:id="@+id/textViewCurrentAddressEdit"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.8"
+                                android:gravity="start"
+                                android:text="@string/v2_current_address"
+                                android:textAppearance="@style/RobotoBold"
+                                android:textColor="@color/vtwo_black"
+                                android:textSize="@dimen/text_size_16sp" />
+
+                            <ImageView
+                                android:id="@+id/imageViewEditCurrentAddress"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.2"
+                                app:srcCompat="@drawable/ic_edit" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/v2_grey" />
+
+                        <TextView
+                            android:id="@+id/textViewCurrentAddress1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginTop="@dimen/text_size_21dp"
+                            android:layout_marginRight="60dp"
+                            android:text="Address1"
+                            android:textAppearance="@style/RobotoRegular"
+                            android:textColor="@color/vtwo_grey"
+                            android:textSize="@dimen/text_size_14sp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/textViewCurrentAddress2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginRight="60dp"
+                            android:text="Address 2"
+                            android:textAppearance="@style/RobotoRegular"
+                            android:textColor="@color/vtwo_grey"
+                            android:textSize="@dimen/text_size_14sp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/textViewCurrentAddress3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginRight="60dp"
+                            android:text="Address 3"
+                            android:textAppearance="@style/RobotoRegular"
+                            android:textColor="@color/vtwo_grey"
+                            android:textSize="@dimen/text_size_14sp"
+                            android:textStyle="italic" />
+
+                        <CheckBox
+                            android:id="@+id/checkboxCurrentAndPermanentAddress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/text_size25dp"
+                            android:buttonTint="@color/vtwo_black"
+                            android:drawablePadding="7dp"
+                            android:text="@string/v2_this_is_also_my_permanent_address"
+                            android:textAppearance="@font/roboto_regular"
+                            android:textColor="@color/vtwo_black"
+                            android:textSize="@dimen/text_size_16sp" />
+
+                    </LinearLayout>
+
+                    <!--endregion EditCurrentAddress-->
+
+                    <!--
+                        <LinearLayout
+                            android:id="@+id/linearLayoutPermanentAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/text_size_12dp"
+                            android:layout_marginTop="@dimen/text_size_16sp"
+                            android:layout_marginRight="@dimen/text_size_12dp"
+                            android:background="@drawable/white_corner"
+                            android:orientation="vertical"
+                            android:paddingBottom="@dimen/text_size_30dp"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/textViewPermanentAddressLbl"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/text_size_20dp"
+                                android:layout_marginLeft="@dimen/text_size_20dp"
+                                android:layout_marginTop="@dimen/text_size_30dp"
+                                android:layout_marginBottom="@dimen/text_size_21dp"
+                                android:gravity="start"
+                                android:text="@string/v2_permanent_address"
+                                android:textAppearance="@style/RobotoBold"
+                                android:textColor="@color/vtwo_black"
+                                android:textSize="@dimen/text_size_16sp" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginLeft="@dimen/text_size_20dp"
+                                android:layout_marginRight="@dimen/text_size_20dp"
+                                android:background="@color/v2_grey" />
+
+                            <Button
+                                android:id="@+id/buttonAddNewPermanentAddress"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="38dp"
+                                android:background="@drawable/v2_black_outline"
+                                android:paddingLeft="@dimen/text_size_64dp"
+                                android:paddingTop="13dp"
+                                android:paddingRight="@dimen/text_size_64dp"
+                                android:paddingBottom="13dp"
+                                android:text="@string/v2_add_new"
+                                android:textAppearance="@style/RobotoMedium"
+                                android:textColor="@color/vtwo_black"
+                                android:textSize="@dimen/text_size_16sp" />
+
+                        </LinearLayout>-->
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutAddNewPermanentAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/text_size_12dp"
+                        android:layout_marginTop="@dimen/text_size_16sp"
+                        android:layout_marginRight="@dimen/text_size_12dp"
+                        android:orientation="vertical"
+                        android:visibility="gone" />
+                    <!--region EditPermanentAddress-->
+                    <LinearLayout
+                        android:id="@+id/linearLayoutEditPermanentAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/text_size_12dp"
+                        android:layout_marginTop="@dimen/text_size_16sp"
+                        android:layout_marginRight="@dimen/text_size_12dp"
+                        android:layout_marginBottom="@dimen/text_size_30dp"
+                        android:background="@drawable/v2_edit_address_bg"
+                        android:orientation="vertical"
+                        android:paddingStart="@dimen/text_size_20dp"
+                        android:paddingLeft="@dimen/text_size_20dp"
+                        android:paddingTop="@dimen/text_size_30dp"
+                        android:paddingEnd="@dimen/text_size_17dp"
+                        android:paddingRight="@dimen/text_size_17dp"
+                        android:paddingBottom="@dimen/text_size_37dp"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/text_size_21dp"
+                            android:weightSum="1">
+
+                            <TextView
+                                android:id="@+id/textViewPermanentAddressEdit"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.8"
+                                android:gravity="start"
+                                android:text="@string/v2_permanent_address"
+                                android:textAppearance="@style/RobotoBold"
+                                android:textColor="@color/vtwo_black"
+                                android:textSize="@dimen/text_size_16sp" />
+
+                            <ImageView
+                                android:id="@+id/imageViewEditPermanentAddress"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.2"
+                                app:srcCompat="@drawable/ic_edit"
+                                tools:ignore="ContentDescription" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/v2_grey" />
+
+                        <TextView
+                            android:id="@+id/textViewPermanentAddress1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginTop="@dimen/text_size_21dp"
+                            android:layout_marginRight="60dp"
+                            android:text="Address1"
+                            android:textAppearance="@style/RobotoRegular"
+                            android:textColor="@color/vtwo_grey"
+                            android:textSize="@dimen/text_size_14sp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/textViewPermanentAddress2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginRight="60dp"
+                            android:text="Address 2"
+                            android:textAppearance="@style/RobotoRegular"
+                            android:textColor="@color/vtwo_grey"
+                            android:textSize="@dimen/text_size_14sp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/textViewPermanentAddress3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginRight="60dp"
+                            android:text="Address 3"
+                            android:textAppearance="@style/RobotoRegular"
+                            android:textColor="@color/vtwo_grey"
+                            android:textSize="@dimen/text_size_14sp"
+                            android:textStyle="italic" />
+
+                    </LinearLayout>
+
+                    <!--endregion EditPermanentAddress-->
+
+                    <!-- region AdditionalFields-->
+                    <LinearLayout
+                        android:id="@+id/linearLayoutAdditionalFieldsUILayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/text_size_12dp"
+                        android:layout_marginTop="@dimen/text_size_16sp"
+                        android:layout_marginRight="@dimen/text_size_12dp"
+                        android:layout_marginBottom="@dimen/text_size_30dp"
+                        android:orientation="vertical"
+
+                        android:visibility="gone" />
 
 
-            <!--endregion Additional-->
+                    <!--endregion Additional-->
+                    <View
+                        android:id="@+id/view_empty"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                       />
+
+                </LinearLayout>
+            </ScrollView>
 
         </LinearLayout>
-    </ScrollView>
-
-</LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
