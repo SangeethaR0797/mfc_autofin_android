@@ -157,31 +157,35 @@
             android:id="@+id/tv_los_id_caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/text_size_12dp"
+            android:layout_marginTop="@dimen/text_size_5dp"
 
             android:maxLines="1"
             android:text="@string/los_id"
             android:textAppearance="@style/RobotoRegular"
             android:textColor="@color/grey_color"
-
             android:textSize="@dimen/text_size_12dp"
-            app:layout_constraintStart_toEndOf="@+id/tv_case_id"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+
+            app:layout_constraintTop_toBottomOf="@+id/tv_case_id_caption"
+
+
             tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/tv_los_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_marginLeft="@dimen/text_size_4dp"
+            android:layout_marginTop="@dimen/text_size_5dp"
             android:maxLines="1"
             android:text="2204090909"
             android:textAppearance="@style/RobotoRegular"
             android:textColor="@color/vtwo_black"
             android:textSize="@dimen/text_size_12dp"
+
             app:layout_constraintStart_toEndOf="@+id/tv_los_id_caption"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_case_id_caption"
+
             tools:ignore="MissingConstraints" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

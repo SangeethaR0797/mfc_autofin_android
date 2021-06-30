@@ -222,14 +222,14 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
             if (customerResponse!!.data!!.employmentDetails!!.salaryAccount != null) {
                 list.add(
                     KeyValueDTO(
-                        "Owner",
+                        "Bank",
                         customerResponse!!.data!!.employmentDetails!!.salaryAccount
                     )
                 )
             } else if (customerResponse!!.data!!.employmentDetails!!.primaryAccount != null) {
                 list.add(
                     KeyValueDTO(
-                        "Owner",
+                        "Bank",
                         customerResponse!!.data!!.employmentDetails!!.primaryAccount
                     )
                 )
