@@ -42,6 +42,11 @@ class KeyValueRecyclerViewAdapter(
         holder.tvKey.text = dataListFilter!![position].key
         if (dataListFilter!![position].value != null) {
             holder.tvValue.text = dataListFilter!![position].value
+            if(dataListFilter!![position].key.equals("Case id") || dataListFilter!![position].key.equals("Mobile No")) {
+                holder.tvValue.setTextIsSelectable(true)
+            }else{
+                holder.tvValue.setTextIsSelectable(false)
+            }
         } else {
             holder.tvValue.text = ""
         }
