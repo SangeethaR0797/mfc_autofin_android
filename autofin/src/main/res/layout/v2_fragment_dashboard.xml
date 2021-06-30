@@ -187,9 +187,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/text_size_5dp"
+                            android:singleLine="true"
                             android:textAppearance="@style/RobotoBold"
                             android:textColor="#00d478"
-                            android:textSize="@dimen/text_size25dp"
+                            android:textSize="@dimen/text_size_22dp"
                             tools:text="₹12,210" />
 
                         <TextView
@@ -223,9 +224,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/text_size_5dp"
+                            android:singleLine="true"
                             android:textAppearance="@style/RobotoBold"
                             android:textColor="#00d478"
-                            android:textSize="@dimen/text_size25dp"
+                            android:textSize="@dimen/text_size_22dp"
                             tools:text="₹15,675" />
 
                         <TextView
