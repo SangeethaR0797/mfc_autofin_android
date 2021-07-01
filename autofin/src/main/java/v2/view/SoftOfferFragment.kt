@@ -219,9 +219,8 @@ class SoftOfferFragment : BaseFragment() {
         skTenure.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 
-                loanTenure = progress.toString()
-                tvLoanTenureVal.text = "$loanTenure Months"
-
+                loanTenure = (progress).toString()
+                tvLoanTenureVal.text = "$progress Years"
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -301,13 +300,13 @@ class SoftOfferFragment : BaseFragment() {
                     val loanData: LoanData = loanAmountResponse?.data as LoanData
 
                     loanAmountMinimum = loanData.minValues.loanAmount
-                    loanTenureMinimum = loanData.minValues.tenureInMonths
+                    loanTenureMinimum = loanData.minValues.tenureInMonths/12
 
                     loanAmountMaximum = loanData.maxValues.loanAmount
-                    loanTenureMaximum = loanData.maxValues.tenureInMonths
+                    loanTenureMaximum = loanData.maxValues.tenureInMonths/12
 
                     loanData.defaultValues.loanAmount.also { loanAmountDefault = it }
-                    loanTenureDefault = loanData.defaultValues.tenureInMonths
+                    loanTenureDefault = loanData.defaultValues.tenureInMonths/12
 
                     loanAmount = loanAmountDefault.toString()
                     loanTenure = loanTenureDefault.toString()
@@ -433,7 +432,7 @@ class SoftOfferFragment : BaseFragment() {
     // endregion Response
 
     private fun getBankRequest(): BankOffersForApplicationRequest {
-        val leadApplicationData = LeadApplicationData(caseID, customerId, loanAmount.toInt(), loanTenure.toInt())
+        val leadApplicationData = LeadApplicationData(caseID, customerId, loanAmount.toInt(), loanTenure.toInt()*12)
         return BankOffersForApplicationRequest(leadApplicationData, CommonStrings.DEALER_ID, CommonStrings.USER_TYPE)
     }
 
@@ -458,7 +457,7 @@ class SoftOfferFragment : BaseFragment() {
 
         if (initialCall) {
 
-            tvLoanTenureVal.text = "$loanTenureDefault Months"
+            tvLoanTenureVal.text = (loanTenureDefault).toString()+" Years"
             skLoanAmount.max = loanAmountMaximum
 
             if (loanAmountDefault != 1000) {
@@ -493,7 +492,7 @@ class SoftOfferFragment : BaseFragment() {
 
             }
 
-            tvLoanTenureVal.text = "$loanTenureDefault Months"
+            tvLoanTenureVal.text = (loanTenureDefault).toString()+" Years"
 
             skLoanAmount.max = loanAmountMaximum
 
@@ -502,7 +501,6 @@ class SoftOfferFragment : BaseFragment() {
                 skTenure.min = loanTenureMinimum
 
             }
-
 
             skTenure.progress = loanTenureDefault
             skTenure.max = loanTenureMaximum
