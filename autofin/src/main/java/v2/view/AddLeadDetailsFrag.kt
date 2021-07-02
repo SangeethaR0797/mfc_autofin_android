@@ -613,7 +613,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
             addLeadBasicDetails!!.Salutation = addLeadRequest.Data!!.basicDetails!!.Salutation
             addLeadBasicDetails!!.CustomerMobile =
                     addLeadRequest.Data!!.basicDetails!!.CustomerMobile
-
         }
         if (addLeadRequest.Data!!.addLeadVehicleDetails != null) {
             addLeadVehicleDetails.Make = addLeadRequest.Data!!.addLeadVehicleDetails!!.Make
@@ -706,7 +705,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
     }
 
-    fun setCheckBoxEvent() {
+    private fun setCheckBoxEvent() {
         cbMoreThanOneYearInCurrentOrganization.setOnCheckedChangeListener(null)
         cbMoreThanOneYearInCurrentOrganization.setOnClickListener {
             addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne =
@@ -715,15 +714,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
     }
 
-    fun checkForNavToSoftOffer() {
+    private fun checkForNavToSoftOffer() {
         hideProgressDialog()
-        if (!TextUtils.isEmpty(customerId) && isEmploymentDataSaved == true && isResidentDataSaved == true &&
-                addLeadRequest.hashCode().equals(previousAddLeadRequest.hashCode()) &&
-                addEmploymentDetailsRequest.hashCode()
-                        .equals(previousAddEmploymentDetailsRequest.hashCode()) &&
-                addResidentDetailsRequest.hashCode()
-                        .equals(previousAddResidentDetailsRequest.hashCode())
-        ) {
+        if (!TextUtils.isEmpty(customerId) && isEmploymentDataSaved &&
+                isResidentDataSaved &&
+                addLeadRequest.hashCode() == previousAddLeadRequest.hashCode()
+                && addEmploymentDetailsRequest.hashCode() == previousAddEmploymentDetailsRequest.hashCode()
+                && addResidentDetailsRequest.hashCode() == previousAddResidentDetailsRequest.hashCode())
+                {
             navToSoftOffer(customerDetailsResponse, customerId, CommonStrings.ADD_LEAD_FRAGMENT_TAG)
         }
     }
@@ -776,10 +774,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
             llMobileNumInput.setBackgroundResource(R.drawable.vtwo_input_bg)
         } else {
             if (etMobileNumberV2.text.isEmpty()) {
-                tv_mobile_num_hint.setText("Please enter Mobile number")
+                tv_mobile_num_hint.text = "Please enter Mobile number"
             } else {
                 etMobileNumberV2.setTextColor(resources.getColor(R.color.error_red))
-                tv_mobile_num_hint.setText("Please enter Valid mobile number")
+                tv_mobile_num_hint.text = "Please enter Valid mobile number"
             }
             tv_mobile_num_hint.setTextColor(resources.getColor(R.color.error_red))
             llMobileNumInput.setBackgroundResource(R.drawable.v2_error_layout_bg)
@@ -828,7 +826,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
             ll_last_email_input.background = resources.getDrawable(R.drawable.vtwo_input_bg)
             tv_email_hint.visibility = View.GONE
 
-
             basicDetails.FirstName = etFirstName.text.toString()
             basicDetails.LastName = etLastName.text.toString()
             val email = etEmailId.text.toString()
@@ -836,12 +833,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                             .matches() && isEmailValid(email) && email.substring(
                             email.length - 3,
                             email.length
-                    ) != "web"
-            ) {
-                ll_last_email_input.setBackgroundResource(R.drawable.vtwo_input_bg)
-                tv_email_hint.visibility = View.GONE
-                etEmailId.setTextColor(resources.getColor(R.color.vtwo_black))
-                ///7
+                    ) != "web") {
+                setValidEmailUI(true)
                 basicDetails.Email = etEmailId.text.toString()
                 if (TextUtils.isEmpty(basicDetails.Salutation)) {
                     basicDetails.Salutation = salutation
@@ -854,10 +847,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                 callAddLeadApi()
 
             } else {
-                ll_last_email_input.setBackgroundResource(R.drawable.v2_error_layout_bg)
-                etEmailId.setTextColor(resources.getColor(R.color.error_red))
-                tv_email_hint.visibility = View.VISIBLE
-                tv_email_hint.setText("Please enter Valid Email ID")
+                setValidEmailUI(false)
+                tv_email_hint.text = "Please enter Valid Email ID"
             }
         } else {
             if (etFirstName.text.isEmpty() || addLeadRequest.Data!!.basicDetails!!.FirstName!!.isEmpty()) {
@@ -875,19 +866,32 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                 ll_last_name_input.setBackgroundResource(R.drawable.vtwo_input_bg)
                 tv_lname_hint.visibility = View.GONE
             }
+
             if (etEmailId.text.isEmpty() || addLeadRequest.Data!!.basicDetails!!.Email!!.isEmpty()) {
-                ll_last_email_input.setBackgroundResource(R.drawable.v2_error_layout_bg)
-                tv_email_hint.visibility = View.VISIBLE
-                tv_email_hint.setText("Please enter Email ID")
+                setValidEmailUI(false)
+                tv_email_hint.text = "Please enter Email ID"
 
             } else {
-                ll_last_email_input.setBackgroundResource(R.drawable.vtwo_input_bg)
-                tv_email_hint.visibility = View.GONE
+              setValidEmailUI(true)
             }
             if (salutation.isEmpty() || addLeadRequest.Data!!.basicDetails!!.Salutation!!.isEmpty()) {
                 showToast("Please select Salutation")
             }
         }
+    }
+
+    private fun setValidEmailUI(isTrue:Boolean) {
+
+        if(isTrue){
+            ll_last_email_input.setBackgroundResource(R.drawable.vtwo_input_bg)
+            tv_email_hint.visibility = View.GONE
+            etEmailId.setTextColor(resources.getColor(R.color.vtwo_black))
+        }else{
+            ll_last_email_input.setBackgroundResource(R.drawable.v2_error_layout_bg)
+            etEmailId.setTextColor(resources.getColor(R.color.error_red))
+            tv_email_hint.visibility = View.VISIBLE
+        }
+
     }
 
     private fun enableTimer() {
@@ -1076,8 +1080,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
             override fun afterTextChanged(s: Editable) {
                 if (TextUtils.isEmpty(etLastName.text)) {
-                    addLeadRequest.Data!!.basicDetails!!.Email = null
+                    addLeadRequest.Data!!.basicDetails!!.Email = ""
                 } else {
+                    setValidEmailUI(true)
                     addLeadRequest.Data!!.basicDetails!!.Email = etEmailId.text.toString()
                 }
 
@@ -1092,8 +1097,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                 tvWorkExprianceErrorMessage.visibility = View.GONE
                 llAddWorkExpriance.setBackgroundResource(R.drawable.vtwo_input_bg)
                 etWorkExpriance.setTextColor(resources.getColor(R.color.vtwo_black))
-                if (TextUtils.isEmpty(etWorkExpriance.text) || etWorkExpriance.text.toString()
-                                .equals("0")
+                if (TextUtils.isEmpty(etWorkExpriance.text) || etWorkExpriance.text.toString() == "0"
                 ) {
                     addEmploymentDetailsRequest!!.Data!!.employmentDetails!!.TotalWorkExperience =
                             "0"
@@ -1541,35 +1545,30 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                         etPanNumber.setTextColor(resources.getColor(R.color.error_red))
                     }
                     //Step 18 Call Add Residence Details API
-                    llPanNumberSection.visibility == View.VISIBLE && isResidentDataSaved == false -> {
+                    llPanNumberSection.visibility == View.VISIBLE && !isResidentDataSaved -> {
                         callAddResidentDetails()
                     }
                     //Step 19 All Data save
-                    !TextUtils.isEmpty(customerId) && isEmploymentDataSaved == true && isResidentDataSaved == true -> {
+                    !TextUtils.isEmpty(customerId) && isEmploymentDataSaved && isResidentDataSaved -> {
 
-                        if (previousAddLeadRequest == null || !addLeadRequest!!.hashCode()
-                                        .equals(previousAddLeadRequest!!.hashCode())
+                        if (addLeadRequest.hashCode() != previousAddLeadRequest.hashCode()
                         ) {
                             callUpdateAddLeadBasicDetailsAPIApi()
                         }
 
-                        if (addEmploymentDetailsRequest == null || !addEmploymentDetailsRequest!!.hashCode()
-                                        .equals(previousAddEmploymentDetailsRequest!!.hashCode())
+                        if (addEmploymentDetailsRequest.hashCode() != previousAddEmploymentDetailsRequest!!.hashCode()
                         ) {
                             callAddEmploymentDetails()
                         }
-                        if (addResidentDetailsRequest == null || !addResidentDetailsRequest!!.hashCode()
-                                        .equals(previousAddResidentDetailsRequest!!.hashCode())
-                        ) {
+                        if (addResidentDetailsRequest.hashCode() != previousAddResidentDetailsRequest!!.hashCode())
+                        {
                             callAddResidentDetails()
                         }
 
                         //Step 20 All Data Uploaded
                         if (!TextUtils.isEmpty(customerId) &&
-                                addEmploymentDetailsRequest!!.hashCode()
-                                        .equals(previousAddEmploymentDetailsRequest!!.hashCode()) &&
-                                addResidentDetailsRequest!!.hashCode()
-                                        .equals(previousAddResidentDetailsRequest!!.hashCode())
+                                addEmploymentDetailsRequest.hashCode() == previousAddEmploymentDetailsRequest!!.hashCode() &&
+                                addResidentDetailsRequest.hashCode() == previousAddResidentDetailsRequest!!.hashCode()
                         ) {
 
                             checkForNavToSoftOffer()
@@ -1743,7 +1742,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                                 etWorkExpriance.setText(customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience!!)
                             }
                             llAccoutDetailsSection.visibility = View.VISIBLE
-                            tvBankTitle.setText(getString(R.string.primary_bank_account))
+                            tvBankTitle.text = getString(R.string.primary_bank_account)
                             bankName =
                                     customerDetailsResponse.data!!.employmentDetails!!.primaryAccount
                             addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount =
@@ -1754,7 +1753,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                             addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne =
                                     customerDetailsResponse.data!!.employmentDetails!!.currentCompanyExpMoreThanOne!!
 
-                            isEmploymentDataSaved = true
+                         //   isEmploymentDataSaved = true
                             cbMoreThanOneYearInCurrentOrganization.text =
                                     getString(R.string.more_than_one_year_in_current_Business)
                         } else {
@@ -1763,7 +1762,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                             addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount =
                                     bankName
                             //  llWorkExpriance.visibility = View.VISIBLE
-                            tvBankTitle.setText(getString(R.string.salary_bank_account))
+                            tvBankTitle.text = getString(R.string.salary_bank_account)
                             if (customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience != null && customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience!!.toInt() > 0) {
                                 etWorkExpriance.setText(customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience!!)
                             }
@@ -1781,19 +1780,15 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                             updateBankSelection(bankName!!)
                         }
                     }
+
                     //set Bank Details
                     if (!TextUtils.isEmpty(bankName)) {
                         commonBankListDetailsAdapter!!.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
-                            if (dataSelectionDTO.displayValue.toString().equals(bankName)) {
-                                dataSelectionDTO.selected = true
-                            } else {
-                                dataSelectionDTO.selected = false
-                            }
+                            dataSelectionDTO.selected = dataSelectionDTO.displayValue.toString() == bankName
                         }
                         commonBankListDetailsAdapter!!.notifyDataSetChanged()
                         llAccoutDetailsSection.visibility = View.VISIBLE
                     }
-
 
                     //set net income
                     if (customerDetailsResponse.data!!.employmentDetails!!.netAnualIncome != null && customerDetailsResponse.data!!.employmentDetails!!.netAnualIncome!! > 0) {
@@ -1836,7 +1831,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
                 eMIDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
                     if (dataSelectionDTO.value.toString().equals(haveEmi)) {
-                        isResidentDataSaved = true
+                       // isResidentDataSaved = true
                         dataSelectionDTO.selected = true
 
 
@@ -1962,9 +1957,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
         rv_salutation.addItemDecoration(GridItemDecoration(25, 4))
 
-        rv_salutation.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+        rv_salutation.layoutManager = layoutManagerStaggeredGridLayoutManager
 
-        rv_salutation.setAdapter(salutationAdapter)
+        rv_salutation.adapter = salutationAdapter
     }
 
     private fun setEMIDetailsAdapter() {
@@ -1973,7 +1968,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
         val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
 
         rvEMIList.addItemDecoration(GridItemDecoration(25, 2))
-        rvEMIList.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+        rvEMIList.layoutManager = layoutManagerStaggeredGridLayoutManager
 
         val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
         list.add(DataSelectionDTO("Yes", null, "Yes", false))
@@ -2011,7 +2006,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                 })
 
 
-        rvEMIList.setAdapter(eMIDetailsAdapter)
+        rvEMIList.adapter = eMIDetailsAdapter
     }
 
     fun setEploymentDetailsAdapter() {
@@ -2032,7 +2027,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
         val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
 
         rvBankList.addItemDecoration(GridItemDecoration(25, 2))
-        rvBankList.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+        rvBankList.layoutManager = layoutManagerStaggeredGridLayoutManager
 
         masterViewModel.getCommonBanks(Global.customerDetails_BaseURL + CommonStrings.COMMON_BANK_LIST_END_POINT)
 
@@ -2047,7 +2042,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
         rvResidenceTypeList.addItemDecoration(GridItemDecoration(25, 2))
 
-        rvResidenceTypeList.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+        rvResidenceTypeList.layoutManager = layoutManagerStaggeredGridLayoutManager
         masterViewModel.getResidentType(Global.customerDetails_BaseURL + CommonStrings.RESIDENT_TYPE_END_POINT)
 
 
@@ -2060,7 +2055,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
         rvResidenceYears.addItemDecoration(GridItemDecoration(25, 2))
 
-        rvResidenceYears.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+        rvResidenceYears.layoutManager = layoutManagerStaggeredGridLayoutManager
         masterViewModel.getResidentYears(Global.customerDetails_BaseURL + CommonStrings.RESIDENT_YEARS_END_POINT)
 
 
@@ -2164,7 +2159,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
     }
 
-    fun createAddResidentDetailsRequest(customerId: Int): AddResidentDetailsRequest {
+    private fun createAddResidentDetailsRequest(customerId: Int): AddResidentDetailsRequest {
         var addResidentDetailsRequest = AddResidentDetailsRequest()
         addResidentDetailsRequest.UserId = CommonStrings.DEALER_ID
         addResidentDetailsRequest.UserType = CommonStrings.USER_TYPE
@@ -2450,7 +2445,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                 })
 
 
-        rvResidenceYears.setAdapter(residenceYearsAdapter)
+        rvResidenceYears.adapter = residenceYearsAdapter
     }
 
     //endregion onResidentType
@@ -2500,7 +2495,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                 })
 
 
-        rvBankList.setAdapter(commonBankListDetailsAdapter)
+        rvBankList.adapter = commonBankListDetailsAdapter
     }
 
     private fun onResidentCityName(mApiResponse: ApiResponse) {
@@ -2749,7 +2744,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                 hideProgressDialog()
                 val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
                 if (addLeadResponse?.mData!! > 0) {
-                    var addEmploymentDetailsId = addLeadResponse?.mData.toString()
+                    var addEmploymentDetailsId = addLeadResponse.mData.toString()
                     isResidentDataSaved = true
                     checkForNavToSoftOffer()
                 }

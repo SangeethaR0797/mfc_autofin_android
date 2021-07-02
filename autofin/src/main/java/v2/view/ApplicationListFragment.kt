@@ -177,26 +177,29 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         llSearch.setOnClickListener(this)
         etSearch.setOnClickListener(this)
 
-        if (screenType.equals(ScreenTypeEnum.Search.value)) {
-            ivSearch.visibility = View.GONE
-            tvTitle.text = "Search"
-            etSearch.requestFocus()
-            showKeyBoardByForced()
+        when {
+            screenType == ScreenTypeEnum.Search.value -> {
+                ivSearch.visibility = View.GONE
+                tvTitle.text = "Search"
+                etSearch.requestFocus()
+                showKeyBoardByForced()
 
-        } else if (screenType.equals(ScreenTypeEnum.StausWithSearch.value)
-        ) {
-            ivSearch.visibility = View.GONE
-            tvTitle.text = screenStatus
-            callApplicationStatusWiseFilterAPI(null)
-            etSearch.requestFocus()
-            showKeyBoardByForced()
-        } else {
-            tvTitle.text = screenStatus
-            rvData.setPadding(0, llData.marginLeft, 0, 0)
-            ivNotification.visibility = View.GONE
-            llSearchSection.visibility = View.GONE
-            viewEmptyBlack.visibility = View.GONE
-            callApplicationStatusWiseFilterAPI(null)
+            }
+            screenType == ScreenTypeEnum.StausWithSearch.value -> {
+                ivSearch.visibility = View.GONE
+                tvTitle.text = screenStatus
+                callApplicationStatusWiseFilterAPI(null)
+                etSearch.requestFocus()
+                showKeyBoardByForced()
+            }
+            else -> {
+                tvTitle.text = screenStatus
+                rvData.setPadding(0, llData.marginLeft, 0, 0)
+                ivNotification.visibility = View.GONE
+                llSearchSection.visibility = View.GONE
+                viewEmptyBlack.visibility = View.GONE
+                callApplicationStatusWiseFilterAPI(null)
+            }
         }
         setTextChangeOfetAutoResidenceCity()
     }
@@ -249,7 +252,9 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
-    fun setTextChangeOfetAutoResidenceCity() {
+    private fun setTextChangeOfetAutoResidenceCity() {
+        var timerWait: Timer? = null
+        var allowEditCity: Boolean = true
 
         etSearch.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -272,7 +277,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                     if (TextUtils.isEmpty(etSearch.text.toString())) {
                         allowEditCity = true
                     }
-                    if (allowEditCity == true) {
+                    if (allowEditCity) {
                         timerWait = Timer()
                         timerWait!!.schedule(object : TimerTask() {
                             override fun run() {
@@ -281,6 +286,15 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                                 allowEditCity = false
                                 ThreadUtils.runOnUiThread(Runnable {
                                     //call Search
+                                    if (!TextUtils.isEmpty(etSearch.text.toString())) {
+                                        PAGE_NUMBER = 0
+                                        if (screenType == ScreenTypeEnum.Search.value) {
+                                            callSearchAPI()
+                                        } else {
+                                            callApplicationStatusWiseFilterAPI(etSearch.text.toString())
+                                        }
+
+                                    }
                                     startSearchApiCall()
                                 });
 
@@ -305,7 +319,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun callSearchAPI() {
-        PAGE_NUMBER = PAGE_NUMBER + 1
+        PAGE_NUMBER += 1
         transactionViewModel.getApplicationList(
             ApplicationListRequest(
                 ApplicationListRequestData(
@@ -358,7 +372,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun setResultData(response: ApplicationListResponse?) {
-        if (response != null && response.data != null && response.data!!.customers != null && response.data!!.customers!!.size > 0) {
+        if (response?.data != null && response.data?.customers != null && response.data?.customers?.size!! > 0) {
             if (PAGE_NUMBER == 1) {
                 TOTAL = response.data!!.total!!
                 if (TOTAL == 0) {

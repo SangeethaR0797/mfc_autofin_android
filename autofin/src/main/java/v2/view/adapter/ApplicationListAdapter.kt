@@ -57,7 +57,7 @@ class ApplicationListAdapter(
         }
 
         if (dataListFilter!![position].losId != null) {
-            holder.btnComplete.visibility = View.GONE
+            //holder.btnComplete.visibility = View.GONE
             holder.tvLOSId.visibility = View.VISIBLE
             holder.tvLOSIdCaption.visibility = View.VISIBLE
             holder.tvLOSId.text = dataListFilter!![position].losId!!.toString()
@@ -150,12 +150,12 @@ class ApplicationListAdapter(
                 } else {
                     val resultList = ArrayList<ApplicationDataItems>()
                     for (row in dataListValue!!) {
-                        if (row.customerId.toString().toLowerCase()
-                                .contains(
-                                    constraint.toString().toLowerCase()
-                                ) || row.customerMobile.toString().toLowerCase()
-                                .contains(constraint.toString().toLowerCase())
-                        ) {
+                        if (row.customerId.toString().toLowerCase().contains(constraint.toString().toLowerCase()) ||
+                                row.firstName.toString().toLowerCase().contains(constraint.toString().toLowerCase()) ||
+                                row.customerMobile.toString().toLowerCase().contains(constraint.toString().toLowerCase())||
+                                        row.bankName.toString().toLowerCase().contains(constraint.toString().toLowerCase())||
+                                row.losId.toString().toLowerCase().contains(constraint.toString().toLowerCase())||
+                                        row.caseId.toString().toLowerCase().contains(constraint.toString().toLowerCase())) {
                             resultList.add(row)
                         }
                     }
