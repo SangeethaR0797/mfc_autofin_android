@@ -458,6 +458,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         customerDetailsRequest.Data = customerJourneyDataRequest
         return customerDetailsRequest
     }
+
     private fun setPartnerBanksDetails(ruleEngineBanksResponse: RuleEngineBanksResponse) {
         ruleEngineBanksResponse.data
         val layoutManager = LinearLayoutManager(activity)
@@ -650,7 +651,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 getMenu(
                     "Approved",
                     MenuEnum.Approved.value,
-                    dashboardDetailsResponse.data!!.commissionDetails!!.totalCommission!!.toString(),
+                    dashboardDetailsResponse.data!!.approvedAmount!!.toString(),
                     dashboardDetailsResponse.data!!.approved!!,
                     R.drawable.ic_menu_approved,
                     R.drawable.v2_menu_bright_green
@@ -660,7 +661,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 getMenu(
                     "Disbursed",
                     MenuEnum.Disbursed.value,
-                    null,
+                    dashboardDetailsResponse.data!!.disbursedAmount!!.toString(),
                     dashboardDetailsResponse.data!!.disbursed!!,
                     R.drawable.ic_menu_disbursed,
                     R.drawable.v2_menu_dark_green
@@ -763,8 +764,6 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         }
 
     }
-
-
 
 
     private fun onNoticeBoardActionResponse(mApiResponse: ApiResponse) {
