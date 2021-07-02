@@ -8,9 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/text_size_16sp"
-        android:layout_marginBottom="@dimen/text_size_16sp"
-        android:background="@drawable/vtwo_input_bg"
+
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -18,17 +16,18 @@
             android:id="@+id/editTextFieldInput"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/text_size_14dp"
 
-            android:layout_marginTop="@dimen/text_size10dp"
-            android:layout_marginRight="@dimen/text_size_14dp"
-            android:layout_marginBottom="@dimen/text_size10dp"
             android:layout_weight="1"
-            android:background="@android:color/transparent"
+            android:background="@drawable/vtwo_input_bg"
+
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
-
             android:inputType="textCapCharacters|textPostalAddress"
+            android:paddingLeft="@dimen/text_size_14dp"
+            android:paddingTop="@dimen/text_size_16sp"
+            android:paddingRight="@dimen/text_size_14dp"
+
+            android:paddingBottom="@dimen/text_size_16sp"
             android:singleLine="true"
             android:textAppearance="@style/RobotoRegular"
             android:textColorHint="@color/vtwo_grey"

@@ -186,7 +186,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         } else if (editTextPermanentAddress3 != null && editTextPermanentAddress3!!.hasFocus()) {
             viewToScroll = linearLayoutPermanentAddress3
         } else if (etCrrent.hasFocus() || etCrrent.hasFocus()) {
-            viewToScroll = linearLayoutAddNewCurrentAddress
+          //  viewToScroll = linearLayoutAddNewCurrentAddress
         }
 
 
