@@ -1019,11 +1019,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
     private fun generateSectionUI(sectionData: Sections, isLastSection: Boolean): View {
         val fieldList = sectionData.fields
-        var currentSectionLayout = LayoutInflater.from(fragView.context).inflate(
-            R.layout.v2_custom_address_parent_layout,
-            linearLayoutAdditionalFieldsUILayout,
-            false
-        )
+        val currentSectionLayout:View
         if (isSectionPreFilled(sectionData.sectionName)) {
             currentSectionLayout = generateEditSectionUI(sectionData)
         } else {
@@ -1310,8 +1306,8 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                 currentFieldInputView = LayoutInflater.from(fragView.context)
                     .inflate(R.layout.v2_custom_input_text_view, linearLayout, false)
                 val fieldInput: TextView = currentFieldInputView.findViewById(R.id.textViewDropDown)
-                val linearLayoutCustomDropDownTextView: TextView =
-                    currentFieldInputView.findViewById(R.id.linearLayoutCustomDropDownTextView)
+                val linearLayoutCustomDropDownTextView: LinearLayout =
+                    currentFieldInputView.findViewById(R.id.linearLayoutCustTextView)
                 fieldInput.hint = fieldData.placeHolder
                 fieldInput.text = isFieldFilled(fieldData.apiDetails.apiKey)
 
