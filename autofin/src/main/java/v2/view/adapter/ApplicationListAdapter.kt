@@ -57,7 +57,7 @@ class ApplicationListAdapter(
         }
 
         if (dataListFilter!![position].losId != null) {
-            holder.btnComplete.visibility = View.GONE
+            //holder.btnComplete.visibility = View.GONE
             holder.tvLOSId.visibility = View.VISIBLE
             holder.tvLOSIdCaption.visibility = View.VISIBLE
             holder.tvLOSId.text = dataListFilter!![position].losId!!.toString()
