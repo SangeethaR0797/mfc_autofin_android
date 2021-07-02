@@ -506,10 +506,15 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
                 isLoading = true
-                if (PAGE_NUMBER == 1) {
-                    showProgressDialog(requireContext())
-                } else {
+
+                if (PAGE_NUMBER > 1 || (screenType.equals(ScreenTypeEnum.Search.value) || screenType.equals(
+                        ScreenTypeEnum.StausWithSearch.value
+                    ))
+                ) {
                     llProgress.visibility = View.VISIBLE
+
+                } else {
+                    showProgressDialog(requireContext())
                 }
             }
             ApiResponse.Status.SUCCESS -> {
