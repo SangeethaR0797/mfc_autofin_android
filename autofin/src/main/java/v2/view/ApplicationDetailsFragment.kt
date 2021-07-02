@@ -143,7 +143,15 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     activity?.onBackPressed()
                 }
                 R.id.rl_call -> {
-
+                    if (customerResponse != null) {
+                        if (checkCallPermissions()) {
+                            if (customerResponse!!.data!!.basicDetails!!.customerMobile!!.isNotEmpty()) {
+                                makeCallOfMobileNumber(customerResponse!!.data!!.basicDetails!!.customerMobile!!)
+                            }
+                        } else {
+                            askCallPermissions()
+                        }
+                    }
                 }
                 R.id.btn_complete -> {
                     checkForNextNavigation()
@@ -178,16 +186,16 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
     private fun setCustomerData() {
         if (customerResponse != null) {
 
-            if(customerResponse?.data?.status==getString(R.string.v2_lead_status_submitted_to_bank))
-               btnComplete.visibility=View.GONE
+            if (customerResponse?.data?.status == getString(R.string.v2_lead_status_submitted_to_bank))
+                btnComplete.visibility = View.GONE
             else
-                btnComplete.visibility=View.VISIBLE
+                btnComplete.visibility = View.VISIBLE
 
             tvTitle.text =
                 customerResponse!!.data!!.basicDetails!!.firstName + " " + customerResponse!!.data!!.basicDetails!!.lastName
             tvStatus.text = customerResponse!!.data!!.status
             tvSubTitle.text =
-                customerResponse!!.data!!.vehicleDetails!!.make +" "+ customerResponse!!.data!!.vehicleDetails!!.model
+                customerResponse!!.data!!.vehicleDetails!!.make + " " + customerResponse!!.data!!.vehicleDetails!!.model
             val list: ArrayList<KeyValueDTO> = arrayListOf<KeyValueDTO>()
             list.add(KeyValueDTO("Case id", customerResponse!!.data!!.caseId))
             list.add(
@@ -337,7 +345,13 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     val name =
                         customerResponse!!.data?.basicDetails?.firstName + " " + customerResponse!!.data?.basicDetails?.lastName
                     val caseId = customerResponse!!.data?.caseId
-                    caseId?.let { CustomLoanProcessCompletedData(customerId.toInt(),salutation + " " + name, it) }
+                    caseId?.let {
+                        CustomLoanProcessCompletedData(
+                            customerId.toInt(),
+                            salutation + " " + name,
+                            it
+                        )
+                    }
                         ?.let { navigateToBankSuccessPageFromSoftOffer(it) }
                 }
             }

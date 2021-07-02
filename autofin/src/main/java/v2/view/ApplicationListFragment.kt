@@ -1,6 +1,9 @@
 package v2.view
 
+import android.Manifest
 import android.app.Activity
+import android.content.Context
+import android.content.pm.PackageManager
 import android.nfc.tech.MifareUltralight.PAGE_SIZE
 import android.os.Bundle
 import android.text.Editable
@@ -17,6 +20,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
+import androidx.core.app.ActivityCompat
 import androidx.core.view.marginLeft
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -323,7 +327,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
             ApplicationListRequest(
                 ApplicationListRequestData(
                     searchKey,
-                    screenStatus?.replace("\\s".toRegex(),""),
+                    screenStatus?.replace("\\s".toRegex(), ""),
                     null,
                     PAGE_NUMBER,
                     PER_PAGE
@@ -388,7 +392,15 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
                             override fun onCallClick(item: Any?, position: Int) {
                                 var applicationDataItems = item as ApplicationDataItems
-                                showToast("onCallClick")
+                                if (checkCallPermissions()) {
+                                    if (applicationDataItems.customerMobile!!.isNotEmpty()) {
+                                        makeCallOfMobileNumber(applicationDataItems.customerMobile!!)
+                                    }
+                                } else {
+                                    askCallPermissions()
+                                }
+
+
                             }
 
                         })
@@ -628,6 +640,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 }
             }
         }
+
 
 
 }

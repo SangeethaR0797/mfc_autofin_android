@@ -1,10 +1,14 @@
 package v2.view.base
 
+import android.Manifest
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.text.TextUtils
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +19,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
@@ -550,18 +555,19 @@ public open class BaseFragment : Fragment() {
     }
 
     public fun navigateToLeadDetailsFromFinalScreen(customerId: Int) {
-       // view?.let { Navigation.findNavController(it).navigate(R.id.action_bankSuccessMessageFragment_to_dashboardFragment) }
-       val directions =
-                BankSuccessMessageFragmentDirections.actionBankSuccessMessageFragmentToApplicationDetailsFragment(customerId)
+        // view?.let { Navigation.findNavController(it).navigate(R.id.action_bankSuccessMessageFragment_to_dashboardFragment) }
+        val directions =
+            BankSuccessMessageFragmentDirections.actionBankSuccessMessageFragmentToApplicationDetailsFragment(
+                customerId
+            )
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }
-   }
+    }
 
-    public fun navigateToLeadDetails(customerId: Int)
-    {
+    public fun navigateToLeadDetails(customerId: Int) {
         val directions =
-                ApplicationListFragmentDirections.actionApplicationDetailsFragment(customerId)
+            ApplicationListFragmentDirections.actionApplicationDetailsFragment(customerId)
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }
@@ -725,5 +731,31 @@ public open class BaseFragment : Fragment() {
             keyboardVisibilityEventListener
         )
     }
+
+    fun makeCallOfMobileNumber(mobileNumber: String) {
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.data = Uri.parse("tel:" + mobileNumber)
+        startActivity(intent)
+    }
+
+
+    //region permission
+    public fun checkCallPermissions(): Boolean {
+        return ActivityCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.CALL_PHONE
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+
+    public fun askCallPermissions() {
+        Log.d("Camera Permission Check", "Comes into Permission Check method")
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(Manifest.permission.CALL_PHONE),
+            1
+        )
+    }
+    //endregion permission
 
 }
