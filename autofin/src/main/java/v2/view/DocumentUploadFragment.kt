@@ -431,19 +431,15 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     private fun openGallery() {
 
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        //gallery.type = "";
-        gallery.type="image/*|application/pdf/*"
-        val mimetypes = arrayOf("image/*", "application/*")
+        gallery.type = "*/*";
 
-        gallery.action = Intent.ACTION_GET_CONTENT
         gallery.addCategory(Intent.CATEGORY_OPENABLE)
-        gallery.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes)
 
         requireActivity().startActivityForResult(getFileChooserIntent(), IMAGE_GALLERY_CODE)
     }
 
     private fun getFileChooserIntent(): Intent? {
-        val mimeTypes = arrayOf("image/*", "application/pdf")
+        val mimeTypes = arrayOf("image/*","application/pdf","application/gzip","application/octet-stream","application/x-zip-compressed","multipart/x-zip")
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

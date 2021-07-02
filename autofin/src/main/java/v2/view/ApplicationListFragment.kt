@@ -455,20 +455,20 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                         CommonStrings.APPLICATION_LIST_FRAGMENT_TAG
                     )
                 }
-                getString(R.string.v2_lead_status_lender_selected) -> {
+                ApplicationStatusEnum.Lender_Selected.value -> {
                     navigateToAddressAdditionalFields(selectedCustomerId, customerResponse)
                 }
-                getString(R.string.v2_lead_status_bank_form_filled) -> {
+                ApplicationStatusEnum.Bank_Form_Filled.value -> {
                     cust = customerResponse
                     masterViewModel.getKYCDocumentResponse(Global.baseURL + CommonStrings.KYC_UPLOAD_URL_END_POINT + selectedCustomerId)
                 }
-                getString(R.string.v2_lead_status_document_upload) -> {
+                ApplicationStatusEnum.Document_Uploaded.value -> {
                     navigateToBankOfferStatusFromApplicationListFrag(
                         selectedCustomerId,
                         customerResponse
                     )
                 }
-                getString(R.string.v2_lead_status_submitted_to_bank) -> {
+                ApplicationStatusEnum.Submitted_To_Bank.value -> {
                     /*val salutation = customerResponse.data?.basicDetails?.salutation
                     val name =
                         customerResponse.data?.basicDetails?.firstName + " " + customerResponse.data?.basicDetails?.lastName
