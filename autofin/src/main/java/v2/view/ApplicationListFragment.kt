@@ -294,7 +294,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
         etSearch.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             if (event != null && event.keyCode === KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_DONE) {
-                hideSoftKeyboard(etSearch)
+                startSearchApiCall()
             }
             false
         })
