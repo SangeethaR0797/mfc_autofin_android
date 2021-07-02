@@ -651,7 +651,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 getMenu(
                     "Approved",
                     MenuEnum.Approved.value,
-                    dashboardDetailsResponse.data!!.approvedAmount!!.toString(),
+                    formatAmount(dashboardDetailsResponse.data!!.approvedAmount!!.toString()),
                     dashboardDetailsResponse.data!!.approved!!,
                     R.drawable.ic_menu_approved,
                     R.drawable.v2_menu_bright_green
@@ -661,7 +661,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 getMenu(
                     "Disbursed",
                     MenuEnum.Disbursed.value,
-                    dashboardDetailsResponse.data!!.disbursedAmount!!.toString(),
+                    formatAmount(dashboardDetailsResponse.data!!.disbursedAmount!!.toString()),
                     dashboardDetailsResponse.data!!.disbursed!!,
                     R.drawable.ic_menu_disbursed,
                     R.drawable.v2_menu_dark_green
