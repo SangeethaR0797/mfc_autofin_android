@@ -508,7 +508,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="250dp"
                        />
-
+                    <Button
+                        android:id="@+id/buttonMoveToNextPage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/next"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_16sp"
+                        android:textAppearance="@style/RobotoMedium"
+                        android:layout_gravity="center"
+                        android:paddingLeft="85dp"
+                        android:paddingRight="85dp"
+                        android:paddingTop="13dp"
+                        android:paddingBottom="13dp"
+                        android:visibility="gone"
+                        android:background="@drawable/vtwo_next_btn_bg"
+                        android:layout_marginTop="38dp"
+                        android:layout_marginBottom="38dp"
+                        />
                 </LinearLayout>
             </ScrollView>
 
