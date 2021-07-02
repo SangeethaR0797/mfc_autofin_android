@@ -23,6 +23,29 @@
         <action
             android:id="@+id/action_bankFeaturesAndChargesFragment"
             app:destination="@id/bankFeaturesAndChargesFragment" />
+
+
+        <action
+            android:id="@+id/action_addOrUpdateVehicleDetailsMakeFrag_to_addLeadDetailsFrag"
+            app:destination="@id/addLeadDetailsFrag" />
+
+
+        <action
+            android:id="@+id/action_applicationListFragment_to_softOfferFragment2"
+            app:destination="@id/softOfferFragment2" />
+        <action
+            android:id="@+id/action_applicationListFragment_to_addressAndAdditionalFieldsFragment2"
+            app:destination="@id/addressAndAdditionalFieldsFragment" />
+        <action
+            android:id="@+id/action_applicationListFragment_to_selectedBankOfferStatusFragment"
+            app:destination="@id/selectedBankOfferStatusFragment" />
+        <action
+            android:id="@+id/action_applicationListFragment_to_bankSuccessMessageFragment2"
+            app:destination="@id/bankSuccessMessageFragment" />
+        <action
+            android:id="@+id/action_applicationListFragment_to_documentUploadFragment"
+            app:destination="@id/documentUploadFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/registeredListFragmentNav"
@@ -195,6 +218,27 @@
         <argument
             android:name="screenType"
             app:argType="string" />
+
+        <action
+            android:id="@+id/action_addOrUpdateVehicleDetailsMakeFrag_to_addLeadDetailsFrag"
+            app:destination="@id/addLeadDetailsFrag" />
+
+
+        <action
+            android:id="@+id/action_applicationListFragment_to_softOfferFragment2"
+            app:destination="@id/softOfferFragment2" />
+        <action
+            android:id="@+id/action_applicationListFragment_to_addressAndAdditionalFieldsFragment2"
+            app:destination="@id/addressAndAdditionalFieldsFragment" />
+        <action
+            android:id="@+id/action_applicationListFragment_to_selectedBankOfferStatusFragment"
+            app:destination="@id/selectedBankOfferStatusFragment" />
+        <action
+            android:id="@+id/action_applicationListFragment_to_bankSuccessMessageFragment2"
+            app:destination="@id/bankSuccessMessageFragment" />
+        <action
+            android:id="@+id/action_applicationListFragment_to_documentUploadFragment"
+            app:destination="@id/documentUploadFragment" />
     </fragment>
     <fragment
         android:id="@+id/applicationListFragment"
