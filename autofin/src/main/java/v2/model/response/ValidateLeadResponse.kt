@@ -11,7 +11,8 @@ data class ValidateLeadDataResponse(
         var oldCustomerId: String? = null,
         var code: String? = null,
         var message: String? = null,
-        var details: PersonalBasicDetails? = null
+        var details: PersonalBasicDetails? = null,
+        var status:String?=""
 )
 
 data class PersonalBasicDetails(

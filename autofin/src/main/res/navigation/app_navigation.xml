@@ -90,6 +90,18 @@
         <action
             android:id="@+id/action_addLeadDetailsFrag_to_webViewActivity"
             app:destination="@id/webViewActivity" />
+        <action
+            android:id="@+id/action_addLeadDetailsFrag_to_addressAndAdditionalFieldsFragment"
+            app:destination="@id/addressAndAdditionalFieldsFragment" />
+        <action
+            android:id="@+id/action_addLeadDetailsFrag_to_documentUploadFragment"
+            app:destination="@id/documentUploadFragment" />
+        <action
+            android:id="@+id/action_addLeadDetailsFrag_to_selectedBankOfferStatusFragment"
+            app:destination="@id/selectedBankOfferStatusFragment" />
+        <action
+            android:id="@+id/action_addLeadDetailsFrag_to_applicationDetailsFragment"
+            app:destination="@id/applicationDetailsFragment" />
 
 
     </fragment>
