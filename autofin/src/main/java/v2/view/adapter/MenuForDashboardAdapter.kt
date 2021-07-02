@@ -47,7 +47,7 @@ class MenuForDashboardAdapter(
 
         holder.tvMenuName.text = dataListFilter?.get(position)?.menuName
 
-        if (dataListFilter?.get(position)?.amount != null && dataListFilter?.get(position)?.amount!!.toInt() > 0) {
+        if (dataListFilter?.get(position)?.amount != null) {
             holder.tvAmount.visibility = View.VISIBLE
             holder.tvAmount.text = "₹" + dataListFilter?.get(position)?.amount
         } else {

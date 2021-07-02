@@ -18,7 +18,9 @@ data class Data(
     var newNotificationCount: Int?,
     var noticeBoard: NoticeBoard?,
     var registered: Int?,
-    var softOffer: Int?
+    var softOffer: Int?,
+    var approvedAmount: String?,
+    var disbursedAmount: String?
 )
 
 

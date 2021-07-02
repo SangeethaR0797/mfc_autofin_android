@@ -1,6 +1,9 @@
 package v2.view
 
+import android.Manifest
 import android.app.Activity
+import android.content.Context
+import android.content.pm.PackageManager
 import android.nfc.tech.MifareUltralight.PAGE_SIZE
 import android.os.Bundle
 import android.text.Editable
@@ -17,6 +20,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
+import androidx.core.app.ActivityCompat
 import androidx.core.view.marginLeft
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -59,6 +63,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
     lateinit var ivBack: ImageView
     lateinit var ivNotification: ImageView
     lateinit var ivSearch: ImageView
+    lateinit var ivStartSearch: ImageView
     lateinit var rvData: RecyclerView
     lateinit var llData: LinearLayout
     lateinit var llNoDataFound: LinearLayout
@@ -67,7 +72,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
     lateinit var viewEmptyBlack: View
     lateinit var etSearch: EditText
     lateinit var tvSearchResult: TextView
-    lateinit var cust:CustomerDetailsResponse
+    lateinit var cust: CustomerDetailsResponse
 
     lateinit var screenType: String
     var screenStatus: String? = null
@@ -84,6 +89,8 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
     var layoutManager: LinearLayoutManager? = null
     var isLoading: Boolean = false
     var selectedCustomerId: Int = 0
+    var timerWait: Timer? = null
+    var allowEditCity: Boolean = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         transactionViewModel = ViewModelProvider(this).get(
@@ -144,6 +151,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         ivBack = rootView!!.findViewById(R.id.iv_back)
         ivNotification = rootView!!.findViewById(R.id.iv_notification)
         ivSearch = rootView!!.findViewById(R.id.iv_search)
+        ivStartSearch = rootView!!.findViewById(R.id.iv_start_search)
         rvData = rootView!!.findViewById(R.id.rv_data)
         llData = rootView!!.findViewById(R.id.ll_data)
         llNoDataFound = rootView!!.findViewById(R.id.ll_no_data_found)
@@ -165,6 +173,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         ivBack.setOnClickListener(this)
         ivNotification.setOnClickListener(this)
         ivSearch.setOnClickListener(this)
+        ivStartSearch.setOnClickListener(this)
         llSearch.setOnClickListener(this)
         etSearch.setOnClickListener(this)
 
@@ -208,6 +217,14 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                     )
 
                 }
+                R.id.iv_start_search -> {
+                    if (timerWait != null) {
+                        timerWait!!.cancel();
+
+                    }
+                    startSearchApiCall()
+
+                }
                 R.id.ll_search -> {
                     etSearch.requestFocus()
                     showKeyBoardByForced()
@@ -220,9 +237,20 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
+    private fun startSearchApiCall() {
+        if (!TextUtils.isEmpty(etSearch.text.toString())) {
+            PAGE_NUMBER = 0
+            if (screenType.equals(ScreenTypeEnum.Search.value)) {
+                callSearchAPI()
+            } else {
+                callApplicationStatusWiseFilterAPI(etSearch.text.toString())
+            }
+
+        }
+    }
+
     fun setTextChangeOfetAutoResidenceCity() {
-        var timerWait: Timer? = null
-        var allowEditCity: Boolean = true
+
         etSearch.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
 
@@ -253,20 +281,12 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                                 allowEditCity = false
                                 ThreadUtils.runOnUiThread(Runnable {
                                     //call Search
-                                    if (!TextUtils.isEmpty(etSearch.text.toString())) {
-                                        PAGE_NUMBER = 0
-                                        if (screenType.equals(ScreenTypeEnum.Search.value)) {
-                                            callSearchAPI()
-                                        } else {
-                                            callApplicationStatusWiseFilterAPI(etSearch.text.toString())
-                                        }
-
-                                    }
+                                    startSearchApiCall()
                                 });
 
 
                             }
-                        }, 600)
+                        }, 3000)
                     } else {
 
                     }
@@ -278,7 +298,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
         etSearch.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             if (event != null && event.keyCode === KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_DONE) {
-                hideSoftKeyboard(etSearch)
+                startSearchApiCall()
             }
             false
         })
@@ -307,7 +327,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
             ApplicationListRequest(
                 ApplicationListRequestData(
                     searchKey,
-                    screenStatus?.replace("\\s".toRegex(),""),
+                    screenStatus?.replace("\\s".toRegex(), ""),
                     null,
                     PAGE_NUMBER,
                     PER_PAGE
@@ -372,7 +392,15 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
                             override fun onCallClick(item: Any?, position: Int) {
                                 var applicationDataItems = item as ApplicationDataItems
-                                showToast("onCallClick")
+                                if (checkCallPermissions()) {
+                                    if (applicationDataItems.customerMobile!!.isNotEmpty()) {
+                                        makeCallOfMobileNumber(applicationDataItems.customerMobile!!)
+                                    }
+                                } else {
+                                    askCallPermissions()
+                                }
+
+
                             }
 
                         })
@@ -490,10 +518,15 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
                 isLoading = true
-                if (PAGE_NUMBER == 1) {
-                    showProgressDialog(requireContext())
-                } else {
+
+                if (PAGE_NUMBER > 1 || (screenType.equals(ScreenTypeEnum.Search.value) || screenType.equals(
+                        ScreenTypeEnum.StausWithSearch.value
+                    ))
+                ) {
                     llProgress.visibility = View.VISIBLE
+
+                } else {
+                    showProgressDialog(requireContext())
                 }
             }
             ApiResponse.Status.SUCCESS -> {
@@ -607,6 +640,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 }
             }
         }
+
 
 
 }

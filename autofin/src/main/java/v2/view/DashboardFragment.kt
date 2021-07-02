@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,16 +20,19 @@ import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
 import v2.model.dto.*
+import v2.model.enum_class.ApplicationStatusEnum
 import v2.model.enum_class.MenuEnum
 import v2.model.enum_class.ScreenTypeEnum
-import v2.model.request.CommonRequest
-import v2.model.request.EmiRequest
-import v2.model.request.EmiRequestData
+import v2.model.request.*
+import v2.model.request.add_lead.AddLeadData
+import v2.model.request.add_lead.AddLeadVehicleDetails
+import v2.model.request.add_lead.BasicDetails
 import v2.model.response.*
 import v2.model.response.master.KYCDocumentResponse
 import v2.model_view.DashboardViewModel
 import v2.model_view.MasterViewModel
 import v2.model_view.NoticeBoardViewModel
+import v2.model_view.TransactionViewModel
 import v2.service.utility.ApiResponse
 import v2.view.adapter.DataRecyclerViewAdapter
 import v2.view.adapter.MenuForDashboardAdapter
@@ -89,6 +93,12 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     lateinit var noticeBoardViewModel: NoticeBoardViewModel
     var rootView: View? = null
 
+    lateinit var transactionViewModel: TransactionViewModel
+    lateinit var masterViewModel: MasterViewModel
+
+    var selectedCustomerId: Int = 0
+    lateinit var cust: CustomerDetailsResponse
+
     companion object {
 
         fun newInstance(): DashboardFragment {
@@ -123,6 +133,11 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         kycDocumentViewModel = ViewModelProvider(this).get(MasterViewModel::class.java)
         dashboardViewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
         noticeBoardViewModel = ViewModelProvider(this).get(NoticeBoardViewModel::class.java)
+        transactionViewModel = ViewModelProvider(this).get(
+            TransactionViewModel::class.java
+        )
+        masterViewModel = ViewModelProvider(this).get(MasterViewModel::class.java)
+
 
         kycDocumentViewModel.getKYCDocumentLiveData()
             .observe(requireActivity()) { mApiResponse: ApiResponse? ->
@@ -152,6 +167,18 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 onEmiAmountResponse(mApiResponse!!)
             }
 
+
+        transactionViewModel.getCustomerDetailsLiveData()
+            .observe(requireActivity(), { mApiResponse: ApiResponse? ->
+                onCustomerDetails(
+                    mApiResponse!!
+                )
+            })
+
+        masterViewModel.getKYCDocumentLiveData()
+            .observe(requireActivity()) { mApiResponse: ApiResponse? ->
+                onGetKYCDocumentResponse(mApiResponse!!)
+            }
 
     }
 
@@ -402,12 +429,34 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                             Global.customerAPI_BaseURL + CommonStrings.NOTICE_BOARD_ACTION_END_POINT
                         )
                     }
+                    selectedCustomerId = notice!!.customerId!!
+                    callCustomerDetailsApi(selectedCustomerId)
+
                     noticeRecyclerViewAdapter.notifyItemChanged(position)
                 }
             })
         rvNoticeBoard.adapter = noticeRecyclerViewAdapter
 
 
+    }
+
+    fun callCustomerDetailsApi(customerIdValue: Int) {
+
+        transactionViewModel.getCustomerDetails(
+            createCustomerDetailsRequest(customerIdValue),
+            Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL
+        )
+
+    }
+
+    fun createCustomerDetailsRequest(customerId: Int): CustomerRequest {
+        var customerDetailsRequest = CustomerRequest()
+        customerDetailsRequest.UserId = CommonStrings.DEALER_ID
+        customerDetailsRequest.UserType = CommonStrings.USER_TYPE
+        var customerJourneyDataRequest = ResetCustomerJourneyDataRequest();
+        customerJourneyDataRequest.CustomerId = customerId.toString()
+        customerDetailsRequest.Data = customerJourneyDataRequest
+        return customerDetailsRequest
     }
 
     private fun setPartnerBanksDetails(ruleEngineBanksResponse: RuleEngineBanksResponse) {
@@ -602,7 +651,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 getMenu(
                     "Approved",
                     MenuEnum.Approved.value,
-                    dashboardDetailsResponse.data!!.commissionDetails!!.totalCommission!!.toString(),
+                    formatAmount(dashboardDetailsResponse.data!!.approvedAmount!!.toString()),
                     dashboardDetailsResponse.data!!.approved!!,
                     R.drawable.ic_menu_approved,
                     R.drawable.v2_menu_bright_green
@@ -612,7 +661,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 getMenu(
                     "Disbursed",
                     MenuEnum.Disbursed.value,
-                    null,
+                    formatAmount(dashboardDetailsResponse.data!!.disbursedAmount!!.toString()),
                     dashboardDetailsResponse.data!!.disbursed!!,
                     R.drawable.ic_menu_disbursed,
                     R.drawable.v2_menu_dark_green
@@ -717,29 +766,6 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     }
 
 
-    private fun onGetKYCDocumentResponse(mApiResponse: ApiResponse) {
-        when (mApiResponse.status) {
-            ApiResponse.Status.LOADING -> {
-                showProgressDialog(requireContext())
-            }
-            ApiResponse.Status.SUCCESS -> {
-                hideProgressDialog()
-
-                val kycDocumentRes: KYCDocumentResponse = mApiResponse.data as KYCDocumentResponse
-
-            }
-            ApiResponse.Status.ERROR -> {
-                hideProgressDialog()
-                Log.i("SoftOfferFragment", ": " + ApiResponse.Status.ERROR)
-
-            }
-            else -> {
-                Log.i("SoftOfferFragment", ": ")
-            }
-        }
-
-    }
-
     private fun onNoticeBoardActionResponse(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
@@ -823,5 +849,156 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     }
 
 
+    private fun onCustomerDetails(mApiResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+                val customerResponse: CustomerDetailsResponse? =
+                    mApiResponse.data as CustomerDetailsResponse?
+                checkForNextScreenAfterCustomerResponse(customerResponse)
+
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+            }
+            else -> {
+                hideProgressDialog()
+                showToast("Please enter valid details")
+            }
+        }
+
+    }
+
+    private fun onGetKYCDocumentResponse(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+
+                val kycDocumentRes: KYCDocumentResponse = mApiResponse.data as KYCDocumentResponse
+                if (kycDocumentRes.statusCode == "100") {
+                    if (kycDocumentRes.data.groupedDoc.isNotEmpty() || kycDocumentRes.data.nonGroupedDoc.isNotEmpty())
+                        cust.data?.caseId?.let {
+                            navigateToKYCDocumentUploadFromApplicationList(
+                                selectedCustomerId.toString(),
+                                kycDocumentRes,
+                                it,
+                                cust
+                            )
+                        }
+                    else if (kycDocumentRes.data.groupedDoc.isEmpty() && kycDocumentRes.data.nonGroupedDoc.isEmpty())
+                        navigateToBankOfferStatusFromApplicationListFrag(selectedCustomerId, cust)
+                } else {
+                    navigateToBankOfferStatusFromApplicationListFrag(selectedCustomerId, cust)
+                }
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+                Log.i("SoftOfferFragment", ": " + ApiResponse.Status.ERROR)
+
+            }
+            else -> {
+                Log.i("SoftOfferFragment", ": ")
+            }
+        }
+    }
+
 //endregion Observer
+
+    private fun checkForNextScreenAfterCustomerResponse(customerResponse: CustomerDetailsResponse?) {
+
+        if ((customerResponse!!.data!!.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse!!.data!!.subStatus.equals(
+                ApplicationStatusEnum.Registered.value
+            )) ||
+            (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse!!.data!!.subStatus.equals(
+                ApplicationStatusEnum.Employment_Details_Submitted.value
+            )) ||
+            (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse.data!!.subStatus.equals(
+                ApplicationStatusEnum.KYC_Done.value
+            )) ||
+            (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse.data!!.subStatus.equals(
+                ApplicationStatusEnum.Employment_Details_Submitted.value
+            ))
+
+        ) {
+            var addLeadRequest = AddLeadRequest()
+            var vehicleDetails = AddLeadVehicleDetails()
+
+            vehicleDetails!!.RegistrationYear =
+                customerResponse.data!!.vehicleDetails!!.registrationYear
+            vehicleDetails!!.Make = customerResponse.data!!.vehicleDetails!!.make
+            vehicleDetails!!.Model = customerResponse.data!!.vehicleDetails!!.model
+            vehicleDetails!!.Variant = customerResponse.data!!.vehicleDetails!!.variant
+            vehicleDetails!!.Ownership = customerResponse.data!!.vehicleDetails!!.ownership
+            vehicleDetails!!.VehicleNumber = customerResponse.data!!.vehicleDetails!!.vehicleNumber
+            vehicleDetails!!.KMs = customerResponse.data!!.vehicleDetails!!.kMs
+            vehicleDetails!!.FuelType = customerResponse.data!!.vehicleDetails!!.fuelType
+
+            var basicDetails = BasicDetails()
+            basicDetails.FirstName =
+                customerResponse.data!!.basicDetails!!.firstName
+            basicDetails.LastName =
+                customerResponse.data!!.basicDetails!!.lastName
+            basicDetails.Email =
+                customerResponse.data!!.basicDetails!!.email
+            basicDetails.Salutation =
+                customerResponse.data!!.basicDetails!!.salutation
+            basicDetails.CustomerMobile =
+                customerResponse.data!!.basicDetails!!.customerMobile
+
+            var data = AddLeadData()
+
+            data!!.addLeadVehicleDetails = vehicleDetails
+            data!!.basicDetails = basicDetails
+            addLeadRequest.Data = data
+            navigateToAddLeadFragment(
+                addLeadRequest,
+                selectedCustomerId,
+                customerResponse.data!!.basicDetails!!.customerMobile
+            )
+        } else {
+            when (customerResponse.data?.status) {
+                getString(R.string.v2_lead_status_kyc_done) -> {
+                    navToSoftOffer(
+                        customerResponse,
+                        selectedCustomerId.toString(),
+                        CommonStrings.APPLICATION_LIST_FRAGMENT_TAG
+                    )
+                }
+                getString(R.string.v2_lead_status_lender_selected) -> {
+                    navigateToAddressAdditionalFields(selectedCustomerId, customerResponse)
+                }
+                getString(R.string.v2_lead_status_bank_form_filled) -> {
+                    cust = customerResponse
+                    masterViewModel.getKYCDocumentResponse(Global.baseURL + CommonStrings.KYC_UPLOAD_URL_END_POINT + selectedCustomerId)
+                }
+                getString(R.string.v2_lead_status_document_upload) -> {
+                    navigateToBankOfferStatusFromApplicationListFrag(
+                        selectedCustomerId,
+                        customerResponse
+                    )
+                }
+                getString(R.string.v2_lead_status_submitted_to_bank) -> {
+                    /*val salutation = customerResponse.data?.basicDetails?.salutation
+                    val name =
+                        customerResponse.data?.basicDetails?.firstName + " " + customerResponse.data?.basicDetails?.lastName
+                    val caseId = customerResponse.data?.caseId
+                    caseId?.let { CustomLoanProcessCompletedData(selectedCustomerId,salutation + " " + name, it) }
+                        ?.let { navigateToBankSuccessPageFromSoftOffer(it) }
+*/
+                    navigateToLeadDetails(selectedCustomerId)
+                }
+            }
+
+        }
+
+    }
 }
