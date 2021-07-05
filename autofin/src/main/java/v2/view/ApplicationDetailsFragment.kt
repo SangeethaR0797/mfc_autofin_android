@@ -202,7 +202,7 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
             list.add(
                 KeyValueDTO(
                     "Name",
-                    customerResponse!!.data!!.basicDetails!!.firstName + " " + customerResponse!!.data!!.basicDetails!!.lastName
+                    customerResponse!!.data!!.basicDetails!!.salutation + " " + customerResponse!!.data!!.basicDetails!!.firstName + " " + customerResponse!!.data!!.basicDetails!!.lastName
                 )
             )
             list.add(
@@ -214,7 +214,12 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
             list.add(KeyValueDTO("Email", customerResponse!!.data!!.basicDetails!!.email))
 
             list.add(KeyValueDTO("Make", customerResponse!!.data!!.vehicleDetails!!.make))
-            list.add(KeyValueDTO("Vehicle Number", customerResponse!!.data!!.vehicleDetails!!.vehicleNumber))
+            list.add(
+                KeyValueDTO(
+                    "Vehicle Number",
+                    customerResponse!!.data!!.vehicleDetails!!.vehicleNumber
+                )
+            )
             list.add(KeyValueDTO("Model", customerResponse!!.data!!.vehicleDetails!!.model))
             list.add(KeyValueDTO("Variant", customerResponse!!.data!!.vehicleDetails!!.variant))
             list.add(
@@ -229,21 +234,7 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     customerResponse!!.data!!.vehicleDetails!!.ownership.toString()
                 )
             )
-            if (customerResponse!!.data!!.employmentDetails != null) {
-                list.add(
-                    KeyValueDTO(
-                        "Bank",
-                        customerResponse!!.data!!.employmentDetails!!.salaryAccount
-                    )
-                )
-            } else if (customerResponse!!.data!!.employmentDetails != null) {
-                list.add(
-                    KeyValueDTO(
-                        "Bank",
-                        customerResponse!!.data!!.employmentDetails!!.primaryAccount
-                    )
-                )
-            }
+
 
             if (customerResponse!!.data!!.loanDetails != null && customerResponse!!.data!!.loanDetails != null) {
                 list.add(
@@ -294,7 +285,88 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                 list.add(
                     KeyValueDTO(
                         "Processing fee",
-                        null
+                        formatAmount(customerResponse!!.data!!.loanDetails!!.processingFees!!)
+                    )
+                )
+
+
+                list.add(
+                    KeyValueDTO(
+                        "Employment Type",
+                        (customerResponse!!.data!!.employmentDetails!!.employmentType!!)
+                    )
+                )
+
+                if (customerResponse!!.data!!.employmentDetails != null) {
+                    list.add(
+                        KeyValueDTO(
+                            "Bank",
+                            customerResponse!!.data!!.employmentDetails!!.salaryAccount
+                        )
+                    )
+                } else if (customerResponse!!.data!!.employmentDetails != null) {
+                    list.add(
+                        KeyValueDTO(
+                            "Bank",
+                            customerResponse!!.data!!.employmentDetails!!.primaryAccount
+                        )
+                    )
+                }
+
+                list.add(
+                    KeyValueDTO(
+                        "Total Work Experience (Years)",
+                        (customerResponse!!.data!!.employmentDetails!!.totalWorkExperience!!)
+                    )
+                )
+
+                list.add(
+                    KeyValueDTO(
+                        "Net Income",
+                        formatAmount(
+                            customerResponse!!.data!!.employmentDetails!!.netAnualIncome!!.toInt()
+                                .toString()!!
+                        )
+                    )
+                )
+
+                list.add(
+                    KeyValueDTO(
+                        "Residence Type",
+                        customerResponse!!.data!!.residentialDetails!!.residenceType!!
+                        !!
+
+                    )
+                )
+                if (customerResponse!!.data!!.basicDetails!!.haveExistingEMI == true) {
+                    list.add(
+                        KeyValueDTO(
+                            "Current EMI",
+                            formatAmount(customerResponse!!.data!!.basicDetails!!.totalEMI!!.toInt().toString())
+
+                        )
+                    )
+                }
+
+                list.add(
+                    KeyValueDTO(
+                        "Resident city",
+                        customerResponse!!.data!!.residentialDetails!!.customerCity!!
+                            .toString()!! + (" (since "
+                                + customerResponse!!.data!!.residentialDetails!!.noOfYearInResident!!
+                            .toString()!! + " years)")
+
+                    )
+                )
+
+
+                list.add(
+                    KeyValueDTO(
+                        "PAN Number",
+
+                        customerResponse!!.data!!.basicDetails!!.panNumber
+                        !!
+
                     )
                 )
 

@@ -70,6 +70,7 @@ data class LoanDetails(
         var loanAmount: String?,
         var loanCategory: String?,
         var roi: String?,
+        var processingFees: String?,
         var tenure: String?
 ) : Parcelable
 
