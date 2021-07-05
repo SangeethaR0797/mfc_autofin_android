@@ -49,6 +49,7 @@ class KeyValueRecyclerViewAdapter(
             }
         } else {
             holder.tvValue.text = ""
+            holder.tvValue.hint = "NA"
         }
 
         holder.llMainLayout.setOnClickListener(View.OnClickListener {

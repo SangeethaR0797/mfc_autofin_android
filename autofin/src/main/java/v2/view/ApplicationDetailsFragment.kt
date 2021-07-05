@@ -227,14 +227,14 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     customerResponse!!.data!!.vehicleDetails!!.ownership.toString()
                 )
             )
-            if (customerResponse!!.data!!.employmentDetails!!.salaryAccount != null) {
+            if (customerResponse!!.data!!.employmentDetails != null) {
                 list.add(
                     KeyValueDTO(
                         "Bank",
                         customerResponse!!.data!!.employmentDetails!!.salaryAccount
                     )
                 )
-            } else if (customerResponse!!.data!!.employmentDetails!!.primaryAccount != null) {
+            } else if (customerResponse!!.data!!.employmentDetails != null) {
                 list.add(
                     KeyValueDTO(
                         "Bank",
@@ -243,7 +243,7 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                 )
             }
 
-            if (customerResponse!!.data!!.loanDetails != null && customerResponse!!.data!!.loanDetails!!.loanAmount != null) {
+            if (customerResponse!!.data!!.loanDetails != null && customerResponse!!.data!!.loanDetails != null) {
                 list.add(
                     KeyValueDTO(
                         "Loan Amount",
