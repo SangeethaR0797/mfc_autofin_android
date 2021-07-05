@@ -361,6 +361,11 @@
         android:name="v2.view.AddressAndAdditionalFieldsFragment"
         android:label="v2_address_additional_fields_fragment"
         tools:layout="@layout/v2_address_additional_fields_fragment">
+        <action
+            android:id="@+id/action_to_dashboard_top"
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@+id/dashboardFragment"
+            app:popUpToInclusive="true" />
         <argument
             android:name="customerID"
             app:argType="integer" />

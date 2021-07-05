@@ -47,6 +47,7 @@ import v2.service.utility.ApiResponse
 import v2.view.adapter.AdditionalFieldsAdapter
 import v2.view.adapter.DataRecyclerViewAdapter
 import v2.view.base.BaseFragment
+import v2.view.callBackInterface.ActivityBackPressed
 import v2.view.callBackInterface.AdditionalFieldsDetailsInterface
 import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.callBackInterface.itemClickCallBack
@@ -59,7 +60,7 @@ import kotlin.collections.HashMap
 
 
 public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickListener,
-    KeyboardVisibilityEventListener {
+    KeyboardVisibilityEventListener, ActivityBackPressed {
 
     lateinit var linearLayoutAddNewCurrentAddress: LinearLayout
     lateinit var linearLayoutEditCurrentAddress: LinearLayout
@@ -170,6 +171,28 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         }
     }
 
+    override fun onActivityBackPressed() {
+        checkBackPress()
+
+    }
+    override fun onResume() {
+        super.onResume()
+        if (activity is HostActivity) {
+            (activity as HostActivity).activityBackPressed = AddressAndAdditionalFieldsFragment@ this
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (activity is HostActivity) {
+            (activity as HostActivity).activityBackPressed = null
+        }
+    }
+
+    fun checkBackPress() {
+        navigateDashboardTop()
+    }
+
     private fun checkForFocusAndScroll(view: View) {
         var viewToScroll: View? = null
         var etCrrent = view as EditText
@@ -186,7 +209,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         } else if (editTextPermanentAddress3 != null && editTextPermanentAddress3!!.hasFocus()) {
             viewToScroll = linearLayoutPermanentAddress3
         } else if (etCrrent.hasFocus() || etCrrent.hasFocus()) {
-          //  viewToScroll = linearLayoutAddNewCurrentAddress
+            //  viewToScroll = linearLayoutAddNewCurrentAddress
         }
 
 
@@ -375,7 +398,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                 permanentAddressResponse =
                     customerDetailsResponse.data?.residentialDetails?.permanentAddress!!
                 isPermanentAddress =
-                        customerDetailsResponse.data?.residentialDetails?.currentAddress?.isPermanent!!
+                    customerDetailsResponse.data?.residentialDetails?.currentAddress?.isPermanent!!
                 showEditCurrentAddress()
             } else {
                 showNewCurrentAddress()
@@ -411,25 +434,28 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         linearLayoutCurrentAddress3 =
             addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress3)
 
-        editTextCurrentAddress1!!.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                viewEmpty.visibility = View.GONE
-                checkForFocusAndScroll(editTextCurrentAddress1!!)
+        editTextCurrentAddress1!!.onFocusChangeListener =
+            View.OnFocusChangeListener { view, hasFocus ->
+                if (hasFocus) {
+                    viewEmpty.visibility = View.GONE
+                    checkForFocusAndScroll(editTextCurrentAddress1!!)
+                }
             }
-        }
-        editTextCurrentAddress2!!.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                viewEmpty.visibility = View.GONE
-                checkForFocusAndScroll(editTextCurrentAddress2!!)
+        editTextCurrentAddress2!!.onFocusChangeListener =
+            View.OnFocusChangeListener { view, hasFocus ->
+                if (hasFocus) {
+                    viewEmpty.visibility = View.GONE
+                    checkForFocusAndScroll(editTextCurrentAddress2!!)
 
+                }
             }
-        }
-        editTextCurrentAddress3!!.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                viewEmpty.visibility = View.GONE
-                checkForFocusAndScroll(editTextCurrentAddress3!!)
+        editTextCurrentAddress3!!.onFocusChangeListener =
+            View.OnFocusChangeListener { view, hasFocus ->
+                if (hasFocus) {
+                    viewEmpty.visibility = View.GONE
+                    checkForFocusAndScroll(editTextCurrentAddress3!!)
+                }
             }
-        }
 
         val checkboxIsPermanentAdd = addressView.findViewById<CheckBox>(R.id.checkboxIsPermanentAdd)
 
@@ -574,25 +600,28 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
             addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress3)
 
 
-        editTextPermanentAddress1!!.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                viewEmpty.visibility = View.GONE
-                checkForFocusAndScroll(editTextPermanentAddress1!!)
+        editTextPermanentAddress1!!.onFocusChangeListener =
+            View.OnFocusChangeListener { view, hasFocus ->
+                if (hasFocus) {
+                    viewEmpty.visibility = View.GONE
+                    checkForFocusAndScroll(editTextPermanentAddress1!!)
+                }
             }
-        }
 
-        editTextPermanentAddress2!!.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                viewEmpty.visibility = View.GONE
-                checkForFocusAndScroll(editTextPermanentAddress2!!)
+        editTextPermanentAddress2!!.onFocusChangeListener =
+            View.OnFocusChangeListener { view, hasFocus ->
+                if (hasFocus) {
+                    viewEmpty.visibility = View.GONE
+                    checkForFocusAndScroll(editTextPermanentAddress2!!)
+                }
             }
-        }
-        editTextPermanentAddress3!!.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                viewEmpty.visibility = View.GONE
-                checkForFocusAndScroll(editTextPermanentAddress3!!)
+        editTextPermanentAddress3!!.onFocusChangeListener =
+            View.OnFocusChangeListener { view, hasFocus ->
+                if (hasFocus) {
+                    viewEmpty.visibility = View.GONE
+                    checkForFocusAndScroll(editTextPermanentAddress3!!)
+                }
             }
-        }
 
         val checkboxIsPermanentAdd = addressView.findViewById<CheckBox>(R.id.checkboxIsPermanentAdd)
 
@@ -705,16 +734,16 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
     private fun submitPermanentAddress() {
 
-            permanentAddress = PermanentAddress(pincode, address)
-            val addressData =
-                AddressData(customerId.toInt(), currentAddress, permanentAddress, cityMovedInYear)
-            val updateAddressRequest =
-                UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, addressData)
+        permanentAddress = PermanentAddress(pincode, address)
+        val addressData =
+            AddressData(customerId.toInt(), currentAddress, permanentAddress, cityMovedInYear)
+        val updateAddressRequest =
+            UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, addressData)
 
-            addressViewModel.updateAddress(
-                updateAddressRequest,
-                Global.customerAPI_BaseURL + CommonStrings.UPDATE_ADDRESS_URL
-            )
+        addressViewModel.updateAddress(
+            updateAddressRequest,
+            Global.customerAPI_BaseURL + CommonStrings.UPDATE_ADDRESS_URL
+        )
     }
 
     //region AddressFunctions
@@ -884,7 +913,11 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                     setAdditionalField()
 
                 } else {
-                    navigateToBankOfferStatus(customerId, customerDetailsResponse, "AddressAdditionalFields")
+                    navigateToBankOfferStatus(
+                        customerId,
+                        customerDetailsResponse,
+                        "AddressAdditionalFields"
+                    )
                 }
             }
             ApiResponse.Status.ERROR -> {
@@ -1020,7 +1053,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
     private fun generateSectionUI(sectionData: Sections, isLastSection: Boolean): View {
         val fieldList = sectionData.fields
-        val currentSectionLayout:View
+        val currentSectionLayout: View
         if (isSectionPreFilled(sectionData.sectionName)) {
             currentSectionLayout = generateEditSectionUI(sectionData)
         } else {
@@ -1232,13 +1265,19 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                         if (!TextUtils.isEmpty(s.toString())) {
 
                             if (fieldData.apiDetails.apiKey == "CompanyPincode") {
-                                if(s?.length==6)
-                                updateEditTextValues(fieldInputValue, fieldData, sectionName, isLastItem, linearLayout, cFieldList, isLastSection)
-                                else if(s?.length!! >6)
+                                if (s?.length == 6)
+                                    updateEditTextValues(
+                                        fieldInputValue,
+                                        fieldData,
+                                        sectionName,
+                                        isLastItem,
+                                        linearLayout,
+                                        cFieldList,
+                                        isLastSection
+                                    )
+                                else if (s?.length!! > 6)
                                     showToast("Enter valid Pincode")
-                            }
-                            else
-                            {
+                            } else {
                                 last_text_edit = System.currentTimeMillis()
                                 handler.removeCallbacksAndMessages(null)
                                 handler.postDelayed(input_finish_checker, delay)
@@ -1845,7 +1884,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                 textViewOfficeAddress1.text =
                     isFieldFilled1(sectionData.fields[0].apiDetails.apiKey)
                 (isFieldFilled1(sectionData.fields[4].apiDetails.apiKey) + "," + isFieldFilled1(
-                        sectionData.fields[5].apiDetails.apiKey
+                    sectionData.fields[5].apiDetails.apiKey
                 )).also { textViewOfficeAddress2.text = it }
                 textViewOfficeAddress3.text =
                     isFieldFilled1(sectionData.fields[6].apiDetails.apiKey) + "," + isFieldFilled1(
@@ -2063,7 +2102,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.ivBackFromAddressAndAdditionalFields -> {
-                activity?.onBackPressed()
+                checkBackPress()
             }
             R.id.imageViewEditCurrentAddress -> {
                 linearLayoutEditCurrentAddress.visibility = View.GONE

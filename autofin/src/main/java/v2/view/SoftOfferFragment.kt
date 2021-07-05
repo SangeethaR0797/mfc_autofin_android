@@ -294,7 +294,7 @@ class SoftOfferFragment : BaseFragment(), ActivityBackPressed {
         })
 
 
-        ivBackToRedDetails.setOnClickListener(OnClickListener { activity?.onBackPressed() })
+        ivBackToRedDetails.setOnClickListener(OnClickListener { checkBackPress() })
 
         buttonLoanDetailsSubmit.setOnClickListener(OnClickListener {
             if (loanAmount.isNotEmpty() && loanTenure.isNotEmpty() &&

@@ -231,7 +231,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
     }
 
     fun checkBackPress() {
-        if (TextUtils.isEmpty(customerId) || (selectedCustomerIdForEdit > 0 && selectedCustomerIdForEdit != null)) {
+
+        if (TextUtils.isEmpty(customerId)) {
             //Case 1 Able to change mvvm details before Add Lead
             //Case 2 Edit flow user can go back to Application List Page
             if (activity is HostActivity) {
