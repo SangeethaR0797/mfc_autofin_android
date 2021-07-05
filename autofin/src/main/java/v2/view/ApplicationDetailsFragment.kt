@@ -54,7 +54,7 @@ import java.util.*
 
 class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
 
-
+    var keyValueRecyclerViewAdapter: KeyValueRecyclerViewAdapter? = null
     lateinit var tvTitle: TextView
     lateinit var tvSubTitle: TextView
     lateinit var ivBack: ImageView
@@ -157,7 +157,8 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     checkForNextNavigation()
                 }
                 R.id.tv_view_all -> {
-                    activity?.onBackPressed()
+                    //activity?.onBackPressed()
+                    viewMore()
                 }
 
             }
@@ -213,6 +214,7 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
             list.add(KeyValueDTO("Email", customerResponse!!.data!!.basicDetails!!.email))
 
             list.add(KeyValueDTO("Make", customerResponse!!.data!!.vehicleDetails!!.make))
+            list.add(KeyValueDTO("Vehicle Number", customerResponse!!.data!!.vehicleDetails!!.vehicleNumber))
             list.add(KeyValueDTO("Model", customerResponse!!.data!!.vehicleDetails!!.model))
             list.add(KeyValueDTO("Variant", customerResponse!!.data!!.vehicleDetails!!.variant))
             list.add(
@@ -251,7 +253,7 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     )
                 )
             }
-            var keyValueRecyclerViewAdapter =
+            keyValueRecyclerViewAdapter =
                 KeyValueRecyclerViewAdapter(activity as Activity, list, object :
                     itemClickCallBack {
                     override fun itemClick(item: Any?, position: Int) {
@@ -264,6 +266,43 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
             rvData.adapter = keyValueRecyclerViewAdapter
         }
 
+    }
+
+    private fun viewMore() {
+        if (keyValueRecyclerViewAdapter != null) {
+            tvViewAll.visibility = View.GONE
+            val list: ArrayList<KeyValueDTO> = arrayListOf<KeyValueDTO>()
+            if (customerResponse!!.data!!.loanDetails != null && customerResponse!!.data!!.loanDetails != null) {
+                list.add(
+                    KeyValueDTO(
+                        "Tenure (Months)",
+                        formatAmount(customerResponse!!.data!!.loanDetails!!.tenure!!)
+                    )
+                )
+                list.add(
+                    KeyValueDTO(
+                        "EMI",
+                        (formatAmount(customerResponse!!.data!!.loanDetails!!.emi!!))
+                    )
+                )
+                list.add(
+                    KeyValueDTO(
+                        "Interest Rate (%)",
+                        ((customerResponse!!.data!!.loanDetails!!.roi!!))
+                    )
+                )
+                list.add(
+                    KeyValueDTO(
+                        "Processing fee",
+                        null
+                    )
+                )
+
+                keyValueRecyclerViewAdapter!!.dataListFilter =
+                    keyValueRecyclerViewAdapter!!.dataListFilter!!.plus(list)
+                keyValueRecyclerViewAdapter!!.notifyDataSetChanged()
+            }
+        }
     }
 
     private fun checkForNextNavigation() {

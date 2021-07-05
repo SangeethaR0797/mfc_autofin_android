@@ -40,11 +40,14 @@ class KeyValueRecyclerViewAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         holder.tvKey.text = dataListFilter!![position].key
-        if (dataListFilter!![position].value != null) {
+        if (!TextUtils.isEmpty(dataListFilter!![position].value)) {
             holder.tvValue.text = dataListFilter!![position].value
-            if(dataListFilter!![position].key.equals("Case id") || dataListFilter!![position].key.equals("Mobile No")) {
+            if (dataListFilter!![position].key.equals("Case id") || dataListFilter!![position].key.equals(
+                    "Mobile No"
+                )
+            ) {
                 holder.tvValue.setTextIsSelectable(true)
-            }else{
+            } else {
                 holder.tvValue.setTextIsSelectable(false)
             }
         } else {
@@ -64,14 +67,13 @@ class KeyValueRecyclerViewAdapter(
         var tvKey: TextView
         var tvValue: TextView
         var llMainLayout: LinearLayout
-       
-       
+
 
         init {
             tvKey = itemView.findViewById(R.id.tv_key)
             tvValue = itemView.findViewById(R.id.tv_value)
             llMainLayout = itemView.findViewById(R.id.ll_main_layout)
-            
+
         }
     }
 
