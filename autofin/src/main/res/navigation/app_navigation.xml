@@ -8,6 +8,7 @@
         android:id="@+id/dashboardFragment"
         android:name="v2.view.DashboardFragment"
         android:label="fragment_dashboard">
+
         <action
             android:id="@+id/action_dashboardFragment_to_registeredListFragment"
             app:destination="@id/registeredListFragmentNav" />
@@ -68,6 +69,7 @@
         android:id="@+id/vehicleSelectionFrag2"
         android:name="v2.view.VehicleSelectionFrag"
         android:label="fragment_vehicle_selection"
+
         tools:layout="@layout/fragment_vehicle_selection">
         <action
             android:id="@+id/action_vehicleSelectionFrag2_to_addOrUpdateVehicleDetailsMakeFrag"
@@ -96,6 +98,12 @@
         android:name="v2.view.AddLeadDetailsFrag"
         android:label="fragment_add_lead_details"
         tools:layout="@layout/fragment_add_lead_details">
+        <action
+            android:id="@+id/action_to_dashboard_top"
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@+id/dashboardFragment"
+            app:popUpToInclusive="true" />
+
         <argument
             android:name="addLeadRequestDetails"
             app:argType="v2.model.dto.AddLeadRequest" />
@@ -133,6 +141,13 @@
         android:name="v2.view.SoftOfferFragment"
         android:label="fragment_soft_offer"
         tools:layout="@layout/fragment_soft_offer">
+
+        <action
+            android:id="@+id/action_to_dashboard_top"
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@+id/dashboardFragment"
+            app:popUpToInclusive="true" />
+
         <argument
             android:name="CustomerDetails"
             app:argType="v2.model.response.CustomerDetailsResponse" />
@@ -193,6 +208,13 @@
         android:name="v2.view.BankSuccessMessageFragment"
         android:label="v2_fragment_bank_success_message"
         tools:layout="@layout/v2_fragment_bank_success_message">
+
+        <action
+            android:id="@+id/action_to_dashboard_top"
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@+id/dashboardFragment"
+            app:popUpToInclusive="true" />
+
         <argument
             android:name="LoanProcessData"
             app:argType="v2.model.dto.CustomLoanProcessCompletedData" />
@@ -345,7 +367,12 @@
         android:id="@+id/addressAndAdditionalFieldsFragment"
         android:name="v2.view.AddressAndAdditionalFieldsFragment"
         android:label="v2_address_additional_fields_fragment"
-        tools:layout="@layout/v2_address_additional_fields_fragment" >
+        tools:layout="@layout/v2_address_additional_fields_fragment">
+        <action
+            android:id="@+id/action_to_dashboard_top"
+            app:destination="@id/dashboardFragment"
+            app:popUpTo="@+id/dashboardFragment"
+            app:popUpToInclusive="true" />
         <argument
             android:name="customerID"
             app:argType="integer" />

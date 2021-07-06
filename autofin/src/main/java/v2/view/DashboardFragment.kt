@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -122,6 +123,11 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         super.onResume()
         if (hostActivity != null) {
             hostActivity.appTokenChangeInterface = DashboardFragment@ this
+        }
+        if (!TextUtils.isEmpty(CommonStrings.TOKEN_VALUE) &&
+            !TextUtils.isEmpty(CommonStrings.IBB_ACCESS_TOKEN_URL_END)
+        ) {
+            setRefreshData()
         }
         hideSoftKeyboard()
     }

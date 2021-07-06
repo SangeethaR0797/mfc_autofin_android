@@ -54,7 +54,7 @@ import java.util.*
 
 class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
 
-
+    var keyValueRecyclerViewAdapter: KeyValueRecyclerViewAdapter? = null
     lateinit var tvTitle: TextView
     lateinit var tvSubTitle: TextView
     lateinit var ivBack: ImageView
@@ -157,7 +157,8 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     checkForNextNavigation()
                 }
                 R.id.tv_view_all -> {
-                    activity?.onBackPressed()
+                    //activity?.onBackPressed()
+                    viewMore()
                 }
 
             }
@@ -201,7 +202,7 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
             list.add(
                 KeyValueDTO(
                     "Name",
-                    customerResponse!!.data!!.basicDetails!!.firstName + " " + customerResponse!!.data!!.basicDetails!!.lastName
+                    customerResponse!!.data!!.basicDetails!!.salutation + " " + customerResponse!!.data!!.basicDetails!!.firstName + " " + customerResponse!!.data!!.basicDetails!!.lastName
                 )
             )
             list.add(
@@ -213,6 +214,12 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
             list.add(KeyValueDTO("Email", customerResponse!!.data!!.basicDetails!!.email))
 
             list.add(KeyValueDTO("Make", customerResponse!!.data!!.vehicleDetails!!.make))
+            list.add(
+                KeyValueDTO(
+                    "Vehicle Number",
+                    customerResponse!!.data!!.vehicleDetails!!.vehicleNumber
+                )
+            )
             list.add(KeyValueDTO("Model", customerResponse!!.data!!.vehicleDetails!!.model))
             list.add(KeyValueDTO("Variant", customerResponse!!.data!!.vehicleDetails!!.variant))
             list.add(
@@ -227,23 +234,9 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     customerResponse!!.data!!.vehicleDetails!!.ownership.toString()
                 )
             )
-            if (customerResponse!!.data!!.employmentDetails!!.salaryAccount != null) {
-                list.add(
-                    KeyValueDTO(
-                        "Bank",
-                        customerResponse!!.data!!.employmentDetails!!.salaryAccount
-                    )
-                )
-            } else if (customerResponse!!.data!!.employmentDetails!!.primaryAccount != null) {
-                list.add(
-                    KeyValueDTO(
-                        "Bank",
-                        customerResponse!!.data!!.employmentDetails!!.primaryAccount
-                    )
-                )
-            }
 
-            if (customerResponse!!.data!!.loanDetails != null && customerResponse!!.data!!.loanDetails!!.loanAmount != null) {
+
+            if (customerResponse!!.data!!.loanDetails != null && customerResponse!!.data!!.loanDetails != null) {
                 list.add(
                     KeyValueDTO(
                         "Loan Amount",
@@ -251,7 +244,7 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     )
                 )
             }
-            var keyValueRecyclerViewAdapter =
+            keyValueRecyclerViewAdapter =
                 KeyValueRecyclerViewAdapter(activity as Activity, list, object :
                     itemClickCallBack {
                     override fun itemClick(item: Any?, position: Int) {
@@ -264,6 +257,124 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
             rvData.adapter = keyValueRecyclerViewAdapter
         }
 
+    }
+
+    private fun viewMore() {
+        if (keyValueRecyclerViewAdapter != null) {
+            tvViewAll.visibility = View.GONE
+            val list: ArrayList<KeyValueDTO> = arrayListOf<KeyValueDTO>()
+            if (customerResponse!!.data!!.loanDetails != null && customerResponse!!.data!!.loanDetails != null) {
+                list.add(
+                    KeyValueDTO(
+                        "Tenure (Months)",
+                        formatAmount(customerResponse!!.data!!.loanDetails!!.tenure!!)
+                    )
+                )
+                list.add(
+                    KeyValueDTO(
+                        "EMI",
+                        (formatAmount(customerResponse!!.data!!.loanDetails!!.emi!!))
+                    )
+                )
+                list.add(
+                    KeyValueDTO(
+                        "Interest Rate (%)",
+                        ((customerResponse!!.data!!.loanDetails!!.roi!!))
+                    )
+                )
+                list.add(
+                    KeyValueDTO(
+                        "Processing fee",
+                        formatAmount(customerResponse!!.data!!.loanDetails!!.processingFees!!)
+                    )
+                )
+
+
+                list.add(
+                    KeyValueDTO(
+                        "Employment Type",
+                        (customerResponse!!.data!!.employmentDetails!!.employmentType!!)
+                    )
+                )
+
+                if (customerResponse!!.data!!.employmentDetails != null) {
+                    list.add(
+                        KeyValueDTO(
+                            "Bank",
+                            customerResponse!!.data!!.employmentDetails!!.salaryAccount
+                        )
+                    )
+                } else if (customerResponse!!.data!!.employmentDetails != null) {
+                    list.add(
+                        KeyValueDTO(
+                            "Bank",
+                            customerResponse!!.data!!.employmentDetails!!.primaryAccount
+                        )
+                    )
+                }
+
+                list.add(
+                    KeyValueDTO(
+                        "Total Work Experience (Years)",
+                        (customerResponse!!.data!!.employmentDetails!!.totalWorkExperience!!)
+                    )
+                )
+
+                list.add(
+                    KeyValueDTO(
+                        "Net Income",
+                        formatAmount(
+                            customerResponse!!.data!!.employmentDetails!!.netAnualIncome!!.toInt()
+                                .toString()!!
+                        )
+                    )
+                )
+
+                list.add(
+                    KeyValueDTO(
+                        "Residence Type",
+                        customerResponse!!.data!!.residentialDetails!!.residenceType!!
+                        !!
+
+                    )
+                )
+                if (customerResponse!!.data!!.basicDetails!!.haveExistingEMI == true) {
+                    list.add(
+                        KeyValueDTO(
+                            "Current EMI",
+                            formatAmount(customerResponse!!.data!!.basicDetails!!.totalEMI!!.toInt().toString())
+
+                        )
+                    )
+                }
+
+                list.add(
+                    KeyValueDTO(
+                        "Resident city",
+                        customerResponse!!.data!!.residentialDetails!!.customerCity!!
+                            .toString()!! + (" (since "
+                                + customerResponse!!.data!!.residentialDetails!!.noOfYearInResident!!
+                            .toString()!! + " years)")
+
+                    )
+                )
+
+
+                list.add(
+                    KeyValueDTO(
+                        "PAN Number",
+
+                        customerResponse!!.data!!.basicDetails!!.panNumber
+                        !!
+
+                    )
+                )
+
+                keyValueRecyclerViewAdapter!!.dataListFilter =
+                    keyValueRecyclerViewAdapter!!.dataListFilter!!.plus(list)
+                keyValueRecyclerViewAdapter!!.notifyDataSetChanged()
+            }
+        }
     }
 
     private fun checkForNextNavigation() {

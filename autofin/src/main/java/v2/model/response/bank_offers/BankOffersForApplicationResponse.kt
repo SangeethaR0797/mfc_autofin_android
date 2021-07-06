@@ -15,5 +15,6 @@ data class BankOffersData(
     var loanAmount: String?,
     var message: Any?,
     var roi: String?,
-    var tenure: String?
+    var tenure: String?,
+    var processingFees: String?
 )

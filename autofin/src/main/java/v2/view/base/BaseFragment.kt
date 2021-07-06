@@ -280,6 +280,13 @@ public open class BaseFragment : Fragment() {
         }
     }
 
+    public fun navigateDashboardTop() {
+        view?.let {
+            Navigation.findNavController(it)
+                .navigate(R.id.action_to_dashboard_top)
+        }
+    }
+
     public fun navigateToAddLeadFragment(
         addLeadRequest: AddLeadRequest,
         customerId: Int,
@@ -405,7 +412,8 @@ public open class BaseFragment : Fragment() {
 
     public fun navigateToAddressAdditionalFields(
         custId: Int,
-        customerDetails: CustomerDetailsResponse) {
+        customerDetails: CustomerDetailsResponse
+    ) {
         val directions =
             ApplicationListFragmentDirections.actionApplicationListFragmentToAddressAndAdditionalFieldsFragment2(
                 custId,
@@ -448,17 +456,16 @@ public open class BaseFragment : Fragment() {
             view.let {
                 it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
             }
-        } else if(fragment=="ADD_LEAD")
-        {
+        } else if (fragment == "ADD_LEAD") {
             val directions =
-                    AddLeadDetailsFragDirections.actionAddLeadDetailsFragToSelectedBankOfferStatusFragment(
-                            custId,
-                            customerDetails
-                    )
+                AddLeadDetailsFragDirections.actionAddLeadDetailsFragToSelectedBankOfferStatusFragment(
+                    custId,
+                    customerDetails
+                )
             view.let {
                 it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
             }
-        }else {
+        } else {
             val directions =
                 DocumentUploadFragmentDirections.actionDocumentUploadFragmentToSelectedBankOfferStatusFragment(
                     custId,
@@ -471,13 +478,14 @@ public open class BaseFragment : Fragment() {
 
     }
 
-    public fun navigateToApplicationDetails(custId:Int)
-    {
-        val directions=AddLeadDetailsFragDirections.actionAddLeadDetailsFragToApplicationDetailsFragment(custId)
+    public fun navigateToApplicationDetails(custId: Int) {
+        val directions =
+            AddLeadDetailsFragDirections.actionAddLeadDetailsFragToApplicationDetailsFragment(custId)
         view.let {
             it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
         }
     }
+
     public fun navigateToBankSuccessPageFromSoftOffer(loanProcessCompletedData: CustomLoanProcessCompletedData) {
         val directions =
             ApplicationListFragmentDirections.actionApplicationListFragmentToBankSuccessMessageFragment2(

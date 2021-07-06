@@ -25,6 +25,7 @@ import v2.model_view.AuthenticationViewModel
 import v2.service.utility.ApiResponse
 import v2.utility.connectivity.ConnectivityReceiver
 import v2.utility.connectivity.ConnectivityReceiverListener
+import v2.view.callBackInterface.ActivityBackPressed
 import v2.view.callBackInterface.AppTokenChangeInterface
 
 
@@ -35,6 +36,7 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
     private var myConnectivityReceiver: ConnectivityReceiver? = null
 
     var appTokenChangeInterface: AppTokenChangeInterface? = null
+    var activityBackPressed: ActivityBackPressed? = null
 
 
     private fun broadcastIntent() {
@@ -213,7 +215,11 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+        if (activityBackPressed != null) {
+            activityBackPressed!!.onActivityBackPressed()
+        } else {
+            super.onBackPressed()
+        }
     }
 
 
