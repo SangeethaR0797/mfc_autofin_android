@@ -540,11 +540,22 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
     private fun compressImage(path: String?) {
         try {
-            val `in`: InputStream = FileInputStream(path)
-            val bm2 = BitmapFactory.decodeStream(`in`)
-            val stream: OutputStream = FileOutputStream(path)
-            bm2.compress(Bitmap.CompressFormat.JPEG, 50, stream)
-            stream.close()
+            val split = path!!.split(".").toTypedArray()
+            if ("jpeg".equals(split[split.size - 1], ignoreCase = true) || "jpg".equals(
+                    split[split.size - 1],
+                    ignoreCase = true
+                ) || "png".equals(split[split.size - 1], ignoreCase = true)
+            ) {
+                val `in`: InputStream = FileInputStream(path)
+                val bm2 = BitmapFactory.decodeStream(`in`)
+                val stream: OutputStream = FileOutputStream(path)
+                bm2.compress(Bitmap.CompressFormat.JPEG, 50, stream)
+                stream.close()
+                Log.d("compressImage", "compressImage")
+            } else {
+                //for zip and pdf
+                Log.d("compressImage skip", "compressImage skip")
+            }
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
@@ -563,13 +574,20 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                     val columnIndex = cursor?.getColumnIndex(filePathColumn[0])
                     val picturePath = columnIndex?.let { cursor?.getString(it) }
                     cursor?.close()*/
-                    file = File(picturePath)
+                    if (picturePath != null) {
+                        file = File(picturePath)
+
+                    } else {
+                        file = RealPathUtil().getUriToCreateNewFile(requireContext(), fileUri!!)
+                    }
+                    compressImage(file?.path)
+
                     /*  if (isValidImageSize(file))
                           showToast("Success")
                       else
                           showToast("Large file")
   */
-                    compressImage(file?.path)
+
 
                 } catch (e: Exception) {
                     e.printStackTrace()

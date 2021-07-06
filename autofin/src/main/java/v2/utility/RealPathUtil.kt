@@ -9,7 +9,12 @@ import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.provider.OpenableColumns
 import androidx.loader.content.CursorLoader
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
 
 
 public class RealPathUtil {
@@ -79,8 +84,8 @@ public class RealPathUtil {
                 val type = split[0]
                 if ("primary".equals(type, ignoreCase = true)) {
                     return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
-                }else{
-                    return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
+                } else {
+                    return null
                 }
 
                 // TODO handle non-primary volumes
@@ -216,6 +221,49 @@ public class RealPathUtil {
      */
     fun isGooglePhotosUri(uri: Uri): Boolean {
         return "com.google.android.apps.photos.content" == uri.getAuthority()
+    }
+
+    @Throws(IOException::class)
+    public fun getUriToCreateNewFile(context: Context, uri: Uri?): File? {
+        val destinationFilename =
+            File(context.filesDir.path + File.separatorChar + queryName(context, uri!!))
+        try {
+            context.contentResolver.openInputStream(uri!!).use { ins ->
+                createFileFromStream(
+                    ins!!,
+                    destinationFilename
+                )
+            }
+        } catch (ex: java.lang.Exception) {
+
+            ex.printStackTrace()
+        }
+        return destinationFilename
+    }
+
+    fun createFileFromStream(ins: InputStream, destination: File?) {
+        try {
+            FileOutputStream(destination).use { os ->
+                val buffer = ByteArray(4096)
+                var length: Int
+                while (ins.read(buffer).also { length = it } > 0) {
+                    os.write(buffer, 0, length)
+                }
+                os.flush()
+            }
+        } catch (ex: java.lang.Exception) {
+
+            ex.printStackTrace()
+        }
+    }
+
+    private fun queryName(context: Context, uri: Uri): String? {
+        val returnCursor = context.contentResolver.query(uri, null, null, null, null)!!
+        val nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+        returnCursor.moveToFirst()
+        val name = returnCursor.getString(nameIndex)
+        returnCursor.close()
+        return name
     }
 
 }
