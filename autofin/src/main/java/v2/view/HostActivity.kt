@@ -50,6 +50,7 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
     override fun onNetworkConnectionChanged(isConnected: Boolean) {
         if (isConnected) {
             tvConnectivityMessage!!.visibility = View.GONE
+            callTokenApi()
         } else {
             tvConnectivityMessage!!.visibility = View.VISIBLE
         }
@@ -109,6 +110,12 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
             Global.customerDetails_BaseURL + CommonStrings.TOKEN_URL_END
         )
 
+      //  callTokenApi()
+
+
+    }
+
+    private fun callTokenApi() {
         authenticationViewModel!!.getIBB_TokenDetailsLiveDataData()
             .observe(this, { mApiResponse: ApiResponse? ->
                 onIBB_TokenDetails(
@@ -120,8 +127,6 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
             getIBB_TokenRequest()!!,
             Global.ibb_base_url + CommonStrings.IBB_ACCESS_TOKEN_URL_END
         )
-
-
     }
 
     private fun get_IBB_MasterDetailsRequest(): Get_IBB_MasterDetailsRequest? {
