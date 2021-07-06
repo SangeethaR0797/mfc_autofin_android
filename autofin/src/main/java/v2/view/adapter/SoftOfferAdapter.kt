@@ -37,7 +37,7 @@ public class SoftOfferAdapter(var context:Activity, var list: List<BankOffersDat
         holder.tvBankName.text=bankData.bankName
         holder.tvLoanAmountValV2.text=context.resources.getString(R.string.rupees_symbol)+" "+bankData.loanAmount
         holder.tvROIValV2.text=bankData.roi+" %"
-        holder.tvTenureValV2.text=bankData.tenure+" MONTHS"
+        holder.tvTenureValV2.text=bankData.tenure+" YEARS"
         holder.tvApplyNow.setOnClickListener(View.OnClickListener
         {
             itemCallBack.itemClick(bankData.bankId, position)
