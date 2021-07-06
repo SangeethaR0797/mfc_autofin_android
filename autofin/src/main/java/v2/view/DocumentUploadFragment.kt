@@ -34,6 +34,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit_config.RetroBase.retrofitInterface
 import utility.CommonStrings
+import utility.SpinnerManager
 import v2.model.request.KYCDocumentUploadDataRequest
 import v2.model.request.KYCUploadDocs
 import v2.model.request.KYCUploadDocumentData
@@ -593,6 +594,10 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                     e.printStackTrace()
                 }
 
+              if(isValidImageSize(file))
+                ImageUploadTask(requireActivity(), file?.path, CommonStrings.DEALER_ID + "/" + customerId, currentImageName, currentImageKey, requestCode, this).execute()
+            else
+                showToast("Selected file size is greater than maximum limit. Maximum file size limit is 1.5MB")
                 if (isValidImageSize(file))
                     ImageUploadTask(
                         activity,
@@ -624,6 +629,8 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                             requestCode,
                             this
                         ).execute()
+                    if(isValidImageSize(file))
+                    ImageUploadTask(requireActivity(), file?.absolutePath, CommonStrings.DEALER_ID + "/" + customerId, currentImageName, currentImageKey, requestCode, this).execute()
                     else
                         showToast("Selected file size is greater than maximum limit. Maximum file size limit is 1.5MB")
 
