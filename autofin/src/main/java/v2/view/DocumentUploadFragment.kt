@@ -6,7 +6,6 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -34,6 +33,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit_config.RetroBase.retrofitInterface
 import utility.CommonStrings
+import utility.SpinnerManager
 import v2.model.request.KYCDocumentUploadDataRequest
 import v2.model.request.KYCUploadDocs
 import v2.model.request.KYCUploadDocumentData
@@ -117,12 +117,9 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         })
 
         buttonUploadDocument.setOnClickListener(View.OnClickListener {
-            if(customerDetailsResponse.data?.status=="Document Uploaded")
-            {
+            if (customerDetailsResponse.data?.status == "Document Uploaded") {
                 navigateToBankOfferStatus(customerId, customerDetailsResponse, "DocUpload")
-            }
-            else
-            {
+            } else {
                 if (kycDocumentData.groupedDoc.isNotEmpty()) {
                     if (isGroupedDocFilled()) {
                         showProgressDialog(requireActivity())
@@ -439,7 +436,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     }
 
     private fun getFileChooserIntent(): Intent? {
-        val mimeTypes = arrayOf("image/*","application/pdf","application/gzip","application/octet-stream","application/x-zip-compressed","multipart/x-zip")
+        val mimeTypes = arrayOf("image/*", "application/pdf", "application/gzip", "application/octet-stream", "application/x-zip-compressed", "multipart/x-zip")
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -495,7 +492,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                 }
 
               if(isValidImageSize(file))
-                ImageUploadTask(activity, file?.path, CommonStrings.DEALER_ID + "/" + customerId, currentImageName, currentImageKey, requestCode, this).execute()
+                ImageUploadTask(requireActivity(), file?.path, CommonStrings.DEALER_ID + "/" + customerId, currentImageName, currentImageKey, requestCode, this).execute()
             else
                 showToast("Selected file size is greater than maximum limit. Maximum file size limit is 1.5MB")
             }
@@ -508,7 +505,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                         e.printStackTrace()
                     }
                     if(isValidImageSize(file))
-                    ImageUploadTask(activity, file?.absolutePath, CommonStrings.DEALER_ID + "/" + customerId, currentImageName, currentImageKey, requestCode, this).execute()
+                    ImageUploadTask(requireActivity(), file?.absolutePath, CommonStrings.DEALER_ID + "/" + customerId, currentImageName, currentImageKey, requestCode, this).execute()
                     else
                         showToast("Selected file size is greater than maximum limit. Maximum file size limit is 1.5MB")
 

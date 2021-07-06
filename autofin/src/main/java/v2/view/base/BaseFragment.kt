@@ -701,7 +701,7 @@ public open class BaseFragment : Fragment() {
         builder.setView(customLayout)
         val dialog = builder.create()
         dialog.setCanceledOnTouchOutside(setCancellationOnTouchOutside)
-        dialog!!.getWindow()!!.setLayout(
+        dialog.window!!.setLayout(
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT
         )
@@ -715,7 +715,6 @@ public open class BaseFragment : Fragment() {
                 R.layout.layout_progress_dialog,
                 setCancellationOnTouchOutside = false
             )
-
         }
         alertDialog!!.show()
         hideSoftKeyboard()
@@ -741,7 +740,7 @@ public open class BaseFragment : Fragment() {
 
     public fun setKeyBoardShowHideEvent(keyboardVisibilityEventListener: KeyboardVisibilityEventListener) {
         setEventListener(
-            requireActivity()!!,
+            requireActivity(),
             viewLifecycleOwner,
             keyboardVisibilityEventListener
         )

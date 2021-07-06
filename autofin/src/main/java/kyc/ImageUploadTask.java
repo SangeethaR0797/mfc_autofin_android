@@ -1,5 +1,6 @@
 package kyc;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -9,21 +10,21 @@ import utility.SpinnerManager;
 public class ImageUploadTask extends AsyncTask<Void, Void, String> {
 
 
-    private String imagePath;
-    private int statuscode;
-    private String caseId;
-    private String imageName;
+    private final String imagePath;
+    private final int statusCode;
+    private final String caseId;
+    private final String imageName;
 
     private String imageURL;
-    private String key;
+    private final String key;
 
-    private Context mContext;
+    private final Context mContext;
 
-    private ImageUploadCompleted mImageUploadCompleted;
+    private final ImageUploadCompleted mImageUploadCompleted;
 
     public ImageUploadTask(Context mContext, String imagepath, String caseId, String imageName, String key, int statuscode, ImageUploadCompleted mImageUploadCompleted) {
         this.imagePath = imagepath;
-        this.statuscode = statuscode;
+        statusCode = statuscode;
         this.key = key;
         this.caseId = caseId;
         this.imageName = imageName;
@@ -39,7 +40,6 @@ public class ImageUploadTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... params) {
         imageURL = AutofinMediaManager.getImageUrl(imagePath, caseId, imageName);
-
         return "Executed";
     }
 
@@ -47,7 +47,7 @@ public class ImageUploadTask extends AsyncTask<Void, Void, String> {
     protected void onPostExecute(String result) {
         SpinnerManager.hideSpinner(mContext);
         if (imageURL != null && mImageUploadCompleted != null) {
-            mImageUploadCompleted.onImageUploadCompleted(key, imageURL, statuscode);
+            mImageUploadCompleted.onImageUploadCompleted(key, imageURL, statusCode);
         }
     }
 }
