@@ -263,7 +263,13 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
         if (keyValueRecyclerViewAdapter != null) {
             tvViewAll.visibility = View.GONE
             val list: ArrayList<KeyValueDTO> = arrayListOf<KeyValueDTO>()
-            if (customerResponse!!.data!!.loanDetails != null && customerResponse!!.data!!.loanDetails != null) {
+            if (customerResponse?.data?.loanDetails != null && customerResponse?.data?.loanDetails != null) {
+                list.add(
+                        KeyValueDTO(
+                                "Lender",
+                                (customerResponse?.data?.loanDetails?.bankName)
+                        )
+                )
                 list.add(
                     KeyValueDTO(
                         "Tenure (Months)",
@@ -297,18 +303,18 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     )
                 )
 
-                if (customerResponse!!.data!!.employmentDetails != null) {
+                if (customerResponse?.data?.employmentDetails?.salaryAccount!= null) {
                     list.add(
                         KeyValueDTO(
-                            "Bank",
-                            customerResponse!!.data!!.employmentDetails!!.salaryAccount
+                            "Salary Account",
+                            customerResponse?.data?.employmentDetails?.salaryAccount
                         )
                     )
-                } else if (customerResponse!!.data!!.employmentDetails != null) {
+                } else if (customerResponse?.data?.employmentDetails?.primaryAccount != null) {
                     list.add(
                         KeyValueDTO(
-                            "Bank",
-                            customerResponse!!.data!!.employmentDetails!!.primaryAccount
+                            "Primary Account",
+                            customerResponse?.data?.employmentDetails?.primaryAccount
                         )
                     )
                 }

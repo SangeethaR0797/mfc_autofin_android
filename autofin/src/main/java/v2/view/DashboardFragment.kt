@@ -393,12 +393,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
                     commissionDaysDaysDataAdapter.dataListFilter!!.forEachIndexed { index, item ->
                         run {
-                            if (index == position) {
-                                item.selected = true
-
-                            } else {
-                                item.selected = false
-                            }
+                            (index == position).also { item.selected = it }
                         }
                     }
                     commissionDaysDaysDataAdapter.notifyDataSetChanged()
