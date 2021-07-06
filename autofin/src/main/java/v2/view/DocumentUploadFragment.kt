@@ -85,8 +85,10 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.v2_fragment_document_upload, container, false)
         fragmentContext = view
         initViews(view)
@@ -102,8 +104,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         linearLayoutImageUpload = view?.findViewById(R.id.linearLayoutImageUpload)!!
         buttonUploadDocument = view.findViewById(R.id.buttonUploadDocument)!!
 
-        if(commonList.isEmpty())
-        {
+        if (commonList.isEmpty()) {
             if (kycDocumentData.nonGroupedDoc.isNotEmpty())
                 addNonGroupedDocDataToCommonList()
 
@@ -117,16 +118,16 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         })
 
         buttonUploadDocument.setOnClickListener(View.OnClickListener {
-            if(customerDetailsResponse.data?.status=="Document Uploaded")
-            {
+            if (customerDetailsResponse.data?.status == "Document Uploaded") {
                 navigateToBankOfferStatus(customerId, customerDetailsResponse, "DocUpload")
-            }
-            else
-            {
+            } else {
                 if (kycDocumentData.groupedDoc.isNotEmpty()) {
                     if (isGroupedDocFilled()) {
                         showProgressDialog(requireActivity())
-                        retrofitInterface.getFromWeb(getUploadKYCRequest(), CommonStrings.UPLOAD_KYC_DOC_URL_V2).enqueue(this)
+                        retrofitInterface.getFromWeb(
+                            getUploadKYCRequest(),
+                            CommonStrings.UPLOAD_KYC_DOC_URL_V2
+                        ).enqueue(this)
                     } else {
                         showToast("Attach anyone document for each Mandatory each document group")
                     }
@@ -143,13 +144,23 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     private fun getUploadKYCRequest(): KYCDocumentUploadDataRequest {
         val docList: ArrayList<KYCUploadDocs> = ArrayList<KYCUploadDocs>(documentHashMap.values)
         val kycUploadDocumentData = KYCUploadDocumentData(customerId.toInt(), caseId, docList)
-        val kycDocumentUploadDataRequest = KYCDocumentUploadDataRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, kycUploadDocumentData)
+        val kycDocumentUploadDataRequest = KYCDocumentUploadDataRequest(
+            CommonStrings.DEALER_ID,
+            CommonStrings.USER_TYPE,
+            kycUploadDocumentData
+        )
         return kycDocumentUploadDataRequest
     }
 
     private fun addNonGroupedDocDataToCommonList() {
         for (index in kycDocumentData.nonGroupedDoc.indices) {
-            commonList.add(v2.model.response.master.GroupedDoc("", "", listOf(kycDocumentData.nonGroupedDoc[index])))
+            commonList.add(
+                v2.model.response.master.GroupedDoc(
+                    "",
+                    "",
+                    listOf(kycDocumentData.nonGroupedDoc[index])
+                )
+            )
         }
     }
 
@@ -171,17 +182,24 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         }
     }
 
-    private fun setImageCaptureTile(tileData1: v2.model.response.master.GroupedDoc, tileData2: v2.model.response.master.GroupedDoc) {
+    private fun setImageCaptureTile(
+        tileData1: v2.model.response.master.GroupedDoc,
+        tileData2: v2.model.response.master.GroupedDoc
+    ) {
 
-        val rowView: View = LayoutInflater.from(fragmentContext.context).inflate(R.layout.v2_custom_document_parent_layout, linearLayoutImageUpload, false)
+        val rowView: View = LayoutInflater.from(fragmentContext.context)
+            .inflate(R.layout.v2_custom_document_parent_layout, linearLayoutImageUpload, false)
         val columnLayout1: LinearLayout = rowView.findViewById(R.id.linearLayoutImageUploadTile1)
         val columnLayout2: LinearLayout = rowView.findViewById(R.id.linearLayoutImageUploadTile2)
-        val columnView1: View = LayoutInflater.from(fragmentContext.context).inflate(R.layout.v2_image_upload_tile_layout, columnLayout1, false)
+        val columnView1: View = LayoutInflater.from(fragmentContext.context)
+            .inflate(R.layout.v2_image_upload_tile_layout, columnLayout1, false)
         val textViewTitle: TextView = columnView1.findViewById(R.id.textViewImageTitle)
-        val textViewImageDescription: TextView = columnView1.findViewById(R.id.textViewImageDescription)
+        val textViewImageDescription: TextView =
+            columnView1.findViewById(R.id.textViewImageDescription)
         val imageViewGallery: ImageView = columnView1.findViewById(R.id.imageViewGallery)
         val imageViewCamera: ImageView = columnView1.findViewById(R.id.imageViewCamera)
-        val textViewAttachmentStatus: TextView = columnView1.findViewById(R.id.textViewAttachmentStatus)
+        val textViewAttachmentStatus: TextView =
+            columnView1.findViewById(R.id.textViewAttachmentStatus)
 
         val isTile1IsGrouped = tileData1.groupName.isNotEmpty()
         var tile1APIKey = ""
@@ -193,26 +211,29 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             tile1APIKey = tileData1.docs[0].apiKey
             tile1ImageName = textViewTitle.text.toString().trim()
         } else {
-            textViewTitle.text=tileData1.groupName
+            textViewTitle.text = tileData1.groupName
             textViewImageDescription.text = tileData1.description
         }
 
-        if(documentHashMap.keys.contains(tile1APIKey) || isCurrentGroupDocFilled(tileData1.docs))
+        if (documentHashMap.keys.contains(tile1APIKey) || isCurrentGroupDocFilled(tileData1.docs))
             setFileAttachedText(textViewAttachmentStatus)
 
         imageViewGallery.setOnClickListener(View.OnClickListener {
             currentTextView = textViewAttachmentStatus
             if (isTile1IsGrouped) {
-                showImageSelectionDialog(tileData1.groupName, tileData1.docs, object : DocumentSelectionCallBack {
-                    override fun onSelectedDoc(apiKey: String, displayLabel: String) {
-                        tile1APIKey = apiKey
-                        tile1ImageName = displayLabel.trim()
-                        currentImageKey = tile1APIKey
-                        currentImageName = tile1ImageName
-                        currentTextView = textViewAttachmentStatus
-                        attachDocument(IMAGE_GALLERY_CODE)
-                    }
-                })
+                showImageSelectionDialog(
+                    tileData1.groupName,
+                    tileData1.docs,
+                    object : DocumentSelectionCallBack {
+                        override fun onSelectedDoc(apiKey: String, displayLabel: String) {
+                            tile1APIKey = apiKey
+                            tile1ImageName = displayLabel.trim()
+                            currentImageKey = tile1APIKey
+                            currentImageName = tile1ImageName
+                            currentTextView = textViewAttachmentStatus
+                            attachDocument(IMAGE_GALLERY_CODE)
+                        }
+                    })
             } else {
                 currentImageKey = tileData1.docs[0].apiKey
                 currentImageName = textViewTitle.text.toString().trim()
@@ -224,16 +245,19 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
         imageViewCamera.setOnClickListener(View.OnClickListener {
             if (isTile1IsGrouped) {
-                showImageSelectionDialog(tileData1.groupName, tileData1.docs, object : DocumentSelectionCallBack {
-                    override fun onSelectedDoc(apiKey: String, displayLabel: String) {
-                        tile1APIKey = apiKey
-                        tile1ImageName = displayLabel.trim()
-                        currentImageKey = tile1APIKey
-                        currentImageName = tile1ImageName
-                        currentTextView = textViewAttachmentStatus
-                        attachDocument(IMAGE_CAPTURE_CODE)
-                    }
-                })
+                showImageSelectionDialog(
+                    tileData1.groupName,
+                    tileData1.docs,
+                    object : DocumentSelectionCallBack {
+                        override fun onSelectedDoc(apiKey: String, displayLabel: String) {
+                            tile1APIKey = apiKey
+                            tile1ImageName = displayLabel.trim()
+                            currentImageKey = tile1APIKey
+                            currentImageName = tile1ImageName
+                            currentTextView = textViewAttachmentStatus
+                            attachDocument(IMAGE_CAPTURE_CODE)
+                        }
+                    })
             } else {
                 currentImageKey = tileData1.docs[0].apiKey
                 currentImageName = textViewTitle.text.toString().trim()
@@ -250,12 +274,15 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             var tile2APIKey = ""
             var tile2ImageName = ""
 
-            val columnView2: View = LayoutInflater.from(fragmentContext.context).inflate(R.layout.v2_image_upload_tile_layout, columnLayout2, false)
+            val columnView2: View = LayoutInflater.from(fragmentContext.context)
+                .inflate(R.layout.v2_image_upload_tile_layout, columnLayout2, false)
             val textViewTitle2: TextView = columnView2.findViewById(R.id.textViewImageTitle)
-            val textViewImageDescription2: TextView = columnView2.findViewById(R.id.textViewImageDescription)
+            val textViewImageDescription2: TextView =
+                columnView2.findViewById(R.id.textViewImageDescription)
             val imageViewGallery2: ImageView = columnView2.findViewById(R.id.imageViewGallery)
             val imageViewCamera2: ImageView = columnView2.findViewById(R.id.imageViewCamera)
-            val textViewAttachmentStatus2: TextView = columnView2.findViewById(R.id.textViewAttachmentStatus)
+            val textViewAttachmentStatus2: TextView =
+                columnView2.findViewById(R.id.textViewAttachmentStatus)
             currentTextView = textViewAttachmentStatus2
 
             if (!isTile2IsGrouped) {
@@ -264,26 +291,29 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                 tile2APIKey = tileData2.docs[0].apiKey
                 tile2ImageName = textViewTitle2.text.toString().trim()
             } else {
-                textViewTitle2.text=tileData2.groupName
+                textViewTitle2.text = tileData2.groupName
                 textViewImageDescription2.text = tileData2.description
             }
 
-            if(documentHashMap.keys.contains(tile2APIKey) || isCurrentGroupDocFilled(tileData2.docs))
+            if (documentHashMap.keys.contains(tile2APIKey) || isCurrentGroupDocFilled(tileData2.docs))
                 setFileAttachedText(textViewAttachmentStatus2)
 
             imageViewGallery2.setOnClickListener(View.OnClickListener {
                 if (isTile2IsGrouped) {
-                    showImageSelectionDialog(tileData2.groupName, tileData2.docs, object : DocumentSelectionCallBack {
-                        override fun onSelectedDoc(apiKey: String, displayLabel: String) {
-                            tile2APIKey = apiKey
-                            tile2ImageName = displayLabel.trim()
-                            currentImageKey = tile2APIKey
-                            currentImageName = tile2ImageName
-                            currentTextView = textViewAttachmentStatus2
-                            attachDocument(IMAGE_GALLERY_CODE)
+                    showImageSelectionDialog(
+                        tileData2.groupName,
+                        tileData2.docs,
+                        object : DocumentSelectionCallBack {
+                            override fun onSelectedDoc(apiKey: String, displayLabel: String) {
+                                tile2APIKey = apiKey
+                                tile2ImageName = displayLabel.trim()
+                                currentImageKey = tile2APIKey
+                                currentImageName = tile2ImageName
+                                currentTextView = textViewAttachmentStatus2
+                                attachDocument(IMAGE_GALLERY_CODE)
 
-                        }
-                    })
+                            }
+                        })
                 } else {
                     currentImageKey = tileData2.docs[0].apiKey
                     currentImageName = textViewTitle2.text.toString().trim()
@@ -295,17 +325,20 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             })
             imageViewCamera2.setOnClickListener(View.OnClickListener {
                 if (isTile2IsGrouped) {
-                    showImageSelectionDialog(tileData2.groupName, tileData2.docs, object : DocumentSelectionCallBack {
-                        override fun onSelectedDoc(apiKey: String, displayLabel: String) {
-                            tile2APIKey = apiKey
-                            tile2ImageName = displayLabel.trim()
-                            currentImageKey = tile2APIKey
-                            currentImageName = tile2ImageName
-                            currentTextView = textViewAttachmentStatus2
-                            attachDocument(IMAGE_CAPTURE_CODE)
+                    showImageSelectionDialog(
+                        tileData2.groupName,
+                        tileData2.docs,
+                        object : DocumentSelectionCallBack {
+                            override fun onSelectedDoc(apiKey: String, displayLabel: String) {
+                                tile2APIKey = apiKey
+                                tile2ImageName = displayLabel.trim()
+                                currentImageKey = tile2APIKey
+                                currentImageName = tile2ImageName
+                                currentTextView = textViewAttachmentStatus2
+                                attachDocument(IMAGE_CAPTURE_CODE)
 
-                        }
-                    })
+                            }
+                        })
                 } else {
                     currentImageKey = tile2APIKey
                     currentImageName = tile2ImageName
@@ -331,35 +364,41 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     }
 
     private fun isCurrentGroupDocFilled(docs: List<Docs>): Boolean {
-        var docFilled:Boolean=false
-        for(index in docs.indices)
-        {
-            if(documentHashMap.keys.contains(docs[index].apiKey))
-                docFilled=true
+        var docFilled: Boolean = false
+        for (index in docs.indices) {
+            if (documentHashMap.keys.contains(docs[index].apiKey))
+                docFilled = true
         }
         return docFilled
     }
 
-    private fun showImageSelectionDialog(groupName: String, docs: List<Docs>, documentSelectionCallBack: DocumentSelectionCallBack) {
+    private fun showImageSelectionDialog(
+        groupName: String,
+        docs: List<Docs>,
+        documentSelectionCallBack: DocumentSelectionCallBack
+    ) {
 
         val dialog = Dialog(fragmentContext.context, R.style.FullScreenDialogTheme)
         dialog.setCancelable(false)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.v2_document_upload_dialog)
 
-        val textViewDocumentDialogTitle: TextView = dialog.findViewById(R.id.textViewDocumentDialogTitle)
-        val imageViewCloseDocumentDialog: ImageView = dialog.findViewById(R.id.imageViewCloseDocumentDialog)
+        val textViewDocumentDialogTitle: TextView =
+            dialog.findViewById(R.id.textViewDocumentDialogTitle)
+        val imageViewCloseDocumentDialog: ImageView =
+            dialog.findViewById(R.id.imageViewCloseDocumentDialog)
         val listViewDocument: ListView = dialog.findViewById(R.id.listViewDocument)
         val buttonDocumentUpload: Button = dialog.findViewById(R.id.buttonDocumentUpload)
 
         textViewDocumentDialogTitle.text = groupName
         var selectedImage = Docs("", "", "")
         listViewDocument.choiceMode = ListView.CHOICE_MODE_SINGLE;
-        listViewDocument.adapter = KYCDocumentListAdapter(fragmentContext.context, docs, object : itemClickCallBack {
-            override fun itemClick(item: Any?, position: Int) {
-                selectedImage = item as Docs
-            }
-        })
+        listViewDocument.adapter =
+            KYCDocumentListAdapter(fragmentContext.context, docs, object : itemClickCallBack {
+                override fun itemClick(item: Any?, position: Int) {
+                    selectedImage = item as Docs
+                }
+            })
 
         imageViewCloseDocumentDialog.setOnClickListener(View.OnClickListener {
             dialog.dismiss()
@@ -367,7 +406,10 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
         buttonDocumentUpload.setOnClickListener(View.OnClickListener {
             if (selectedImage.apiKey.isNotEmpty()) {
-                documentSelectionCallBack.onSelectedDoc(selectedImage.apiKey, selectedImage.displayLabel.trim())
+                documentSelectionCallBack.onSelectedDoc(
+                    selectedImage.apiKey,
+                    selectedImage.displayLabel.trim()
+                )
                 dialog.dismiss()
 
             } else {
@@ -395,30 +437,60 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
 
     private fun checkPermissions(context: Context?): Boolean {
-        return ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && context?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.READ_EXTERNAL_STORAGE) } == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        return ActivityCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.CAMERA
+        ) == PackageManager.PERMISSION_GRANTED && context?.let {
+            ActivityCompat.checkSelfPermission(
+                it,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        } == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            context,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
 
     private fun callPermissions() {
         Log.d("Camera Permission Check", "Comes into Permission Check method")
-        ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ),
+            1
+        )
     }
 
     private fun cameraRequirement(intent: Intent?, fileUri: Uri?, activity: Activity) {
-        val resInfoList = activity.packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
+        val resInfoList =
+            activity.packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
         for (resolveInfo in resInfoList) {
             val packageName = resolveInfo.activityInfo.packageName
-            activity.grantUriPermission(packageName, fileUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            activity.grantUriPermission(
+                packageName,
+                fileUri,
+                Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
         }
     }
 
     private fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         if (intent.resolveActivity(requireActivity().packageManager) != null) {
-            file = File(requireActivity().externalCacheDir,
-                    System.currentTimeMillis().toString() + ".jpg")
+            file = File(
+                requireActivity().externalCacheDir,
+                System.currentTimeMillis().toString() + ".jpg"
+            )
             fileUri = Uri.fromFile(file)
-            fileUri = FileProvider.getUriForFile(requireActivity(), requireActivity().applicationContext.packageName + ".provider", file!!)
+            fileUri = FileProvider.getUriForFile(
+                requireActivity(),
+                requireActivity().applicationContext.packageName + ".provider",
+                file!!
+            )
             intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri)
 
             requireActivity().startActivityForResult(intent, IMAGE_CAPTURE_CODE)
@@ -439,7 +511,16 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     }
 
     private fun getFileChooserIntent(): Intent? {
-        val mimeTypes = arrayOf("image/*","application/pdf","application/gzip","application/octet-stream","application/x-zip-compressed","multipart/x-zip")
+        val mimeTypes = arrayOf(
+            "image/*",
+            "application/pdf",
+            "application/zip",
+            "application/gzip",
+            "application/octet-stream",
+            "application/x-zip-compressed",
+            "multipart/x-zip",
+            "application/vnd.android.package-archive"
+        )
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -483,21 +564,29 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                     val picturePath = columnIndex?.let { cursor?.getString(it) }
                     cursor?.close()*/
                     file = File(picturePath)
-                  /*  if (isValidImageSize(file))
-                        showToast("Success")
-                    else
-                        showToast("Large file")
-*/
-                     compressImage(file?.path)
+                    /*  if (isValidImageSize(file))
+                          showToast("Success")
+                      else
+                          showToast("Large file")
+  */
+                    compressImage(file?.path)
 
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
 
-              if(isValidImageSize(file))
-                ImageUploadTask(activity, file?.path, CommonStrings.DEALER_ID + "/" + customerId, currentImageName, currentImageKey, requestCode, this).execute()
-            else
-                showToast("Selected file size is greater than maximum limit. Maximum file size limit is 1.5MB")
+                if (isValidImageSize(file))
+                    ImageUploadTask(
+                        activity,
+                        file?.path,
+                        CommonStrings.DEALER_ID + "/" + customerId,
+                        currentImageName,
+                        currentImageKey,
+                        requestCode,
+                        this
+                    ).execute()
+                else
+                    showToast("Selected file size is greater than maximum limit. Maximum file size limit is 1.5MB")
             }
         } else if (requestCode == IMAGE_CAPTURE_CODE) {
             if (resultCode == Activity.RESULT_OK) {
@@ -507,8 +596,16 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                     } catch (e: java.lang.Exception) {
                         e.printStackTrace()
                     }
-                    if(isValidImageSize(file))
-                    ImageUploadTask(activity, file?.absolutePath, CommonStrings.DEALER_ID + "/" + customerId, currentImageName, currentImageKey, requestCode, this).execute()
+                    if (isValidImageSize(file))
+                        ImageUploadTask(
+                            activity,
+                            file?.absolutePath,
+                            CommonStrings.DEALER_ID + "/" + customerId,
+                            currentImageName,
+                            currentImageKey,
+                            requestCode,
+                            this
+                        ).execute()
                     else
                         showToast("Selected file size is greater than maximum limit. Maximum file size limit is 1.5MB")
 
@@ -518,14 +615,12 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     }
 
     private fun isValidImageSize(file: File?): Boolean {
-        return if(file!=null)
-        {
-            val fileSizeInBytes=file.length()
-            val fileSizeInKB=fileSizeInBytes/1024
-            val fileSizeInMB=fileSizeInKB/1024
-            fileSizeInMB<=1.5
-        }
-        else
+        return if (file != null) {
+            val fileSizeInBytes = file.length()
+            val fileSizeInKB = fileSizeInBytes / 1024
+            val fileSizeInMB = fileSizeInKB / 1024
+            fileSizeInMB <= 1.5
+        } else
             false
     }
 
@@ -570,8 +665,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         t.printStackTrace()
     }
 
-    private fun setMandatoryTitle(textView: TextView, titleText: String)
-    {
+    private fun setMandatoryTitle(textView: TextView, titleText: String) {
         val text = "$titleText "
         val colored = getString(R.string.lbl_asterick)
         val builder = SpannableStringBuilder()
@@ -581,45 +675,42 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         builder.append(colored)
         val end = builder.length
 
-        builder.setSpan(ForegroundColorSpan(Color.RED), start, end,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        builder.setSpan(
+            ForegroundColorSpan(Color.RED), start, end,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
 
         textView.text = builder
     }
 
     private fun isGroupedDocFilled(): Boolean {
-        var docFilled=false
-        var docCount=0
-        var docMap=HashMap<String, String>()
+        var docFilled = false
+        var docCount = 0
+        var docMap = HashMap<String, String>()
 
-        if(documentHashMap.size>=kycDocumentData.groupedDoc.size)
-        {
-            for(index in kycDocumentData.groupedDoc.indices)
-            {
-                val docList= kycDocumentData.groupedDoc[index].docs
-                for (docIndex in docList.indices)
-                {
+        if (documentHashMap.size >= kycDocumentData.groupedDoc.size) {
+            for (index in kycDocumentData.groupedDoc.indices) {
+                val docList = kycDocumentData.groupedDoc[index].docs
+                for (docIndex in docList.indices) {
 
-                    if(documentHashMap.containsKey(docList[docIndex].apiKey))
-                    {
-                        docMap[kycDocumentData.groupedDoc[index].groupName] = docList[docIndex].apiKey
+                    if (documentHashMap.containsKey(docList[docIndex].apiKey)) {
+                        docMap[kycDocumentData.groupedDoc[index].groupName] =
+                            docList[docIndex].apiKey
                     }
                 }
 
             }
         }
-        if(documentHashMap.size>=kycDocumentData.nonGroupedDoc.size)
-        {
-            for(index in kycDocumentData.nonGroupedDoc.indices)
-            {
-                    if(documentHashMap.containsKey(kycDocumentData.nonGroupedDoc[index].apiKey))
-                    {
-                        docMap[kycDocumentData.nonGroupedDoc[index].displayLabel.trim()] = kycDocumentData.nonGroupedDoc[index].apiKey
-                    }
+        if (documentHashMap.size >= kycDocumentData.nonGroupedDoc.size) {
+            for (index in kycDocumentData.nonGroupedDoc.indices) {
+                if (documentHashMap.containsKey(kycDocumentData.nonGroupedDoc[index].apiKey)) {
+                    docMap[kycDocumentData.nonGroupedDoc[index].displayLabel.trim()] =
+                        kycDocumentData.nonGroupedDoc[index].apiKey
+                }
 
             }
         }
-        return docMap.size==kycDocumentData.groupedDoc.size+kycDocumentData.nonGroupedDoc.size
+        return docMap.size == kycDocumentData.groupedDoc.size + kycDocumentData.nonGroupedDoc.size
     }
 
 

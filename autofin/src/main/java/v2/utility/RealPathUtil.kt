@@ -79,6 +79,8 @@ public class RealPathUtil {
                 val type = split[0]
                 if ("primary".equals(type, ignoreCase = true)) {
                     return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
+                }else{
+                    return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
                 }
 
                 // TODO handle non-primary volumes
