@@ -12,17 +12,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
 
 import v2.model.response.NoticeData
+import v2.view.callBackInterface.NoticeItemClickCallBack
 
 import v2.view.callBackInterface.itemClickCallBack
 
 class NoticeRecyclerViewAdapter(
     var context: Activity,
     var dataListValue: List<NoticeData>?,
-    itemClick: itemClickCallBack?
+    itemClick: NoticeItemClickCallBack?
 ) : RecyclerView.Adapter<NoticeRecyclerViewAdapter.MyViewHolder>(), Filterable {
 
     public var dataListFilter: List<NoticeData>?
-    private var itemCallBack: itemClickCallBack = itemClick!!
+    private var itemCallBack: NoticeItemClickCallBack = itemClick!!
     private var mContext: Activity = context
 
     init {
@@ -66,7 +67,7 @@ class NoticeRecyclerViewAdapter(
             } else {
                 dataListFilter?.get(position)!!.showMore = false
             }
-            itemCallBack.itemClick(dataListFilter?.get(position), position)
+            itemCallBack.moreClick(dataListFilter?.get(position), position)
         })
 
 

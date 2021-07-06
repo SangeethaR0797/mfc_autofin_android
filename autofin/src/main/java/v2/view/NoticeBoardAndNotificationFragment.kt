@@ -34,6 +34,7 @@ import v2.service.utility.ApiResponse
 import v2.view.adapter.NoticeRecyclerViewAdapter
 import v2.view.adapter.NotificationRecyclerViewAdapter
 import v2.view.base.BaseFragment
+import v2.view.callBackInterface.NoticeItemClickCallBack
 import v2.view.callBackInterface.itemClickCallBack
 
 
@@ -155,7 +156,7 @@ class NoticeBoardAndNotificationFragment : BaseFragment(), View.OnClickListener 
         rvData.layoutManager = layoutManager
 
         noticeRecyclerViewAdapter =
-            NoticeRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+            NoticeRecyclerViewAdapter(activity as Activity, list, object : NoticeItemClickCallBack {
                 override fun itemClick(item: Any?, position: Int) {
                     var notice = item as NoticeData
                     if (notice.isNew == true) {
@@ -170,6 +171,24 @@ class NoticeBoardAndNotificationFragment : BaseFragment(), View.OnClickListener 
                     }
                     selectedCustomerId = notice!!.customerId!!
                     callCustomerDetailsApi(selectedCustomerId)
+
+                    noticeRecyclerViewAdapter.notifyItemChanged(position)
+                }
+
+                override fun moreClick(item: Any?, position: Int) {
+                    var notice = item as NoticeData
+                    if (notice.isNew == true) {
+                        noticeBoardViewModel.noticeBoardAction(
+                            CommonRequest(
+                                notice.noticeBoardId, CommonStrings.DEALER_ID,
+                                CommonStrings.USER_TYPE
+                            ),
+                            Global.customerAPI_BaseURL + CommonStrings.NOTICE_BOARD_ACTION_END_POINT
+                        )
+                        notice.isNew = false
+                    }
+                    selectedCustomerId = notice!!.customerId!!
+
 
                     noticeRecyclerViewAdapter.notifyItemChanged(position)
                 }
