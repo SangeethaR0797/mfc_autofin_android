@@ -4,6 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import aws.AutofinMediaManager;
 import utility.SpinnerManager;
 
@@ -47,7 +50,20 @@ public class ImageUploadTask extends AsyncTask<Void, Void, String> {
     protected void onPostExecute(String result) {
         SpinnerManager.hideSpinner(mContext);
         if (imageURL != null && mImageUploadCompleted != null) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             mImageUploadCompleted.onImageUploadCompleted(key, imageURL, statusCode);
+
+          /*  new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+
+                }
+            }, 3000);*/
+
         }
     }
 }
