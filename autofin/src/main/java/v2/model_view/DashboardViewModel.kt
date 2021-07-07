@@ -195,5 +195,40 @@ class DashboardViewModel(application: Application) : BaseViewModel(application) 
     }
     //endregion getEmiAmount
 
+    //region getAwsS3Details
+    private val mAwsS3DetailsLiveData: MutableLiveData<ApiResponse> =
+        MutableLiveData<ApiResponse>()
+
+    public fun getAwsS3DetailsLiveData(): MutableLiveData<ApiResponse> {
+        return mAwsS3DetailsLiveData
+    }
+
+
+    public fun getAwsS3Details(url: String?) {
+        repository.getAwsS3Details(url)?.subscribeOn(Schedulers.io())
+            ?.observeOn(AndroidSchedulers.mainThread())
+            ?.doOnSubscribe { d -> mAwsS3DetailsLiveData.setValue(ApiResponse.loading()) }
+            ?.let {
+                disposables.add(
+                    it
+                        .subscribe(
+                            { result ->
+                                mAwsS3DetailsLiveData.setValue(result?.let {
+                                    ApiResponse.success(
+                                        it
+                                    )
+                                })
+                            }
+                        ) { throwable ->
+                            mAwsS3DetailsLiveData.setValue(
+                                ApiResponse.error(
+                                    throwable
+                                )
+                            )
+                        })
+            }
+    }
+    //endregion getAwsS3Details
+
 
 }

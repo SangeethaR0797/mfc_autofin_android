@@ -19,13 +19,15 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import utility.CommonStrings;
+
 
 public final class AutofinMediaManager {
 
-     //staging
-    public static final String BUCKETNAME = "autofin-staging";
-    public static final String BUCKETKEY = "AKIAXRVBOK327HDQECM6";
-    public static final String BUCKETSECRET = "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";
+    //staging
+    public static final String BUCKETNAME = CommonStrings.AWS_S3_BUCKETNAME;
+    public static final String BUCKETKEY = CommonStrings.AWS_S3_BUCKETKEY;
+    public static final String BUCKETSECRET = CommonStrings.AWS_S3_BUCKETSECRET;
 
     //Prod
   /*  public static final String BUCKETNAME = "autofin-staging";
@@ -53,8 +55,8 @@ public final class AutofinMediaManager {
             StrictMode.setThreadPolicy(policy);
 
             String path = "";
-          //  path = "MFCBusiness" + "/" + year + "/" + month + "/" + day + "/" + UserID + "/" + "original/" + keydata;
-            path = "MFCBusiness" + "/" + UserID + "/"+ year + "-" + month + "-" + day +"_"+ keydata;
+            //  path = "MFCBusiness" + "/" + year + "/" + month + "/" + day + "/" + UserID + "/" + "original/" + keydata;
+            path = "MFCBusiness" + "/" + UserID + "/" + year + "-" + month + "-" + day + "_" + keydata;
 
 
             AWSCredentials awsCredentials = getAWSCredentials(BUCKETKEY, BUCKETSECRET);

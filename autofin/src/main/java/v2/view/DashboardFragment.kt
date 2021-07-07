@@ -186,6 +186,10 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             .observe(requireActivity()) { mApiResponse: ApiResponse? ->
                 onGetKYCDocumentResponse(mApiResponse!!)
             }
+        dashboardViewModel.getAwsS3DetailsLiveData()
+            .observe(requireActivity()) { mApiResponse: ApiResponse? ->
+                onAwsDetailsResponse(mApiResponse!!)
+            }
 
     }
 
@@ -361,6 +365,14 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         dashboardViewModel.getRuleEngineBanks(
             Global.baseURL + CommonStrings.GET_RULE_ENGINE_BANKS_END_POINT
         )
+
+        if (TextUtils.isEmpty(CommonStrings.AWS_S3_BUCKETKEY) &&
+            TextUtils.isEmpty(CommonStrings.AWS_S3_BUCKETNAME) &&
+            TextUtils.isEmpty(CommonStrings.AWS_S3_BUCKETSECRET)
+        ) {
+            //call get aws details api
+            dashboardViewModel.getAwsS3Details(Global.baseURL + CommonStrings.AWS_DETAILS_API_END_POINT)
+        }
         callEmiData()
     }
 
@@ -422,41 +434,44 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         rvNoticeBoard.layoutManager = layoutManager
 
         noticeRecyclerViewAdapter =
-            NoticeRecyclerViewAdapter(activity as Activity, list, object : NoticeItemClickCallBack {
-                override fun itemClick(item: Any?, position: Int) {
-                    var notice = item as NoticeData
-                    if (notice.isNew == true) {
-                        noticeBoardViewModel.noticeBoardAction(
-                            CommonRequest(
-                                notice.noticeBoardId, CommonStrings.DEALER_ID,
-                                CommonStrings.USER_TYPE
-                            ),
-                            Global.customerAPI_BaseURL + CommonStrings.NOTICE_BOARD_ACTION_END_POINT
-                        )
+            NoticeRecyclerViewAdapter(
+                activity as Activity,
+                list,
+                object : NoticeItemClickCallBack {
+                    override fun itemClick(item: Any?, position: Int) {
+                        var notice = item as NoticeData
+                        if (notice.isNew == true) {
+                            noticeBoardViewModel.noticeBoardAction(
+                                CommonRequest(
+                                    notice.noticeBoardId, CommonStrings.DEALER_ID,
+                                    CommonStrings.USER_TYPE
+                                ),
+                                Global.customerAPI_BaseURL + CommonStrings.NOTICE_BOARD_ACTION_END_POINT
+                            )
+                        }
+                        selectedCustomerId = notice!!.customerId!!
+                        callCustomerDetailsApi(selectedCustomerId)
+
+                        noticeRecyclerViewAdapter.notifyItemChanged(position)
                     }
-                    selectedCustomerId = notice!!.customerId!!
-                    callCustomerDetailsApi(selectedCustomerId)
 
-                    noticeRecyclerViewAdapter.notifyItemChanged(position)
-                }
+                    override fun moreClick(item: Any?, position: Int) {
+                        var notice = item as NoticeData
+                        if (notice.isNew == true) {
+                            noticeBoardViewModel.noticeBoardAction(
+                                CommonRequest(
+                                    notice.noticeBoardId, CommonStrings.DEALER_ID,
+                                    CommonStrings.USER_TYPE
+                                ),
+                                Global.customerAPI_BaseURL + CommonStrings.NOTICE_BOARD_ACTION_END_POINT
+                            )
+                        }
+                        selectedCustomerId = notice!!.customerId!!
 
-                override fun moreClick(item: Any?, position: Int) {
-                    var notice = item as NoticeData
-                    if (notice.isNew == true) {
-                        noticeBoardViewModel.noticeBoardAction(
-                            CommonRequest(
-                                notice.noticeBoardId, CommonStrings.DEALER_ID,
-                                CommonStrings.USER_TYPE
-                            ),
-                            Global.customerAPI_BaseURL + CommonStrings.NOTICE_BOARD_ACTION_END_POINT
-                        )
+
+                        noticeRecyclerViewAdapter.notifyItemChanged(position)
                     }
-                    selectedCustomerId = notice!!.customerId!!
-
-
-                    noticeRecyclerViewAdapter.notifyItemChanged(position)
-                }
-            })
+                })
         rvNoticeBoard.adapter = noticeRecyclerViewAdapter
 
 
@@ -912,7 +927,8 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
 
-                val kycDocumentRes: KYCDocumentResponse = mApiResponse.data as KYCDocumentResponse
+                val kycDocumentRes: KYCDocumentResponse =
+                    mApiResponse.data as KYCDocumentResponse
                 if (kycDocumentRes.statusCode == "100") {
                     if (kycDocumentRes.data.groupedDoc.isNotEmpty() || kycDocumentRes.data.nonGroupedDoc.isNotEmpty())
                         cust.data?.caseId?.let {
@@ -924,7 +940,10 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                             )
                         }
                     else if (kycDocumentRes.data.groupedDoc.isEmpty() && kycDocumentRes.data.nonGroupedDoc.isEmpty())
-                        navigateToBankOfferStatusFromApplicationListFrag(selectedCustomerId, cust)
+                        navigateToBankOfferStatusFromApplicationListFrag(
+                            selectedCustomerId,
+                            cust
+                        )
                 } else {
                     navigateToBankOfferStatusFromApplicationListFrag(selectedCustomerId, cust)
                 }
@@ -939,6 +958,36 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 Log.i("SoftOfferFragment", ": ")
             }
         }
+    }
+
+    private fun onAwsDetailsResponse(mApiResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+
+                val awsS3Details: AwsS3DetailsResponse =
+                    mApiResponse.data as AwsS3DetailsResponse
+                if (awsS3Details != null && awsS3Details!!.data != null) {
+                    CommonStrings.AWS_S3_BUCKETKEY = awsS3Details!!.data!!.accesskey
+                    CommonStrings.AWS_S3_BUCKETNAME = awsS3Details!!.data!!.bucketname
+                    CommonStrings.AWS_S3_BUCKETSECRET = awsS3Details!!.data!!.secretkey
+                }
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+
+
+            }
+            else -> {
+
+            }
+        }
+
     }
 
 //endregion Observer
@@ -968,7 +1017,8 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             vehicleDetails!!.Model = customerResponse.data!!.vehicleDetails!!.model
             vehicleDetails!!.Variant = customerResponse.data!!.vehicleDetails!!.variant
             vehicleDetails!!.Ownership = customerResponse.data!!.vehicleDetails!!.ownership
-            vehicleDetails!!.VehicleNumber = customerResponse.data!!.vehicleDetails!!.vehicleNumber
+            vehicleDetails!!.VehicleNumber =
+                customerResponse.data!!.vehicleDetails!!.vehicleNumber
             vehicleDetails!!.KMs = customerResponse.data!!.vehicleDetails!!.kMs
             vehicleDetails!!.FuelType = customerResponse.data!!.vehicleDetails!!.fuelType
 

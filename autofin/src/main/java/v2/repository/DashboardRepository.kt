@@ -6,11 +6,8 @@ import v2.model.dto.DashBoardDetailsRequest
 import v2.model.dto.DashBoardDetailsResponse
 import v2.model.request.CommonRequest
 import v2.model.request.EmiRequest
-import v2.model.response.BankFeaturesAndChargesResponse
-import v2.model.response.CommissionDetailsResponse
-import v2.model.response.EmiResponse
+import v2.model.response.*
 
-import v2.model.response.RuleEngineBanksResponse
 import v2.service.ApiServiceGenerator
 
 class DashboardRepository {
@@ -55,5 +52,10 @@ class DashboardRepository {
         return dashboardEndPoint.getEmiAmount(request, url)
     }
 
+    fun getAwsS3Details(
+        url: String?
+    ): Observable<AwsS3DetailsResponse?>? {
+        return dashboardEndPoint.getAwsS3Details(url)
+    }
 
 }

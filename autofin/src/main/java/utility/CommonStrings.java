@@ -127,7 +127,7 @@ public class CommonStrings {
     public static final String VALIDATE_LEAD = "validate-lead";
     public static final String RESET_JOURNEY = "reset-customer-journey";
     public static final String CITY_SEARCH_VIA_TEXT_END_POINT = "Pincode/city-by-name/";
-    public static final String TERMS_AND_CONDITION_URL="https://www.stagemfc.com/autofin-TermsAndCondition";
+    public static final String TERMS_AND_CONDITION_URL = "https://www.stagemfc.com/autofin-TermsAndCondition";
 
     public static String TOKEN_VALUE = "";
     public static String IBB_TOKEN_VALUE = "";
@@ -178,34 +178,41 @@ public class CommonStrings {
     public static final String SELECTED_DATA_TYPE = "selectedDataType";
 
 
-    public static final String PRIVACY_AND_POLICY_URL="https://www.stagemfc.com/autofin-TermsAndCondition";
-    public static final String URL="url";
-    public static final String TITLE="title";
+    public static final String PRIVACY_AND_POLICY_URL = "https://www.stagemfc.com/autofin-TermsAndCondition";
+    public static final String URL = "url";
+    public static final String TITLE = "title";
 
-    public static final String LOAN_AMOUNT_URL="default-loan/";
+    public static final String LOAN_AMOUNT_URL = "default-loan/";
 
-    public static final String UPDATE_ADDRESS_URL="update-address";
-    public static final String ADDITIONAL_FIELDS_URL="AdditionalFields/get-additional-fields";
-    public static final String KYC_UPLOAD_URL_END_POINT="Masters/kyc-documents/";
-    public static final String DASHBOARD_DETAILS_END_POINT="dashboard";
-    public static final String GET_RULE_ENGINE_BANKS_END_POINT="Bank/get-rule-engine-banks";
-    public static final String GET_BANKS_FEATURES_AND_CHARGES_END_POINT="Bank/get-bank-features/";
-    public static final String BANKTC_END_POINT="terms-and-contition/privacy-policy/";
-    public static final String GET_FINAL_OTP_URL_END_POINT="generate-final-submit-otp";
-    public static final String VALIDATE_FINAL_OTP="validate-final-submit-otp";
-    public static final String UPLOAD_KYC_DOC_URL_V2="https://15.207.148.230:3003/api/kyc/upload-customer-kyc";
-    public static final String BANK_BASE_URL="https://15.207.148.230:3004/api/Bank/";
-    public static final String NOTICE_BOARD_ACTION_END_POINT="action-notice-board";
-    public static final String NOTIFICATION_ACTION_END_POINT="action-notification";
-    public static final String NOTICE_BOARD_DETAILS_END_POINT="notice-board";
-    public static final String NOTIFICATION_DETAILS_END_POINT="notifications";
-    public static final String DEALER_COMMISSION_END_POINT="dealer-commission";
-    public static final String SEARCH_APPLICATION_END_POINT="filter";
-    public static final String APPLICATION_STATUS_WISE_FILTER_END_POINT="filter-by-status";
-    public static final String GET_EMI_AMOUNT_END_POINT="emi-calculator";
-    public static final String ADD_LEAD_FRAGMENT_TAG="ADD_LEAD_FRAGMENT";
-    public static final String SOFT_OFFER_FRAGMENT_TAG="SOFT_OFFER_FRAGMENT";
-    public static final String APPLICATION_LIST_FRAGMENT_TAG="APPLICATION_LIST_FRAGMENT";
-    public static final String APPLICATION_LEADS_FRAGMENT_TAG="APPLICATION_LEADS_FRAGMENT";
+    public static final String UPDATE_ADDRESS_URL = "update-address";
+    public static final String ADDITIONAL_FIELDS_URL = "AdditionalFields/get-additional-fields";
+    public static final String KYC_UPLOAD_URL_END_POINT = "Masters/kyc-documents/";
+    public static final String DASHBOARD_DETAILS_END_POINT = "dashboard";
+    public static final String GET_RULE_ENGINE_BANKS_END_POINT = "Bank/get-rule-engine-banks";
+    public static final String GET_BANKS_FEATURES_AND_CHARGES_END_POINT = "Bank/get-bank-features/";
+    public static final String BANKTC_END_POINT = "terms-and-contition/privacy-policy/";
+    public static final String GET_FINAL_OTP_URL_END_POINT = "generate-final-submit-otp";
+    public static final String VALIDATE_FINAL_OTP = "validate-final-submit-otp";
+    public static final String UPLOAD_KYC_DOC_URL_V2 = "https://15.207.148.230:3003/api/kyc/upload-customer-kyc";
+    public static final String BANK_BASE_URL = "https://15.207.148.230:3004/api/Bank/";
+    public static final String NOTICE_BOARD_ACTION_END_POINT = "action-notice-board";
+    public static final String NOTIFICATION_ACTION_END_POINT = "action-notification";
+    public static final String NOTICE_BOARD_DETAILS_END_POINT = "notice-board";
+    public static final String NOTIFICATION_DETAILS_END_POINT = "notifications";
+    public static final String DEALER_COMMISSION_END_POINT = "dealer-commission";
+    public static final String SEARCH_APPLICATION_END_POINT = "filter";
+    public static final String APPLICATION_STATUS_WISE_FILTER_END_POINT = "filter-by-status";
+    public static final String GET_EMI_AMOUNT_END_POINT = "emi-calculator";
+    public static final String ADD_LEAD_FRAGMENT_TAG = "ADD_LEAD_FRAGMENT";
+    public static final String SOFT_OFFER_FRAGMENT_TAG = "SOFT_OFFER_FRAGMENT";
+    public static final String APPLICATION_LIST_FRAGMENT_TAG = "APPLICATION_LIST_FRAGMENT";
+    public static final String APPLICATION_LEADS_FRAGMENT_TAG = "APPLICATION_LEADS_FRAGMENT";
+
+    public static final String AWS_DETAILS_API_END_POINT = "S3/details";
+
+
+    public static String AWS_S3_BUCKETNAME = null;
+    public static String AWS_S3_BUCKETKEY = null;
+    public static String AWS_S3_BUCKETSECRET = null;
 
 }
