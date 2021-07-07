@@ -523,7 +523,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                     address1 = editTextCurrentAddress1!!.text.toString()
                     address2 = editTextCurrentAddress2!!.text.toString()
                     address3 = editTextCurrentAddress3!!.text.toString()
-                    address = "$address1***$address2***$address3"
+                    address = "$address1**$address2**$address3"
                     submitCurrentAddress()
                 }
             } else {
