@@ -248,41 +248,42 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibilityEven
 
         btnNext.setOnClickListener(View.OnClickListener {
             hideSoftKeyboard()
-            if (!hasConnectivityNetwork()) {
-                return
-            }
-            if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice == null) {
-                llPrice.setBackgroundResource(R.drawable.v2_error_input_bg)
-                etPrice.setTextColor(resources.getColor(R.color.error_red))
-                tvVehiclePriceErrorMessage.visibility = View.VISIBLE
-                tvVehiclePriceErrorMessage.text = ("Please enter price details.")
-            } else if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(
-                    View.GONE
-                )
-            ) {
-                llVehicleNumber.visibility = View.VISIBLE
-                scrollToBottom(llVehicleNumber)
-            } else if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(
-                    View.VISIBLE
-                )
-            ) {
-                llAddVehicleNumber.setBackgroundResource(R.drawable.v2_error_input_bg)
-                etVehicleNumber.setTextColor(resources.getColor(R.color.error_red))
-                tvVehicleNumberErrorMessage.visibility = View.VISIBLE
-                tvVehicleNumberErrorMessage.text = ("Please enter vehicle registration No.")
+            if (hasConnectivityNetwork()) {
 
-            } else if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber != null && !isValidVehicleRegNo(
-                    addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber!!
-                )
-            ) {
+                if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice == null) {
+                    llPrice.setBackgroundResource(R.drawable.v2_error_input_bg)
+                    etPrice.setTextColor(resources.getColor(R.color.error_red))
+                    tvVehiclePriceErrorMessage.visibility = View.VISIBLE
+                    tvVehiclePriceErrorMessage.text = ("Please enter price details.")
+                } else if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(
+                        View.GONE
+                    )
+                ) {
+                    llVehicleNumber.visibility = View.VISIBLE
+                    scrollToBottom(llVehicleNumber)
+                } else if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber == null && llVehicleNumber.visibility.equals(
+                        View.VISIBLE
+                    )
+                ) {
+                    llAddVehicleNumber.setBackgroundResource(R.drawable.v2_error_input_bg)
+                    etVehicleNumber.setTextColor(resources.getColor(R.color.error_red))
+                    tvVehicleNumberErrorMessage.visibility = View.VISIBLE
+                    tvVehicleNumberErrorMessage.text = ("Please enter vehicle registration No.")
 
-                llAddVehicleNumber.setBackgroundResource(R.drawable.v2_error_input_bg)
-                etVehicleNumber.setTextColor(resources.getColor(R.color.error_red))
-                tvVehicleNumberErrorMessage.visibility = View.VISIBLE
-                tvVehicleNumberErrorMessage.text = ("Please enter valid vehicle registration No.")
-            } else {
+                } else if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber != null && !isValidVehicleRegNo(
+                        addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber!!
+                    )
+                ) {
 
-                navigateToAddLeadFragment(addLeadRequest, 0, null)
+                    llAddVehicleNumber.setBackgroundResource(R.drawable.v2_error_input_bg)
+                    etVehicleNumber.setTextColor(resources.getColor(R.color.error_red))
+                    tvVehicleNumberErrorMessage.visibility = View.VISIBLE
+                    tvVehicleNumberErrorMessage.text =
+                        ("Please enter valid vehicle registration No.")
+                } else {
+
+                    navigateToAddLeadFragment(addLeadRequest, 0, null)
+                }
             }
         })
         var timer: Timer? = null
