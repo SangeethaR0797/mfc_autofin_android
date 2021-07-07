@@ -248,6 +248,9 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibilityEven
 
         btnNext.setOnClickListener(View.OnClickListener {
             hideSoftKeyboard()
+            if (!hasConnectivityNetwork()) {
+                return
+            }
             if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice == null) {
                 llPrice.setBackgroundResource(R.drawable.v2_error_input_bg)
                 etPrice.setTextColor(resources.getColor(R.color.error_red))

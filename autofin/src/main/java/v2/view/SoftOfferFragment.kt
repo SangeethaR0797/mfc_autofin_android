@@ -302,12 +302,14 @@ class SoftOfferFragment : BaseFragment(), ActivityBackPressed {
                 !tvLoanTenureVal.equals(getString(R.string.v2_tenure_lbl))
             ) {
                 initialCall = false
-                if (loanAmount.toInt() >= loanAmountMinimum && loanTenure.toInt() >= loanTenureMinimum)
-                    bankViewModel.getBankOffersForLeadApplication(
-                        getBankRequest(),
-                        Global.customer_bank_baseURL + "get-recommended-bank"
-                    )
-                else
+                if (loanAmount.toInt() >= loanAmountMinimum && loanTenure.toInt() >= loanTenureMinimum) {
+                    if (hasConnectivityNetwork()) {
+                        bankViewModel.getBankOffersForLeadApplication(
+                            getBankRequest(),
+                            Global.customer_bank_baseURL + "get-recommended-bank"
+                        )
+                    }
+                } else
                     showToast("Please select Loan Amount Minimum " + loanAmountMinimum + "and Loan Tenure Minimum " + loanTenureMinimum)
 
             } else {
@@ -600,16 +602,18 @@ class SoftOfferFragment : BaseFragment(), ActivityBackPressed {
     }
 
     private fun callSetRecommendedBank(item: Any?) {
-        val bankOffersData = BankOfferData(caseID, customerId, item.toString())
-        val bankOffersForApplicationRequest = SelectRecommendedBankOfferRequest(
-            bankOffersData,
-            CommonStrings.DEALER_ID,
-            CommonStrings.USER_TYPE
-        )
-        bankViewModel.setSelectRecommendedBankOffer(
-            bankOffersForApplicationRequest,
-            Global.customer_bank_baseURL + "select-recommended-bank"
-        )
+        if (hasConnectivityNetwork()) {
+            val bankOffersData = BankOfferData(caseID, customerId, item.toString())
+            val bankOffersForApplicationRequest = SelectRecommendedBankOfferRequest(
+                bankOffersData,
+                CommonStrings.DEALER_ID,
+                CommonStrings.USER_TYPE
+            )
+            bankViewModel.setSelectRecommendedBankOffer(
+                bankOffersForApplicationRequest,
+                Global.customer_bank_baseURL + "select-recommended-bank"
+            )
+        }
     }
 
     private fun setFocusOnView(textView: TextView) {
