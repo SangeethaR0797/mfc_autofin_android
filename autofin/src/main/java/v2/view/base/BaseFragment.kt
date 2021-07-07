@@ -89,6 +89,26 @@ public open class BaseFragment : Fragment() {
         return SimpleDateFormat(targetDateFormat).format(date)
     }
 
+    public fun hasConnectivityNetwork(): Boolean {
+
+        if (activity is HostActivity) {
+            var hostActivity = activity as Activity as HostActivity
+            if (hostActivity != null) {
+                if (hostActivity.tvConnectivityMessage!!.visibility == View.GONE) {
+                    return true
+                } else {
+                    showToast(getString(R.string.please_check_your_internet_connection))
+                    return false
+                }
+            } else {
+                return true
+            }
+        } else {
+            return true
+        }
+
+    }
+
     val dateSetListener = object : DatePickerDialog.OnDateSetListener {
         override fun onDateSet(
             view: DatePicker, year: Int, monthOfYear: Int,

@@ -382,6 +382,9 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         commissionDaysDaysDataAdapter =
             DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
                 override fun itemClick(item: Any?, position: Int) {
+                    if (!hasConnectivityNetwork()) {
+                        return
+                    }
 
                     dashboardViewModel.getDealerCommission(
                         CommonRequest(
@@ -490,6 +493,9 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 ruleEngineBanksResponse.data,
                 object : itemClickCallBack {
                     override fun itemClick(item: Any?, position: Int) {
+                        if (!hasConnectivityNetwork()) {
+                            return
+                        }
                         var ruleEngineBankData = item as RuleEngineBankData
                         navigateBankFeaturesAndChargesFragment(
                             ruleEngineBankData.bankName!!,
@@ -503,6 +509,9 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
 
     override fun onClick(v: View?) {
+        if (!hasConnectivityNetwork()) {
+            return
+        }
         if (v != null) {
             when (v.id) {
                 R.id.iv_back -> {
@@ -555,7 +564,9 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
 
     fun openNextFragment(menuCode: String, menuName: String) {
-
+        if (!hasConnectivityNetwork()) {
+            return
+        }
         when (menuCode) {
 
             MenuEnum.Registered.value -> {
