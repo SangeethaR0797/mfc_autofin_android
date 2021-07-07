@@ -16,8 +16,10 @@
         android:layout_height="wrap_content"
         android:text="adsdfdv"
         android:textAppearance="@style/RobotoMedium"
+        android:minLines="2"
         android:textColor="@color/vtwo_black"
-        android:textSize="@dimen/text_size_16sp" />
+        android:textSize="@dimen/text_size_16sp"
+        android:textAllCaps="false"/>
 
     <TextView
         android:id="@+id/textViewImageDescription"
