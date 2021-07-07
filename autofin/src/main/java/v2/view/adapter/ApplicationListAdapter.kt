@@ -9,6 +9,8 @@ import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
+import v2.model.enum_class.ApplicationStatusEnum
+import v2.model.enum_class.ScreenTypeEnum
 import v2.model.response.ApplicationDataItems
 import v2.view.base.BaseFragment
 
@@ -61,14 +63,29 @@ class ApplicationListAdapter(
             holder.tvLOSId.visibility = View.VISIBLE
             holder.tvLOSIdCaption.visibility = View.VISIBLE
             holder.tvLOSId.text = dataListFilter!![position].losId!!.toString()
+            if(dataListFilter!![position].status==baseFragment.resources.getString(R.string.v2_lead_status_submitted_to_bank)||
+                    dataListFilter!![position].status==ScreenTypeEnum.Disbursed.value||
+                    dataListFilter!![position].status==ScreenTypeEnum.Approved.value||
+                    dataListFilter!![position].status==ApplicationStatusEnum.Rejected.value||
+                    dataListFilter!![position].status==ApplicationStatusEnum.Closed.value)
+            {
+                holder.btnComplete.text =baseFragment.resources.getString(R.string.btn_lbl_view_details)
+            }
+            else
+                holder.btnComplete.text =baseFragment.resources.getString(R.string.btn_lbl_complete)
+
         } else {
             holder.tvLOSId.visibility = View.GONE
             holder.tvLOSIdCaption.visibility = View.GONE
+            holder.btnComplete.visibility = View.VISIBLE
             if(dataListFilter!![position].status==baseFragment.resources.getString(R.string.v2_lead_status_submitted_to_bank))
+            {
                 holder.btnComplete.text =baseFragment.resources.getString(R.string.btn_lbl_view_details)
+            }
             else
                 holder.btnComplete.text =baseFragment.resources.getString(R.string.btn_lbl_complete)
-            holder.btnComplete.visibility = View.VISIBLE
+
+
         }
         if (mBaseFragment != null) {
             var displayValue = mBaseFragment.stringToDateString(
@@ -92,7 +109,11 @@ class ApplicationListAdapter(
             itemCallBack.onCallClick(dataListFilter?.get(position), position)
         })
         holder.btnComplete.setOnClickListener(View.OnClickListener {
-            if(dataListFilter!![position].status==baseFragment.resources.getString(R.string.v2_lead_status_submitted_to_bank))
+            if(dataListFilter!![position].status==baseFragment.resources.getString(R.string.v2_lead_status_submitted_to_bank)||
+                    dataListFilter!![position].status==ScreenTypeEnum.Disbursed.value||
+                    dataListFilter!![position].status==ScreenTypeEnum.Approved.value||
+                    dataListFilter!![position].status==ApplicationStatusEnum.Rejected.value||
+                    dataListFilter!![position].status==ApplicationStatusEnum.Closed.value)
             {
                 itemCallBack.onItemClick(dataListFilter?.get(position), position)
             }else

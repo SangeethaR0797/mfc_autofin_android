@@ -1,52 +1,37 @@
 package v2.view
 
+import android.annotation.SuppressLint
 import android.app.Activity
-import android.nfc.tech.MifareUltralight.PAGE_SIZE
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextUtils
-import android.text.TextWatcher
 import android.util.Log
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.widget.*
-import android.widget.TextView.OnEditorActionListener
-import androidx.core.view.marginLeft
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
 import v2.model.dto.AddLeadRequest
 import v2.model.dto.CustomLoanProcessCompletedData
-import v2.model.dto.DataSelectionDTO
 import v2.model.dto.KeyValueDTO
 import v2.model.enum_class.ApplicationStatusEnum
 import v2.model.enum_class.ScreenTypeEnum
-import v2.model.request.ApplicationListRequest
-import v2.model.request.ApplicationListRequestData
 import v2.model.request.CustomerRequest
 import v2.model.request.ResetCustomerJourneyDataRequest
 import v2.model.request.add_lead.AddLeadData
 import v2.model.request.add_lead.AddLeadVehicleDetails
 import v2.model.request.add_lead.BasicDetails
-import v2.model.response.ApplicationDataItems
-import v2.model.response.ApplicationListResponse
 import v2.model.response.CustomerDetailsResponse
 import v2.model.response.master.KYCDocumentResponse
 import v2.model_view.MasterViewModel
 import v2.model_view.TransactionViewModel
 import v2.service.utility.ApiResponse
-import v2.view.adapter.ApplicationListAdapter
 import v2.view.adapter.KeyValueRecyclerViewAdapter
 import v2.view.base.BaseFragment
-import v2.view.callBackInterface.ApplicationListClickCallBack
 import v2.view.callBackInterface.itemClickCallBack
 
 import java.util.*
@@ -166,10 +151,10 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
     }
 
     fun createCustomerDetailsRequest(customerId: Int): CustomerRequest {
-        var customerDetailsRequest = CustomerRequest()
+        val customerDetailsRequest = CustomerRequest()
         customerDetailsRequest.UserId = CommonStrings.DEALER_ID
         customerDetailsRequest.UserType = CommonStrings.USER_TYPE
-        var customerJourneyDataRequest = ResetCustomerJourneyDataRequest();
+        val customerJourneyDataRequest = ResetCustomerJourneyDataRequest();
         customerJourneyDataRequest.CustomerId = customerId.toString()
         customerDetailsRequest.Data = customerJourneyDataRequest
         return customerDetailsRequest
@@ -184,19 +169,24 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setCustomerData() {
         if (customerResponse != null) {
 
-            if (customerResponse?.data?.status == getString(R.string.v2_lead_status_submitted_to_bank))
+            if (customerResponse?.data?.status == getString(R.string.v2_lead_status_submitted_to_bank)||
+                    customerResponse?.data?.status== ScreenTypeEnum.Disbursed.value||
+                    customerResponse?.data?.status== ScreenTypeEnum.Approved.value||
+                    customerResponse?.data?.status==ApplicationStatusEnum.Rejected.value||
+                    customerResponse?.data?.status==ApplicationStatusEnum.Closed.value)
                 btnComplete.visibility = View.GONE
             else
                 btnComplete.visibility = View.VISIBLE
 
             tvTitle.text =
-                customerResponse!!.data!!.basicDetails!!.firstName + " " + customerResponse!!.data!!.basicDetails!!.lastName
+                customerResponse?.data?.basicDetails?.firstName + " " + customerResponse?.data?.basicDetails?.lastName
             tvStatus.text = customerResponse!!.data!!.status
             tvSubTitle.text =
-                customerResponse!!.data!!.vehicleDetails!!.make + " " + customerResponse!!.data!!.vehicleDetails!!.model
+                customerResponse?.data?.vehicleDetails?.make + " " + customerResponse?.data?.vehicleDetails?.model
             val list: ArrayList<KeyValueDTO> = arrayListOf<KeyValueDTO>()
             list.add(KeyValueDTO("Case id", customerResponse!!.data!!.caseId))
             list.add(
@@ -244,15 +234,14 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     )
                 )
             }
-            keyValueRecyclerViewAdapter =
-                KeyValueRecyclerViewAdapter(activity as Activity, list, object :
+            KeyValueRecyclerViewAdapter(activity as Activity, list, object :
                     itemClickCallBack {
-                    override fun itemClick(item: Any?, position: Int) {
+                override fun itemClick(item: Any?, position: Int) {
 
 
-                    }
-                })
-            var layoutManager = LinearLayoutManager(activity)
+                }
+            }).also { keyValueRecyclerViewAdapter = it }
+            val layoutManager = LinearLayoutManager(activity)
             rvData.layoutManager = layoutManager
             rvData.adapter = keyValueRecyclerViewAdapter
         }
@@ -291,7 +280,7 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                 list.add(
                     KeyValueDTO(
                         "Processing fee",
-                        formatAmount(customerResponse!!.data!!.loanDetails!!.processingFees!!)
+                            customerResponse?.data?.loanDetails?.processingFees?.let { formatAmount(it) }
                     )
                 )
 
@@ -299,7 +288,7 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                 list.add(
                     KeyValueDTO(
                         "Employment Type",
-                        (customerResponse!!.data!!.employmentDetails!!.employmentType!!)
+                        (customerResponse?.data?.employmentDetails?.employmentType)
                     )
                 )
 
@@ -325,23 +314,20 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                         (customerResponse!!.data!!.employmentDetails!!.totalWorkExperience!!)
                     )
                 )
-
                 list.add(
-                    KeyValueDTO(
-                        "Net Income",
-                        formatAmount(
-                            customerResponse!!.data!!.employmentDetails!!.netAnualIncome!!.toInt()
-                                .toString()!!
+                        KeyValueDTO(
+                                "Net Income",
+                                formatAmount(
+                                        customerResponse?.data?.employmentDetails?.netAnualIncome?.toInt()
+                                                .toString()
+                                )
                         )
-                    )
                 )
 
                 list.add(
                     KeyValueDTO(
                         "Residence Type",
                         customerResponse!!.data!!.residentialDetails!!.residenceType!!
-                        !!
-
                     )
                 )
                 if (customerResponse!!.data!!.basicDetails!!.haveExistingEMI == true) {
@@ -358,9 +344,9 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     KeyValueDTO(
                         "Resident city",
                         customerResponse!!.data!!.residentialDetails!!.customerCity!!
-                            .toString()!! + (" (since "
+                            .toString() + (" (since "
                                 + customerResponse!!.data!!.residentialDetails!!.noOfYearInResident!!
-                            .toString()!! + " years)")
+                            .toString() + " years)")
 
                     )
                 )
@@ -399,21 +385,21 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
             ))
 
         ) {
-            var addLeadRequest = AddLeadRequest()
-            var vehicleDetails = AddLeadVehicleDetails()
+            val addLeadRequest = AddLeadRequest()
+            val vehicleDetails = AddLeadVehicleDetails()
 
-            vehicleDetails!!.RegistrationYear =
+            vehicleDetails.RegistrationYear =
                 customerResponse!!.data!!.vehicleDetails!!.registrationYear
-            vehicleDetails!!.Make = customerResponse!!.data!!.vehicleDetails!!.make
-            vehicleDetails!!.Model = customerResponse!!.data!!.vehicleDetails!!.model
-            vehicleDetails!!.Variant = customerResponse!!.data!!.vehicleDetails!!.variant
-            vehicleDetails!!.Ownership = customerResponse!!.data!!.vehicleDetails!!.ownership
-            vehicleDetails!!.VehicleNumber =
+            vehicleDetails.Make = customerResponse!!.data!!.vehicleDetails!!.make
+            vehicleDetails.Model = customerResponse!!.data!!.vehicleDetails!!.model
+            vehicleDetails.Variant = customerResponse!!.data!!.vehicleDetails!!.variant
+            vehicleDetails.Ownership = customerResponse!!.data!!.vehicleDetails!!.ownership
+            vehicleDetails.VehicleNumber =
                 customerResponse!!.data!!.vehicleDetails!!.vehicleNumber
-            vehicleDetails!!.KMs = customerResponse!!.data!!.vehicleDetails!!.kMs
-            vehicleDetails!!.FuelType = customerResponse!!.data!!.vehicleDetails!!.fuelType
+            vehicleDetails.KMs = customerResponse!!.data!!.vehicleDetails!!.kMs
+            vehicleDetails.FuelType = customerResponse!!.data!!.vehicleDetails!!.fuelType
 
-            var basicDetails = BasicDetails()
+            val basicDetails = BasicDetails()
             basicDetails.FirstName =
                 customerResponse!!.data!!.basicDetails!!.firstName
             basicDetails.LastName =
@@ -425,10 +411,10 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
             basicDetails.CustomerMobile =
                 customerResponse!!.data!!.basicDetails!!.customerMobile
 
-            var data = AddLeadData()
+            val data = AddLeadData()
 
-            data!!.addLeadVehicleDetails = vehicleDetails
-            data!!.basicDetails = basicDetails
+            data.addLeadVehicleDetails = vehicleDetails
+            data.basicDetails = basicDetails
             addLeadRequest.Data = data
             navigateToAddLeadFragment(
                 addLeadRequest,
@@ -440,7 +426,7 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                 getString(R.string.v2_lead_status_kyc_done) -> {
                     navToSoftOffer(
                         customerResponse!!,
-                        customerId.toString(),
+                        customerId,
                         CommonStrings.APPLICATION_LIST_FRAGMENT_TAG
                     )
                 }
@@ -519,7 +505,7 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     if (kycDocumentRes.data.groupedDoc.isNotEmpty() || kycDocumentRes.data.nonGroupedDoc.isNotEmpty())
                         cust.data?.caseId?.let {
                             navigateToKYCDocumentUploadFromApplicationList(
-                                customerId.toString(),
+                                customerId,
                                 kycDocumentRes,
                                 it,
                                 cust

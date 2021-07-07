@@ -380,7 +380,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
 
         textViewSelectBankLabel.text =
-            "You have selected " + customerDetailsResponse.data?.loanDetails?.bankName + " bank"
+            "You have selected " + customerDetailsResponse.data?.loanDetails?.bankName
         ivBackFromAddressAndAdditionalFields.setOnClickListener(this)
         imageViewEditCurrentAddress.setOnClickListener(this)
         imageViewEditPermanentAddress.setOnClickListener(this)
@@ -1423,8 +1423,8 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
                                                             val currentFieldDetails = FieldDetails(
                                                                 fieldData.apiDetails.apiKey,
-                                                                editTextString,
-                                                                editTextString
+                                                                details.value,
+                                                                details.displayLabel
                                                             )
                                                             addToCurrentFilledFieldData(
                                                                 fieldData.apiDetails.apiKey,
