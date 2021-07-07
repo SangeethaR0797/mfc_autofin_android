@@ -325,6 +325,8 @@ class NoticeBoardAndNotificationFragment : BaseFragment(), View.OnClickListener 
 */
                     navigateToLeadDetails(selectedCustomerId)
                 }
+                else ->
+                    navigateApplicationDetailsFragment(selectedCustomerId)
             }
 
         }

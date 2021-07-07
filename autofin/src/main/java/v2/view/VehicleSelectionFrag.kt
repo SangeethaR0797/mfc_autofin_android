@@ -49,26 +49,29 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
         super.onCreate(savedInstanceState)
 
         bankViewModel = ViewModelProvider(this).get(
-                BankOffersViewModel::class.java
+            BankOffersViewModel::class.java
         )
 
 
     }
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_vehicle_selection, container, false)
         initViews(view)
 
         stockAPIViewModel = ViewModelProvider(requireActivity()).get(
-                StockAPIViewModel::class.java)
+            StockAPIViewModel::class.java
+        )
         stockAPIViewModel!!.getStockDetailsLiveDataData()
-                .observe(requireActivity(), { mApiResponse: ApiResponse? ->
-                    onStockDetailsRes(
-                            mApiResponse!!
-                    )
-                })
+            .observe(requireActivity(), { mApiResponse: ApiResponse? ->
+                onStockDetailsRes(
+                    mApiResponse!!
+                )
+            })
         return view
     }
 
@@ -90,18 +93,24 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
                     activity?.onBackPressed()
                 }
                 R.id.btnVehicleReg -> {
+
                     if (etVehRegNum.text.isNotEmpty()) {
-                        llVehRegNum.setBackgroundResource(R.drawable.vtwo_input_bg)
-                        tv_regno_hint.visibility = View.GONE
-                        regNoVal = etVehRegNum.text.toString()
-                        checkRegNoAvailable()
+                        if (hasConnectivityNetwork()) {
+                            llVehRegNum.setBackgroundResource(R.drawable.vtwo_input_bg)
+                            tv_regno_hint.visibility = View.GONE
+                            regNoVal = etVehRegNum.text.toString()
+                            checkRegNoAvailable()
+                        }
                     } else {
                         llVehRegNum.setBackgroundResource(R.drawable.v2_error_layout_bg)
                         tv_regno_hint.visibility = View.VISIBLE
                     }
+
                 }
                 R.id.tvSearchCarV2 -> {
-                   navigateVehBasicDetailsActivity(CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE)
+                    if (hasConnectivityNetwork()) {
+                        navigateVehBasicDetailsActivity(CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE)
+                    }
                     //navToSoftOffer()
 
                 }
@@ -118,7 +127,10 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
             llVehRegNum.setBackgroundResource(R.drawable.vtwo_input_bg)
             tv_regno_hint.visibility = View.GONE
             showProgressDialog(requireActivity())
-            stockAPIViewModel!!.getStockDetails(getStockRequest(), Global.stock_details_base_url + CommonStrings.STOCK_DETAILS_URL_END)
+            stockAPIViewModel!!.getStockDetails(
+                getStockRequest(),
+                Global.stock_details_base_url + CommonStrings.STOCK_DETAILS_URL_END
+            )
 
         } else {
             llVehRegNum.setBackgroundResource(R.drawable.v2_error_layout_bg)
@@ -164,15 +176,13 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE && resultCode == CommonStrings.RESULT_CODE) {
-            var addLeadRequest: AddLeadRequest? = data?.getParcelableExtra(CommonStrings.VEHICLE_DATA)
+            var addLeadRequest: AddLeadRequest? =
+                data?.getParcelableExtra(CommonStrings.VEHICLE_DATA)
             if (addLeadRequest != null) {
                 navigateToAddOrUpdateVehicleDetails(addLeadRequest)
             }
         }
     }
-
-
-
 
 
 }

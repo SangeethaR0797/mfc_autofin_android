@@ -378,6 +378,8 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 if (TOTAL == 0) {
                     llNoDataFound.visibility = View.VISIBLE
                     return
+                }else{
+                    llNoDataFound.visibility = View.GONE
                 }
                 layoutManager = LinearLayoutManager(activity)
                 rvData.layoutManager = layoutManager

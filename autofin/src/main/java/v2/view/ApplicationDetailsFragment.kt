@@ -230,7 +230,7 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                 list.add(
                     KeyValueDTO(
                         "Loan Amount",
-                        formatAmount(customerResponse!!.data!!.loanDetails!!.loanAmount!!)
+                        formatAmount(customerResponse!!.data!!.loanDetails!!.loanAmount)
                     )
                 )
             }
@@ -262,25 +262,25 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                 list.add(
                     KeyValueDTO(
                         "Tenure (Months)",
-                        formatAmount(customerResponse!!.data!!.loanDetails!!.tenure!!)
+                        formatAmount(customerResponse!!.data!!.loanDetails!!.tenure)
                     )
                 )
                 list.add(
                     KeyValueDTO(
                         "EMI",
-                        (formatAmount(customerResponse!!.data!!.loanDetails!!.emi!!))
+                        (formatAmount(customerResponse!!.data!!.loanDetails!!.emi))
                     )
                 )
                 list.add(
                     KeyValueDTO(
                         "Interest Rate (%)",
-                        ((customerResponse!!.data!!.loanDetails!!.roi!!))
+                        ((customerResponse!!.data!!.loanDetails!!.roi))
                     )
                 )
                 list.add(
                     KeyValueDTO(
                         "Processing fee",
-                            customerResponse?.data?.loanDetails?.processingFees?.let { formatAmount(it) }
+                        formatAmount(customerResponse!!.data!!.loanDetails!!.processingFees)
                     )
                 )
 
@@ -288,7 +288,7 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                 list.add(
                     KeyValueDTO(
                         "Employment Type",
-                        (customerResponse?.data?.employmentDetails?.employmentType)
+                        (customerResponse!!.data!!.employmentDetails!!.employmentType)
                     )
                 )
 
@@ -311,23 +311,26 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                 list.add(
                     KeyValueDTO(
                         "Total Work Experience (Years)",
-                        (customerResponse!!.data!!.employmentDetails!!.totalWorkExperience!!)
+                        (customerResponse!!.data!!.employmentDetails!!.totalWorkExperience)
                     )
                 )
+
                 list.add(
-                        KeyValueDTO(
-                                "Net Income",
-                                formatAmount(
-                                        customerResponse?.data?.employmentDetails?.netAnualIncome?.toInt()
-                                                .toString()
-                                )
+                    KeyValueDTO(
+                        "Net Income",
+                        formatAmount(
+                            customerResponse!!.data!!.employmentDetails!!.netAnualIncome!!.toInt()
+                                .toString()
                         )
+                    )
                 )
 
                 list.add(
                     KeyValueDTO(
                         "Residence Type",
                         customerResponse!!.data!!.residentialDetails!!.residenceType!!
+
+
                     )
                 )
                 if (customerResponse!!.data!!.basicDetails!!.haveExistingEMI == true) {

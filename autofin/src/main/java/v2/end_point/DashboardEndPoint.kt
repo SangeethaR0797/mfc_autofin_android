@@ -6,11 +6,8 @@ import v2.model.dto.DashBoardDetailsRequest
 import v2.model.dto.DashBoardDetailsResponse
 import v2.model.request.CommonRequest
 import v2.model.request.EmiRequest
-import v2.model.response.BankFeaturesAndChargesResponse
-import v2.model.response.CommissionDetailsResponse
-import v2.model.response.EmiResponse
+import v2.model.response.*
 
-import v2.model.response.RuleEngineBanksResponse
 import v2.model.response.master.MasterResponse
 
 interface DashboardEndPoint {
@@ -43,4 +40,9 @@ interface DashboardEndPoint {
         @Body request: EmiRequest,
         @Url url: String?
     ): Observable<EmiResponse?>?
+
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @GET
+    fun getAwsS3Details(@Url url: String?): Observable<AwsS3DetailsResponse?>?
+
 }

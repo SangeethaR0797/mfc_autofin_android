@@ -1442,6 +1442,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
             R.id.btnMobileNum -> {
 
                 hideSoftKeyboard()
+                if (!hasConnectivityNetwork()) {
+                    return
+                }
                 when {
                     //Step 1 Call Send OTP Api
                     ll_otp_v2.visibility == View.GONE && llNameAndEmailV2.visibility == View.GONE -> {
