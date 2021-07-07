@@ -65,6 +65,7 @@ public open class BaseFragment : Fragment() {
     public val DATE_FORMATE_DDMMYYYY = "dd/MM/yyyy"
     public val DATE_FORMATE_DDMMMYYYY = "dd MMM yyyy"
     public val DATE_FORMATE_YYYYMMDD = "yyyy-MM-dd"
+    private var isKeyboardVisible=false
 
     //region DatePicker
     public fun getBackDateFromTodayDate(yearBack: Int): Date {
@@ -642,6 +643,7 @@ public open class BaseFragment : Fragment() {
             } else {
                 activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
             }
+            isKeyboardVisible=false
         } catch (e: Exception) {
         }
     }
@@ -658,16 +660,33 @@ public open class BaseFragment : Fragment() {
             } else {
                 activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
             }
+            isKeyboardVisible=false
+
         } catch (e: Exception) {
         }
     }
 
     open fun showKeyBoardByForced() {
         try {
-            val inputMethodManager = activity?.getSystemService(
-                Activity.INPUT_METHOD_SERVICE
-            ) as InputMethodManager
-            inputMethodManager!!.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+            if(!isKeyboardVisible)
+            {
+                val inputMethodManager = activity?.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE
+                ) as InputMethodManager
+                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+                isKeyboardVisible=true
+            }
+            else
+            {
+                hideSoftKeyboard()
+                val inputMethodManager = activity?.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE
+                ) as InputMethodManager
+                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+                isKeyboardVisible=true
+            }
+
+
         } catch (e: Exception) {
 
         }
