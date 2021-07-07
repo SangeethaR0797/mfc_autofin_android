@@ -1076,6 +1076,9 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 */
                     navigateToLeadDetails(selectedCustomerId)
                 }
+                else ->
+                    navigateApplicationDetailsFragment(selectedCustomerId)
+
             }
 
         }
