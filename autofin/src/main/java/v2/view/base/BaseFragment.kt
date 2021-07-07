@@ -188,10 +188,10 @@ public open class BaseFragment : Fragment() {
         }
     }
 
-    public fun formatAmount(value: String): String {
+    public fun formatAmount(value: String?): String {
         if (!TextUtils.isEmpty(value)) {
             var format: NumberFormat? = NumberFormat.getInstance(Locale.US)
-            return format!!.format(value.toLong())
+            return format!!.format(value!!.toLong())
         } else {
             return ""
         }
