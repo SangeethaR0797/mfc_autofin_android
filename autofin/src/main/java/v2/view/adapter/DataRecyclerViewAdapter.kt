@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.view.marginLeft
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
 import com.squareup.picasso.Callback
@@ -25,6 +26,7 @@ class DataRecyclerViewAdapter(
     private var mContext: Activity = context
     public var resourceLayoutFile: Int = 0
     public var unSelectedBackgroundResource: Int = 0
+    public var selectedBackgroundResource: Int = 0
 
     init {
         dataListFilter = dataListValue as List<DataSelectionDTO>
@@ -65,7 +67,11 @@ class DataRecyclerViewAdapter(
         holder.tvItemSmall.setTextColor(mContext.resources.getColor(R.color.vtwo_light_grey))
 
         if (dataListFilter!!.get(position).selected) {
-            holder.llMainLayout.setBackgroundResource(R.drawable.vtwo_input_yellow)
+            if (selectedBackgroundResource > 0) {
+                holder.llMainLayout.setBackgroundResource(selectedBackgroundResource)
+            } else {
+                holder.llMainLayout.setBackgroundResource(R.drawable.vtwo_input_yellow)
+            }
             holder.tvItem.setTextAppearance(mContext, R.style.RobotoMedium)
             holder.tvItemSmall.setTextAppearance(mContext, R.style.RobotoMedium)
 
@@ -94,6 +100,13 @@ class DataRecyclerViewAdapter(
                 })
 
 
+        }
+
+        if (resourceLayoutFile > 0 && resourceLayoutFile == R.layout.v2_data_bank_item_layout && dataListFilter!!.size - 1 == position) {
+
+            val params = holder.llMainLayout.layoutParams as ViewGroup.MarginLayoutParams
+            params.rightMargin = holder.llMainLayout.marginLeft
+            holder.llMainLayout.layoutParams = params
         }
     }
 
