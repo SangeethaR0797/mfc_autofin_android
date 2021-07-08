@@ -269,7 +269,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         skAmount.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
                 tvAmount.text =
-                    resources.getString(R.string.rupees_symbol) + " " + formatAmount(progress.toString())
+                    resources.getString(R.string.rupees_symbol) + " " + formatAmount(((progress+9999)/ 10000 * 10000).toString())
 
             }
 
