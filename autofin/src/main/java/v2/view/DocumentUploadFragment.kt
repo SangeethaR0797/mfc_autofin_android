@@ -518,6 +518,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             "application/zip",
             "application/gzip",
             "application/octet-stream",
+            "application/x-rar-compressed",
             "application/x-zip-compressed",
             "multipart/x-zip",
             "application/vnd.android.package-archive"
@@ -594,10 +595,18 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                     e.printStackTrace()
                 }
 
-              if(isValidImageSize(file))
-                ImageUploadTask(requireActivity(), file?.path, CommonStrings.DEALER_ID + "/" + customerId, currentImageName, currentImageKey, requestCode, this).execute()
-            else
-                showToast("Selected file size is greater than maximum limit. Maximum file size limit is 1.5MB")
+                if (isValidImageSize(file))
+                    ImageUploadTask(
+                        requireActivity(),
+                        file?.path,
+                        CommonStrings.DEALER_ID + "/" + customerId,
+                        currentImageName,
+                        currentImageKey,
+                        requestCode,
+                        this
+                    ).execute()
+                else
+                    showToast("Selected file size is greater than maximum limit. Maximum file size limit is 1.5MB")
                 if (isValidImageSize(file))
                     ImageUploadTask(
                         activity,
@@ -629,8 +638,16 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                             requestCode,
                             this
                         ).execute()
-                    if(isValidImageSize(file))
-                    ImageUploadTask(requireActivity(), file?.absolutePath, CommonStrings.DEALER_ID + "/" + customerId, currentImageName, currentImageKey, requestCode, this).execute()
+                    if (isValidImageSize(file))
+                        ImageUploadTask(
+                            requireActivity(),
+                            file?.absolutePath,
+                            CommonStrings.DEALER_ID + "/" + customerId,
+                            currentImageName,
+                            currentImageKey,
+                            requestCode,
+                            this
+                        ).execute()
                     else
                         showToast("Selected file size is greater than maximum limit. Maximum file size limit is 1.5MB")
 
