@@ -21,7 +21,17 @@ public class MainActivity extends AppCompatActivity {
 
     private Button mLaunchAutofin;
     private TextView tvBuildDate;
-    String[] dealerCode = {"Dealer >> 242", "Dealer >> 2857"};
+    String[] dealerCode = {"Dealer >> 242",
+            "Dealer >> 2857",
+            "Dealer >> 1425",
+            "Dealer >> 2885",
+            "Dealer >> 2581",
+            "Dealer >> 1004",
+            "Dealer >> 2922",
+            "Dealer >> 1683",
+            "Dealer >> 941",
+            "Dealer >> 766",
+            "Dealer >> 1439"};
     private Spinner spDealer;
 
     @Override
