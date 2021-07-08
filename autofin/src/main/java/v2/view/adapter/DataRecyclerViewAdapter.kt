@@ -24,6 +24,7 @@ class DataRecyclerViewAdapter(
     private var itemCallBack: itemClickCallBack = itemClick!!
     private var mContext: Activity = context
     public var resourceLayoutFile: Int = 0
+    public var unSelectedBackgroundResource: Int = 0
 
     init {
         dataListFilter = dataListValue as List<DataSelectionDTO>
@@ -53,8 +54,11 @@ class DataRecyclerViewAdapter(
         holder.llMainLayout.setOnClickListener(View.OnClickListener {
             itemCallBack.itemClick(dataListFilter?.get(position), position)
         })
-
-        holder.llMainLayout.setBackgroundResource(R.drawable.vtwo_input_bg)
+        if (unSelectedBackgroundResource > 0) {
+            holder.llMainLayout.setBackgroundResource(unSelectedBackgroundResource)
+        } else {
+            holder.llMainLayout.setBackgroundResource(R.drawable.vtwo_input_bg)
+        }
         holder.tvItem.setTextAppearance(mContext, R.style.RobotoRegular)
         holder.tvItemSmall.setTextAppearance(mContext, R.style.RobotoRegular)
         holder.tvItem.setTextColor(mContext.resources.getColor(R.color.vtwo_light_grey))
