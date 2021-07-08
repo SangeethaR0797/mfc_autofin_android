@@ -223,9 +223,11 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         }
         setTextChangeOfetAutoResidenceCity()
 
-        dashboardViewModel.getRuleEngineBanks(
-            Global.baseURL + CommonStrings.GET_RULE_ENGINE_BANKS_END_POINT
-        )
+        if (screenStatus == getString(R.string.v2_logged_in_title) || screenStatus == getString(R.string.v2_soft_offer_title) || screenStatus == ScreenTypeEnum.Approved.value || screenStatus == ScreenTypeEnum.Disbursed.value) {
+            dashboardViewModel.getRuleEngineBanks(
+                Global.baseURL + CommonStrings.GET_RULE_ENGINE_BANKS_END_POINT
+            )
+        }
     }
 
     override fun onClick(v: View?) {
