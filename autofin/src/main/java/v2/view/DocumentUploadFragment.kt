@@ -521,6 +521,10 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             "application/x-rar-compressed",
             "application/x-zip-compressed",
             "multipart/x-zip",
+            "gzip/document",
+            "application/gzip-compressed",
+            "application/gzipped",
+            "application/x-gzip-compressed",
             "application/vnd.android.package-archive"
         )
         val intent = Intent(Intent.ACTION_GET_CONTENT)
