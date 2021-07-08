@@ -15,7 +15,7 @@
         android:layout_marginTop="@dimen/text_size_8dp"
         android:layout_marginRight="@dimen/text_size_12dp"
         android:layout_marginBottom="@dimen/text_size_8dp"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitXY" />
 
     <LinearLayout
         android:id="@+id/ll_text_data"

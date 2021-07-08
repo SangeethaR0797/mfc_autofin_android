@@ -193,7 +193,7 @@
                 android:id="@+id/rv_bank_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/text_size_16sp"
+                android:layout_marginTop="@dimen/text_size_20dp"
                 android:nestedScrollingEnabled="true"
 
                 />
@@ -206,7 +206,7 @@
                 android:layout_marginLeft="@dimen/text_size_20dp"
                 android:layout_marginTop="@dimen/text_size_16sp"
                 android:layout_marginRight="@dimen/text_size_20dp"
-                android:layout_marginBottom="@dimen/text_size_16sp"
+
                 android:textAppearance="@style/RobotoMedium"
                 android:textColor="@color/vtwo_black"
                 android:textSize="@dimen/text_size_16sp"
