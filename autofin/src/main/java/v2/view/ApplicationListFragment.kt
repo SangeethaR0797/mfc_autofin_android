@@ -32,6 +32,7 @@ import utility.CommonStrings
 import utility.Global
 import v2.model.dto.AddLeadRequest
 import v2.model.dto.CustomLoanProcessCompletedData
+import v2.model.dto.DataSelectionDTO
 import v2.model.enum_class.ApplicationStatusEnum
 import v2.model.enum_class.ScreenTypeEnum
 import v2.model.request.ApplicationListRequest
@@ -41,16 +42,18 @@ import v2.model.request.ResetCustomerJourneyDataRequest
 import v2.model.request.add_lead.AddLeadData
 import v2.model.request.add_lead.AddLeadVehicleDetails
 import v2.model.request.add_lead.BasicDetails
-import v2.model.response.ApplicationDataItems
-import v2.model.response.ApplicationListResponse
-import v2.model.response.CustomerDetailsResponse
+import v2.model.response.*
 import v2.model.response.master.KYCDocumentResponse
+import v2.model_view.DashboardViewModel
 import v2.model_view.MasterViewModel
 import v2.model_view.TransactionViewModel
 import v2.service.utility.ApiResponse
 import v2.view.adapter.ApplicationListAdapter
+import v2.view.adapter.DataRecyclerViewAdapter
+import v2.view.adapter.PartnerBankRecyclerViewAdapter
 import v2.view.base.BaseFragment
 import v2.view.callBackInterface.ApplicationListClickCallBack
+import v2.view.callBackInterface.itemClickCallBack
 
 import java.util.*
 
@@ -59,12 +62,14 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
     lateinit var llProgress: LinearLayout
     lateinit var tvTitle: TextView
+    lateinit var tvBankName: TextView
     lateinit var tvResultCount: TextView
     lateinit var ivBack: ImageView
     lateinit var ivNotification: ImageView
     lateinit var ivSearch: ImageView
     lateinit var ivStartSearch: ImageView
     lateinit var rvData: RecyclerView
+    lateinit var rvBankList: RecyclerView
     lateinit var llData: LinearLayout
     lateinit var llNoDataFound: LinearLayout
     lateinit var llSearch: LinearLayout
@@ -79,11 +84,12 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
     var rootView: View? = null
     lateinit var transactionViewModel: TransactionViewModel
     lateinit var masterViewModel: MasterViewModel
-
+    lateinit var bankNameDataRecyclerViewAdapter: DataRecyclerViewAdapter
 
     var PER_PAGE: Int = 10
     var PAGE_NUMBER: Int = 0
     var TOTAL: Int = 0
+    var selectedBankName: String? = null
     lateinit var applicationListAdapter: ApplicationListAdapter
 
     var layoutManager: LinearLayoutManager? = null
@@ -91,8 +97,14 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
     var selectedCustomerId: Int = 0
     var timerWait: Timer? = null
     var allowEditCity: Boolean = true
+
+    lateinit var dashboardViewModel: DashboardViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        dashboardViewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
+
         transactionViewModel = ViewModelProvider(this).get(
             TransactionViewModel::class.java
         )
@@ -115,6 +127,11 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         masterViewModel.getKYCDocumentLiveData()
             .observe(requireActivity()) { mApiResponse: ApiResponse? ->
                 onGetKYCDocumentResponse(mApiResponse!!)
+            }
+
+        dashboardViewModel.getRuleEngineBanksLiveData()
+            .observe(requireActivity()) { mApiResponse: ApiResponse? ->
+                onRuleEngineBanksResponse(mApiResponse!!)
             }
 
     }
@@ -146,6 +163,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
     fun initializationOfObject() {
         tvTitle = rootView!!.findViewById(R.id.tv_title)
+        tvBankName = rootView!!.findViewById(R.id.tv_bank_name)
         llProgress = rootView!!.findViewById(R.id.ll_progress)
         tvResultCount = rootView!!.findViewById(R.id.tv_result_count)
         ivBack = rootView!!.findViewById(R.id.iv_back)
@@ -153,6 +171,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         ivSearch = rootView!!.findViewById(R.id.iv_search)
         ivStartSearch = rootView!!.findViewById(R.id.iv_start_search)
         rvData = rootView!!.findViewById(R.id.rv_data)
+        rvBankList = rootView!!.findViewById(R.id.rv_bank_list)
         llData = rootView!!.findViewById(R.id.ll_data)
         llNoDataFound = rootView!!.findViewById(R.id.ll_no_data_found)
         viewEmptyBlack = rootView!!.findViewById(R.id.view_empty_black)
@@ -168,6 +187,8 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         llData.visibility = View.GONE
         llProgress.visibility = View.GONE
 
+        rvBankList.visibility = View.GONE
+        tvBankName.visibility = View.GONE
 
 
         ivBack.setOnClickListener(this)
@@ -177,6 +198,17 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         llSearch.setOnClickListener(this)
         etSearch.setOnClickListener(this)
 
+        callData()
+        setTextChangeOfetAutoResidenceCity()
+
+        if (screenStatus == getString(R.string.v2_logged_in_title) || screenStatus == getString(R.string.v2_soft_offer_title) || screenStatus == ScreenTypeEnum.Approved.value || screenStatus == ScreenTypeEnum.Disbursed.value) {
+            dashboardViewModel.getRuleEngineBanks(
+                Global.baseURL + CommonStrings.GET_RULE_ENGINE_BANKS_END_POINT
+            )
+        }
+    }
+
+    fun callData() {
         when {
             screenType == ScreenTypeEnum.Search.value -> {
                 ivSearch.visibility = View.GONE
@@ -201,7 +233,6 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 callApplicationStatusWiseFilterAPI(null)
             }
         }
-        setTextChangeOfetAutoResidenceCity()
     }
 
     override fun onClick(v: View?) {
@@ -325,7 +356,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 ApplicationListRequestData(
                     etSearch.text.toString(),
                     null,
-                    null,
+                    selectedBankName,
                     PAGE_NUMBER,
                     PER_PAGE
                 ), CommonStrings.DEALER_ID,
@@ -337,18 +368,25 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
     private fun callApplicationStatusWiseFilterAPI(searchKey: String?) {
         PAGE_NUMBER = PAGE_NUMBER + 1
+        var url =
+            Global.customerAPI_BaseURL + CommonStrings.APPLICATION_STATUS_WISE_FILTER_END_POINT
+
+        if (selectedBankName != null) {
+            url =
+                Global.customerAPI_BaseURL + CommonStrings.APPLICATION_BANK_WISE_FILTER_END_POINT
+        }
         transactionViewModel.getApplicationList(
             ApplicationListRequest(
                 ApplicationListRequestData(
                     searchKey,
                     screenStatus?.replace("\\s".toRegex(), ""),
-                    null,
+                    selectedBankName,
                     PAGE_NUMBER,
                     PER_PAGE
                 ), CommonStrings.DEALER_ID,
                 CommonStrings.USER_TYPE
-            ),
-            Global.customerAPI_BaseURL + CommonStrings.APPLICATION_STATUS_WISE_FILTER_END_POINT
+            ), url
+
         )
     }
 
@@ -372,13 +410,19 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun setResultData(response: ApplicationListResponse?) {
+        if (selectedBankName != null) {
+            tvBankName.text = selectedBankName
+        }
         if (response?.data != null && response.data?.customers != null && response.data?.customers?.size!! > 0) {
+
             if (PAGE_NUMBER == 1) {
                 TOTAL = response.data!!.total!!
                 if (TOTAL == 0) {
+                    rvData.visibility = View.GONE
                     llNoDataFound.visibility = View.VISIBLE
                     return
-                }else{
+                } else {
+                    rvData.visibility = View.VISIBLE
                     llNoDataFound.visibility = View.GONE
                 }
                 layoutManager = LinearLayoutManager(activity)
@@ -389,6 +433,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 } else {
                     tvResultCount.text = "Total " + TOTAL.toString() + " lead"
                 }
+
                 applicationListAdapter =
                     ApplicationListAdapter(
                         ApplicationListFragment@ this,
@@ -434,6 +479,8 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
         } else if (response!!.data!!.total == 0) {
             llNoDataFound.visibility = View.VISIBLE
+            rvData.visibility = View.GONE
+            tvResultCount.text = "Total 0 leads"
         }
 
 
@@ -527,6 +574,77 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         }
 
     }
+
+    private fun setPartnerBanksDetails(ruleEngineBanksResponse: RuleEngineBanksResponse) {
+        ruleEngineBanksResponse.data
+        val layoutManager = LinearLayoutManager(activity)
+        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        rvBankList.layoutManager = layoutManager
+
+        val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
+        if (ruleEngineBanksResponse.data != null && ruleEngineBanksResponse.data!!.size > 0) {
+
+            ruleEngineBanksResponse.data!!.forEachIndexed { index, bankItem ->
+                list.add(
+                    DataSelectionDTO(
+                        bankItem.bankName,
+                        null,
+                        bankItem.bankName,
+                        false,
+                        bankItem.logoUrl
+                    )
+                )
+
+            }
+
+            bankNameDataRecyclerViewAdapter =
+                DataRecyclerViewAdapter(
+                    activity as Activity,
+                    list,
+                    object : itemClickCallBack {
+                        override fun itemClick(item: Any?, position: Int) {
+                            var selectedBankDataSelectionDTO: DataSelectionDTO =
+                                item as DataSelectionDTO
+                            updateBankSelection(selectedBankDataSelectionDTO.displayValue!!)
+                            selectedBankName = selectedBankDataSelectionDTO.displayValue!!
+                            PAGE_NUMBER = 0
+                            callData()
+                        }
+                    })
+            bankNameDataRecyclerViewAdapter.unSelectedBackgroundResource = R.drawable.v2_white_bg
+            bankNameDataRecyclerViewAdapter.selectedBackgroundResource = R.drawable.v2_yellow_bg
+            bankNameDataRecyclerViewAdapter.resourceLayoutFile = R.layout.v2_data_bank_item_layout
+            rvBankList.adapter = bankNameDataRecyclerViewAdapter
+            rvBankList.visibility = View.VISIBLE
+            tvBankName.visibility = View.VISIBLE
+            if (selectedBankName == null) {
+                tvBankName.text = "All Bank"
+            } else {
+                tvBankName.text = selectedBankName
+            }
+        }
+    }
+
+    fun updateBankSelection(selectedBankDisplayName: String) {
+        bankNameDataRecyclerViewAdapter!!.dataListFilter!!.forEachIndexed { index, item ->
+            run {
+                var previousSelectedValue = item.selected
+
+                if (selectedBankDisplayName.equals(item.displayValue)) {
+                    item.selected = true
+                } else {
+                    item.selected = false
+                }
+                if (previousSelectedValue != item.selected) {
+                    bankNameDataRecyclerViewAdapter!!.notifyItemChanged(index)
+                }
+
+            }
+        }
+
+
+    }
+
 
     //region Observer
     private fun onApplicationList(mApiResponse: ApiResponse) {
@@ -627,6 +745,31 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
+    private fun onRuleEngineBanksResponse(mApiResponse: ApiResponse) {
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+                showProgressDialog(requireContext())
+            }
+            ApiResponse.Status.SUCCESS -> {
+                hideProgressDialog()
+
+                val ruleEngineBanksResponse: RuleEngineBanksResponse =
+                    mApiResponse.data as RuleEngineBanksResponse
+                setPartnerBanksDetails(ruleEngineBanksResponse)
+
+            }
+            ApiResponse.Status.ERROR -> {
+                hideProgressDialog()
+
+
+            }
+            else -> {
+
+            }
+        }
+
+    }
+
 
 //endregion Observer
 
@@ -656,7 +799,6 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 }
             }
         }
-
 
 
 }

@@ -34,5 +34,6 @@ data class ApplicationDataItems(
     var subStatus: String?,
     var tenure: String?,
     var variant: String?,
-    var vehiclePrice: String?
+    var vehiclePrice: String?,
+    var bankLogoURL: String?
 )

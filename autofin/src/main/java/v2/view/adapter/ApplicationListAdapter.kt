@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
 import v2.model.enum_class.ApplicationStatusEnum
 import v2.model.enum_class.ScreenTypeEnum
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
 import v2.model.response.ApplicationDataItems
 import v2.view.base.BaseFragment
 
@@ -43,7 +45,8 @@ class ApplicationListAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         holder.tvStatus.text = dataListFilter!![position].status.toString()
-        holder.tvApplicantName.text = dataListFilter?.get(position)?.firstName + " " + dataListFilter?.get(position)?.lastName
+        holder.tvApplicantName.text =
+            dataListFilter?.get(position)?.firstName + " " + dataListFilter?.get(position)?.lastName
         holder.tvVehicleDetails.text =
             dataListFilter!![position].make.toString() + " " + dataListFilter!![position].model.toString()
 
@@ -121,6 +124,22 @@ class ApplicationListAdapter(
 
         })
 
+        if (dataListFilter?.get(position)!!.bankLogoURL != null) {
+            Picasso.get()
+                .load(dataListFilter!!.get(position)!!.bankLogoURL)
+                .into(holder.tvBankIcon, object : Callback {
+                    override fun onSuccess() {
+                        holder.tvBankIcon.visibility = View.VISIBLE
+
+                    }
+
+                    override fun onError(ex: Exception) {
+                        holder.tvBankIcon.visibility = View.GONE
+
+                    }
+                })
+        }
+
     }
 
 
@@ -171,12 +190,19 @@ class ApplicationListAdapter(
                 } else {
                     val resultList = ArrayList<ApplicationDataItems>()
                     for (row in dataListValue!!) {
-                        if (row.customerId.toString().toLowerCase().contains(constraint.toString().toLowerCase()) ||
-                                row.firstName.toString().toLowerCase().contains(constraint.toString().toLowerCase()) ||
-                                row.customerMobile.toString().toLowerCase().contains(constraint.toString().toLowerCase())||
-                                        row.bankName.toString().toLowerCase().contains(constraint.toString().toLowerCase())||
-                                row.losId.toString().toLowerCase().contains(constraint.toString().toLowerCase())||
-                                        row.caseId.toString().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        if (row.customerId.toString().toLowerCase()
+                                .contains(constraint.toString().toLowerCase()) ||
+                            row.firstName.toString().toLowerCase()
+                                .contains(constraint.toString().toLowerCase()) ||
+                            row.customerMobile.toString().toLowerCase()
+                                .contains(constraint.toString().toLowerCase()) ||
+                            row.bankName.toString().toLowerCase()
+                                .contains(constraint.toString().toLowerCase()) ||
+                            row.losId.toString().toLowerCase()
+                                .contains(constraint.toString().toLowerCase()) ||
+                            row.caseId.toString().toLowerCase()
+                                .contains(constraint.toString().toLowerCase())
+                        ) {
                             resultList.add(row)
                         }
                     }

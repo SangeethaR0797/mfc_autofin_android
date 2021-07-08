@@ -202,6 +202,7 @@ public class CommonStrings {
     public static final String DEALER_COMMISSION_END_POINT = "dealer-commission";
     public static final String SEARCH_APPLICATION_END_POINT = "filter";
     public static final String APPLICATION_STATUS_WISE_FILTER_END_POINT = "filter-by-status";
+    public static final String APPLICATION_BANK_WISE_FILTER_END_POINT = "filter-by-bank";
     public static final String GET_EMI_AMOUNT_END_POINT = "emi-calculator";
     public static final String ADD_LEAD_FRAGMENT_TAG = "ADD_LEAD_FRAGMENT";
     public static final String SOFT_OFFER_FRAGMENT_TAG = "SOFT_OFFER_FRAGMENT";
