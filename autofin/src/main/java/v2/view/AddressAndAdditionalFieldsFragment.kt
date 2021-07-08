@@ -1362,7 +1362,9 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                 }
 
                 val apiURL = fieldData.apiDetails.url
-
+                fieldInput.setOnClickListener(View.OnClickListener {
+                    linearLayoutCustomDropDownTextView.performClick()
+                })
                 linearLayoutCustomDropDownTextView.setOnClickListener(View.OnClickListener {
                     if (fieldData.apiDetails.apiKey != "CompanyState" && fieldData.apiDetails.apiKey != "CompanyCity") {
                         RetroBase.retrofitInterface.getFromWeb(apiURL)
