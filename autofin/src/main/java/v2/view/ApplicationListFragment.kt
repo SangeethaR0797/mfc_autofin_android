@@ -609,6 +609,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                             selectedBankName = selectedBankDataSelectionDTO.displayValue!!
                             PAGE_NUMBER = 0
                             callData()
+                            rvBankList.scrollToPosition(position)
                         }
                     })
             bankNameDataRecyclerViewAdapter.unSelectedBackgroundResource = R.drawable.v2_white_bg
