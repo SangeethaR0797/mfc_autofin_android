@@ -89,6 +89,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
     var PER_PAGE: Int = 10
     var PAGE_NUMBER: Int = 0
     var TOTAL: Int = 0
+    var selectedBankName: String? = null
     lateinit var applicationListAdapter: ApplicationListAdapter
 
     var layoutManager: LinearLayoutManager? = null
@@ -197,6 +198,17 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         llSearch.setOnClickListener(this)
         etSearch.setOnClickListener(this)
 
+        callData()
+        setTextChangeOfetAutoResidenceCity()
+
+        if (screenStatus == getString(R.string.v2_logged_in_title) || screenStatus == getString(R.string.v2_soft_offer_title) || screenStatus == ScreenTypeEnum.Approved.value || screenStatus == ScreenTypeEnum.Disbursed.value) {
+            dashboardViewModel.getRuleEngineBanks(
+                Global.baseURL + CommonStrings.GET_RULE_ENGINE_BANKS_END_POINT
+            )
+        }
+    }
+
+    fun callData() {
         when {
             screenType == ScreenTypeEnum.Search.value -> {
                 ivSearch.visibility = View.GONE
@@ -220,13 +232,6 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 viewEmptyBlack.visibility = View.GONE
                 callApplicationStatusWiseFilterAPI(null)
             }
-        }
-        setTextChangeOfetAutoResidenceCity()
-
-        if (screenStatus == getString(R.string.v2_logged_in_title) || screenStatus == getString(R.string.v2_soft_offer_title) || screenStatus == ScreenTypeEnum.Approved.value || screenStatus == ScreenTypeEnum.Disbursed.value) {
-            dashboardViewModel.getRuleEngineBanks(
-                Global.baseURL + CommonStrings.GET_RULE_ENGINE_BANKS_END_POINT
-            )
         }
     }
 
@@ -351,7 +356,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 ApplicationListRequestData(
                     etSearch.text.toString(),
                     null,
-                    null,
+                    selectedBankName,
                     PAGE_NUMBER,
                     PER_PAGE
                 ), CommonStrings.DEALER_ID,
@@ -363,18 +368,25 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
     private fun callApplicationStatusWiseFilterAPI(searchKey: String?) {
         PAGE_NUMBER = PAGE_NUMBER + 1
+        var url =
+            Global.customerAPI_BaseURL + CommonStrings.APPLICATION_STATUS_WISE_FILTER_END_POINT
+
+        if (selectedBankName != null) {
+            url =
+                Global.customerAPI_BaseURL + CommonStrings.APPLICATION_BANK_WISE_FILTER_END_POINT
+        }
         transactionViewModel.getApplicationList(
             ApplicationListRequest(
                 ApplicationListRequestData(
                     searchKey,
                     screenStatus?.replace("\\s".toRegex(), ""),
-                    null,
+                    selectedBankName,
                     PAGE_NUMBER,
                     PER_PAGE
                 ), CommonStrings.DEALER_ID,
                 CommonStrings.USER_TYPE
-            ),
-            Global.customerAPI_BaseURL + CommonStrings.APPLICATION_STATUS_WISE_FILTER_END_POINT
+            ), url
+
         )
     }
 
@@ -398,13 +410,19 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun setResultData(response: ApplicationListResponse?) {
+        if (selectedBankName != null) {
+            tvBankName.text = selectedBankName
+        }
         if (response?.data != null && response.data?.customers != null && response.data?.customers?.size!! > 0) {
+
             if (PAGE_NUMBER == 1) {
                 TOTAL = response.data!!.total!!
                 if (TOTAL == 0) {
+                    rvData.visibility = View.GONE
                     llNoDataFound.visibility = View.VISIBLE
                     return
                 } else {
+                    rvData.visibility = View.VISIBLE
                     llNoDataFound.visibility = View.GONE
                 }
                 layoutManager = LinearLayoutManager(activity)
@@ -415,6 +433,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 } else {
                     tvResultCount.text = "Total " + TOTAL.toString() + " lead"
                 }
+
                 applicationListAdapter =
                     ApplicationListAdapter(
                         ApplicationListFragment@ this,
@@ -460,6 +479,8 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
         } else if (response!!.data!!.total == 0) {
             llNoDataFound.visibility = View.VISIBLE
+            rvData.visibility = View.GONE
+            tvResultCount.text = "Total 0 leads"
         }
 
 
@@ -585,6 +606,9 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                             var selectedBankDataSelectionDTO: DataSelectionDTO =
                                 item as DataSelectionDTO
                             updateBankSelection(selectedBankDataSelectionDTO.displayValue!!)
+                            selectedBankName = selectedBankDataSelectionDTO.displayValue!!
+                            PAGE_NUMBER = 0
+                            callData()
                         }
                     })
             bankNameDataRecyclerViewAdapter.unSelectedBackgroundResource = R.drawable.v2_white_bg
@@ -593,7 +617,11 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
             rvBankList.adapter = bankNameDataRecyclerViewAdapter
             rvBankList.visibility = View.VISIBLE
             tvBankName.visibility = View.VISIBLE
-            tvBankName.text = "All Bank"
+            if (selectedBankName == null) {
+                tvBankName.text = "All Bank"
+            } else {
+                tvBankName.text = selectedBankName
+            }
         }
     }
 
