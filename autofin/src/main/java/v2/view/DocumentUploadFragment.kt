@@ -125,10 +125,13 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                 if (kycDocumentData.groupedDoc.isNotEmpty()) {
                     if (isGroupedDocFilled()) {
                         showProgressDialog(requireActivity())
-                        retrofitInterface.getFromWeb(
-                            getUploadKYCRequest(),
-                            CommonStrings.UPLOAD_KYC_DOC_URL_V2
-                        ).enqueue(this)
+                        if (hasConnectivityNetwork()) {
+                            retrofitInterface.getFromWeb(
+                                    getUploadKYCRequest(),
+                                    CommonStrings.UPLOAD_KYC_DOC_URL_V2
+                            ).enqueue(this)
+                        }
+
                     } else {
                         showToast("Attach anyone document for each Mandatory each document group")
                     }
@@ -599,28 +602,34 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                     e.printStackTrace()
                 }
 
-                if (isValidImageSize(file))
-                    ImageUploadTask(
-                        requireActivity(),
-                        file?.path,
-                        CommonStrings.DEALER_ID + "/" + customerId,
-                        currentImageName,
-                        currentImageKey,
-                        requestCode,
-                        this
-                    ).execute()
+                if (isValidImageSize(file)) {
+                    if (hasConnectivityNetwork()) {
+                        ImageUploadTask(
+                                requireActivity(),
+                                file?.path,
+                                CommonStrings.DEALER_ID + "/" + customerId,
+                                currentImageName,
+                                currentImageKey,
+                                requestCode,
+                                this
+                        ).execute()
+                    }
+                }
                 else
                     showToast("Selected file size is greater than maximum limit. Maximum file size limit is 1.5MB")
-                if (isValidImageSize(file))
-                    ImageUploadTask(
-                        activity,
-                        file?.path,
-                        CommonStrings.DEALER_ID + "/" + customerId,
-                        currentImageName,
-                        currentImageKey,
-                        requestCode,
-                        this
-                    ).execute()
+                if (isValidImageSize(file)) {
+                    if (hasConnectivityNetwork()) {
+                        ImageUploadTask(
+                                activity,
+                                file?.path,
+                                CommonStrings.DEALER_ID + "/" + customerId,
+                                currentImageName,
+                                currentImageKey,
+                                requestCode,
+                                this
+                        ).execute()
+                    }
+                }
                 else
                     showToast("Selected file size is greater than maximum limit. Maximum file size limit is 1.5MB")
             }
@@ -632,26 +641,32 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                     } catch (e: java.lang.Exception) {
                         e.printStackTrace()
                     }
-                    if (isValidImageSize(file))
-                        ImageUploadTask(
-                            activity,
-                            file?.absolutePath,
-                            CommonStrings.DEALER_ID + "/" + customerId,
-                            currentImageName,
-                            currentImageKey,
-                            requestCode,
-                            this
-                        ).execute()
-                    if (isValidImageSize(file))
-                        ImageUploadTask(
-                            requireActivity(),
-                            file?.absolutePath,
-                            CommonStrings.DEALER_ID + "/" + customerId,
-                            currentImageName,
-                            currentImageKey,
-                            requestCode,
-                            this
-                        ).execute()
+                    if (isValidImageSize(file)) {
+                        if (hasConnectivityNetwork()) {
+                            ImageUploadTask(
+                                    activity,
+                                    file?.absolutePath,
+                                    CommonStrings.DEALER_ID + "/" + customerId,
+                                    currentImageName,
+                                    currentImageKey,
+                                    requestCode,
+                                    this
+                            ).execute()
+                        }
+                    }
+                    if (isValidImageSize(file)) {
+                         if (hasConnectivityNetwork()) {
+                             ImageUploadTask(
+                                     requireActivity(),
+                                     file?.absolutePath,
+                                     CommonStrings.DEALER_ID + "/" + customerId,
+                                     currentImageName,
+                                     currentImageKey,
+                                     requestCode,
+                                     this
+                             ).execute()
+                         }
+                    }
                     else
                         showToast("Selected file size is greater than maximum limit. Maximum file size limit is 1.5MB")
 

@@ -106,7 +106,9 @@ class SelectedBankOfferStatusFragment : BaseFragment() {
         buttonDocumentSubmitWithOTP = view.findViewById(R.id.buttonDocumentSubmitWithOTP)
         fragmentContext = view.context
         fragmentView = view
-        bankTAndCViewModel.getBankTermsAndConditionData(CommonStrings.BANK_BASE_URL + CommonStrings.BANKTC_END_POINT + customerID)
+        if (hasConnectivityNetwork()) {
+            bankTAndCViewModel.getBankTermsAndConditionData(CommonStrings.BANK_BASE_URL + CommonStrings.BANKTC_END_POINT + customerID)
+        }
 
         return view
     }

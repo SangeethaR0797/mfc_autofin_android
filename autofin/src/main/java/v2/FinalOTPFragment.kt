@@ -126,12 +126,15 @@ class FinalOTPFragment : BaseFragment() {
     }
 
     private fun callGenerateFinalOTP() {
-        getFinalOTPRequest()?.let { it1 -> transactionViewModel.generateFinalOTP(it1, Global.customerAPI_BaseURL + CommonStrings.GET_FINAL_OTP_URL_END_POINT) }
+        if (hasConnectivityNetwork()) {
+            getFinalOTPRequest()?.let { it1 -> transactionViewModel.generateFinalOTP(it1, Global.customerAPI_BaseURL + CommonStrings.GET_FINAL_OTP_URL_END_POINT) }
+        }
     }
 
     private fun callValidateFinalOTP() {
-        getValidateFinalOTP()?.let { transactionViewModel.validateFinalOTP(it, Global.customerAPI_BaseURL + CommonStrings.VALIDATE_FINAL_OTP) }
-    }
+        if (hasConnectivityNetwork()) {
+            getValidateFinalOTP()?.let { transactionViewModel.validateFinalOTP(it, Global.customerAPI_BaseURL + CommonStrings.VALIDATE_FINAL_OTP) }
+        } }
 
 
     private fun getFinalOTPRequest(): GenerateFinalOTPRequest? {
