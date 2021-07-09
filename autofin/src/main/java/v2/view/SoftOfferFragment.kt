@@ -260,7 +260,8 @@ class SoftOfferFragment : BaseFragment(), ActivityBackPressed {
 
                     loanAmount = rounded.toString()
                     if (rounded <= 10000) {
-                        tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + formatAmount("50000")
+                        tvLoanAmountVal.text =
+                            resources.getString(R.string.rupees_symbol) + formatAmount("50000")
                         loanAmount = "50000"
                     } else
                         tvLoanAmountVal.text =
@@ -427,15 +428,8 @@ class SoftOfferFragment : BaseFragment(), ActivityBackPressed {
 
                         enableCalculatorLayout()
                         setData()
-                        // val bankOffersData: List<BankOffersData>? = bankOfferRes?.data as List<BankOffersData>
-
-                        val bankOffersData = arrayListOf<BankOffersData>()
-                        bankOfferRes!!.data!!.forEachIndexed { index, bank ->
-                            if (bank.bankName.equals("HDFC Bank")) {
-                                bankOffersData.add(bank)
-                            }
-                        }
-
+                        val bankOffersData: List<BankOffersData>? =
+                            bankOfferRes?.data as List<BankOffersData>
 
                         tvBankOfferTitleV2.text =
                             resources.getString(R.string.v2_bank_offers) + " " + bankOfferRes?.data?.size
@@ -453,20 +447,6 @@ class SoftOfferFragment : BaseFragment(), ActivityBackPressed {
 
                         this.recyclerViewBankOffer.adapter = bankAdapter
                         setFocusOnView(tvBankOfferTitleV2)
-
-                        if (bankOffersData.size <= 0) {
-                            textViewNoDataFound.visibility = View.VISIBLE
-                            llBankOfferParent.setBackgroundResource(R.drawable.v2_soft_offer_bg)
-                            llSoftOfferDialog.visibility = View.GONE
-                            linearLayoutCalculation.visibility = View.VISIBLE
-                            tvBankOfferTitleV2.visibility = View.GONE
-                            recyclerViewBankOffer.visibility = View.GONE
-
-                            setData()
-                            //  showToast("No Bank Offers found!")
-                            setFocusOnView(tvBankOfferTitleV2)
-                        }
-
                     } else {
 
                         textViewNoDataFound.visibility = View.VISIBLE
