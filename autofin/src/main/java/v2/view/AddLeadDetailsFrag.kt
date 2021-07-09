@@ -2723,6 +2723,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
             dialogConfilctForAddLead!!.findViewById(R.id.tvAlertDialogText) as TextView
         tvAlertDialogText.setText(validateLeadDataRes.message)
         val btnNewFlow = dialogConfilctForAddLead!!.findViewById(R.id.btnStartNewFlowV2) as Button
+        val btnOk = dialogConfilctForAddLead!!.findViewById(R.id.btnOk) as Button
         val btnContinueWithOldFlow =
             dialogConfilctForAddLead!!.findViewById(R.id.btnExistingFlowV2) as Button
 
@@ -2731,9 +2732,23 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
             resetJourney()
             dialogConfilctForAddLead!!.dismiss()
         }
+        btnOk.setOnClickListener {
+            dialogConfilctForAddLead!!.dismiss()
+            navigateDashboardTop()
+        }
+
         btnContinueWithOldFlow.setOnClickListener {
             callCustomerDetailsApi(validateLeadDataRes.oldCustomerId!!.toInt())
             dialogConfilctForAddLead!!.dismiss()
+        }
+        if (validateLeadDataRes.oldCustomerId!!.toInt() > 0) {
+            btnOk.visibility = View.GONE
+            btnNewFlow.visibility = View.VISIBLE
+            btnContinueWithOldFlow.visibility = View.VISIBLE
+        } else {
+            btnOk.visibility = View.VISIBLE
+            btnNewFlow.visibility = View.GONE
+            btnContinueWithOldFlow.visibility = View.GONE
         }
         dialogConfilctForAddLead!!.window!!.setBackgroundDrawableResource(android.R.color.transparent);
         dialogConfilctForAddLead!!.show()
