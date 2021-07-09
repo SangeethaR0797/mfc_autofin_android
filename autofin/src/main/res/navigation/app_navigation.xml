@@ -4,11 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_navigation"
     app:startDestination="@id/dashboardFragment">
+
+    <fragment
+        android:id="@+id/autofinTestDashboardFragment"
+        android:name="v2.view.AutofinTestDashboard"
+        android:label="fragment_autofin_test_dashboard">
+        <action
+            android:id="@+id/action_autofinTestDashboard_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="v2.view.DashboardFragment"
         android:label="fragment_dashboard">
-
         <action
             android:id="@+id/action_dashboardFragment_to_registeredListFragment"
             app:destination="@id/registeredListFragmentNav" />
@@ -55,7 +63,7 @@
         android:id="@+id/registeredListFragmentNav"
         android:name="v2.view.RegisteredListFragment"
         android:label="fragment_registered_list"
-        tools:layout="@layout/fragment_registered_list"></fragment>
+        tools:layout="@layout/fragment_registered_list"/>
     <fragment
         android:id="@+id/addOrUpdateVehicleDetailsMakeFrag"
         android:name="v2.view.AddOrUpdateVehicleDetailsMakeFrag"
@@ -411,5 +419,6 @@
             app:destination="@id/bankFeaturesAndChargesFragment" />
 
     </fragment>
+
 
 </navigation>
