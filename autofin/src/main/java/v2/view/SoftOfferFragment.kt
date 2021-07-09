@@ -427,9 +427,16 @@ class SoftOfferFragment : BaseFragment(), ActivityBackPressed {
 
                         enableCalculatorLayout()
                         setData()
+                        // val bankOffersData: List<BankOffersData>? = bankOfferRes?.data as List<BankOffersData>
 
-                        val bankOffersData: List<BankOffersData>? =
-                            bankOfferRes?.data as List<BankOffersData>
+                        val bankOffersData = arrayListOf<BankOffersData>()
+                        bankOfferRes!!.data!!.forEachIndexed { index, bank ->
+                            if (bank.bankName.equals("HDFC Bank")) {
+                                bankOffersData.add(bank)
+                            }
+                        }
+
+
                         tvBankOfferTitleV2.text =
                             resources.getString(R.string.v2_bank_offers) + " " + bankOfferRes?.data?.size
                         bankAdapter = SoftOfferAdapter(
