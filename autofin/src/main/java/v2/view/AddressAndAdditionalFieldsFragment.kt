@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.google.gson.Gson
 import com.mfc.autofin.framework.R
+import kotlinx.android.synthetic.main.v2_add_new_address_layout.*
 import kotlinx.android.synthetic.main.v2_address_additional_fields_fragment.*
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 import retrofit2.Call
@@ -82,7 +83,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
     lateinit var textViewPermanentAddress1: TextView
     lateinit var textViewPermanentAddress2: TextView
     lateinit var textViewPermanentAddress3: TextView
-    lateinit var buttonMoveToNextPage:Button
+    lateinit var buttonMoveToNextPage: Button
     private var additionaFieldPinCode: String = ""
 
     lateinit var currentAddress: CurrentAddress
@@ -188,7 +189,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         }
     }
 
-    fun checkBackPress() {
+    private fun checkBackPress() {
         navigateDashboardTop()
     }
 
@@ -318,11 +319,6 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                     onGetKYCDocumentResponse(mApiResponse!!)
                 }
 
-        transactionViewModel.getCustomerDetails(
-                createCustomerDetailsRequest(customerId.toInt()),
-                Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL
-        )
-
     }
 
     override fun onCreateView(
@@ -338,6 +334,12 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
     private fun initView(view: View) {
         setKeyBoardShowHideEvent(AddressAndAdditionalFieldsFragment@ this)
+        if(hasConnectivityNetwork()) {
+            transactionViewModel.getCustomerDetails(
+                    createCustomerDetailsRequest(customerId.toInt()),
+                    Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL
+            )
+        }
         viewEmpty = view.findViewById(R.id.view_empty)!!
         scrollViewPostOffer = view.findViewById(R.id.scrollViewPostOffer)
         linearLayoutAddNewCurrentAddress = view.findViewById(R.id.linearLayoutAddNewCurrentAddress)
@@ -363,15 +365,15 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         textViewPermanentAddress1 = view.findViewById(R.id.textViewPermanentAddress1)
         textViewPermanentAddress2 = view.findViewById(R.id.textViewPermanentAddress2)
         textViewPermanentAddress3 = view.findViewById(R.id.textViewPermanentAddress3)
-        buttonMoveToNextPage=view.findViewById(R.id.buttonMoveToNextPage)
+        buttonMoveToNextPage = view.findViewById(R.id.buttonMoveToNextPage)
+
+
         textViewSelectBankLabel.text =
                 "You have selected " + customerDetailsResponse.data?.loanDetails?.bankName
         ivBackFromAddressAndAdditionalFields.setOnClickListener(this)
         imageViewEditCurrentAddress.setOnClickListener(this)
         imageViewEditPermanentAddress.setOnClickListener(this)
         buttonMoveToNextPage.setOnClickListener(this)
-
-        initiateView()
 
     }
 
@@ -721,7 +723,6 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
             city = ""
             pincode = ""
             state = ""
-            editTextPermanentAddress1
             showEditCurrentAddress()
         }
     }
@@ -776,6 +777,8 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                 if (customerResponse != null) {
                     customerDetailsResponse = customerResponse
                 }
+                initiateView()
+
 
                 // InitViews
             }
@@ -860,7 +863,6 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                     editTextCurrentAddress1?.text?.clear()
                     editTextCurrentAddress2?.text?.clear()
                     editTextCurrentAddress3?.text?.clear()
-
                     showEditCurrentAddress()
                 } else if (typeOfAddress == getString(R.string.v2_permanent_address)) {
                     permanentAddressResponse = v2.model.response.PermanentAddress(
@@ -879,7 +881,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                     state = ""
                     editTextPermanentAddress1?.text?.clear()
                     editTextPermanentAddress2?.text?.clear()
-                    editTextPermanentAddress3?.text?.clear()
+                    editTextPermanentAddress2?.text?.clear()
                     showEditPermanentAddress()
                 }
 
@@ -902,8 +904,15 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                 hideProgressDialog()
 
                 val response: AdditionalFields? = mApiResponse.data as AdditionalFields?
+                additionalFieldsData = response?.data!!
+
                 if (response?.data?.sections?.isNotEmpty() == true) {
 
+                    if(buttonMoveToNextPage.visibility==View.VISIBLE)
+                    {
+                        viewEmpty.visibility=View.GONE
+                        buttonMoveToNextPage.visibility=View.GONE
+                    }
                     linearLayoutAddNewPermanentAddress.removeAllViews()
                     linearLayoutAddNewPermanentAddress.visibility = View.GONE
                     linearLayoutEditCurrentAddress.visibility = View.VISIBLE
@@ -911,16 +920,12 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                     if (!isPermanentAddress)
                         linearLayoutEditPermanentAddress.visibility = View.VISIBLE
 
-                    additionalFieldsData = response.data
                     linearLayoutAdditionalFieldsUILayout.visibility = View.VISIBLE
                     setAdditionalField()
 
                 } else {
-                    navigateToBankOfferStatus(
-                            customerId,
-                            customerDetailsResponse,
-                            "AddressAdditionalFields"
-                    )
+                    viewEmpty.visibility=View.GONE
+                    buttonMoveToNextPage.visibility=View.VISIBLE
                 }
             }
             ApiResponse.Status.ERROR -> {
@@ -1059,10 +1064,10 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         val fieldList = sectionData.fields
         val currentSectionLayout: View
         if (isSectionPreFilled(sectionData.sectionName)) {
-           if(sectionMap.size==additionalFieldsData.sections.size && isLastSection)
-            currentSectionLayout = generateEditSectionUI(sectionData,true)
+            currentSectionLayout = if (sectionMap.size == additionalFieldsData.sections.size && isLastSection)
+                generateEditSectionUI(sectionData, true)
             else
-               currentSectionLayout = generateEditSectionUI(sectionData,false)
+                generateEditSectionUI(sectionData, false)
 
         } else {
 
@@ -1876,7 +1881,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
     }
 
     @SuppressLint("SetTextI18n")
-    private fun generateEditSectionUI(sectionData: Sections,isLastSect:Boolean): View {
+    private fun generateEditSectionUI(sectionData: Sections, isLastSect: Boolean): View {
         var view: View = LayoutInflater.from(fragView.context)
                 .inflate(R.layout.v2_edit_custom_address, linearLayoutAdditionalFieldsUILayout, false)
 
@@ -1935,13 +1940,12 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
             }
         }
-        if(isLastSect)
-        {
-            buttonMoveToNextPage.visibility=View.VISIBLE
-        }
-        else
-        {
-            buttonMoveToNextPage.visibility=View.GONE
+        if (isLastSect) {
+            viewEmpty.visibility=View.GONE
+            buttonMoveToNextPage.visibility = View.VISIBLE
+        } else {
+            viewEmpty.visibility=View.VISIBLE
+            buttonMoveToNextPage.visibility = View.GONE
         }
         return view
     }
@@ -2147,10 +2151,44 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                 linearLayoutAddNewPermanentAddress.removeAllViews()
                 showNewPermanentAddress()
             }
-            R.id.buttonMoveToNextPage->{
-                if(linearLayoutEditCurrentAddress.visibility==View.VISIBLE && linearLayoutEditPermanentAddress.visibility==View.VISIBLE)
-                    submitAdditionalFields()
-                else
+            R.id.buttonMoveToNextPage -> {
+                if (linearLayoutEditCurrentAddress.visibility == View.VISIBLE) {
+                    if (checkboxCurrentAndPermanentAddress.visibility == View.VISIBLE)
+                    {
+                        if(additionalFieldsData.sections.isNotEmpty())
+                        {
+                            submitAdditionalFields()
+                        }
+                        else
+                        {
+                            navigateToBankOfferStatus(
+                                    customerId,
+                                    customerDetailsResponse,
+                                    "AddressAdditionalFields"
+                            )
+                        }
+                    }
+                    else {
+                        if (linearLayoutEditPermanentAddress.visibility == View.VISIBLE)
+                        {
+                            if(additionalFieldsData!=null && additionalFieldsData.sections.isNotEmpty())
+                            {
+                                submitAdditionalFields()
+                            }
+                            else
+                            {
+                                navigateToBankOfferStatus(
+                                        customerId,
+                                        customerDetailsResponse,
+                                        "AddressAdditionalFields"
+                                )
+                            }
+                        }
+
+                        else
+                            showToast("Please fill Permanent Address")
+                    }
+                } else
                     showToast("Please fill All the fields")
             }
 
