@@ -454,6 +454,19 @@ class SoftOfferFragment : BaseFragment(), ActivityBackPressed {
                         this.recyclerViewBankOffer.adapter = bankAdapter
                         setFocusOnView(tvBankOfferTitleV2)
 
+                        if (bankOffersData.size <= 0) {
+                            textViewNoDataFound.visibility = View.VISIBLE
+                            llBankOfferParent.setBackgroundResource(R.drawable.v2_soft_offer_bg)
+                            llSoftOfferDialog.visibility = View.GONE
+                            linearLayoutCalculation.visibility = View.VISIBLE
+                            tvBankOfferTitleV2.visibility = View.GONE
+                            recyclerViewBankOffer.visibility = View.GONE
+
+                            setData()
+                            //  showToast("No Bank Offers found!")
+                            setFocusOnView(tvBankOfferTitleV2)
+                        }
+
                     } else {
 
                         textViewNoDataFound.visibility = View.VISIBLE
