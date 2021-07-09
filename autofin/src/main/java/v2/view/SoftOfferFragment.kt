@@ -158,8 +158,8 @@ class SoftOfferFragment : BaseFragment(), ActivityBackPressed {
         arguments?.let {
             val safeArgs = SoftOfferFragmentArgs.fromBundle(it)
             customerDetailsResponse = safeArgs.CustomerDetails
-            leadStatus = customerDetailsResponse!!.data!!.status
-            leadSubStatus = customerDetailsResponse!!.data!!.subStatus
+            leadStatus = customerDetailsResponse.data?.status
+            leadSubStatus = customerDetailsResponse.data?.subStatus
 
             caseID = customerDetailsResponse.data?.caseId.toString()
             //caseID = "0242210316000103"
@@ -260,8 +260,8 @@ class SoftOfferFragment : BaseFragment(), ActivityBackPressed {
 
                     loanAmount = rounded.toString()
                     if (rounded <= 10000) {
-                        tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + 10000
-                        loanAmount = "10000"
+                        tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + formatAmount("50000")
+                        loanAmount = "50000"
                     } else
                         tvLoanAmountVal.text =
                             resources.getString(R.string.rupees_symbol) + loanAmountVal
