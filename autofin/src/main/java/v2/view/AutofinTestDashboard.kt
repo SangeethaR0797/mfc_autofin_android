@@ -6,25 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.mfc.autofin.framework.R
+import v2.view.base.BaseFragment
 
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 
-class AutofinTestDashboard : Fragment() {
+class AutofinTestDashboard : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_autofin_test_dashboard, container, false)
+
+        val view = inflater.inflate(R.layout.fragment_autofin_test_dashboard, container, false)
+        showToast("Autofin")
+        return view
     }
 
     companion object {
