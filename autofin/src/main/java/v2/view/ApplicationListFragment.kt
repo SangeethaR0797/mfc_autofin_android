@@ -209,15 +209,15 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
     }
 
     fun callData() {
-        when {
-            screenType == ScreenTypeEnum.Search.value -> {
+        when (screenType) {
+            ScreenTypeEnum.Search.value -> {
                 ivSearch.visibility = View.GONE
                 tvTitle.text = "Search"
                 etSearch.requestFocus()
                 showKeyBoardByForced()
 
             }
-            screenType == ScreenTypeEnum.StausWithSearch.value -> {
+            ScreenTypeEnum.StausWithSearch.value -> {
                 ivSearch.visibility = View.GONE
                 tvTitle.text = screenStatus
                 callApplicationStatusWiseFilterAPI(null)
@@ -274,7 +274,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
     private fun startSearchApiCall() {
         if (!TextUtils.isEmpty(etSearch.text.toString())) {
             PAGE_NUMBER = 0
-            if (screenType.equals(ScreenTypeEnum.Search.value)) {
+            if (screenType == ScreenTypeEnum.Search.value) {
                 callSearchAPI()
             } else {
                 callApplicationStatusWiseFilterAPI(etSearch.text.toString())
@@ -367,20 +367,22 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun callApplicationStatusWiseFilterAPI(searchKey: String?) {
-        PAGE_NUMBER = PAGE_NUMBER + 1
+        PAGE_NUMBER += 1
         var url =
             Global.customerAPI_BaseURL + CommonStrings.APPLICATION_STATUS_WISE_FILTER_END_POINT
 
         if (selectedBankName != null) {
             url =
-                Global.customerAPI_BaseURL + CommonStrings.APPLICATION_BANK_WISE_FILTER_END_POINT
+                    Global.customerAPI_BaseURL + CommonStrings.APPLICATION_STATUS_WISE_FILTER_END_POINT
+          /*  url =
+                Global.customerAPI_BaseURL + CommonStrings.APPLICATION_BANK_WISE_FILTER_END_POINT*/
         }
         transactionViewModel.getApplicationList(
             ApplicationListRequest(
                 ApplicationListRequestData(
-                    searchKey,
+                        selectedBankName,
                     screenStatus?.replace("\\s".toRegex(), ""),
-                    selectedBankName,
+                    searchKey,
                     PAGE_NUMBER,
                     PER_PAGE
                 ), CommonStrings.DEALER_ID,
@@ -582,7 +584,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         rvBankList.layoutManager = layoutManager
 
         val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
-        if (ruleEngineBanksResponse.data != null && ruleEngineBanksResponse.data!!.size > 0) {
+        if (ruleEngineBanksResponse.data != null && ruleEngineBanksResponse.data!!.isNotEmpty()) {
 
             ruleEngineBanksResponse.data!!.forEachIndexed { index, bankItem ->
                 list.add(
@@ -631,11 +633,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
             run {
                 var previousSelectedValue = item.selected
 
-                if (selectedBankDisplayName.equals(item.displayValue)) {
-                    item.selected = true
-                } else {
-                    item.selected = false
-                }
+                item.selected = selectedBankDisplayName == item.displayValue
                 if (previousSelectedValue != item.selected) {
                     bankNameDataRecyclerViewAdapter!!.notifyItemChanged(index)
                 }

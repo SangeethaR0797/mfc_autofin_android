@@ -34,12 +34,12 @@ class DataRecyclerViewAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        if (resourceLayoutFile == 0) {
+        return if (resourceLayoutFile == 0) {
             val listItem = layoutInflater.inflate(R.layout.v2_data_item_layout, parent, false)
-            return MyViewHolder(listItem)
+            MyViewHolder(listItem)
         } else {
             val listItem = layoutInflater.inflate(resourceLayoutFile, parent, false)
-            return MyViewHolder(listItem)
+            MyViewHolder(listItem)
         }
     }
 
@@ -66,7 +66,7 @@ class DataRecyclerViewAdapter(
         holder.tvItem.setTextColor(mContext.resources.getColor(R.color.vtwo_light_grey))
         holder.tvItemSmall.setTextColor(mContext.resources.getColor(R.color.vtwo_light_grey))
 
-        if (dataListFilter!!.get(position).selected) {
+        if (dataListFilter!![position].selected) {
             if (selectedBackgroundResource > 0) {
                 holder.llMainLayout.setBackgroundResource(selectedBackgroundResource)
             } else {

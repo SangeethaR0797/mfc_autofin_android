@@ -2721,7 +2721,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
         dialogConfilctForAddLead!!.setContentView(R.layout.vtwo_layout_custom_dialog)
         val tvAlertDialogText =
             dialogConfilctForAddLead!!.findViewById(R.id.tvAlertDialogText) as TextView
-        tvAlertDialogText.setText(validateLeadDataRes.message)
+        tvAlertDialogText.text = validateLeadDataRes.message
         val btnNewFlow = dialogConfilctForAddLead!!.findViewById(R.id.btnStartNewFlowV2) as Button
         val btnOk = dialogConfilctForAddLead!!.findViewById(R.id.btnOk) as Button
         val btnContinueWithOldFlow =
