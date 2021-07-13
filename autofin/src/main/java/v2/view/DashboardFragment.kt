@@ -1066,7 +1066,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                     )
                 }
                 getString(R.string.v2_lead_status_lender_selected) -> {
-                    navigateToAddressAdditionalFields(selectedCustomerId, customerResponse)
+                    navigateToAddressAdditionalFields(selectedCustomerId, customerResponse,"")
                 }
                 getString(R.string.v2_lead_status_bank_form_filled) -> {
                     cust = customerResponse

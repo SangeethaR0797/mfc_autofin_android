@@ -23,7 +23,7 @@ class NotificationRecyclerViewAdapter(
     itemClick: itemClickCallBack?
 ) : RecyclerView.Adapter<NotificationRecyclerViewAdapter.MyViewHolder>(), Filterable {
 
-    public var dataListFilter: List<NotificationItemData>?
+    var dataListFilter: List<NotificationItemData>?
     private var itemCallBack: itemClickCallBack = itemClick!!
     private var mContext: Activity = context
 
@@ -41,8 +41,8 @@ class NotificationRecyclerViewAdapter(
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.tvItem.text = dataListFilter!![position].message!!.replace("  ", " ")!!.toString()
-        var desc = dataListFilter?.get(position)?.description!!.replace("  ", " ")!!.toString()
+        holder.tvItem.text = dataListFilter!![position].message!!.replace("  ", " ").toString()
+        var desc = dataListFilter?.get(position)?.description!!.replace("  ", " ").toString()
         holder.tvItemSmall.text = desc
 
 
@@ -59,27 +59,19 @@ class NotificationRecyclerViewAdapter(
             itemCallBack.itemClick(dataListFilter?.get(position), position)
         })*/
         holder.llMainLayout.setOnClickListener(View.OnClickListener {
-            if (dataListFilter?.get(position)!!.showMore == false || dataListFilter?.get(position)!!.showMore == null) {
-                dataListFilter?.get(position)!!.showMore = true
-            } else {
-                dataListFilter?.get(position)!!.showMore = false
-            }
+            dataListFilter?.get(position)!!.showMore = dataListFilter?.get(position)!!.showMore == false || dataListFilter?.get(position)!!.showMore == null
 
             itemCallBack.itemClick(dataListFilter?.get(position), position)
         })
         holder.tvShowMore.setOnClickListener(View.OnClickListener {
-            if (dataListFilter?.get(position)!!.showMore == false || dataListFilter?.get(position)!!.showMore == null) {
-                dataListFilter?.get(position)!!.showMore = true
-            } else {
-                dataListFilter?.get(position)!!.showMore = false
-            }
+            dataListFilter?.get(position)!!.showMore = dataListFilter?.get(position)!!.showMore == false || dataListFilter?.get(position)!!.showMore == null
 
             itemCallBack.itemClick(dataListFilter?.get(position), position)
         })
 
         holder.tvShowMore.post(Runnable {
             if (dataListFilter?.get(position)!!.visibilityOfShowMore == null) {
-                val l: Layout = holder.tvItemSmall.getLayout()
+                val l: Layout = holder.tvItemSmall.layout
                 if (l != null) {
                     val lines: Int = l.lineCount
                     if (lines > 0) {

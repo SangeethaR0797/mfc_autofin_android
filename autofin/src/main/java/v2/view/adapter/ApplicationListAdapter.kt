@@ -126,7 +126,7 @@ class ApplicationListAdapter(
 
         if (dataListFilter?.get(position)!!.bankLogoURL != null) {
             Picasso.get()
-                .load(dataListFilter!!.get(position)!!.bankLogoURL)
+                .load(dataListFilter!![position]!!.bankLogoURL)
                 .into(holder.tvBankIcon, object : Callback {
                     override fun onSuccess() {
                         holder.tvBankIcon.visibility = View.VISIBLE

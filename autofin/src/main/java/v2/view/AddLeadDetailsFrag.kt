@@ -261,7 +261,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        arguments?.let {
+            val safeArgs = AddLeadDetailsFragArgs.fromBundle(it)
+            addLeadRequest = safeArgs.addLeadRequestDetails
+            selectedCustomerIdForEdit = safeArgs.customerId
+            selectedCustomerMobileNumberForEdit = safeArgs.mobile
+        }
         masterViewModel = ViewModelProvider(this).get(
             MasterViewModel::class.java
         )
@@ -382,17 +387,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
             return rootView
         } else {
             rootView = inflater.inflate(R.layout.fragment_add_lead_details, container, false)
-            arguments?.let {
-                val safeArgs = AddLeadDetailsFragArgs.fromBundle(it)
-                addLeadRequest = safeArgs.addLeadRequestDetails
-                selectedCustomerIdForEdit = safeArgs.customerId
-                selectedCustomerMobileNumberForEdit = safeArgs.mobile
+
+
                 if (addLeadRequest.Data!!.basicDetails == null) {
                     var basicDetails = BasicDetails()
                     addLeadRequest.Data!!.basicDetails = basicDetails;
 
                 }
-            }
+
             initViews(rootView)
         }
 
@@ -1034,6 +1036,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
     fun callCustomerDetailsApi(customerIdValue: Int) {
         customerId = customerIdValue.toString()
+
         addEmploymentDetailsRequest = createAddEmploymentDetailsRequest(customerIdValue)
         addResidentDetailsRequest = createAddResidentDetailsRequest(customerIdValue)
         transactionViewModel.getCustomerDetails(
@@ -2283,7 +2286,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                     // Toast.makeText(activity, "OTP Validate", Toast.LENGTH_LONG).show()
                     basicDetails.CustomerMobile = etMobileNumberV2.text.toString()
                     displayNameLayout()
-
                     checkValidLead()
                 } else {
                     Toast.makeText(activity, "invalid Validate", Toast.LENGTH_LONG).show()
@@ -2738,6 +2740,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
         }
 
         btnContinueWithOldFlow.setOnClickListener {
+            customerId=validateLeadDataRes.oldCustomerId!!
             callCustomerDetailsApi(validateLeadDataRes.oldCustomerId!!.toInt())
             dialogConfilctForAddLead!!.dismiss()
         }
@@ -2837,23 +2840,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
                     if (customerDetailsResponse.data?.status == ApplicationStatusEnum.Registered.value || customerDetailsResponse.data?.status == ApplicationStatusEnum.KYC_Done.value) {
                         preFilledData(customerDetailsResponse)
-                    } else if (customerDetailsResponse.data?.status == ApplicationStatusEnum.Lender_Selected.value) {
-                        navigateToAddressAdditionalFields(
-                            selectedCustomerIdForEdit,
-                            customerDetailsResponse
-                        )
-                    } else if (customerDetailsResponse.data?.status == ApplicationStatusEnum.Bank_Form_Filled.value) {
-                        masterViewModel.getKYCDocumentResponse(Global.baseURL + CommonStrings.KYC_UPLOAD_URL_END_POINT + selectedCustomerIdForEdit)
-
-                    } else if (customerDetailsResponse.data?.status == ApplicationStatusEnum.Document_Uploaded.value) {
-                        navigateToBankOfferStatus(
-                            selectedCustomerMobileNumberForEdit.toString(),
-                            customerDetailsResponse,
-                            "ADD_LEAD"
-                        )
-
-                    } else if (customerDetailsResponse.data?.status == ApplicationStatusEnum.Submitted_To_Bank.value) {
-                        navigateToApplicationDetails(selectedCustomerIdForEdit)
+                    } else
+                    {
+                        navigateToNextScreen(customerDetailsResponse)
                     }
 
                 }
@@ -2868,6 +2857,33 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
             }
         }
 
+    }
+
+    private fun navigateToNextScreen(customerDetailsResponse: CustomerDetailsResponse) {
+        when (customerDetailsResponse.data?.status) {
+            ApplicationStatusEnum.Lender_Selected.value -> {
+                navigateToAddressAdditionalFields(
+                        customerId.toInt(),
+                        customerDetailsResponse,
+                        "AddLead"
+                )
+            }
+            ApplicationStatusEnum.Bank_Form_Filled.value -> {
+                masterViewModel.getKYCDocumentResponse(Global.baseURL + CommonStrings.KYC_UPLOAD_URL_END_POINT +  customerId.toInt())
+
+            }
+            ApplicationStatusEnum.Document_Uploaded.value -> {
+                navigateToBankOfferStatus(
+                        customerId,
+                        customerDetailsResponse,
+                        "ADD_LEAD"
+                )
+
+            }
+            ApplicationStatusEnum.Submitted_To_Bank.value -> {
+                navigateToApplicationDetails( customerId.toInt())
+            }
+        }
     }
 
 
@@ -2898,19 +2914,20 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                             customerId,
                             kycDocumentRes,
                             customerDetailsResponse.data?.caseId.toString(),
-                            customerDetailsResponse
+                            customerDetailsResponse,
+                                "ADD_LEAD"
                         )
                     else if (kycDocumentRes.data.groupedDoc.isEmpty() && kycDocumentRes.data.nonGroupedDoc.isEmpty())
                         navigateToBankOfferStatus(
                             customerId,
                             customerDetailsResponse,
-                            "AddressAdditionalFields"
+                            "ADD_LEAD"
                         )
                 } else {
                     navigateToBankOfferStatus(
                         customerId,
                         customerDetailsResponse,
-                        "AddressAdditionalFields"
+                        "ADD_LEAD"
                     )
                 }
 

@@ -110,7 +110,7 @@ class NoticeBoardAndNotificationFragment : BaseFragment(), View.OnClickListener 
 
         ivBack.setOnClickListener(this)
 
-        if (screenType.equals(ScreenTypeEnum.Notice_Board.value)) {
+        if (screenType == ScreenTypeEnum.Notice_Board.value) {
             noticeBoardViewModel.getNoticeBoardDetails(
                 CommonRequest(
                     0, CommonStrings.DEALER_ID,
@@ -118,7 +118,7 @@ class NoticeBoardAndNotificationFragment : BaseFragment(), View.OnClickListener 
                 ),
                 Global.customerAPI_BaseURL + CommonStrings.NOTICE_BOARD_DETAILS_END_POINT
             )
-        } else if (screenType.equals(ScreenTypeEnum.Notification.value)) {
+        } else if (screenType == ScreenTypeEnum.Notification.value) {
             noticeBoardViewModel.getNotificationsList(
                 CommonRequest(
                     0, CommonStrings.DEALER_ID,
@@ -176,7 +176,7 @@ class NoticeBoardAndNotificationFragment : BaseFragment(), View.OnClickListener 
                 }
 
                 override fun moreClick(item: Any?, position: Int) {
-                    var notice = item as NoticeData
+                    val notice = item as NoticeData
                     if (notice.isNew == true) {
                         noticeBoardViewModel.noticeBoardAction(
                             CommonRequest(
@@ -187,7 +187,7 @@ class NoticeBoardAndNotificationFragment : BaseFragment(), View.OnClickListener 
                         )
                         notice.isNew = false
                     }
-                    selectedCustomerId = notice!!.customerId!!
+                    selectedCustomerId = notice.customerId!!
 
 
                     noticeRecyclerViewAdapter.notifyItemChanged(position)
@@ -244,34 +244,34 @@ class NoticeBoardAndNotificationFragment : BaseFragment(), View.OnClickListener 
 
     private fun checkForNextScreenAfterCustomerResponse(customerResponse: CustomerDetailsResponse?) {
 
-        if ((customerResponse!!.data!!.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse!!.data!!.subStatus.equals(
+        if ((customerResponse!!.data!!.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse.data!!.subStatus.equals(
                 ApplicationStatusEnum.Registered.value
             )) ||
-            (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse!!.data!!.subStatus.equals(
+            (customerResponse.data!!.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse.data!!.subStatus.equals(
                 ApplicationStatusEnum.Employment_Details_Submitted.value
             )) ||
-            (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse.data!!.subStatus.equals(
+            (customerResponse.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse.data!!.subStatus.equals(
                 ApplicationStatusEnum.KYC_Done.value
             )) ||
-            (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse.data!!.subStatus.equals(
+            (customerResponse.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse.data!!.subStatus.equals(
                 ApplicationStatusEnum.Employment_Details_Submitted.value
             ))
 
         ) {
-            var addLeadRequest = AddLeadRequest()
-            var vehicleDetails = AddLeadVehicleDetails()
+            val addLeadRequest = AddLeadRequest()
+            val vehicleDetails = AddLeadVehicleDetails()
 
-            vehicleDetails!!.RegistrationYear =
+            vehicleDetails.RegistrationYear =
                 customerResponse.data!!.vehicleDetails!!.registrationYear
-            vehicleDetails!!.Make = customerResponse.data!!.vehicleDetails!!.make
-            vehicleDetails!!.Model = customerResponse.data!!.vehicleDetails!!.model
-            vehicleDetails!!.Variant = customerResponse.data!!.vehicleDetails!!.variant
-            vehicleDetails!!.Ownership = customerResponse.data!!.vehicleDetails!!.ownership
-            vehicleDetails!!.VehicleNumber = customerResponse.data!!.vehicleDetails!!.vehicleNumber
-            vehicleDetails!!.KMs = customerResponse.data!!.vehicleDetails!!.kMs
-            vehicleDetails!!.FuelType = customerResponse.data!!.vehicleDetails!!.fuelType
+            vehicleDetails.Make = customerResponse.data!!.vehicleDetails!!.make
+            vehicleDetails.Model = customerResponse.data!!.vehicleDetails!!.model
+            vehicleDetails.Variant = customerResponse.data!!.vehicleDetails!!.variant
+            vehicleDetails.Ownership = customerResponse.data!!.vehicleDetails!!.ownership
+            vehicleDetails.VehicleNumber = customerResponse.data!!.vehicleDetails!!.vehicleNumber
+            vehicleDetails.KMs = customerResponse.data!!.vehicleDetails!!.kMs
+            vehicleDetails.FuelType = customerResponse.data!!.vehicleDetails!!.fuelType
 
-            var basicDetails = BasicDetails()
+            val basicDetails = BasicDetails()
             basicDetails.FirstName =
                 customerResponse.data!!.basicDetails!!.firstName
             basicDetails.LastName =
@@ -283,10 +283,10 @@ class NoticeBoardAndNotificationFragment : BaseFragment(), View.OnClickListener 
             basicDetails.CustomerMobile =
                 customerResponse.data!!.basicDetails!!.customerMobile
 
-            var data = AddLeadData()
+            val data = AddLeadData()
 
-            data!!.addLeadVehicleDetails = vehicleDetails
-            data!!.basicDetails = basicDetails
+            data.addLeadVehicleDetails = vehicleDetails
+            data.basicDetails = basicDetails
             addLeadRequest.Data = data
             navigateToAddLeadFragment(
                 addLeadRequest,
@@ -303,7 +303,7 @@ class NoticeBoardAndNotificationFragment : BaseFragment(), View.OnClickListener 
                     )
                 }
                 getString(R.string.v2_lead_status_lender_selected) -> {
-                    navigateToAddressAdditionalFields(selectedCustomerId, customerResponse)
+                    navigateToAddressAdditionalFields(selectedCustomerId, customerResponse,"")
                 }
                 getString(R.string.v2_lead_status_bank_form_filled) -> {
                     cust = customerResponse
@@ -424,6 +424,7 @@ class NoticeBoardAndNotificationFragment : BaseFragment(), View.OnClickListener 
                 hideProgressDialog()
                 val customerResponse: CustomerDetailsResponse? =
                     mApiResponse.data as CustomerDetailsResponse?
+
                 checkForNextScreenAfterCustomerResponse(customerResponse)
 
 

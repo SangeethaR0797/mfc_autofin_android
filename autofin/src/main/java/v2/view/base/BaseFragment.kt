@@ -399,18 +399,36 @@ public open class BaseFragment : Fragment() {
         customerId: String,
         kycDocumentData: KYCDocumentResponse,
         caseID: String,
-        customerData: CustomerDetailsResponse
+        customerData: CustomerDetailsResponse,
+        fragmentTag: String
     ) {
-        val directions =
-            AddressAndAdditionalFieldsFragmentDirections.actionAddressAndAdditionalFieldsFragmentToDocumentUploadFragment(
-                customerId,
-                kycDocumentData,
-                caseID,
-                customerData
-            )
-        view.let {
-            it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
+        if(fragmentTag.isEmpty())
+        {
+            val directions =
+                    AddressAndAdditionalFieldsFragmentDirections.actionAddressAndAdditionalFieldsFragmentToDocumentUploadFragment(
+                            customerId,
+                            kycDocumentData,
+                            caseID,
+                            customerData
+                    )
+            view.let {
+                it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
+            }
         }
+        else
+        {
+            val directions =
+                    AddLeadDetailsFragDirections.actionAddLeadDetailsFragToDocumentUploadFragment(
+                            customerId,
+                            kycDocumentData,
+                            caseID,
+                            customerData
+                    )
+            view.let {
+                it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
+            }
+        }
+
     }
 
     public fun navigateToKYCDocumentUploadFromApplicationList(
@@ -433,15 +451,33 @@ public open class BaseFragment : Fragment() {
 
     public fun navigateToAddressAdditionalFields(
         custId: Int,
-        customerDetails: CustomerDetailsResponse
+        customerDetails: CustomerDetailsResponse,
+        fragmentTag:String
     ) {
-        val directions =
-            ApplicationListFragmentDirections.actionApplicationListFragmentToAddressAndAdditionalFieldsFragment2(
-                custId,
-                customerDetails
-            )
-        view.let {
-            it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
+        if(fragmentTag=="")
+        {
+            val directions =
+                    ApplicationListFragmentDirections.actionApplicationListFragmentToAddressAndAdditionalFieldsFragment2(
+                            custId,
+                            customerDetails
+                    )
+            view.let {
+                it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
+            }
+
+        }
+        else
+        {
+
+            val directions =
+                    AddLeadDetailsFragDirections.actionAddLeadDetailsFragToAddressAndAdditionalFieldsFragment(
+                            custId,
+                            customerDetails
+                    )
+            view.let {
+                it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
+            }
+
         }
 
     }

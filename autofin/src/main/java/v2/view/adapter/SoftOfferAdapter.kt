@@ -10,6 +10,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
 import org.w3c.dom.Text
 import v2.model.response.bank_offers.BankOffersData
 import v2.view.callBackInterface.itemClickCallBack
@@ -45,6 +47,17 @@ public class SoftOfferAdapter(var context:Activity, var list: List<BankOffersDat
         })
         holder.tvEMIValV2.text=context.resources.getString(R.string.rupees_symbol)+" "+bankData.emi
 
+        Picasso.get()
+                .load(list[position]?.bankLogoUrl)
+                .into(holder.ivBankName, object : Callback {
+                    override fun onSuccess() {
+                        holder.ivBankName.visibility = View.VISIBLE
+                    }
+
+                    override fun onError(ex: Exception) {
+                        holder.ivBankName.visibility = View.GONE
+                    }
+                })
     }
 
     override fun getItemCount(): Int {

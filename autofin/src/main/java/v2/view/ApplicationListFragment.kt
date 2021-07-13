@@ -254,7 +254,6 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 R.id.iv_start_search -> {
                     if (timerWait != null) {
                         timerWait!!.cancel();
-
                     }
                     startSearchApiCall()
 
@@ -549,7 +548,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                     )
                 }
                 ApplicationStatusEnum.Lender_Selected.value -> {
-                    navigateToAddressAdditionalFields(selectedCustomerId, customerResponse)
+                    navigateToAddressAdditionalFields(selectedCustomerId, customerResponse,"")
                 }
                 ApplicationStatusEnum.Bank_Form_Filled.value -> {
                     cust = customerResponse

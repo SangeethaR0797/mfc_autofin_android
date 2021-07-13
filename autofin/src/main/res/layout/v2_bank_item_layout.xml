@@ -31,7 +31,7 @@
             <ImageView
                 android:id="@+id/ivBankName"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/text_size_20dp"
                 android:layout_weight="0.6"
                 android:foregroundGravity="left"
                 tools:ignore="ContentDescription"

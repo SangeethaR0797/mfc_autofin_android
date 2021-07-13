@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
 import com.google.gson.Gson
 import com.mfc.autofin.framework.R
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.v2_add_new_address_layout.*
 import kotlinx.android.synthetic.main.v2_address_additional_fields_fragment.*
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
@@ -64,6 +65,7 @@ import kotlin.collections.HashMap
 public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickListener,
         KeyboardVisibilityEventListener, ActivityBackPressed {
 
+    lateinit var imageViewSelectedBankName:ImageView
     lateinit var linearLayoutAddNewCurrentAddress: LinearLayout
     lateinit var linearLayoutEditCurrentAddress: LinearLayout
     lateinit var linearLayoutAddNewPermanentAddress: LinearLayout
@@ -142,7 +144,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
     var editTextPermanentAddress3: EditText? = null
     var linearLayoutPermanentAddress3: LinearLayout? = null
-
+var custId:Int=0
     override fun onVisibilityChanged(isKeyBoardVisible: Boolean) {
         if (viewEmpty != null) {
             if (isKeyBoardVisible) {
@@ -263,7 +265,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         super.onCreate(savedInstanceState)
         arguments?.let {
             val safeArgs = AddressAndAdditionalFieldsFragmentArgs.fromBundle(it)
-            customerId = safeArgs.customerID.toString()
+            custId = safeArgs.customerID
             customerDetailsResponse = safeArgs.customerDetailsResponse
             caseID = customerDetailsResponse.data?.caseId.toString()
 
@@ -334,14 +336,10 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
     private fun initView(view: View) {
         setKeyBoardShowHideEvent(AddressAndAdditionalFieldsFragment@ this)
-        if(hasConnectivityNetwork()) {
-            transactionViewModel.getCustomerDetails(
-                    createCustomerDetailsRequest(customerId.toInt()),
-                    Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL
-            )
-        }
+
         viewEmpty = view.findViewById(R.id.view_empty)!!
         scrollViewPostOffer = view.findViewById(R.id.scrollViewPostOffer)
+        imageViewSelectedBankName=view.findViewById(R.id.imageViewSelectedBankName)
         linearLayoutAddNewCurrentAddress = view.findViewById(R.id.linearLayoutAddNewCurrentAddress)
         linearLayoutEditCurrentAddress = view.findViewById(R.id.linearLayoutEditCurrentAddress)
         linearLayoutAddNewPermanentAddress =
@@ -370,12 +368,34 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
         textViewSelectBankLabel.text =
                 "You have selected " + customerDetailsResponse.data?.loanDetails?.bankName
+        setBankLogo()
         ivBackFromAddressAndAdditionalFields.setOnClickListener(this)
         imageViewEditCurrentAddress.setOnClickListener(this)
         imageViewEditPermanentAddress.setOnClickListener(this)
         buttonMoveToNextPage.setOnClickListener(this)
 
+        if(hasConnectivityNetwork()) {
+            transactionViewModel.getCustomerDetails(
+                    createCustomerDetailsRequest(custId),
+                    Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL
+            )
+        }
+        initiateView()
+
     }
+
+    private fun setBankLogo() {
+        Picasso.get()
+                .load(customerDetailsResponse.data?.loanDetails?.bankLogoURL)
+                .into(imageViewSelectedBankName, object : com.squareup.picasso.Callback {
+                    override fun onSuccess() {
+                        imageViewSelectedBankName.visibility = View.VISIBLE
+                    }
+
+                    override fun onError(ex: Exception) {
+                        imageViewSelectedBankName.visibility = View.GONE
+                    }
+                })    }
 
     private fun initiateView() {
         if (customerDetailsResponse.data != null) {
@@ -387,9 +407,18 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                         customerDetailsResponse.data?.residentialDetails?.permanentAddress!!
                 isPermanentAddress =
                         customerDetailsResponse.data?.residentialDetails?.currentAddress?.isPermanent!!
-                showEditCurrentAddress()
+                 showEditCurrentAddress()
+
             } else {
-                showNewCurrentAddress()
+                if(linearLayoutAddNewCurrentAddress.childCount==0)
+                {
+                    showNewCurrentAddress()
+                }
+                else
+                {
+                    linearLayoutAddNewCurrentAddress.removeAllViews()
+                    showNewCurrentAddress()
+                }
             }
         }
 
@@ -397,131 +426,134 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
     private fun showNewCurrentAddress() {
 
-        val addressView: View = LayoutInflater.from(fragView.context)
-                .inflate(R.layout.v2_add_new_address_layout, linearLayoutAddNewCurrentAddress, false)
-        val textViewTypeOfAddress = addressView.findViewById<TextView>(R.id.textViewTypeOfAddress)
-        val editTextPinCode = addressView.findViewById<EditText>(R.id.editTextPinCode)
-        val buttonPinCodeCheck = addressView.findViewById<Button>(R.id.buttonPincodeCheck)
-        val textViewState = addressView.findViewById<TextView>(R.id.textViewState)
-        val textViewCity = addressView.findViewById<TextView>(R.id.textViewCity)
-        val textViewCityMovedInLbl = addressView.findViewById<TextView>(R.id.textViewCityMovedInLbl)
-        val linearLayoutCityMovedInYear =
-                addressView.findViewById<LinearLayout>(R.id.linearLayoutCityMovedInYear)
-        val editTextCityMovedInYear =
-                addressView.findViewById<EditText>(R.id.editTextCityMovedInYear)
+            val addressView: View = LayoutInflater.from(fragView.context)
+                    .inflate(R.layout.v2_add_new_address_layout, linearLayoutAddNewCurrentAddress, false)
+            val textViewTypeOfAddress = addressView.findViewById<TextView>(R.id.textViewTypeOfAddress)
+            val editTextPinCode = addressView.findViewById<EditText>(R.id.editTextPinCode)
+            val buttonPinCodeCheck = addressView.findViewById<Button>(R.id.buttonPincodeCheck)
+            val textViewState = addressView.findViewById<TextView>(R.id.textViewState)
+            val textViewCity = addressView.findViewById<TextView>(R.id.textViewCity)
+            val textViewCityMovedInLbl = addressView.findViewById<TextView>(R.id.textViewCityMovedInLbl)
+            val linearLayoutCityMovedInYear =
+                    addressView.findViewById<LinearLayout>(R.id.linearLayoutCityMovedInYear)
+            val editTextCityMovedInYear =
+                    addressView.findViewById<EditText>(R.id.editTextCityMovedInYear)
 
-        editTextCurrentAddress1 = addressView.findViewById<EditText>(R.id.editTextAddress1)
-        linearLayoutCurrentAddress1 =
-                addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress)
+            editTextCurrentAddress1 = addressView.findViewById<EditText>(R.id.editTextAddress1)
+            linearLayoutCurrentAddress1 =
+                    addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress)
 
-        editTextCurrentAddress2 = addressView.findViewById<EditText>(R.id.editTextAddress2)
-        linearLayoutCurrentAddress2 =
-                addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress2)
+            editTextCurrentAddress2 = addressView.findViewById<EditText>(R.id.editTextAddress2)
+            linearLayoutCurrentAddress2 =
+                    addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress2)
 
-        editTextCurrentAddress3 = addressView.findViewById<EditText>(R.id.editTextAddress3)
-        linearLayoutCurrentAddress3 =
-                addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress3)
+            editTextCurrentAddress3 = addressView.findViewById<EditText>(R.id.editTextAddress3)
+            linearLayoutCurrentAddress3 =
+                    addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress3)
 
-        editTextCurrentAddress1!!.onFocusChangeListener =
-                View.OnFocusChangeListener { view, hasFocus ->
-                    if (hasFocus) {
-                        viewEmpty.visibility = View.GONE
-                        checkForFocusAndScroll(editTextCurrentAddress1!!)
-                    }
-                }
-        editTextCurrentAddress2!!.onFocusChangeListener =
-                View.OnFocusChangeListener { view, hasFocus ->
-                    if (hasFocus) {
-                        viewEmpty.visibility = View.GONE
-                        checkForFocusAndScroll(editTextCurrentAddress2!!)
-
-                    }
-                }
-        editTextCurrentAddress3!!.onFocusChangeListener =
-                View.OnFocusChangeListener { view, hasFocus ->
-                    if (hasFocus) {
-                        viewEmpty.visibility = View.GONE
-                        checkForFocusAndScroll(editTextCurrentAddress3!!)
-                    }
-                }
-
-        val checkboxIsPermanentAdd = addressView.findViewById<CheckBox>(R.id.checkboxIsPermanentAdd)
-
-        val buttonSubmitAddress = addressView.findViewById<Button>(R.id.buttonSubmitAddress)
-
-        textViewTypeOfAddress.text = resources.getString(R.string.v2_current_address)
-        setFocusOnView(textViewTypeOfAddress)
-
-        typeOfAddress = resources.getString(R.string.v2_current_address)
-
-        checkboxIsPermanentAdd.visibility = View.VISIBLE
-        isPermanentAddress = checkboxIsPermanentAdd.isChecked
-
-        editTextPinCode.setText(pincode)
-        textViewState.text = state
-        textViewCity.text = city
-
-        linearLayoutCityMovedInYear.setOnClickListener(View.OnClickListener {
-            val lastSelectedDate = ""
-
-            callDatePickerDialog(
-                    lastSelectedDate,
-                    null,
-                    getTodayDate(),
-                    object : DatePickerCallBack {
-                        override fun dateSelected(dateDisplayValue: String, dateValue: String) {
-                            editTextCityMovedInYear.setText(dateDisplayValue)
-                            cityMovedInYear = dateValue
+            editTextCurrentAddress1!!.onFocusChangeListener =
+                    View.OnFocusChangeListener { view, hasFocus ->
+                        if (hasFocus) {
+                            viewEmpty.visibility = View.GONE
+                            checkForFocusAndScroll(editTextCurrentAddress1!!)
                         }
-                    })
-        })
+                    }
+            editTextCurrentAddress2!!.onFocusChangeListener =
+                    View.OnFocusChangeListener { view, hasFocus ->
+                        if (hasFocus) {
+                            viewEmpty.visibility = View.GONE
+                            checkForFocusAndScroll(editTextCurrentAddress2!!)
 
-        checkboxIsPermanentAdd.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                checkboxIsPermanentAdd.isChecked = isChecked
-                isPermanentAddress = true
-            } else {
-                checkboxIsPermanentAdd.isChecked = isChecked
-                isPermanentAddress = false
+                        }
+                    }
+            editTextCurrentAddress3!!.onFocusChangeListener =
+                    View.OnFocusChangeListener { view, hasFocus ->
+                        if (hasFocus) {
+                            viewEmpty.visibility = View.GONE
+                            checkForFocusAndScroll(editTextCurrentAddress3!!)
+                        }
+                    }
 
-            }
+            val checkboxIsPermanentAdd = addressView.findViewById<CheckBox>(R.id.checkboxIsPermanentAdd)
 
-        }
-        buttonPinCodeCheck.setOnClickListener(View.OnClickListener {
-            if (editTextPinCode.text.toString()
-                            .isNotEmpty() && editTextPinCode.text.toString().length == 6
-            ) {
-                if (hasConnectivityNetwork()) {
-                    masterViewModel.getPinCodeData(Global.customerDetails_BaseURL + "Pincode/city/" + editTextPinCode.text.toString())
-                }
-            } else
-                showToast("Please enter valid PinCode")
-        })
+            val buttonSubmitAddress = addressView.findViewById<Button>(R.id.buttonSubmitAddress)
 
-        buttonSubmitAddress.setOnClickListener(View.OnClickListener {
-            if (editTextPinCode.text.toString().isNotEmpty() &&
-                    textViewState.text.toString().isNotEmpty() &&
-                    textViewCity.text.toString().isNotEmpty() &&
-                    editTextCurrentAddress1!!.text.toString().isNotEmpty() &&
-                    editTextCurrentAddress2!!.text.toString().isNotEmpty() &&
-                    editTextCurrentAddress3!!.text.toString().isNotEmpty()
-            ) {
+            textViewTypeOfAddress.text = resources.getString(R.string.v2_current_address)
+            setFocusOnView(textViewTypeOfAddress)
 
-                if (linearLayoutCityMovedInYear.visibility == View.VISIBLE && cityMovedInYear.isEmpty()) {
-                    showToast("Please select city moved in year")
+            typeOfAddress = resources.getString(R.string.v2_current_address)
+
+            checkboxIsPermanentAdd.visibility = View.VISIBLE
+            isPermanentAddress = checkboxIsPermanentAdd.isChecked
+
+            editTextPinCode.setText(pincode)
+            textViewState.text = state
+            textViewCity.text = city
+
+            linearLayoutCityMovedInYear.setOnClickListener(View.OnClickListener {
+                val lastSelectedDate = ""
+
+                callDatePickerDialog(
+                        lastSelectedDate,
+                        null,
+                        getTodayDate(),
+                        object : DatePickerCallBack {
+                            override fun dateSelected(dateDisplayValue: String, dateValue: String) {
+                                editTextCityMovedInYear.setText(dateDisplayValue)
+                                cityMovedInYear = dateValue
+                            }
+                        })
+            })
+
+            checkboxIsPermanentAdd.setOnCheckedChangeListener { buttonView, isChecked ->
+                if (isChecked) {
+                    checkboxIsPermanentAdd.isChecked = isChecked
+                    isPermanentAddress = true
                 } else {
-                    address1 = editTextCurrentAddress1!!.text.toString()
-                    address2 = editTextCurrentAddress2!!.text.toString()
-                    address3 = editTextCurrentAddress3!!.text.toString()
-                    address = "$address1**$address2**$address3"
-                    submitCurrentAddress()
-                }
-            } else {
-                showToast("Please enter all Fields")
-            }
-        })
+                    checkboxIsPermanentAdd.isChecked = isChecked
+                    isPermanentAddress = false
+                    permanentAddress= PermanentAddress("","")
+                    permanentAddressResponse=v2.model.response.PermanentAddress("","","","","","")
 
-        linearLayoutAddNewCurrentAddress.addView(addressView)
+                }
+
+            }
+            buttonPinCodeCheck.setOnClickListener(View.OnClickListener {
+                if (editTextPinCode.text.toString()
+                                .isNotEmpty() && editTextPinCode.text.toString().length == 6
+                ) {
+                    if (hasConnectivityNetwork()) {
+                        masterViewModel.getPinCodeData(Global.customerDetails_BaseURL + "Pincode/city/" + editTextPinCode.text.toString())
+                    }
+                } else
+                    showToast("Please enter valid PinCode")
+            })
+
+            buttonSubmitAddress.setOnClickListener(View.OnClickListener {
+                if (editTextPinCode.text.toString().isNotEmpty() &&
+                        textViewState.text.toString().isNotEmpty() &&
+                        textViewCity.text.toString().isNotEmpty() &&
+                        editTextCurrentAddress1!!.text.toString().isNotEmpty() &&
+                        editTextCurrentAddress2!!.text.toString().isNotEmpty() &&
+                        editTextCurrentAddress3!!.text.toString().isNotEmpty()
+                ) {
+
+                    if (linearLayoutCityMovedInYear.visibility == View.VISIBLE && cityMovedInYear.isEmpty()) {
+                        showToast("Please select city moved in year")
+                    } else {
+                        address1 = editTextCurrentAddress1!!.text.toString()
+                        address2 = editTextCurrentAddress2!!.text.toString()
+                        address3 = editTextCurrentAddress3!!.text.toString()
+                        address = "$address1**$address2**$address3"
+                        submitCurrentAddress()
+                    }
+                } else {
+                    showToast("Please enter all Fields")
+                }
+            })
+
+            linearLayoutAddNewCurrentAddress.addView(addressView)
+
     }
 
     private fun showEditCurrentAddress() {
@@ -695,7 +727,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
             permanentAddress = PermanentAddress(pincode, address)
             val addressData =
-                    AddressData(customerId.toInt(), currentAddress, permanentAddress, cityMovedInYear)
+                    AddressData(custId, currentAddress, permanentAddress, cityMovedInYear)
             val updateAddressRequest =
                     UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, addressData)
 
@@ -731,7 +763,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
         permanentAddress = PermanentAddress(pincode, address)
         val addressData =
-                AddressData(customerId.toInt(), currentAddress, permanentAddress, cityMovedInYear)
+                AddressData(custId, currentAddress, permanentAddress, cityMovedInYear)
         val updateAddressRequest =
                 UpdateAddressRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, addressData)
         if (hasConnectivityNetwork()) {
@@ -751,7 +783,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
             if (hasConnectivityNetwork()) {
                 transactionViewModel.getAdditionalFieldsData(
                         CustomerRequest(
-                                ResetCustomerJourneyDataRequest(customerId),
+                                ResetCustomerJourneyDataRequest(custId.toString()),
                                 CommonStrings.USER_TYPE,
                                 CommonStrings.USER_TYPE
                         ), Global.baseURL + CommonStrings.ADDITIONAL_FIELDS_URL
@@ -976,7 +1008,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                 val submitAdditionalFieldRes: CommonResponse = mApiResponse.data as CommonResponse
                 if (submitAdditionalFieldRes.statusCode == "100") {
                     if (hasConnectivityNetwork()) {
-                        masterViewModel.getKYCDocumentResponse(Global.baseURL + CommonStrings.KYC_UPLOAD_URL_END_POINT + customerId)
+                        masterViewModel.getKYCDocumentResponse(Global.baseURL + CommonStrings.KYC_UPLOAD_URL_END_POINT + custId)
                     }
                 } else {
                     if (submitAdditionalFieldRes.message != null)
@@ -1007,20 +1039,21 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                 if (kycDocumentRes.statusCode == "100") {
                     if (kycDocumentRes.data.groupedDoc.isNotEmpty() || kycDocumentRes.data.nonGroupedDoc.isNotEmpty())
                         navigateToKYCDocumentUpload(
-                                customerId,
+                                custId.toString(),
                                 kycDocumentRes,
                                 caseID,
-                                customerDetailsResponse
+                                customerDetailsResponse,
+                                ""
                         )
                     else if (kycDocumentRes.data.groupedDoc.isEmpty() && kycDocumentRes.data.nonGroupedDoc.isEmpty())
                         navigateToBankOfferStatus(
-                                customerId,
+                                custId.toString(),
                                 customerDetailsResponse,
                                 "AddressAdditionalFields"
                         )
                 } else {
                     navigateToBankOfferStatus(
-                            customerId,
+                            custId.toString(),
                             customerDetailsResponse,
                             "AddressAdditionalFields"
                     )
@@ -1984,7 +2017,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         val fieldList: ArrayList<FieldDetails> =
                 ArrayList<FieldDetails>(submitAdditionalFieldsList.values)
 
-        val fieldDataRequest = FieldData(customerId.toInt(), fieldList)
+        val fieldDataRequest = FieldData(custId, fieldList)
         val submitAdditionalFieldsRequest = SubmitAdditionalFieldRequest(
                 CommonStrings.DEALER_ID,
                 CommonStrings.USER_TYPE,
@@ -2162,7 +2195,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                         else
                         {
                             navigateToBankOfferStatus(
-                                    customerId,
+                                    custId.toString(),
                                     customerDetailsResponse,
                                     "AddressAdditionalFields"
                             )
@@ -2178,7 +2211,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                             else
                             {
                                 navigateToBankOfferStatus(
-                                        customerId,
+                                        custId.toString(),
                                         customerDetailsResponse,
                                         "AddressAdditionalFields"
                                 )

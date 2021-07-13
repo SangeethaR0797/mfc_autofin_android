@@ -434,7 +434,7 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     )
                 }
                 getString(R.string.v2_lead_status_lender_selected) -> {
-                    navigateToAddressAdditionalFields(customerId.toInt(), customerResponse!!)
+                    navigateToAddressAdditionalFields(customerId.toInt(), customerResponse!!,"")
                 }
                 getString(R.string.v2_lead_status_bank_form_filled) -> {
                     cust = customerResponse!!

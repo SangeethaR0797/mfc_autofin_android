@@ -1,6 +1,7 @@
 package v2.model.response
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 import v2.model.response.master.EquifaxData
 
@@ -65,13 +66,18 @@ data class EmploymentDetails(
 
 @Parcelize
 data class LoanDetails(
-        var bankName: String?,
-        var emi: String?,
-        var loanAmount: String?,
-        var loanCategory: String?,
-        var roi: String?,
-        var processingFees: String?,
-        var tenure: String?
+
+        @SerializedName("loanCategory") var loanCategory : String,
+        @SerializedName("bankName") var bankName : String,
+        @SerializedName("loanAmount") var loanAmount : String,
+        @SerializedName("emi") var emi : String,
+        @SerializedName("roi") var roi : String,
+        @SerializedName("tenure") var tenure : String,
+        @SerializedName("loanApplicationNumber") var loanApplicationNumber : String,
+        @SerializedName("bankLogoURL") var bankLogoURL : String,
+        @SerializedName("processingFees") var processingFees : String
+
+
 ) : Parcelable
 
 @Parcelize
