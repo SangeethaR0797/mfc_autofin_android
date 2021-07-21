@@ -112,7 +112,6 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
                         navigateVehBasicDetailsActivity(CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE)
                     }
                     //navToSoftOffer()
-
                 }
 
             }

@@ -286,7 +286,7 @@ public open class BaseFragment : Fragment() {
     public fun navigateToAddOrUpdateVehicleDetails(addLeadRequest: AddLeadRequest) {
         val directions =
             VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(
-                addLeadRequest!!
+                addLeadRequest
             )
         view?.let {
             Navigation.findNavController(it).navigate(directions)
