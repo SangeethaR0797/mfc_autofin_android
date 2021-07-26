@@ -34,22 +34,12 @@ import v2.view.callBackInterface.itemClickCallBack
 import v2.view.utility_view.GridItemDecoration
 import java.util.*
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AddOrUpdateVehicleDetailsMakeFrag.newInstance] factory method to
- * create an instance of this fragment.
- */
-@SuppressLint("ResourceAsColor")
-class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibilityEventListener {
+public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibilityEventListener {
 
 
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     lateinit var ivBack: ImageView
@@ -86,17 +76,6 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibilityEven
     lateinit var masterViewModel: MasterViewModel
 
     lateinit var addLeadRequest: AddLeadRequest
-
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AddOrUpdateVehicleDetailsMakeFrag().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 
     //region KeyBoardVisible
     override fun onVisibilityChanged(isKeyBoardVisible: Boolean) {
@@ -151,7 +130,7 @@ class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibilityEven
         masterViewModel = ViewModelProvider(this@AddOrUpdateVehicleDetailsMakeFrag).get(
             MasterViewModel::class.java
         )
-        masterViewModel!!.getKmsDrivenLiveData()
+        masterViewModel.getKmsDrivenLiveData()
             .observe(this@AddOrUpdateVehicleDetailsMakeFrag, { mApiResponse: ApiResponse? ->
                 onKmsDrivenResponse(
                     mApiResponse!!

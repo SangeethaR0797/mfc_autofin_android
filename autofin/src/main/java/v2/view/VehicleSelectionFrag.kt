@@ -112,7 +112,6 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
                         navigateVehBasicDetailsActivity(CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE)
                     }
                     //navToSoftOffer()
-
                 }
 
             }
@@ -179,6 +178,7 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
             var addLeadRequest: AddLeadRequest? =
                 data?.getParcelableExtra(CommonStrings.VEHICLE_DATA)
             if (addLeadRequest != null) {
+                requireActivity().finish()
                 navigateToAddOrUpdateVehicleDetails(addLeadRequest)
             }
         }

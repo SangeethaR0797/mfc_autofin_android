@@ -288,14 +288,14 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack , Connect
                 mSelectedVariant = value
                 //Call Back Result
 
-                var vehicleAddUpdateDTO = AddLeadRequest()
-                var vehicleDetails = AddLeadVehicleDetails()
+                val vehicleAddUpdateDTO = AddLeadRequest()
+                val vehicleDetails = AddLeadVehicleDetails()
 
                 vehicleDetails!!.RegistrationYear = mSelectedYear.toInt()
                 vehicleDetails!!.Make = mSelectedMake
                 vehicleDetails!!.Model = mSelectedModel
                 vehicleDetails!!.Variant = mSelectedVariant
-                var data = AddLeadData()
+                val data = AddLeadData()
 
                 data!!.addLeadVehicleDetails = vehicleDetails
                 vehicleAddUpdateDTO.Data = data
