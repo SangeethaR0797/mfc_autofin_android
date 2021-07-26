@@ -409,25 +409,49 @@ class SoftOfferFragment : BaseFragment(), ActivityBackPressed {
 
                         enableCalculatorLayout()
                         setData()
-                        val bankOffersData: List<BankOffersData>? =
-                            bankOfferRes?.data as List<BankOffersData>
+
+                        // val bankOffersData: List<BankOffersData>? = bankOfferRes?.data as List<BankOffersData>
+
+                        val bankOffersData = arrayListOf<BankOffersData>()
+                        bankOfferRes.data!!.forEachIndexed { index, bank ->
+                            //if (bank.bankName == "Bajaj Finser" || bank.bankName == "Bajaj Finserv")
+                            if (bank.bankName == "HDFC Bank") // , "ICICI Bank" , "Bajaj Finser"
+                            {
+                                bankOffersData.add(bank)
+                            }
+                        }
+
 
                         tvBankOfferTitleV2.text =
-                            resources.getString(R.string.v2_bank_offers) + " " + bankOfferRes?.data?.size
+                                resources.getString(R.string.v2_bank_offers) + " " + bankOfferRes?.data?.size
                         bankAdapter = SoftOfferAdapter(
-                            activity as Activity,
-                            bankOffersData!!,
-                            object : itemClickCallBack {
-                                override fun itemClick(item: Any?, position: Int) {
-                                    callSetRecommendedBank(item)
-                                }
-
-                            })
+                                activity as Activity,
+                                bankOffersData,
+                                object : itemClickCallBack {
+                                    override fun itemClick(item: Any?, position: Int) {
+                                        callSetRecommendedBank(item)
+                                    }
+                                })
                         val layoutManager = LinearLayoutManager(activity)
                         recyclerViewBankOffer.layoutManager = layoutManager
 
                         this.recyclerViewBankOffer.adapter = bankAdapter
                         setFocusOnView(tvBankOfferTitleV2)
+
+                        if (bankOffersData.size <= 0) {
+                            textViewNoDataFound.visibility = View.VISIBLE
+                            llBankOfferParent.setBackgroundResource(R.drawable.v2_soft_offer_bg)
+                            llSoftOfferDialog.visibility = View.GONE
+                            linearLayoutCalculation.visibility = View.VISIBLE
+                            tvBankOfferTitleV2.visibility = View.GONE
+                            recyclerViewBankOffer.visibility = View.GONE
+
+                            setData()
+                            //  showToast("No Bank Offers found!")
+                            setFocusOnView(tvBankOfferTitleV2)
+                        }
+
+
                     } else {
 
                         textViewNoDataFound.visibility = View.VISIBLE
