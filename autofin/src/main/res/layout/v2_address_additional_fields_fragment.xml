@@ -503,11 +503,7 @@
 
 
                     <!--endregion Additional-->
-                    <View
-                        android:id="@+id/view_empty"
-                        android:layout_width="match_parent"
-                        android:layout_height="250dp"
-                       />
+
                     <Button
                         android:id="@+id/buttonMoveToNextPage"
                         android:layout_width="wrap_content"
@@ -525,6 +521,11 @@
                         android:background="@drawable/vtwo_next_btn_bg"
                         android:layout_marginTop="@dimen/text_size_15dp"
                         android:layout_marginBottom="38dp"
+                        />
+                    <View
+                        android:id="@+id/view_empty"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
                         />
                 </LinearLayout>
             </ScrollView>

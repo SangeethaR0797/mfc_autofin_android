@@ -16,6 +16,8 @@ import android.view.inputmethod.EditorInfo
 import android.widget.*
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.get
+import androidx.core.view.size
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
@@ -65,7 +67,8 @@ import kotlin.collections.HashMap
 public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickListener,
         KeyboardVisibilityEventListener, ActivityBackPressed {
 
-    lateinit var imageViewSelectedBankName:ImageView
+    private var isEditFlow: Boolean = false
+    lateinit var imageViewSelectedBankName: ImageView
     lateinit var linearLayoutAddNewCurrentAddress: LinearLayout
     lateinit var linearLayoutEditCurrentAddress: LinearLayout
     lateinit var linearLayoutAddNewPermanentAddress: LinearLayout
@@ -144,7 +147,8 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
     var editTextPermanentAddress3: EditText? = null
     var linearLayoutPermanentAddress3: LinearLayout? = null
-var custId:Int=0
+    var custId: Int = 0
+
     override fun onVisibilityChanged(isKeyBoardVisible: Boolean) {
         if (viewEmpty != null) {
             if (isKeyBoardVisible) {
@@ -244,6 +248,22 @@ var custId:Int=0
         }
     }
 
+    fun scrollToAdditionalFieldsBottom() {
+        scrollViewPostOffer.post {
+            // scrollView1.fullScroll(View.FOCUS_DOWN)
+            scrollViewPostOffer.scrollTo(0, linearLayoutAdditionalFieldsUILayout.bottom);
+        }
+    }
+
+    fun scrollToAdditionalFieldsBottom(nextView: View?) {
+        if (nextView != null) {
+            scrollViewPostOffer.post {
+                // scrollView1.fullScroll(View.FOCUS_DOWN)
+                scrollViewPostOffer.scrollTo(0, nextView.bottom);
+            }
+        }
+    }
+
     private fun scrollToRow(
             linearLayout: LinearLayout,
             textViewToShow: EditText
@@ -339,7 +359,7 @@ var custId:Int=0
 
         viewEmpty = view.findViewById(R.id.view_empty)!!
         scrollViewPostOffer = view.findViewById(R.id.scrollViewPostOffer)
-        imageViewSelectedBankName=view.findViewById(R.id.imageViewSelectedBankName)
+        imageViewSelectedBankName = view.findViewById(R.id.imageViewSelectedBankName)
         linearLayoutAddNewCurrentAddress = view.findViewById(R.id.linearLayoutAddNewCurrentAddress)
         linearLayoutEditCurrentAddress = view.findViewById(R.id.linearLayoutEditCurrentAddress)
         linearLayoutAddNewPermanentAddress =
@@ -374,7 +394,7 @@ var custId:Int=0
         imageViewEditPermanentAddress.setOnClickListener(this)
         buttonMoveToNextPage.setOnClickListener(this)
 
-        if(hasConnectivityNetwork()) {
+        if (hasConnectivityNetwork()) {
             transactionViewModel.getCustomerDetails(
                     createCustomerDetailsRequest(custId),
                     Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL
@@ -395,7 +415,8 @@ var custId:Int=0
                     override fun onError(ex: Exception) {
                         imageViewSelectedBankName.visibility = View.GONE
                     }
-                })    }
+                })
+    }
 
     private fun initiateView() {
         if (customerDetailsResponse.data != null) {
@@ -407,15 +428,12 @@ var custId:Int=0
                         customerDetailsResponse.data?.residentialDetails?.permanentAddress!!
                 isPermanentAddress =
                         customerDetailsResponse.data?.residentialDetails?.currentAddress?.isPermanent!!
-                 showEditCurrentAddress()
+                showEditCurrentAddress()
 
             } else {
-                if(linearLayoutAddNewCurrentAddress.childCount==0)
-                {
+                if (linearLayoutAddNewCurrentAddress.childCount == 0) {
                     showNewCurrentAddress()
-                }
-                else
-                {
+                } else {
                     linearLayoutAddNewCurrentAddress.removeAllViews()
                     showNewCurrentAddress()
                 }
@@ -426,133 +444,133 @@ var custId:Int=0
 
     private fun showNewCurrentAddress() {
 
-            val addressView: View = LayoutInflater.from(fragView.context)
-                    .inflate(R.layout.v2_add_new_address_layout, linearLayoutAddNewCurrentAddress, false)
-            val textViewTypeOfAddress = addressView.findViewById<TextView>(R.id.textViewTypeOfAddress)
-            val editTextPinCode = addressView.findViewById<EditText>(R.id.editTextPinCode)
-            val buttonPinCodeCheck = addressView.findViewById<Button>(R.id.buttonPincodeCheck)
-            val textViewState = addressView.findViewById<TextView>(R.id.textViewState)
-            val textViewCity = addressView.findViewById<TextView>(R.id.textViewCity)
-            val textViewCityMovedInLbl = addressView.findViewById<TextView>(R.id.textViewCityMovedInLbl)
-            val linearLayoutCityMovedInYear =
-                    addressView.findViewById<LinearLayout>(R.id.linearLayoutCityMovedInYear)
-            val editTextCityMovedInYear =
-                    addressView.findViewById<EditText>(R.id.editTextCityMovedInYear)
+        val addressView: View = LayoutInflater.from(fragView.context)
+                .inflate(R.layout.v2_add_new_address_layout, linearLayoutAddNewCurrentAddress, false)
+        val textViewTypeOfAddress = addressView.findViewById<TextView>(R.id.textViewTypeOfAddress)
+        val editTextPinCode = addressView.findViewById<EditText>(R.id.editTextPinCode)
+        val buttonPinCodeCheck = addressView.findViewById<Button>(R.id.buttonPincodeCheck)
+        val textViewState = addressView.findViewById<TextView>(R.id.textViewState)
+        val textViewCity = addressView.findViewById<TextView>(R.id.textViewCity)
+        val textViewCityMovedInLbl = addressView.findViewById<TextView>(R.id.textViewCityMovedInLbl)
+        val linearLayoutCityMovedInYear =
+                addressView.findViewById<LinearLayout>(R.id.linearLayoutCityMovedInYear)
+        val editTextCityMovedInYear =
+                addressView.findViewById<EditText>(R.id.editTextCityMovedInYear)
 
-            editTextCurrentAddress1 = addressView.findViewById<EditText>(R.id.editTextAddress1)
-            linearLayoutCurrentAddress1 =
-                    addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress)
+        editTextCurrentAddress1 = addressView.findViewById<EditText>(R.id.editTextAddress1)
+        linearLayoutCurrentAddress1 =
+                addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress)
 
-            editTextCurrentAddress2 = addressView.findViewById<EditText>(R.id.editTextAddress2)
-            linearLayoutCurrentAddress2 =
-                    addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress2)
+        editTextCurrentAddress2 = addressView.findViewById<EditText>(R.id.editTextAddress2)
+        linearLayoutCurrentAddress2 =
+                addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress2)
 
-            editTextCurrentAddress3 = addressView.findViewById<EditText>(R.id.editTextAddress3)
-            linearLayoutCurrentAddress3 =
-                    addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress3)
+        editTextCurrentAddress3 = addressView.findViewById<EditText>(R.id.editTextAddress3)
+        linearLayoutCurrentAddress3 =
+                addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress3)
 
-            editTextCurrentAddress1!!.onFocusChangeListener =
-                    View.OnFocusChangeListener { view, hasFocus ->
-                        if (hasFocus) {
-                            viewEmpty.visibility = View.GONE
-                            checkForFocusAndScroll(editTextCurrentAddress1!!)
-                        }
+        editTextCurrentAddress1!!.onFocusChangeListener =
+                View.OnFocusChangeListener { view, hasFocus ->
+                    if (hasFocus) {
+                        viewEmpty.visibility = View.GONE
+                        checkForFocusAndScroll(editTextCurrentAddress1!!)
                     }
-            editTextCurrentAddress2!!.onFocusChangeListener =
-                    View.OnFocusChangeListener { view, hasFocus ->
-                        if (hasFocus) {
-                            viewEmpty.visibility = View.GONE
-                            checkForFocusAndScroll(editTextCurrentAddress2!!)
-
-                        }
-                    }
-            editTextCurrentAddress3!!.onFocusChangeListener =
-                    View.OnFocusChangeListener { view, hasFocus ->
-                        if (hasFocus) {
-                            viewEmpty.visibility = View.GONE
-                            checkForFocusAndScroll(editTextCurrentAddress3!!)
-                        }
-                    }
-
-            val checkboxIsPermanentAdd = addressView.findViewById<CheckBox>(R.id.checkboxIsPermanentAdd)
-
-            val buttonSubmitAddress = addressView.findViewById<Button>(R.id.buttonSubmitAddress)
-
-            textViewTypeOfAddress.text = resources.getString(R.string.v2_current_address)
-            setFocusOnView(textViewTypeOfAddress)
-
-            typeOfAddress = resources.getString(R.string.v2_current_address)
-
-            checkboxIsPermanentAdd.visibility = View.VISIBLE
-            isPermanentAddress = checkboxIsPermanentAdd.isChecked
-
-            editTextPinCode.setText(pincode)
-            textViewState.text = state
-            textViewCity.text = city
-
-            linearLayoutCityMovedInYear.setOnClickListener(View.OnClickListener {
-                val lastSelectedDate = ""
-
-                callDatePickerDialog(
-                        lastSelectedDate,
-                        null,
-                        getTodayDate(),
-                        object : DatePickerCallBack {
-                            override fun dateSelected(dateDisplayValue: String, dateValue: String) {
-                                editTextCityMovedInYear.setText(dateDisplayValue)
-                                cityMovedInYear = dateValue
-                            }
-                        })
-            })
-
-            checkboxIsPermanentAdd.setOnCheckedChangeListener { buttonView, isChecked ->
-                if (isChecked) {
-                    checkboxIsPermanentAdd.isChecked = isChecked
-                    isPermanentAddress = true
-                } else {
-                    checkboxIsPermanentAdd.isChecked = isChecked
-                    isPermanentAddress = false
-                    permanentAddress= PermanentAddress("","")
-                    permanentAddressResponse=v2.model.response.PermanentAddress("","","","","","")
-
                 }
+        editTextCurrentAddress2!!.onFocusChangeListener =
+                View.OnFocusChangeListener { view, hasFocus ->
+                    if (hasFocus) {
+                        viewEmpty.visibility = View.GONE
+                        checkForFocusAndScroll(editTextCurrentAddress2!!)
+
+                    }
+                }
+        editTextCurrentAddress3!!.onFocusChangeListener =
+                View.OnFocusChangeListener { view, hasFocus ->
+                    if (hasFocus) {
+                        viewEmpty.visibility = View.GONE
+                        checkForFocusAndScroll(editTextCurrentAddress3!!)
+                    }
+                }
+
+        val checkboxIsPermanentAdd = addressView.findViewById<CheckBox>(R.id.checkboxIsPermanentAdd)
+
+        val buttonSubmitAddress = addressView.findViewById<Button>(R.id.buttonSubmitAddress)
+
+        textViewTypeOfAddress.text = resources.getString(R.string.v2_current_address)
+        setFocusOnView(textViewTypeOfAddress)
+
+        typeOfAddress = resources.getString(R.string.v2_current_address)
+
+        checkboxIsPermanentAdd.visibility = View.VISIBLE
+        isPermanentAddress = checkboxIsPermanentAdd.isChecked
+
+        editTextPinCode.setText(pincode)
+        textViewState.text = state
+        textViewCity.text = city
+
+        linearLayoutCityMovedInYear.setOnClickListener(View.OnClickListener {
+            val lastSelectedDate = ""
+
+            callDatePickerDialog(
+                    lastSelectedDate,
+                    null,
+                    getTodayDate(),
+                    object : DatePickerCallBack {
+                        override fun dateSelected(dateDisplayValue: String, dateValue: String) {
+                            editTextCityMovedInYear.setText(dateDisplayValue)
+                            cityMovedInYear = dateValue
+                        }
+                    })
+        })
+
+        checkboxIsPermanentAdd.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                checkboxIsPermanentAdd.isChecked = isChecked
+                isPermanentAddress = true
+            } else {
+                checkboxIsPermanentAdd.isChecked = isChecked
+                isPermanentAddress = false
+                permanentAddress = PermanentAddress("", "")
+                permanentAddressResponse = v2.model.response.PermanentAddress("", "", "", "", "", "")
 
             }
-            buttonPinCodeCheck.setOnClickListener(View.OnClickListener {
-                if (editTextPinCode.text.toString()
-                                .isNotEmpty() && editTextPinCode.text.toString().length == 6
-                ) {
-                    if (hasConnectivityNetwork()) {
-                        masterViewModel.getPinCodeData(Global.customerDetails_BaseURL + "Pincode/city/" + editTextPinCode.text.toString())
-                    }
-                } else
-                    showToast("Please enter valid PinCode")
-            })
 
-            buttonSubmitAddress.setOnClickListener(View.OnClickListener {
-                if (editTextPinCode.text.toString().isNotEmpty() &&
-                        textViewState.text.toString().isNotEmpty() &&
-                        textViewCity.text.toString().isNotEmpty() &&
-                        editTextCurrentAddress1!!.text.toString().isNotEmpty() &&
-                        editTextCurrentAddress2!!.text.toString().isNotEmpty() &&
-                        editTextCurrentAddress3!!.text.toString().isNotEmpty()
-                ) {
-
-                    if (linearLayoutCityMovedInYear.visibility == View.VISIBLE && cityMovedInYear.isEmpty()) {
-                        showToast("Please select city moved in year")
-                    } else {
-                        address1 = editTextCurrentAddress1!!.text.toString()
-                        address2 = editTextCurrentAddress2!!.text.toString()
-                        address3 = editTextCurrentAddress3!!.text.toString()
-                        address = "$address1**$address2**$address3"
-                        submitCurrentAddress()
-                    }
-                } else {
-                    showToast("Please enter all Fields")
+        }
+        buttonPinCodeCheck.setOnClickListener(View.OnClickListener {
+            if (editTextPinCode.text.toString()
+                            .isNotEmpty() && editTextPinCode.text.toString().length == 6
+            ) {
+                if (hasConnectivityNetwork()) {
+                    masterViewModel.getPinCodeData(Global.customerDetails_BaseURL + "Pincode/city/" + editTextPinCode.text.toString())
                 }
-            })
+            } else
+                showToast("Please enter valid PinCode")
+        })
 
-            linearLayoutAddNewCurrentAddress.addView(addressView)
+        buttonSubmitAddress.setOnClickListener(View.OnClickListener {
+            if (editTextPinCode.text.toString().isNotEmpty() &&
+                    textViewState.text.toString().isNotEmpty() &&
+                    textViewCity.text.toString().isNotEmpty() &&
+                    editTextCurrentAddress1!!.text.toString().isNotEmpty() &&
+                    editTextCurrentAddress2!!.text.toString().isNotEmpty() &&
+                    editTextCurrentAddress3!!.text.toString().isNotEmpty()
+            ) {
+
+                if (linearLayoutCityMovedInYear.visibility == View.VISIBLE && cityMovedInYear.isEmpty()) {
+                    showToast("Please select city moved in year")
+                } else {
+                    address1 = editTextCurrentAddress1!!.text.toString()
+                    address2 = editTextCurrentAddress2!!.text.toString()
+                    address3 = editTextCurrentAddress3!!.text.toString()
+                    address = "$address1**$address2**$address3"
+                    submitCurrentAddress()
+                }
+            } else {
+                showToast("Please enter all Fields")
+            }
+        })
+
+        linearLayoutAddNewCurrentAddress.addView(addressView)
 
     }
 
@@ -940,10 +958,9 @@ var custId:Int=0
 
                 if (response?.data?.sections?.isNotEmpty() == true) {
 
-                    if(buttonMoveToNextPage.visibility==View.VISIBLE)
-                    {
-                        viewEmpty.visibility=View.GONE
-                        buttonMoveToNextPage.visibility=View.GONE
+                    if (buttonMoveToNextPage.visibility == View.VISIBLE) {
+                        viewEmpty.visibility = View.GONE
+                        buttonMoveToNextPage.visibility = View.GONE
                     }
                     linearLayoutAddNewPermanentAddress.removeAllViews()
                     linearLayoutAddNewPermanentAddress.visibility = View.GONE
@@ -953,11 +970,12 @@ var custId:Int=0
                         linearLayoutEditPermanentAddress.visibility = View.VISIBLE
 
                     linearLayoutAdditionalFieldsUILayout.visibility = View.VISIBLE
+                    scrollToBottom(linearLayoutAdditionalFieldsUILayout)
                     setAdditionalField()
 
                 } else {
-                    viewEmpty.visibility=View.GONE
-                    buttonMoveToNextPage.visibility=View.VISIBLE
+                    viewEmpty.visibility = View.GONE
+                    buttonMoveToNextPage.visibility = View.VISIBLE
                 }
             }
             ApiResponse.Status.ERROR -> {
@@ -1076,12 +1094,23 @@ var custId:Int=0
     // endregion OnResponse
 
     private fun setAdditionalField() {
+
         val sectionsList = additionalFieldsData.sections
+
         for (sectionIndex in sectionsList.indices) {
             val sectionData = sectionsList[sectionIndex]
             val fieldsList = sectionsList[sectionIndex].fields
             val sectionView = generateSectionUI(sectionData, sectionIndex == sectionsList.size - 1)
             linearLayoutAdditionalFieldsUILayout.addView(sectionView)
+
+            Log.i("TAG", "setAdditionalField: $sectionIndex" + " -----> " + linearLayoutAdditionalFieldsUILayout.childCount + "---->" + linearLayoutAdditionalFieldsUILayout.getChildAt(linearLayoutAdditionalFieldsUILayout.childCount - 1).rootView)
+            if (isEditFlow || sectionIndex == sectionsList.size - 1)
+                scrollToAdditionalFieldsBottom(linearLayoutAdditionalFieldsUILayout.getChildAt(sectionIndex).findViewById(R.id.linearLayoutSectionLayout))
+            else {
+                if (sectionIndex != 0) {
+                    scrollToAdditionalFieldsBottom(linearLayoutAdditionalFieldsUILayout)
+                }
+            }
 
             if (sectionMap.size >= sectionIndex + 1)//|| sectionDataList.size == fieldDetails)
             {
@@ -1089,11 +1118,13 @@ var custId:Int=0
             } else {
                 break
             }
+
         }
 
     }
 
     private fun generateSectionUI(sectionData: Sections, isLastSection: Boolean): View {
+
         val fieldList = sectionData.fields
         val currentSectionLayout: View
         if (isSectionPreFilled(sectionData.sectionName)) {
@@ -1137,6 +1168,7 @@ var custId:Int=0
                             currentSectionTitle.findViewById(R.id.textViewTitleLabel)
                     sectionTitle.text = sectionData.sectionName
                     linearLayout.addView(currentSectionTitle)
+
                 }
 
                 addressButton.setOnClickListener(View.OnClickListener {
@@ -1311,7 +1343,7 @@ var custId:Int=0
                         if (!TextUtils.isEmpty(s.toString())) {
 
                             if (fieldData.apiDetails.apiKey == "CompanyPincode") {
-                                if (s?.length == 6)
+                                if (s?.length == 6) {
                                     updateEditTextValues(
                                             fieldInputValue,
                                             fieldData,
@@ -1319,9 +1351,10 @@ var custId:Int=0
                                             isLastItem,
                                             linearLayout,
                                             cFieldList,
-                                            isLastSection
+                                            isLastSection,
+                                            currentFieldInputView
                                     )
-                                else if (s?.length!! > 6)
+                                } else if (s?.length!! > 6)
                                     showToast("Enter valid Pincode")
                             } else {
                                 last_text_edit = System.currentTimeMillis()
@@ -1344,8 +1377,10 @@ var custId:Int=0
                                     isLastItem,
                                     linearLayout,
                                     cFieldList,
-                                    isLastSection
+                                    isLastSection,
+                                    currentFieldInputView
                             )
+
 
                         }
                     }
@@ -1366,8 +1401,10 @@ var custId:Int=0
                                 isLastItem,
                                 linearLayout,
                                 cFieldList,
-                                isLastSection
+                                isLastSection,
+                                currentFieldInputView
                         )
+
                     }
                     false
                 })
@@ -1381,8 +1418,10 @@ var custId:Int=0
                                 isLastItem,
                                 linearLayout,
                                 cFieldList,
-                                isLastSection
+                                isLastSection,
+                                currentFieldInputView
                         )
+
                     }
                 }
 
@@ -1403,8 +1442,10 @@ var custId:Int=0
                             fieldData.apiDetails.apiKey,
                             fieldInput,
                             fieldData.isMandatory,
-                            fieldData.apiDetails.url
+                            fieldData.apiDetails.url,
+                            currentFieldInputView
                     )
+
                 }
 
                 val apiURL = fieldData.apiDetails.url
@@ -1453,9 +1494,11 @@ var custId:Int=0
                                                                     isLastItem,
                                                                     "",
                                                                     fieldData.apiDetails.apiKey,
-                                                                    details.displayLabel
+                                                                    details.displayLabel,
+                                                                    currentFieldInputView
                                                             )
                                                         }
+
                                                     } else {
                                                         showToast("Something went wrong! Please try again!")
                                                     }
@@ -1492,10 +1535,10 @@ var custId:Int=0
                                                                                 isLastItem,
                                                                                 "",
                                                                                 fieldData.apiDetails.apiKey,
-                                                                                details.displayLabel
+                                                                                details.displayLabel,
+                                                                                currentFieldInputView
                                                                         )
                                                                     }
-
                                                                 }
                                                             })
 
@@ -1519,6 +1562,7 @@ var custId:Int=0
                 })
 
             }
+
             "Check" -> {
 
                 currentFieldInputView = LayoutInflater.from(fragView.context)
@@ -1557,6 +1601,10 @@ var custId:Int=0
                                                                                             value,
                                                                                             displayLabel
                                                                                     )
+
+                                                                            if (!isEditFlow)
+                                                                                scrollToAdditionalFieldsBottom()
+
                                                                             addToCurrentFilledFieldData(
                                                                                     fieldData.apiDetails.apiKey,
                                                                                     fieldData.isMandatory,
@@ -1571,6 +1619,10 @@ var custId:Int=0
                                                                                             value,
                                                                                             displayLabel
                                                                                     )
+
+                                                                            if (!isEditFlow)
+                                                                                scrollToAdditionalFieldsBottom()
+
                                                                             addToCurrentFilledFieldData(
                                                                                     fieldData.apiDetails.apiKey,
                                                                                     fieldData.isMandatory,
@@ -1578,6 +1630,8 @@ var custId:Int=0
                                                                                     true,
                                                                                     sectionName
                                                                             )
+
+
                                                                         }
 
                                                                     } else {
@@ -1629,7 +1683,8 @@ var custId:Int=0
             isLastItem: Boolean,
             linearLayout: LinearLayout,
             cFieldList: List<Fields>,
-            isLastSection: Boolean
+            isLastSection: Boolean,
+            currentFieldInputView:View
     ) {
         if (fieldInputValue.text.isNotEmpty()) {
 
@@ -1646,7 +1701,8 @@ var custId:Int=0
                             isLastItem,
                             fieldData.regexValidation,
                             fieldData.apiDetails.apiKey,
-                            editTextString
+                            editTextString,
+                            currentFieldInputView
                     )
                     refreshFieldView(sectionName, linearLayout, cFieldList, isLastSection)
                 } else {
@@ -1658,6 +1714,7 @@ var custId:Int=0
                 val editTextString: String = fieldInputValue.text.toString()
                 val currentFieldDetails =
                         FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
+                scrollToAdditionalFieldsBottom(linearLayout)
                 addToCurrentFilledFieldData(
                         fieldData.apiDetails.apiKey,
                         fieldData.isMandatory,
@@ -1676,7 +1733,8 @@ var custId:Int=0
                         isLastItem,
                         fieldData.regexValidation,
                         fieldData.apiDetails.apiKey,
-                        editTextString
+                        editTextString,
+                        currentFieldInputView
                 )
             }
 
@@ -1690,7 +1748,8 @@ var custId:Int=0
             apiKey: String,
             fieldInput: TextView,
             isMandatory: Boolean,
-            url: String
+            url: String,
+            currentFieldInputView: View
     ) {
         val apiURL = url + additionaFieldPinCode
         var textVal = ""
@@ -1708,6 +1767,12 @@ var custId:Int=0
                                 textVal = fieldInput.text.toString()
                                 val currentFieldDetails =
                                         FieldDetails(apiKey, details.value, details.displayLabel)
+
+                                if (!isEditFlow)
+                                    scrollToAdditionalFieldsBottom()
+                                else
+                                    scrollToAdditionalFieldsBottom(currentFieldInputView)
+
                                 addToCurrentFilledFieldData(
                                         apiKey,
                                         isMandatory,
@@ -1739,7 +1804,8 @@ var custId:Int=0
             lastItem: Boolean,
             regexResponse: String?,
             apiKey: String,
-            displayKey: String
+            displayKey: String,
+            fieldView: View
     ) {
         if (editTextVal.isNotEmpty()) {
 
@@ -1768,6 +1834,14 @@ var custId:Int=0
                     showToast("Please enter valid $fieldName")
                 }
 
+                if (apiKey == "CompanyPincode") {
+                    if (!isEditFlow && sectionName != "Reference Details")
+                        scrollToAdditionalFieldsBottom()
+                    else
+                    {
+                        scrollToAdditionalFieldsBottom(fieldView)
+                    }
+                }
             } else {
                 val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
                 if (lastItem)
@@ -1788,6 +1862,10 @@ var custId:Int=0
                     )
 
             }
+
+            if (!isEditFlow && sectionName != "Reference Details")
+                scrollToAdditionalFieldsBottom()
+
         } else {
             showToast("Please Fill the Field")
         }
@@ -1871,6 +1949,7 @@ var custId:Int=0
         sectionMap[sectionName] = fieldList
         currentFilledFieldData.clear()
         mandatoryFieldsList.clear()
+        isEditFlow = false
         refreshFieldView()
     }
 
@@ -1950,6 +2029,7 @@ var custId:Int=0
                         additionaFieldPinCode = ""
 
                     sectionMap.remove(sectionData.sectionName)
+                    isEditFlow = true
                     refreshFieldView()
                 })
 
@@ -1968,16 +2048,17 @@ var custId:Int=0
                 editValText.text = isFieldFilled1(sectionData.fields[0].apiDetails.apiKey)
                 imageViewEdit.setOnClickListener(View.OnClickListener {
                     sectionMap.remove(sectionData.sectionName)
+                    isEditFlow = true
                     refreshFieldView()
                 })
 
             }
         }
         if (isLastSect) {
-            viewEmpty.visibility=View.GONE
+            viewEmpty.visibility = View.GONE
             buttonMoveToNextPage.visibility = View.VISIBLE
         } else {
-            viewEmpty.visibility=View.VISIBLE
+            viewEmpty.visibility = View.VISIBLE
             buttonMoveToNextPage.visibility = View.GONE
         }
         return view
@@ -2186,39 +2267,28 @@ var custId:Int=0
             }
             R.id.buttonMoveToNextPage -> {
                 if (linearLayoutEditCurrentAddress.visibility == View.VISIBLE) {
-                    if (checkboxCurrentAndPermanentAddress.visibility == View.VISIBLE)
-                    {
-                        if(additionalFieldsData.sections.isNotEmpty())
-                        {
+                    if (checkboxCurrentAndPermanentAddress.visibility == View.VISIBLE) {
+                        if (additionalFieldsData.sections.isNotEmpty()) {
                             submitAdditionalFields()
-                        }
-                        else
-                        {
+                        } else {
                             navigateToBankOfferStatus(
                                     custId.toString(),
                                     customerDetailsResponse,
                                     "AddressAdditionalFields"
                             )
                         }
-                    }
-                    else {
-                        if (linearLayoutEditPermanentAddress.visibility == View.VISIBLE)
-                        {
-                            if(additionalFieldsData!=null && additionalFieldsData.sections.isNotEmpty())
-                            {
+                    } else {
+                        if (linearLayoutEditPermanentAddress.visibility == View.VISIBLE) {
+                            if (additionalFieldsData != null && additionalFieldsData.sections.isNotEmpty()) {
                                 submitAdditionalFields()
-                            }
-                            else
-                            {
+                            } else {
                                 navigateToBankOfferStatus(
                                         custId.toString(),
                                         customerDetailsResponse,
                                         "AddressAdditionalFields"
                                 )
                             }
-                        }
-
-                        else
+                        } else
                             showToast("Please fill Permanent Address")
                     }
                 } else

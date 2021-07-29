@@ -2,39 +2,23 @@ package v2.view
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Dialog
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.text.*
-import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.*
 import android.view.View.*
-import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.google.gson.Gson
 import com.mfc.autofin.framework.R
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit_config.RetroBase.retrofitInterface
 import utility.CommonStrings
 import utility.Global
-import v2.model.dto.CustomLoanProcessCompletedData
-import v2.model.dto.DataSelectionDTO
 import v2.model.enum_class.ApplicationStatusEnum
 import v2.model.request.*
-import v2.model.request.CurrentAddress
-import v2.model.request.PermanentAddress
 import v2.model.request.bank_offers.BankOfferData
 import v2.model.request.bank_offers.BankOffersForApplicationRequest
 import v2.model.request.bank_offers.LeadApplicationData
@@ -49,10 +33,7 @@ import v2.service.utility.ApiResponse
 import v2.view.adapter.*
 import v2.view.base.BaseFragment
 import v2.view.callBackInterface.ActivityBackPressed
-import v2.view.callBackInterface.AdditionalFieldsDetailsInterface
-import v2.view.callBackInterface.DatePickerCallBack
 import v2.view.callBackInterface.itemClickCallBack
-import v2.view.utility_view.GridItemDecoration
 
 
 class SoftOfferFragment : BaseFragment(), ActivityBackPressed {
