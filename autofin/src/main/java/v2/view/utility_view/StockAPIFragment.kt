@@ -122,7 +122,6 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
         if (requestCode == CommonStrings.CAR_BASIC_DETAIL_ACTIVITY_REQUEST_CODE && resultCode == CommonStrings.RESULT_CODE) {
             var addLeadRequest: AddLeadRequest? = data?.getParcelableExtra(CommonStrings.VEHICLE_DATA)
             if (addLeadRequest != null) {
-                requireActivity().finish()
                 navigateToAddOrUpdateVehicleDetails(addLeadRequest)
             }
         }
