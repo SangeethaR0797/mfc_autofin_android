@@ -415,7 +415,7 @@ class SoftOfferFragment : BaseFragment(), ActivityBackPressed {
                         val bankOffersData = arrayListOf<BankOffersData>()
                         bankOfferRes.data!!.forEachIndexed { index, bank ->
                             //if (bank.bankName == "Bajaj Finser" || bank.bankName == "Bajaj Finserv")
-                            if (bank.bankName == "HDFC Bank") // , "ICICI Bank" , "Bajaj Finser"
+                            if (bank.bankName.contains("IDFC") ) //== "HDFC Bank" , "ICICI Bank" , "Bajaj Finser"
                             {
                                 bankOffersData.add(bank)
                             }
