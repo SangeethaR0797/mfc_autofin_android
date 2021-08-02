@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mfc.autofin.framework.R
+import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
 import utility.CommonStrings
 import utility.Global
 import v2.model.dto.*
@@ -77,8 +78,8 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     lateinit var btnApplyNow: TextView
 
     lateinit var skAmount: SeekBar
-    lateinit var skYear: SeekBar
-    lateinit var skInterestRate: SeekBar
+    lateinit var skYear: DiscreteSeekBar
+    lateinit var skInterestRate: DiscreteSeekBar
 
     lateinit var menuForDashboardAdapter: MenuForDashboardAdapter
 
@@ -248,6 +249,9 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             skYear = rootView!!.findViewById(R.id.sk_year)
             skInterestRate = rootView!!.findViewById(R.id.sk_interest_rate)
 
+            skAmount.visibility=View.GONE
+            skYear.setPadding(0,0,15,0)
+            skInterestRate.setPadding(0,0,15,0)
             setSeekBarEvent()
 
             ivBack.setOnClickListener(this)
@@ -293,8 +297,8 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
             }
         })
-        skYear.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
+        skYear.setOnProgressChangeListener(object : DiscreteSeekBar.OnProgressChangeListener {
+            override fun onProgressChanged(p0: DiscreteSeekBar?, progress: Int, p2: Boolean) {
                 if (progress > 1) {
                     tvYear.text = (progress.toString()) + " Years"
                 } else {
@@ -303,25 +307,26 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
             }
 
-            override fun onStartTrackingTouch(p0: SeekBar?) {
+            override fun onStartTrackingTouch(p0: DiscreteSeekBar?) {
 
             }
 
-            override fun onStopTrackingTouch(p0: SeekBar?) {
+            override fun onStopTrackingTouch(p0: DiscreteSeekBar?) {
 
             }
         })
 
-        skInterestRate.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
+        skInterestRate.setOnProgressChangeListener(object : DiscreteSeekBar.OnProgressChangeListener {
+            override fun onProgressChanged(p0: DiscreteSeekBar?, progress: Int, p2: Boolean) {
+
                 tvInterestRate.text = (progress.toString()) + "%"
             }
 
-            override fun onStartTrackingTouch(p0: SeekBar?) {
+            override fun onStartTrackingTouch(p0: DiscreteSeekBar?) {
 
             }
 
-            override fun onStopTrackingTouch(p0: SeekBar?) {
+            override fun onStopTrackingTouch(p0: DiscreteSeekBar?) {
 
             }
         })
@@ -330,10 +335,10 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             skYear.min = 1
             skInterestRate.min = 8
         }
+
         skAmount.max = 5000000
         skYear.max = 12
         skInterestRate.max = 25
-
 
         skAmount.progress = 50000
         skYear.progress = 1
@@ -435,9 +440,9 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
         rvCommissionDaysDays.addItemDecoration(GridItemDecoration(15, 4))
 
-        rvCommissionDaysDays.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+        rvCommissionDaysDays.layoutManager = layoutManagerStaggeredGridLayoutManager
         commissionDaysDaysDataAdapter.resourceLayoutFile = R.layout.v2_data_item_layout_small
-        rvCommissionDaysDays.setAdapter(commissionDaysDaysDataAdapter)
+        rvCommissionDaysDays.adapter = commissionDaysDaysDataAdapter
 
     }
 
@@ -752,7 +757,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                         openNextFragment(m.menuCode!!, m.menuName!!)
                     }
                 })
-            rvMenu.setAdapter(menuForDashboardAdapter)
+            rvMenu.adapter = menuForDashboardAdapter
         }
     }
 
@@ -928,7 +933,6 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 showToast("Please enter valid details")
             }
         }
-
     }
 
     private fun onGetKYCDocumentResponse(mApiResponse: ApiResponse) {

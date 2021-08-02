@@ -399,6 +399,7 @@
                     android:background="@color/v2_grey" />
 
                 <LinearLayout
+                    android:id="@+id/linearLayoutAmount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/text_size_14dp"
@@ -438,16 +439,19 @@
                     android:id="@+id/sk_amount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvLoanAmountSB"
+                    android:layout_below="@+id/linearLayoutAmount"
                     android:layout_marginLeft="@dimen/text_size10dp"
                     android:layout_marginTop="@dimen/text_size_20dp"
                     android:layout_marginRight="@dimen/text_size10dp"
-                    android:padding="0dp"
+                    android:paddingRight="@dimen/text_size_30dp"
+                    android:paddingLeft="@dimen/text_size_30dp"
                     android:progressBackgroundTint="@color/vtwo_grey"
                     android:progressTint="@color/vtwo_yellow"
+                    android:visibility="gone"
                     android:thumb="@drawable/ic_seek_bar_icon" />
 
                 <LinearLayout
+                    android:id="@+id/linearLayoutYear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/text_size_14dp"
@@ -483,20 +487,23 @@
                         tools:text="03" />
                 </LinearLayout>
 
-                <SeekBar
-                    android:id="@+id/sk_year"
+                <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+
+                android:id="@+id/sk_year"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvLoanAmountSB"
+                    android:layout_below="@+id/linearLayoutYear"
                     android:layout_marginLeft="@dimen/text_size10dp"
                     android:layout_marginTop="@dimen/text_size_20dp"
                     android:layout_marginRight="@dimen/text_size10dp"
-                    android:padding="0dp"
+                    android:paddingRight="@dimen/text_size_30dp"
+                    android:paddingLeft="@dimen/text_size_30dp"
                     android:progressBackgroundTint="@color/vtwo_grey"
                     android:progressTint="@color/vtwo_yellow"
                     android:thumb="@drawable/ic_seek_bar_icon" />
 
                 <LinearLayout
+                    android:id="@+id/linearLayoutInterestRate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/text_size_14dp"
@@ -532,17 +539,17 @@
                         tools:text="03" />
                 </LinearLayout>
 
-                <SeekBar
+                <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
                     android:id="@+id/sk_interest_rate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvLoanAmountSB"
+                    android:layout_below="@+id/linearLayoutInterestRate"
                     android:layout_marginLeft="@dimen/text_size10dp"
                     android:layout_marginTop="@dimen/text_size_20dp"
                     android:layout_marginRight="@dimen/text_size10dp"
                     android:layout_marginBottom="@dimen/text_size_30dp"
-                    android:padding="0dp"
-
+                    android:paddingRight="@dimen/text_size_30dp"
+                    android:paddingLeft="@dimen/text_size_30dp"
                     android:progressBackgroundTint="@color/vtwo_grey"
                     android:progressTint="@color/vtwo_yellow"
                     android:thumb="@drawable/ic_seek_bar_icon" />
