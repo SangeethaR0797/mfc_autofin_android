@@ -58,7 +58,6 @@ dependencies {
 
     // Extension
     apply plugin: 'kotlin-android-extensions'  //This is the magical plugin
-    compile 'org.adw.library:discrete-seekbar:1.0.1'
 
 
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
