@@ -86,17 +86,14 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
         myConnectivityReceiver = ConnectivityReceiver()
 
 
-        CommonStrings.APP_NAME = intent.getStringExtra(AutoFinConstants.APP_NAME)
+       // CommonStrings.APP_NAME = intent.getStringExtra(AutoFinConstants.APP_NAME)
+        CommonStrings.APP_NAME = "OMS"
         CommonStrings.DEALER_ID = intent.getStringExtra(AutoFinConstants.DEALER_ID)
         CommonStrings.USER_TYPE = intent.getStringExtra(AutoFinConstants.USER_TYPE)
-
 
         authenticationViewModel = ViewModelProvider(this@HostActivity).get(
             AuthenticationViewModel::class.java
         )
-
-
-
 
         authenticationViewModel!!.getTokenDetailsLiveDataData()
             .observe(this, { mApiResponse: ApiResponse? ->

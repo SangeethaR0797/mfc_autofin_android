@@ -498,6 +498,10 @@
                     android:layout_marginRight="@dimen/text_size10dp"
                     android:paddingRight="@dimen/text_size_30dp"
                     android:paddingLeft="@dimen/text_size_30dp"
+                    app:dsb_progressColor="@color/vtwo_yellow"
+                    app:dsb_trackColor="@color/vtwo_grey"
+                    app:dsb_indicatorColor="@color/white"
+                    app:dsb_rippleColor="@color/vtwo_grey"
                     android:progressBackgroundTint="@color/vtwo_grey"
                     android:progressTint="@color/vtwo_yellow"
                     android:thumb="@drawable/ic_seek_bar_icon" />
