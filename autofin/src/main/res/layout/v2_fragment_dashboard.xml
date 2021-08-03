@@ -447,7 +447,6 @@
                     android:paddingLeft="@dimen/text_size_30dp"
                     android:progressBackgroundTint="@color/vtwo_grey"
                     android:progressTint="@color/vtwo_yellow"
-                    android:visibility="gone"
                     android:thumb="@drawable/ic_seek_bar_icon" />
 
                 <LinearLayout
@@ -487,7 +486,7 @@
                         tools:text="03" />
                 </LinearLayout>
 
-                <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+                <SeekBar
 
                 android:id="@+id/sk_year"
                     android:layout_width="match_parent"
@@ -498,10 +497,6 @@
                     android:layout_marginRight="@dimen/text_size10dp"
                     android:paddingRight="@dimen/text_size_30dp"
                     android:paddingLeft="@dimen/text_size_30dp"
-                    app:dsb_progressColor="@color/vtwo_yellow"
-                    app:dsb_trackColor="@color/vtwo_grey"
-                    app:dsb_indicatorColor="@color/white"
-                    app:dsb_rippleColor="@color/vtwo_grey"
                     android:progressBackgroundTint="@color/vtwo_grey"
                     android:progressTint="@color/vtwo_yellow"
                     android:thumb="@drawable/ic_seek_bar_icon" />
@@ -543,7 +538,7 @@
                         tools:text="03" />
                 </LinearLayout>
 
-                <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+                <SeekBar
                     android:id="@+id/sk_interest_rate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

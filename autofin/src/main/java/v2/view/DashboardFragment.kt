@@ -78,8 +78,8 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     lateinit var btnApplyNow: TextView
 
     lateinit var skAmount: SeekBar
-    lateinit var skYear: DiscreteSeekBar
-    lateinit var skInterestRate: DiscreteSeekBar
+    lateinit var skYear: SeekBar
+    lateinit var skInterestRate: SeekBar
 
     lateinit var menuForDashboardAdapter: MenuForDashboardAdapter
 
@@ -249,9 +249,6 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             skYear = rootView!!.findViewById(R.id.sk_year)
             skInterestRate = rootView!!.findViewById(R.id.sk_interest_rate)
 
-            skAmount.visibility=View.GONE
-            skYear.setPadding(0,0,15,0)
-            skInterestRate.setPadding(0,0,15,0)
             setSeekBarEvent()
 
             ivBack.setOnClickListener(this)
@@ -297,8 +294,8 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
             }
         })
-        skYear.setOnProgressChangeListener(object : DiscreteSeekBar.OnProgressChangeListener {
-            override fun onProgressChanged(p0: DiscreteSeekBar?, progress: Int, p2: Boolean) {
+        skYear.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
                 if (progress > 1) {
                     tvYear.text = (progress.toString()) + " Years"
                 } else {
@@ -307,26 +304,26 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
             }
 
-            override fun onStartTrackingTouch(p0: DiscreteSeekBar?) {
+            override fun onStartTrackingTouch(p0: SeekBar?) {
 
             }
 
-            override fun onStopTrackingTouch(p0: DiscreteSeekBar?) {
+            override fun onStopTrackingTouch(p0: SeekBar?) {
 
             }
         })
 
-        skInterestRate.setOnProgressChangeListener(object : DiscreteSeekBar.OnProgressChangeListener {
-            override fun onProgressChanged(p0: DiscreteSeekBar?, progress: Int, p2: Boolean) {
+        skInterestRate.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
 
                 tvInterestRate.text = (progress.toString()) + "%"
             }
 
-            override fun onStartTrackingTouch(p0: DiscreteSeekBar?) {
+            override fun onStartTrackingTouch(p0: SeekBar?) {
 
             }
 
-            override fun onStopTrackingTouch(p0: DiscreteSeekBar?) {
+            override fun onStopTrackingTouch(p0: SeekBar?) {
 
             }
         })
