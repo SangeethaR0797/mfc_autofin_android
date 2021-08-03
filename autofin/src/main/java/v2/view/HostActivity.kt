@@ -86,8 +86,8 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
         myConnectivityReceiver = ConnectivityReceiver()
 
 
-       // CommonStrings.APP_NAME = intent.getStringExtra(AutoFinConstants.APP_NAME)
-        CommonStrings.APP_NAME = "OMS"
+       CommonStrings.APP_NAME = intent.getStringExtra(AutoFinConstants.APP_NAME)
+       // CommonStrings.APP_NAME = "Ediig" //"OMS"
         CommonStrings.DEALER_ID = intent.getStringExtra(AutoFinConstants.DEALER_ID)
         CommonStrings.USER_TYPE = intent.getStringExtra(AutoFinConstants.USER_TYPE)
 
@@ -108,7 +108,6 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
         )
 
       //  callTokenApi()
-
 
     }
 
