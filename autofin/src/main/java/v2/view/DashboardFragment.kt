@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mfc.autofin.framework.R
-import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
 import utility.CommonStrings
 import utility.Global
 import v2.model.dto.*

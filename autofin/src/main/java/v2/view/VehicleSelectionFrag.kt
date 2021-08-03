@@ -154,7 +154,7 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
         val stockDetailsReq = StockDetailsReq()
         stockDetailsReq.UserId = CommonStrings.DEALER_ID
 
-        if(CommonStrings.APP_NAME.equals("OMS"))
+        if(CommonStrings.APP_NAME.equals(CommonStrings.APP_NAME_OMS))
         {
             stockDetailsReq.UserType = CommonStrings.USER_TYPE
             stockDetailsReq.RequestFrom = "Dealer"
@@ -171,7 +171,7 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
             val vehicleNum = VehicleRegNum()
             vehicleNum.vehicleNumber =null
             stockDetailsReq.data =null
-            stockDetailsReq.accessKey="8Cm~Ts_U<QtJuRh2"
+            stockDetailsReq.accessKey=CommonStrings.EDIGG_ACCESS_KEY
             stockDetailsReq.vehicleNumberE=regNoVal
         }
 

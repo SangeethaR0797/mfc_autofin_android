@@ -212,6 +212,9 @@ public class CommonStrings {
 
     public static final String AWS_DETAILS_API_END_POINT = "S3/details";
 
+    public static final String APP_NAME_OMS="OMS";
+    public static final String APP_NAME_EDIGG="Ediig";
+    public static final String EDIGG_ACCESS_KEY ="8Cm~Ts_U<QtJuRh2";
 
     public static String AWS_S3_BUCKETNAME = null;
     public static String AWS_S3_BUCKETKEY = null;
