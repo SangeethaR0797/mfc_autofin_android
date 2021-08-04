@@ -323,7 +323,6 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                                         } else {
                                             callApplicationStatusWiseFilterAPI(etSearch.text.toString())
                                         }
-
                                     }
                                     startSearchApiCall()
                                 });
@@ -371,8 +370,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
             Global.customerAPI_BaseURL + CommonStrings.APPLICATION_STATUS_WISE_FILTER_END_POINT
 
         if (selectedBankName != null) {
-            url =
-                    Global.customerAPI_BaseURL + CommonStrings.APPLICATION_STATUS_WISE_FILTER_END_POINT
+            url = Global.customerAPI_BaseURL + CommonStrings.APPLICATION_STATUS_WISE_FILTER_END_POINT
           /*  url =
                 Global.customerAPI_BaseURL + CommonStrings.APPLICATION_BANK_WISE_FILTER_END_POINT*/
         }
@@ -430,9 +428,9 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 rvData.layoutManager = layoutManager
                 tvResultCount.visibility = View.VISIBLE
                 if (TOTAL > 1) {
-                    tvResultCount.text = "Total " + TOTAL.toString() + " leads"
+                    tvResultCount.text = "Total $TOTAL leads"
                 } else {
-                    tvResultCount.text = "Total " + TOTAL.toString() + " lead"
+                    tvResultCount.text = "Total $TOTAL lead"
                 }
 
                 applicationListAdapter =
