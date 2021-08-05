@@ -2730,6 +2730,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
             dialogConfilctForAddLead!!.findViewById(R.id.btnExistingFlowV2) as Button
 
 
+        if(validateLeadDataRes.details?.status?.equals(ApplicationStatusEnum.Submitted_To_Bank) == true)
+        {
+            btnContinueWithOldFlow.visibility=View.GONE
+        }
+        else
+        {
+            btnContinueWithOldFlow.visibility=View.VISIBLE
+        }
         btnNewFlow.setOnClickListener {
             resetJourney()
             dialogConfilctForAddLead!!.dismiss()
