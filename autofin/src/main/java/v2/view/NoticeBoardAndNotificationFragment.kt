@@ -224,7 +224,7 @@ class NoticeBoardAndNotificationFragment : BaseFragment(), View.OnClickListener 
         notificationRecyclerViewAdapter =
             NotificationRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
                 override fun itemClick(item: Any?, position: Int) {
-                    var notificationItemData = item as NotificationItemData
+                    val notificationItemData = item as NotificationItemData
                     if (notificationItemData.isNew == true) {
                         noticeBoardViewModel.noticeBoardAction(
                             CommonRequest(

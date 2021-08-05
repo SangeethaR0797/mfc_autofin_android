@@ -12,5 +12,4 @@ data class ApplicationListRequestData(
     var BankName: String?,
     var PageNo: Int?,
     var PerPage: Int?
-
 )

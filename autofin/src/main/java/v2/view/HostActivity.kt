@@ -87,7 +87,8 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
 
 
         CommonStrings.APP_NAME = intent.getStringExtra(AutoFinConstants.APP_NAME)
-        // CommonStrings.APP_NAME = CommonStrings.APP_NAME_OMS || CommonStrings.APP_NAME_EDIGG
+         CommonStrings.APP_NAME =  CommonStrings.APP_NAME_EDIGG //CommonStrings.APP_NAME_OMS ||
+                 CommonStrings.APP_NAME_EDIGG
         CommonStrings.DEALER_ID = intent.getStringExtra(AutoFinConstants.DEALER_ID)
         CommonStrings.USER_TYPE = intent.getStringExtra(AutoFinConstants.USER_TYPE)
 

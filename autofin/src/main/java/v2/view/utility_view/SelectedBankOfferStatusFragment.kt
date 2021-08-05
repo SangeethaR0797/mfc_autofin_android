@@ -14,10 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.mfc.autofin.framework.R
@@ -42,6 +39,7 @@ class SelectedBankOfferStatusFragment : BaseFragment() {
     private lateinit var bankTAndCViewModel: BankOffersViewModel
     var customerDetailsResponse: CustomerDetailsData? = null
     lateinit var textViewBSMake: TextView
+    lateinit var ivMoveBackFromBankOffer:ImageView
     lateinit var textViewBSModelVariant: TextView
     lateinit var textViewBSVehicleDetails: TextView
     lateinit var textViewBSBankName: TextView
@@ -104,8 +102,13 @@ class SelectedBankOfferStatusFragment : BaseFragment() {
         textViewBSTermsAndCondition = view.findViewById(R.id.textViewBSTermsAndCondition)
         cbBSTermsAndConditions = view.findViewById(R.id.cbBSTermsAndConditions)
         buttonDocumentSubmitWithOTP = view.findViewById(R.id.buttonDocumentSubmitWithOTP)
+        ivMoveBackFromBankOffer=view.findViewById<ImageView>(R.id.ivMoveBackFromBankOffer)
         fragmentContext = view.context
         fragmentView = view
+
+        ivMoveBackFromBankOffer.setOnClickListener(View.OnClickListener {
+            activity?.onBackPressed()
+        })
         if (hasConnectivityNetwork()) {
             bankTAndCViewModel.getBankTermsAndConditionData(CommonStrings.BANK_BASE_URL + CommonStrings.BANKTC_END_POINT + customerID)
         }
