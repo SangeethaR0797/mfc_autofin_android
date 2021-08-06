@@ -192,7 +192,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         llSearch.setOnClickListener(this)
         etSearch.setOnClickListener(this)
 
-        callData(null)
+        callData("")
         setTextChangeOfETAutoResidenceCity()
 
         if (screenStatus == getString(R.string.v2_logged_in_title) || screenStatus == getString(R.string.v2_soft_offer_title) || screenStatus == ScreenTypeEnum.Approved.value || screenStatus == ScreenTypeEnum.Disbursed.value) {
@@ -360,24 +360,8 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
     private fun callApplicationStatusWiseFilterAPI(searchKey: String?) {
         PAGE_NUMBER += 1
-        var url =
-            Global.customerAPI_BaseURL + CommonStrings.APPLICATION_STATUS_WISE_FILTER_END_POINT
 
-        if(searchKey?.isEmpty() == true)
-        {
-           url= Global.customerAPI_BaseURL + CommonStrings.APPLICATION_STATUS_WISE_FILTER_END_POINT
-        }
-        else
-        {
-            url = if (selectedBankName != null) {
-                // url = Global.customerAPI_BaseURL + CommonStrings.APPLICATION_STATUS_WISE_FILTER_END_POINT
-                Global.customerAPI_BaseURL + CommonStrings.APPLICATION_BANK_WISE_FILTER_END_POINT
-            } else ({
-                url= Global.customerAPI_BaseURL + CommonStrings.APPLICATION_STATUS_WISE_FILTER_END_POINT
-            }).toString()
-        }
-
-
+        val url= Global.customerAPI_BaseURL + CommonStrings.APPLICATION_STATUS_WISE_FILTER_END_POINT
 
         transactionViewModel.getApplicationList(
             ApplicationListRequest(
