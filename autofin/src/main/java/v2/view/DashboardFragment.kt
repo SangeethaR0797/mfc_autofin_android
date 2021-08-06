@@ -248,9 +248,9 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             skYear = rootView!!.findViewById(R.id.sk_year)
             skInterestRate = rootView!!.findViewById(R.id.sk_interest_rate)
 
-            skAmount.setPadding(30, 5, 30, 5)
-            skYear.setPadding(30, 5, 30, 5)
-            skInterestRate.setPadding(30, 5, 30, 5)
+            skAmount.setPadding(40, 5, 40, 5)
+            skYear.setPadding(40, 5, 41, 5)
+            skInterestRate.setPadding(40, 5, 48, 5)
 
 
             setSeekBarEvent()
