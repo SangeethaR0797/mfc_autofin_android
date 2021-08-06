@@ -126,7 +126,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             hostActivity.appTokenChangeInterface = DashboardFragment@ this
         }
         if (!TextUtils.isEmpty(CommonStrings.TOKEN_VALUE) &&
-            !TextUtils.isEmpty(CommonStrings.IBB_ACCESS_TOKEN_URL_END)
+                !TextUtils.isEmpty(CommonStrings.IBB_ACCESS_TOKEN_URL_END)
         ) {
             setRefreshData()
         }
@@ -141,62 +141,62 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         dashboardViewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
         noticeBoardViewModel = ViewModelProvider(this).get(NoticeBoardViewModel::class.java)
         transactionViewModel = ViewModelProvider(this).get(
-            TransactionViewModel::class.java
+                TransactionViewModel::class.java
         )
         masterViewModel = ViewModelProvider(this).get(MasterViewModel::class.java)
 
 
         kycDocumentViewModel.getKYCDocumentLiveData()
-            .observe(requireActivity()) { mApiResponse: ApiResponse? ->
-                onGetKYCDocumentResponse(mApiResponse!!)
-            }
+                .observe(requireActivity()) { mApiResponse: ApiResponse? ->
+                    onGetKYCDocumentResponse(mApiResponse!!)
+                }
 
         dashboardViewModel.getDashboardDetailsLiveData()
-            .observe(requireActivity()) { mApiResponse: ApiResponse? ->
-                onDashboardDetailsResponse(mApiResponse!!)
-            }
+                .observe(requireActivity()) { mApiResponse: ApiResponse? ->
+                    onDashboardDetailsResponse(mApiResponse!!)
+                }
         dashboardViewModel.getRuleEngineBanksLiveData()
-            .observe(requireActivity()) { mApiResponse: ApiResponse? ->
-                onRuleEngineBanksResponse(mApiResponse!!)
-            }
+                .observe(requireActivity()) { mApiResponse: ApiResponse? ->
+                    onRuleEngineBanksResponse(mApiResponse!!)
+                }
 
         noticeBoardViewModel.getNoticeBoardActionLiveData()
-            .observe(requireActivity()) { mApiResponse: ApiResponse? ->
-                onNoticeBoardActionResponse(mApiResponse!!)
-            }
+                .observe(requireActivity()) { mApiResponse: ApiResponse? ->
+                    onNoticeBoardActionResponse(mApiResponse!!)
+                }
 
         dashboardViewModel.getDealerCommissionLiveData()
-            .observe(requireActivity()) { mApiResponse: ApiResponse? ->
-                onCommissionDetailsResponse(mApiResponse!!)
-            }
+                .observe(requireActivity()) { mApiResponse: ApiResponse? ->
+                    onCommissionDetailsResponse(mApiResponse!!)
+                }
         dashboardViewModel.getEmiAmountLiveData()
-            .observe(requireActivity()) { mApiResponse: ApiResponse? ->
-                onEmiAmountResponse(mApiResponse!!)
-            }
+                .observe(requireActivity()) { mApiResponse: ApiResponse? ->
+                    onEmiAmountResponse(mApiResponse!!)
+                }
 
 
         transactionViewModel.getCustomerDetailsLiveData()
-            .observe(requireActivity(), { mApiResponse: ApiResponse? ->
-                onCustomerDetails(
-                    mApiResponse!!
-                )
-            })
+                .observe(requireActivity(), { mApiResponse: ApiResponse? ->
+                    onCustomerDetails(
+                            mApiResponse!!
+                    )
+                })
 
         masterViewModel.getKYCDocumentLiveData()
-            .observe(requireActivity()) { mApiResponse: ApiResponse? ->
-                onGetKYCDocumentResponse(mApiResponse!!)
-            }
+                .observe(requireActivity()) { mApiResponse: ApiResponse? ->
+                    onGetKYCDocumentResponse(mApiResponse!!)
+                }
         dashboardViewModel.getAwsS3DetailsLiveData()
-            .observe(requireActivity()) { mApiResponse: ApiResponse? ->
-                onAwsDetailsResponse(mApiResponse!!)
-            }
+                .observe(requireActivity()) { mApiResponse: ApiResponse? ->
+                    onAwsDetailsResponse(mApiResponse!!)
+                }
 
     }
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
 
         if (rootView != null) {
@@ -248,6 +248,11 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             skYear = rootView!!.findViewById(R.id.sk_year)
             skInterestRate = rootView!!.findViewById(R.id.sk_interest_rate)
 
+            skAmount.setPadding(30, 5, 30, 5)
+            skYear.setPadding(30, 5, 30, 5)
+            skInterestRate.setPadding(30, 5, 30, 5)
+
+
             setSeekBarEvent()
 
             ivBack.setOnClickListener(this)
@@ -268,16 +273,13 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
         skAmount.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
-                var emiAmount=(progress+9999)/ 10000 * 10000
-                if(emiAmount>=50000)
-                {
+                var emiAmount = (progress + 9999) / 10000 * 10000
+                if (emiAmount >= 50000) {
                     tvAmount.text =
                             resources.getString(R.string.rupees_symbol) + " " + formatAmount(emiAmount.toString())
 
-                }
-                else
-                {
-                    emiAmount=50000
+                } else {
+                    emiAmount = 50000
                     tvAmount.text =
                             resources.getString(R.string.rupees_symbol) + " " + formatAmount(emiAmount.toString())
 
@@ -293,15 +295,17 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
             }
         })
-        skYear.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
-                if (progress > 1) {
-                    tvYear.text = (progress.toString()) + " Years"
-                } else {
-                    tvYear.text = (progress.toString()) + " Year"
-                }
 
-            }
+        skYear.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) =
+                    if (progress > 1) {
+                        if (progress == 13) {
+                            tvYear.text = (progress - 1).toString() + " Years"
+                        } else
+                            tvYear.text = (progress).toString() + " Years"
+                    } else {
+                        tvYear.text = (progress.toString()) + " Year"
+                    }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {
 
@@ -314,8 +318,11 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
         skInterestRate.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
+                if (progress > 25) {
+                    tvInterestRate.text = "25" + "%"
+                } else
+                    tvInterestRate.text = (progress.toString()) + "%"
 
-                tvInterestRate.text = (progress.toString()) + "%"
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {
@@ -326,6 +333,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
             }
         })
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             skAmount.min = 50000
             skYear.min = 1
@@ -333,13 +341,11 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         }
 
         skAmount.max = 5000000
-        skYear.max = 12
-        skInterestRate.max = 25
-
         skAmount.progress = 50000
+        skYear.max = 13
         skYear.progress = 1
+        skInterestRate.max = 33
         skInterestRate.progress = 8
-
 
     }
 
@@ -349,16 +355,16 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         skYear.progress < 1
         skInterestRate.progress < 8
         dashboardViewModel.getEmiAmount(
-            EmiRequest(
-                EmiRequestData(
-                    skAmount.progress,
-                    skInterestRate.progress,
-                    (skYear.progress * 12)
+                EmiRequest(
+                        EmiRequestData(
+                                skAmount.progress,
+                                skInterestRate.progress,
+                                (skYear.progress * 12)
+                        ),
+                        CommonStrings.DEALER_ID,
+                        CommonStrings.USER_TYPE
                 ),
-                CommonStrings.DEALER_ID,
-                CommonStrings.USER_TYPE
-            ),
-            Global.emi_baseURL + CommonStrings.GET_EMI_AMOUNT_END_POINT
+                Global.emi_baseURL + CommonStrings.GET_EMI_AMOUNT_END_POINT
         )
     }
 
@@ -369,19 +375,19 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     private fun setRefreshData() {
         //Call Dashboard details
         dashboardViewModel.getDashboardDetails(
-            DashBoardDetailsRequest(
-                CommonStrings.DEALER_ID,
-                CommonStrings.USER_TYPE,
-                "Dashboard"
-            ), Global.customerAPI_BaseURL + CommonStrings.DASHBOARD_DETAILS_END_POINT
+                DashBoardDetailsRequest(
+                        CommonStrings.DEALER_ID,
+                        CommonStrings.USER_TYPE,
+                        "Dashboard"
+                ), Global.customerAPI_BaseURL + CommonStrings.DASHBOARD_DETAILS_END_POINT
         )
         dashboardViewModel.getRuleEngineBanks(
-            Global.baseURL + CommonStrings.GET_RULE_ENGINE_BANKS_END_POINT
+                Global.baseURL + CommonStrings.GET_RULE_ENGINE_BANKS_END_POINT
         )
 
         if (TextUtils.isEmpty(CommonStrings.AWS_S3_BUCKETKEY) &&
-            TextUtils.isEmpty(CommonStrings.AWS_S3_BUCKETNAME) &&
-            TextUtils.isEmpty(CommonStrings.AWS_S3_BUCKETSECRET)
+                TextUtils.isEmpty(CommonStrings.AWS_S3_BUCKETNAME) &&
+                TextUtils.isEmpty(CommonStrings.AWS_S3_BUCKETSECRET)
         ) {
             //call get aws details api
             dashboardViewModel.getAwsS3Details(Global.baseURL + CommonStrings.AWS_DETAILS_API_END_POINT)
@@ -405,33 +411,33 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         list.add(DataSelectionDTO("All time", null, "0", false))
 
         commissionDaysDaysDataAdapter =
-            DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
-                override fun itemClick(item: Any?, position: Int) {
-                    if (!hasConnectivityNetwork()) {
-                        return
-                    }
-
-                    dashboardViewModel.getDealerCommission(
-                        CommonRequest(
-                            (item as DataSelectionDTO).value!!.toInt(), CommonStrings.DEALER_ID,
-                            CommonStrings.USER_TYPE
-                        ),
-                        Global.customerAPI_BaseURL + CommonStrings.DEALER_COMMISSION_END_POINT
-                    )
-
-
-                    commissionDaysDaysDataAdapter.dataListFilter!!.forEachIndexed { index, item ->
-                        run {
-                            (index == position).also { item.selected = it }
+                DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+                    override fun itemClick(item: Any?, position: Int) {
+                        if (!hasConnectivityNetwork()) {
+                            return
                         }
+
+                        dashboardViewModel.getDealerCommission(
+                                CommonRequest(
+                                        (item as DataSelectionDTO).value!!.toInt(), CommonStrings.DEALER_ID,
+                                        CommonStrings.USER_TYPE
+                                ),
+                                Global.customerAPI_BaseURL + CommonStrings.DEALER_COMMISSION_END_POINT
+                        )
+
+
+                        commissionDaysDaysDataAdapter.dataListFilter!!.forEachIndexed { index, item ->
+                            run {
+                                (index == position).also { item.selected = it }
+                            }
+                        }
+                        commissionDaysDaysDataAdapter.notifyDataSetChanged()
                     }
-                    commissionDaysDaysDataAdapter.notifyDataSetChanged()
-                }
-            })
+                })
 
 
         val layoutManagerStaggeredGridLayoutManager =
-            StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
+                StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
         val layoutManagerGridLayoutManager = GridLayoutManager(activity, 4)
 
         rvCommissionDaysDays.addItemDecoration(GridItemDecoration(15, 4))
@@ -447,44 +453,44 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         rvNoticeBoard.layoutManager = layoutManager
 
         noticeRecyclerViewAdapter =
-            NoticeRecyclerViewAdapter(
-                activity as Activity,
-                list,
-                object : NoticeItemClickCallBack {
-                    override fun itemClick(item: Any?, position: Int) {
-                        var notice = item as NoticeData
-                        if (notice.isNew == true) {
-                            noticeBoardViewModel.noticeBoardAction(
-                                CommonRequest(
-                                    notice.noticeBoardId, CommonStrings.DEALER_ID,
-                                    CommonStrings.USER_TYPE
-                                ),
-                                Global.customerAPI_BaseURL + CommonStrings.NOTICE_BOARD_ACTION_END_POINT
-                            )
-                        }
-                        selectedCustomerId = notice!!.customerId!!
-                        callCustomerDetailsApi(selectedCustomerId)
+                NoticeRecyclerViewAdapter(
+                        activity as Activity,
+                        list,
+                        object : NoticeItemClickCallBack {
+                            override fun itemClick(item: Any?, position: Int) {
+                                var notice = item as NoticeData
+                                if (notice.isNew == true) {
+                                    noticeBoardViewModel.noticeBoardAction(
+                                            CommonRequest(
+                                                    notice.noticeBoardId, CommonStrings.DEALER_ID,
+                                                    CommonStrings.USER_TYPE
+                                            ),
+                                            Global.customerAPI_BaseURL + CommonStrings.NOTICE_BOARD_ACTION_END_POINT
+                                    )
+                                }
+                                selectedCustomerId = notice!!.customerId!!
+                                callCustomerDetailsApi(selectedCustomerId)
 
-                        noticeRecyclerViewAdapter.notifyItemChanged(position)
-                    }
+                                noticeRecyclerViewAdapter.notifyItemChanged(position)
+                            }
 
-                    override fun moreClick(item: Any?, position: Int) {
-                        var notice = item as NoticeData
-                        if (notice.isNew == true) {
-                            noticeBoardViewModel.noticeBoardAction(
-                                CommonRequest(
-                                    notice.noticeBoardId, CommonStrings.DEALER_ID,
-                                    CommonStrings.USER_TYPE
-                                ),
-                                Global.customerAPI_BaseURL + CommonStrings.NOTICE_BOARD_ACTION_END_POINT
-                            )
-                        }
-                        selectedCustomerId = notice!!.customerId!!
+                            override fun moreClick(item: Any?, position: Int) {
+                                var notice = item as NoticeData
+                                if (notice.isNew == true) {
+                                    noticeBoardViewModel.noticeBoardAction(
+                                            CommonRequest(
+                                                    notice.noticeBoardId, CommonStrings.DEALER_ID,
+                                                    CommonStrings.USER_TYPE
+                                            ),
+                                            Global.customerAPI_BaseURL + CommonStrings.NOTICE_BOARD_ACTION_END_POINT
+                                    )
+                                }
+                                selectedCustomerId = notice!!.customerId!!
 
 
-                        noticeRecyclerViewAdapter.notifyItemChanged(position)
-                    }
-                })
+                                noticeRecyclerViewAdapter.notifyItemChanged(position)
+                            }
+                        })
         rvNoticeBoard.adapter = noticeRecyclerViewAdapter
 
 
@@ -493,8 +499,8 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     fun callCustomerDetailsApi(customerIdValue: Int) {
 
         transactionViewModel.getCustomerDetails(
-            createCustomerDetailsRequest(customerIdValue),
-            Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL
+                createCustomerDetailsRequest(customerIdValue),
+                Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL
         )
 
     }
@@ -516,22 +522,22 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         rvBankingPartner.layoutManager = layoutManager
 
         partnerBankRecyclerViewAdapter =
-            PartnerBankRecyclerViewAdapter(
-                activity as Activity,
-                ruleEngineBanksResponse.data,
-                object : itemClickCallBack {
-                    override fun itemClick(item: Any?, position: Int) {
-                        if (!hasConnectivityNetwork()) {
-                            return
-                        }
-                        var ruleEngineBankData = item as RuleEngineBankData
-                        navigateBankFeaturesAndChargesFragment(
-                            ruleEngineBankData.bankName!!,
-                            ruleEngineBankData!!.id!!
-                        )
+                PartnerBankRecyclerViewAdapter(
+                        activity as Activity,
+                        ruleEngineBanksResponse.data,
+                        object : itemClickCallBack {
+                            override fun itemClick(item: Any?, position: Int) {
+                                if (!hasConnectivityNetwork()) {
+                                    return
+                                }
+                                var ruleEngineBankData = item as RuleEngineBankData
+                                navigateBankFeaturesAndChargesFragment(
+                                        ruleEngineBankData.bankName!!,
+                                        ruleEngineBankData!!.id!!
+                                )
 
-                    }
-                })
+                            }
+                        })
         rvBankingPartner.adapter = partnerBankRecyclerViewAdapter
     }
 
@@ -599,14 +605,14 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
             MenuEnum.Registered.value -> {
                 navigateApplicationListFragment(
-                    ScreenTypeEnum.Registered.value,
-                    ScreenTypeEnum.Registered.value
+                        ScreenTypeEnum.Registered.value,
+                        ScreenTypeEnum.Registered.value
                 )
             }
             MenuEnum.Soft_offer.value -> {
                 navigateApplicationListFragment(
-                    ScreenTypeEnum.SoftOffer.value,
-                    getString(R.string.v2_soft_offer_title)
+                        ScreenTypeEnum.SoftOffer.value,
+                        getString(R.string.v2_soft_offer_title)
                 )
 
 /*
@@ -615,22 +621,22 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             }
             MenuEnum.Logged_In.value -> {
                 navigateApplicationListFragment(
-                    ScreenTypeEnum.LoggedIn.value,
-                    getString(R.string.v2_logged_in_title)
+                        ScreenTypeEnum.LoggedIn.value,
+                        getString(R.string.v2_logged_in_title)
                 )
 
                 // navigateApplicationListFragment(ScreenTypeEnum.LoggedIn.value,ScreenTypeEnum.LoggedIn.value)
             }
             MenuEnum.Approved.value -> {
                 navigateApplicationListFragment(
-                    ScreenTypeEnum.Approved.value,
-                    ScreenTypeEnum.Approved.value
+                        ScreenTypeEnum.Approved.value,
+                        ScreenTypeEnum.Approved.value
                 )
             }
             MenuEnum.Disbursed.value -> {
                 navigateApplicationListFragment(
-                    ScreenTypeEnum.Disbursed.value,
-                    ScreenTypeEnum.Disbursed.value
+                        ScreenTypeEnum.Disbursed.value,
+                        ScreenTypeEnum.Disbursed.value
                 )
             }
             MenuEnum.Add_New.value -> {
@@ -644,15 +650,15 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         if (dashboardDetailsResponse != null) {
             llDashBoard.visibility = View.VISIBLE
             tvTotalCommission.text = "₹" + formatAmount(
-                dashboardDetailsResponse.data!!.commissionDetails!!.totalCommission.toString()
+                    dashboardDetailsResponse.data!!.commissionDetails!!.totalCommission.toString()
             )
             tvPotentialCommission.text = "₹" + formatAmount(
-                dashboardDetailsResponse!!.data!!.commissionDetails!!.potentialCommission.toString()
+                    dashboardDetailsResponse!!.data!!.commissionDetails!!.potentialCommission.toString()
             )
             if (dashboardDetailsResponse.data!!.noticeBoard!!.totalCount!! > 0) {
                 llNoticeBoardSection.visibility = View.VISIBLE
                 tvNoticeBoardCount.text =
-                    dashboardDetailsResponse.data!!.noticeBoard!!.totalCount.toString()
+                        dashboardDetailsResponse.data!!.noticeBoard!!.totalCount.toString()
                 setNoticeBoardData(dashboardDetailsResponse.data!!.noticeBoard!!.notices as ArrayList<NoticeData>?)
                 if (dashboardDetailsResponse.data!!.noticeBoard!!.totalCount!! > 3) {
                     llViewAllNotice.visibility = View.VISIBLE
@@ -669,101 +675,101 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                     tvNotificationCount.text = "99+"
                 } else {
                     tvNotificationCount.text =
-                        dashboardDetailsResponse.data!!.newNotificationCount!!.toString()
+                            dashboardDetailsResponse.data!!.newNotificationCount!!.toString()
                 }
             }
 
 
             val menuList: ArrayList<MenuDTO> = arrayListOf<MenuDTO>()
             menuList.add(
-                getMenu(
-                    "Registered",
-                    MenuEnum.Registered.value,
-                    null,
-                    dashboardDetailsResponse.data!!.registered!!,
-                    R.drawable.ic_menu_registered,
-                    R.drawable.v2_menu_dark_blue
-                )
+                    getMenu(
+                            "Registered",
+                            MenuEnum.Registered.value,
+                            null,
+                            dashboardDetailsResponse.data!!.registered!!,
+                            R.drawable.ic_menu_registered,
+                            R.drawable.v2_menu_dark_blue
+                    )
             )
             menuList.add(
-                getMenu(
-                    "Soft offer",
-                    MenuEnum.Soft_offer.value,
-                    null,
-                    dashboardDetailsResponse.data!!.softOffer!!,
-                    R.drawable.ic_menu_softoffers,
-                    R.drawable.v2_menu_light_blue
-                )
+                    getMenu(
+                            "Soft offer",
+                            MenuEnum.Soft_offer.value,
+                            null,
+                            dashboardDetailsResponse.data!!.softOffer!!,
+                            R.drawable.ic_menu_softoffers,
+                            R.drawable.v2_menu_light_blue
+                    )
             )
             menuList.add(
-                getMenu(
-                    "Logged in",
-                    MenuEnum.Logged_In.value,
-                    null,
-                    dashboardDetailsResponse.data!!.loggedIn!!,
-                    R.drawable.ic_logged_in,
-                    R.drawable.v2_menu_light_green
-                )
+                    getMenu(
+                            "Logged in",
+                            MenuEnum.Logged_In.value,
+                            null,
+                            dashboardDetailsResponse.data!!.loggedIn!!,
+                            R.drawable.ic_logged_in,
+                            R.drawable.v2_menu_light_green
+                    )
             )
             menuList.add(
-                getMenu(
-                    "Approved",
-                    MenuEnum.Approved.value,
-                    formatAmount(dashboardDetailsResponse.data!!.approvedAmount!!.toString()),
-                    dashboardDetailsResponse.data!!.approved!!,
-                    R.drawable.ic_menu_approved,
-                    R.drawable.v2_menu_bright_green
-                )
+                    getMenu(
+                            "Approved",
+                            MenuEnum.Approved.value,
+                            formatAmount(dashboardDetailsResponse.data!!.approvedAmount!!.toString()),
+                            dashboardDetailsResponse.data!!.approved!!,
+                            R.drawable.ic_menu_approved,
+                            R.drawable.v2_menu_bright_green
+                    )
             )
             menuList.add(
-                getMenu(
-                    "Disbursed",
-                    MenuEnum.Disbursed.value,
-                    formatAmount(dashboardDetailsResponse.data!!.disbursedAmount!!.toString()),
-                    dashboardDetailsResponse.data!!.disbursed!!,
-                    R.drawable.ic_menu_disbursed,
-                    R.drawable.v2_menu_dark_green
-                )
+                    getMenu(
+                            "Disbursed",
+                            MenuEnum.Disbursed.value,
+                            formatAmount(dashboardDetailsResponse.data!!.disbursedAmount!!.toString()),
+                            dashboardDetailsResponse.data!!.disbursed!!,
+                            R.drawable.ic_menu_disbursed,
+                            R.drawable.v2_menu_dark_green
+                    )
             )
             menuList.add(
-                getMenu(
-                    "Add New",
-                    MenuEnum.Add_New.value,
-                    null,
-                    0,
-                    R.drawable.ic_menu_add,
-                    R.drawable.v2_menu_bright_yellow
-                )
+                    getMenu(
+                            "Add New",
+                            MenuEnum.Add_New.value,
+                            null,
+                            0,
+                            R.drawable.ic_menu_add,
+                            R.drawable.v2_menu_bright_yellow
+                    )
             )
 
             if (rvMenu.layoutManager == null) {
                 val layoutManagerStaggeredGridLayoutManager =
-                    StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                        StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
                 val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
                 rvMenu.addItemDecoration(GridItemDecoration(30, 2))
                 rvMenu.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
             }
 
             menuForDashboardAdapter = MenuForDashboardAdapter(
-                activity as Activity,
-                menuList,
-                object : itemClickCallBack {
-                    override fun itemClick(item: Any?, position: Int) {
-                        var m = item as MenuDTO
-                        openNextFragment(m.menuCode!!, m.menuName!!)
-                    }
-                })
+                    activity as Activity,
+                    menuList,
+                    object : itemClickCallBack {
+                        override fun itemClick(item: Any?, position: Int) {
+                            var m = item as MenuDTO
+                            openNextFragment(m.menuCode!!, m.menuName!!)
+                        }
+                    })
             rvMenu.adapter = menuForDashboardAdapter
         }
     }
 
     fun getMenu(
-        menuName: String?,
-        menuCode: String?,
-        amount: String?,
-        total: Int,
-        menuIcon: Int,
-        backgroundResource: Int
+            menuName: String?,
+            menuCode: String?,
+            amount: String?,
+            total: Int,
+            menuIcon: Int,
+            backgroundResource: Int
     ): MenuDTO {
 
         return MenuDTO(menuName, menuCode, amount, total, menuIcon, backgroundResource)
@@ -782,7 +788,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
 
                 val dashboardDetailsResponse: DashBoardDetailsResponse =
-                    mApiResponse.data as DashBoardDetailsResponse
+                        mApiResponse.data as DashBoardDetailsResponse
                 setMenuDataAdapter(dashboardDetailsResponse)
 
             }
@@ -807,7 +813,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 hideProgressDialog()
 
                 val ruleEngineBanksResponse: RuleEngineBanksResponse =
-                    mApiResponse.data as RuleEngineBanksResponse
+                        mApiResponse.data as RuleEngineBanksResponse
                 setPartnerBanksDetails(ruleEngineBanksResponse)
 
             }
@@ -856,12 +862,12 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 hideProgressDialog()
 
                 val commissionDetailsResponse: CommissionDetailsResponse =
-                    mApiResponse.data as CommissionDetailsResponse
+                        mApiResponse.data as CommissionDetailsResponse
                 tvTotalCommission.text = "₹" + formatAmount(
-                    commissionDetailsResponse!!.data!!.totalCommission.toString()
+                        commissionDetailsResponse!!.data!!.totalCommission.toString()
                 )
                 tvPotentialCommission.text = "₹" + formatAmount(
-                    commissionDetailsResponse!!.data!!.potentialCommission.toString()
+                        commissionDetailsResponse!!.data!!.potentialCommission.toString()
                 )
 
             }
@@ -886,10 +892,10 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 hideProgressDialog()
 
                 val emiResponse: EmiResponse =
-                    mApiResponse.data as EmiResponse
+                        mApiResponse.data as EmiResponse
                 if (emiResponse != null && emiResponse!!.data != null) {
                     tvEmiAmount.text = "₹" + formatAmount(
-                        emiResponse!!.data!!.toInt().toString()
+                            emiResponse!!.data!!.toInt().toString()
                     )
                 }
 
@@ -916,7 +922,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
                 val customerResponse: CustomerDetailsResponse? =
-                    mApiResponse.data as CustomerDetailsResponse?
+                        mApiResponse.data as CustomerDetailsResponse?
                 checkForNextScreenAfterCustomerResponse(customerResponse)
 
 
@@ -940,21 +946,21 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 hideProgressDialog()
 
                 val kycDocumentRes: KYCDocumentResponse =
-                    mApiResponse.data as KYCDocumentResponse
+                        mApiResponse.data as KYCDocumentResponse
                 if (kycDocumentRes.statusCode == "100") {
                     if (kycDocumentRes.data.groupedDoc.isNotEmpty() || kycDocumentRes.data.nonGroupedDoc.isNotEmpty())
                         cust.data?.caseId?.let {
                             navigateToKYCDocumentUploadFromApplicationList(
-                                selectedCustomerId.toString(),
-                                kycDocumentRes,
-                                it,
-                                cust
+                                    selectedCustomerId.toString(),
+                                    kycDocumentRes,
+                                    it,
+                                    cust
                             )
                         }
                     else if (kycDocumentRes.data.groupedDoc.isEmpty() && kycDocumentRes.data.nonGroupedDoc.isEmpty())
                         navigateToBankOfferStatusFromApplicationListFrag(
-                            selectedCustomerId,
-                            cust
+                                selectedCustomerId,
+                                cust
                         )
                 } else {
                     navigateToBankOfferStatusFromApplicationListFrag(selectedCustomerId, cust)
@@ -982,7 +988,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 hideProgressDialog()
 
                 val awsS3Details: AwsS3DetailsResponse =
-                    mApiResponse.data as AwsS3DetailsResponse
+                        mApiResponse.data as AwsS3DetailsResponse
                 if (awsS3Details != null && awsS3Details!!.data != null) {
                     CommonStrings.AWS_S3_BUCKETKEY = awsS3Details!!.data!!.accesskey
                     CommonStrings.AWS_S3_BUCKETNAME = awsS3Details!!.data!!.bucketname
@@ -1007,44 +1013,44 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     private fun checkForNextScreenAfterCustomerResponse(customerResponse: CustomerDetailsResponse?) {
 
         if ((customerResponse!!.data!!.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse!!.data!!.subStatus.equals(
-                ApplicationStatusEnum.Registered.value
-            )) ||
-            (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse!!.data!!.subStatus.equals(
-                ApplicationStatusEnum.Employment_Details_Submitted.value
-            )) ||
-            (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse.data!!.subStatus.equals(
-                ApplicationStatusEnum.KYC_Done.value
-            )) ||
-            (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse.data!!.subStatus.equals(
-                ApplicationStatusEnum.Employment_Details_Submitted.value
-            ))
+                        ApplicationStatusEnum.Registered.value
+                )) ||
+                (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse!!.data!!.subStatus.equals(
+                        ApplicationStatusEnum.Employment_Details_Submitted.value
+                )) ||
+                (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse.data!!.subStatus.equals(
+                        ApplicationStatusEnum.KYC_Done.value
+                )) ||
+                (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse.data!!.subStatus.equals(
+                        ApplicationStatusEnum.Employment_Details_Submitted.value
+                ))
 
         ) {
             var addLeadRequest = AddLeadRequest()
             var vehicleDetails = AddLeadVehicleDetails()
 
             vehicleDetails!!.RegistrationYear =
-                customerResponse.data!!.vehicleDetails!!.registrationYear
+                    customerResponse.data!!.vehicleDetails!!.registrationYear
             vehicleDetails!!.Make = customerResponse.data!!.vehicleDetails!!.make
             vehicleDetails!!.Model = customerResponse.data!!.vehicleDetails!!.model
             vehicleDetails!!.Variant = customerResponse.data!!.vehicleDetails!!.variant
             vehicleDetails!!.Ownership = customerResponse.data!!.vehicleDetails!!.ownership
             vehicleDetails!!.VehicleNumber =
-                customerResponse.data!!.vehicleDetails!!.vehicleNumber
+                    customerResponse.data!!.vehicleDetails!!.vehicleNumber
             vehicleDetails!!.KMs = customerResponse.data!!.vehicleDetails!!.kMs
             vehicleDetails!!.FuelType = customerResponse.data!!.vehicleDetails!!.fuelType
 
             var basicDetails = BasicDetails()
             basicDetails.FirstName =
-                customerResponse.data!!.basicDetails!!.firstName
+                    customerResponse.data!!.basicDetails!!.firstName
             basicDetails.LastName =
-                customerResponse.data!!.basicDetails!!.lastName
+                    customerResponse.data!!.basicDetails!!.lastName
             basicDetails.Email =
-                customerResponse.data!!.basicDetails!!.email
+                    customerResponse.data!!.basicDetails!!.email
             basicDetails.Salutation =
-                customerResponse.data!!.basicDetails!!.salutation
+                    customerResponse.data!!.basicDetails!!.salutation
             basicDetails.CustomerMobile =
-                customerResponse.data!!.basicDetails!!.customerMobile
+                    customerResponse.data!!.basicDetails!!.customerMobile
 
             var data = AddLeadData()
 
@@ -1052,21 +1058,21 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             data!!.basicDetails = basicDetails
             addLeadRequest.Data = data
             navigateToAddLeadFragment(
-                addLeadRequest,
-                selectedCustomerId,
-                customerResponse.data!!.basicDetails!!.customerMobile
+                    addLeadRequest,
+                    selectedCustomerId,
+                    customerResponse.data!!.basicDetails!!.customerMobile
             )
         } else {
             when (customerResponse.data?.status) {
                 getString(R.string.v2_lead_status_kyc_done) -> {
                     navToSoftOffer(
-                        customerResponse,
-                        selectedCustomerId.toString(),
-                        CommonStrings.APPLICATION_LIST_FRAGMENT_TAG
+                            customerResponse,
+                            selectedCustomerId.toString(),
+                            CommonStrings.APPLICATION_LIST_FRAGMENT_TAG
                     )
                 }
                 getString(R.string.v2_lead_status_lender_selected) -> {
-                    navigateToAddressAdditionalFields(selectedCustomerId, customerResponse,"")
+                    navigateToAddressAdditionalFields(selectedCustomerId, customerResponse, "")
                 }
                 getString(R.string.v2_lead_status_bank_form_filled) -> {
                     cust = customerResponse
@@ -1074,8 +1080,8 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 }
                 getString(R.string.v2_lead_status_document_upload) -> {
                     navigateToBankOfferStatusFromApplicationListFrag(
-                        selectedCustomerId,
-                        customerResponse
+                            selectedCustomerId,
+                            customerResponse
                     )
                 }
                 getString(R.string.v2_lead_status_submitted_to_bank) -> {
