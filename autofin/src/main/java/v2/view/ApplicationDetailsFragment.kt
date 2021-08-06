@@ -343,14 +343,29 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     )
                 }
 
-                list.add(
-                    KeyValueDTO(
-                        "Resident city",
-                        customerResponse?.data?.residentialDetails?.customerCity?.toString() + (" (since "
-                                + customerResponse?.data?.residentialDetails?.noOfYearInResident?.toString() + " years)")
+                if(customerResponse?.data?.residentialDetails?.customerCity!=null)
+                {
+                    list.add(
+                            KeyValueDTO(
+                                    "Resident city",
+                                    customerResponse?.data?.residentialDetails?.customerCity?.toString() + (" (since "
+                                            + customerResponse?.data?.residentialDetails?.noOfYearInResident?.toString() + " years)")
 
+                            )
                     )
-                )
+                }
+                else
+                {
+                    list.add(
+                            KeyValueDTO(
+                                    "Resident city",
+                                    "NA" + (" (since "
+                                            + customerResponse?.data?.residentialDetails?.noOfYearInResident?.toString() + " years)")
+
+                            )
+                    )
+                }
+
 
 
                 list.add(
