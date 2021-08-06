@@ -184,49 +184,49 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
 
             tvTitle.text =
                 customerResponse?.data?.basicDetails?.firstName + " " + customerResponse?.data?.basicDetails?.lastName
-            tvStatus.text = customerResponse!!.data!!.status
+            tvStatus.text = customerResponse?.data?.status
             tvSubTitle.text =
                 customerResponse?.data?.vehicleDetails?.make + " " + customerResponse?.data?.vehicleDetails?.model
             val list: ArrayList<KeyValueDTO> = arrayListOf<KeyValueDTO>()
-            list.add(KeyValueDTO("Case id", customerResponse!!.data!!.caseId))
+            list.add(KeyValueDTO("Case id", customerResponse?.data?.caseId))
             list.add(
                 KeyValueDTO(
                     "Name",
-                    customerResponse!!.data!!.basicDetails!!.salutation + " " + customerResponse!!.data!!.basicDetails!!.firstName + " " + customerResponse!!.data!!.basicDetails!!.lastName
+                    customerResponse?.data?.basicDetails?.salutation + " " + customerResponse?.data?.basicDetails?.firstName + " " + customerResponse?.data?.basicDetails?.lastName
                 )
             )
             list.add(
                 KeyValueDTO(
                     "Mobile No",
-                    customerResponse!!.data!!.basicDetails!!.customerMobile
+                    customerResponse?.data?.basicDetails?.customerMobile
                 )
             )
-            list.add(KeyValueDTO("Email", customerResponse!!.data!!.basicDetails!!.email))
+            list.add(KeyValueDTO("Email", customerResponse?.data?.basicDetails?.email))
 
-            list.add(KeyValueDTO("Make", customerResponse!!.data!!.vehicleDetails!!.make))
+            list.add(KeyValueDTO("Make", customerResponse?.data?.vehicleDetails?.make))
             list.add(
                 KeyValueDTO(
                     "Vehicle Number",
-                    customerResponse!!.data!!.vehicleDetails!!.vehicleNumber
+                    customerResponse?.data?.vehicleDetails?.vehicleNumber
                 )
             )
-            list.add(KeyValueDTO("Model", customerResponse!!.data!!.vehicleDetails!!.model))
-            list.add(KeyValueDTO("Variant", customerResponse!!.data!!.vehicleDetails!!.variant))
+            list.add(KeyValueDTO("Model", customerResponse?.data?.vehicleDetails?.model))
+            list.add(KeyValueDTO("Variant", customerResponse?.data?.vehicleDetails?.variant))
             list.add(
                 KeyValueDTO(
                     "Year",
-                    customerResponse!!.data!!.vehicleDetails!!.registrationYear.toString()
+                    customerResponse?.data?.vehicleDetails?.registrationYear.toString()
                 )
             )
             list.add(
                 KeyValueDTO(
                     "Owner",
-                    customerResponse!!.data!!.vehicleDetails!!.ownership.toString()
+                    customerResponse?.data?.vehicleDetails?.ownership.toString()
                 )
             )
 
 
-            if (customerResponse!!.data!!.loanDetails != null && customerResponse!!.data!!.loanDetails != null) {
+            if (customerResponse?.data?.loanDetails != null && customerResponse?.data?.loanDetails != null) {
                 list.add(
                     KeyValueDTO(
                         "Loan Amount",
@@ -311,7 +311,7 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                 list.add(
                     KeyValueDTO(
                         "Total Work Experience (Years)",
-                        (customerResponse!!.data!!.employmentDetails!!.totalWorkExperience)
+                        (customerResponse?.data?.employmentDetails?.totalWorkExperience)
                     )
                 )
 
@@ -319,7 +319,7 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     KeyValueDTO(
                         "Net Income",
                         formatAmount(
-                            customerResponse!!.data!!.employmentDetails!!.netAnualIncome!!.toInt()
+                            customerResponse?.data?.employmentDetails?.netAnualIncome?.toInt()
                                 .toString()
                         )
                     )
@@ -328,16 +328,16 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                 list.add(
                     KeyValueDTO(
                         "Residence Type",
-                        customerResponse!!.data!!.residentialDetails!!.residenceType!!
+                        customerResponse?.data?.residentialDetails?.residenceType
 
 
                     )
                 )
-                if (customerResponse!!.data!!.basicDetails!!.haveExistingEMI == true) {
+                if (customerResponse?.data?.basicDetails?.haveExistingEMI == true) {
                     list.add(
                         KeyValueDTO(
                             "Current EMI",
-                            formatAmount(customerResponse!!.data!!.basicDetails!!.totalEMI!!.toInt().toString())
+                            formatAmount(customerResponse?.data?.basicDetails?.totalEMI?.toInt().toString())
 
                         )
                     )
@@ -346,10 +346,8 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                 list.add(
                     KeyValueDTO(
                         "Resident city",
-                        customerResponse!!.data!!.residentialDetails!!.customerCity!!
-                            .toString() + (" (since "
-                                + customerResponse!!.data!!.residentialDetails!!.noOfYearInResident!!
-                            .toString() + " years)")
+                        customerResponse?.data?.residentialDetails?.customerCity?.toString() + (" (since "
+                                + customerResponse?.data?.residentialDetails?.noOfYearInResident?.toString() + " years)")
 
                     )
                 )
@@ -358,16 +356,13 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                 list.add(
                     KeyValueDTO(
                         "PAN Number",
-
-                        customerResponse!!.data!!.basicDetails!!.panNumber
-                        !!
-
+                        customerResponse?.data?.basicDetails?.panNumber
                     )
                 )
 
-                keyValueRecyclerViewAdapter!!.dataListFilter =
-                    keyValueRecyclerViewAdapter!!.dataListFilter!!.plus(list)
-                keyValueRecyclerViewAdapter!!.notifyDataSetChanged()
+                keyValueRecyclerViewAdapter?.dataListFilter =
+                    keyValueRecyclerViewAdapter?.dataListFilter?.plus(list)
+                keyValueRecyclerViewAdapter?.notifyDataSetChanged()
             }
         }
     }
