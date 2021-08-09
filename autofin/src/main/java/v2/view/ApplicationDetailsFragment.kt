@@ -58,22 +58,22 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         transactionViewModel = ViewModelProvider(this).get(
-            TransactionViewModel::class.java
+                TransactionViewModel::class.java
         )
         masterViewModel = ViewModelProvider(this).get(MasterViewModel::class.java)
 
 
         transactionViewModel.getCustomerDetailsLiveData()
-            .observe(requireActivity(), { mApiResponse: ApiResponse? ->
-                onCustomerDetails(
-                    mApiResponse!!
-                )
-            })
+                .observe(requireActivity(), { mApiResponse: ApiResponse? ->
+                    onCustomerDetails(
+                            mApiResponse!!
+                    )
+                })
 
         masterViewModel.getKYCDocumentLiveData()
-            .observe(requireActivity()) { mApiResponse: ApiResponse? ->
-                onGetKYCDocumentResponse(mApiResponse!!)
-            }
+                .observe(requireActivity()) { mApiResponse: ApiResponse? ->
+                    onGetKYCDocumentResponse(mApiResponse!!)
+                }
 
 
     }
@@ -83,8 +83,8 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         if (rootView != null) {
 
@@ -163,8 +163,8 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
     fun callCustomerDetailsApi(customerIdValue: Int) {
 
         transactionViewModel.getCustomerDetails(
-            createCustomerDetailsRequest(customerIdValue),
-            Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL
+                createCustomerDetailsRequest(customerIdValue),
+                Global.customerAPI_BaseURL + CommonStrings.CUSTOMER_DETAILS_END_URL
         )
 
     }
@@ -173,58 +173,58 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
     private fun setCustomerData() {
         if (customerResponse != null) {
 
-            if (customerResponse?.data?.status == getString(R.string.v2_lead_status_submitted_to_bank)||
-                    customerResponse?.data?.status== ScreenTypeEnum.Disbursed.value||
-                    customerResponse?.data?.status== ScreenTypeEnum.Approved.value||
-                    customerResponse?.data?.status==ApplicationStatusEnum.Rejected.value||
-                    customerResponse?.data?.status==ApplicationStatusEnum.Closed.value)
+            if (customerResponse?.data?.status == getString(R.string.v2_lead_status_submitted_to_bank) ||
+                    customerResponse?.data?.status == ScreenTypeEnum.Disbursed.value ||
+                    customerResponse?.data?.status == ScreenTypeEnum.Approved.value ||
+                    customerResponse?.data?.status == ApplicationStatusEnum.Rejected.value ||
+                    customerResponse?.data?.status == ApplicationStatusEnum.Closed.value)
                 btnComplete.visibility = View.GONE
             else
                 btnComplete.visibility = View.VISIBLE
 
             tvTitle.text =
-                customerResponse?.data?.basicDetails?.firstName + " " + customerResponse?.data?.basicDetails?.lastName
+                    customerResponse?.data?.basicDetails?.firstName + " " + customerResponse?.data?.basicDetails?.lastName
             tvStatus.text = customerResponse?.data?.status
             tvSubTitle.text =
-                customerResponse?.data?.vehicleDetails?.make + " " + customerResponse?.data?.vehicleDetails?.model
+                    customerResponse?.data?.vehicleDetails?.make + " " + customerResponse?.data?.vehicleDetails?.model
             val list: ArrayList<KeyValueDTO> = arrayListOf<KeyValueDTO>()
             list.add(KeyValueDTO("Case id", customerResponse?.data?.caseId))
             list.add(
-                KeyValueDTO(
-                    "Name",
-                    customerResponse?.data?.basicDetails?.salutation + " " + customerResponse?.data?.basicDetails?.firstName + " " + customerResponse?.data?.basicDetails?.lastName
-                )
+                    KeyValueDTO(
+                            "Name",
+                            customerResponse?.data?.basicDetails?.salutation + " " + customerResponse?.data?.basicDetails?.firstName + " " + customerResponse?.data?.basicDetails?.lastName
+                    )
             )
             list.add(
-                KeyValueDTO(
-                    "Mobile No",
-                    customerResponse?.data?.basicDetails?.customerMobile
-                )
+                    KeyValueDTO(
+                            "Mobile No",
+                            customerResponse?.data?.basicDetails?.customerMobile
+                    )
             )
             list.add(KeyValueDTO("Email", customerResponse?.data?.basicDetails?.email))
 
             list.add(KeyValueDTO("Make", customerResponse?.data?.vehicleDetails?.make))
             list.add(
-                KeyValueDTO(
-                    "Vehicle Number",
-                    customerResponse?.data?.vehicleDetails?.vehicleNumber
-                )
+                    KeyValueDTO(
+                            "Vehicle Number",
+                            customerResponse?.data?.vehicleDetails?.vehicleNumber
+                    )
             )
             list.add(KeyValueDTO("Model", customerResponse?.data?.vehicleDetails?.model))
             list.add(KeyValueDTO("Variant", customerResponse?.data?.vehicleDetails?.variant))
             list.add(
-                KeyValueDTO(
-                    "Year",
-                    customerResponse?.data?.vehicleDetails?.registrationYear.toString()
-                )
+                    KeyValueDTO(
+                            "Year",
+                            customerResponse?.data?.vehicleDetails?.registrationYear.toString()
+                    )
             )
 
 
             list.add(
-                KeyValueDTO(
-                    "Owner",
-                    customerResponse?.data?.vehicleDetails?.ownership.toString()
-                )
+                    KeyValueDTO(
+                            "Owner",
+                            customerResponse?.data?.vehicleDetails?.ownership.toString()
+                    )
             )
 
 
@@ -238,9 +238,16 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                                     formatAmount(customerResponse?.data?.loanDetails?.loanAmount)
                             )
                     )
+                } else {
+                    list.add(
+                            KeyValueDTO(
+                                    "Loan Amount",
+                                    "NA")
+                    )
                 }
 
             }
+
             KeyValueRecyclerViewAdapter(activity as Activity, list, object :
                     itemClickCallBack {
                 override fun itemClick(item: Any?, position: Int) {
@@ -260,44 +267,71 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
             tvViewAll.visibility = View.GONE
             val list: ArrayList<KeyValueDTO> = arrayListOf<KeyValueDTO>()
             if (customerResponse?.data?.loanDetails != null && customerResponse?.data?.loanDetails != null) {
-                list.add(
-                        KeyValueDTO(
-                                "Lender",
-                                (customerResponse?.data?.loanDetails?.bankName)
-                        )
-                )
-                if(!customerResponse?.data?.loanDetails?.tenure.isNullOrEmpty())
-                {
+
+                if (customerResponse?.data?.loanDetails?.bankName != null) {
+                    list.add(
+                            KeyValueDTO(
+                                    "Lender",
+                                    (customerResponse?.data?.loanDetails?.bankName)
+                            )
+                    )
+
+                } else {
+                    list.add(
+                            KeyValueDTO(
+                                    "Lender",
+                                    ("NA")
+                            )
+                    )
+
+                }
+
+                if (!customerResponse?.data?.loanDetails?.tenure.isNullOrEmpty()) {
                     list.add(
                             KeyValueDTO(
                                     "Tenure (Months)",
                                     formatAmount(customerResponse?.data?.loanDetails?.tenure)
                             )
                     )
+                } else {
+                    list.add(
+                            KeyValueDTO("Tenure (Months)", "NA")
+                    )
                 }
 
-                if(!customerResponse?.data?.loanDetails?.emi.isNullOrEmpty())
-                {
+                if (!customerResponse?.data?.loanDetails?.emi.isNullOrEmpty()) {
                     list.add(
                             KeyValueDTO(
                                     "EMI",
                                     (formatAmount(customerResponse?.data?.loanDetails?.emi))
                             )
                     )
+                } else {
+                    list.add(
+                            KeyValueDTO(
+                                    "EMI",
+                                    "NA")
+                    )
+
                 }
 
-                if(customerResponse?.data?.loanDetails?.roi!=null)
-                {
+                if (customerResponse?.data?.loanDetails?.roi != null) {
                     list.add(
                             KeyValueDTO(
                                     "Interest Rate (%)",
                                     ((customerResponse?.data?.loanDetails?.roi))
                             )
                     )
+                } else {
+                    list.add(
+                            KeyValueDTO(
+                                    "Interest Rate (%)",
+                                    ("NA")
+                            )
+                    )
                 }
 
-                if(!customerResponse?.data?.loanDetails?.processingFees.isNullOrEmpty())
-                {
+                if (!customerResponse?.data?.loanDetails?.processingFees.isNullOrEmpty()) {
                     list.add(
                             KeyValueDTO(
                                     "Processing fee",
@@ -305,46 +339,68 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                             )
                     )
 
+                } else {
+                    list.add(
+                            KeyValueDTO(
+                                    "Processing fee",
+                                    "NA")
+                    )
+
                 }
 
-                if(customerResponse?.data?.employmentDetails?.employmentType!=null)
-                {
+                if (customerResponse?.data?.employmentDetails?.employmentType != null) {
                     list.add(
                             KeyValueDTO(
                                     "Employment Type",
                                     (customerResponse?.data?.employmentDetails?.employmentType)
                             )
                     )
+                } else {
+                    list.add(
+                            KeyValueDTO(
+                                    "Employment Type", "NA")
+                    )
+
                 }
 
-                if (customerResponse?.data?.employmentDetails?.salaryAccount!= null) {
+                if (customerResponse?.data?.employmentDetails?.salaryAccount != null) {
                     list.add(
-                        KeyValueDTO(
-                            "Salary Account",
-                            customerResponse?.data?.employmentDetails?.salaryAccount
-                        )
+                            KeyValueDTO(
+                                    "Salary Account",
+                                    customerResponse?.data?.employmentDetails?.salaryAccount
+                            )
                     )
                 } else if (customerResponse?.data?.employmentDetails?.primaryAccount != null) {
                     list.add(
-                        KeyValueDTO(
-                            "Primary Account",
-                            customerResponse?.data?.employmentDetails?.primaryAccount
-                        )
+                            KeyValueDTO(
+                                    "Primary Account",
+                                    customerResponse?.data?.employmentDetails?.primaryAccount
+                            )
+                    )
+                } else {
+                    list.add(
+                            KeyValueDTO(
+                                    "Primary / Salary Account",
+                                    "NA")
                     )
                 }
 
-                if(customerResponse?.data?.employmentDetails?.totalWorkExperience!=null)
-                {
+                if (customerResponse?.data?.employmentDetails?.totalWorkExperience != null) {
                     list.add(
                             KeyValueDTO(
                                     "Total Work Experience (Years)",
                                     (customerResponse?.data?.employmentDetails?.totalWorkExperience)
                             )
                     )
+                } else {
+                    list.add(
+                            KeyValueDTO(
+                                    "Total Work Experience (Years)",
+                                    "NA")
+                    )
                 }
 
-                if(customerResponse?.data?.employmentDetails?.netAnualIncome!=null)
-                {
+                if (customerResponse?.data?.employmentDetails?.netAnualIncome != null) {
                     list.add(
                             KeyValueDTO(
                                     "Net Income",
@@ -355,10 +411,17 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                             )
                     )
 
+                } else {
+                    list.add(
+                            KeyValueDTO(
+                                    "Net Income",
+                                    "NA"
+                            )
+                    )
+
                 }
 
-                if(customerResponse?.data?.residentialDetails?.residenceType!=null)
-                {
+                if (customerResponse?.data?.residentialDetails?.residenceType != null) {
                     list.add(
                             KeyValueDTO(
                                     "Residence Type",
@@ -367,25 +430,37 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
 
                             )
                     )
+                } else {
+                    list.add(
+                            KeyValueDTO(
+                                    "Residence Type",
+                                    "NA"
+                            )
+                    )
                 }
 
 
                 if (customerResponse?.data?.basicDetails?.haveExistingEMI == true) {
 
-                   if(customerResponse?.data?.basicDetails?.totalEMI!=null)
-                   {
-                       list.add(
-                               KeyValueDTO(
-                                       "Current EMI",
-                                       formatAmount(customerResponse?.data?.basicDetails?.totalEMI?.toInt().toString())
-                               )
-                       )
-                   }
+                    if (customerResponse?.data?.basicDetails?.totalEMI != null) {
+                        list.add(
+                                KeyValueDTO(
+                                        "Current EMI",
+                                        formatAmount(customerResponse?.data?.basicDetails?.totalEMI?.toInt().toString())
+                                )
+                        )
+                    } else {
+                        list.add(
+                                KeyValueDTO(
+                                        "Current EMI",
+                                        "NA")
+                        )
+
+                    }
 
                 }
 
-                if(customerResponse?.data?.residentialDetails?.customerCity!=null)
-                {
+                if (customerResponse?.data?.residentialDetails?.customerCity != null) {
                     list.add(
                             KeyValueDTO(
                                     "Resident city",
@@ -394,42 +469,32 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
 
                             )
                     )
-                }
-                else
-                {
+                } else {
                     list.add(
                             KeyValueDTO(
                                     "Resident city",
-                                    "NA" + (" (since "
-                                            + customerResponse?.data?.residentialDetails?.noOfYearInResident?.toString() + " years)")
-
+                                    "NA"
                             )
                     )
                 }
 
-                if(customerResponse?.data?.basicDetails?.panNumber!=null)
-                {
+                if (customerResponse?.data?.basicDetails?.panNumber != null) {
                     list.add(
                             KeyValueDTO(
                                     "PAN Number",
                                     customerResponse?.data?.basicDetails?.panNumber
                             )
                     )
-
-                }
-
-                if(customerResponse?.data?.basicDetails?.panNumber!=null)
-                {
+                } else {
                     list.add(
                             KeyValueDTO(
                                     "PAN Number",
-                                    customerResponse?.data?.basicDetails?.panNumber
-                            )
+                                    "NA")
                     )
                 }
 
                 keyValueRecyclerViewAdapter?.dataListFilter =
-                    keyValueRecyclerViewAdapter?.dataListFilter?.plus(list)
+                        keyValueRecyclerViewAdapter?.dataListFilter?.plus(list)
                 keyValueRecyclerViewAdapter?.notifyDataSetChanged()
             }
         }
@@ -438,44 +503,44 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
     private fun checkForNextNavigation() {
 
         if ((customerResponse!!.data!!.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse!!.data!!.subStatus.equals(
-                ApplicationStatusEnum.Registered.value
-            )) ||
-            (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse!!.data!!.subStatus.equals(
-                ApplicationStatusEnum.Employment_Details_Submitted.value
-            )) ||
-            (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse!!.data!!.subStatus.equals(
-                ApplicationStatusEnum.KYC_Done.value
-            )) ||
-            (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse!!.data!!.subStatus.equals(
-                ApplicationStatusEnum.Employment_Details_Submitted.value
-            ))
+                        ApplicationStatusEnum.Registered.value
+                )) ||
+                (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse!!.data!!.subStatus.equals(
+                        ApplicationStatusEnum.Employment_Details_Submitted.value
+                )) ||
+                (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse!!.data!!.subStatus.equals(
+                        ApplicationStatusEnum.KYC_Done.value
+                )) ||
+                (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse!!.data!!.subStatus.equals(
+                        ApplicationStatusEnum.Employment_Details_Submitted.value
+                ))
 
         ) {
             val addLeadRequest = AddLeadRequest()
             val vehicleDetails = AddLeadVehicleDetails()
 
             vehicleDetails.RegistrationYear =
-                customerResponse!!.data!!.vehicleDetails!!.registrationYear
+                    customerResponse!!.data!!.vehicleDetails!!.registrationYear
             vehicleDetails.Make = customerResponse!!.data!!.vehicleDetails!!.make
             vehicleDetails.Model = customerResponse!!.data!!.vehicleDetails!!.model
             vehicleDetails.Variant = customerResponse!!.data!!.vehicleDetails!!.variant
             vehicleDetails.Ownership = customerResponse!!.data!!.vehicleDetails!!.ownership
             vehicleDetails.VehicleNumber =
-                customerResponse!!.data!!.vehicleDetails!!.vehicleNumber
+                    customerResponse!!.data!!.vehicleDetails!!.vehicleNumber
             vehicleDetails.KMs = customerResponse!!.data!!.vehicleDetails!!.kMs
             vehicleDetails.FuelType = customerResponse!!.data!!.vehicleDetails!!.fuelType
 
             val basicDetails = BasicDetails()
             basicDetails.FirstName =
-                customerResponse!!.data!!.basicDetails!!.firstName
+                    customerResponse!!.data!!.basicDetails!!.firstName
             basicDetails.LastName =
-                customerResponse!!.data!!.basicDetails!!.lastName
+                    customerResponse!!.data!!.basicDetails!!.lastName
             basicDetails.Email =
-                customerResponse!!.data!!.basicDetails!!.email
+                    customerResponse!!.data!!.basicDetails!!.email
             basicDetails.Salutation =
-                customerResponse!!.data!!.basicDetails!!.salutation
+                    customerResponse!!.data!!.basicDetails!!.salutation
             basicDetails.CustomerMobile =
-                customerResponse!!.data!!.basicDetails!!.customerMobile
+                    customerResponse!!.data!!.basicDetails!!.customerMobile
 
             val data = AddLeadData()
 
@@ -483,21 +548,21 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
             data.basicDetails = basicDetails
             addLeadRequest.Data = data
             navigateToAddLeadFragment(
-                addLeadRequest,
-                customerId.toInt(),
-                customerResponse!!.data!!.basicDetails!!.customerMobile
+                    addLeadRequest,
+                    customerId.toInt(),
+                    customerResponse!!.data!!.basicDetails!!.customerMobile
             )
         } else {
             when (customerResponse!!.data?.status) {
                 getString(R.string.v2_lead_status_kyc_done) -> {
                     navToSoftOffer(
-                        customerResponse!!,
-                        customerId,
-                        CommonStrings.APPLICATION_LIST_FRAGMENT_TAG
+                            customerResponse!!,
+                            customerId,
+                            CommonStrings.APPLICATION_LIST_FRAGMENT_TAG
                     )
                 }
                 getString(R.string.v2_lead_status_lender_selected) -> {
-                    navigateToAddressAdditionalFields(customerId.toInt(), customerResponse!!,"")
+                    navigateToAddressAdditionalFields(customerId.toInt(), customerResponse!!, "")
                 }
                 getString(R.string.v2_lead_status_bank_form_filled) -> {
                     cust = customerResponse!!
@@ -505,23 +570,23 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                 }
                 getString(R.string.v2_lead_status_document_upload) -> {
                     navigateToBankOfferStatusFromApplicationListFrag(
-                        customerId.toInt(),
-                        customerResponse!!
+                            customerId.toInt(),
+                            customerResponse!!
                     )
                 }
                 getString(R.string.v2_lead_status_submitted_to_bank) -> {
                     val salutation = customerResponse!!.data?.basicDetails?.salutation
                     val name =
-                        customerResponse!!.data?.basicDetails?.firstName + " " + customerResponse!!.data?.basicDetails?.lastName
+                            customerResponse!!.data?.basicDetails?.firstName + " " + customerResponse!!.data?.basicDetails?.lastName
                     val caseId = customerResponse!!.data?.caseId
                     caseId?.let {
                         CustomLoanProcessCompletedData(
-                            customerId.toInt(),
-                            salutation + " " + name,
-                            it
+                                customerId.toInt(),
+                                salutation + " " + name,
+                                it
                         )
                     }
-                        ?.let { navigateToBankSuccessPageFromSoftOffer(it) }
+                            ?.let { navigateToBankSuccessPageFromSoftOffer(it) }
                 }
             }
         }
@@ -571,10 +636,10 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     if (kycDocumentRes.data.groupedDoc.isNotEmpty() || kycDocumentRes.data.nonGroupedDoc.isNotEmpty())
                         cust.data?.caseId?.let {
                             navigateToKYCDocumentUploadFromApplicationList(
-                                customerId,
-                                kycDocumentRes,
-                                it,
-                                cust
+                                    customerId,
+                                    kycDocumentRes,
+                                    it,
+                                    cust
                             )
                         }
                     else if (kycDocumentRes.data.groupedDoc.isEmpty() && kycDocumentRes.data.nonGroupedDoc.isEmpty())
