@@ -7,7 +7,8 @@
     android:layout_height="wrap_content"
     android:elevation="@dimen/text_size10dp"
     android:background="@drawable/v2_menu_dark_green"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_weight="1">
 
     <LinearLayout
         android:layout_width="match_parent"

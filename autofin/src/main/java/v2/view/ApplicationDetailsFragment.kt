@@ -218,6 +218,8 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     customerResponse?.data?.vehicleDetails?.registrationYear.toString()
                 )
             )
+
+
             list.add(
                 KeyValueDTO(
                     "Owner",
@@ -227,12 +229,17 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
 
 
             if (customerResponse?.data?.loanDetails != null && customerResponse?.data?.loanDetails != null) {
-                list.add(
-                    KeyValueDTO(
-                        "Loan Amount",
-                        formatAmount(customerResponse!!.data!!.loanDetails!!.loanAmount)
+
+                if (!customerResponse?.data?.loanDetails?.loanAmount.isNullOrEmpty()) {
+
+                    list.add(
+                            KeyValueDTO(
+                                    "Loan Amount",
+                                    formatAmount(customerResponse?.data?.loanDetails?.loanAmount)
+                            )
                     )
-                )
+                }
+
             }
             KeyValueRecyclerViewAdapter(activity as Activity, list, object :
                     itemClickCallBack {
@@ -259,38 +266,56 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                                 (customerResponse?.data?.loanDetails?.bankName)
                         )
                 )
-                list.add(
-                    KeyValueDTO(
-                        "Tenure (Months)",
-                        formatAmount(customerResponse?.data?.loanDetails?.tenure)
+                if(!customerResponse?.data?.loanDetails?.tenure.isNullOrEmpty())
+                {
+                    list.add(
+                            KeyValueDTO(
+                                    "Tenure (Months)",
+                                    formatAmount(customerResponse?.data?.loanDetails?.tenure)
+                            )
                     )
-                )
-                list.add(
-                    KeyValueDTO(
-                        "EMI",
-                        (formatAmount(customerResponse?.data?.loanDetails?.emi))
-                    )
-                )
-                list.add(
-                    KeyValueDTO(
-                        "Interest Rate (%)",
-                        ((customerResponse?.data?.loanDetails?.roi))
-                    )
-                )
-                list.add(
-                    KeyValueDTO(
-                        "Processing fee",
-                        formatAmount(customerResponse?.data?.loanDetails?.processingFees)
-                    )
-                )
+                }
 
-
-                list.add(
-                    KeyValueDTO(
-                        "Employment Type",
-                        (customerResponse?.data?.employmentDetails?.employmentType)
+                if(!customerResponse?.data?.loanDetails?.emi.isNullOrEmpty())
+                {
+                    list.add(
+                            KeyValueDTO(
+                                    "EMI",
+                                    (formatAmount(customerResponse?.data?.loanDetails?.emi))
+                            )
                     )
-                )
+                }
+
+                if(customerResponse?.data?.loanDetails?.roi!=null)
+                {
+                    list.add(
+                            KeyValueDTO(
+                                    "Interest Rate (%)",
+                                    ((customerResponse?.data?.loanDetails?.roi))
+                            )
+                    )
+                }
+
+                if(!customerResponse?.data?.loanDetails?.processingFees.isNullOrEmpty())
+                {
+                    list.add(
+                            KeyValueDTO(
+                                    "Processing fee",
+                                    formatAmount(customerResponse?.data?.loanDetails?.processingFees)
+                            )
+                    )
+
+                }
+
+                if(customerResponse?.data?.employmentDetails?.employmentType!=null)
+                {
+                    list.add(
+                            KeyValueDTO(
+                                    "Employment Type",
+                                    (customerResponse?.data?.employmentDetails?.employmentType)
+                            )
+                    )
+                }
 
                 if (customerResponse?.data?.employmentDetails?.salaryAccount!= null) {
                     list.add(
@@ -308,39 +333,55 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     )
                 }
 
-                list.add(
-                    KeyValueDTO(
-                        "Total Work Experience (Years)",
-                        (customerResponse?.data?.employmentDetails?.totalWorkExperience)
-                    )
-                )
-
-                list.add(
-                    KeyValueDTO(
-                        "Net Income",
-                        formatAmount(
-                            customerResponse?.data?.employmentDetails?.netAnualIncome?.toInt()
-                                .toString()
-                        )
-                    )
-                )
-
-                list.add(
-                    KeyValueDTO(
-                        "Residence Type",
-                        customerResponse?.data?.residentialDetails?.residenceType
-
-
-                    )
-                )
-                if (customerResponse?.data?.basicDetails?.haveExistingEMI == true) {
+                if(customerResponse?.data?.employmentDetails?.totalWorkExperience!=null)
+                {
                     list.add(
-                        KeyValueDTO(
-                            "Current EMI",
-                            formatAmount(customerResponse?.data?.basicDetails?.totalEMI?.toInt().toString())
-
-                        )
+                            KeyValueDTO(
+                                    "Total Work Experience (Years)",
+                                    (customerResponse?.data?.employmentDetails?.totalWorkExperience)
+                            )
                     )
+                }
+
+                if(customerResponse?.data?.employmentDetails?.netAnualIncome!=null)
+                {
+                    list.add(
+                            KeyValueDTO(
+                                    "Net Income",
+                                    formatAmount(
+                                            customerResponse?.data?.employmentDetails?.netAnualIncome?.toInt()
+                                                    .toString()
+                                    )
+                            )
+                    )
+
+                }
+
+                if(customerResponse?.data?.residentialDetails?.residenceType!=null)
+                {
+                    list.add(
+                            KeyValueDTO(
+                                    "Residence Type",
+                                    customerResponse?.data?.residentialDetails?.residenceType
+
+
+                            )
+                    )
+                }
+
+
+                if (customerResponse?.data?.basicDetails?.haveExistingEMI == true) {
+
+                   if(customerResponse?.data?.basicDetails?.totalEMI!=null)
+                   {
+                       list.add(
+                               KeyValueDTO(
+                                       "Current EMI",
+                                       formatAmount(customerResponse?.data?.basicDetails?.totalEMI?.toInt().toString())
+                               )
+                       )
+                   }
+
                 }
 
                 if(customerResponse?.data?.residentialDetails?.customerCity!=null)
@@ -366,14 +407,26 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                     )
                 }
 
-
-
-                list.add(
-                    KeyValueDTO(
-                        "PAN Number",
-                        customerResponse?.data?.basicDetails?.panNumber
+                if(customerResponse?.data?.basicDetails?.panNumber!=null)
+                {
+                    list.add(
+                            KeyValueDTO(
+                                    "PAN Number",
+                                    customerResponse?.data?.basicDetails?.panNumber
+                            )
                     )
-                )
+
+                }
+
+                if(customerResponse?.data?.basicDetails?.panNumber!=null)
+                {
+                    list.add(
+                            KeyValueDTO(
+                                    "PAN Number",
+                                    customerResponse?.data?.basicDetails?.panNumber
+                            )
+                    )
+                }
 
                 keyValueRecyclerViewAdapter?.dataListFilter =
                     keyValueRecyclerViewAdapter?.dataListFilter?.plus(list)
