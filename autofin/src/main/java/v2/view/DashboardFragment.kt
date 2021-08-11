@@ -194,6 +194,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     }
 
 
+    @SuppressLint("ClickableViewAccessibility", "UseCompatLoadingForDrawables")
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -248,12 +249,12 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             skYear = rootView!!.findViewById(R.id.sk_year)
             skInterestRate = rootView!!.findViewById(R.id.sk_interest_rate)
 
+
+
             skAmount.setPadding(40, 5, 40, 5)
             skYear.setPadding(40, 5, 41, 5)
             skInterestRate.setPadding(40, 5, 48, 5)
 
-
-            setSeekBarEvent()
 
             ivBack.setOnClickListener(this)
             ivNotification.setOnClickListener(this)
@@ -263,6 +264,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             llViewAllNotice.setOnClickListener(this)
             btnApplyNow.setOnClickListener(this)
             setScreenData()
+
         }
         return rootView
     }
@@ -318,10 +320,24 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
         skInterestRate.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
+                if (progress>200) {
+                    tvInterestRate.text = "25 %"
+
+                    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
+                        showToast("Maximum Interest Rate is 25, You cannot select beyond this")
+                    }
+
+                } else
+                    tvInterestRate.text = (progress/8).toString()+" %"
+
+
+
+/*
                 if (progress > 25) {
                     tvInterestRate.text = "25" + "%"
                 } else
-                    tvInterestRate.text = (progress.toString()) + "%"
+                    tvInterestRate.text = "$progress%"
+*/
 
             }
 
@@ -337,15 +353,15 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             skAmount.min = 50000
             skYear.min = 1
-            skInterestRate.min = 8
+            skInterestRate.min = 64
         }
 
         skAmount.max = 5000000
         skAmount.progress = 50000
         skYear.max = 13
         skYear.progress = 1
-        skInterestRate.max = 33
-        skInterestRate.progress = 8
+        skInterestRate.max = 264
+        skInterestRate.progress = 64
 
     }
 
@@ -354,12 +370,33 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
         skYear.progress < 1
         skInterestRate.progress < 8
+        var emiVal=1
+        var interestVal=8
+        emiVal = if(skYear.progress>12)
+        {
+            (skYear.progress-1)*12
+        }
+        else
+        {
+            (skYear.progress)*12
+        }
+
+        interestVal = if(skInterestRate.progress>200)
+        {
+            25
+        }
+        else
+        {
+            skInterestRate.progress/8
+        }
+
         dashboardViewModel.getEmiAmount(
                 EmiRequest(
                         EmiRequestData(
                                 skAmount.progress,
-                                skInterestRate.progress,
-                                (skYear.progress * 12)
+                                interestVal,
+                                emiVal
+
                         ),
                         CommonStrings.DEALER_ID,
                         CommonStrings.USER_TYPE
@@ -563,7 +600,6 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                         showProgressDialog(requireContext())
                         callEmiData()
                     }
-
 
                 }
                 R.id.iv_notification -> {

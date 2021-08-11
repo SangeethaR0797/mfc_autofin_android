@@ -228,12 +228,6 @@
 
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-
-                        android:background="@color/v2_grey" />
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -361,6 +355,12 @@
 
 
                 </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+
+                    android:background="@color/v2_grey" />
             </LinearLayout>
 
             <LinearLayout
@@ -443,7 +443,7 @@
                     android:splitTrack="false"
                     android:progressBackgroundTint="@color/vtwo_grey"
                     android:progressTint="@color/vtwo_yellow"
-                    android:thumb="@drawable/ic_seek_bar_icon" />
+                    />
 
                 <LinearLayout
                     android:id="@+id/linearLayoutYear"
@@ -493,8 +493,7 @@
                     android:layout_marginRight="@dimen/text_size10dp"
                     android:splitTrack="false"
                     android:progressBackgroundTint="@color/vtwo_grey"
-                    android:progressTint="@color/vtwo_yellow"
-                    android:thumb="@drawable/ic_seek_bar_icon"/>
+                    android:progressTint="@color/vtwo_yellow" />
 
                 <LinearLayout
                     android:id="@+id/linearLayoutInterestRate"
@@ -543,14 +542,12 @@
                     android:layout_marginRight="@dimen/text_size10dp"
                     android:splitTrack="false"
                     android:progressBackgroundTint="@color/vtwo_grey"
-                    android:progressTint="@color/vtwo_yellow"
-                    android:thumb="@drawable/ic_seek_bar_icon"/>
+                    android:progressTint="@color/vtwo_yellow"/>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/view_height_1dp"
                     android:layout_marginLeft="@dimen/text_size_14dp"
-
                     android:layout_marginRight="@dimen/text_size_14dp"
                     android:layout_marginBottom="@dimen/text_size_30dp"
                     android:background="@color/v2_grey" />
