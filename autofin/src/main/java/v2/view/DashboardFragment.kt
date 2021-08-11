@@ -255,7 +255,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             skYear.setPadding(40, 5, 41, 5)
             skInterestRate.setPadding(40, 5, 48, 5)
 
-
+            setSeekBarEvent()
             ivBack.setOnClickListener(this)
             ivNotification.setOnClickListener(this)
             rlNotification.setOnClickListener(this)
@@ -271,7 +271,6 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
 
     private fun setSeekBarEvent() {
-
 
         skAmount.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
@@ -306,7 +305,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                         } else
                             tvYear.text = (progress).toString() + " Years"
                     } else {
-                        tvYear.text = (progress.toString()) + " Year"
+                        tvYear.text = "$progress Year"
                     }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {
@@ -320,15 +319,19 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
         skInterestRate.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
-                if (progress>200) {
-                    tvInterestRate.text = "25 %"
 
-                    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
-                        showToast("Maximum Interest Rate is 25, You cannot select beyond this")
+                when {
+                    progress<8 -> {
+                        tvInterestRate.text = "8 %"
+                        showToast("Minimum Interest Rate is 8, any selected value less than 8 will be considered as 8")
                     }
-
-                } else
-                    tvInterestRate.text = (progress/8).toString()+" %"
+                    progress>25 -> {
+                        tvInterestRate.text = "25 %"
+                    }
+                    else -> {
+                        tvInterestRate.text = "$progress %"
+                    }
+                }
 
 
 
@@ -338,6 +341,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                 } else
                     tvInterestRate.text = "$progress%"
 */
+
 
             }
 
@@ -353,15 +357,15 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             skAmount.min = 50000
             skYear.min = 1
-            skInterestRate.min = 64
+            skInterestRate.min = 1
         }
 
         skAmount.max = 5000000
         skAmount.progress = 50000
         skYear.max = 13
         skYear.progress = 1
-        skInterestRate.max = 264
-        skInterestRate.progress = 64
+        skInterestRate.max = 33
+        skInterestRate.progress = 1
 
     }
 
@@ -381,13 +385,14 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             (skYear.progress)*12
         }
 
-        interestVal = if(skInterestRate.progress>200)
-        {
-            25
-        }
-        else
-        {
-            skInterestRate.progress/8
+        interestVal = when {
+            skInterestRate.progress>25 -> {
+                25
+            }
+            skInterestRate.progress<=8 -> {
+                8
+            }
+            else -> skInterestRate.progress
         }
 
         dashboardViewModel.getEmiAmount(
@@ -589,16 +594,20 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                     activity?.onBackPressed()
                 }
                 R.id.btn_apply_now -> {
-                    if (skAmount.progress < 50000) {
-                        showToast("Please select minimum loan Amount ₹ 50000.")
-                    } else if (skYear.progress < 1) {
-                        showToast("Please select minimum loan Tenure 1 year.")
-                    } else if (skInterestRate.progress < 8
-                    ) {
-                        showToast("Please select minimum loan Interest rate 8 %.")
-                    } else {
-                        showProgressDialog(requireContext())
-                        callEmiData()
+                    when {
+                        skAmount.progress < 50000 -> {
+                            showToast("Please select minimum loan Amount ₹ 50000.")
+                        }
+                        skYear.progress < 1 -> {
+                            showToast("Please select minimum loan Tenure 1 year.")
+                        }
+                        skInterestRate.progress < 8 -> {
+                            showToast("Please select minimum loan Interest rate 8 %.")
+                        }
+                        else -> {
+                            showProgressDialog(requireContext())
+                            callEmiData()
+                        }
                     }
 
                 }
