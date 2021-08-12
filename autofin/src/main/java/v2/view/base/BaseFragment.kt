@@ -15,7 +15,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.DatePicker
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -93,51 +92,45 @@ public open class BaseFragment : Fragment() {
 
     public fun hasConnectivityNetwork(): Boolean {
 
-        if (activity is HostActivity) {
+        return if (activity is HostActivity) {
             var hostActivity = activity as Activity as HostActivity
             if (hostActivity != null) {
                 if (hostActivity.tvConnectivityMessage!!.visibility == View.GONE) {
-                    return true
+                    true
                 } else {
                     showToast(getString(R.string.please_check_your_internet_connection))
-                    return false
+                    false
                 }
             } else {
-                return true
+                true
             }
         } else {
-            return true
+            true
         }
 
     }
 
-    val dateSetListener = object : DatePickerDialog.OnDateSetListener {
-        override fun onDateSet(
-                view: DatePicker, year: Int, monthOfYear: Int,
-                dayOfMonth: Int
-        ) {
-            cal.set(Calendar.YEAR, year)
-            cal.set(Calendar.MONTH, monthOfYear)
-            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+    val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+        cal.set(Calendar.YEAR, year)
+        cal.set(Calendar.MONTH, monthOfYear)
+        cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-            val sdf = SimpleDateFormat(DATE_FORMATE_DDMMYYYY, Locale.US)
-            val sdfValue = SimpleDateFormat(DATE_FORMATE_YYYYMMDD, Locale.US)
-            var dateDisplayValue: String = sdf.format(cal.getTime())
-            var dateValue: String = sdfValue.format(cal.getTime())
+        val sdf = SimpleDateFormat(DATE_FORMATE_DDMMYYYY, Locale.US)
+        val sdfValue = SimpleDateFormat(DATE_FORMATE_YYYYMMDD, Locale.US)
+        var dateDisplayValue: String = sdf.format(cal.time)
+        var dateValue: String = sdfValue.format(cal.time)
 
-            if (datePickerCallBack != null) {
-                datePickerCallBack.dateSelected(dateDisplayValue, dateValue)
-            }
+        if (datePickerCallBack != null) {
+            datePickerCallBack.dateSelected(dateDisplayValue, dateValue)
         }
     }
 
-    public fun callDatePickerDialog(
+    public fun DatePickerCallBack.callDatePickerDialog(
             lastSelectedDateValue: String?,
             minDate: Date?,
-            maxDate: Date?,
-            datepickerCallBack: DatePickerCallBack
+            maxDate: Date?
     ) {
-        datePickerCallBack = datepickerCallBack
+        datePickerCallBack = this
         var d: Int? = cal.get(Calendar.DAY_OF_MONTH)
         var m: Int? = cal.get(Calendar.MONTH)
         var y: Int? = cal.get(Calendar.YEAR)
