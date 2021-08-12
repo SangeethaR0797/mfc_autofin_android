@@ -238,4 +238,10 @@
         <item name="android:layout_gravity">center</item>
     </style>
 
+    <style name="AutofinDatePickerTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/vtwo_black</item>
+    </style>
+
 </resources>

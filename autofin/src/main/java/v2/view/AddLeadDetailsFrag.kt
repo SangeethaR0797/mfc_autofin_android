@@ -1611,7 +1611,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                             addEmploymentDetailsRequest.hashCode() == previousAddEmploymentDetailsRequest!!.hashCode() &&
                             addResidentDetailsRequest.hashCode() == previousAddResidentDetailsRequest!!.hashCode()
                         ) {
-
                             checkForNavToSoftOffer()
                         }
 
@@ -1685,6 +1684,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
     private fun preFilledData(customerDetailsResponse: CustomerDetailsResponse?) {
         try {
+
             var birthDateDisplayValue: String? = null
             var birthDateValue: String? = null
             var employmentType: String? = null
@@ -1695,7 +1695,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
             var firstName: String? = null
             var lastName: String? = null
             var email: String? = null
-
 
 
             if (customerDetailsResponse?.data != null) {
@@ -1872,15 +1871,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                 }
 
                 eMIDetailsAdapter.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
-                    if (dataSelectionDTO.value.toString().equals(haveEmi)) {
-                        // isResidentDataSaved = true
-                        dataSelectionDTO.selected = true
-
-
-                    } else {
-                        dataSelectionDTO.selected = false
-                        // addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = 0
-                    }
+                    dataSelectionDTO.selected = dataSelectionDTO.value.toString() == haveEmi
                 }
                 eMIDetailsAdapter.notifyDataSetChanged()
 
@@ -1890,8 +1881,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                     if (customerDetailsResponse.data!!.residentialDetails!!.residenceType != null) {
                         llResidenceTypeSection.visibility = View.VISIBLE
                         residenceTypeDetailsAdapter!!.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
-                            if (dataSelectionDTO.value.toString()
-                                    .equals(customerDetailsResponse.data!!.residentialDetails!!.residenceType)
+                            if (dataSelectionDTO.value.toString() == customerDetailsResponse.data!!.residentialDetails!!.residenceType
                             ) {
                                 dataSelectionDTO.selected = true
                                 addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType =
@@ -1941,9 +1931,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                     etPanNumber.setText(panNumber)
 
                 }
+                createRequestCloneOfAddLead()
 
             }
-            createRequestCloneOfAddLead()
+
             createRequestCloneAddEmploymentEmploymentDetails()
             createRequestCloneAddResidentDetails()
         } catch (e: Exception) {

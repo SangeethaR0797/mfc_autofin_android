@@ -199,11 +199,12 @@
                                 android:layout_marginTop="@dimen/text_size_30dp"
                                 android:gravity="center_vertical"
                                 android:paddingLeft="@dimen/text_size_8dp"
-
                                 android:text="@string/more_than_one_year_in_current_organization"
                                 android:textAppearance="@style/RobotoMedium"
                                 android:textColor="@color/vtwo_black"
-                                android:textSize="@dimen/text_size_16sp" />
+                                android:textSize="@dimen/text_size_16sp"
+                                android:buttonTint="@color/vtwo_black"
+                                />
 
                         </LinearLayout>
 
