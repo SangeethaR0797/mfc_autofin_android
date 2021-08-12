@@ -321,18 +321,16 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             override fun onProgressChanged(p0: SeekBar?, progress: Int, p2: Boolean) {
 
                 when {
-                    progress<8 -> {
-                        tvInterestRate.text = "8 %"
-                        showToast("Minimum Interest Rate is 8, any selected value less than 8 will be considered as 8")
+                    progress < 8 -> {
+                        tvInterestRate.text = "$progress %"
                     }
-                    progress>25 -> {
+                    progress > 25 -> {
                         tvInterestRate.text = "25 %"
                     }
                     else -> {
                         tvInterestRate.text = "$progress %"
                     }
                 }
-
 
 
 /*
@@ -369,28 +367,23 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
     }
 
-    fun callEmiData() {
-
+    private fun callEmiData() {
 
         skYear.progress < 1
         skInterestRate.progress < 8
-        var emiVal=1
-        var interestVal=8
-        emiVal = if(skYear.progress>12)
-        {
-            (skYear.progress-1)*12
-        }
-        else
-        {
-            (skYear.progress)*12
+
+        var emiVal = 1
+        var interestVal = 8
+
+        emiVal = if (skYear.progress > 12) {
+            (skYear.progress - 1) * 12
+        } else {
+            (skYear.progress) * 12
         }
 
         interestVal = when {
-            skInterestRate.progress>25 -> {
+            skInterestRate.progress > 25 -> {
                 25
-            }
-            skInterestRate.progress<=8 -> {
-                8
             }
             else -> skInterestRate.progress
         }
@@ -401,7 +394,6 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                                 skAmount.progress,
                                 interestVal,
                                 emiVal
-
                         ),
                         CommonStrings.DEALER_ID,
                         CommonStrings.USER_TYPE
@@ -601,11 +593,10 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                         skYear.progress < 1 -> {
                             showToast("Please select minimum loan Tenure 1 year.")
                         }
-                        skInterestRate.progress < 8 -> {
+                        /*skInterestRate.progress < 8 -> {
                             showToast("Please select minimum loan Interest rate 8 %.")
-                        }
+                        }*/
                         else -> {
-                            showProgressDialog(requireContext())
                             callEmiData()
                         }
                     }
@@ -931,7 +922,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     private fun onEmiAmountResponse(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
-
+                showProgressDialog(requireContext())
             }
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
