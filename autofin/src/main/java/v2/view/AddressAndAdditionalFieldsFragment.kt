@@ -469,14 +469,14 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         linearLayoutCurrentAddress3 =
                 addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress3)
 
-        editTextCurrentAddress1!!.onFocusChangeListener =
+        editTextCurrentAddress1?.onFocusChangeListener =
                 View.OnFocusChangeListener { view, hasFocus ->
                     if (hasFocus) {
                         viewEmpty.visibility = View.GONE
                         checkForFocusAndScroll(editTextCurrentAddress1!!)
                     }
                 }
-        editTextCurrentAddress2!!.onFocusChangeListener =
+        editTextCurrentAddress2?.onFocusChangeListener =
                 View.OnFocusChangeListener { view, hasFocus ->
                     if (hasFocus) {
                         viewEmpty.visibility = View.GONE
@@ -484,7 +484,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
                     }
                 }
-        editTextCurrentAddress3!!.onFocusChangeListener =
+        editTextCurrentAddress3?.onFocusChangeListener =
                 View.OnFocusChangeListener { view, hasFocus ->
                     if (hasFocus) {
                         viewEmpty.visibility = View.GONE
@@ -509,18 +509,8 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         textViewCity.text = city
 
         linearLayoutCityMovedInYear.setOnClickListener(View.OnClickListener {
-            val lastSelectedDate = ""
 
-            callDatePickerDialog(
-                    lastSelectedDate,
-                    null,
-                    getTodayDate(),
-                    object : DatePickerCallBack {
-                        override fun dateSelected(dateDisplayValue: String, dateValue: String) {
-                            editTextCityMovedInYear.setText(dateDisplayValue)
-                            cityMovedInYear = dateValue
-                        }
-                    })
+            popUpDatePickerDialog(editTextCityMovedInYear)
         })
 
         checkboxIsPermanentAdd.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -571,6 +561,22 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         })
 
         linearLayoutAddNewCurrentAddress.addView(addressView)
+
+    }
+
+    private fun popUpDatePickerDialog(editText:EditText) {
+
+          var lastSelectedDate:String? = null
+
+            object : DatePickerCallBack {
+                override fun dateSelected(dateDisplayValue: String, dateValue: String) {
+                    editText.setText(dateDisplayValue)
+                    cityMovedInYear = dateValue
+                }
+            }.callDatePickerDialog(
+                    lastSelectedDate,
+                    null,
+                    getTodayDate())
 
     }
 
@@ -797,7 +803,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
     private fun initiateAdditionalFields() {
 
-        if (linearLayoutAdditionalFieldsUILayout.visibility != View.VISIBLE) {
+        if (linearLayoutAdditionalFieldsUILayout.visibility == View.INVISIBLE || linearLayoutAdditionalFieldsUILayout.visibility==View.GONE) {
             if (hasConnectivityNetwork()) {
                 transactionViewModel.getAdditionalFieldsData(
                         CustomerRequest(
