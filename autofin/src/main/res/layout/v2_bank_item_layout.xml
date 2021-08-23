@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/v2_max_loan_amount"
                     android:textAppearance="@style/RobotoRegular"
-                    android:textColor="@color/grey_color"
+                    android:textColor="@color/autofin_grey_color"
                     android:textSize="@dimen/text_size_12dp"
                     android:textStyle="italic" />
 
@@ -107,7 +107,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/v2_rate_of_interest"
                     android:textAppearance="@style/RobotoRegular"
-                    android:textColor="@color/grey_color"
+                    android:textColor="@color/autofin_grey_color"
                     android:textSize="@dimen/text_size_12dp"
                     android:textStyle="italic" />
 
@@ -144,7 +144,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/v2_emi"
                     android:textAppearance="@style/RobotoRegular"
-                    android:textColor="@color/grey_color"
+                    android:textColor="@color/autofin_grey_color"
                     android:textSize="@dimen/text_size_12dp"
                     android:textStyle="italic" />
 
@@ -156,7 +156,7 @@
                     android:layout_marginTop="3dp"
                     android:text="@string/rupees_symbol"
                     android:textAppearance="@style/RobotoMedium"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
             </RelativeLayout>
 
@@ -171,7 +171,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/v2_tenure"
                     android:textAppearance="@style/RobotoRegular"
-                    android:textColor="@color/grey_color"
+                    android:textColor="@color/autofin_grey_color"
                     android:textSize="@dimen/text_size_12dp"
                     android:textStyle="italic" />
 
@@ -183,7 +183,7 @@
                     android:layout_marginTop="3dp"
                     android:text="0 MONTHS"
                     android:textAppearance="@style/RobotoMedium"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
             </RelativeLayout>
 
@@ -197,7 +197,7 @@
             android:text="@string/v2_processing_fee"
             android:textAppearance="@style/RobotoRegular"
             android:paddingRight="@dimen/text_size10dp"
-            android:textColor="@color/grey_color"
+            android:textColor="@color/autofin_grey_color"
             android:textSize="@dimen/text_size_12dp"
             android:textStyle="italic" />
 

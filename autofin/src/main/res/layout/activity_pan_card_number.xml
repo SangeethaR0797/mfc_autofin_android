@@ -36,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/text_size_28dp"
                     android:text="@string/lbl_please_enter_your_pan_num"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 
                 <LinearLayout
@@ -54,7 +54,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/text_size_5dp"
                         android:text="@string/lbl_enter_pan_card"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_16sp" />
 
                     <EditText
@@ -69,7 +69,7 @@
                         android:singleLine="true"
                         android:textAllCaps="true"
                         android:imeOptions="actionDone"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 
                     <View
@@ -78,7 +78,7 @@
                         android:layout_height="1dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/text_size_8dp"
-                        android:background="@color/very_dark_blue" />
+                        android:background="@color/autofin_very_dark_blue" />
 
                     <include layout="@layout/layout_error_message" />
                 </LinearLayout>

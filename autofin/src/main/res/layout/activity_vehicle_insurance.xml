@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/g_white"
+    android:background="@color/autofin_g_white"
     tools:context=".Activity.VehicleDetailsActivities.VehInsuranceValidityActivity">
 
     <LinearLayout
@@ -103,7 +103,7 @@
                     android:paddingRight="20dp"
                     android:paddingBottom="@dimen/text_size_30dp"
                     android:text="@string/vehicle_insurance_validity"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 
 
@@ -111,7 +111,7 @@
                     android:id="@+id/llVehPostInspection"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/g_white"
+                    android:background="@color/autofin_g_white"
                     android:orientation="vertical"
                     android:paddingLeft="@dimen/text_size_21dp"
                     android:paddingTop="@dimen/text_size_24dp"
@@ -123,7 +123,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/date_format_hint"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_19sp" />
 
                 </LinearLayout>

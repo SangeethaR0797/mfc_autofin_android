@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.R;
 
 import utility.CommonMethods;
@@ -92,7 +91,7 @@ public class LoanRequiredActivity extends AppCompatActivity implements View.OnCl
                 belowETViewLoanAmount.setBackgroundColor(getResources().getColor(R.color.error_red));
             }
         } else if (v.getId() == R.id.etLoanRequiredAmount) {
-            belowETViewLoanAmount.setBackgroundColor(getResources().getColor(R.color.very_dark_blue));
+            belowETViewLoanAmount.setBackgroundColor(getResources().getColor(R.color.autofin_very_dark_blue));
 
             if (tvErrorMessage.getVisibility() == View.VISIBLE) {
                 tvErrorMessage.setVisibility(View.GONE);

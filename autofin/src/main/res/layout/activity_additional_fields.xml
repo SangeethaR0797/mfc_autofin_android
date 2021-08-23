@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/g_white">
+    android:background="@color/autofin_g_white">
     <LinearLayout
         android:id="@+id/llAppBarReference"
         android:layout_width="match_parent"
@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/lbl_reference_name"
-                android:textColor="@color/very_dark_blue"
+                android:textColor="@color/autofin_very_dark_blue"
                 android:textSize="@dimen/text_size_16sp"
                 android:layout_marginTop="@dimen/text_size_30dp"
                 android:layout_marginBottom="@dimen/text_size_8dp" />

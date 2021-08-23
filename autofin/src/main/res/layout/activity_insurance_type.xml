@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/g_white"
+    android:background="@color/autofin_g_white"
     tools:context=".Activity.VehicleDetailsActivities.InsuranceTypeActivity">
 
     <LinearLayout
@@ -99,7 +99,7 @@
                     android:layout_marginTop="@dimen/text_size_34dp"
                     android:layout_marginRight="@dimen/text_size_19dp"
                     android:text="@string/vehicle_insurance_type"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 
                 <RadioGroup
@@ -115,11 +115,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="@dimen/text_size_19dp"
-                        android:buttonTint="@color/very_dark_blue"
+                        android:buttonTint="@color/autofin_very_dark_blue"
                         android:checked="false"
                         android:paddingLeft="@dimen/text_size_12dp"
                         android:text="@string/comprehensive"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 
                     <RadioButton
@@ -128,11 +128,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="@dimen/text_size_45dp"
-                        android:buttonTint="@color/very_dark_blue"
+                        android:buttonTint="@color/autofin_very_dark_blue"
                         android:checked="false"
                         android:paddingLeft="@dimen/text_size_12dp"
                         android:text="@string/third_party"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
                 </RadioGroup>
             </LinearLayout>

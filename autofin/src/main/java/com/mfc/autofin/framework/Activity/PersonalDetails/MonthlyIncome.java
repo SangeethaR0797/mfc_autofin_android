@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.R;
 
 import utility.CommonMethods;
@@ -87,7 +86,7 @@ public class MonthlyIncome extends AppCompatActivity implements View.OnClickList
                 tvErrorMessage.setText(getResources().getString(R.string.monthly_income_error_message));
             }
         } else if (v.getId() == R.id.etMonthlyIncomeAmount) {
-            belowETView.setBackgroundColor(getResources().getColor(R.color.very_dark_blue));
+            belowETView.setBackgroundColor(getResources().getColor(R.color.autofin_very_dark_blue));
 
             if (tvErrorMessage.getVisibility() == View.VISIBLE) {
                 tvErrorMessage.setVisibility(View.GONE);

@@ -1,9 +1,6 @@
 package v2.view
 
-import android.Manifest
 import android.app.Activity
-import android.content.Context
-import android.content.pm.PackageManager
 import android.nfc.tech.MifareUltralight.PAGE_SIZE
 import android.os.Bundle
 import android.text.Editable
@@ -20,7 +17,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
-import androidx.core.app.ActivityCompat
 import androidx.core.view.marginLeft
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -31,7 +27,6 @@ import com.mfc.autofin.framework.R
 import utility.CommonStrings
 import utility.Global
 import v2.model.dto.AddLeadRequest
-import v2.model.dto.CustomLoanProcessCompletedData
 import v2.model.dto.DataSelectionDTO
 import v2.model.enum_class.ApplicationStatusEnum
 import v2.model.enum_class.ScreenTypeEnum
@@ -50,7 +45,6 @@ import v2.model_view.TransactionViewModel
 import v2.service.utility.ApiResponse
 import v2.view.adapter.ApplicationListAdapter
 import v2.view.adapter.DataRecyclerViewAdapter
-import v2.view.adapter.PartnerBankRecyclerViewAdapter
 import v2.view.base.BaseFragment
 import v2.view.callBackInterface.ApplicationListClickCallBack
 import v2.view.callBackInterface.itemClickCallBack
@@ -198,8 +192,8 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         llSearch.setOnClickListener(this)
         etSearch.setOnClickListener(this)
 
-        callData()
-        setTextChangeOfetAutoResidenceCity()
+        callData("")
+        setTextChangeOfETAutoResidenceCity()
 
         if (screenStatus == getString(R.string.v2_logged_in_title) || screenStatus == getString(R.string.v2_soft_offer_title) || screenStatus == ScreenTypeEnum.Approved.value || screenStatus == ScreenTypeEnum.Disbursed.value) {
             dashboardViewModel.getRuleEngineBanks(
@@ -208,7 +202,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
-    fun callData() {
+    fun callData(searchKey: String?) {
         when (screenType) {
             ScreenTypeEnum.Search.value -> {
                 ivSearch.visibility = View.GONE
@@ -220,7 +214,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
             ScreenTypeEnum.StausWithSearch.value -> {
                 ivSearch.visibility = View.GONE
                 tvTitle.text = screenStatus
-                callApplicationStatusWiseFilterAPI(null)
+                callApplicationStatusWiseFilterAPI(searchKey)
                 etSearch.requestFocus()
                 showKeyBoardByForced()
             }
@@ -230,7 +224,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 ivNotification.visibility = View.GONE
                 llSearchSection.visibility = View.GONE
                 viewEmptyBlack.visibility = View.GONE
-                callApplicationStatusWiseFilterAPI(null)
+                callApplicationStatusWiseFilterAPI(searchKey)
             }
         }
     }
@@ -282,9 +276,9 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
-    private fun setTextChangeOfetAutoResidenceCity() {
+    private fun setTextChangeOfETAutoResidenceCity() {
         var timerWait: Timer? = null
-        var allowEditCity: Boolean = true
+        var allowEditCity: Boolean
 
         etSearch.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -323,7 +317,6 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                                         } else {
                                             callApplicationStatusWiseFilterAPI(etSearch.text.toString())
                                         }
-
                                     }
                                     startSearchApiCall()
                                 });
@@ -367,27 +360,20 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
     private fun callApplicationStatusWiseFilterAPI(searchKey: String?) {
         PAGE_NUMBER += 1
-        var url =
-            Global.customerAPI_BaseURL + CommonStrings.APPLICATION_STATUS_WISE_FILTER_END_POINT
 
-        if (selectedBankName != null) {
-            url =
-                    Global.customerAPI_BaseURL + CommonStrings.APPLICATION_STATUS_WISE_FILTER_END_POINT
-          /*  url =
-                Global.customerAPI_BaseURL + CommonStrings.APPLICATION_BANK_WISE_FILTER_END_POINT*/
-        }
+        val url= Global.customerAPI_BaseURL + CommonStrings.APPLICATION_STATUS_WISE_FILTER_END_POINT
+
         transactionViewModel.getApplicationList(
             ApplicationListRequest(
                 ApplicationListRequestData(
-                        selectedBankName,
+                        searchKey,
                     screenStatus?.replace("\\s".toRegex(), ""),
-                    searchKey,
+                    selectedBankName,
                     PAGE_NUMBER,
                     PER_PAGE
                 ), CommonStrings.DEALER_ID,
                 CommonStrings.USER_TYPE
             ), url
-
         )
     }
 
@@ -400,11 +386,11 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
     }
 
-    fun createCustomerDetailsRequest(customerId: Int): CustomerRequest {
-        var customerDetailsRequest = CustomerRequest()
+    private fun createCustomerDetailsRequest(customerId: Int): CustomerRequest {
+        val customerDetailsRequest = CustomerRequest()
         customerDetailsRequest.UserId = CommonStrings.DEALER_ID
         customerDetailsRequest.UserType = CommonStrings.USER_TYPE
-        var customerJourneyDataRequest = ResetCustomerJourneyDataRequest();
+        val customerJourneyDataRequest = ResetCustomerJourneyDataRequest();
         customerJourneyDataRequest.CustomerId = customerId.toString()
         customerDetailsRequest.Data = customerJourneyDataRequest
         return customerDetailsRequest
@@ -430,9 +416,9 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 rvData.layoutManager = layoutManager
                 tvResultCount.visibility = View.VISIBLE
                 if (TOTAL > 1) {
-                    tvResultCount.text = "Total " + TOTAL.toString() + " leads"
+                    tvResultCount.text = "Total $TOTAL leads"
                 } else {
-                    tvResultCount.text = "Total " + TOTAL.toString() + " lead"
+                    tvResultCount.text = "Total $TOTAL lead"
                 }
 
                 applicationListAdapter =
@@ -442,20 +428,20 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                         object :
                             ApplicationListClickCallBack {
                             override fun onItemClick(item: Any?, position: Int) {
-                                var applicationDataItems = item as ApplicationDataItems
-                                navigateApplicationDetailsFragment(applicationDataItems!!.customerId!!)
+                                val applicationDataItems = item as ApplicationDataItems
+                                navigateApplicationDetailsFragment(applicationDataItems.customerId!!)
                             }
 
                             override fun onCompleteClick(item: Any?, position: Int) {
-                                var applicationDataItems = item as ApplicationDataItems
-                                selectedCustomerId = applicationDataItems!!.customerId!!
-                                callCustomerDetailsApi(applicationDataItems!!.customerId!!)
+                                val applicationDataItems = item as ApplicationDataItems
+                                selectedCustomerId = applicationDataItems.customerId!!
+                                callCustomerDetailsApi(applicationDataItems.customerId!!)
                             }
 
                             override fun onCallClick(item: Any?, position: Int) {
-                                var applicationDataItems = item as ApplicationDataItems
+                                val applicationDataItems = item as ApplicationDataItems
                                 if (checkCallPermissions()) {
-                                    if (applicationDataItems.customerMobile!!.isNotEmpty()) {
+                                    if (applicationDataItems.customerMobile?.isNotEmpty() == true) {
                                         makeCallOfMobileNumber(applicationDataItems.customerMobile!!)
                                     }
                                 } else {
@@ -470,7 +456,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                 rvData.adapter = applicationListAdapter
             } else {
                 applicationListAdapter.dataListFilter =
-                    applicationListAdapter.dataListFilter!!.plus(response!!.data!!.customers!!)
+                    applicationListAdapter.dataListFilter!!.plus(response.data!!.customers!!)
 
                 applicationListAdapter.notifyDataSetChanged()
             }
@@ -489,57 +475,58 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
 
     private fun checkForNextScreenAfterCustomerResponse(customerResponse: CustomerDetailsResponse?) {
 
-        if ((customerResponse!!.data!!.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse!!.data!!.subStatus.equals(
+        if ((customerResponse?.data?.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse?.data?.subStatus.equals(
                 ApplicationStatusEnum.Registered.value
             )) ||
-            (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse!!.data!!.subStatus.equals(
+            (customerResponse?.data?.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse?.data?.subStatus.equals(
                 ApplicationStatusEnum.Employment_Details_Submitted.value
             )) ||
-            (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse.data!!.subStatus.equals(
+            (customerResponse?.data?.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse?.data?.subStatus.equals(
                 ApplicationStatusEnum.KYC_Done.value
             )) ||
-            (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse.data!!.subStatus.equals(
+            (customerResponse?.data?.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse?.data?.subStatus.equals(
                 ApplicationStatusEnum.Employment_Details_Submitted.value
             ))
 
         ) {
-            var addLeadRequest = AddLeadRequest()
-            var vehicleDetails = AddLeadVehicleDetails()
+            val addLeadRequest = AddLeadRequest()
+            val vehicleDetails = AddLeadVehicleDetails()
 
-            vehicleDetails!!.RegistrationYear =
-                customerResponse.data!!.vehicleDetails!!.registrationYear
-            vehicleDetails!!.Make = customerResponse.data!!.vehicleDetails!!.make
-            vehicleDetails!!.Model = customerResponse.data!!.vehicleDetails!!.model
-            vehicleDetails!!.Variant = customerResponse.data!!.vehicleDetails!!.variant
-            vehicleDetails!!.Ownership = customerResponse.data!!.vehicleDetails!!.ownership
-            vehicleDetails!!.VehicleNumber = customerResponse.data!!.vehicleDetails!!.vehicleNumber
-            vehicleDetails!!.KMs = customerResponse.data!!.vehicleDetails!!.kMs
-            vehicleDetails!!.FuelType = customerResponse.data!!.vehicleDetails!!.fuelType
+            vehicleDetails.RegistrationYear =
+                customerResponse?.data?.vehicleDetails?.registrationYear
+            vehicleDetails.Make = customerResponse?.data?.vehicleDetails?.make
+            vehicleDetails.Model = customerResponse?.data?.vehicleDetails?.model
+            vehicleDetails.Variant = customerResponse?.data?.vehicleDetails?.variant
+            vehicleDetails.Ownership = customerResponse?.data?.vehicleDetails?.ownership
+            vehicleDetails.VehicleNumber = customerResponse?.data?.vehicleDetails?.vehicleNumber
+            vehicleDetails.KMs = customerResponse?.data?.vehicleDetails?.kMs
+            vehicleDetails.FuelType = customerResponse?.data?.vehicleDetails?.fuelType
 
-            var basicDetails = BasicDetails()
+            val basicDetails = BasicDetails()
+
             basicDetails.FirstName =
-                customerResponse.data!!.basicDetails!!.firstName
+                customerResponse?.data?.basicDetails?.firstName
             basicDetails.LastName =
-                customerResponse.data!!.basicDetails!!.lastName
+                customerResponse?.data?.basicDetails?.lastName
             basicDetails.Email =
-                customerResponse.data!!.basicDetails!!.email
+                customerResponse?.data?.basicDetails?.email
             basicDetails.Salutation =
-                customerResponse.data!!.basicDetails!!.salutation
+                customerResponse?.data?.basicDetails?.salutation
             basicDetails.CustomerMobile =
-                customerResponse.data!!.basicDetails!!.customerMobile
+                customerResponse?.data?.basicDetails?.customerMobile
 
-            var data = AddLeadData()
+            val data = AddLeadData()
 
-            data!!.addLeadVehicleDetails = vehicleDetails
-            data!!.basicDetails = basicDetails
+            data.addLeadVehicleDetails = vehicleDetails
+            data.basicDetails = basicDetails
             addLeadRequest.Data = data
             navigateToAddLeadFragment(
                 addLeadRequest,
                 selectedCustomerId,
-                customerResponse.data!!.basicDetails!!.customerMobile
+                customerResponse?.data?.basicDetails?.customerMobile
             )
         } else {
-            when (customerResponse.data?.status) {
+            when (customerResponse?.data?.status) {
                 getString(R.string.v2_lead_status_kyc_done) -> {
                     navToSoftOffer(
                         customerResponse,
@@ -604,12 +591,18 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                     list,
                     object : itemClickCallBack {
                         override fun itemClick(item: Any?, position: Int) {
-                            var selectedBankDataSelectionDTO: DataSelectionDTO =
+                            val selectedBankDataSelectionDTO: DataSelectionDTO =
                                 item as DataSelectionDTO
-                            updateBankSelection(selectedBankDataSelectionDTO.displayValue!!)
-                            selectedBankName = selectedBankDataSelectionDTO.displayValue!!
+                            selectedBankDataSelectionDTO.displayValue?.let { updateBankSelection(it) }
+
+                            if(etSearch.text.isNotEmpty())
+                                etSearch.text.clear()
+
+
+
+                            selectedBankName = selectedBankDataSelectionDTO.displayValue
                             PAGE_NUMBER = 0
-                            callData()
+                            callData(selectedBankName)
                             rvBankList.scrollToPosition(position)
                         }
                     })
@@ -619,6 +612,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
             rvBankList.adapter = bankNameDataRecyclerViewAdapter
             rvBankList.visibility = View.VISIBLE
             tvBankName.visibility = View.VISIBLE
+
             if (selectedBankName == null) {
                 tvBankName.text = "All Bank"
             } else {
@@ -628,13 +622,13 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
     }
 
     fun updateBankSelection(selectedBankDisplayName: String) {
-        bankNameDataRecyclerViewAdapter!!.dataListFilter!!.forEachIndexed { index, item ->
+        bankNameDataRecyclerViewAdapter.dataListFilter!!.forEachIndexed { index, item ->
             run {
-                var previousSelectedValue = item.selected
+                val previousSelectedValue = item.selected
 
                 item.selected = selectedBankDisplayName == item.displayValue
                 if (previousSelectedValue != item.selected) {
-                    bankNameDataRecyclerViewAdapter!!.notifyItemChanged(index)
+                    bankNameDataRecyclerViewAdapter.notifyItemChanged(index)
                 }
 
             }
@@ -651,9 +645,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
             ApiResponse.Status.LOADING -> {
                 isLoading = true
 
-                if (PAGE_NUMBER > 1 || (screenType.equals(ScreenTypeEnum.Search.value) || screenType.equals(
-                        ScreenTypeEnum.StausWithSearch.value
-                    ))
+                if (PAGE_NUMBER > 1 || (screenType == ScreenTypeEnum.Search.value || screenType == ScreenTypeEnum.StausWithSearch.value)
                 ) {
                     llProgress.visibility = View.VISIBLE
 

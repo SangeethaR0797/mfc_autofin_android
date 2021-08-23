@@ -20,4 +20,6 @@ data class PersonalBasicDetails(
         var firstName: String? = null,
         var lastName: String? = null,
         var email: String? = null,
+        var status : String
+
 )

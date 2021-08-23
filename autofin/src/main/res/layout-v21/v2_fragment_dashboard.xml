@@ -228,6 +228,12 @@
 
                     </LinearLayout>
 
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+
+                        android:background="@color/v2_grey" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -355,12 +361,6 @@
 
 
                 </LinearLayout>
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-
-                    android:background="@color/v2_grey" />
             </LinearLayout>
 
             <LinearLayout
@@ -372,11 +372,14 @@
                 android:layout_marginBottom="@dimen/text_size_16sp"
                 android:background="@drawable/v2_white_bg"
                 android:elevation="@dimen/text_size10dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+
+                >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+
                     android:layout_marginLeft="@dimen/text_size_14dp"
                     android:layout_marginTop="@dimen/text_size_20dp"
                     android:layout_marginRight="@dimen/text_size_14dp"
@@ -440,10 +443,12 @@
                     android:layout_marginLeft="@dimen/text_size10dp"
                     android:layout_marginTop="@dimen/text_size_20dp"
                     android:layout_marginRight="@dimen/text_size10dp"
+                    android:paddingRight="@dimen/text_size_30dp"
+                    android:paddingLeft="@dimen/text_size_30dp"
                     android:splitTrack="false"
                     android:progressBackgroundTint="@color/vtwo_grey"
                     android:progressTint="@color/vtwo_yellow"
-                    />
+                    android:thumb="@drawable/ic_seek_bar_icon" />
 
                 <LinearLayout
                     android:id="@+id/linearLayoutYear"
@@ -472,7 +477,7 @@
                         android:layout_weight="2"
                         android:background="@drawable/vtwo_input_bg"
                         android:gravity="center_vertical|right"
-                        android:paddingLeft="@dimen/text_size_14sp"
+                        android:paddingLeft="@dimen/text_size_16sp"
                         android:paddingTop="@dimen/text_size_5dp"
                         android:paddingRight="@dimen/text_size_16sp"
                         android:paddingBottom="@dimen/text_size_5dp"
@@ -491,9 +496,12 @@
                     android:layout_marginLeft="@dimen/text_size10dp"
                     android:layout_marginTop="@dimen/text_size_20dp"
                     android:layout_marginRight="@dimen/text_size10dp"
+                    android:paddingRight="@dimen/text_size_30dp"
+                    android:paddingLeft="@dimen/text_size_30dp"
                     android:splitTrack="false"
                     android:progressBackgroundTint="@color/vtwo_grey"
-                    android:progressTint="@color/vtwo_yellow" />
+                    android:progressTint="@color/vtwo_yellow"
+                    android:thumb="@drawable/ic_seek_bar_icon"/>
 
                 <LinearLayout
                     android:id="@+id/linearLayoutInterestRate"
@@ -522,7 +530,7 @@
                         android:layout_weight="2"
                         android:background="@drawable/vtwo_input_bg"
                         android:gravity="center_vertical|right"
-                        android:paddingLeft="@dimen/text_size_14sp"
+                        android:paddingLeft="@dimen/text_size_16sp"
                         android:paddingTop="@dimen/text_size_5dp"
                         android:paddingRight="@dimen/text_size_16sp"
                         android:paddingBottom="@dimen/text_size_5dp"
@@ -540,14 +548,18 @@
                     android:layout_marginLeft="@dimen/text_size10dp"
                     android:layout_marginTop="@dimen/text_size_20dp"
                     android:layout_marginRight="@dimen/text_size10dp"
+                    android:paddingRight="@dimen/text_size_30dp"
+                    android:paddingLeft="@dimen/text_size_30dp"
                     android:splitTrack="false"
                     android:progressBackgroundTint="@color/vtwo_grey"
-                    android:progressTint="@color/vtwo_yellow"/>
+                    android:progressTint="@color/vtwo_yellow"
+                    android:thumb="@drawable/ic_seek_bar_icon"/>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/view_height_1dp"
                     android:layout_marginLeft="@dimen/text_size_14dp"
+
                     android:layout_marginRight="@dimen/text_size_14dp"
                     android:layout_marginBottom="@dimen/text_size_30dp"
                     android:background="@color/v2_grey" />

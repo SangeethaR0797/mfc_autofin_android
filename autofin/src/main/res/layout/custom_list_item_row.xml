@@ -15,7 +15,7 @@
         android:gravity="center"
         android:paddingTop="@dimen/text_size11dp"
         android:paddingBottom="@dimen/text_size10dp"
-        android:textColor="@color/very_dark_blue"
+        android:textColor="@color/autofin_very_dark_blue"
         android:textAlignment="center"
         android:text="@string/testing_string"
         android:textSize="@dimen/text_size_16sp" />

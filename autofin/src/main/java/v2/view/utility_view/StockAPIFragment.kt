@@ -65,10 +65,27 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
     private fun displayStockDetails() {
 
         val modelVariantVal = args.stockResArgs.ibbModel + " " + args.stockResArgs.ibbVariant
-        val owner = formatOwner(args.stockResArgs.owner)
+
+        var owner=""
+
+        owner = if(args.stockResArgs.owner!="NA" )
+            formatOwner(args.stockResArgs.owner)
+        else
+            "NA"
+
         val price = resources.getString(R.string.rupees_symbol) + " " + formatAmount(args.stockResArgs.vehicleSellingPrice)
-        val kms = formatAmount(args.stockResArgs.kMs)
+
+        var kms = ""
+        kms = if(args.stockResArgs.kMs.matches(Regex("[0-9]+")))
+        {
+            formatAmount(args.stockResArgs.kMs)
+        }
+        else
+            args.stockResArgs.kMs
+
+
         val vehRegNo = formatVehNum(args.stockResArgs.registrationNumber)
+
         val vehDetailsDesVal = owner + separator + price + separator + kms + separator + args.stockResArgs.fuelType + separator + args.stockResArgs.year
         tvVehMake.text = args.stockResArgs.ibbMake
         tvVehModelVariant.text = modelVariantVal
@@ -83,7 +100,12 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
         vehicleDetails.FuelType=args.stockResArgs.fuelType
         vehicleDetails.RegistrationYear=args.stockResArgs.year.toInt()
         vehicleDetails.KMs=args.stockResArgs.kMs
-        vehicleDetails.Ownership=args.stockResArgs.owner.toInt()
+        if(args.stockResArgs.owner.matches(Regex("[0-9]+")))
+
+            vehicleDetails.Ownership=args.stockResArgs.owner.toInt()
+        else
+            vehicleDetails.Ownership=0
+
         vehicleDetails.VehicleSellingPrice=args.stockResArgs.vehicleSellingPrice
 
         val addLeadData=AddLeadData()

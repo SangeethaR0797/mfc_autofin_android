@@ -40,7 +40,7 @@
                     android:layout_marginTop="@dimen/text_size_34dp"
                     android:layout_marginRight="@dimen/text_size_19dp"
                     android:text="@string/lbl_sal_mode"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 
                 <RadioGroup
@@ -56,11 +56,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="@dimen/text_size_24dp"
-                        android:buttonTint="@color/very_dark_blue"
+                        android:buttonTint="@color/autofin_very_dark_blue"
                         android:checked="false"
                         android:paddingLeft="12dp"
                         android:text="@string/lbl_cash_salary"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 
                     <RadioButton
@@ -69,11 +69,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="@dimen/text_size_24dp"
-                        android:buttonTint="@color/very_dark_blue"
+                        android:buttonTint="@color/autofin_very_dark_blue"
                         android:checked="false"
                         android:paddingLeft="12dp"
                         android:text="@string/cheque_bar"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 
                     <RadioButton
@@ -82,11 +82,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="@dimen/text_size_24dp"
-                        android:buttonTint="@color/very_dark_blue"
+                        android:buttonTint="@color/autofin_very_dark_blue"
                         android:checked="false"
                         android:paddingLeft="12dp"
                         android:text="@string/lbl_deposit_tranfer"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 
                 </RadioGroup>
@@ -115,7 +115,7 @@
                         android:layout_height="@dimen/text_size_18dp"
                         android:layout_gravity="right|center_vertical"
                         android:layout_marginRight="@dimen/text_size_15dp"
-                        android:background="@color/grey_color" />
+                        android:background="@color/autofin_grey_color" />
 
                     <ImageView
                         android:id="@+id/iv_app_bank_search"

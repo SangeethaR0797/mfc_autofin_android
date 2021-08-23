@@ -6,6 +6,7 @@ import android.graphics.Rect
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.text.TextUtils
 import android.view.MotionEvent
 import android.view.View
@@ -42,8 +43,8 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
     private fun broadcastIntent() {
         myConnectivityReceiver = ConnectivityReceiver()
         registerReceiver(
-            myConnectivityReceiver,
-            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+                myConnectivityReceiver,
+                IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         )
     }
 
@@ -87,75 +88,72 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
 
 
         CommonStrings.APP_NAME = intent.getStringExtra(AutoFinConstants.APP_NAME)
+         CommonStrings.APP_NAME =  CommonStrings.APP_NAME_EDIGG //CommonStrings.APP_NAME_OMS ||
+                 CommonStrings.APP_NAME_EDIGG
         CommonStrings.DEALER_ID = intent.getStringExtra(AutoFinConstants.DEALER_ID)
         CommonStrings.USER_TYPE = intent.getStringExtra(AutoFinConstants.USER_TYPE)
 
-
         authenticationViewModel = ViewModelProvider(this@HostActivity).get(
-            AuthenticationViewModel::class.java
+                AuthenticationViewModel::class.java
         )
-
-
-
 
         authenticationViewModel!!.getTokenDetailsLiveDataData()
-            .observe(this, { mApiResponse: ApiResponse? ->
-                onTokenDetails(
-                    mApiResponse!!
-                )
-            })
+                .observe(this, { mApiResponse: ApiResponse? ->
+                    onTokenDetails(
+                            mApiResponse!!
+                    )
+                })
 
         authenticationViewModel!!.getToken(
-            getTokenRequest()!!,
-            Global.customerDetails_BaseURL + CommonStrings.TOKEN_URL_END
+                getTokenRequest()!!,
+                Global.customerDetails_BaseURL + CommonStrings.TOKEN_URL_END
         )
 
-      //  callTokenApi()
-
+        //  callTokenApi()
 
     }
 
     private fun callTokenApi() {
         authenticationViewModel!!.getIBB_TokenDetailsLiveDataData()
-            .observe(this, { mApiResponse: ApiResponse? ->
-                onIBB_TokenDetails(
-                    mApiResponse!!
-                )
-            })
+                .observe(this, { mApiResponse: ApiResponse? ->
+                    onIBB_TokenDetails(
+                            mApiResponse!!
+                    )
+                })
 
         authenticationViewModel!!.getIBBToken(
-            getIBB_TokenRequest()!!,
-            Global.ibb_base_url + CommonStrings.IBB_ACCESS_TOKEN_URL_END
+                getIBB_TokenRequest()!!,
+                Global.ibb_base_url + CommonStrings.IBB_ACCESS_TOKEN_URL_END
         )
     }
 
     private fun get_IBB_MasterDetailsRequest(): Get_IBB_MasterDetailsRequest? {
         return Get_IBB_MasterDetailsRequest(
-            CommonStrings.IBB_TOKEN_VALUE,
-            "year",
-            "0",
-            "app",
-            null,
-            null,
-            null,
-            null
+                CommonStrings.IBB_TOKEN_VALUE,
+                "year",
+                "0",
+                "app",
+                null,
+                null,
+                null,
+                null
         )
     }
 
     private fun getTokenRequest(): GetTokenDetailsRequest? {
         return GetTokenDetailsRequest(
-            CommonStrings.DEALER_ID,
-            CommonStrings.USER_TYPE,
-            CommonStrings.USER_TYPE,
-            "Token"
+                CommonStrings.DEALER_ID,
+                CommonStrings.USER_TYPE,
+                CommonStrings.USER_TYPE,
+                "Token"
         )
 
     }
 
     private fun getIBB_TokenRequest(): Get_IBB_TokenRequest? {
         return Get_IBB_TokenRequest(
-            CommonStrings.IBB_PASSWORD,
-            CommonStrings.IBB_USERNAME
+                CommonStrings.IBB_PASSWORD,
+                CommonStrings.IBB_USERNAME
         )
 
     }
@@ -166,11 +164,11 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
             }
             ApiResponse.Status.SUCCESS -> {
                 val tokenResponse: TokenDetailsResponse? =
-                    mApiResponse.data as TokenDetailsResponse?
+                        mApiResponse.data as TokenDetailsResponse?
                 CommonMethods.setValueAgainstKey(
-                    this@HostActivity,
-                    CommonStrings.PREFF_ENCRYPT_TOKEN,
-                    tokenResponse!!.data!!.token.toString()
+                        this@HostActivity,
+                        CommonStrings.PREFF_ENCRYPT_TOKEN,
+                        tokenResponse!!.data!!.token.toString()
                 )
                 CommonStrings.TOKEN_VALUE = tokenResponse!!.data!!.token.toString()
                 refresh()
@@ -189,9 +187,9 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
             ApiResponse.Status.SUCCESS -> {
                 val tokenResponse: IBB_TokenResponse? = mApiResponse.data as IBB_TokenResponse?
                 CommonMethods.setValueAgainstKey(
-                    this@HostActivity,
-                    CommonStrings.PREFF_ENCRYPT_IBB_TOKEN,
-                    tokenResponse!!.access_token.toString()
+                        this@HostActivity,
+                        CommonStrings.PREFF_ENCRYPT_IBB_TOKEN,
+                        tokenResponse!!.access_token.toString()
                 )
                 CommonStrings.IBB_TOKEN_VALUE = tokenResponse!!.access_token.toString()
                 refresh()
@@ -221,9 +219,18 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
 
     override fun onBackPressed() {
         if (activityBackPressed != null) {
-            activityBackPressed!!.onActivityBackPressed()
-        } else {
-            super.onBackPressed()
+            val handler = Handler()
+            handler.postDelayed(Runnable {
+                activityBackPressed!!.onActivityBackPressed()
+            }, 1000)
+
+        }
+        else {
+            val handler = Handler()
+            handler.postDelayed(Runnable {
+                super.onBackPressed()
+            }, 1000)
+
         }
     }
 
@@ -237,12 +244,13 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
 
     fun refresh() {
         if (!TextUtils.isEmpty(CommonStrings.TOKEN_VALUE) &&
-            !TextUtils.isEmpty(CommonStrings.IBB_ACCESS_TOKEN_URL_END) &&
-            appTokenChangeInterface != null
+                !TextUtils.isEmpty(CommonStrings.IBB_ACCESS_TOKEN_URL_END) &&
+                appTokenChangeInterface != null
         ) {
 
             appTokenChangeInterface!!.onTokenReceivedOrRefresh()
         }
     }
+
 
 }

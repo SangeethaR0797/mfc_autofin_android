@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.mfc.autofin.framework.Activity.PersonalDetails.employment_activities.IncomeAfterTaxActivity;
 import com.mfc.autofin.framework.Activity.PersonalDetails.employment_activities.LastYearSalesOrTurnOver;
 import com.mfc.autofin.framework.R;
 
@@ -96,7 +95,7 @@ public class LastYearProfitActivity extends AppCompatActivity implements View.On
             }catch(Exception exception){exception.printStackTrace();}
 
         } else if (v.getId() == R.id.etLastYearSalesVal) {
-            belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.very_dark_blue));
+            belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.autofin_very_dark_blue));
             if (tvErrorMessage.getVisibility() == View.VISIBLE) {
                 tvErrorMessage.setVisibility(View.GONE);
             }

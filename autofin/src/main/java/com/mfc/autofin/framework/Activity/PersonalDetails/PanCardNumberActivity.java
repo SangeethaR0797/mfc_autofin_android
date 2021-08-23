@@ -4,16 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.Activity.VehicleDetailsActivities.LikelyPurchaseActivity;
-import com.mfc.autofin.framework.Activity.review_activites.ReviewActivity;
 import com.mfc.autofin.framework.R;
 
 import java.util.regex.Matcher;
@@ -103,7 +100,7 @@ public class PanCardNumberActivity extends AppCompatActivity implements View.OnC
                 tvErrorMessage.setText(getResources().getString(R.string.please_enter_pan_number));
             }
         } else if (v.getId() == R.id.etPanCardNumber) {
-            belowETPANNo.setBackgroundColor(getResources().getColor(R.color.very_dark_blue));
+            belowETPANNo.setBackgroundColor(getResources().getColor(R.color.autofin_very_dark_blue));
             if (tvErrorMessage.getVisibility() == View.VISIBLE) {
                 tvErrorMessage.setVisibility(View.GONE);
             }

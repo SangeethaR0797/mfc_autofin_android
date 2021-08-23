@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/g_white"
+    android:background="@color/autofin_g_white"
     tools:context=".Activity.ResidentialActivity.ResidentialCity">
 
 
@@ -79,7 +79,7 @@
                                     android:inputType="number"
                                     android:maxLength="6"
                                     android:singleLine="true"
-                                    android:textColor="@color/very_dark_blue"
+                                    android:textColor="@color/autofin_very_dark_blue"
                                     android:textSize="@dimen/text_size_16sp" />
 
                                 <View
@@ -87,7 +87,7 @@
                                     android:layout_height="1dp"
                                     android:layout_gravity="right|center_vertical"
                                     android:layout_marginTop="@dimen/text_size_8dp"
-                                    android:background="@color/very_dark_blue" />
+                                    android:background="@color/autofin_very_dark_blue" />
                             </LinearLayout>
 
                             <Button
@@ -113,7 +113,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/lbl_state"
-                                android:textColor="@color/very_dark_blue"
+                                android:textColor="@color/autofin_very_dark_blue"
                                 android:textSize="@dimen/text_size_19dp" />
 
                             <utility.RobotoMedium
@@ -123,13 +123,13 @@
                                 android:layout_marginTop="5dp"
                                 android:layout_marginBottom="@dimen/text_size_8dp"
                                 android:hint="@string/lbl_select_state"
-                                android:textColor="@color/very_dark_blue"
+                                android:textColor="@color/autofin_very_dark_blue"
                                 android:textSize="@dimen/text_size_16sp" />
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:background="@color/very_dark_blue" />
+                                android:background="@color/autofin_very_dark_blue" />
 
                         </LinearLayout>
 
@@ -147,7 +147,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/city_lbl"
-                                android:textColor="@color/very_dark_blue"
+                                android:textColor="@color/autofin_very_dark_blue"
                                 android:textSize="@dimen/text_size_19dp" />
 
                             <utility.RobotoMedium
@@ -157,13 +157,13 @@
                                 android:layout_marginTop="5dp"
                                 android:layout_marginBottom="@dimen/text_size_8dp"
                                 android:hint="@string/lbl_select_city"
-                                android:textColor="@color/very_dark_blue"
+                                android:textColor="@color/autofin_very_dark_blue"
                                 android:textSize="@dimen/text_size_16sp" />
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:background="@color/very_dark_blue" />
+                                android:background="@color/autofin_very_dark_blue" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -180,7 +180,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/address_one_lbl"
-                                android:textColor="@color/very_dark_blue"
+                                android:textColor="@color/autofin_very_dark_blue"
                                 android:textSize="@dimen/text_size_19dp" />
 
                             <EditText
@@ -192,13 +192,13 @@
                                 android:background="@android:color/transparent"
                                 android:inputType="textCapSentences"
                                 android:maxLines="1"
-                                android:textColor="@color/very_dark_blue"
+                                android:textColor="@color/autofin_very_dark_blue"
                                 android:textSize="@dimen/text_size_16sp" />
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:background="@color/very_dark_blue" />
+                                android:background="@color/autofin_very_dark_blue" />
                         </LinearLayout>
 
 
@@ -216,7 +216,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/address_two_lbl"
-                                android:textColor="@color/very_dark_blue"
+                                android:textColor="@color/autofin_very_dark_blue"
                                 android:textSize="@dimen/text_size_19dp" />
 
                             <EditText
@@ -228,13 +228,13 @@
                                 android:background="@android:color/transparent"
                                 android:inputType="textCapSentences"
                                 android:maxLines="1"
-                                android:textColor="@color/very_dark_blue"
+                                android:textColor="@color/autofin_very_dark_blue"
                                 android:textSize="@dimen/text_size_16sp" />
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:background="@color/very_dark_blue" />
+                                android:background="@color/autofin_very_dark_blue" />
                         </LinearLayout>
 
 
@@ -252,7 +252,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/lbl_landmark"
-                                android:textColor="@color/very_dark_blue"
+                                android:textColor="@color/autofin_very_dark_blue"
                                 android:textSize="@dimen/text_size_19dp" />
 
                             <EditText
@@ -264,13 +264,13 @@
                                 android:background="@android:color/transparent"
                                 android:inputType="textCapSentences"
                                 android:maxLines="1"
-                                android:textColor="@color/very_dark_blue"
+                                android:textColor="@color/autofin_very_dark_blue"
                                 android:textSize="@dimen/text_size_16sp" />
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:background="@color/very_dark_blue" />
+                                android:background="@color/autofin_very_dark_blue" />
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

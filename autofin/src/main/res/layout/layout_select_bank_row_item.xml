@@ -37,14 +37,14 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:text="@string/lbl_vehicle_purchase_amount"
-                android:textColor="@color/grey_color"
+                android:textColor="@color/autofin_grey_color"
                 android:textSize="@dimen/text_size_12dp" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/g_white" />
+            android:background="@color/autofin_g_white" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,7 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_14dp"
-                    android:textColor="@color/grey_color"
+                    android:textColor="@color/autofin_grey_color"
                     android:text="@string/lbl_loan_amount"
                     />
                 <utility.RobotoMedium
@@ -70,7 +70,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_16sp"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:layout_below="@+id/tvLoanAmount"
                     />
             </RelativeLayout>
@@ -83,7 +83,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_14dp"
-                    android:textColor="@color/grey_color"
+                    android:textColor="@color/autofin_grey_color"
                     android:text="@string/lbl_rate_of_interest"
                     />
                 <utility.RobotoMedium
@@ -91,7 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_16sp"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:layout_below="@+id/tvRateOfInterest"
                     />
             </RelativeLayout>
@@ -99,7 +99,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/g_white" />
+            android:background="@color/autofin_g_white" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_14dp"
-                    android:textColor="@color/grey_color"
+                    android:textColor="@color/autofin_grey_color"
                     android:text="@string/lbl_emi"
                     />
                 <utility.RobotoMedium
@@ -124,7 +124,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_16sp"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:layout_below="@+id/tvEMILbl"
                     />
             </RelativeLayout>
@@ -137,7 +137,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_14dp"
-                    android:textColor="@color/grey_color"
+                    android:textColor="@color/autofin_grey_color"
                     android:text="@string/lbl_tenure"
                     />
                 <utility.RobotoMedium
@@ -145,7 +145,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_16sp"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:layout_below="@+id/tvTenureLbl"
                     />
             </RelativeLayout>
@@ -153,7 +153,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/g_white" />
+            android:background="@color/autofin_g_white" />
         <utility.RobotoMedium
             android:id="@+id/tvApplyNow"
             android:layout_width="wrap_content"
@@ -161,7 +161,7 @@
             android:layout_marginTop="@dimen/text_size_26dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textColor="@color/navy_blue"
+            android:textColor="@color/autofin_navy_blue"
             android:textSize="@dimen/text_size_16sp"
             android:text="@string/lbl_apply_now"
             android:drawableRight="@drawable/ic_forward_arrow" />

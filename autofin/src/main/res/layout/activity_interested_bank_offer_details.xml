@@ -40,13 +40,13 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/grey_color"/>
+                        android:background="@color/autofin_grey_color"/>
                     <TextView
                         android:id="@+id/tvLoanAmountLbl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/lbl_loan_amount"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_14sp"
                         android:layout_marginTop="@dimen/text_size_19dp"
                         android:layout_marginBottom="@dimen/text_size_4dp"/>
@@ -54,7 +54,7 @@
                         android:id="@+id/tvBankOfferedLoanAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp"
                         android:text="120,00,00"
                         android:layout_marginBottom="@dimen/text_size_18dp"/>
@@ -64,13 +64,13 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/grey_color"/>
+                        android:background="@color/autofin_grey_color"/>
                     <TextView
                         android:id="@+id/tvEMILbl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/lbl_emi"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_14sp"
                         android:layout_marginTop="@dimen/text_size_19dp"
                         android:layout_marginBottom="@dimen/text_size_4dp"/>
@@ -78,7 +78,7 @@
                         android:id="@+id/tvBankOfferedEMIAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp"
                         android:text="19,200 - 20,100"
                         android:layout_marginBottom="@dimen/text_size_18dp"/>
@@ -88,13 +88,13 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/grey_color"/>
+                        android:background="@color/autofin_grey_color"/>
                     <TextView
                         android:id="@+id/tvTenureLbl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/lbl_tenure"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_14sp"
                         android:layout_marginTop="@dimen/text_size_19dp"
                         android:layout_marginBottom="@dimen/text_size_4dp"/>
@@ -102,7 +102,7 @@
                         android:id="@+id/tvTenurePeriod"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp"
                         android:text="36 - 48 month"
                         android:layout_marginBottom="@dimen/text_size_18dp"/>
@@ -111,13 +111,13 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/grey_color"/>
+                        android:background="@color/autofin_grey_color"/>
                     <TextView
                         android:id="@+id/tvRateOfInterestLbl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/lbl_rate_of_interest"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_14sp"
                         android:layout_marginTop="@dimen/text_size_19dp"
                         android:layout_marginBottom="@dimen/text_size_4dp"/>
@@ -125,7 +125,7 @@
                         android:id="@+id/tvRateOfInterest"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp"
                         android:text="8.25 - 9.025"
                         android:layout_marginBottom="@dimen/text_size_22dp"/>
@@ -140,7 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/lbl_change_bank"
-            android:textColor="@color/navy_blue"
+            android:textColor="@color/autofin_navy_blue"
             android:layout_marginTop="@dimen/text_size_57dp"
             android:textSize="@dimen/text_size_16sp"
             android:drawableRight="@drawable/ic_forward_arrow"
@@ -153,7 +153,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@color/navy_blue"
+        android:background="@color/autofin_navy_blue"
         android:paddingTop="@dimen/text_size_19dp"
         android:paddingBottom="@dimen/text_size_18dp"
         android:text="@string/apply_now_lbl"

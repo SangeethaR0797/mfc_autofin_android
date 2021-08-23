@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/text_size_28dp"
                     android:text="@string/lbl_working_organization_name"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 
                 <LinearLayout
@@ -54,7 +54,7 @@
                         android:layout_marginBottom="@dimen/text_size_5dp"
                         android:inputType="number"
                         android:text="@string/lbl_org_name"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_16sp" />
 
                     <EditText
@@ -66,7 +66,7 @@
                         android:inputType="text"
                         android:maxLength="50"
                         android:singleLine="true"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 
                     <View
@@ -75,7 +75,7 @@
                         android:layout_height="1dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/text_size_8dp"
-                        android:background="@color/very_dark_blue" />
+                        android:background="@color/autofin_very_dark_blue" />
 
                     <include layout="@layout/layout_error_message" />
                 </LinearLayout>

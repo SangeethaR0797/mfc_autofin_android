@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/g_white">
+    android:background="@color/autofin_g_white">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,14 +33,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/vehicle_details_title"
                 android:layout_weight="0.5"
-                android:textColor="@color/very_dark_blue"
+                android:textColor="@color/autofin_very_dark_blue"
                 android:padding="10dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvVehDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/g_white"
+                android:background="@color/autofin_g_white"
                 android:layout_marginTop="@dimen/text_size10dp"
                 android:layout_marginLeft="@dimen/text_size10dp"
                 android:layout_marginRight="@dimen/text_size10dp"
@@ -72,14 +72,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:text="@string/title_basic_details"
-                android:textColor="@color/very_dark_blue"
+                android:textColor="@color/autofin_very_dark_blue"
                 android:padding="10dp" />
         </LinearLayout>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvBasicDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/g_white"
+                android:background="@color/autofin_g_white"
                 android:layout_marginTop="@dimen/text_size10dp"
                 android:layout_marginLeft="@dimen/text_size10dp"
                 android:layout_marginRight="@dimen/text_size10dp"
@@ -104,14 +104,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/title_residential_details"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:padding="10dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvResidentialDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/g_white"
+                android:background="@color/autofin_g_white"
                 android:layout_marginTop="@dimen/text_size10dp"
                 android:layout_marginLeft="@dimen/text_size10dp"
                 android:layout_marginRight="@dimen/text_size10dp"
@@ -136,13 +136,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/title_personal_details"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:padding="10dp" />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvPersonalDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/g_white"
+                android:background="@color/autofin_g_white"
                 android:layout_marginTop="@dimen/text_size10dp"
                 android:layout_marginLeft="@dimen/text_size10dp"
                 android:layout_marginRight="@dimen/text_size10dp"
@@ -166,7 +166,7 @@
             android:layout_alignParentBottom="true"
             android:layout_margin="5dp"
             android:clickable="true"
-            android:background="@color/navy_blue"
+            android:background="@color/autofin_navy_blue"
             android:layout_weight="0.5"
             android:paddingTop="@dimen/text_size_10dp"
             android:paddingBottom="@dimen/text_size_10dp"

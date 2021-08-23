@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/g_white">
+    android:background="@color/autofin_g_white">
 
     <LinearLayout
         android:id="@+id/llDocUploadAppBar"
@@ -44,7 +44,7 @@
                         android:layout_weight="1"
                         android:gravity="left"
                         android:text="@string/photo_id_proof_lbl"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 
                     <utility.RobotoMedium
@@ -55,7 +55,7 @@
                         android:drawableRight="@drawable/ic_forward_arrow"
                         android:gravity="right"
                         android:text="@string/skip_lbl"
-                        android:textColor="@color/navy_blue"
+                        android:textColor="@color/autofin_navy_blue"
                         android:textSize="@dimen/text_size_16sp"
                         android:visibility="invisible" />
                 </LinearLayout>
@@ -66,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:text="@string/str_you_can_select_som_image"
-                    android:textColor="@color/grey_color"
+                    android:textColor="@color/autofin_grey_color"
                     android:textSize="@dimen/text_size_14sp"
                     android:textStyle="italic" />
                 <!-- Pan Card layout-->
@@ -87,7 +87,7 @@
                         android:layout_weight="1"
                         android:gravity="left"
                         android:text="@string/pancard_lbl"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_14sp" />
 
                     <TextView
@@ -101,7 +101,7 @@
                         android:maxLines="1"
                         android:paddingRight="5dp"
                         android:text="@string/add_doc_lbl"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_12dp"
                         android:textStyle="italic" />
                 </LinearLayout>
@@ -109,7 +109,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/grey_color" />
+                    android:background="@color/autofin_grey_color" />
 
                 <!--Aadhar card-->
 
@@ -129,7 +129,7 @@
                         android:layout_weight="1"
                         android:gravity="left"
                         android:text="@string/aadhar_card_lbl"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_14sp" />
 
                     <TextView
@@ -143,7 +143,7 @@
                         android:maxLines="1"
                         android:paddingRight="5dp"
                         android:text="@string/add_doc_lbl"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_12dp"
                         android:textStyle="italic" />
                 </LinearLayout>
@@ -151,7 +151,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/grey_color" />
+                    android:background="@color/autofin_grey_color" />
 
                 <!--Voter id card-->
 
@@ -171,7 +171,7 @@
                         android:layout_weight="1"
                         android:gravity="left"
                         android:text="@string/voter_id_lbl"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_14sp" />
 
                     <TextView
@@ -185,7 +185,7 @@
                         android:maxLines="1"
                         android:paddingRight="5dp"
                         android:text="@string/add_doc_lbl"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_12dp"
                         android:textStyle="italic" />
                 </LinearLayout>
@@ -193,7 +193,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/grey_color" />
+                    android:background="@color/autofin_grey_color" />
 
                 <!--Aadhar card-->
 
@@ -213,7 +213,7 @@
                         android:layout_weight="1"
                         android:gravity="left"
                         android:text="@string/passport_lbl"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_14sp" />
 
                     <TextView
@@ -227,7 +227,7 @@
                         android:maxLines="1"
                         android:paddingRight="5dp"
                         android:text="@string/add_doc_lbl"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_12dp"
                         android:textStyle="italic" />
                 </LinearLayout>
@@ -235,7 +235,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/grey_color" />
+                    android:background="@color/autofin_grey_color" />
 
             </LinearLayout>
 
@@ -261,7 +261,7 @@
                         android:layout_weight="1.5"
                         android:gravity="left"
                         android:text="@string/residence_proof_lbl"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 
                     <utility.RobotoMedium
@@ -272,7 +272,7 @@
                         android:drawableRight="@drawable/ic_forward_arrow"
                         android:gravity="right"
                         android:text="@string/skip_lbl"
-                        android:textColor="@color/navy_blue"
+                        android:textColor="@color/autofin_navy_blue"
                         android:textSize="@dimen/text_size_16sp"
                         android:visibility="invisible" />
                 </LinearLayout>
@@ -283,7 +283,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:text="@string/str_you_can_select_som_image"
-                    android:textColor="@color/grey_color"
+                    android:textColor="@color/autofin_grey_color"
                     android:textSize="@dimen/text_size_14sp"
                     android:textStyle="italic" />
                 <!-- Rent Agreement layout-->
@@ -304,7 +304,7 @@
                         android:layout_weight="1"
                         android:gravity="left"
                         android:text="@string/rent_agreement_lbl"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_14sp" />
 
                     <TextView
@@ -318,7 +318,7 @@
                         android:maxLines="1"
                         android:paddingRight="5dp"
                         android:text="@string/add_doc_lbl"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_12dp"
                         android:textStyle="italic" />
                 </LinearLayout>
@@ -326,7 +326,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/grey_color" />
+                    android:background="@color/autofin_grey_color" />
 
                 <!--Electricity Bill-->
 
@@ -346,7 +346,7 @@
                         android:layout_weight="1"
                         android:gravity="left"
                         android:text="@string/electricity_bill_lbl"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_14sp" />
 
                     <TextView
@@ -360,7 +360,7 @@
                         android:maxLines="1"
                         android:paddingRight="5dp"
                         android:text="@string/add_doc_lbl"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_12dp"
                         android:textStyle="italic" />
                 </LinearLayout>
@@ -368,7 +368,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/grey_color" />
+                    android:background="@color/autofin_grey_color" />
 
                 <!--Residence Aadhar card-->
 
@@ -388,7 +388,7 @@
                         android:layout_weight="1"
                         android:gravity="left"
                         android:text="@string/aadhar_card_lbl"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_14sp" />
 
                     <TextView
@@ -402,7 +402,7 @@
                         android:maxLines="1"
                         android:paddingRight="5dp"
                         android:text="@string/add_doc_lbl"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_12dp"
                         android:textStyle="italic" />
                 </LinearLayout>
@@ -410,7 +410,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/grey_color" />
+                    android:background="@color/autofin_grey_color" />
             </LinearLayout>
 
             <!-- Bank Docs Proof -->
@@ -427,7 +427,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:text="BANK STATEMENT"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 
                 <TextView
@@ -436,7 +436,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:text="@string/str_you_can_select_som_image"
-                    android:textColor="@color/grey_color"
+                    android:textColor="@color/autofin_grey_color"
                     android:textSize="@dimen/text_size_14sp"
                     android:textStyle="italic" />
                 <!-- Pan Card layout-->
@@ -457,7 +457,7 @@
                         android:layout_weight="1"
                         android:gravity="left"
                         android:text="@string/bank_statement_lbl"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_14sp" />
 
                     <TextView
@@ -471,7 +471,7 @@
                         android:maxLines="1"
                         android:paddingRight="5dp"
                         android:text="@string/add_doc_lbl"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_12dp"
                         android:textStyle="italic" />
                 </LinearLayout>
@@ -479,7 +479,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/grey_color" />
+                    android:background="@color/autofin_grey_color" />
 
                 <!--Salary slip card-->
 
@@ -499,7 +499,7 @@
                         android:layout_weight="1"
                         android:gravity="left"
                         android:text="@string/salary_slip_lbl"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_14sp" />
 
                     <TextView
@@ -513,7 +513,7 @@
                         android:maxLines="1"
                         android:paddingRight="5dp"
                         android:text="@string/add_doc_lbl"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_12dp"
                         android:textStyle="italic" />
                 </LinearLayout>
@@ -521,7 +521,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/grey_color" />
+                    android:background="@color/autofin_grey_color" />
 
                 <!--Form 16 -->
 
@@ -541,7 +541,7 @@
                         android:layout_weight="1"
                         android:gravity="left"
                         android:text="@string/form_16_lbl"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_14sp" />
 
                     <TextView
@@ -555,7 +555,7 @@
                         android:maxLines="1"
                         android:paddingRight="5dp"
                         android:text="@string/add_doc_lbl"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_12dp"
                         android:textStyle="italic" />
                 </LinearLayout>
@@ -563,7 +563,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/grey_color" />
+                    android:background="@color/autofin_grey_color" />
 
                 <!--ITR card-->
 
@@ -583,7 +583,7 @@
                         android:layout_weight="1"
                         android:gravity="left"
                         android:text="@string/itr_lbl"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_14sp" />
 
                     <TextView
@@ -597,7 +597,7 @@
                         android:maxLines="1"
                         android:paddingRight="5dp"
                         android:text="@string/add_doc_lbl"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_12dp"
                         android:textStyle="italic" />
                 </LinearLayout>
@@ -605,7 +605,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/grey_color" />
+                    android:background="@color/autofin_grey_color" />
 
             </LinearLayout>
 
@@ -621,7 +621,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:text="@string/str_additional_doc"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
                 <LinearLayout
                     android:id="@+id/llAdditionalDoc"
@@ -639,7 +639,7 @@
                         android:layout_weight="1"
                         android:gravity="left"
                         android:text="Additional Document"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_14sp" />
 
                     <TextView
@@ -653,7 +653,7 @@
                         android:maxLines="1"
                         android:paddingRight="5dp"
                         android:text="@string/add_doc_lbl"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_12dp"
                         android:textStyle="italic" />
                 </LinearLayout>
@@ -661,7 +661,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/grey_color" />
+                    android:background="@color/autofin_grey_color" />
 
             </LinearLayout>
 
@@ -672,10 +672,10 @@
                 android:layout_marginLeft="35dp"
                 android:layout_marginTop="@dimen/text_size25dp"
                 android:layout_marginBottom="@dimen/text_size25dp"
-                android:buttonTint="@color/very_dark_blue"
+                android:buttonTint="@color/autofin_very_dark_blue"
                 android:paddingLeft="13dp"
                 android:text="@string/str_skip_now_and_do_it_later"
-                android:textColor="@color/very_dark_blue"
+                android:textColor="@color/autofin_very_dark_blue"
                 android:textSize="16dp"
                 android:visibility="visible" />
 
@@ -685,10 +685,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="35dp"
                 android:layout_marginBottom="85dp"
-                android:buttonTint="@color/very_dark_blue"
+                android:buttonTint="@color/autofin_very_dark_blue"
                 android:paddingLeft="13dp"
                 android:text="@string/str_agree_with_tc"
-                android:textColor="@color/very_dark_blue"
+                android:textColor="@color/autofin_very_dark_blue"
                 android:textSize="16dp" />
         </LinearLayout>
     </ScrollView>
@@ -699,7 +699,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="center"
-        android:background="@color/navy_blue"
+        android:background="@color/autofin_navy_blue"
         android:paddingTop="@dimen/text_size_19dp"
         android:paddingBottom="@dimen/text_size_18dp"
         android:text="@string/update"

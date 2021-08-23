@@ -12,6 +12,11 @@ public class StockDetailsReq {
     public var UserType: String? = null
     @SerializedName("requestFrom")
     public var RequestFrom: String? = null
-    @SerializedName("data") var data : VehicleRegNum? = null
+    @SerializedName("data")
+    var data : VehicleRegNum? = null
+    @SerializedName("vehicleNumber")
+    public var vehicleNumberE : String? =null
+    @SerializedName("accessKey")
+    public var accessKey : String? =null
 
 }

@@ -128,6 +128,7 @@ public class CommonStrings {
     public static final String RESET_JOURNEY = "reset-customer-journey";
     public static final String CITY_SEARCH_VIA_TEXT_END_POINT = "Pincode/city-by-name/";
     public static final String TERMS_AND_CONDITION_URL = "https://www.stagemfc.com/autofin-TermsAndCondition";
+    public static final String EDIGG_STOCK_API_URL="https://staging.admin.ediig.com/getBuyerVehicleDetails";
 
     public static String TOKEN_VALUE = "";
     public static String IBB_TOKEN_VALUE = "";
@@ -211,6 +212,9 @@ public class CommonStrings {
 
     public static final String AWS_DETAILS_API_END_POINT = "S3/details";
 
+    public static final String APP_NAME_OMS="OMS";
+    public static final String APP_NAME_EDIGG="Ediig";
+    public static final String EDIGG_ACCESS_KEY ="8Cm~Ts_U<QtJuRh2";
 
     public static String AWS_S3_BUCKETNAME = null;
     public static String AWS_S3_BUCKETKEY = null;

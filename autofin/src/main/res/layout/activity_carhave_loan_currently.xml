@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/g_white"
+    android:background="@color/autofin_g_white"
     android:orientation="vertical"
     tools:context=".Activity.VehicleDetailsActivities.CarHaveLoanCurrentlyActivity">
     <LinearLayout
@@ -111,7 +111,7 @@
                 android:layout_marginTop="@dimen/text_size_30dp"
                 android:layout_marginBottom="@dimen/text_size_28dp"
                 android:text="@string/vehicle_have_loan_qn"
-                android:textColor="@color/very_dark_blue"
+                android:textColor="@color/autofin_very_dark_blue"
                 android:textSize="@dimen/text_size_16sp" />
 
             <LinearLayout

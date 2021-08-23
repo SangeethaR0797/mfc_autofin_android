@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/g_white"
+    android:background="@color/autofin_g_white"
     tools:context=".Activity.VehicleDetailsActivities.VehicleMakeActivity">
 
     <LinearLayout
@@ -111,7 +111,7 @@
                         android:layout_height="@dimen/text_size_18dp"
                         android:layout_gravity="right|center_vertical"
                         android:layout_marginRight="@dimen/text_size_15dp"
-                        android:background="@color/grey_color" />
+                        android:background="@color/autofin_grey_color" />
 
                     <ImageView
                         android:id="@+id/iv_app_make_search"

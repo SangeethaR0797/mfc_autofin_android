@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/g_white"
+    android:background="@color/autofin_g_white"
     android:orientation="vertical"
     tools:context=".Activity.VehicleDetailsActivities.VehValidInsuranceActivity">
 
@@ -100,7 +100,7 @@
                     android:layout_marginTop="@dimen/text_size_30dp"
                     android:layout_marginBottom="@dimen/text_size_28dp"
                     android:text="@string/lbl_insurance_on_vehicle"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 
                 <LinearLayout
@@ -150,7 +150,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/text_size_5dp"
                         android:text="@string/lbl_enter_insurance_amount"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_16sp" />
 
                     <EditText
@@ -162,7 +162,7 @@
                         android:inputType="number"
                         android:maxLength="20"
                         android:singleLine="true"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 
                     <View
@@ -170,7 +170,7 @@
                         android:layout_height="1dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/text_size_8dp"
-                        android:background="@color/very_dark_blue" />
+                        android:background="@color/autofin_very_dark_blue" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

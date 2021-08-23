@@ -20,7 +20,7 @@
             android:layout_weight="1.4"
             android:gravity="left"
             android:text="@string/pancard_lbl"
-            android:textColor="@color/very_dark_blue"
+            android:textColor="@color/autofin_very_dark_blue"
             android:textSize="@dimen/text_size_14sp" />
 
         <TextView
@@ -34,7 +34,7 @@
             android:paddingRight="5dp"
             android:text="@string/add_doc_lbl"
             android:maxLines="1"
-            android:textColor="@color/grey_color"
+            android:textColor="@color/autofin_grey_color"
             android:textSize="@dimen/text_size_12dp"
             android:textStyle="italic"/>
     </LinearLayout>
@@ -42,7 +42,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/grey_color" />
+        android:background="@color/autofin_grey_color" />
 
 
 </LinearLayout>

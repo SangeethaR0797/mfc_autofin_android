@@ -12,7 +12,7 @@
         android:layout_width="@dimen/text_size_48dp"
         android:layout_height="@dimen/text_size_48dp"
         android:layout_centerInParent="true"
-        android:indeterminateTint="@color/very_dark_blue"
+        android:indeterminateTint="@color/autofin_very_dark_blue"
         android:padding="@dimen/text_size_5dp" />
 
     <TextView

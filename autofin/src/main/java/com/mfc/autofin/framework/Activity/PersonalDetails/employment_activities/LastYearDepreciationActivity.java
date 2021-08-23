@@ -11,8 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
-import com.mfc.autofin.framework.Activity.PersonalDetails.CurrentOrganizationActivity;
 import com.mfc.autofin.framework.R;
 
 import utility.CommonMethods;
@@ -90,7 +88,7 @@ public class LastYearDepreciationActivity extends AppCompatActivity implements V
             }
 
         } else if (v.getId() == R.id.etLastYearDepreciation) {
-            belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.very_dark_blue));
+            belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.autofin_very_dark_blue));
             if (tvErrorMessage.getVisibility() == View.VISIBLE) {
                 tvErrorMessage.setVisibility(View.GONE);
             }

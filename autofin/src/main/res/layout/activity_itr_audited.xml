@@ -32,7 +32,7 @@
                     android:layout_marginTop="@dimen/text_size_30dp"
                     android:layout_marginBottom="@dimen/text_size_28dp"
                     android:text="@string/is_itr_audited"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 
                 <LinearLayout

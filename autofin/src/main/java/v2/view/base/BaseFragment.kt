@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Handler
 import android.text.TextUtils
 import android.util.Log
 import android.view.Gravity
@@ -14,7 +15,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.DatePicker
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -82,9 +82,9 @@ public open class BaseFragment : Fragment() {
 
 
     public fun stringToDateString(
-        value: String,
-        sourceDateFormat: String,
-        targetDateFormat: String
+            value: String,
+            sourceDateFormat: String,
+            targetDateFormat: String
     ): String {
         val date = SimpleDateFormat(sourceDateFormat).parse(value)
         return SimpleDateFormat(targetDateFormat).format(date)
@@ -92,51 +92,45 @@ public open class BaseFragment : Fragment() {
 
     public fun hasConnectivityNetwork(): Boolean {
 
-        if (activity is HostActivity) {
+        return if (activity is HostActivity) {
             var hostActivity = activity as Activity as HostActivity
             if (hostActivity != null) {
                 if (hostActivity.tvConnectivityMessage!!.visibility == View.GONE) {
-                    return true
+                    true
                 } else {
                     showToast(getString(R.string.please_check_your_internet_connection))
-                    return false
+                    false
                 }
             } else {
-                return true
+                true
             }
         } else {
-            return true
+            true
         }
 
     }
 
-    val dateSetListener = object : DatePickerDialog.OnDateSetListener {
-        override fun onDateSet(
-            view: DatePicker, year: Int, monthOfYear: Int,
-            dayOfMonth: Int
-        ) {
-            cal.set(Calendar.YEAR, year)
-            cal.set(Calendar.MONTH, monthOfYear)
-            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+    val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+        cal.set(Calendar.YEAR, year)
+        cal.set(Calendar.MONTH, monthOfYear)
+        cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-            val sdf = SimpleDateFormat(DATE_FORMATE_DDMMYYYY, Locale.US)
-            val sdfValue = SimpleDateFormat(DATE_FORMATE_YYYYMMDD, Locale.US)
-            var dateDisplayValue: String = sdf.format(cal.getTime())
-            var dateValue: String = sdfValue.format(cal.getTime())
+        val sdf = SimpleDateFormat(DATE_FORMATE_DDMMYYYY, Locale.US)
+        val sdfValue = SimpleDateFormat(DATE_FORMATE_YYYYMMDD, Locale.US)
+        var dateDisplayValue: String = sdf.format(cal.time)
+        var dateValue: String = sdfValue.format(cal.time)
 
-            if (datePickerCallBack != null) {
-                datePickerCallBack.dateSelected(dateDisplayValue, dateValue)
-            }
+        if (datePickerCallBack != null) {
+            datePickerCallBack.dateSelected(dateDisplayValue, dateValue)
         }
     }
 
-    public fun callDatePickerDialog(
-        lastSelectedDateValue: String?,
-        minDate: Date?,
-        maxDate: Date?,
-        datepickerCallBack: DatePickerCallBack
+    public fun DatePickerCallBack.callDatePickerDialog(
+            lastSelectedDateValue: String?,
+            minDate: Date?,
+            maxDate: Date?
     ) {
-        datePickerCallBack = datepickerCallBack
+        datePickerCallBack = this
         var d: Int? = cal.get(Calendar.DAY_OF_MONTH)
         var m: Int? = cal.get(Calendar.MONTH)
         var y: Int? = cal.get(Calendar.YEAR)
@@ -150,7 +144,7 @@ public open class BaseFragment : Fragment() {
 
         }
         var datePickerDialog: DatePickerDialog?
-        datePickerDialog = context?.let { DatePickerDialog(it, dateSetListener, y!!, m!!, d!!) }
+        datePickerDialog = context?.let { DatePickerDialog(it, R.style.AutofinDatePickerTheme, dateSetListener, y!!, m!!, d!!) }
         if (minDate != null) {
             datePickerDialog!!.datePicker.minDate = minDate.time
         }
@@ -245,8 +239,8 @@ public open class BaseFragment : Fragment() {
         val separator = "-"
         var formattedRegNum =
             regNo.substring(0, 2) + separator + regNo.substring(2, 4) + separator + regNo.substring(
-                4,
-                6
+                    4,
+                    6
             ) + separator + regNo.substring(6, 10)
         return formattedRegNum
     }
@@ -265,7 +259,7 @@ public open class BaseFragment : Fragment() {
     public fun navigateToStockResFrag(stockDetails: StockDetails) {
         val stockDirection =
             VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToStockAPIFragment(
-                stockDetails
+                    stockDetails
             )
         view?.let {
             Navigation.findNavController(it).navigate(stockDirection)
@@ -286,7 +280,7 @@ public open class BaseFragment : Fragment() {
     public fun navigateToAddOrUpdateVehicleDetails(addLeadRequest: AddLeadRequest) {
         val directions =
             VehicleSelectionFragDirections.actionVehicleSelectionFrag2ToAddOrUpdateVehicleDetailsMakeFrag(
-                addLeadRequest
+                    addLeadRequest
             )
         view?.let {
             Navigation.findNavController(it).navigate(directions)
@@ -309,13 +303,13 @@ public open class BaseFragment : Fragment() {
     }
 
     public fun navigateToAddLeadFragment(
-        addLeadRequest: AddLeadRequest,
-        customerId: Int,
-        mobile: String?
+            addLeadRequest: AddLeadRequest,
+            customerId: Int,
+            mobile: String?
     ) {
         val directions =
             AddOrUpdateVehicleDetailsMakeFragDirections.actionAddOrUpdateVehicleDetailsMakeFragToAddLeadDetailsFrag(
-                addLeadRequest!!, customerId, mobile
+                    addLeadRequest!!, customerId, mobile
             )
         view?.let {
             Navigation.findNavController(it).navigate(directions)
@@ -323,14 +317,14 @@ public open class BaseFragment : Fragment() {
     }
 
     public fun stockToAddLeadFragment(
-        addLeadRequest: AddLeadRequest, customerId: Int,
-        mobile: String?
+            addLeadRequest: AddLeadRequest, customerId: Int,
+            mobile: String?
     ) {
         val directions =
             StockAPIFragmentDirections.actionStockAPIFragmentToAddLeadDetailsFrag(
-                addLeadRequest!!,
-                customerId,
-                mobile
+                    addLeadRequest!!,
+                    customerId,
+                    mobile
             )
         view?.let {
             Navigation.findNavController(it).navigate(directions)
@@ -338,13 +332,13 @@ public open class BaseFragment : Fragment() {
     }
 
     public fun navToSoftOfferFromApplicationListFragment(
-        customerDetailsResponse: CustomerDetailsResponse,
-        customerId: String
+            customerDetailsResponse: CustomerDetailsResponse,
+            customerId: String
     ) {
         val directions =
             ApplicationDetailsFragmentDirections.actionAddLeadDetailsFragToSoftOfferFragment2(
-                customerDetailsResponse!!,
-                customerId
+                    customerDetailsResponse!!,
+                    customerId
             )
         view?.let {
             Navigation.findNavController(it).navigate(directions)
@@ -353,17 +347,17 @@ public open class BaseFragment : Fragment() {
 
 
     public fun navToSoftOffer(
-        customerDetailsResponse: CustomerDetailsResponse,
-        customerId: String,
-        fragmentTag: String
+            customerDetailsResponse: CustomerDetailsResponse,
+            customerId: String,
+            fragmentTag: String
     ) {
         when (fragmentTag) {
             CommonStrings.ADD_LEAD_FRAGMENT_TAG -> {
                 val directions =
-                    AddLeadDetailsFragDirections.actionAddLeadDetailsFragToSoftOfferFragment2(
-                        customerDetailsResponse!!,
-                        customerId
-                    )
+                        AddLeadDetailsFragDirections.actionAddLeadDetailsFragToSoftOfferFragment2(
+                                customerDetailsResponse!!,
+                                customerId
+                        )
                 view?.let {
                     Navigation.findNavController(it).navigate(directions)
                 }
@@ -371,10 +365,10 @@ public open class BaseFragment : Fragment() {
             }
             CommonStrings.APPLICATION_LIST_FRAGMENT_TAG -> {
                 val directions =
-                    ApplicationListFragmentDirections.actionApplicationListFragmentToSoftOfferFragment2(
-                        customerDetailsResponse!!,
-                        customerId
-                    )
+                        ApplicationListFragmentDirections.actionApplicationListFragmentToSoftOfferFragment2(
+                                customerDetailsResponse!!,
+                                customerId
+                        )
                 view?.let {
                     Navigation.findNavController(it).navigate(directions)
                 }
@@ -382,10 +376,10 @@ public open class BaseFragment : Fragment() {
             }
             CommonStrings.APPLICATION_LEADS_FRAGMENT_TAG -> {
                 val directions =
-                    ApplicationDetailsFragmentDirections.actionAddLeadDetailsFragToSoftOfferFragment2(
-                        customerDetailsResponse!!,
-                        customerId
-                    )
+                        ApplicationDetailsFragmentDirections.actionAddLeadDetailsFragToSoftOfferFragment2(
+                                customerDetailsResponse!!,
+                                customerId
+                        )
                 view?.let {
                     Navigation.findNavController(it).navigate(directions)
                 }
@@ -396,11 +390,11 @@ public open class BaseFragment : Fragment() {
 
 
     public fun navigateToKYCDocumentUpload(
-        customerId: String,
-        kycDocumentData: KYCDocumentResponse,
-        caseID: String,
-        customerData: CustomerDetailsResponse,
-        fragmentTag: String
+            customerId: String,
+            kycDocumentData: KYCDocumentResponse,
+            caseID: String,
+            customerData: CustomerDetailsResponse,
+            fragmentTag: String
     ) {
         if(fragmentTag.isEmpty())
         {
@@ -432,17 +426,17 @@ public open class BaseFragment : Fragment() {
     }
 
     public fun navigateToKYCDocumentUploadFromApplicationList(
-        customerId: String,
-        kycDocumentData: KYCDocumentResponse,
-        caseID: String,
-        customerData: CustomerDetailsResponse
+            customerId: String,
+            kycDocumentData: KYCDocumentResponse,
+            caseID: String,
+            customerData: CustomerDetailsResponse
     ) {
         val directions =
             ApplicationListFragmentDirections.actionApplicationListFragmentToDocumentUploadFragment(
-                customerId,
-                kycDocumentData,
-                caseID,
-                customerData
+                    customerId,
+                    kycDocumentData,
+                    caseID,
+                    customerData
             )
         view.let {
             it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
@@ -450,9 +444,9 @@ public open class BaseFragment : Fragment() {
     }
 
     public fun navigateToAddressAdditionalFields(
-        custId: Int,
-        customerDetails: CustomerDetailsResponse,
-        fragmentTag:String
+            custId: Int,
+            customerDetails: CustomerDetailsResponse,
+            fragmentTag: String
     ) {
         if(fragmentTag=="")
         {
@@ -483,14 +477,14 @@ public open class BaseFragment : Fragment() {
     }
 
     public fun navigateToBankOfferStatusFromApplicationListFrag(
-        custId: Int,
-        customerDetails: CustomerDetailsResponse
+            custId: Int,
+            customerDetails: CustomerDetailsResponse
     ) {
 
         val directions =
             ApplicationListFragmentDirections.actionApplicationListFragmentToSelectedBankOfferStatusFragment(
-                custId.toString(),
-                customerDetails
+                    custId.toString(),
+                    customerDetails
             )
         view.let {
             it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
@@ -499,16 +493,16 @@ public open class BaseFragment : Fragment() {
     }
 
     public fun navigateToBankOfferStatus(
-        custId: String,
-        customerDetails: CustomerDetailsResponse,
-        fragment: String
+            custId: String,
+            customerDetails: CustomerDetailsResponse,
+            fragment: String
     ) {
 
         if (fragment == "AddressAdditionalFields") {
             val directions =
                 AddressAndAdditionalFieldsFragmentDirections.actionAddressAndAdditionalFieldsFragmentToSelectedBankOfferStatusFragment(
-                    custId,
-                    customerDetails
+                        custId,
+                        customerDetails
                 )
             view.let {
                 it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
@@ -516,8 +510,8 @@ public open class BaseFragment : Fragment() {
         } else if (fragment == "ADD_LEAD") {
             val directions =
                 AddLeadDetailsFragDirections.actionAddLeadDetailsFragToSelectedBankOfferStatusFragment(
-                    custId,
-                    customerDetails
+                        custId,
+                        customerDetails
                 )
             view.let {
                 it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
@@ -525,8 +519,8 @@ public open class BaseFragment : Fragment() {
         } else {
             val directions =
                 DocumentUploadFragmentDirections.actionDocumentUploadFragmentToSelectedBankOfferStatusFragment(
-                    custId,
-                    customerDetails
+                        custId,
+                        customerDetails
                 )
             view.let {
                 it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
@@ -546,7 +540,7 @@ public open class BaseFragment : Fragment() {
     public fun navigateToBankSuccessPageFromSoftOffer(loanProcessCompletedData: CustomLoanProcessCompletedData) {
         val directions =
             ApplicationListFragmentDirections.actionApplicationListFragmentToBankSuccessMessageFragment2(
-                loanProcessCompletedData
+                    loanProcessCompletedData
             )
         view.let {
             it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
@@ -554,15 +548,15 @@ public open class BaseFragment : Fragment() {
     }
 
     public fun navigateToFinalOTPFragment(
-        customerId: String,
-        mobileNum: String,
-        loanProcessCompletedData: CustomLoanProcessCompletedData
+            customerId: String,
+            mobileNum: String,
+            loanProcessCompletedData: CustomLoanProcessCompletedData
     ) {
         val directions =
             SelectedBankOfferStatusFragmentDirections.actionSelectedBankOfferStatusFragmentToFinalOTPFragment(
-                customerId,
-                mobileNum,
-                loanProcessCompletedData
+                    customerId,
+                    mobileNum,
+                    loanProcessCompletedData
             )
         view.let {
             it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
@@ -573,7 +567,7 @@ public open class BaseFragment : Fragment() {
     public fun navigateToSuccessFragment(loanProcessCompletedData: CustomLoanProcessCompletedData) {
         val directions =
             FinalOTPFragmentDirections.actionFinalOTPFragmentToBankSuccessMessageFragment(
-                loanProcessCompletedData
+                    loanProcessCompletedData
             )
         view.let {
             it?.let { it1 -> Navigation.findNavController(it1).navigate(directions) }
@@ -605,14 +599,28 @@ public open class BaseFragment : Fragment() {
     }
 
     public fun navigateToAddressAndAdditionalFieldsFragment(
-        customerId: Int,
-        customerDetails: CustomerDetailsResponse
+            customerId: Int,
+            customerDetails: CustomerDetailsResponse
     ) {
         val directions =
             SoftOfferFragmentDirections.actionSoftOfferFragment2ToAddressAndAdditionalFieldsFragment(
-                customerId,
-                customerDetails
+                    customerId,
+                    customerDetails
             )
+        view?.let {
+            Navigation.findNavController(it).navigate(directions)
+        }
+    }
+
+    public fun backToAddressAndAdditionalFieldsFragment(
+            customerId: Int,
+            customerDetails: CustomerDetailsResponse
+    ) {
+        val directions =
+                DocumentUploadFragmentDirections.actionDocumentUploadFragmentToAddressAndAdditionalFieldsFragment(
+                        customerId,
+                        customerDetails
+                )
         view?.let {
             Navigation.findNavController(it).navigate(directions)
         }
@@ -638,7 +646,7 @@ public open class BaseFragment : Fragment() {
         // view?.let { Navigation.findNavController(it).navigate(R.id.action_bankSuccessMessageFragment_to_dashboardFragment) }
         val directions =
             BankSuccessMessageFragmentDirections.actionBankSuccessMessageFragmentToApplicationDetailsFragment(
-                customerId
+                    customerId
             )
         view?.let {
             Navigation.findNavController(it).navigate(directions)
@@ -658,7 +666,6 @@ public open class BaseFragment : Fragment() {
     fun showToast(message: String) {
         try {
 
-
             hideSoftKeyboard()
             /*  val toast = Toast.makeText(activity, message, Toast.LENGTH_LONG)
               toast.setGravity(Gravity.CENTER, 0, 0)
@@ -666,8 +673,8 @@ public open class BaseFragment : Fragment() {
 
             val inflater = layoutInflater!!
             val layout: View = inflater.inflate(
-                R.layout.v2_toast_layout,
-                activity?.findViewById(R.id.toast_layout_root) as ViewGroup?
+                    R.layout.v2_toast_layout,
+                    activity?.findViewById(R.id.toast_layout_root) as ViewGroup?
             )
 
             val image: ImageView = layout.findViewById<View>(R.id.image) as ImageView
@@ -677,9 +684,12 @@ public open class BaseFragment : Fragment() {
 
             val toast = Toast(activity)
             toast.setGravity(Gravity.CENTER, 0, 0)
-            toast.duration = Toast.LENGTH_LONG
+            toast.duration = Toast.LENGTH_SHORT
             toast.view = layout
             toast.show()
+            val handler = Handler()
+            handler.postDelayed(Runnable { toast.cancel() }, 3000)
+
         } catch (e: java.lang.Exception) {
 
         }
@@ -691,10 +701,10 @@ public open class BaseFragment : Fragment() {
         try {
             if (activity?.currentFocus != null) {
                 val inputMethodManager = activity?.getSystemService(
-                    Activity.INPUT_METHOD_SERVICE
+                        Activity.INPUT_METHOD_SERVICE
                 ) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(
-                    activity?.currentFocus!!.windowToken, 0
+                        activity?.currentFocus!!.windowToken, 0
                 )
             } else {
                 activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
@@ -708,10 +718,10 @@ public open class BaseFragment : Fragment() {
         try {
             if (view != null) {
                 val inputMethodManager = activity?.getSystemService(
-                    Activity.INPUT_METHOD_SERVICE
+                        Activity.INPUT_METHOD_SERVICE
                 ) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(
-                    view.windowToken, 0
+                        view.windowToken, 0
                 )
             } else {
                 activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
@@ -774,9 +784,9 @@ public open class BaseFragment : Fragment() {
     // Progress Dialog region starts
 
     private fun getAlertDialog(
-        context: Context,
-        layout: Int,
-        setCancellationOnTouchOutside: Boolean
+            context: Context,
+            layout: Int,
+            setCancellationOnTouchOutside: Boolean
     ): AlertDialog {
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
         val customLayout: View =
@@ -785,8 +795,8 @@ public open class BaseFragment : Fragment() {
         val dialog = builder.create()
         dialog.setCanceledOnTouchOutside(setCancellationOnTouchOutside)
         dialog.window!!.setLayout(
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT
         )
         return dialog
     }
@@ -794,9 +804,9 @@ public open class BaseFragment : Fragment() {
     fun showProgressDialog(context: Context): AlertDialog {
         if (alertDialog == null) {
             alertDialog = getAlertDialog(
-                context,
-                R.layout.layout_progress_dialog,
-                setCancellationOnTouchOutside = false
+                    context,
+                    R.layout.layout_progress_dialog,
+                    setCancellationOnTouchOutside = false
             )
         }
         alertDialog!!.show()
@@ -823,9 +833,9 @@ public open class BaseFragment : Fragment() {
 
     public fun setKeyBoardShowHideEvent(keyboardVisibilityEventListener: KeyboardVisibilityEventListener) {
         setEventListener(
-            requireActivity(),
-            viewLifecycleOwner,
-            keyboardVisibilityEventListener
+                requireActivity(),
+                viewLifecycleOwner,
+                keyboardVisibilityEventListener
         )
     }
 
@@ -839,8 +849,8 @@ public open class BaseFragment : Fragment() {
     //region permission
     public fun checkCallPermissions(): Boolean {
         return ActivityCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.CALL_PHONE
+                requireContext(),
+                Manifest.permission.CALL_PHONE
         ) == PackageManager.PERMISSION_GRANTED
     }
 
@@ -848,9 +858,9 @@ public open class BaseFragment : Fragment() {
     public fun askCallPermissions() {
         Log.d("Camera Permission Check", "Comes into Permission Check method")
         ActivityCompat.requestPermissions(
-            requireActivity(),
-            arrayOf(Manifest.permission.CALL_PHONE),
-            1
+                requireActivity(),
+                arrayOf(Manifest.permission.CALL_PHONE),
+                1
         )
     }
     //endregion permission

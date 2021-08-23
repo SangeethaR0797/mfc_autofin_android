@@ -27,7 +27,7 @@
                 android:layout_weight="4"
                 android:gravity="left"
                 android:text="@string/lbl_select_your_gender"
-                android:textColor="@color/very_dark_blue"
+                android:textColor="@color/autofin_very_dark_blue"
                 android:textSize="16dp" />
 
             <ImageView
@@ -48,7 +48,7 @@
             android:layout_marginTop="@dimen/text_size_34dp"
             android:layout_marginLeft="@dimen/text_size_14dp"
             android:layout_marginBottom="23dp"
-            android:listSelector="@color/pale_grey"
+            android:listSelector="@color/autofin_pale_grey"
             android:divider="@null" />
     </LinearLayout>
 
@@ -57,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@color/navy_blue"
+        android:background="@color/autofin_navy_blue"
         android:paddingTop="@dimen/text_size_12dp"
         android:paddingBottom="@dimen/text_size_11dp"
         android:text="@string/select_btn_text"

@@ -66,6 +66,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     private var currentImageName = ""
     private var currentImageKey = ""
     private lateinit var currentTextView: TextView
+    private lateinit var imageViewBackToAddress:ImageView
     lateinit var fragmentContext: View
     private var commonList = ArrayList<v2.model.response.master.GroupedDoc>()
     lateinit var kycDocumentData: KYCDocumentData
@@ -102,7 +103,8 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     private fun initViews(view: View?) {
         ivBackToRedDetails = view?.findViewById(R.id.ivBackFromDocumentUpload)!!
 
-        linearLayoutImageUpload = view?.findViewById(R.id.linearLayoutImageUpload)!!
+        imageViewBackToAddress= view.findViewById(R.id.imageViewBackToAddress)
+        linearLayoutImageUpload = view.findViewById(R.id.linearLayoutImageUpload)!!
         buttonUploadDocument = view.findViewById(R.id.buttonUploadDocument)!!
 
         if (commonList.isEmpty()) {
@@ -116,6 +118,10 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
         ivBackToRedDetails.setOnClickListener(View.OnClickListener {
             activity?.onBackPressed()
+        })
+
+        imageViewBackToAddress.setOnClickListener(View.OnClickListener {
+            backToAddressAndAdditionalFieldsFragment(customerId.toInt(),customerDetailsResponse)
         })
 
         buttonUploadDocument.setOnClickListener(View.OnClickListener {

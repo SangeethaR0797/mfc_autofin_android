@@ -77,7 +77,7 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
 
     private fun initViews(view: View?) {
         etVehRegNum = view?.findViewById(R.id.etVehRegNum)!!
-        llVehRegNum = view?.findViewById(R.id.llVehRegNum)!!
+        llVehRegNum = view.findViewById(R.id.llVehRegNum)!!
         btnVehicleReg = view.findViewById(R.id.btnVehicleReg)
         tvSearchCar = view.findViewById(R.id.tvSearchCarV2)
         ivBackToDashBoard = view.findViewById(R.id.ivBackToDashBoard)
@@ -126,10 +126,21 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
             llVehRegNum.setBackgroundResource(R.drawable.vtwo_input_bg)
             tv_regno_hint.visibility = View.GONE
             showProgressDialog(requireActivity())
-            stockAPIViewModel!!.getStockDetails(
-                getStockRequest(),
-                Global.stock_details_base_url + CommonStrings.STOCK_DETAILS_URL_END
-            )
+            if(CommonStrings.APP_NAME.equals("OMS"))
+            {
+                stockAPIViewModel!!.getStockDetails(
+                        getStockRequest(),
+                        Global.stock_details_base_url + CommonStrings.STOCK_DETAILS_URL_END
+                )
+
+            }
+            else if(CommonStrings.APP_NAME.equals("Ediig"))
+            {
+                stockAPIViewModel!!.getStockDetails(
+                        getStockRequest(),
+                        CommonStrings.EDIGG_STOCK_API_URL
+                )
+            }
 
         } else {
             llVehRegNum.setBackgroundResource(R.drawable.v2_error_layout_bg)
@@ -140,13 +151,30 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
     }
 
     private fun getStockRequest(): StockDetailsReq {
-        var stockDetailsReq = StockDetailsReq()
+        val stockDetailsReq = StockDetailsReq()
         stockDetailsReq.UserId = CommonStrings.DEALER_ID
-        stockDetailsReq.UserType = CommonStrings.USER_TYPE
-        stockDetailsReq.RequestFrom = "Dealer"
-        var vehicleNum = VehicleRegNum()
-        vehicleNum.vehicleNumber = regNoVal
-        stockDetailsReq.data = vehicleNum
+
+        if(CommonStrings.APP_NAME.equals(CommonStrings.APP_NAME_OMS))
+        {
+            stockDetailsReq.UserType = CommonStrings.USER_TYPE
+            stockDetailsReq.RequestFrom = "Dealer"
+            val vehicleNum = VehicleRegNum()
+            vehicleNum.vehicleNumber = regNoVal
+            stockDetailsReq.data = vehicleNum
+            stockDetailsReq.accessKey=null
+            stockDetailsReq.vehicleNumberE=null
+        }
+        else
+        {
+            stockDetailsReq.UserType = null
+            stockDetailsReq.RequestFrom = null
+            val vehicleNum = VehicleRegNum()
+            vehicleNum.vehicleNumber =null
+            stockDetailsReq.data =null
+            stockDetailsReq.accessKey=CommonStrings.EDIGG_ACCESS_KEY
+            stockDetailsReq.vehicleNumberE=regNoVal
+        }
+
         return stockDetailsReq
     }
 
@@ -169,7 +197,6 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
             }
             else -> showToast("There is no Data for entered Register number")
         }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
