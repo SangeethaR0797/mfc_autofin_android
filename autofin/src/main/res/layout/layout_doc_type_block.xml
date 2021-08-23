@@ -23,7 +23,7 @@
                 android:layout_weight="1"
                 android:gravity="left"
                 android:text="@string/photo_id_proof_lbl"
-                android:textColor="@color/very_dark_blue"
+                android:textColor="@color/autofin_very_dark_blue"
                 android:textSize="@dimen/text_size_16sp" />
 
             <utility.RobotoMedium
@@ -34,7 +34,7 @@
                 android:drawableRight="@drawable/ic_forward_arrow"
                 android:gravity="right"
                 android:text="@string/skip_lbl"
-                android:textColor="@color/navy_blue"
+                android:textColor="@color/autofin_navy_blue"
                 android:textSize="@dimen/text_size_16sp" />
         </LinearLayout>
 
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:text="@string/str_you_can_select_som_image"
-            android:textColor="@color/grey_color"
+            android:textColor="@color/autofin_grey_color"
             android:textSize="@dimen/text_size_14sp"
             android:textStyle="italic" />
         <androidx.recyclerview.widget.RecyclerView

@@ -803,17 +803,19 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
     private fun initiateAdditionalFields() {
 
-        if (linearLayoutAdditionalFieldsUILayout.visibility == View.INVISIBLE || linearLayoutAdditionalFieldsUILayout.visibility==View.GONE) {
-            if (hasConnectivityNetwork()) {
-                transactionViewModel.getAdditionalFieldsData(
-                        CustomerRequest(
-                                ResetCustomerJourneyDataRequest(custId.toString()),
-                                CommonStrings.USER_TYPE,
-                                CommonStrings.USER_TYPE
-                        ), Global.baseURL + CommonStrings.ADDITIONAL_FIELDS_URL
-                )
+
+            if (linearLayoutAdditionalFieldsUILayout.visibility == View.INVISIBLE || linearLayoutAdditionalFieldsUILayout.visibility==View.GONE) {
+                if (hasConnectivityNetwork()) {
+                    transactionViewModel.getAdditionalFieldsData(
+                            CustomerRequest(
+                                    ResetCustomerJourneyDataRequest(custId.toString()),
+                                    CommonStrings.USER_TYPE,
+                                    CommonStrings.USER_TYPE
+                            ), Global.baseURL + CommonStrings.ADDITIONAL_FIELDS_URL
+                    )
+                }
             }
-        }
+
     }
 
 
@@ -834,7 +836,6 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                     customerDetailsResponse = customerResponse
                 }
                 initiateView()
-
 
                 // InitViews
             }
@@ -962,7 +963,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                 val response: AdditionalFields? = mApiResponse.data as AdditionalFields?
                 additionalFieldsData = response?.data!!
 
-                if (response?.data?.sections?.isNotEmpty() == true) {
+                if (response?.data?.sections?.isNotEmpty()) {
 
                     if (buttonMoveToNextPage.visibility == View.VISIBLE) {
                         viewEmpty.visibility = View.GONE
@@ -975,13 +976,20 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                     if (!isPermanentAddress)
                         linearLayoutEditPermanentAddress.visibility = View.VISIBLE
 
-                    linearLayoutAdditionalFieldsUILayout.visibility = View.VISIBLE
-                    scrollToBottom(linearLayoutAdditionalFieldsUILayout)
-                    setAdditionalField()
+                    if(linearLayoutAdditionalFieldsUILayout.visibility!=View.VISIBLE)
+                    {
+                        linearLayoutAdditionalFieldsUILayout.visibility = View.VISIBLE
+                        scrollToBottom(linearLayoutAdditionalFieldsUILayout)
+                        setAdditionalField()
+                    }
+
 
                 } else {
                     viewEmpty.visibility = View.GONE
+
+                    if(buttonMoveToNextPage.visibility!=View.VISIBLE)
                     buttonMoveToNextPage.visibility = View.VISIBLE
+
                 }
             }
             ApiResponse.Status.ERROR -> {
@@ -1110,6 +1118,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
             linearLayoutAdditionalFieldsUILayout.addView(sectionView)
 
             Log.i("TAG", "setAdditionalField: $sectionIndex" + " -----> " + linearLayoutAdditionalFieldsUILayout.childCount + "---->" + linearLayoutAdditionalFieldsUILayout.getChildAt(linearLayoutAdditionalFieldsUILayout.childCount - 1).rootView)
+
             if (isEditFlow || sectionIndex == sectionsList.size - 1)
                 scrollToAdditionalFieldsBottom(linearLayoutAdditionalFieldsUILayout.getChildAt(sectionIndex).findViewById(R.id.linearLayoutSectionLayout))
             else {
@@ -1141,6 +1150,8 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
         } else {
 
+            if(buttonMoveToNextPage.visibility==View.VISIBLE)
+                buttonMoveToNextPage.visibility=View.GONE
 
             if (sectionData.type == "Address" || isLastSection) {
 
@@ -1286,7 +1297,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
         if (isMandatory) {
             val text = "$title "
-            val colored = getString(R.string.lbl_asterick)
+            val colored = requireContext().getString(R.string.lbl_asterick)
             val builder = SpannableStringBuilder()
 
             builder.append(text)
@@ -1464,6 +1475,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
                             RetroBase.retrofitInterface.getFromWeb(apiURL)
                                     ?.enqueue(object : Callback<Any> {
+
                                         override fun onResponse(call: Call<Any>, response: Response<Any>) {
                                             val strRes = Gson().toJson(response.body())
                                             val dpRes =
@@ -1760,10 +1772,12 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         val apiURL = url + additionaFieldPinCode
         var textVal = ""
         if (hasConnectivityNetwork()) {
+            showProgressDialog(requireContext())
             RetroBase.retrofitInterface.getFromWeb(apiURL)?.enqueue(object : Callback<Any> {
                 override fun onResponse(call: Call<Any>, response: Response<Any>) {
                     val strRes = Gson().toJson(response.body())
                     val dpRes = Gson().fromJson(strRes, APIDropDownResponse::class.java)
+                    hideProgressDialog()
                     if (dpRes != null && dpRes.status) {
                         val optionList = dpRes.data.details
                         if (optionList.isNotEmpty() && optionList.size == 1) {
@@ -2062,9 +2076,13 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         }
         if (isLastSect) {
             viewEmpty.visibility = View.GONE
+
+            if(buttonMoveToNextPage.visibility!=View.VISIBLE)
             buttonMoveToNextPage.visibility = View.VISIBLE
         } else {
             viewEmpty.visibility = View.VISIBLE
+
+            if(buttonMoveToNextPage.visibility==View.VISIBLE)
             buttonMoveToNextPage.visibility = View.GONE
         }
         return view
@@ -2194,8 +2212,9 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
             val input_finish_checker = Runnable {
                 if (System.currentTimeMillis() > last_text_edit + delay - 500) {
-                    showProgressDialog(fragView.context)
                     if (hasConnectivityNetwork()) {
+                        showProgressDialog(fragView.context)
+
                         RetroBase.retrofitInterface.getFromWeb(apiURL + editTextAdditionalFieldsSearchOption.text.toString())
                                 ?.enqueue(object : Callback<Any> {
                                     override fun onResponse(call: Call<Any>, response: Response<Any>) {
@@ -2303,6 +2322,5 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
         }
     }
-
 
 }

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/g_white"
+    android:background="@color/autofin_g_white"
     tools:context=".Activity.PersonalDetails.EmploymentTypeActivity">
 
     <LinearLayout
@@ -45,7 +45,7 @@
                     android:layout_marginTop="@dimen/text_size_26dp"
                     android:clickable="true"
                     android:text="@string/lbl_employment_type"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 
                 <LinearLayout
@@ -72,11 +72,11 @@
                                 android:id="@+id/rbSalaried"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:buttonTint="@color/very_dark_blue"
+                                android:buttonTint="@color/autofin_very_dark_blue"
                                 android:checked="false"
                                 android:paddingLeft="12dp"
                                 android:text="@string/lbl_salaried"
-                                android:textColor="@color/very_dark_blue"
+                                android:textColor="@color/autofin_very_dark_blue"
                                 android:textSize="@dimen/text_size_16sp" />
 
                             <utility.RobotoMedium
@@ -85,7 +85,7 @@
                                 android:layout_below="@+id/rbSalaried"
                                 android:layout_marginLeft="@dimen/text_size_45dp"
                                 android:text="@string/lbl_earn_monthly_regular_income"
-                                android:textColor="@color/grey_color"
+                                android:textColor="@color/autofin_grey_color"
                                 android:textSize="@dimen/text_size_12dp"
                                 android:textStyle="italic" />
                         </RelativeLayout>
@@ -99,11 +99,11 @@
                                 android:id="@+id/rbBusinessOwner"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:buttonTint="@color/very_dark_blue"
+                                android:buttonTint="@color/autofin_very_dark_blue"
                                 android:checked="false"
                                 android:paddingLeft="12dp"
                                 android:text="@string/lbl_business_owner"
-                                android:textColor="@color/very_dark_blue"
+                                android:textColor="@color/autofin_very_dark_blue"
                                 android:textSize="@dimen/text_size_16sp" />
 
                             <utility.RobotoMedium
@@ -112,7 +112,7 @@
                                 android:layout_below="@+id/rbBusinessOwner"
                                 android:layout_marginLeft="@dimen/text_size_45dp"
                                 android:text="@string/lbl_runs_own_business"
-                                android:textColor="@color/grey_color"
+                                android:textColor="@color/autofin_grey_color"
                                 android:textSize="@dimen/text_size_12dp"
                                 android:textStyle="italic" />
                         </RelativeLayout>
@@ -126,11 +126,11 @@
                                 android:id="@+id/rbSelfEmployedProfessional"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:buttonTint="@color/very_dark_blue"
+                                android:buttonTint="@color/autofin_very_dark_blue"
                                 android:checked="false"
                                 android:paddingLeft="12dp"
                                 android:text="@string/lbl_self_employed_professional"
-                                android:textColor="@color/very_dark_blue"
+                                android:textColor="@color/autofin_very_dark_blue"
                                 android:textSize="@dimen/text_size_16sp" />
 
                             <utility.RobotoMedium
@@ -139,7 +139,7 @@
                                 android:layout_below="@+id/rbSelfEmployedProfessional"
                                 android:layout_marginLeft="@dimen/text_size_45dp"
                                 android:text="@string/lbl_own_a_practice"
-                                android:textColor="@color/grey_color"
+                                android:textColor="@color/autofin_grey_color"
                                 android:textSize="@dimen/text_size_12dp"
                                 android:textStyle="italic" />
                         </RelativeLayout>
@@ -153,11 +153,11 @@
                                 android:id="@+id/rbIndependentWorker"
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:buttonTint="@color/very_dark_blue"
+                                android:buttonTint="@color/autofin_very_dark_blue"
                                 android:checked="false"
                                 android:paddingLeft="12dp"
                                 android:text="@string/lbl_independent_worker"
-                                android:textColor="@color/very_dark_blue"
+                                android:textColor="@color/autofin_very_dark_blue"
                                 android:textSize="@dimen/text_size_16sp" />
 
                             <utility.RobotoMedium
@@ -166,7 +166,7 @@
                                 android:layout_below="@+id/rbIndependentWorker"
                                 android:layout_marginLeft="@dimen/text_size_45dp"
                                 android:text="@string/lbl_driver_electrician"
-                                android:textColor="@color/grey_color"
+                                android:textColor="@color/autofin_grey_color"
                                 android:textSize="@dimen/text_size_12dp"
                                 android:textStyle="italic" />
                         </RelativeLayout>
@@ -176,11 +176,11 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/text_size_24dp"
-                            android:buttonTint="@color/very_dark_blue"
+                            android:buttonTint="@color/autofin_very_dark_blue"
                             android:checked="false"
                             android:paddingLeft="12dp"
                             android:text="@string/lbl_student"
-                            android:textColor="@color/very_dark_blue"
+                            android:textColor="@color/autofin_very_dark_blue"
                             android:textSize="@dimen/text_size_16sp" />
 
                         <RadioButton
@@ -188,11 +188,11 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/text_size_24dp"
-                            android:buttonTint="@color/very_dark_blue"
+                            android:buttonTint="@color/autofin_very_dark_blue"
                             android:checked="false"
                             android:paddingLeft="12dp"
                             android:text="@string/lbl_retired"
-                            android:textColor="@color/very_dark_blue"
+                            android:textColor="@color/autofin_very_dark_blue"
                             android:textSize="@dimen/text_size_16sp" />
 
                         <RadioButton
@@ -200,11 +200,11 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/text_size_24dp"
-                            android:buttonTint="@color/very_dark_blue"
+                            android:buttonTint="@color/autofin_very_dark_blue"
                             android:checked="false"
                             android:paddingLeft="12dp"
                             android:text="@string/lbl_home_maker"
-                            android:textColor="@color/very_dark_blue"
+                            android:textColor="@color/autofin_very_dark_blue"
                             android:textSize="@dimen/text_size_16sp" />
 
                     </RadioGroup>

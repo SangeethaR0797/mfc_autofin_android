@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/g_white"
+    android:background="@color/autofin_g_white"
     android:orientation="vertical"
     tools:context=".Activity.VehicleDetailsActivities.VehicleCategory">
 
@@ -38,7 +38,7 @@
                 android:layout_marginTop="@dimen/text_size_34dp"
                 android:layout_marginRight="@dimen/text_size_19dp"
                 android:text="@string/vehicle_category"
-                android:textColor="@color/very_dark_blue"
+                android:textColor="@color/autofin_very_dark_blue"
                 android:textSize="@dimen/text_size_16sp" />
 
             <RadioGroup
@@ -54,11 +54,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="@dimen/text_size_24dp"
-                    android:buttonTint="@color/very_dark_blue"
+                    android:buttonTint="@color/autofin_very_dark_blue"
                     android:checked="false"
                     android:paddingLeft="12dp"
                     android:text="@string/new_car"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 
                 <RadioButton
@@ -67,11 +67,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="@dimen/text_size_24dp"
-                    android:buttonTint="@color/very_dark_blue"
+                    android:buttonTint="@color/autofin_very_dark_blue"
                     android:checked="false"
                     android:paddingLeft="12dp"
                     android:text="@string/old_car"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 
                 <RadioButton
@@ -80,12 +80,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="@dimen/text_size_24dp"
-                    android:buttonTint="@color/very_dark_blue"
+                    android:buttonTint="@color/autofin_very_dark_blue"
                     android:checked="false"
                     android:paddingLeft="12dp"
                     android:text="@string/new_bike"
                     android:visibility="gone"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 
             </RadioGroup>

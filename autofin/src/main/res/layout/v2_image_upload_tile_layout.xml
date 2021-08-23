@@ -28,7 +28,7 @@
         android:layout_marginTop="@dimen/text_size_34dp"
         android:text="adsdfdv"
         android:textAppearance="@style/RobotoRegular"
-        android:textColor="@color/grey_color"
+        android:textColor="@color/autofin_grey_color"
         android:textSize="@dimen/text_size10sp"
         android:minLines="2"
         android:maxLines="2"
@@ -64,7 +64,7 @@
         android:layout_marginTop="@dimen/text_size_14dp"
         android:text="@string/v2_no_attachment_found_lbl"
         android:textAppearance="@style/RobotoRegular"
-        android:textColor="@color/grey_color"
+        android:textColor="@color/autofin_grey_color"
         android:textSize="10dp"
         android:textStyle="italic" />
 

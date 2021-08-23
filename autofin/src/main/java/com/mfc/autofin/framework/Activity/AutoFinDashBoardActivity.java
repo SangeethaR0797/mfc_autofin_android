@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -42,7 +41,6 @@ import utility.AutoFinConstants;
 import utility.CommonMethods;
 import utility.CommonStrings;
 import utility.CustomFonts;
-import utility.CommonURLs;
 import utility.DataEncrypt;
 import utility.Global;
 import utility.RobotoMedium;
@@ -243,15 +241,15 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
     }
 
     private void highLightTab(LinearLayout lLayout, TextView textView, TextView textView1) {
-        lLayout.setBackgroundColor(getResources().getColor(R.color.navy_blue));
+        lLayout.setBackgroundColor(getResources().getColor(R.color.autofin_navy_blue));
         textView.setTextColor(getResources().getColor(R.color.white));
         textView1.setTextColor(getResources().getColor(R.color.white));
     }
 
     private void deHighLightTab(LinearLayout lLayout, TextView textView, TextView textView1) {
         lLayout.setBackgroundColor(getResources().getColor(R.color.white));
-        textView.setTextColor(getResources().getColor(R.color.very_dark_blue));
-        textView1.setTextColor(getResources().getColor(R.color.very_dark_blue));
+        textView.setTextColor(getResources().getColor(R.color.autofin_very_dark_blue));
+        textView1.setTextColor(getResources().getColor(R.color.autofin_very_dark_blue));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)

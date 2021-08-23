@@ -612,6 +612,20 @@ public open class BaseFragment : Fragment() {
         }
     }
 
+    public fun backToAddressAndAdditionalFieldsFragment(
+            customerId: Int,
+            customerDetails: CustomerDetailsResponse
+    ) {
+        val directions =
+                DocumentUploadFragmentDirections.actionDocumentUploadFragmentToAddressAndAdditionalFieldsFragment(
+                        customerId,
+                        customerDetails
+                )
+        view?.let {
+            Navigation.findNavController(it).navigate(directions)
+        }
+    }
+
     public fun navigateApplicationDetailsFragment(customerId: Int) {
         val directions =
             ApplicationListFragmentDirections.actionApplicationDetailsFragment(customerId)

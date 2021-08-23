@@ -40,14 +40,14 @@
                 android:layout_marginRight="20dp"
                 android:gravity="center"
                 android:text="@string/vehicle_details_title"
-                android:textColor="@color/very_dark_blue"
+                android:textColor="@color/autofin_very_dark_blue"
                 android:textSize="18dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="13dp"
-                android:textColor="@color/n_blue"
+                android:textColor="@color/autofin_n_blue"
                 android:textSize="12dp"
                 android:textStyle="italic"
                 android:visibility="gone" />

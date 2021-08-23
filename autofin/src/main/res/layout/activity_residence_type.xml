@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/g_white"
+    android:background="@color/autofin_g_white"
     tools:context=".Activity.ResidentialActivity.ResidenceTypeActivity">
 
     <ScrollView
@@ -43,7 +43,7 @@
                         android:layout_marginTop="@dimen/text_size_26dp"
                         android:clickable="true"
                         android:text="@string/lbl_residence_type"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 
                     <LinearLayout
@@ -66,11 +66,11 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/text_size_24dp"
-                                android:buttonTint="@color/very_dark_blue"
+                                android:buttonTint="@color/autofin_very_dark_blue"
                                 android:checked="false"
                                 android:paddingLeft="12dp"
                                 android:text="@string/lbl_owned_by_self_or_spouse"
-                                android:textColor="@color/very_dark_blue"
+                                android:textColor="@color/autofin_very_dark_blue"
                                 android:textSize="@dimen/text_size_16sp" />
 
                             <RadioButton
@@ -78,11 +78,11 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/text_size_24dp"
-                                android:buttonTint="@color/very_dark_blue"
+                                android:buttonTint="@color/autofin_very_dark_blue"
                                 android:checked="false"
                                 android:paddingLeft="12dp"
                                 android:text="@string/lbl_owned_by_parent_sibling"
-                                android:textColor="@color/very_dark_blue"
+                                android:textColor="@color/autofin_very_dark_blue"
                                 android:textSize="@dimen/text_size_16sp" />
 
                             <RadioButton
@@ -90,11 +90,11 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/text_size_24dp"
-                                android:buttonTint="@color/very_dark_blue"
+                                android:buttonTint="@color/autofin_very_dark_blue"
                                 android:checked="false"
                                 android:paddingLeft="12dp"
                                 android:text="@string/lbl_rented_with_family"
-                                android:textColor="@color/very_dark_blue"
+                                android:textColor="@color/autofin_very_dark_blue"
                                 android:textSize="@dimen/text_size_16sp" />
 
                             <RadioButton
@@ -102,11 +102,11 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/text_size_24dp"
-                                android:buttonTint="@color/very_dark_blue"
+                                android:buttonTint="@color/autofin_very_dark_blue"
                                 android:checked="false"
                                 android:paddingLeft="12dp"
                                 android:text="@string/lbl_rented_with_friends"
-                                android:textColor="@color/very_dark_blue"
+                                android:textColor="@color/autofin_very_dark_blue"
                                 android:textSize="@dimen/text_size_16sp" />
 
                             <RadioButton
@@ -114,11 +114,11 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/text_size_24dp"
-                                android:buttonTint="@color/very_dark_blue"
+                                android:buttonTint="@color/autofin_very_dark_blue"
                                 android:checked="false"
                                 android:paddingLeft="12dp"
                                 android:text="@string/lbl_rented_staying_alone"
-                                android:textColor="@color/very_dark_blue"
+                                android:textColor="@color/autofin_very_dark_blue"
                                 android:textSize="@dimen/text_size_16sp" />
 
                             <RadioButton
@@ -126,11 +126,11 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/text_size_24dp"
-                                android:buttonTint="@color/very_dark_blue"
+                                android:buttonTint="@color/autofin_very_dark_blue"
                                 android:checked="false"
                                 android:paddingLeft="12dp"
                                 android:text="@string/lbl_paying_guest"
-                                android:textColor="@color/very_dark_blue"
+                                android:textColor="@color/autofin_very_dark_blue"
                                 android:textSize="@dimen/text_size_16sp" />
 
 
@@ -139,11 +139,11 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/text_size_24dp"
-                                android:buttonTint="@color/very_dark_blue"
+                                android:buttonTint="@color/autofin_very_dark_blue"
                                 android:checked="false"
                                 android:paddingLeft="12dp"
                                 android:text="@string/lbl_hostel"
-                                android:textColor="@color/very_dark_blue"
+                                android:textColor="@color/autofin_very_dark_blue"
                                 android:textSize="@dimen/text_size_16sp" />
 
                             <RadioButton
@@ -151,11 +151,11 @@
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/text_size_24dp"
-                                android:buttonTint="@color/very_dark_blue"
+                                android:buttonTint="@color/autofin_very_dark_blue"
                                 android:checked="false"
                                 android:paddingLeft="12dp"
                                 android:text="@string/lbl_company_provided"
-                                android:textColor="@color/very_dark_blue"
+                                android:textColor="@color/autofin_very_dark_blue"
                                 android:textSize="@dimen/text_size_16sp" />
                         </RadioGroup>
                     </LinearLayout>

@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
 import com.mfc.autofin.framework.R;
 
 import utility.CommonMethods;
@@ -104,7 +103,7 @@ public class EMIPayPerMonthActivity extends AppCompatActivity implements View.On
         }
         else if(v.getId()==R.id.etMonthlyIncomeAmount)
         {
-            belowETViewEMI.setBackgroundColor(getResources().getColor(R.color.very_dark_blue));
+            belowETViewEMI.setBackgroundColor(getResources().getColor(R.color.autofin_very_dark_blue));
 
             if(tvErrorMessage.getVisibility()==View.VISIBLE)
             {

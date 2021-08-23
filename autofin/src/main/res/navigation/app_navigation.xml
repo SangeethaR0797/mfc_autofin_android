@@ -198,6 +198,9 @@
         <argument
             android:name="customerData"
             app:argType="v2.model.response.CustomerDetailsResponse" />
+        <action
+            android:id="@+id/action_documentUploadFragment_to_addressAndAdditionalFieldsFragment"
+            app:destination="@id/addressAndAdditionalFieldsFragment" />
     </fragment>
     <fragment
         android:id="@+id/selectedBankOfferStatusFragment"

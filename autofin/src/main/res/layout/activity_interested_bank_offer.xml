@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/g_white"
+    android:background="@color/autofin_g_white"
     >
 
     <LinearLayout
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/llInterestedBankOfferAppBar"
-        android:background="@color/g_white"
+        android:background="@color/autofin_g_white"
         android:fillViewport="true">
 
         <LinearLayout
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/hi_lbl"
-                android:textColor="@color/very_dark_blue"
+                android:textColor="@color/autofin_very_dark_blue"
                 android:textSize="@dimen/text_size_16sp" />
 
             <utility.RobotoMedium
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/hi_lbl"
-                android:textColor="@color/very_dark_blue"
+                android:textColor="@color/autofin_very_dark_blue"
                 android:textSize="@dimen/text_size_16sp" />
 
             <TextView
@@ -66,7 +66,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="3dp"
                 android:text="@string/update_lbl"
-                android:textColor="@color/grey_color"
+                android:textColor="@color/autofin_grey_color"
                 android:textSize="@dimen/text_size_14sp" />
 
             <TextView
@@ -76,7 +76,7 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="56dp"
                 android:text="@string/update_lbl"
-                android:textColor="@color/grey_color"
+                android:textColor="@color/autofin_grey_color"
                 android:textSize="@dimen/text_size_14sp" />
 
             <TextView
@@ -86,7 +86,7 @@
                 android:layout_gravity="left"
                 android:layout_marginBottom="@dimen/text_size_12dp"
                 android:text="@string/next_lbl"
-                android:textColor="@color/grey_color"
+                android:textColor="@color/autofin_grey_color"
                 android:visibility="invisible"
                 android:textSize="@dimen/text_size_14sp" />
 
@@ -109,7 +109,7 @@
                     android:layout_marginLeft="@dimen/text_size11dp"
                     android:visibility="invisible"
                     android:text="@string/will_contact_lbl"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_14sp" />
             </LinearLayout>
 
@@ -131,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/text_size11dp"
                     android:text="@string/will_contact_lbl"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_14sp" />
             </LinearLayout>
 
@@ -153,7 +153,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/text_size11dp"
                     android:text="@string/will_contact_lbl"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_14sp" />
             </LinearLayout>
 
@@ -162,7 +162,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="69dp"
                 android:layout_marginBottom="150dp"
-                android:background="@color/g_white"
+                android:background="@color/autofin_g_white"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/text_size_20dp"
                 android:paddingRight="@dimen/text_size_30dp"
@@ -176,7 +176,7 @@
                     android:layout_marginTop="23dp"
                     android:layout_marginBottom="12dp"
                     android:text="@string/kyc_not_updated_lbl"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 
                 <TextView
@@ -187,7 +187,7 @@
                     android:layout_marginTop="23dp"
                     android:layout_marginBottom="@dimen/text_size_20dp"
                     android:text="@string/kyc_not_updated_lbl"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 
                 <Button
@@ -199,7 +199,7 @@
                     android:background="@drawable/navy_blue_outline"
                     android:padding="10dp"
                     android:text="@string/update_lbl"
-                    android:textColor="@color/navy_blue" />
+                    android:textColor="@color/autofin_navy_blue" />
 
             </LinearLayout>
 
@@ -212,7 +212,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="center"
-        android:background="@color/navy_blue"
+        android:background="@color/autofin_navy_blue"
         android:paddingTop="@dimen/text_size_19dp"
         android:paddingBottom="@dimen/text_size_18dp"
         android:text="@string/track_my_loan_text"

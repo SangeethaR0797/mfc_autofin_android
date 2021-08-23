@@ -321,8 +321,8 @@ class SoftOfferFragment : BaseFragment(), ActivityBackPressed {
                     mApiResponse.data as CustomerDetailsResponse?
                 if (customerResponse != null) {
                     customerDetailsResponse = customerResponse
-                    leadStatus = customerDetailsResponse!!.data!!.status
-                    leadSubStatus = customerDetailsResponse!!.data!!.subStatus
+                    leadStatus = customerDetailsResponse.data!!.status
+                    leadSubStatus = customerDetailsResponse.data!!.subStatus
                     navigateToAddressAndAdditionalFieldsFragment(
                         customerId.toInt(),
                         customerDetailsResponse

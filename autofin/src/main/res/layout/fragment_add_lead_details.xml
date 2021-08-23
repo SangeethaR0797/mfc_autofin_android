@@ -150,7 +150,7 @@
                                     <ImageView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        app:srcCompat="@drawable/ic_edit" />
+                                        app:srcCompat="@drawable/ic_autofin_new_edit" />
                                 </RelativeLayout>
                             </LinearLayout>
 

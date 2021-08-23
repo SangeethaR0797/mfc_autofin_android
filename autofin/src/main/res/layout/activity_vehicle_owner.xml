@@ -118,11 +118,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:buttonTint="@color/very_dark_blue"
+                        android:buttonTint="@color/autofin_very_dark_blue"
                         android:checked="false"
                         android:paddingLeft="@dimen/text_size_12dp"
                         android:text="@string/ownership_01"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 
                     <RadioButton
@@ -130,11 +130,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:buttonTint="@color/very_dark_blue"
+                        android:buttonTint="@color/autofin_very_dark_blue"
                         android:checked="false"
                         android:paddingLeft="@dimen/text_size_12dp"
                         android:text="@string/ownership_02"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 
                     <RadioButton
@@ -142,11 +142,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:buttonTint="@color/very_dark_blue"
+                        android:buttonTint="@color/autofin_very_dark_blue"
                         android:checked="false"
                         android:paddingLeft="@dimen/text_size_12dp"
                         android:text="@string/ownership_03"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
                 </LinearLayout>
 
@@ -162,11 +162,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:buttonTint="@color/very_dark_blue"
+                        android:buttonTint="@color/autofin_very_dark_blue"
                         android:checked="false"
                         android:paddingLeft="@dimen/text_size_12dp"
                         android:text="@string/ownership_04"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 
                     <RadioButton
@@ -174,11 +174,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:buttonTint="@color/very_dark_blue"
+                        android:buttonTint="@color/autofin_very_dark_blue"
                         android:checked="false"
                         android:paddingLeft="@dimen/text_size_12dp"
                         android:text="@string/ownership_05"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 
                     <RadioButton
@@ -189,7 +189,7 @@
                         android:checked="false"
                         android:paddingLeft="@dimen/text_size_12dp"
                         android:text="@string/ownership_03"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp"
                         android:visibility="invisible" />
                 </LinearLayout>

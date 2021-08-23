@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,20 +19,16 @@ import com.mfc.autofin.framework.R;
 
 import java.util.List;
 
-import kyc.DocumentUploadActivity;
 import model.add_lead_details.AddLeadResponse;
 import model.addtional_fields.AdditionalFieldResponse;
 import model.addtional_fields.BankName;
 import model.addtional_fields.GetAdditionFieldsReq;
 import model.bank_models.BankListData;
-import model.bank_models.BankListResponse;
-import model.bank_models.SelectBankData;
 import model.bank_models.SelectRecBankReq;
 import model.bank_models.SelectedBankData;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 import utility.CommonMethods;
 import utility.CommonStrings;
 import utility.Global;
@@ -71,23 +66,23 @@ public class SelectBankAdapter extends RecyclerView.Adapter<SelectBankAdapter.Vi
             if (bankDetailsList.get(position).getBankId() == 27) {
                 holder.tvBankStatus.setText("Recommended");
                 holder.ivBankName.setBackground(activity.getResources().getDrawable(R.drawable.ic_hdfc));
-                holder.tvBankStatus.setTextColor(activity.getResources().getColor(R.color.light_green));
+                holder.tvBankStatus.setTextColor(activity.getResources().getColor(R.color.autofin_light_green));
             } else if (bankDetailsList.get(position).getBankName().contains("ICICI")) {
                 holder.tvBankStatus.setText("Popular");
                 holder.ivBankName.setBackground(activity.getResources().getDrawable(R.drawable.ic_icici));
-                holder.tvBankStatus.setTextColor(activity.getResources().getColor(R.color.grey_color));
+                holder.tvBankStatus.setTextColor(activity.getResources().getColor(R.color.autofin_grey_color));
             } else if (bankDetailsList.get(position).getBankName().contains("AXIS")) {
                 holder.tvBankStatus.setText("Popular");
                 holder.ivBankName.setBackground(activity.getResources().getDrawable(R.drawable.ic_axis));
-                holder.tvBankStatus.setTextColor(activity.getResources().getColor(R.color.grey_color));
+                holder.tvBankStatus.setTextColor(activity.getResources().getColor(R.color.autofin_grey_color));
             } else if (bankDetailsList.get(position).getBankName().contains("SBI")) {
                 holder.tvBankStatus.setText("Popular");
                 holder.ivBankName.setBackground(activity.getResources().getDrawable(R.drawable.ic_sbi));
-                holder.tvBankStatus.setTextColor(activity.getResources().getColor(R.color.grey_color));
+                holder.tvBankStatus.setTextColor(activity.getResources().getColor(R.color.autofin_grey_color));
             } else {
                 holder.tvBankStatus.setText("Popular");
                 holder.ivBankName.setBackground(activity.getResources().getDrawable(0));
-                holder.tvBankStatus.setTextColor(activity.getResources().getColor(R.color.grey_color));
+                holder.tvBankStatus.setTextColor(activity.getResources().getColor(R.color.autofin_grey_color));
             }
 
 

@@ -25,7 +25,7 @@
             android:layout_gravity="left"
             android:layout_weight="1"
             android:text="@string/otp_lbl"
-            android:textColor="@color/very_dark_blue"
+            android:textColor="@color/autofin_very_dark_blue"
             android:textSize="@dimen/text_size_16sp" />
 
         <utility.RobotoMedium
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_weight="0.75"
-            android:textColor="@color/very_dark_blue"
+            android:textColor="@color/autofin_very_dark_blue"
             android:textSize="@dimen/text_size_16sp"
             android:visibility="invisible" />
 
@@ -63,7 +63,7 @@
             android:clickable="true"
             android:padding="@dimen/text_size10dp"
             android:text="@string/sample_phone_number"
-            android:textColor="@color/very_dark_blue"
+            android:textColor="@color/autofin_very_dark_blue"
             android:textSize="@dimen/text_size_16sp" />
 
         <ImageView
@@ -92,7 +92,7 @@
         android:layout_gravity="center"
         android:layout_marginLeft="80dp"
         android:layout_marginRight="80dp"
-        android:background="@color/very_dark_blue" />
+        android:background="@color/autofin_very_dark_blue" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/testing_number"
-            android:textColor="@color/very_dark_blue"
+            android:textColor="@color/autofin_very_dark_blue"
             android:textSize="@dimen/text_size_30dp" />
 
         <utility.RobotoMedium
@@ -117,7 +117,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/strSecLbl"
-            android:textColor="@color/very_dark_blue"
+            android:textColor="@color/autofin_very_dark_blue"
             android:textSize="@dimen/text_size_16sp" />
     </LinearLayout>
 
@@ -128,14 +128,14 @@
         android:layout_gravity="center"
         android:layout_marginBottom="@dimen/text_size_31dp"
         android:text="@string/lbl_resend"
-        android:textColor="@color/navy_blue"
+        android:textColor="@color/autofin_navy_blue"
         android:textSize="@dimen/text_size_16sp" />
 
     <Button
         android:id="@+id/btnProceed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/navy_blue"
+        android:background="@color/autofin_navy_blue"
         android:text="@string/lbl_proceed"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_16sp" />

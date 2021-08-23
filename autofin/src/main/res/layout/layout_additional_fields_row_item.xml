@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/text_size_5dp"
         android:text="@string/first_name"
-        android:textColor="@color/grey_color"
+        android:textColor="@color/autofin_grey_color"
         android:textSize="@dimen/text_size_14sp" />
 
     <LinearLayout
@@ -26,7 +26,7 @@
             android:background="@android:color/transparent"
             android:inputType="text"
             android:maxLines="1"
-            android:textColor="@color/very_dark_blue"
+            android:textColor="@color/autofin_very_dark_blue"
             android:textSize="@dimen/text_size_16sp" />
 
         <View
@@ -34,7 +34,7 @@
             android:layout_height="1dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="@dimen/text_size_24dp"
-            android:background="@color/very_dark_blue" />
+            android:background="@color/autofin_very_dark_blue" />
     </LinearLayout>
 
     <LinearLayout
@@ -52,13 +52,13 @@
             android:background="@android:color/transparent"
             android:inputType="text"
             android:maxLines="1"
-            android:textColor="@color/very_dark_blue"
+            android:textColor="@color/autofin_very_dark_blue"
             android:textSize="@dimen/text_size_16sp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/very_dark_blue" />
+            android:background="@color/autofin_very_dark_blue" />
     </LinearLayout>
 
     <LinearLayout
@@ -77,13 +77,13 @@
             android:inputType="number"
             android:maxLength="10"
             android:maxLines="1"
-            android:textColor="@color/very_dark_blue"
+            android:textColor="@color/autofin_very_dark_blue"
             android:textSize="@dimen/text_size_16sp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/very_dark_blue" />
+            android:background="@color/autofin_very_dark_blue" />
     </LinearLayout>
 
     <LinearLayout
@@ -102,7 +102,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/very_dark_blue" />
+            android:background="@color/autofin_very_dark_blue" />
     </LinearLayout>
 
     <LinearLayout
@@ -120,13 +120,13 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="@dimen/text_size_8dp"
             android:singleLine="true"
-            android:textColor="@color/very_dark_blue"
+            android:textColor="@color/autofin_very_dark_blue"
             android:textSize="@dimen/text_size_16sp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/very_dark_blue" />
+            android:background="@color/autofin_very_dark_blue" />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/llCity"
@@ -143,13 +143,13 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="@dimen/text_size_8dp"
             android:singleLine="true"
-            android:textColor="@color/very_dark_blue"
+            android:textColor="@color/autofin_very_dark_blue"
             android:textSize="@dimen/text_size_16sp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/very_dark_blue" />
+            android:background="@color/autofin_very_dark_blue" />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/llAFPinCode"
@@ -175,7 +175,7 @@
                 android:inputType="number"
                 android:maxLength="6"
                 android:singleLine="true"
-                android:textColor="@color/very_dark_blue"
+                android:textColor="@color/autofin_very_dark_blue"
                 android:textSize="@dimen/text_size_16sp" />
 
             <View
@@ -183,7 +183,7 @@
                 android:layout_height="1dp"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginTop="@dimen/text_size_8dp"
-                android:background="@color/very_dark_blue" />
+                android:background="@color/autofin_very_dark_blue" />
         </LinearLayout>
 
         <Button
@@ -209,7 +209,7 @@
             android:background="@android:color/transparent"
             android:inputType="text"
             android:maxLines="1"
-            android:textColor="@color/very_dark_blue"
+            android:textColor="@color/autofin_very_dark_blue"
             android:textSize="@dimen/text_size_16sp" />
 
         <View
@@ -217,7 +217,7 @@
             android:layout_height="1dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="@dimen/text_size_24dp"
-            android:background="@color/very_dark_blue" />
+            android:background="@color/autofin_very_dark_blue" />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/llWorkAddress2"
@@ -233,7 +233,7 @@
             android:background="@android:color/transparent"
             android:inputType="text"
             android:maxLines="1"
-            android:textColor="@color/very_dark_blue"
+            android:textColor="@color/autofin_very_dark_blue"
             android:textSize="@dimen/text_size_16sp" />
 
         <View
@@ -241,7 +241,7 @@
             android:layout_height="1dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="@dimen/text_size_24dp"
-            android:background="@color/very_dark_blue" />
+            android:background="@color/autofin_very_dark_blue" />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/llCommon"
@@ -257,7 +257,7 @@
         android:background="@android:color/transparent"
         android:inputType="text"
         android:maxLines="1"
-        android:textColor="@color/very_dark_blue"
+        android:textColor="@color/autofin_very_dark_blue"
         android:textSize="@dimen/text_size_16sp"
         android:visibility="gone" />
     <View
@@ -266,6 +266,6 @@
         android:layout_height="1dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="@dimen/text_size_24dp"
-        android:background="@color/very_dark_blue" />
+        android:background="@color/autofin_very_dark_blue" />
     </LinearLayout>
 </LinearLayout>

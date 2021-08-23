@@ -133,5 +133,6 @@ data class PermanentAddress(
 @Parcelize
 data class AdditionalDetailsData(
         var apiKey: String?,
-        var value: String
+        var value: String,
+        var DisplayLabel:String
 ) : Parcelable

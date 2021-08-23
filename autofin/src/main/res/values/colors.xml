@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#FFFFFF</color>
-    <color name="red">#D50000</color>
-    <color name="hint_color">#B7B7B7</color>
-    <color name="green">#37B706</color>
-    <color name="light_green">#00e46b</color>
+    <color name="autofin_red">#D50000</color>
+    <color name="autofin_hint_color">#B7B7B7</color>
+    <color name="autofin_green">#37B706</color>
+    <color name="autofin_light_green">#00e46b</color>
     <color name="colorAccent">#D8353B</color>
     <color name="black">#000000</color>
-    <color name="very_dark_blue">#001e4a</color>
-    <color name="pale_blue">#e5effd</color>
-    <color name="n_blue">#9babc4</color>
-    <color name="g_white">#f3f3ff</color>
-    <color name="grey_color">#9babc4</color>
-    <color name="pale_grey">#e6e6f3</color>
-    <color name="torch_red">#ff004d</color>
-    <color name="navy_blue">#0061e6</color>
+    <color name="autofin_very_dark_blue">#001e4a</color>
+    <color name="autofin_pale_blue">#e5effd</color>
+    <color name="autofin_n_blue">#9babc4</color>
+    <color name="autofin_g_white">#f3f3ff</color>
+    <color name="autofin_grey_color">#9babc4</color>
+    <color name="autofin_pale_grey">#e6e6f3</color>
+    <color name="autofin_torch_red">#ff004d</color>
+    <color name="autofin_navy_blue">#0061e6</color>
 
     <color name="error_red">#ff0000</color>
 

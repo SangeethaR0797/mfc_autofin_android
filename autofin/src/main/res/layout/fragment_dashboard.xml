@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:text="Registered"
         android:layout_margin="10dp"
-        android:background="@color/navy_blue"
+        android:background="@color/autofin_navy_blue"
         android:textColor="@color/white"/>
     <Button
         android:id="@+id/btnNewVehicle"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:text="New Vehicle"
         android:layout_margin="10dp"
-        android:background="@color/pale_grey"
+        android:background="@color/autofin_pale_grey"
         android:textColor="@color/black"/>
 </LinearLayout>
 

@@ -47,7 +47,7 @@
                     android:paddingRight="20dp"
                     android:paddingBottom="@dimen/text_size_17dp"
                     android:text="@string/lbl_joining_date_of_your_current_org"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 
 
@@ -55,7 +55,7 @@
                     android:id="@+id/llVehPostInspection"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/g_white"
+                    android:background="@color/autofin_g_white"
                     android:orientation="vertical"
                     android:paddingLeft="@dimen/text_size_21dp"
                     android:paddingTop="@dimen/text_size_24dp"
@@ -67,7 +67,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/date_format_hint"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_19sp" />
 
                 </LinearLayout>
@@ -83,7 +83,7 @@
                         android:id="@+id/cvJoiningDateOfCurrentOrg"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:focusedMonthDateColor="@color/grey_color" />
+                        android:focusedMonthDateColor="@color/autofin_grey_color" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

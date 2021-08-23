@@ -86,7 +86,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
                         android:layout_marginTop="@dimen/text_size_12dp"
-                        app:srcCompat="@drawable/ic_edit_icon"/>
+                        app:srcCompat="@drawable/ic_autofin_nw_edit_icon"/>
                 </LinearLayout>
 
                 <utility.RobotoMedium

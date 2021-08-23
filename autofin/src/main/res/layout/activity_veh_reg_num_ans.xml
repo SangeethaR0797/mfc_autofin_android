@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/g_white"
+    android:background="@color/autofin_g_white"
     android:orientation="vertical"
     tools:context=".Activity.VehicleDetailsActivities.VehRegNumAns">
 
@@ -36,7 +36,7 @@
                     android:layout_marginTop="@dimen/text_size_34dp"
                     android:layout_marginRight="@dimen/text_size_19dp"
                     android:text="@string/enter_vehicle_reg_no"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 
                 <TextView
@@ -47,7 +47,7 @@
                     android:layout_marginTop="@dimen/text_size_57dp"
                     android:layout_marginRight="@dimen/text_size_19dp"
                     android:text="@string/lbl_reg_no"
-                    android:textColor="@color/grey_color"
+                    android:textColor="@color/autofin_grey_color"
                     android:textSize="@dimen/text_size_16sp" />
 
                 <EditText
@@ -60,7 +60,7 @@
                     android:hint="@string/sample_reg_no"
                     android:maxLength="11"
                     android:singleLine="true"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_16sp" />
 
                 <View
@@ -71,7 +71,7 @@
                     android:layout_marginTop="@dimen/text_size_4dp"
                     android:layout_marginRight="@dimen/text_size_21dp"
                     android:layout_marginBottom="@dimen/text_size_48dp"
-                    android:background="@color/very_dark_blue" />
+                    android:background="@color/autofin_very_dark_blue" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>

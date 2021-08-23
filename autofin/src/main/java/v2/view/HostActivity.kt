@@ -6,6 +6,7 @@ import android.graphics.Rect
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.text.TextUtils
 import android.view.MotionEvent
 import android.view.View
@@ -218,9 +219,18 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
 
     override fun onBackPressed() {
         if (activityBackPressed != null) {
-            activityBackPressed!!.onActivityBackPressed()
-        } else {
-            super.onBackPressed()
+            val handler = Handler()
+            handler.postDelayed(Runnable {
+                activityBackPressed!!.onActivityBackPressed()
+            }, 1000)
+
+        }
+        else {
+            val handler = Handler()
+            handler.postDelayed(Runnable {
+                super.onBackPressed()
+            }, 1000)
+
         }
     }
 
@@ -241,5 +251,6 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
             appTokenChangeInterface!!.onTokenReceivedOrRefresh()
         }
     }
+
 
 }

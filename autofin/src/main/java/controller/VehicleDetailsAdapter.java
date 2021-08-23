@@ -1,7 +1,6 @@
 package controller;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,10 +59,10 @@ public class VehicleDetailsAdapter extends ArrayAdapter<String> {
             if (!textView.getText().toString().equals("") && textView.getText().toString().equals(p)) {
                 tvCustomLV.setText(p);
                 tvCustomLV.setBackground(activity.getResources().getDrawable(R.drawable.navy_blue_outline));
-                tvCustomLV.setTextColor(activity.getResources().getColor(R.color.navy_blue));
+                tvCustomLV.setTextColor(activity.getResources().getColor(R.color.autofin_navy_blue));
             } else {
                 tvCustomLV.setBackground(activity.getResources().getDrawable(R.drawable.grey_box_1dp));
-                tvCustomLV.setTextColor(activity.getResources().getColor(R.color.grey_color));
+                tvCustomLV.setTextColor(activity.getResources().getColor(R.color.autofin_grey_color));
                 tvCustomLV.setText(p);
             }
         }
@@ -72,7 +71,7 @@ public class VehicleDetailsAdapter extends ArrayAdapter<String> {
             @Override
             public void onClick(View v) {
                 tvCustomLV.setBackground(activity.getResources().getDrawable(R.drawable.navy_blue_outline));
-                tvCustomLV.setTextColor(activity.getResources().getColor(R.color.navy_blue));
+                tvCustomLV.setTextColor(activity.getResources().getColor(R.color.autofin_navy_blue));
                 textView.setText(tvCustomLV.getText().toString());
                 lvVehListView.setVisibility(View.GONE);
             }

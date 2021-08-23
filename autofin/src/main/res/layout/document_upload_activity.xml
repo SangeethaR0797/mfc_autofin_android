@@ -46,7 +46,7 @@
                             android:layout_weight="1"
                             android:text="Pan card"
                             android:textAllCaps="true"
-                            android:textColor="@color/very_dark_blue"
+                            android:textColor="@color/autofin_very_dark_blue"
                             android:textSize="@dimen/text_size_18dp" />
 
                         <TextView
@@ -55,7 +55,7 @@
                             android:layout_weight="1"
                             android:gravity="right"
                             android:text="Add Doc"
-                            android:textColor="@color/grey_color"
+                            android:textColor="@color/autofin_grey_color"
                             android:textSize="@dimen/text_size_18dp" />
 
                     </LinearLayout>

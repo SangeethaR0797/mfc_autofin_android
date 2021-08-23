@@ -68,7 +68,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/rate_of_intrest"
                         android:textAppearance="@style/RobotoRegular"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_12dp"
                         android:textStyle="italic" />
 

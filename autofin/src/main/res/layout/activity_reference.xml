@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/lbl_reference_name"
-                android:textColor="@color/very_dark_blue"
+                android:textColor="@color/autofin_very_dark_blue"
                 android:textSize="@dimen/text_size_16sp"
                 android:layout_marginTop="@dimen/text_size_30dp"
                 android:layout_marginBottom="@dimen/text_size_8dp" />
@@ -48,7 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/first_name"
-                    android:textColor="@color/grey_color"
+                    android:textColor="@color/autofin_grey_color"
                     android:textSize="@dimen/text_size_14sp"
                     android:layout_marginBottom="@dimen/text_size_5dp"/>
                     <EditText
@@ -59,11 +59,11 @@
                         android:textSize="@dimen/text_size_16sp"
                         android:inputType="text"
                         android:maxLines="1"
-                        android:textColor="@color/very_dark_blue"/>
+                        android:textColor="@color/autofin_very_dark_blue"/>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/very_dark_blue"
+                        android:background="@color/autofin_very_dark_blue"
                         android:layout_marginTop="4dp"
                         android:layout_marginBottom="@dimen/text_size_24dp"/>
                 </LinearLayout>
@@ -79,7 +79,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/last_name"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_14sp"
                         android:layout_marginBottom="@dimen/text_size_5dp"/>
                     <EditText
@@ -90,11 +90,11 @@
                         android:textSize="@dimen/text_size_16sp"
                         android:inputType="text"
                         android:maxLines="1"
-                        android:textColor="@color/very_dark_blue"/>
+                        android:textColor="@color/autofin_very_dark_blue"/>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/very_dark_blue"/>
+                        android:background="@color/autofin_very_dark_blue"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -108,7 +108,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/lbl_phone_no"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_14sp"
                         android:layout_marginBottom="@dimen/text_size_5dp"/>
                     <EditText
@@ -120,11 +120,11 @@
                         android:maxLength="10"
                         android:maxLines="1"
                         android:textSize="@dimen/text_size_16sp"
-                        android:textColor="@color/very_dark_blue"/>
+                        android:textColor="@color/autofin_very_dark_blue"/>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/very_dark_blue"/>
+                        android:background="@color/autofin_very_dark_blue"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -140,11 +140,11 @@
                         android:textSize="@dimen/text_size_16sp"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
-                        android:textColor="@color/very_dark_blue"/>
+                        android:textColor="@color/autofin_very_dark_blue"/>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/very_dark_blue"/>
+                        android:background="@color/autofin_very_dark_blue"/>
                 </LinearLayout>
             </LinearLayout>
                    </androidx.cardview.widget.CardView>
@@ -159,7 +159,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@color/navy_blue"
+            android:background="@color/autofin_navy_blue"
             android:paddingTop="@dimen/text_size_19dp"
             android:paddingBottom="@dimen/text_size_18dp"
             android:text="@string/apply_now_lbl"

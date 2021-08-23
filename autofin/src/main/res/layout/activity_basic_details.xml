@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/g_white"
+    android:background="@color/autofin_g_white"
     tools:context=".Activity.BasicDetailsActivities.BasicDetailsActivity">
 
     <ScrollView
@@ -44,7 +44,7 @@
                         android:layout_marginTop="@dimen/text_size_34dp"
                         android:layout_marginRight="@dimen/text_size_19dp"
                         android:text="@string/enter_basic_details"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
                     <!--Name-->
                     <TextView
@@ -55,7 +55,7 @@
                         android:layout_marginTop="@dimen/text_size_57dp"
                         android:layout_marginRight="@dimen/text_size_19dp"
                         android:text="@string/lbl_name"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_14dp" />
 
                     <LinearLayout
@@ -83,7 +83,7 @@
                             android:inputType="text"
                             android:maxLength="50"
                             android:singleLine="true"
-                            android:textColor="@color/very_dark_blue"
+                            android:textColor="@color/autofin_very_dark_blue"
                             android:textSize="@dimen/text_size_16sp" />
                     </LinearLayout>
 
@@ -95,7 +95,7 @@
                         android:layout_marginLeft="@dimen/text_size_21dp"
                         android:layout_marginTop="@dimen/text_size_8dp"
                         android:layout_marginRight="@dimen/text_size_21dp"
-                        android:background="@color/very_dark_blue" />
+                        android:background="@color/autofin_very_dark_blue" />
                     <!--Phone Number-->
                     <TextView
                         android:id="@+id/tvPhoneNumLbl"
@@ -105,7 +105,7 @@
                         android:layout_marginTop="@dimen/text_size_32dp"
                         android:layout_marginRight="@dimen/text_size_19dp"
                         android:text="@string/lbl_phone_no"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_14dp" />
 
                     <EditText
@@ -120,7 +120,7 @@
                         android:inputType="phone"
                         android:maxLength="10"
                         android:singleLine="true"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 
                     <View
@@ -130,7 +130,7 @@
                         android:layout_marginLeft="@dimen/text_size_21dp"
                         android:layout_marginTop="@dimen/text_size_8dp"
                         android:layout_marginRight="@dimen/text_size_21dp"
-                        android:background="@color/very_dark_blue" />
+                        android:background="@color/autofin_very_dark_blue" />
 
                     <!--Email-->
 
@@ -142,7 +142,7 @@
                         android:layout_marginTop="@dimen/text_size_32dp"
                         android:layout_marginRight="@dimen/text_size_19dp"
                         android:text="@string/lbl_email"
-                        android:textColor="@color/grey_color"
+                        android:textColor="@color/autofin_grey_color"
                         android:textSize="@dimen/text_size_14dp" />
 
                     <EditText
@@ -157,7 +157,7 @@
                         android:inputType="textEmailAddress"
                         android:maxLength="50"
                         android:singleLine="true"
-                        android:textColor="@color/very_dark_blue"
+                        android:textColor="@color/autofin_very_dark_blue"
                         android:textSize="@dimen/text_size_16sp" />
 
                     <View
@@ -168,7 +168,7 @@
                         android:layout_marginTop="@dimen/text_size_8dp"
                         android:layout_marginRight="@dimen/text_size_21dp"
                         android:layout_marginBottom="@dimen/text_size_48dp"
-                        android:background="@color/very_dark_blue" />
+                        android:background="@color/autofin_very_dark_blue" />
 
 
                 </LinearLayout>

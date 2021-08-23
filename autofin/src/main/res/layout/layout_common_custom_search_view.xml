@@ -27,7 +27,7 @@
             android:layout_height="@dimen/text_size_18dp"
             android:layout_gravity="right|center_vertical"
             android:layout_marginRight="@dimen/text_size_15dp"
-            android:background="@color/grey_color" />
+            android:background="@color/autofin_grey_color" />
 
         <ImageView
             android:id="@+id/iv_custom_search_icon"

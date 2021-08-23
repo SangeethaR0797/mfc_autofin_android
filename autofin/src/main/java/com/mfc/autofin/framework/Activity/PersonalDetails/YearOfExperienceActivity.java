@@ -10,12 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mfc.autofin.framework.Activity.AutoFinDashBoardActivity;
-import com.mfc.autofin.framework.Activity.PersonalDetails.employment_activities.IndustryTypeActivity;
 import com.mfc.autofin.framework.R;
 
-import model.personal_details_models.IndustryType;
-import utility.CommonMethods;
 import utility.CommonStrings;
 import utility.CustomFonts;
 
@@ -93,7 +89,7 @@ public class YearOfExperienceActivity extends AppCompatActivity implements View.
             }
 
         } else if (v.getId() == R.id.etNOOfYears) {
-            belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.very_dark_blue));
+            belowETYearsOE.setBackgroundColor(getResources().getColor(R.color.autofin_very_dark_blue));
             if (tvErrorMessage.getVisibility() == View.VISIBLE) {
                 tvErrorMessage.setVisibility(View.GONE);
             }

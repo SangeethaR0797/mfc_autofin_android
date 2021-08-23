@@ -20,6 +20,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/view_height_1dp"
-        android:background="@color/hint_color" />
+        android:background="@color/autofin_hint_color" />
 
 </LinearLayout>

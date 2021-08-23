@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/lbl_thanks_for_updating_your_details"
-                    android:textColor="@color/grey_color"
+                    android:textColor="@color/autofin_grey_color"
                     android:textSize="@dimen/text_size_16sp"
                     android:layout_marginTop="@dimen/text_size_57dp"
                     android:layout_marginBottom="@dimen/text_size_57dp" />
@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/lbl_please_wait"
-                    android:textColor="@color/grey_color"
+                    android:textColor="@color/autofin_grey_color"
                     android:textSize="@dimen/text_size_14sp"
                     android:layout_marginBottom="@dimen/text_size_49dp"/>
                 <utility.RobotoMedium
@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/lbl_matching_your_details_with_bank"
-                    android:textColor="@color/very_dark_blue"
+                    android:textColor="@color/autofin_very_dark_blue"
                     android:textSize="@dimen/text_size_16sp"
                     android:layout_marginBottom="@dimen/text_size_45dp" />
 
