@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 // Intent autodashboard = new Intent(MainActivity.this, AdditionalFieldsActivity.class);
                 String[] value = spDealer.getSelectedItem().toString().split(">>");
                 Intent autodashboard = new Intent(MainActivity.this, HostActivity.class);
-                autodashboard.putExtra(AutoFinConstants.APP_NAME, "MFCBusiness");
+                autodashboard.putExtra(AutoFinConstants.APP_NAME, "OMS");
                 // autodashboard.putExtra(AutoFinConstants.DEALER_ID, "242");
                 autodashboard.putExtra(AutoFinConstants.DEALER_ID, value[1].toString().trim());
                 autodashboard.putExtra(AutoFinConstants.USER_TYPE, "Dealer");

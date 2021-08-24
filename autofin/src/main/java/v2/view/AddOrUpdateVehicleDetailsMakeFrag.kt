@@ -286,7 +286,6 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
                 tvVehiclePriceErrorMessage.visibility = View.GONE
                 if (timer != null) {
                     timer!!.cancel();
-
                 }
                 if (!unformatAmount(etPrice.text.toString()).equals(addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice) || TextUtils.isEmpty(
                         etPrice.text.toString()
@@ -294,7 +293,7 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
                 ) {
                     allowEdit = true
                 }
-                if (allowEdit == true) {
+                if (allowEdit) {
                     timer = Timer()
                     timer!!.schedule(object : TimerTask() {
                         override fun run() {
@@ -324,10 +323,8 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
                         }
                     }, 600)
                 } else {
-                    tvVehiclePriceInWords.setText("")
+                    tvVehiclePriceInWords.text = ""
                 }
-
-
             }
         })
         etVehicleNumber.addTextChangedListener(object : TextWatcher {

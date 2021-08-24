@@ -175,7 +175,6 @@
                         android:layout_marginLeft="@dimen/text_size_14dp"
                         android:layout_marginTop="@dimen/text_size10dp"
                         android:layout_marginBottom="@dimen/text_size10dp"
-
                         android:text="₹"
                         android:textAppearance="@style/RobotoRegular"
                         android:textColor="@color/vtwo_black"

@@ -196,27 +196,27 @@ public open class BaseFragment : Fragment() {
     //region utility function
 
     public fun getAmountInWords(value: String): String {
-        if (!TextUtils.isEmpty(value)) {
-            return CurrencyData.convertToIndianCurrency(value)
+        return if (!TextUtils.isEmpty(value)) {
+            CurrencyData.convertToIndianCurrency(value)
         } else {
-            return ""
+            ""
         }
     }
 
     public fun formatAmount(value: String?): String {
-        if (!TextUtils.isEmpty(value)) {
-            var format: NumberFormat? = NumberFormat.getInstance(Locale.US)
-            return format!!.format(value!!.toLong())
+        return if (!TextUtils.isEmpty(value)) {
+            val format: NumberFormat? = NumberFormat.getInstance(Locale.US)
+            format!!.format(value!!.toLong())
         } else {
-            return ""
+            ""
         }
     }
 
     public fun unformatAmount(value: String): String {
-        if (!TextUtils.isEmpty(value)) {
-            return value.replace(",", "")
+        return if (!TextUtils.isEmpty(value)) {
+            value.replace(",", "")
         } else {
-            return ""
+            ""
         }
     }
 

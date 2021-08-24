@@ -242,14 +242,19 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack , Connect
                 val masterResponse: Get_IBB_MasterDetailsResponse? = mApiResponse.data as Get_IBB_MasterDetailsResponse?
                 var dataValue: List<String> = listOf()
 
-                if (mCurrentCalFor.equals(CommonStrings.YEAR)) {
-                    dataValue = masterResponse!!.year
-                } else if (mCurrentCalFor.equals(CommonStrings.MAKE)) {
-                    dataValue = masterResponse!!.make
-                } else if (mCurrentCalFor.equals(CommonStrings.MODEL)) {
-                    dataValue = masterResponse!!.model
-                } else if (mCurrentCalFor.equals(CommonStrings.VARIANT)) {
-                    dataValue = masterResponse!!.variant
+                when {
+                    mCurrentCalFor == CommonStrings.YEAR -> {
+                        dataValue = masterResponse!!.year
+                    }
+                    mCurrentCalFor == CommonStrings.MAKE -> {
+                        dataValue = masterResponse!!.make
+                    }
+                    mCurrentCalFor == CommonStrings.MODEL -> {
+                        dataValue = masterResponse!!.model
+                    }
+                    mCurrentCalFor == CommonStrings.VARIANT -> {
+                        dataValue = masterResponse!!.variant
+                    }
                 }
 
                 reviewAdapter = StringDataRecyclerViewAdapter(dataValue, this@VehBasicDetailsActivity)
@@ -291,13 +296,13 @@ class VehBasicDetailsActivity : AppCompatActivity(), itemClickCallBack , Connect
                 val vehicleAddUpdateDTO = AddLeadRequest()
                 val vehicleDetails = AddLeadVehicleDetails()
 
-                vehicleDetails!!.RegistrationYear = mSelectedYear.toInt()
-                vehicleDetails!!.Make = mSelectedMake
-                vehicleDetails!!.Model = mSelectedModel
-                vehicleDetails!!.Variant = mSelectedVariant
+                vehicleDetails.RegistrationYear = mSelectedYear.toInt()
+                vehicleDetails.Make = mSelectedMake
+                vehicleDetails.Model = mSelectedModel
+                vehicleDetails.Variant = mSelectedVariant
                 val data = AddLeadData()
 
-                data!!.addLeadVehicleDetails = vehicleDetails
+                data.addLeadVehicleDetails = vehicleDetails
                 vehicleAddUpdateDTO.Data = data
                 val intent = Intent()
                 intent.putExtra(CommonStrings.VEHICLE_DATA, vehicleAddUpdateDTO)
