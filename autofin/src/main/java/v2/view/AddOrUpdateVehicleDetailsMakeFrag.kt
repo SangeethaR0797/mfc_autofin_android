@@ -7,6 +7,7 @@ import android.os.Handler
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnFocusChangeListener
@@ -32,6 +33,9 @@ import v2.view.adapter.DataRecyclerViewAdapter
 import v2.view.base.BaseFragment
 import v2.view.callBackInterface.itemClickCallBack
 import v2.view.utility_view.GridItemDecoration
+import java.lang.Exception
+import java.lang.NullPointerException
+import java.lang.NumberFormatException
 import java.util.*
 
 private const val ARG_PARAM1 = "param1"
@@ -274,57 +278,77 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
             }
 
             override fun beforeTextChanged(
-                s: CharSequence, start: Int, count: Int,
-                after: Int
+                    s: CharSequence, start: Int, count: Int,
+                    after: Int
             ) {
 
             }
 
             override fun afterTextChanged(s: Editable) {
-                llPrice.setBackgroundResource(R.drawable.vtwo_input_bg)
-                etPrice.setTextColor(resources.getColor(R.color.vtwo_black))
-                tvVehiclePriceErrorMessage.visibility = View.GONE
-                if (timer != null) {
-                    timer!!.cancel();
-                }
-                if (!unformatAmount(etPrice.text.toString()).equals(addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice) || TextUtils.isEmpty(
-                        etPrice.text.toString()
-                    ) || TextUtils.isEmpty(addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice)
-                ) {
-                    allowEdit = true
-                }
-                if (allowEdit) {
-                    timer = Timer()
-                    timer!!.schedule(object : TimerTask() {
-                        override fun run() {
+                try {
+                    llPrice.setBackgroundResource(R.drawable.vtwo_input_bg)
+                    etPrice.setTextColor(resources.getColor(R.color.vtwo_black))
+                    tvVehiclePriceErrorMessage.visibility = View.GONE
+                    if (timer != null) {
+                        timer!!.cancel();
+                    }
 
-                            if (TextUtils.isEmpty(etPrice.text)) {
-                                addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice =
-                                    null
-                            } else {
-
-                                addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice =
-                                    unformatAmount(etPrice.text.toString())
+                    if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice != null) {
+                        try {
+                            if (unformatAmount(etPrice.text.toString()) != addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice || TextUtils.isEmpty(
+                                            etPrice.text.toString()
+                                    ) || TextUtils.isEmpty(addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice)
+                            ) {
+                                allowEdit = true
                             }
-                            allowEdit = false
-                            ThreadUtils.runOnUiThread(Runnable {
-
-                                if (!TextUtils.isEmpty(etPrice.text.toString())) {
-                                    etPrice.setText(formatAmount(unformatAmount(etPrice.text.toString())))
-                                    tvVehiclePriceInWords.text =
-                                        (getAmountInWords(unformatAmount(etPrice.text.toString())))
-                                    etPrice.setSelection(etPrice.text.toString().length)
-                                } else {
-                                    tvVehiclePriceInWords.text = ""
-                                }
-                            })
-
-
+                        } catch (nEx: NumberFormatException) {
+                            Log.i("AddOrUpdate", "afterTextChanged: a")
+                         nEx.printStackTrace()
                         }
-                    }, 600)
-                } else {
-                    tvVehiclePriceInWords.text = ""
+                        catch (nullException:NullPointerException)
+                        {
+                            Log.i("AddOrUpdate", "afterTextChanged: a")
+                            nullException.printStackTrace()
+                        }
+
+
+                    }
+                    if (allowEdit) {
+                        timer = Timer()
+                        timer!!.schedule(object : TimerTask() {
+                            override fun run() {
+
+                                if (TextUtils.isEmpty(etPrice.text)) {
+                                    addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice =
+                                            null
+                                } else {
+
+                                    addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice =
+                                            unformatAmount(etPrice.text.toString())
+                                }
+                                allowEdit = false
+                                ThreadUtils.runOnUiThread(Runnable {
+
+                                    if (!TextUtils.isEmpty(etPrice.text.toString())) {
+                                        etPrice.setText(formatAmount(unformatAmount(etPrice.text.toString())))
+                                        tvVehiclePriceInWords.text =
+                                                (getAmountInWords(unformatAmount(etPrice.text.toString())))
+                                        etPrice.setSelection(etPrice.text.toString().length)
+                                    } else {
+                                        tvVehiclePriceInWords.text = ""
+                                    }
+                                })
+
+
+                            }
+                        }, 600)
+                    } else {
+                        tvVehiclePriceInWords.text = ""
+                    }
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
                 }
+
             }
         })
         etVehicleNumber.addTextChangedListener(object : TextWatcher {

@@ -126,17 +126,12 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
             llVehRegNum.setBackgroundResource(R.drawable.vtwo_input_bg)
             tv_regno_hint.visibility = View.GONE
             showProgressDialog(requireActivity())
-            stockAPIViewModel!!.getStockDetails(
-                    getStockRequest(),
-                    Global.stock_details_base_url + CommonStrings.STOCK_DETAILS_URL_END
-            )
-           /* if(CommonStrings.APP_NAME.equals("OMS"))
+            if(CommonStrings.APP_NAME.equals("OMS"))
             {
                 stockAPIViewModel!!.getStockDetails(
                         getStockRequest(),
                         Global.stock_details_base_url + CommonStrings.STOCK_DETAILS_URL_END
                 )
-
             }
             else if(CommonStrings.APP_NAME.equals("Ediig"))
             {
@@ -144,7 +139,7 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
                         getStockRequest(),
                         CommonStrings.EDIGG_STOCK_API_URL
                 )
-            }*/
+            }
 
         } else {
             llVehRegNum.setBackgroundResource(R.drawable.v2_error_layout_bg)
@@ -158,15 +153,7 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
         val stockDetailsReq = StockDetailsReq()
         stockDetailsReq.UserId = CommonStrings.DEALER_ID
 
-        stockDetailsReq.UserType = CommonStrings.USER_TYPE
-        stockDetailsReq.RequestFrom = "Dealer"
-        val vehicleNum = VehicleRegNum()
-        vehicleNum.vehicleNumber = regNoVal
-        stockDetailsReq.data = vehicleNum
-        stockDetailsReq.accessKey=null
-        stockDetailsReq.vehicleNumberE=null
-
-        /*  if(CommonStrings.APP_NAME.equals(CommonStrings.APP_NAME_OMS))
+        if(CommonStrings.APP_NAME.equals(CommonStrings.APP_NAME_OMS))
         {
             stockDetailsReq.UserType = CommonStrings.USER_TYPE
             stockDetailsReq.RequestFrom = "Dealer"
@@ -186,7 +173,7 @@ public class VehicleSelectionFrag : BaseFragment(), View.OnClickListener {
             stockDetailsReq.accessKey=CommonStrings.EDIGG_ACCESS_KEY
             stockDetailsReq.vehicleNumberE=regNoVal
         }
-*/
+
         return stockDetailsReq
     }
 
