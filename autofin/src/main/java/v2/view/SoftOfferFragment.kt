@@ -410,23 +410,13 @@ class SoftOfferFragment : BaseFragment(), ActivityBackPressed {
                         enableCalculatorLayout()
                         setData()
 
-                        // val bankOffersData: List<BankOffersData>? = bankOfferRes?.data as List<BankOffersData>
-
-                        val bankOffersData = arrayListOf<BankOffersData>()
-                        bankOfferRes.data!!.forEachIndexed { index, bank ->
-                            //if (bank.bankName == "Bajaj Finser" || bank.bankName == "Bajaj Finserv")
-                            if (bank.bankName.contains("HDFC"))//("IDFC") ) //== "HDFC Bank" , "ICICI Bank" , "Bajaj Finser"
-                            {
-                                bankOffersData.add(bank)
-                            }
-                        }
-
+                        val bankOffersData: List<BankOffersData>? = bankOfferRes?.data as List<BankOffersData>
 
                         tvBankOfferTitleV2.text =
                                 resources.getString(R.string.v2_bank_offers) + " " + bankOfferRes?.data?.size
                         bankAdapter = SoftOfferAdapter(
                                 activity as Activity,
-                                bankOffersData,
+                                bankOffersData!!,
                                 object : itemClickCallBack {
                                     override fun itemClick(item: Any?, position: Int) {
                                         callSetRecommendedBank(item)
