@@ -14,7 +14,7 @@
         android:id="@+id/iv_icon"
         android:layout_width="@dimen/text_size_8dp"
         android:layout_height="@dimen/text_size_8dp"
-        android:layout_marginLeft="@dimen/text_size_12dp"
+        android:layout_marginLeft="1dp"
         android:layout_marginTop="@dimen/text_size_5dp"
         android:layout_marginBottom="@dimen/text_size_8dp"
         android:scaleType="fitCenter"
