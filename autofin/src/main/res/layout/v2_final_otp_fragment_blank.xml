@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="OTP has been sent to your mobile number"
+            android:text="Verification Code have been sent to your mobile number"
             android:textAppearance="@style/RobotoBold"
             android:textColor="@color/vtwo_black"
             android:textSize="@dimen/text_size_16sp" />
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
                 android:layout_marginTop="@dimen/text_size_5dp"
-                android:text="Enter OTP"
+                android:text="Enter Verification Code"
                 android:textAppearance="@style/RobotoBold"
                 android:textColor="@color/vtwo_black"
                 android:textSize="@dimen/text_size_16sp" />

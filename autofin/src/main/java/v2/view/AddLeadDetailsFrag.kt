@@ -949,7 +949,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                 tvOTPTimerV2.text = "0 Sec"
                 timer.cancel()
                 if (!onClickNext) {
-                    showToast("Your OTP got expired, Please click on Resend OTP to get the new one.")
+                    showToast("Your verification code got expired, Please click on Resend verification code to get the new one.")
                 }
             }
         }.start()

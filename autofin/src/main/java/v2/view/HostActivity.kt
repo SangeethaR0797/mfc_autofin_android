@@ -221,9 +221,8 @@ class HostActivity : AppCompatActivity(), ConnectivityReceiverListener {
         if (activityBackPressed != null) {
             val handler = Handler()
             handler.postDelayed(Runnable {
-                activityBackPressed!!.onActivityBackPressed()
+                activityBackPressed?.onActivityBackPressed()
             }, 1000)
-
         }
         else {
             val handler = Handler()

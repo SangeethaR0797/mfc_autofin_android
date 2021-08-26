@@ -94,7 +94,7 @@ class FinalOTPFragment : BaseFragment() {
                 timer.cancel()
                 callValidateFinalOTP()
             } else {
-                showToast("Enter OTP!")
+                showToast("Enter Verification Code!")
             }
         })
         callGenerateFinalOTP()

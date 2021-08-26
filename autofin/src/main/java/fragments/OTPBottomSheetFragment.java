@@ -79,7 +79,7 @@ public class OTPBottomSheetFragment extends BottomSheetDialogFragment implements
 
                 tvOTPTimer.setText("00");
                 CommonStrings.customBasicDetails.setOtp("");
-                Toast.makeText(activity, "Your OTP expired! Please try again.", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "Your Verification Code expired! Please try again.", Toast.LENGTH_LONG).show();
             }
         }.start();
         return view;

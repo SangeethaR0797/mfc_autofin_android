@@ -93,7 +93,7 @@
     <string name="enter_valid_emailid">Enter valid EmailId</string>
     <string name="enter_valid_phone_number">Enter valid phone number</string>
     <string name="enter_valid_name">Enter valid name</string>
-    <string name="otp_lbl">OTP</string>
+    <string name="otp_lbl">Verification Code</string>
     <string name="sample_otp">012345</string>
     <string name="strSecLbl">Sec</string>
     <string name="lbl_resend">Resend OTP</string>
@@ -285,11 +285,11 @@
     <string name="vtwo_bank_details">Bank Info</string>
     <string name="vtwo_reg_title">Registration</string>
     <string name="vtwo_enter_mob_no">Enter mobile no</string>
-    <string name="vtwo_otp_hint">OTP Will sent to this Number</string>
+    <string name="vtwo_otp_hint">Verification code will sent to this Number</string>
     <string name="vtwo_mobile_num_hint">Mobile No</string>
     <string name="vtwo_country_code">+91</string>
     <string name="otp_timer_hint">0 Sec</string>
-    <string name="vtwo_resend_otp">Resend OTP</string>
+    <string name="vtwo_resend_otp">Resend Verification Code</string>
     <string name="vtwo_t_and_c_hint">I Agree to the <i>terms and conditions</i> and <i>privacy policy</i></string>
     <string name="vtwo_mobile_num_already_reg_hint">00000 00000 no is already registered. Do you want to proceed the same?</string>
     <string name="startNew">START NEW</string>

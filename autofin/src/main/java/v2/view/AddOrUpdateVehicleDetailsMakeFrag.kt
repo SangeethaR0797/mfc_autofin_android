@@ -103,7 +103,7 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
                     }
 
                     if (viewToScroll != null) {
-                        scrollToBottom(viewToScroll!!)
+                        scrollToBottom(viewToScroll)
                     }
                     /* Handler().postDelayed({
                          ThreadUtils.runOnUiThread(Runnable {
@@ -328,7 +328,6 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
                                 }
                                 allowEdit = false
                                 ThreadUtils.runOnUiThread(Runnable {
-
                                     if (!TextUtils.isEmpty(etPrice.text.toString())) {
                                         etPrice.setText(formatAmount(unformatAmount(etPrice.text.toString())))
                                         tvVehiclePriceInWords.text =
