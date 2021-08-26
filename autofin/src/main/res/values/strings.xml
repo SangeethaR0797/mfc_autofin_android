@@ -386,6 +386,7 @@
     <string name="v2_logged_in_title">Logged In</string>
     <string name="calculate_emi">Calculate EMI</string>
     <string name="ok">Ok</string>
+    <string name="submitwithotp_lbl">SUBMIT WITH VERIFICATION CODE</string>
 
 
 </resources>

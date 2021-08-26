@@ -382,18 +382,20 @@
 
             <Button
                 android:id="@+id/buttonDocumentSubmitWithOTP"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SUBMIT WITH OTP"
+                android:text="@string/submitwithotp_lbl"
                 android:layout_marginBottom="@dimen/text_size_30dp"
                 android:textColor="@color/white"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/text_size_72dp"
-                android:textSize="@dimen/text_size_16sp"
+                android:layout_marginLeft="@dimen/text_size_15dp"
+                android:layout_marginRight="@dimen/text_size_15dp"
+                android:textSize="@dimen/text_size_14sp"
                 android:textAppearance="@style/RobotoMedium"
                 android:background="@drawable/vtwo_next_btn_bg"
-                android:paddingLeft="75dp"
-                android:paddingRight="75dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
                 android:paddingTop="13dp"
                 android:paddingBottom="13dp"/>
         </LinearLayout>
