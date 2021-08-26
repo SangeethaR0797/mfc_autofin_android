@@ -8,6 +8,7 @@ enum class ApplicationStatusEnum(val value: String) {
     Bank_Form_Filled("Banks Form Filled"),
     Document_Uploaded("Document Uploaded"),
     Submitted_To_Bank("Submitted to Bank"),
+    Document_To_Reupload("Document to Reupload"),
     Approved("Approved"),
     Rejected("Rejected"),
     Disbursed("Disbursed"),

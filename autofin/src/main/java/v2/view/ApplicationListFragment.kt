@@ -547,6 +547,10 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                         customerResponse
                     )
                 }
+                ApplicationStatusEnum.Document_To_Reupload.value-> {
+                    cust = customerResponse
+                    masterViewModel.getKYCDocumentResponse(Global.baseURL + CommonStrings.KYC_UPLOAD_URL_END_POINT + selectedCustomerId)
+                }
                 ApplicationStatusEnum.Submitted_To_Bank.value -> {
                     /*val salutation = customerResponse.data?.basicDetails?.salutation
                     val name =

@@ -574,6 +574,10 @@ class ApplicationDetailsFragment : BaseFragment(), View.OnClickListener {
                             customerResponse!!
                     )
                 }
+                ApplicationStatusEnum.Document_To_Reupload.value->
+                {
+                    cust = customerResponse!!
+                    masterViewModel.getKYCDocumentResponse(Global.baseURL + CommonStrings.KYC_UPLOAD_URL_END_POINT + customerId)                }
                 getString(R.string.v2_lead_status_submitted_to_bank) -> {
                     val salutation = customerResponse!!.data?.basicDetails?.salutation
                     val name =
