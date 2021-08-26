@@ -308,7 +308,7 @@
     <string name="enter_last_name_vtwo">Enter Last Name</string>
     <string name="enter_email_vtwo">Enter Email</string>
     <string name="vtwo_mob_no_verified">Verified</string>
-    <string name="vtwo_invalid_OTP">Please enter valid OTP</string>
+    <string name="vtwo_invalid_OTP">Please enter valid Verification Code</string>
     <string name="do_you_have_any_emi">Do you have any EMI?</string>
     <string name="Current_EMI">Current EMI</string>
     <string name="emi_amount">EMI Amount</string>
