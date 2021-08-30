@@ -646,7 +646,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                 addressView.findViewById<LinearLayout>(R.id.linearLayoutAddress3)
 
 
-        editTextPermanentAddress1!!.onFocusChangeListener =
+        editTextPermanentAddress1?.onFocusChangeListener =
                 View.OnFocusChangeListener { view, hasFocus ->
                     if (hasFocus) {
                         viewEmpty.visibility = View.GONE
@@ -654,14 +654,14 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                     }
                 }
 
-        editTextPermanentAddress2!!.onFocusChangeListener =
+        editTextPermanentAddress2?.onFocusChangeListener =
                 View.OnFocusChangeListener { view, hasFocus ->
                     if (hasFocus) {
                         viewEmpty.visibility = View.GONE
                         checkForFocusAndScroll(editTextPermanentAddress2!!)
                     }
                 }
-        editTextPermanentAddress3!!.onFocusChangeListener =
+        editTextPermanentAddress3?.onFocusChangeListener =
                 View.OnFocusChangeListener { view, hasFocus ->
                     if (hasFocus) {
                         viewEmpty.visibility = View.GONE
@@ -729,10 +729,10 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
         linearLayoutEditPermanentAddress.visibility = View.VISIBLE
 
         try {
-            textViewPermanentAddress1.text = permanentAddressResponse!!.addressLine1!!
-            textViewPermanentAddress2.text = permanentAddressResponse!!.addressLine2!!
+            textViewPermanentAddress1.text = permanentAddressResponse?.addressLine1!!
+            textViewPermanentAddress2.text = permanentAddressResponse?.addressLine2!!
             textViewPermanentAddress3.text =
-                    "${permanentAddressResponse!!.addressLine3!!}, ${permanentAddressResponse!!.pincode!!}"
+                    "${permanentAddressResponse?.addressLine3}, ${permanentAddressResponse?.pincode!!}"
         } catch (ex: NullPointerException) {
 
         } catch (ex: Exception) {
@@ -963,7 +963,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                 val response: AdditionalFields? = mApiResponse.data as AdditionalFields?
                 additionalFieldsData = response?.data!!
 
-                if (response?.data?.sections?.isNotEmpty()) {
+                if (response.data.sections.isNotEmpty()) {
 
                     if (buttonMoveToNextPage.visibility == View.VISIBLE) {
                         viewEmpty.visibility = View.GONE
@@ -1261,11 +1261,11 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
             if (fieldList[fieldIndex].displayLabel) {
                 val fieldTitleText = fieldList[fieldIndex].label
                 val isMandatoryField = fieldList[fieldIndex].isMandatory
-                val titleView: View = getTitleView(fieldTitleText, isMandatoryField)
+                val titleView: View? = linearLayout?.let { getTitleView(fieldTitleText, it,isMandatoryField) }
                 linearLayout?.addView(titleView)
             }
-            val fieldVal: Fields = fieldList[fieldIndex]
-            val fieldView: View? = linearLayout?.let {
+           val fieldVal: Fields = fieldList[fieldIndex]
+         val fieldView: View? = linearLayout?.let {
                 getFieldView(
                         sectionName,
                         fieldVal,
@@ -1290,9 +1290,9 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
     }
 
-    private fun getTitleView(title: String, isMandatory: Boolean): View {
+    private fun getTitleView(title: String, linearLayout: LinearLayout,isMandatory: Boolean): View {
         val currentFieldViewTitle: View = LayoutInflater.from(fragView.context)
-                .inflate(R.layout.v2_custom_title_text_view, null, true)
+                .inflate(R.layout.v2_custom_title_text_view, linearLayout, true)
         val fieldTitle: TextView = currentFieldViewTitle.findViewById(R.id.textViewTitleLabel)
 
         if (isMandatory) {
@@ -1325,15 +1325,19 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
             isLastSection: Boolean,
             linearLayout: LinearLayout
     ): View {
-        var currentFieldInputView = LayoutInflater.from(fragView.context)
-                .inflate(R.layout.v2_custom_edit_text, linearLayout, false)
+
+        val currentFieldInputView:View = LayoutInflater.from(fragView.context)
+                .inflate(R.layout.v2_custom_field_parent_layout, linearLayout, true)
+
+        val parentLayout:LinearLayout=currentFieldInputView.findViewById(R.id.linearLayoutFieldParent)
 
         when (fieldData.fieldType) {
             "Text" -> {
-                currentFieldInputView = LayoutInflater.from(fragView.context)
-                        .inflate(R.layout.v2_custom_edit_text, linearLayout, false)
+              val  currentFieldView:View= LayoutInflater.from(fragView.context)
+                        .inflate(R.layout.v2_custom_edit_text, parentLayout, true)
                 val fieldInputValue: EditText =
-                        currentFieldInputView.findViewById(R.id.editTextFieldInput)
+                        currentFieldView.findViewById(R.id.editTextFieldInput)
+
                 fieldInputValue.hint = fieldData.placeHolder
 
                 // prefill
@@ -1441,15 +1445,17 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
                     }
                 }
+                parentLayout.addView(currentFieldView)
 
 
             }
+
             "DropDown" -> {
-                currentFieldInputView = LayoutInflater.from(fragView.context)
-                        .inflate(R.layout.v2_custom_input_text_view, linearLayout, false)
-                val fieldInput: TextView = currentFieldInputView.findViewById(R.id.textViewDropDown)
+               val currentFieldView:View = LayoutInflater.from(fragView.context)
+                        .inflate(R.layout.v2_custom_input_text_view, parentLayout, false)
+                val fieldInput: TextView = currentFieldView.findViewById(R.id.textViewDropDown)
                 val linearLayoutCustomDropDownTextView: LinearLayout =
-                        currentFieldInputView.findViewById(R.id.linearLayoutCustTextView)
+                        currentFieldView.findViewById(R.id.linearLayoutCustTextView)
                 fieldInput.hint = fieldData.placeHolder
                 fieldInput.text = isFieldFilled(fieldData.apiDetails.apiKey)
 
@@ -1494,7 +1500,8 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                                                             val currentFieldDetails = FieldDetails(
                                                                     fieldData.apiDetails.apiKey,
                                                                     editTextString,
-                                                                    editTextString
+                                                                    editTextString,
+                                                                    ""
                                                             )
                                                             addToCurrentFilledFieldData(
                                                                     fieldData.apiDetails.apiKey,
@@ -1513,7 +1520,8 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                                                                     "",
                                                                     fieldData.apiDetails.apiKey,
                                                                     details.displayLabel,
-                                                                    currentFieldInputView
+                                                                    currentFieldInputView,
+                                                                    ""
                                                             )
                                                         }
 
@@ -1535,7 +1543,8 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                                                                         val currentFieldDetails = FieldDetails(
                                                                                 fieldData.apiDetails.apiKey,
                                                                                 details.value,
-                                                                                details.displayLabel
+                                                                                details.displayLabel,
+                                                                                ""
                                                                         )
                                                                         addToCurrentFilledFieldData(
                                                                                 fieldData.apiDetails.apiKey,
@@ -1545,17 +1554,56 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                                                                                 sectionName
                                                                         )
                                                                     } else {
-                                                                        validateInput(
-                                                                                sectionName,
-                                                                                fieldData.apiDetails.apiKey,
-                                                                                details.value,
-                                                                                fieldData.isMandatory,
-                                                                                isLastItem,
-                                                                                "",
-                                                                                fieldData.apiDetails.apiKey,
-                                                                                details.displayLabel,
-                                                                                currentFieldInputView
-                                                                        )
+                                                                        if(fieldData.apiDetails.apiKey=="Company")
+                                                                        {
+                                                                         if(fieldData.showFreeText && details.displayLabel == fieldData.showFreeTextWhenValueIs)
+                                                                         {
+                                                                             showFreeText(parentLayout,sectionName,isLastSection,true,isLastItem,cFieldList,fieldData,true,fieldData.showFreeTextWhenValueIs,fieldData.freeTextDetails,linearLayout)
+                                                                            /* validateInput(
+                                                                                     sectionName,
+                                                                                     fieldData.apiDetails.apiKey,
+                                                                                     details.value,
+                                                                                     fieldData.isMandatory,
+                                                                                     isLastItem,
+                                                                                     "",
+                                                                                     fieldData.apiDetails.apiKey,
+                                                                                     details.displayLabel,
+                                                                                     currentFieldInputView,
+                                                                                     "TestCompany1"
+                                                                             )*/
+                                                                         }
+                                                                            else
+                                                                         {
+                                                                             validateInput(
+                                                                                     sectionName,
+                                                                                     fieldData.apiDetails.apiKey,
+                                                                                     details.value,
+                                                                                     fieldData.isMandatory,
+                                                                                     isLastItem,
+                                                                                     "",
+                                                                                     fieldData.apiDetails.apiKey,
+                                                                                     details.displayLabel,
+                                                                                     currentFieldInputView,
+                                                                                     ""
+                                                                             )
+                                                                         }
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            validateInput(
+                                                                                    sectionName,
+                                                                                    fieldData.apiDetails.apiKey,
+                                                                                    details.value,
+                                                                                    fieldData.isMandatory,
+                                                                                    isLastItem,
+                                                                                    "",
+                                                                                    fieldData.apiDetails.apiKey,
+                                                                                    details.displayLabel,
+                                                                                    currentFieldInputView,
+                                                                                    ""
+                                                                            )
+                                                                        }
+
                                                                     }
                                                                 }
                                                             })
@@ -1579,14 +1627,16 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
                 })
 
+                parentLayout.addView(currentFieldView)
+
             }
 
             "Check" -> {
 
-                currentFieldInputView = LayoutInflater.from(fragView.context)
-                        .inflate(R.layout.v2_custom_check_type_layout, linearLayout, false)
+               val currentFieldView:View= LayoutInflater.from(fragView.context)
+                        .inflate(R.layout.v2_custom_check_type_layout, parentLayout, true)
                 val recyclerView: RecyclerView =
-                        currentFieldInputView.findViewById(R.id.recyclerViewAdditionalField)
+                        currentFieldView.findViewById(R.id.recyclerViewAdditionalField)
                 if (hasConnectivityNetwork()) {
                     RetroBase.retrofitInterface.getFromWeb(fieldData.apiDetails.url)
                             ?.enqueue(object : Callback<Any> {
@@ -1617,7 +1667,8 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                                                                                     FieldDetails(
                                                                                             fieldData.apiDetails.apiKey,
                                                                                             value,
-                                                                                            displayLabel
+                                                                                            displayLabel,
+                                                                                            ""
                                                                                     )
 
                                                                             if (!isEditFlow)
@@ -1635,7 +1686,8 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                                                                                     FieldDetails(
                                                                                             fieldData.apiDetails.apiKey,
                                                                                             value,
-                                                                                            displayLabel
+                                                                                            displayLabel,
+                                                                                            ""
                                                                                     )
 
                                                                             if (!isEditFlow)
@@ -1688,10 +1740,122 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                             })
 
                 }
+                parentLayout.addView(currentFieldView)
+
             }
+
         }
 
         return currentFieldInputView
+    }
+
+    private fun showFreeText(currentLinearLayout: LinearLayout, sectionName: String, isLastSection:Boolean, isMandatory: Boolean, lastItem: Boolean, cFieldList: List<Fields>, fieldData: Fields, showFreeText: Boolean, showFreeTextWhenValueIs: String, freeTextDetails: FreeTextDetails, linearLayout: LinearLayout) {
+
+        val freeTextView:View= LayoutInflater.from(fragView.context)
+                        .inflate(R.layout.v2_custom_edit_text, linearLayout, false)
+        val fieldInputValue: EditText =
+                freeTextView.findViewById(R.id.editTextFieldInput)
+        fieldInputValue.hint = freeTextDetails.placeHolder
+
+        // prefill  fieldInputValue.setText(isFieldFilled(fieldData.apiDetails.apiKey))
+
+        fieldInputValue.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    before: Int,
+                    count: Int
+            ) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (!TextUtils.isEmpty(s.toString())) {
+
+                    last_text_edit = System.currentTimeMillis()
+                        handler.removeCallbacksAndMessages(null)
+                        handler.postDelayed(input_finish_checker, delay)
+
+
+                } else {
+                    showToast("Please enter Value")
+                }
+            }
+
+            val input_finish_checker = Runnable {
+                if (System.currentTimeMillis() > last_text_edit + delay - 3000) {
+                    val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, "Others", showFreeTextWhenValueIs,fieldInputValue.text.toString())
+                    if (lastItem)
+                        addToCurrentFilledFieldData(
+                                fieldData.apiDetails.apiKey,
+                                isMandatory,
+                                currentFieldDetails,
+                                true,
+                                sectionName
+                        )
+                    else
+                        addToCurrentFilledFieldData(
+                                fieldData.apiDetails.apiKey,
+                                isMandatory,
+                                currentFieldDetails,
+                                false,
+                                sectionName
+                        )
+                    refreshFieldView(sectionName, linearLayout, cFieldList, isLastSection)
+
+                }
+            }
+
+        })
+
+        // getVal
+        fieldInputValue.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+            if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER || event != null && event.keyCode == KeyEvent.KEYCODE_BACK ||
+                    actionId == EditorInfo.IME_ACTION_DONE ||
+                    actionId == EditorInfo.IME_ACTION_NEXT
+            ) {
+
+                val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, "Others", showFreeTextWhenValueIs,fieldInputValue.text.toString())
+
+                addToCurrentFilledFieldData(
+                        fieldData.apiDetails.apiKey,
+                        isMandatory,
+                        currentFieldDetails,
+                        false,
+                        sectionName
+                )
+                refreshFieldView(sectionName, linearLayout, cFieldList, isLastSection)
+
+
+            }
+            false
+        })
+
+        fieldInputValue.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus) {
+                val currentFieldDetails = FieldDetails(fieldData.apiDetails.apiKey, "Others", showFreeTextWhenValueIs,fieldInputValue.text.toString())
+
+                addToCurrentFilledFieldData(
+                        fieldData.apiDetails.apiKey,
+                        isMandatory,
+                        currentFieldDetails,
+                        false,
+                        sectionName
+                )
+                refreshFieldView(sectionName, linearLayout, cFieldList, isLastSection)
+
+
+            }
+        }
+
+        currentLinearLayout.addView(freeTextView)
     }
 
     private fun updateEditTextValues(
@@ -1720,7 +1884,8 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                             fieldData.regexValidation,
                             fieldData.apiDetails.apiKey,
                             editTextString,
-                            currentFieldInputView
+                            currentFieldInputView,
+                            ""
                     )
                     refreshFieldView(sectionName, linearLayout, cFieldList, isLastSection)
                 } else {
@@ -1731,7 +1896,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
                 val editTextString: String = fieldInputValue.text.toString()
                 val currentFieldDetails =
-                        FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString)
+                        FieldDetails(fieldData.apiDetails.apiKey, editTextString, editTextString,"")
                 scrollToAdditionalFieldsBottom(linearLayout)
                 addToCurrentFilledFieldData(
                         fieldData.apiDetails.apiKey,
@@ -1752,7 +1917,8 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                         fieldData.regexValidation,
                         fieldData.apiDetails.apiKey,
                         editTextString,
-                        currentFieldInputView
+                        currentFieldInputView,
+                        ""
                 )
             }
 
@@ -1786,7 +1952,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                                 fieldInput.text = details.displayLabel
                                 textVal = fieldInput.text.toString()
                                 val currentFieldDetails =
-                                        FieldDetails(apiKey, details.value, details.displayLabel)
+                                        FieldDetails(apiKey, details.value, details.displayLabel,"")
 
                                 if (!isEditFlow)
                                     scrollToAdditionalFieldsBottom()
@@ -1825,14 +1991,15 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
             regexResponse: String?,
             apiKey: String,
             displayKey: String,
-            fieldView: View
+            fieldView: View,
+            freeText:String
     ) {
         if (editTextVal.isNotEmpty()) {
 
             if (regexResponse != null && regexResponse.isNotEmpty()) {
                 val regex = Regex(regexResponse)
                 if (regex.matches(editTextVal)) {
-                    val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
+                    val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey,freeText)
                     if (lastItem)
                         addToCurrentFilledFieldData(
                                 fieldName,
@@ -1863,7 +2030,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                     }
                 }
             } else {
-                val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey)
+                val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey,freeText)
                 if (lastItem)
                     addToCurrentFilledFieldData(
                             fieldName,

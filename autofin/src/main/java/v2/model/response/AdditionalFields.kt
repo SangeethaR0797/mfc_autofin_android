@@ -32,7 +32,13 @@ data class Fields (
         @SerializedName("isMandatory") var isMandatory : Boolean,
         @SerializedName("displayLabel") var displayLabel : Boolean,
         @SerializedName("regexValidation") var regexValidation : String,
-        @SerializedName("apiDetails") var apiDetails : ApiDetails
+        @SerializedName("apiDetails") var apiDetails : ApiDetails,
+        @SerializedName("showFreeText") var showFreeText : Boolean,
+        @SerializedName("showFreeTextWhenValueIs") var showFreeTextWhenValueIs : String,
+        @SerializedName("freeTextDetails") var freeTextDetails : FreeTextDetails,
+        @SerializedName("valueNotIn") var valueNotIn : List<String>
+
+
 )
 
 data class Sections (
@@ -48,5 +54,13 @@ data class Sections (
 data class AdditionalFieldsData (
 
         @SerializedName("sections") var sections : List<Sections>
+
+)
+
+data class FreeTextDetails (
+
+        @SerializedName("displayLabel") var displayLabel : String,
+        @SerializedName("placeHolder") var placeHolder : String,
+        @SerializedName("fieldType") var fieldType : String
 
 )

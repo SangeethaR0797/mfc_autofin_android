@@ -134,5 +134,6 @@ data class PermanentAddress(
 data class AdditionalDetailsData(
         var apiKey: String?,
         var value: String,
-        var DisplayLabel:String
+        var DisplayLabel:String,
+        var freeText : String
 ) : Parcelable

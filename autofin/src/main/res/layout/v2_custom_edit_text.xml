@@ -3,29 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/editTextFieldInput"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-
             android:layout_weight="1"
             android:background="@drawable/vtwo_input_bg"
-
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
             android:inputType="textCapCharacters|textPostalAddress"
             android:paddingLeft="@dimen/text_size_14dp"
             android:paddingTop="@dimen/text_size_16sp"
             android:paddingRight="@dimen/text_size_14dp"
-
             android:paddingBottom="@dimen/text_size_16sp"
             android:singleLine="true"
             android:textAppearance="@style/RobotoRegular"
@@ -35,13 +27,4 @@
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/RobotoRegular"
-        android:textColor="@color/error_red"
-        android:textSize="@dimen/text_size_12dp"
-        android:textStyle="italic"
-        tools:text="error message" />
 
-</LinearLayout>

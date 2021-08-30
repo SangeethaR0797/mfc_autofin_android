@@ -128,7 +128,6 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             if (customerDetailsResponse.data?.status == "Document Uploaded") {
                 navigateToBankOfferStatus(customerId, customerDetailsResponse, "DocUpload")
             } else {
-                if (kycDocumentData.groupedDoc.isNotEmpty()) {
                     if (isGroupedDocFilled()) {
                         showProgressDialog(requireActivity())
                         if (hasConnectivityNetwork()) {
@@ -141,14 +140,13 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                     } else {
                         showToast("Attach anyone document for each Mandatory each document group")
                     }
-                } else {
-                    navigateToBankOfferStatus(customerId, customerDetailsResponse, "DocUpload")
-                }
+
             }
 
         })
         generateDocumentTileUI()
     }
+
 
 
     private fun getUploadKYCRequest(): KYCDocumentUploadDataRequest {
@@ -755,29 +753,46 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         var docCount = 0
         var docMap = HashMap<String, String>()
 
-        if (documentHashMap.size >= kycDocumentData.groupedDoc.size) {
-            for (index in kycDocumentData.groupedDoc.indices) {
-                val docList = kycDocumentData.groupedDoc[index].docs
-                for (docIndex in docList.indices) {
+        if(kycDocumentData.groupedDoc.isNotEmpty())
+        {
+            if (documentHashMap.size >= kycDocumentData.groupedDoc.size) {
+                for (index in kycDocumentData.groupedDoc.indices) {
+                    val docList = kycDocumentData.groupedDoc[index].docs
+                    for (docIndex in docList.indices) {
 
-                    if (documentHashMap.containsKey(docList[docIndex].apiKey)) {
-                        docMap[kycDocumentData.groupedDoc[index].groupName] =
-                            docList[docIndex].apiKey
+                        if (documentHashMap.containsKey(docList[docIndex].apiKey)) {
+                            docMap[kycDocumentData.groupedDoc[index].groupName] =
+                                    docList[docIndex].apiKey
+                        }
                     }
-                }
 
+                }
             }
         }
-        if (documentHashMap.size >= kycDocumentData.nonGroupedDoc.size) {
-            for (index in kycDocumentData.nonGroupedDoc.indices) {
-                if (documentHashMap.containsKey(kycDocumentData.nonGroupedDoc[index].apiKey)) {
-                    docMap[kycDocumentData.nonGroupedDoc[index].displayLabel.trim()] =
-                        kycDocumentData.nonGroupedDoc[index].apiKey
-                }
 
+        if(kycDocumentData.nonGroupedDoc.isNotEmpty())
+        {
+            if (documentHashMap.size >= kycDocumentData.nonGroupedDoc.size) {
+                for (index in kycDocumentData.nonGroupedDoc.indices) {
+                    if (documentHashMap.containsKey(kycDocumentData.nonGroupedDoc[index].apiKey)) {
+                        docMap[kycDocumentData.nonGroupedDoc[index].displayLabel.trim()] =
+                                kycDocumentData.nonGroupedDoc[index].apiKey
+                    }
+
+                }
             }
+
         }
-        return docMap.size == kycDocumentData.groupedDoc.size + kycDocumentData.nonGroupedDoc.size
+
+        var result=false
+        if(kycDocumentData.groupedDoc.isNotEmpty() && kycDocumentData.nonGroupedDoc.isNotEmpty())
+            result= docMap.size == kycDocumentData.groupedDoc.size + kycDocumentData.nonGroupedDoc.size
+        else if(kycDocumentData.groupedDoc.isEmpty() && kycDocumentData.nonGroupedDoc.isNotEmpty())
+            result= docMap.size == kycDocumentData.nonGroupedDoc.size
+        else if(kycDocumentData.groupedDoc.isNotEmpty() && kycDocumentData.nonGroupedDoc.isEmpty())
+            result= docMap.size==kycDocumentData.groupedDoc.size
+
+        return result
     }
 
 

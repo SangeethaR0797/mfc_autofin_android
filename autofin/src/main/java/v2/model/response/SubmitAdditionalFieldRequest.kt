@@ -18,5 +18,7 @@ data class FieldData (
 data class FieldDetails (
         @SerializedName("APIKey") var APIKey : String,
         @SerializedName("Value") var Value : String,
-        @SerializedName("DisplayLabel") var DisplayLabel : String
+        @SerializedName("DisplayLabel") var DisplayLabel : String,
+        @SerializedName("FreeText") var FreeText : String
+
 )
