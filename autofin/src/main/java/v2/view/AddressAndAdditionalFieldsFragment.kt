@@ -1461,14 +1461,23 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
 
                     fieldInput.hint = fieldData.placeHolder
+                  val freeTextView:View = LayoutInflater.from(fragView.context)
+                            .inflate(R.layout.v2_custom_edit_text, parentLayout, false)
+                    val fieldInputValue: EditText =
+                            freeTextView.findViewById(R.id.editTextFieldInput)
+
+
                     if (isFieldFilled(fieldData.apiDetails.apiKey).isNotEmpty()) {
                         fieldInput.text = isFieldFilled(fieldData.apiDetails.apiKey)
-                        if ((fieldData.showFreeText) && (fieldData.showFreeTextWhenValueIs.equals(fieldInput.text.toString(), true))) {
-                            showFreeText(true, parentLayout, sectionName, isLastSection, true, isLastItem, cFieldList, fieldData, getFreeText(fieldData.apiDetails.apiKey), fieldData.freeTextDetails, linearLayout, FieldDetails(fieldData.apiDetails.apiKey, fieldInput.text.toString(), fieldInput.text.toString(), getFreeText(fieldData.apiDetails.apiKey)))
-                        }
+
                     }
+
                     parentLayout.removeAllViews()
                     parentLayout.addView(currentFieldView)
+                    if ((fieldData.showFreeText) && (fieldData.showFreeTextWhenValueIs.equals(fieldInput.text.toString(), true))) {
+                        fieldInputValue.setText(getFreeText(fieldData.apiDetails.apiKey))
+                        parentLayout.addView(freeTextView)
+                    }
 
 
                     if (fieldData.apiDetails.apiKey == "CompanyState" || fieldData.apiDetails.apiKey == "CompanyCity") {
@@ -1578,11 +1587,131 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
 
                                                                             if (fieldData.apiDetails.apiKey == "Company" && fieldData.showFreeText && details.displayLabel == fieldData.showFreeTextWhenValueIs) {
 
-                                                                                showFreeText(true, parentLayout, sectionName, isLastSection, true, isLastItem, cFieldList, fieldData, "", fieldData.freeTextDetails, linearLayout, currentFieldDetails)
+
+                                                                                if(!parentLayout.contains(freeTextView))
+                                                                                {
+                                                                                    parentLayout.addView(freeTextView)
+                                                                                }
+                                                                                fieldInputValue.addTextChangedListener(object : TextWatcher {
+                                                                                    override fun beforeTextChanged(
+                                                                                            s: CharSequence?,
+                                                                                            start: Int,
+                                                                                            count: Int,
+                                                                                            after: Int
+                                                                                    ) {
+                                                                                    }
+
+                                                                                    override fun onTextChanged(
+                                                                                            s: CharSequence?,
+                                                                                            start: Int,
+                                                                                            before: Int,
+                                                                                            count: Int
+                                                                                    ) {
+                                                                                    }
+
+                                                                                    override fun afterTextChanged(s: Editable?) {
+                                                                                        if (!TextUtils.isEmpty(s.toString())) {
+
+                                                                                            last_text_edit = System.currentTimeMillis()
+                                                                                            handler.removeCallbacksAndMessages(null)
+                                                                                            handler.postDelayed(input_finish_checker, delay)
+
+
+                                                                                        } else {
+                                                                                            showToast("Please enter Value")
+                                                                                        }
+                                                                                    }
+
+                                                                                    val input_finish_checker = Runnable {
+                                                                                        if (System.currentTimeMillis() > last_text_edit + delay - 3000) {
+                                                                                            val currentFDtls = FieldDetails(currentFieldDetails.APIKey, currentFieldDetails.Value, currentFieldDetails.DisplayLabel, fieldInputValue.text.toString())
+                                                                                            if (isLastItem)
+                                                                                                addToCurrentFilledFieldData(
+                                                                                                        fieldData.apiDetails.apiKey,
+                                                                                                        fieldData.isMandatory,
+                                                                                                        currentFDtls,
+                                                                                                        true,
+                                                                                                        sectionName,
+                                                                                                        linearLayout, cFieldList, isLastSection
+                                                                                                )
+                                                                                            else
+                                                                                                addToCurrentFilledFieldData(
+                                                                                                        fieldData.apiDetails.apiKey,
+                                                                                                        fieldData.isMandatory,
+                                                                                                        currentFDtls,
+                                                                                                        false,
+                                                                                                        sectionName,
+                                                                                                        linearLayout, cFieldList, isLastSection
+                                                                                                )
+
+                                                                                        }
+                                                                                    }
+
+                                                                                })
+
+                                                                                // getVal
+                                                                                fieldInputValue.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+                                                                                    if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER || event != null && event.keyCode == KeyEvent.KEYCODE_BACK ||
+                                                                                            actionId == EditorInfo.IME_ACTION_DONE ||
+                                                                                            actionId == EditorInfo.IME_ACTION_NEXT
+                                                                                    ) {
+
+                                                                                        val currentFDtls = FieldDetails(currentFieldDetails.APIKey, currentFieldDetails.Value, currentFieldDetails.DisplayLabel, fieldInputValue.text.toString())
+
+                                                                                        addToCurrentFilledFieldData(
+                                                                                                fieldData.apiDetails.apiKey,
+                                                                                                fieldData.isMandatory,
+                                                                                                currentFDtls,
+                                                                                                false,
+                                                                                                sectionName,
+                                                                                                linearLayout, cFieldList, isLastSection
+                                                                                        )
+
+
+                                                                                    }
+                                                                                    false
+                                                                                })
+
+                                                                                fieldInputValue.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+                                                                                    if (!hasFocus) {
+                                                                                        val currentFDtls = FieldDetails(currentFieldDetails.APIKey, currentFieldDetails.Value, currentFieldDetails.DisplayLabel, fieldInputValue.text.toString())
+
+                                                                                        addToCurrentFilledFieldData(
+                                                                                                fieldData.apiDetails.apiKey,
+                                                                                                fieldData.isMandatory,
+                                                                                                currentFDtls,
+                                                                                                false,
+                                                                                                sectionName, linearLayout, cFieldList, isLastSection
+                                                                                        )
+
+                                                                                    }
+                                                                                }
 
                                                                             } else {
 
-                                                                                showFreeText(false, parentLayout, sectionName, isLastSection, true, isLastItem, cFieldList, fieldData, "", fieldData.freeTextDetails, linearLayout, currentFieldDetails)
+                                                                                if(fieldInputValue.visibility==View.VISIBLE)
+                                                                                {
+                                                                                    fieldInputValue.text.clear()
+                                                                                    parentLayout.removeView(freeTextView)
+                                                                                }
+
+                                                                                if (isLastItem)
+                                                                                    addToCurrentFilledFieldData(
+                                                                                            fieldData.apiDetails.apiKey,
+                                                                                            fieldData.isMandatory,
+                                                                                            currentFieldDetails,
+                                                                                            true,
+                                                                                            sectionName,
+                                                                                            linearLayout, cFieldList, isLastSection)
+                                                                                else
+                                                                                    addToCurrentFilledFieldData(
+                                                                                            fieldData.apiDetails.apiKey,
+                                                                                            fieldData.isMandatory,
+                                                                                            currentFieldDetails,
+                                                                                            false,
+                                                                                            sectionName,
+                                                                                            linearLayout, cFieldList, isLastSection
+                                                                                    )
 
                                                                             }
 
@@ -1775,100 +1904,6 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
             if (prefilledFreeText.isNotEmpty())
                 fieldInputValue.setText(prefilledFreeText)
 
-            fieldInputValue.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        count: Int,
-                        after: Int
-                ) {
-                }
-
-                override fun onTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        before: Int,
-                        count: Int
-                ) {
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-                    if (!TextUtils.isEmpty(s.toString())) {
-
-                        last_text_edit = System.currentTimeMillis()
-                        handler.removeCallbacksAndMessages(null)
-                        handler.postDelayed(input_finish_checker, delay)
-
-
-                    } else {
-                        showToast("Please enter Value")
-                    }
-                }
-
-                val input_finish_checker = Runnable {
-                    if (System.currentTimeMillis() > last_text_edit + delay - 3000) {
-                        val currentFDtls = FieldDetails(currentFieldDetails.APIKey, currentFieldDetails.Value, currentFieldDetails.DisplayLabel, fieldInputValue.text.toString())
-                        if (lastItem)
-                            addToCurrentFilledFieldData(
-                                    fieldData.apiDetails.apiKey,
-                                    isMandatory,
-                                    currentFDtls,
-                                    true,
-                                    sectionName,
-                                    linearLayout, cFieldList, isLastSection
-                            )
-                        else
-                            addToCurrentFilledFieldData(
-                                    fieldData.apiDetails.apiKey,
-                                    isMandatory,
-                                    currentFDtls,
-                                    false,
-                                    sectionName,
-                                    linearLayout, cFieldList, isLastSection
-                            )
-
-                    }
-                }
-
-            })
-
-            // getVal
-            fieldInputValue.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
-                if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER || event != null && event.keyCode == KeyEvent.KEYCODE_BACK ||
-                        actionId == EditorInfo.IME_ACTION_DONE ||
-                        actionId == EditorInfo.IME_ACTION_NEXT
-                ) {
-
-                    val currentFDtls = FieldDetails(currentFieldDetails.APIKey, currentFieldDetails.Value, currentFieldDetails.DisplayLabel, fieldInputValue.text.toString())
-
-                    addToCurrentFilledFieldData(
-                            fieldData.apiDetails.apiKey,
-                            isMandatory,
-                            currentFDtls,
-                            false,
-                            sectionName,
-                            linearLayout, cFieldList, isLastSection
-                    )
-
-
-                }
-                false
-            })
-
-            fieldInputValue.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
-                if (!hasFocus) {
-                    val currentFDtls = FieldDetails(currentFieldDetails.APIKey, currentFieldDetails.Value, currentFieldDetails.DisplayLabel, fieldInputValue.text.toString())
-
-                    addToCurrentFilledFieldData(
-                            fieldData.apiDetails.apiKey,
-                            isMandatory,
-                            currentFDtls,
-                            false,
-                            sectionName, linearLayout, cFieldList, isLastSection
-                    )
-
-                }
-            }
 
         } else {
 
@@ -1876,24 +1911,7 @@ public class AddressAndAdditionalFieldsFragment : BaseFragment(), View.OnClickLi
                 (fieldInputValue.parent as ViewGroup).removeView(fieldInputValue)
             }
 
-            if (lastItem)
-                addToCurrentFilledFieldData(
-                        fieldData.apiDetails.apiKey,
-                        fieldData.isMandatory,
-                        currentFieldDetails,
-                        true,
-                        sectionName,
-                        linearLayout, cFieldList, isLastSection)
-            else
-                addToCurrentFilledFieldData(
-                        fieldData.apiDetails.apiKey,
-                        fieldData.isMandatory,
-                        currentFieldDetails,
-                        false,
-                        sectionName,
-                        linearLayout, cFieldList, isLastSection
-                )
-        }
+                }
 
 return freeTextView
     }
