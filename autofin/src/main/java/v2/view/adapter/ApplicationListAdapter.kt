@@ -55,7 +55,7 @@ class ApplicationListAdapter(
         if (dataListFilter!![position].caseId != null) {
             holder.tvCaseId.visibility = View.VISIBLE
             holder.tvCaseIdCaption.visibility = View.VISIBLE
-            holder.tvCaseId.text = dataListFilter!![position].caseId!!.toString()
+            holder.tvCaseId.text = dataListFilter!![position].caseId?.toString()
         } else {
             holder.tvCaseId.visibility = View.GONE
             holder.tvCaseIdCaption.visibility = View.GONE
@@ -65,7 +65,7 @@ class ApplicationListAdapter(
             //holder.btnComplete.visibility = View.GONE
             holder.tvLOSId.visibility = View.VISIBLE
             holder.tvLOSIdCaption.visibility = View.VISIBLE
-            holder.tvLOSId.text = dataListFilter!![position].losId!!.toString()
+            holder.tvLOSId.text = dataListFilter!![position].losId?.toString()
             if(dataListFilter!![position].status==baseFragment.resources.getString(R.string.v2_lead_status_submitted_to_bank)||
                     dataListFilter!![position].status==ScreenTypeEnum.Disbursed.value||
                     dataListFilter!![position].status==ScreenTypeEnum.Approved.value||
@@ -90,16 +90,14 @@ class ApplicationListAdapter(
 
 
         }
-        if (mBaseFragment != null) {
-            var displayValue = mBaseFragment.stringToDateString(
-                dataListFilter!![position].createdDate!!.toString(),
+        val displayValue = dataListFilter!![position].createdDate?.toString()?.let {
+            mBaseFragment.stringToDateString(
+                    it,
                 mBaseFragment.DATE_FORMATE_YYYYMMDD,
                 mBaseFragment.DATE_FORMATE_DDMMMYYYY
             )
-            holder.tvDate.text = displayValue
-        } else {
-            holder.tvDate.text = dataListFilter!![position].createdDate!!.toString()
         }
+        holder.tvDate.text = displayValue
 
 
 
@@ -126,7 +124,7 @@ class ApplicationListAdapter(
 
         if (dataListFilter?.get(position)!!.bankLogoURL != null) {
             Picasso.get()
-                .load(dataListFilter!![position]!!.bankLogoURL)
+                .load(dataListFilter!![position].bankLogoURL)
                 .into(holder.tvBankIcon, object : Callback {
                     override fun onSuccess() {
                         holder.tvBankIcon.visibility = View.VISIBLE
@@ -178,7 +176,7 @@ class ApplicationListAdapter(
     }
 
     override fun getItemCount(): Int {
-        return dataListFilter!!.size
+        return dataListFilter?.size!!
     }
 
     override fun getFilter(): Filter {

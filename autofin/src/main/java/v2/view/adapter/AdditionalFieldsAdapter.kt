@@ -45,12 +45,13 @@ class AdditionalFieldsAdapter(var apiURL: String, var dataListValue: List<Detail
     }
 
     override fun getItemCount(): Int {
-        return dataListFilter!!.size
+        return dataListFilter?.size!!
     }
 
     override fun getFilter(): Filter {
         return object : Filter() {
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
+            override fun performFiltering(constraint: CharSequence?)
+            : FilterResults {
                 val charSearch = constraint.toString()
                 dataListFilter = if (charSearch.isEmpty()) {
                     dataListValue as ArrayList<Details>

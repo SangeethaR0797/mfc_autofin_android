@@ -19,16 +19,18 @@ import java.io.InputStream
 
 public class RealPathUtil {
     fun getRealPath(context: Context, fileUri: Uri): String? {
-        val realPath: String?
         // SDK < API11
-        realPath = if (Build.VERSION.SDK_INT < 11) {
-            getRealPathFromURI_BelowAPI11(context, fileUri)
-        } else if (Build.VERSION.SDK_INT < 19) {
-            getRealPathFromURI_API11to18(context, fileUri)
-        } else {
-            getRealPathFromURI_API19(context, fileUri)
+        return when {
+            Build.VERSION.SDK_INT < 11 -> {
+                getRealPathFromURI_BelowAPI11(context, fileUri)
+            }
+            Build.VERSION.SDK_INT < 19 -> {
+                getRealPathFromURI_API11to18(context, fileUri)
+            }
+            else -> {
+                getRealPathFromURI_API19(context, fileUri)
+            }
         }
-        return realPath
     }
 
     @SuppressLint("NewApi")
@@ -37,12 +39,10 @@ public class RealPathUtil {
         var result: String? = null
         val cursorLoader = CursorLoader(context!!, contentUri!!, proj, null, null, null)
         val cursor: Cursor = cursorLoader.loadInBackground()!!
-        if (cursor != null) {
-            val column_index: Int = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-            cursor.moveToFirst()
-            result = cursor.getString(column_index)
-            cursor.close()
-        }
+        val column_index: Int = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        cursor.moveToFirst()
+        result = cursor.getString(column_index)
+        cursor.close()
         return result
     }
 
@@ -62,15 +62,6 @@ public class RealPathUtil {
         return result
     }
 
-    /**
-     * Get a file path from a Uri. This will get the the path for Storage Access
-     * Framework Documents, as well as the _data field for the MediaStore and
-     * other file-based ContentProviders.
-     *
-     * @param context The context.
-     * @param uri     The Uri to query.
-     * @author paulburke
-     */
     @SuppressLint("NewApi")
     fun getRealPathFromURI_API19(context: Context, uri: Uri): String? {
         val isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
@@ -78,81 +69,88 @@ public class RealPathUtil {
         // DocumentProvider
         if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
             // ExternalStorageProvider
-            if (isExternalStorageDocument(uri)) {
-                val docId = DocumentsContract.getDocumentId(uri)
-                val split = docId.split(":").toTypedArray()
-                val type = split[0]
-                if ("primary".equals(type, ignoreCase = true)) {
-                    return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
-                } else {
+            when {
+                isExternalStorageDocument(uri) -> {
+                    val docId = DocumentsContract.getDocumentId(uri)
+                    val split = docId.split(":").toTypedArray()
+                    val type = split[0]
+                    return if ("primary".equals(type, ignoreCase = true)) {
+                        Environment.getExternalStorageDirectory().toString() + "/" + split[1]
+                    } else {
+                        null
+                    }
+
+                }
+                isDownloadsDocument(uri) -> {
+                    val id = DocumentsContract.getDocumentId(uri)
+
+                    if (id != null && id.startsWith("raw:")) {
+                        return id.substring(4);
+                    }
+
+                    val contentUriPrefixesToTry = arrayOf(
+                            "content://downloads/public_downloads",
+                            "content://downloads/my_downloads",
+                            "content://downloads/all_downloads"
+                    )
+                    var contentUri: Uri? = null
+                    for (contentUriPrefix in contentUriPrefixesToTry) {
+                        contentUri = ContentUris.withAppendedId(
+                                Uri.parse(contentUriPrefix),
+                                java.lang.Long.valueOf(id)
+                        )
+                        try {
+                            if (contentUri != null) {
+                                val path = getDataColumn(context, contentUri, null, null)
+                                if (path != null) {
+                                    return path
+                                }
+                            }
+                        } catch (e: Exception) {
+                        }
+                    }
+
+
+                    /* val contentUri: Uri = ContentUris.withAppendedId(
+                         Uri.parse("content://downloads/public_downloads"),
+                         java.lang.Long.valueOf(id)
+                     )*/
                     return null
                 }
-
-                // TODO handle non-primary volumes
-            } else if (isDownloadsDocument(uri)) {
-                val id = DocumentsContract.getDocumentId(uri)
-
-                if (id != null && id.startsWith("raw:")) {
-                    return id.substring(4);
-                }
-
-                val contentUriPrefixesToTry = arrayOf(
-                    "content://downloads/public_downloads",
-                    "content://downloads/my_downloads",
-                    "content://downloads/all_downloads"
-                )
-                var contentUri: Uri? = null
-                for (contentUriPrefix in contentUriPrefixesToTry) {
-                    contentUri = ContentUris.withAppendedId(
-                        Uri.parse(contentUriPrefix),
-                        java.lang.Long.valueOf(id)
-                    )
-                    try {
-                        if (contentUri != null) {
-                            val path = getDataColumn(context, contentUri, null, null)
-                            if (path != null) {
-                                return path
-                            }
+                isMediaDocument(uri) -> {
+                    val docId = DocumentsContract.getDocumentId(uri)
+                    val split = docId.split(":").toTypedArray()
+                    val type = split[0]
+                    var contentUri: Uri? = null
+                    when (type) {
+                        "image" -> {
+                            contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                         }
-                    } catch (e: Exception) {
+                        "video" -> {
+                            contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                        }
+                        "audio" -> {
+                            contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                        }
                     }
+                    val selection = "_id=?"
+                    val selectionArgs = arrayOf(
+                            split[1]
+                    )
+                    return getDataColumn(context, contentUri, selection, selectionArgs)
                 }
-
-
-                /* val contentUri: Uri = ContentUris.withAppendedId(
-                     Uri.parse("content://downloads/public_downloads"),
-                     java.lang.Long.valueOf(id)
-                 )*/
-                return null
-            } else if (isMediaDocument(uri)) {
-                val docId = DocumentsContract.getDocumentId(uri)
-                val split = docId.split(":").toTypedArray()
-                val type = split[0]
-                var contentUri: Uri? = null
-                if ("image" == type) {
-                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                } else if ("video" == type) {
-                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-                } else if ("audio" == type) {
-                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-                }
-                val selection = "_id=?"
-                val selectionArgs = arrayOf(
-                    split[1]
-                )
-                return getDataColumn(context, contentUri, selection, selectionArgs)
             }
-        } else if ("content".equals(uri.getScheme(), ignoreCase = true)) {
+        } else if ("content".equals(uri.scheme, ignoreCase = true)) {
 
             // Return the remote address
-            return if (isGooglePhotosUri(uri)) uri.getLastPathSegment() else getDataColumn(
+            return if (isGooglePhotosUri(uri)) uri.lastPathSegment else getDataColumn(
                 context,
                 uri,
                 null,
                 null
             )
-        } else if ("file".equals(uri.getScheme(), ignoreCase = true)) {
-            return uri.getPath()
+        } else if ("file".equals(uri.scheme, ignoreCase = true)) {
+            return uri.path
         }
         return null
     }
@@ -177,7 +175,7 @@ public class RealPathUtil {
             column
         )
         try {
-            cursor = context.getContentResolver().query(
+            cursor = context.contentResolver.query(
                 uri!!, projection, selection, selectionArgs,
                 null
             )
@@ -186,7 +184,7 @@ public class RealPathUtil {
                 return cursor.getString(index)
             }
         } finally {
-            if (cursor != null) cursor.close()
+            cursor?.close()
         }
         return null
     }
@@ -195,31 +193,32 @@ public class RealPathUtil {
      * @param uri The Uri to check.
      * @return Whether the Uri authority is ExternalStorageProvider.
      */
-    fun isExternalStorageDocument(uri: Uri): Boolean {
-        return "com.android.externalstorage.documents" == uri.getAuthority()
+    private fun isExternalStorageDocument(uri: Uri): Boolean {
+        return "com.android.externalstorage.documents" == uri.authority
     }
 
     /**
      * @param uri The Uri to check.
      * @return Whether the Uri authority is DownloadsProvider.
      */
-    fun isDownloadsDocument(uri: Uri): Boolean {
-        return "com.android.providers.downloads.documents" == uri.getAuthority()
+    private fun isDownloadsDocument(uri: Uri): Boolean {
+        return "com.android.providers.downloads.documents" == uri.authority
     }
 
     /**
      * @param uri The Uri to check.
      * @return Whether the Uri authority is MediaProvider.
      */
-    fun isMediaDocument(uri: Uri): Boolean {
-        return "com.android.providers.media.documents" == uri.getAuthority()
+    private fun isMediaDocument(uri: Uri): Boolean {
+        return "com.android.providers.media.documents" == uri.authority
     }
 
     /**
      * @param uri The Uri to check.
      * @return Whether the Uri authority is Google Photos.
      */
-    fun isGooglePhotosUri(uri: Uri): Boolean {
+
+    private fun isGooglePhotosUri(uri: Uri): Boolean {
         return "com.google.android.apps.photos.content" == uri.getAuthority()
     }
 
@@ -228,7 +227,7 @@ public class RealPathUtil {
         val destinationFilename =
             File(context.filesDir.path + File.separatorChar + queryName(context, uri!!))
         try {
-            context.contentResolver.openInputStream(uri!!).use { ins ->
+            context.contentResolver.openInputStream(uri).use { ins ->
                 createFileFromStream(
                     ins!!,
                     destinationFilename
@@ -241,7 +240,7 @@ public class RealPathUtil {
         return destinationFilename
     }
 
-    fun createFileFromStream(ins: InputStream, destination: File?) {
+    private fun createFileFromStream(ins: InputStream, destination: File?) {
         try {
             FileOutputStream(destination).use { os ->
                 val buffer = ByteArray(4096)

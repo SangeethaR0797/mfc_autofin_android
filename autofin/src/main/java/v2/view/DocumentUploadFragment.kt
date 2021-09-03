@@ -24,6 +24,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.content.FileProvider
 import com.google.gson.Gson
 import com.mfc.autofin.framework.R
@@ -444,16 +445,16 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     }
 
 
-    private fun checkPermissions(context: Context?): Boolean {
-        return ActivityCompat.checkSelfPermission(
+    private fun checkPermissions(context: Context): Boolean {
+        return checkSelfPermission(
             requireContext(),
             Manifest.permission.CAMERA
         ) == PackageManager.PERMISSION_GRANTED && context?.let {
-            ActivityCompat.checkSelfPermission(
+            checkSelfPermission(
                 it,
                 Manifest.permission.READ_EXTERNAL_STORAGE
             )
-        } == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+        } == PackageManager.PERMISSION_GRANTED && checkSelfPermission(
             context,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         ) == PackageManager.PERMISSION_GRANTED
@@ -462,18 +463,28 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
     private fun callPermissions() {
         Log.d("Camera Permission Check", "Comes into Permission Check method")
-        ActivityCompat.requestPermissions(
-            requireActivity(),
-            arrayOf(
-                Manifest.permission.CAMERA,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ),
-            1
-        )
+        try {
+            ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(
+                            Manifest.permission.CAMERA,
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ),
+                    1
+            )
+            Log.i("TAG", "callPermissions: ")
+        }
+        catch (ex:java.lang.Exception)
+        {
+            ex.printStackTrace()
+        }
+
     }
 
+
     private fun cameraRequirement(intent: Intent?, fileUri: Uri?, activity: Activity) {
+        Log.i("DocumentUploadFragment", "cameraRequirement: ")
         val resInfoList =
             activity.packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
         for (resolveInfo in resInfoList) {
@@ -487,8 +498,11 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     }
 
     private fun openCamera() {
+        Log.i("DocumentUploadFragment", "openCamera: ")
+
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        if (intent.resolveActivity(requireActivity().packageManager) != null) {
+        if (intent.resolveActivity(requireActivity().packageManager) != null)
+        {
             file = File(
                 requireActivity().externalCacheDir,
                 System.currentTimeMillis().toString() + ".jpg"
@@ -509,6 +523,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
     }
 
     private fun openGallery() {
+        Log.i("DocumentUploadFragment", "openGallery: ")
 
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         gallery.type = "*/*";
@@ -587,11 +602,11 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                     val columnIndex = cursor?.getColumnIndex(filePathColumn[0])
                     val picturePath = columnIndex?.let { cursor?.getString(it) }
                     cursor?.close()*/
-                    if (picturePath != null) {
-                        file = File(picturePath)
+                    file = if (picturePath != null) {
+                        File(picturePath)
 
                     } else {
-                        file = RealPathUtil().getUriToCreateNewFile(requireContext(), fileUri!!)
+                        RealPathUtil().getUriToCreateNewFile(requireContext(), fileUri!!)
                     }
                     compressImage(file?.path)
 

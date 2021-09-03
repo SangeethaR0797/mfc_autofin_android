@@ -36,7 +36,7 @@ public class AdditionalFieldsDTOAdapter (
     }
 
     override fun getItemCount(): Int {
-        return dataListValue!!.size
+        return dataListValue?.size!!
     }
 
     class AdditionalViewHolder(currentSectionLayout: View) : RecyclerView.ViewHolder(currentSectionLayout) {
