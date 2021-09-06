@@ -14,10 +14,10 @@ import model.custom_model.ReviewData
 import v2.model.dto.DataSelectionDTO
 import v2.view.callBackInterface.itemClickCallBack
 
-class MasterDataRecyclerViewAdapter(var dataListValue: List<DataSelectionDTO>?, itemClick: itemClickCallBack?) : RecyclerView.Adapter<MasterDataRecyclerViewAdapter.MyViewHolder>(), Filterable {
+class MasterDataRecyclerViewAdapter(var dataListValue: List<DataSelectionDTO>, itemClick: itemClickCallBack) : RecyclerView.Adapter<MasterDataRecyclerViewAdapter.MyViewHolder>(), Filterable {
 
-    public var dataListFilter: List<DataSelectionDTO>?
-    private var itemCallBack: itemClickCallBack = itemClick!!
+    public var dataListFilter: List<DataSelectionDTO>
+    private var itemCallBack: itemClickCallBack = itemClick
 
     init {
         dataListFilter = dataListValue as List<DataSelectionDTO>
@@ -31,9 +31,9 @@ class MasterDataRecyclerViewAdapter(var dataListValue: List<DataSelectionDTO>?, 
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.tvItem.text = dataListFilter!!.get(position).displayValue
+        holder.tvItem.text = dataListFilter[position].displayValue
         holder.tvItem.setOnClickListener(View.OnClickListener {
-            itemCallBack.itemClick(dataListFilter!!.get(position), position)
+            itemCallBack.itemClick(dataListFilter[position], position)
         })
     }
 
@@ -47,7 +47,7 @@ class MasterDataRecyclerViewAdapter(var dataListValue: List<DataSelectionDTO>?, 
     }
 
     override fun getItemCount(): Int {
-        return dataListFilter!!.size
+        return dataListFilter.size
     }
 
     override fun getFilter(): Filter {
@@ -58,8 +58,8 @@ class MasterDataRecyclerViewAdapter(var dataListValue: List<DataSelectionDTO>?, 
                     dataListFilter = dataListValue as ArrayList<DataSelectionDTO>
                 } else {
                     val resultList = ArrayList<DataSelectionDTO>()
-                    for (row in dataListValue!!) {
-                        if (row.displayValue!!.toLowerCase().contains(constraint.toString().toLowerCase())) {
+                    for (row in dataListValue) {
+                        if (row.displayValue?.toLowerCase()?.contains(constraint.toString().toLowerCase()) == true) {
                             resultList.add(row)
                         }
                     }

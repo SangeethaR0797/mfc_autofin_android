@@ -102,7 +102,7 @@ class DataRecyclerViewAdapter(
 
         }
 
-        if (resourceLayoutFile > 0 && resourceLayoutFile == R.layout.v2_data_bank_item_layout && dataListFilter!!.size - 1 == position) {
+        if (resourceLayoutFile > 0 && resourceLayoutFile == R.layout.v2_data_bank_item_layout && dataListFilter?.size!! - 1 == position) {
 
             val params = holder.llMainLayout.layoutParams as ViewGroup.MarginLayoutParams
             params.rightMargin = holder.llMainLayout.marginLeft
@@ -128,7 +128,7 @@ class DataRecyclerViewAdapter(
     }
 
     override fun getItemCount(): Int {
-        return dataListFilter!!.size
+        return dataListFilter?.size!!
     }
 
     override fun getFilter(): Filter {

@@ -10,6 +10,7 @@ import v2.model.response.*
 import v2.model.response.bank_offers.ValidateFinalOTPResponse
 
 interface TransactionEndPoint {
+
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST
     fun addLead(@Body request: AddLeadRequest, @Url url: String?): Observable<AddLeadResponse?>?

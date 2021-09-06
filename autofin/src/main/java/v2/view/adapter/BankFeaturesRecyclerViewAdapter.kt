@@ -61,7 +61,7 @@ class BankFeaturesRecyclerViewAdapter(
     }
 
     override fun getItemCount(): Int {
-        return dataListFilter!!.size
+        return dataListFilter?.size!!
     }
 
     override fun getFilter(): Filter {

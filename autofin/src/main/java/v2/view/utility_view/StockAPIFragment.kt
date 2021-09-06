@@ -7,17 +7,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.navigation.fragment.navArgs
 import com.mfc.autofin.framework.R
 import utility.CommonStrings
+import utility.Global
 import v2.model.dto.AddLeadRequest
 import v2.model.request.add_lead.AddLeadData
 import v2.model.request.add_lead.AddLeadVehicleDetails
+import v2.model.request.add_lead.IBBPriceData
+import v2.model.request.add_lead.IBBPriceRequest
+import v2.model.response.master.IBBPriceResponse
+import v2.model_view.IBB.IBB_MasterViewModel
 import v2.model_view.StockAPIViewModel
+import v2.service.utility.ApiResponse
 import v2.view.base.BaseFragment
 
 class StockAPIFragment : BaseFragment(), View.OnClickListener {
@@ -36,7 +39,21 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
     val addLeadRequest=AddLeadRequest()
 
     private lateinit var viewModel: StockAPIViewModel
+    lateinit var ibbMasterViewModel: IBB_MasterViewModel
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        ibbMasterViewModel = ViewModelProvider(this@StockAPIFragment).get(
+                IBB_MasterViewModel::class.java)
+
+        ibbMasterViewModel.getIBBPriceLiveData().observe(this@StockAPIFragment, { mApiResponse: ApiResponse? ->
+            onIBBPriceResponse(
+                    mApiResponse!!
+            )
+        })
+
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.stock_a_p_i_fragment, container, false)
@@ -132,9 +149,51 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
 
                 }
                 R.id.btnVehicleReg -> {
-                    stockToAddLeadFragment(addLeadRequest,0,null)
+                    ibbMasterViewModel.getIBBPrice(getIBBPriceRequest(), Global.customerDetails_BaseURL+CommonStrings.IBB_PRICE_END_POINT)
+
                 }
 
+            }
+        }
+    }
+
+    private fun getIBBPriceRequest(): IBBPriceRequest {
+
+        val ibbPriceData= IBBPriceData(addLeadRequest.Data?.addLeadVehicleDetails?.RegistrationYear.toString(),
+                addLeadRequest.Data?.addLeadVehicleDetails?.Make.toString(),
+                addLeadRequest.Data?.addLeadVehicleDetails?.Model.toString(),
+                addLeadRequest.Data?.addLeadVehicleDetails?.Variant.toString(),
+                addLeadRequest.Data?.addLeadVehicleDetails?.KMs.toString(),
+                addLeadRequest.Data?.addLeadVehicleDetails?.Ownership.toString(),
+                addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber.toString())
+
+        return IBBPriceRequest(CommonStrings.DEALER_ID,CommonStrings.USER_TYPE,ibbPriceData)
+    }
+
+
+    private fun onIBBPriceResponse(mApiResponse: ApiResponse) {
+        parseCommonResponse(mApiResponse)
+
+        when (mApiResponse.status) {
+            ApiResponse.Status.LOADING -> {
+            }
+            ApiResponse.Status.SUCCESS -> {
+                val ibbResponse: IBBPriceResponse? = mApiResponse.data as IBBPriceResponse?
+                validateVehiclePrice(ibbResponse)
+            }
+            ApiResponse.Status.ERROR -> {
+
+            }
+        }
+    }
+
+
+    private fun validateVehiclePrice(ibbResponse: IBBPriceResponse?) {
+        if (ibbResponse?.data != null) {
+            if (ibbResponse.data >= args.stockResArgs.vehicleSellingPrice.toString().toInt()) {
+                stockToAddLeadFragment(addLeadRequest,0,null)
+            } else {
+               Toast.makeText(requireContext(),"InInvalid Vehicle Selling Price",Toast.LENGTH_SHORT).show()
             }
         }
     }

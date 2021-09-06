@@ -139,6 +139,68 @@
                     android:layout_marginTop="@dimen/text_size_20dp" />
             </LinearLayout>
 
+
+            <LinearLayout
+                android:id="@+id/ll_vehicle_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_size_20dp"
+                android:background="@drawable/white_corner"
+                android:orientation="vertical"
+                android:padding="@dimen/text_size_14sp">
+
+                <TextView
+                    android:id="@+id/tv_vehicle_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_size_5dp"
+                    android:text="@string/enter_vehicle_registration_no"
+                    android:textAppearance="@style/RobotoBold"
+                    android:textColor="@color/vtwo_black"
+                    android:textSize="@dimen/text_size_16sp" />
+
+                <LinearLayout
+                    android:id="@+id/ll_add_vehicle_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_size_16sp"
+                    android:layout_marginBottom="@dimen/text_size_16sp"
+                    android:background="@drawable/vtwo_input_bg"
+                    android:orientation="horizontal">
+
+
+                    <EditText
+                        android:id="@+id/et_vehicle_number"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/text_size_14dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:hint="eg : KA01AB4123"
+
+                        android:inputType="textCapCharacters|textPostalAddress"
+                        android:maxLength="10"
+                        android:singleLine="true"
+                        android:textAppearance="@style/RobotoRegular"
+                        android:textColorHint="@color/vtwo_grey"
+                        android:textSize="@dimen/text_size_14sp" />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_vehicle_number_error_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/RobotoRegular"
+                    android:textColor="@color/error_red"
+                    android:textSize="@dimen/text_size_12dp"
+                    android:textStyle="italic"
+                    tools:text="error message" />
+
+            </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/ll_vehicle_price"
                 android:layout_width="match_parent"
@@ -231,68 +293,6 @@
                     android:textColor="@color/vtwo_grey"
                     android:textSize="@dimen/text_size_14dp"
                     android:textStyle="italic" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_vehicle_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/text_size_20dp"
-                android:background="@drawable/white_corner"
-                android:orientation="vertical"
-                android:padding="@dimen/text_size_14sp">
-
-                <TextView
-                    android:id="@+id/tv_vehicle_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/text_size_5dp"
-                    android:text="@string/enter_vehicle_registration_no"
-                    android:textAppearance="@style/RobotoBold"
-                    android:textColor="@color/vtwo_black"
-                    android:textSize="@dimen/text_size_16sp" />
-
-                <LinearLayout
-                    android:id="@+id/ll_add_vehicle_number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/text_size_16sp"
-                    android:layout_marginBottom="@dimen/text_size_16sp"
-                    android:background="@drawable/vtwo_input_bg"
-                    android:orientation="horizontal">
-
-
-                    <EditText
-                        android:id="@+id/et_vehicle_number"
-
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/text_size_14dp"
-                        android:layout_weight="1"
-                        android:background="@android:color/transparent"
-                        android:hint="eg : KA01AB4123"
-
-                        android:inputType="textCapCharacters|textPostalAddress"
-                        android:maxLength="10"
-                        android:singleLine="true"
-                        android:textAppearance="@style/RobotoRegular"
-                        android:textColorHint="@color/vtwo_grey"
-                        android:textSize="@dimen/text_size_14sp" />
-
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tv_vehicle_number_error_message"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:textAppearance="@style/RobotoRegular"
-                    android:textColor="@color/error_red"
-                    android:textSize="@dimen/text_size_12dp"
-                    android:textStyle="italic"
-                    tools:text="error message" />
-
             </LinearLayout>
 
             <Button

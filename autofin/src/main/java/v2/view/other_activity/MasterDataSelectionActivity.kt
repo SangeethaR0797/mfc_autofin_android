@@ -33,10 +33,10 @@ import v2.view.callBackInterface.itemClickCallBack
 import java.util.ArrayList
 
 
-class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack , ConnectivityReceiverListener {
+class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack, ConnectivityReceiverListener {
 
-    var iBB_MasterViewModel: IBB_MasterViewModel? = null
-    lateinit var masterViewModel: MasterViewModel
+    private lateinit var iBB_MasterViewModel: IBB_MasterViewModel
+    private lateinit var masterViewModel: MasterViewModel
 
     lateinit var ivBack: ImageView
     lateinit var tvScreenTitle: TextView
@@ -45,10 +45,10 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack , Con
     lateinit var etSearch: EditText
     lateinit var llSearch: LinearLayout
     lateinit var rvResult: RecyclerView
-    var reviewAdapter: MasterDataRecyclerViewAdapter? = null
+    lateinit var reviewAdapter: MasterDataRecyclerViewAdapter
     var SELECTED_DATA_TYPE_CALL: String? = ""
     lateinit var llProgress: LinearLayout
-    var tvConnectivityMessage: TextView? = null
+    lateinit var tvConnectivityMessage: TextView
 
     private var myConnectivityReceiver: ConnectivityReceiver? = null
 
@@ -73,13 +73,15 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack , Con
         } catch (e: Exception) {
         }
     }
-    override fun onNetworkConnectionChanged(isConnected: Boolean) {
-        if (isConnected) {
-            tvConnectivityMessage!!.visibility = View.GONE
-        }else{
-            tvConnectivityMessage!!.visibility = View.VISIBLE
-        }
 
+    override fun onNetworkConnectionChanged(isConnected: Boolean) {
+        if(this::tvConnectivityMessage.isInitialized) {
+            if (isConnected) {
+                tvConnectivityMessage.visibility = View.GONE
+            } else {
+                tvConnectivityMessage.visibility = View.VISIBLE
+            }
+        }
     }
 
 
@@ -108,6 +110,7 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack , Con
             finish()
         })
 
+
         etSearch.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int,
                                        count: Int) {
@@ -121,11 +124,16 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack , Con
             }
 
             override fun afterTextChanged(s: Editable) {
-                if (TextUtils.isEmpty(etSearch.text)) {
-                    reviewAdapter?.filter?.filter("")
-                } else {
-                    reviewAdapter?.filter?.filter(etSearch.text)
+
+                if(this@MasterDataSelectionActivity::reviewAdapter.isInitialized) {
+                    if (TextUtils.isEmpty(etSearch.text)) {
+                        reviewAdapter.filter.filter("")
+                    } else {
+                        reviewAdapter.filter.filter(etSearch.text)
+                    }
                 }
+
+
             }
         })
 
@@ -135,7 +143,7 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack , Con
         )
 
 
-        iBB_MasterViewModel!!.getIBB_MasterDetailsLiveData()
+        iBB_MasterViewModel.getIBB_MasterDetailsLiveData()
                 .observe(this, { mApiResponse: ApiResponse? ->
                     onIBB_MasterDetails(
                             mApiResponse!!
@@ -177,9 +185,9 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack , Con
         tvSelectLabel.visibility = View.GONE
         tvSelectedText.visibility = View.GONE
         etSearch.setHint("Year")
-        tvScreenTitle.text=("Year")
-        var request = getIBBMasterDetailsRequest(CommonStrings.IBB_TOKEN_VALUE, CommonStrings.YEAR, "0", "app", null, null, null, null)
-        iBB_MasterViewModel!!.getIBB_MasterDetails(request, Global.ibb_base_url + CommonStrings.IBB_VEH_DETAILS_END_POINT)
+        tvScreenTitle.text = ("Year")
+        val request = getIBBMasterDetailsRequest(CommonStrings.IBB_TOKEN_VALUE, CommonStrings.YEAR, "0", "app", null, null, null, null)
+        iBB_MasterViewModel.getIBB_MasterDetails(request, Global.ibb_base_url + CommonStrings.IBB_VEH_DETAILS_END_POINT)
 
     }
 
@@ -188,7 +196,7 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack , Con
         tvSelectedText.text = ""
         tvSelectLabel.text = "Search Bank"
         etSearch.setHint("Search Bank")
-        tvScreenTitle.text=("Search Bank")
+        tvScreenTitle.text = ("Search Bank")
         tvSelectLabel.visibility = View.GONE
         tvSelectedText.visibility = View.GONE
         masterViewModel.getBankList(Global.customerDetails_BaseURL + CommonStrings.BANK_LIST_END_POINT)
@@ -203,7 +211,7 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack , Con
                                            year: String? = null,
                                            month: String? = null,
                                            make: String? = null,
-                                           model: String? = null): Get_IBB_MasterDetailsRequest? {
+                                           model: String? = null): Get_IBB_MasterDetailsRequest {
 
         return Get_IBB_MasterDetailsRequest(access_token, mfor, pricefor, tag, year, month, make, model)
     }
@@ -211,10 +219,10 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack , Con
     private fun onIBB_MasterDetails(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
-                llProgress.visibility=View.GONE
+                llProgress.visibility = View.GONE
             }
             ApiResponse.Status.SUCCESS -> {
-                llProgress.visibility=View.GONE
+                llProgress.visibility = View.GONE
                 val masterResponse: Get_IBB_MasterDetailsResponse? = mApiResponse.data as Get_IBB_MasterDetailsResponse?
                 var dataValue: List<String> = listOf()
 
@@ -229,36 +237,41 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack , Con
 
                 reviewAdapter = MasterDataRecyclerViewAdapter(list, this@MasterDataSelectionActivity)
                 val layoutManager = LinearLayoutManager(this)
-                rvResult.setLayoutManager(layoutManager)
-                rvResult.setAdapter(reviewAdapter)
+                rvResult.layoutManager = layoutManager
+                rvResult.adapter = reviewAdapter
             }
             ApiResponse.Status.ERROR -> {
-                llProgress.visibility=View.GONE
+                llProgress.visibility = View.GONE
             }
+            else -> {}
         }
     }
 
     private fun onBankList(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
-                llProgress.visibility=View.VISIBLE
+                llProgress.visibility = View.VISIBLE
             }
             ApiResponse.Status.SUCCESS -> {
-                llProgress.visibility=View.GONE
-                val response: BankListResponse? = mApiResponse.data as BankListResponse?
-                setBankListDetails(response!!)
+                llProgress.visibility = View.GONE
+                if(mApiResponse.data!=null)
+                {
+                    val response: BankListResponse = mApiResponse.data as BankListResponse
+                    setBankListDetails(response)
+                }
 
             }
             ApiResponse.Status.ERROR -> {
-                llProgress.visibility=View.GONE
+                llProgress.visibility = View.GONE
             }
+            else -> {}
         }
     }
 
     private fun setBankListDetails(bankListResponse: BankListResponse) {
         val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
 
-        bankListResponse.data!!.forEachIndexed { index, value ->
+        bankListResponse.data?.forEachIndexed { index, value ->
 
             list.add(DataSelectionDTO(value, null, value, false, null))
 
@@ -266,8 +279,8 @@ class MasterDataSelectionActivity : AppCompatActivity(), itemClickCallBack , Con
 
         reviewAdapter = MasterDataRecyclerViewAdapter(list, this@MasterDataSelectionActivity)
         val layoutManager = LinearLayoutManager(this)
-        rvResult.setLayoutManager(layoutManager)
-        rvResult.setAdapter(reviewAdapter)
+        rvResult.layoutManager = layoutManager
+        rvResult.adapter = reviewAdapter
     }
 
 

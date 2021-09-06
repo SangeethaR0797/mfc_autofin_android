@@ -11,20 +11,22 @@ import android.widget.Filter
 import android.widget.TextView
 import androidx.annotation.NonNull
 import com.mfc.autofin.framework.R
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class CustomAutoTextViewListAdapter(private val mContext: Context, private val itemLayout: Int, private var dataList: List<String>?) : ArrayAdapter<Any?>(mContext, itemLayout, dataList!!) {
     private val listFilter: ListFilter = ListFilter()
     private var dataListAllItems: List<String>? = null
     override fun getCount(): Int {
-        if (dataList == null) {
-            return 0
+        return if (dataList == null) {
+            0
         } else {
-            return dataList!!.size
+            dataList?.size!!
         }
     }
 
-    override fun getItem(position: Int): String? {
+    override fun getItem(position: Int): String {
         Log.d("CustomListAdapter",
                 dataList!![position])
         return dataList!![position]
@@ -58,21 +60,21 @@ class CustomAutoTextViewListAdapter(private val mContext: Context, private val i
                 if (dataListAllItems == null) {
                     synchronized(lock) { dataListAllItems = ArrayList(dataList!!) }
                 }
-                if (prefix == null || prefix.length == 0) {
+                if (prefix == null || prefix.isEmpty()) {
                     synchronized(lock) {
                         results.values = dataListAllItems
-                        results.count = dataListAllItems!!.size
+                        results.count = dataListAllItems?.size!!
                     }
                 } else {
                     val searchStrLowerCase = prefix.toString().toLowerCase()
                     val matchValues = ArrayList<String>()
                     for (dataItem in dataListAllItems!!) {
-                        if (dataItem.toLowerCase().startsWith(searchStrLowerCase)) {
+                        if (dataItem.toLowerCase(Locale.ROOT).startsWith(searchStrLowerCase)) {
                             matchValues.add(dataItem)
                         }
                     }
                     results.values = matchValues
-                    results.count = matchValues!!.size
+                    results.count = matchValues.size
                 }
             } else {
                 results.values = null

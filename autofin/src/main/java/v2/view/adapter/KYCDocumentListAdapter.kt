@@ -45,7 +45,7 @@ class KYCDocumentListAdapter(val activity: Context, val docList: List<Docs>, ite
         holder.checkBox?.isChecked = position==selectedPosition
         holder.checkBox?.setOnClickListener(View.OnClickListener {
 
-            selectedPosition = if(holder.checkBox!!.isChecked) {
+            selectedPosition = if(holder.checkBox?.isChecked == true) {
                 position
             } else {
                 -1

@@ -220,4 +220,5 @@ public class CommonStrings {
     public static String AWS_S3_BUCKETKEY = null;
     public static String AWS_S3_BUCKETSECRET = null;
 
+    public static String IBB_PRICE_END_POINT="ibbpricing/get-ibbprice";
 }
