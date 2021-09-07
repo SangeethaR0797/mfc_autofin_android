@@ -190,10 +190,10 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
 
     private fun validateVehiclePrice(ibbResponse: IBBPriceResponse?) {
         if (ibbResponse?.data != null) {
-            if (ibbResponse.data >= args.stockResArgs.vehicleSellingPrice.toString().toInt()) {
+            if (ibbResponse.data >= args.stockResArgs.vehicleSellingPrice.toInt()) {
                 stockToAddLeadFragment(addLeadRequest,0,null)
             } else {
-               Toast.makeText(requireContext(),"InInvalid Vehicle Selling Price",Toast.LENGTH_SHORT).show()
+               Toast.makeText(requireContext(),"Invalid Vehicle Selling Price",Toast.LENGTH_SHORT).show()
             }
         }
     }

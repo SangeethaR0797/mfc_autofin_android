@@ -152,7 +152,8 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
                     )
                 })
 
-        ibbMasterViewModel.getIBBPriceLiveData().observe(this@AddOrUpdateVehicleDetailsMakeFrag, { mApiResponse: ApiResponse? ->
+        ibbMasterViewModel.getIBBPriceLiveData().
+        observe(this@AddOrUpdateVehicleDetailsMakeFrag, { mApiResponse: ApiResponse? ->
             onIBBPriceResponse(
                     mApiResponse!!
             )
@@ -306,6 +307,7 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
                                 ThreadUtils.runOnUiThread(Runnable {
                                     if (!TextUtils.isEmpty(etPrice.text.toString())) {
                                         etPrice.setText(formatAmount(unformatAmount(etPrice.text.toString())))
+                                        tvVehiclePriceInWords.visibility=View.VISIBLE
                                         tvVehiclePriceInWords.text =
                                                 (getAmountInWords(unformatAmount(etPrice.text.toString())))
                                         etPrice.setSelection(etPrice.text.toString().length)
@@ -313,8 +315,6 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
                                         tvVehiclePriceInWords.text = ""
                                     }
                                 })
-
-
                             }
                         }, 600)
                     } else {
@@ -377,19 +377,17 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
                     tvVehicleNumberErrorMessage.text =
                             ("Please enter valid vehicle registration No.")
                 } else if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber != null && (isValidVehicleRegNo(
-                                addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber!!))&& !llVehiclePrice.isVisible &&
-                        addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice == null)
-                        {
+                                addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber!!)) && !llVehiclePrice.isVisible &&
+                        addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice == null) {
                     llVehiclePrice.visibility = View.VISIBLE
                     scrollToBottom(llVehiclePrice)
-                }
-                else if (llVehiclePrice.visibility == View.VISIBLE && addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice == null) {
+                } else if (llVehiclePrice.visibility == View.VISIBLE && etPrice.text.isEmpty()) {
                     llPrice.setBackgroundResource(R.drawable.v2_error_input_bg)
                     etPrice.setTextColor(resources.getColor(R.color.error_red))
                     tvVehiclePriceErrorMessage.visibility = View.VISIBLE
                     tvVehiclePriceErrorMessage.text = ("Please enter price details.")
                 } else {
-                    ibbMasterViewModel.getIBBPrice(getIBBPriceRequest(),Global.customerDetails_BaseURL+CommonStrings.IBB_PRICE_END_POINT)
+                    ibbMasterViewModel.getIBBPrice(getIBBPriceRequest(), Global.customerDetails_BaseURL + CommonStrings.IBB_PRICE_END_POINT)
                 }
             }
 
@@ -400,15 +398,15 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
 
     private fun getIBBPriceRequest(): IBBPriceRequest {
 
-        val ibbPriceData= IBBPriceData(addLeadRequest.Data?.addLeadVehicleDetails?.RegistrationYear.toString(),
+        val ibbPriceData = IBBPriceData(addLeadRequest.Data?.addLeadVehicleDetails?.RegistrationYear.toString(),
                 addLeadRequest.Data?.addLeadVehicleDetails?.Make.toString(),
-        addLeadRequest.Data?.addLeadVehicleDetails?.Model.toString(),
-        addLeadRequest.Data?.addLeadVehicleDetails?.Variant.toString(),
-        addLeadRequest.Data?.addLeadVehicleDetails?.KMs.toString(),
-        addLeadRequest.Data?.addLeadVehicleDetails?.Ownership.toString(),
-        addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber.toString())
+                addLeadRequest.Data?.addLeadVehicleDetails?.Model.toString(),
+                addLeadRequest.Data?.addLeadVehicleDetails?.Variant.toString(),
+                addLeadRequest.Data?.addLeadVehicleDetails?.KMs.toString(),
+                addLeadRequest.Data?.addLeadVehicleDetails?.Ownership.toString(),
+                addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber.toString())
 
-        return IBBPriceRequest(CommonStrings.DEALER_ID,CommonStrings.USER_TYPE,ibbPriceData)
+        return IBBPriceRequest(CommonStrings.DEALER_ID, CommonStrings.USER_TYPE, ibbPriceData)
     }
 
     private fun addOwnershipDetails() {
@@ -518,7 +516,6 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
     }
 
     private fun onIBBPriceResponse(mApiResponse: ApiResponse) {
-        parseCommonResponse(mApiResponse)
 
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
@@ -530,12 +527,14 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
             ApiResponse.Status.ERROR -> {
 
             }
+            else -> {}
         }
     }
 
     private fun validateVehiclePrice(ibbResponse: IBBPriceResponse?) {
+
         if (ibbResponse?.data != null) {
-            if (ibbResponse.data >= etPrice.text.toString().toInt()) {
+            if (ibbResponse.data >= unformatAmount(etPrice.text.toString()).toInt()) {
                 addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice = etPrice.text.toString()
                 navigateToAddLeadFragment(addLeadRequest, 0, null)
             } else {
@@ -543,8 +542,10 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
                 etPrice.setTextColor(resources.getColor(R.color.error_red))
                 tvVehiclePriceErrorMessage.visibility = View.VISIBLE
                 tvVehiclePriceErrorMessage.text = ("Please enter valid Vehicle Price")
+                tvVehiclePriceInWords.visibility=View.GONE
             }
         }
+
     }
 
     private fun setKmsDrivenData(types: List<Types>) {
