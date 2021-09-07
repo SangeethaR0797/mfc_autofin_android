@@ -15,10 +15,10 @@ import v2.view.callBackInterface.itemClickCallBack
 import java.util.*
 import kotlin.collections.ArrayList
 
-class AdditionalFieldsAdapter(var apiURL: String, var dataListValue: List<Details>?, additionalFieldsCallBack: AdditionalFieldsDetailsInterface?) : RecyclerView.Adapter<AdditionalFieldsAdapter.MyViewHolder>(), Filterable {
+class AdditionalFieldsAdapter(var apiURL: String, var dataListValue: List<Details>, additionalFieldsCallBack: AdditionalFieldsDetailsInterface) : RecyclerView.Adapter<AdditionalFieldsAdapter.MyViewHolder>(), Filterable {
 
-    public var dataListFilter: List<Details>?
-    private var detailsCallBack: AdditionalFieldsDetailsInterface = additionalFieldsCallBack!!
+    public var dataListFilter: List<Details>
+    private var detailsCallBack: AdditionalFieldsDetailsInterface = additionalFieldsCallBack
 
     init {
         dataListFilter = dataListValue as List<Details>
@@ -32,9 +32,9 @@ class AdditionalFieldsAdapter(var apiURL: String, var dataListValue: List<Detail
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.tvItem.text = dataListFilter!![position].displayLabel
+        holder.tvItem.text = dataListFilter[position].displayLabel
         holder.tvItem.setOnClickListener(View.OnClickListener {
-            detailsCallBack.returnDetails(dataListFilter!![position])
+            detailsCallBack.returnDetails(dataListFilter[position])
         })
     }
 
@@ -45,7 +45,7 @@ class AdditionalFieldsAdapter(var apiURL: String, var dataListValue: List<Detail
     }
 
     override fun getItemCount(): Int {
-        return dataListFilter?.size!!
+        return dataListFilter.size
     }
 
     override fun getFilter(): Filter {
@@ -58,7 +58,7 @@ class AdditionalFieldsAdapter(var apiURL: String, var dataListValue: List<Detail
                 } else {
 
                     val resultList = ArrayList<Details>()
-                    for (row in dataListValue!!) {
+                    for (row in dataListValue) {
                         if (row.displayLabel.toLowerCase(Locale.getDefault()).contains(constraint.toString().toLowerCase(Locale.getDefault()))) {
                             resultList.add(row)
                         }

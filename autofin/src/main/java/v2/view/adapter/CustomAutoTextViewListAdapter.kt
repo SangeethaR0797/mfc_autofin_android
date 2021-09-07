@@ -15,21 +15,17 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class CustomAutoTextViewListAdapter(private val mContext: Context, private val itemLayout: Int, private var dataList: List<String>?) : ArrayAdapter<Any?>(mContext, itemLayout, dataList!!) {
+class CustomAutoTextViewListAdapter(private val mContext: Context, private val itemLayout: Int, private var dataList: List<String>) : ArrayAdapter<Any?>(mContext, itemLayout, dataList) {
     private val listFilter: ListFilter = ListFilter()
     private var dataListAllItems: List<String>? = null
     override fun getCount(): Int {
-        return if (dataList == null) {
-            0
-        } else {
-            dataList?.size!!
-        }
+        return dataList.size
     }
 
     override fun getItem(position: Int): String {
         Log.d("CustomListAdapter",
-                dataList!![position])
-        return dataList!![position]
+                dataList[position])
+        return dataList[position]
     }
 
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
@@ -39,8 +35,8 @@ class CustomAutoTextViewListAdapter(private val mContext: Context, private val i
                     .inflate(itemLayout, parent, false)
         }
         view?.let {
-            val strName = view!!.findViewById<View>(R.id.tv_item) as TextView
-            strName.text = getItem(position)!!
+            val strName = view.findViewById<View>(R.id.tv_item) as TextView
+            strName.text = getItem(position)
         }
 
         return view!!
@@ -58,15 +54,15 @@ class CustomAutoTextViewListAdapter(private val mContext: Context, private val i
             if (!TextUtils.isEmpty(prefix.toString())) {
 
                 if (dataListAllItems == null) {
-                    synchronized(lock) { dataListAllItems = ArrayList(dataList!!) }
+                    synchronized(lock) { dataListAllItems = ArrayList(dataList) }
                 }
-                if (prefix == null || prefix.isEmpty()) {
+                if (prefix.isEmpty()) {
                     synchronized(lock) {
                         results.values = dataListAllItems
                         results.count = dataListAllItems?.size!!
                     }
                 } else {
-                    val searchStrLowerCase = prefix.toString().toLowerCase()
+                    val searchStrLowerCase = prefix.toString().toLowerCase(Locale.getDefault())
                     val matchValues = ArrayList<String>()
                     for (dataItem in dataListAllItems!!) {
                         if (dataItem.toLowerCase(Locale.ROOT).startsWith(searchStrLowerCase)) {
@@ -86,9 +82,7 @@ class CustomAutoTextViewListAdapter(private val mContext: Context, private val i
         override fun publishResults(constraint: CharSequence?, results: FilterResults) {
             dataList = if (results.values != null) {
                 results.values as ArrayList<String>
-            } else {
-                null
-            }
+            } else emptyList()
             if (results.count > 0) {
                 notifyDataSetChanged()
             } else {

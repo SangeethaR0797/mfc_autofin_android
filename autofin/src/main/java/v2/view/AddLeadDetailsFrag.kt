@@ -175,51 +175,49 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
     //region KeyBoardVisible
     override fun onVisibilityChanged(isKeyBoardVisible: Boolean) {
-        if (viewEmpty != null) {
-            if (isKeyBoardVisible) {
-                if (viewEmpty.visibility == View.VISIBLE) {
-                    viewEmpty.visibility = View.GONE
-                    Thread.sleep(200)
-                }
-
-                viewEmpty.visibility = View.VISIBLE
-
-                val view = requireActivity().currentFocus
-                if (view != null && view is EditText) {
-                    var viewToScroll: View? = null
-
-                    if (etMobileNumberV2.hasFocus() || etOTPV2.hasFocus()) {
-                        viewToScroll = llMobileNum
-                    } else if (etFirstName.hasFocus() || etLastName.hasFocus() || etEmailId.hasFocus()) {
-                        viewToScroll = llNameAndEmailV2
-                    } else if (etWorkExpriance.hasFocus()) {
-                        viewToScroll = llEmploymentSection
-                    } else if (etNetIncome.hasFocus()) {
-                        viewToScroll = llNetIncomeSection
-                    } else if (etEMI.hasFocus()) {
-                        viewToScroll = llEMISection
-                    } else if (etAutoResidenceCity.hasFocus()) {
-                        viewToScroll = llResidenceTypeSection
-                    } else if (etPanNumber.hasFocus()) {
-                        viewToScroll = llPanNumberSection
-                    }
-
-
-
-                    if (viewToScroll != null) {
-                        scrollToBottom(viewToScroll!!)
-                    }
-
-                }
-
-            } else {
+        if (isKeyBoardVisible) {
+            if (viewEmpty.visibility == View.VISIBLE) {
                 viewEmpty.visibility = View.GONE
-                val view = requireActivity().currentFocus
-                if (view != null && view is EditText) {
-                    view.clearFocus()
+                Thread.sleep(200)
+            }
+
+            viewEmpty.visibility = View.VISIBLE
+
+            val view = requireActivity().currentFocus
+            if (view != null && view is EditText) {
+                var viewToScroll: View? = null
+
+                if (etMobileNumberV2.hasFocus() || etOTPV2.hasFocus()) {
+                    viewToScroll = llMobileNum
+                } else if (etFirstName.hasFocus() || etLastName.hasFocus() || etEmailId.hasFocus()) {
+                    viewToScroll = llNameAndEmailV2
+                } else if (etWorkExpriance.hasFocus()) {
+                    viewToScroll = llEmploymentSection
+                } else if (etNetIncome.hasFocus()) {
+                    viewToScroll = llNetIncomeSection
+                } else if (etEMI.hasFocus()) {
+                    viewToScroll = llEMISection
+                } else if (etAutoResidenceCity.hasFocus()) {
+                    viewToScroll = llResidenceTypeSection
+                } else if (etPanNumber.hasFocus()) {
+                    viewToScroll = llPanNumberSection
+                }
+
+
+
+                if (viewToScroll != null) {
+                    scrollToBottom(viewToScroll)
                 }
 
             }
+
+        } else {
+            viewEmpty.visibility = View.GONE
+            val view = requireActivity().currentFocus
+            if (view != null && view is EditText) {
+                view.clearFocus()
+            }
+
         }
     }
 
@@ -391,9 +389,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
             rootView = inflater.inflate(R.layout.fragment_add_lead_details, container, false)
 
 
-                if (addLeadRequest.Data!!.basicDetails == null) {
-                    var basicDetails = BasicDetails()
-                    addLeadRequest.Data!!.basicDetails = basicDetails;
+                if (addLeadRequest.Data?.basicDetails == null) {
+                    val basicDetails = BasicDetails()
+                    addLeadRequest.Data?.basicDetails = basicDetails;
 
                 }
 
@@ -407,14 +405,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
     private fun initViews(view: View?) {
         setKeyBoardShowHideEvent(AddLeadDetailsFrag@ this)
 
-        scrollView1 = rootView!!.findViewById(R.id.scrollView1)!!
-        viewEmpty = rootView!!.findViewById(R.id.view_empty)!!
-        ivBackToVehDetails = rootView!!.findViewById(R.id.ivBackToVehDetails)!!
-        etMobileNumberV2 = rootView!!.findViewById(R.id.etMobileNumberV2)!!
-        llMobileNum = rootView!!.findViewById(R.id.llMobileNum)!!
+        scrollView1 = rootView?.findViewById(R.id.scrollView1)!!
+        viewEmpty = rootView?.findViewById(R.id.view_empty)!!
+        ivBackToVehDetails = rootView?.findViewById(R.id.ivBackToVehDetails)!!
+        etMobileNumberV2 = rootView?.findViewById(R.id.etMobileNumberV2)!!
+        llMobileNum = rootView?.findViewById(R.id.llMobileNum)!!
 
-        etOTPV2 = rootView!!.findViewById(R.id.etOTPV2)!!
-        llOTPNumInput = rootView!!.findViewById(R.id.llOTPNumInput)!!
+        etOTPV2 = rootView?.findViewById(R.id.etOTPV2)!!
+        llOTPNumInput = rootView?.findViewById(R.id.llOTPNumInput)!!
         tvOTPEHint = rootView!!.findViewById(R.id.tvOTPEHint)
 
         cbTermsAndConditions = rootView!!.findViewById(R.id.cbTermsAndConditions)
@@ -589,9 +587,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
         showProgressDialog(requireContext())
 
-        if (salutationAdapter != null && salutationAdapter!!.itemCount > 0 && employmentDetailsAdapter != null && employmentDetailsAdapter!!.itemCount > 0
-            && commonBankListDetailsAdapter != null && commonBankListDetailsAdapter!!.itemCount > 0 && residenceTypeDetailsAdapter != null && residenceTypeDetailsAdapter!!.itemCount > 0
-            && residenceYearsAdapter != null && residenceYearsAdapter!!.itemCount > 0
+        if (salutationAdapter != null && salutationAdapter?.itemCount!! > 0 && employmentDetailsAdapter != null && employmentDetailsAdapter?.itemCount!! > 0
+            && commonBankListDetailsAdapter != null && commonBankListDetailsAdapter?.itemCount!! > 0 && residenceTypeDetailsAdapter != null && residenceTypeDetailsAdapter?.itemCount!! > 0
+            && residenceYearsAdapter != null && residenceYearsAdapter?.itemCount!! > 0
         ) {
             displayNameLayout()
             etMobileNumberV2.setText(selectedCustomerMobileNumberForEdit)
@@ -618,22 +616,22 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                 data?.getParcelableExtra(CommonStrings.SELECTED_DATA)
             var dataType: String? = data?.getStringExtra(CommonStrings.SELECTED_DATA_TYPE)
             if (dataType.equals(CommonStrings.BANK_DATA_CALL)) {
-                etSearchBank.setText(dataSelectionDTO!!.displayValue)
-                if (addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType.equals(
+                etSearchBank.setText(dataSelectionDTO?.displayValue)
+                if (addEmploymentDetailsRequest.Data?.employmentDetails?.EmploymentType.equals(
                         "Self Employed"
                     )
                 ) {
-                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount =
-                        dataSelectionDTO!!.displayValue
-                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount = null
+                    addEmploymentDetailsRequest.Data?.employmentDetails?.PrimaryAccount =
+                        dataSelectionDTO?.displayValue
+                    addEmploymentDetailsRequest.Data?.employmentDetails?.SalaryAccount = null
                 } else {
-                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount = null
-                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount =
-                        dataSelectionDTO!!.displayValue
+                    addEmploymentDetailsRequest.Data?.employmentDetails?.PrimaryAccount = null
+                    addEmploymentDetailsRequest.Data?.employmentDetails?.SalaryAccount =
+                        dataSelectionDTO?.displayValue
                 }
                 llNetIncomeSection.visibility = View.VISIBLE
 
-                updateBankSelection(dataSelectionDTO.displayValue!!)
+                updateBankSelection(dataSelectionDTO?.displayValue!!)
             }
 
 
@@ -648,28 +646,28 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
         val addLeadBasicDetails = BasicDetails()
         val addLeadVehicleDetails = AddLeadVehicleDetails()
 
-        if (addLeadRequest.Data!!.basicDetails != null) {
-            addLeadBasicDetails!!.FirstName = addLeadRequest.Data!!.basicDetails!!.FirstName
-            addLeadBasicDetails!!.LastName = addLeadRequest.Data!!.basicDetails!!.LastName
-            addLeadBasicDetails!!.Email = addLeadRequest.Data!!.basicDetails!!.Email
-            addLeadBasicDetails!!.Salutation = addLeadRequest.Data!!.basicDetails!!.Salutation
-            addLeadBasicDetails!!.CustomerMobile =
-                addLeadRequest.Data!!.basicDetails!!.CustomerMobile
+        if (addLeadRequest.Data?.basicDetails != null) {
+            addLeadBasicDetails.FirstName = addLeadRequest.Data?.basicDetails?.FirstName
+            addLeadBasicDetails.LastName = addLeadRequest.Data?.basicDetails?.LastName
+            addLeadBasicDetails.Email = addLeadRequest.Data?.basicDetails?.Email
+            addLeadBasicDetails.Salutation = addLeadRequest.Data?.basicDetails?.Salutation
+            addLeadBasicDetails.CustomerMobile =
+                addLeadRequest.Data?.basicDetails?.CustomerMobile
         }
-        if (addLeadRequest.Data!!.addLeadVehicleDetails != null) {
-            addLeadVehicleDetails.Make = addLeadRequest.Data!!.addLeadVehicleDetails!!.Make
-            addLeadVehicleDetails.Model = addLeadRequest.Data!!.addLeadVehicleDetails!!.Model
-            addLeadVehicleDetails.Variant = addLeadRequest.Data!!.addLeadVehicleDetails!!.Variant
+        if (addLeadRequest.Data?.addLeadVehicleDetails != null) {
+            addLeadVehicleDetails.Make = addLeadRequest.Data?.addLeadVehicleDetails?.Make
+            addLeadVehicleDetails.Model = addLeadRequest.Data?.addLeadVehicleDetails?.Model
+            addLeadVehicleDetails.Variant = addLeadRequest.Data?.addLeadVehicleDetails?.Variant
             addLeadVehicleDetails.VehicleNumber =
-                addLeadRequest.Data!!.addLeadVehicleDetails!!.VehicleNumber
-            addLeadVehicleDetails.FuelType = addLeadRequest.Data!!.addLeadVehicleDetails!!.FuelType
+                addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber
+            addLeadVehicleDetails.FuelType = addLeadRequest.Data?.addLeadVehicleDetails?.FuelType
             addLeadVehicleDetails.RegistrationYear =
-                addLeadRequest.Data!!.addLeadVehicleDetails!!.RegistrationYear
-            addLeadVehicleDetails.KMs = addLeadRequest.Data!!.addLeadVehicleDetails!!.KMs
+                addLeadRequest.Data?.addLeadVehicleDetails?.RegistrationYear
+            addLeadVehicleDetails.KMs = addLeadRequest.Data?.addLeadVehicleDetails?.KMs
             addLeadVehicleDetails.Ownership =
-                addLeadRequest.Data!!.addLeadVehicleDetails!!.Ownership
+                addLeadRequest.Data?.addLeadVehicleDetails?.Ownership
             addLeadVehicleDetails.VehicleSellingPrice =
-                addLeadRequest.Data!!.addLeadVehicleDetails!!.VehicleSellingPrice
+                addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice
         }
 
         previousAddLeadRequest = AddLeadRequest(
@@ -683,17 +681,17 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
     private fun createRequestCloneAddEmploymentEmploymentDetails() {
         //Create Copy of Employment request object
         val employment = AddEmploymentEmploymentDetails(
-            addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne,
-            addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType,
-            addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome,
-            addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount,
-            addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount,
-            addEmploymentDetailsRequest.Data!!.employmentDetails!!.TotalWorkExperience
+            addEmploymentDetailsRequest.Data?.employmentDetails?.CurrentCompanyExpMoreThanOne,
+            addEmploymentDetailsRequest.Data?.employmentDetails?.EmploymentType,
+            addEmploymentDetailsRequest.Data?.employmentDetails?.NetAnualIncome,
+            addEmploymentDetailsRequest.Data?.employmentDetails?.PrimaryAccount,
+            addEmploymentDetailsRequest.Data?.employmentDetails?.SalaryAccount,
+            addEmploymentDetailsRequest.Data?.employmentDetails?.TotalWorkExperience
         )
         val personal =
-            AddEmploymentPersonalDetails(addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate)
+            AddEmploymentPersonalDetails(addEmploymentDetailsRequest.Data?.personalDetails?.BirthDate)
         val employmentData =
-            AddEmploymentData(addEmploymentDetailsRequest.Data!!.CustomerId, employment, personal)
+            AddEmploymentData(addEmploymentDetailsRequest.Data?.CustomerId, employment, personal)
         previousAddEmploymentDetailsRequest = AddEmploymentDetailsRequest(
             employmentData,
             addEmploymentDetailsRequest.UserId,
@@ -705,17 +703,17 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
     private fun createRequestCloneAddResidentDetails() {
         //Create Copy of Resident request object
         val residentPersonal = ResidentDetailsDataPersonalDetails(
-            addResidentDetailsRequest.Data!!.personalDetails!!.HaveExistingEMI,
-            addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber,
-            addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI
+            addResidentDetailsRequest.Data?.personalDetails?.HaveExistingEMI,
+            addResidentDetailsRequest.Data?.personalDetails?.PANNumber,
+            addResidentDetailsRequest.Data?.personalDetails?.TotalEMI
         )
         val resident = ResidentDetailsDataResidentialDetails(
-            addResidentDetailsRequest.Data!!.residentialDetails!!.CustomerCity,
-            addResidentDetailsRequest.Data!!.residentialDetails!!.NoOfYearInResident,
-            addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType
+            addResidentDetailsRequest.Data?.residentialDetails?.CustomerCity,
+            addResidentDetailsRequest.Data?.residentialDetails?.NoOfYearInResident,
+            addResidentDetailsRequest.Data?.residentialDetails?.ResidenceType
         )
         val residentData = ResidentDetailsData(
-            addResidentDetailsRequest!!.Data!!.CustomerId,
+            addResidentDetailsRequest.Data?.CustomerId,
             residentPersonal,
             resident
         )
@@ -750,7 +748,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
     private fun setCheckBoxEvent() {
         cbMoreThanOneYearInCurrentOrganization.setOnCheckedChangeListener(null)
         cbMoreThanOneYearInCurrentOrganization.setOnClickListener {
-            addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne =
+            addEmploymentDetailsRequest.Data?.employmentDetails?.CurrentCompanyExpMoreThanOne =
                 cbMoreThanOneYearInCurrentOrganization.isChecked
         }
 
@@ -780,12 +778,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
     private fun openDatePicker() {
         var lastSelectedDate: String? = null
-        if (addEmploymentDetailsRequest.Data != null && addEmploymentDetailsRequest.Data!!.personalDetails != null && addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate != null) {
-            lastSelectedDate = addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate!!
+        if (addEmploymentDetailsRequest.Data != null && addEmploymentDetailsRequest.Data?.personalDetails != null && addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate != null) {
+            lastSelectedDate = addEmploymentDetailsRequest.Data?.personalDetails?.BirthDate
         }
         object : DatePickerCallBack {
             override fun dateSelected(dateDisplayValue: String, dateValue: String) {
-                addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate = dateValue
+                addEmploymentDetailsRequest.Data?.personalDetails?.BirthDate = dateValue
                 etBirthDate.setText(dateDisplayValue)
                 tvBirthErrorMessage.visibility = View.GONE
                 llBirthDate.setBackgroundResource(R.drawable.vtwo_input_bg)
@@ -802,7 +800,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
     private fun sendOTP() {
         if (etMobileNumberV2.text.length == 10 && validMobileNum()) {
 
-            transactionViewModel!!.generateOTP(
+            transactionViewModel.generateOTP(
                 getOtpRequest(
                     null,
                     etMobileNumberV2.text.toString()
@@ -835,7 +833,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
     private fun validateOTP() {
         if (etOTPV2.text.length == 6) {
             showProgressDialog(requireContext())
-            transactionViewModel!!.validateOTP(
+            transactionViewModel.validateOTP(
                 getOtpRequest(
                     etOTPV2.text.toString(),
                     etMobileNumberV2.text.toString()
@@ -893,14 +891,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                 tv_email_hint.text = "Please enter Valid Email ID"
             }
         } else {
-            if (etFirstName.text.isEmpty() || addLeadRequest.Data!!.basicDetails!!.FirstName!!.isEmpty()) {
+            if (etFirstName.text.isEmpty() || addLeadRequest.Data?.basicDetails?.FirstName?.isEmpty() == true) {
                 ll_first_name_input.setBackgroundResource(R.drawable.v2_error_layout_bg)
                 tv_fname_hint.visibility = View.VISIBLE
             } else {
                 ll_first_name_input.setBackgroundResource(R.drawable.vtwo_input_bg)
                 tv_fname_hint.visibility = View.GONE
             }
-            if (etLastName.text.isEmpty() || addLeadRequest.Data!!.basicDetails!!.LastName!!.isEmpty()) {
+            if (etLastName.text.isEmpty() || addLeadRequest.Data?.basicDetails?.LastName?.isEmpty() == true) {
                 ll_last_name_input.setBackgroundResource(R.drawable.v2_error_layout_bg)
                 tv_lname_hint.visibility = View.VISIBLE
 
@@ -909,14 +907,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                 tv_lname_hint.visibility = View.GONE
             }
 
-            if (etEmailId.text.isEmpty() || addLeadRequest.Data!!.basicDetails!!.Email!!.isEmpty()) {
+            if (etEmailId.text.isEmpty() || addLeadRequest.Data?.basicDetails?.Email?.isEmpty() == true) {
                 setValidEmailUI(false)
                 tv_email_hint.text = "Please enter Email ID"
 
             } else {
                 setValidEmailUI(true)
             }
-            if (salutation.isEmpty() || addLeadRequest.Data!!.basicDetails!!.Salutation!!.isEmpty()) {
+            if (salutation.isEmpty() || addLeadRequest.Data?.basicDetails?.Salutation?.isEmpty() == true) {
                 showToast("Please select Salutation")
             }
         }
@@ -958,23 +956,23 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
     fun updateBankSelection(selectedBankDisplayName: String) {
         var isFound: Boolean = false
-        commonBankListDetailsAdapter!!.dataListFilter!!.forEachIndexed { index, item ->
+        commonBankListDetailsAdapter?.dataListFilter?.forEachIndexed { index, item ->
             run {
-                var previousSelectedValue = item.selected
+                val previousSelectedValue = item.selected
 
                 if (selectedBankDisplayName.equals(item.displayValue)) {
                     item.selected = true
                     isFound = true
-                    if (addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType.equals(
+                    if (addEmploymentDetailsRequest.Data?.employmentDetails?.EmploymentType.equals(
                             "Self Employed"
                         )
                     ) {
-                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount =
+                        addEmploymentDetailsRequest.Data?.employmentDetails?.PrimaryAccount =
                             item.displayValue
-                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount = null
+                        addEmploymentDetailsRequest.Data?.employmentDetails?.SalaryAccount = null
                     } else {
-                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount = null
-                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount =
+                        addEmploymentDetailsRequest.Data?.employmentDetails?.PrimaryAccount = null
+                        addEmploymentDetailsRequest.Data?.employmentDetails?.SalaryAccount =
                             item.displayValue
                     }
                     llNetIncomeSection.visibility = View.VISIBLE
@@ -984,7 +982,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                     item.selected = false
                 }
                 if (previousSelectedValue != item.selected) {
-                    commonBankListDetailsAdapter!!.notifyItemChanged(index)
+                    commonBankListDetailsAdapter?.notifyItemChanged(index)
                 }
 
             }
@@ -1076,9 +1074,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
             override fun afterTextChanged(s: Editable) {
                 if (TextUtils.isEmpty(etFirstName.text)) {
-                    addLeadRequest.Data!!.basicDetails!!.FirstName = null
+                    addLeadRequest.Data?.basicDetails?.FirstName = null
                 } else {
-                    addLeadRequest.Data!!.basicDetails!!.FirstName = etFirstName.text.toString()
+                    addLeadRequest.Data?.basicDetails?.FirstName = etFirstName.text.toString()
                 }
 
             }
@@ -1100,9 +1098,9 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
             override fun afterTextChanged(s: Editable) {
                 if (TextUtils.isEmpty(etLastName.text)) {
-                    addLeadRequest.Data!!.basicDetails!!.LastName = null
+                    addLeadRequest.Data?.basicDetails?.LastName = null
                 } else {
-                    addLeadRequest.Data!!.basicDetails!!.LastName = etLastName.text.toString()
+                    addLeadRequest.Data?.basicDetails?.LastName = etLastName.text.toString()
                 }
 
             }
@@ -1123,10 +1121,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
             override fun afterTextChanged(s: Editable) {
                 if (TextUtils.isEmpty(etLastName.text)) {
-                    addLeadRequest.Data!!.basicDetails!!.Email = ""
+                    addLeadRequest.Data?.basicDetails?.Email = ""
                 } else {
                     setValidEmailUI(true)
-                    addLeadRequest.Data!!.basicDetails!!.Email = etEmailId.text.toString()
+                    addLeadRequest.Data?.basicDetails?.Email = etEmailId.text.toString()
                 }
 
             }
@@ -1142,15 +1140,15 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                 etWorkExpriance.setTextColor(resources.getColor(R.color.vtwo_black))
                 if (TextUtils.isEmpty(etWorkExpriance.text) || etWorkExpriance.text.toString() == "0"
                 ) {
-                    addEmploymentDetailsRequest!!.Data!!.employmentDetails!!.TotalWorkExperience =
+                    addEmploymentDetailsRequest.Data?.employmentDetails?.TotalWorkExperience =
                         "0"
                     cbMoreThanOneYearInCurrentOrganization.isChecked = false
 
                     cbMoreThanOneYearInCurrentOrganization.visibility = View.GONE
-                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne =
+                    addEmploymentDetailsRequest.Data?.employmentDetails?.CurrentCompanyExpMoreThanOne =
                         false
                 } else {
-                    addEmploymentDetailsRequest!!.Data!!.employmentDetails!!.TotalWorkExperience =
+                    addEmploymentDetailsRequest.Data?.employmentDetails?.TotalWorkExperience =
                         etWorkExpriance.text.toString().toInt().toString()
                     cbMoreThanOneYearInCurrentOrganization.visibility = View.VISIBLE
                 }
@@ -1165,14 +1163,14 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
             override fun afterTextChanged(s: Editable) {
                 if (timerWorkExpirance != null) {
-                    timerWorkExpirance!!.cancel();
+                    timerWorkExpirance?.cancel();
 
                 }
 
 
 
                 timerWorkExpirance = Timer()
-                timerWorkExpirance!!.schedule(object : TimerTask() {
+                timerWorkExpirance?.schedule(object : TimerTask() {
                     override fun run() {
                         if (etWorkExpriance.text.toString().equals("0")) {
                             ThreadUtils.runOnUiThread(Runnable {
@@ -1211,7 +1209,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
 
                     if (timerNeftIncome != null) {
-                        timerNeftIncome!!.cancel();
+                        timerNeftIncome?.cancel();
 
                     }
                     if (!unformatAmount(etNetIncome.text.toString()).equals(
@@ -1222,17 +1220,17 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                     }
                     if (allowEdit == true) {
                         timerNeftIncome = Timer()
-                        timerNeftIncome!!.schedule(object : TimerTask() {
+                        timerNeftIncome?.schedule(object : TimerTask() {
                             override fun run() {
 
                                 if (TextUtils.isEmpty(etNetIncome.text)) {
                                     //Set Null Income
-                                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome =
+                                    addEmploymentDetailsRequest.Data?.employmentDetails?.NetAnualIncome =
                                         0
                                 } else {
                                     //Set Income
                                     try {
-                                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome =
+                                        addEmploymentDetailsRequest.Data?.employmentDetails?.NetAnualIncome =
                                             unformatAmount(etNetIncome.text.toString()).toInt()
                                     } catch (e: Exception) {
 
@@ -1287,7 +1285,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
             override fun afterTextChanged(s: Editable) {
                 try {
                     if (timerEMI != null) {
-                        timerEMI!!.cancel();
+                        timerEMI?.cancel();
 
                     }
                     if (!unformatAmount(etEMI.text.toString()).equals(addResidentDetailsRequest.Data?.personalDetails?.TotalEMI.toString()) || TextUtils.isEmpty(
@@ -1298,15 +1296,15 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                     }
                     if (allowEdit == true) {
                         timerEMI = Timer()
-                        timerEMI!!.schedule(object : TimerTask() {
+                        timerEMI?.schedule(object : TimerTask() {
                             override fun run() {
 
                                 if (TextUtils.isEmpty(etEMI.text)) {
                                     //Set Null Income
-                                    addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI = 0
+                                    addResidentDetailsRequest.Data?.personalDetails?.TotalEMI = 0
                                 } else {
                                     //Set Null Income
-                                    addResidentDetailsRequest.Data!!.personalDetails!!.TotalEMI =
+                                    addResidentDetailsRequest.Data?.personalDetails?.TotalEMI =
                                         unformatAmount(etEMI.text.toString()).toString().toInt()
 
                                 }
@@ -1355,7 +1353,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
             override fun afterTextChanged(s: Editable) {
                 try {
                     if (timerCity != null) {
-                        timerCity!!.cancel();
+                        timerCity?.cancel();
 
                     }
                     allowEditCity = true
@@ -1364,7 +1362,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                     }
                     if (allowEditCity == true) {
                         timerCity = Timer()
-                        timerCity!!.schedule(object : TimerTask() {
+                        timerCity?.schedule(object : TimerTask() {
                             override fun run() {
 
 
@@ -1412,7 +1410,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
             }
 
             override fun afterTextChanged(s: Editable) {
-                addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber =
+                addResidentDetailsRequest.Data?.personalDetails?.PANNumber =
                     etPanNumber.text.toString()
             }
         })
@@ -1557,13 +1555,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                     }
                     //Step 13 ResidenceType validation
                     llResidenceTypeSection.visibility == View.VISIBLE && TextUtils.isEmpty(
-                        addResidentDetailsRequest.Data!!.residentialDetails!!.ResidenceType
+                        addResidentDetailsRequest.Data?.residentialDetails?.ResidenceType
                     ) -> {
                         showToast("Please select residence type.")
                     }
                     //Step 14 residence city validation
                     llResidenceTypeSection.visibility == View.VISIBLE && TextUtils.isEmpty(
-                        addResidentDetailsRequest.Data!!.residentialDetails!!.CustomerCity
+                        addResidentDetailsRequest.Data?.residentialDetails?.CustomerCity
                     ) -> {
                         tvResidenceTypeErrorMessage.text = ("Please select residence city.")
                         tvResidenceTypeErrorMessage.visibility = View.VISIBLE
@@ -1582,8 +1580,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                     }
                     //Step 17 Pan Card Number validation
                     llPanNumberSection.visibility == View.VISIBLE && (TextUtils.isEmpty(
-                        addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber
-                    ) || !isValidPanNo(addResidentDetailsRequest.Data!!.personalDetails!!.PANNumber!!))
+                        addResidentDetailsRequest.Data?.personalDetails?.PANNumber
+                    ) || !isValidPanNo(addResidentDetailsRequest.Data?.personalDetails?.PANNumber!!))
                     -> {
                         tvPanNumberErrorMessage.visibility = View.VISIBLE
                         tvPanNumberErrorMessage.text = ("Please enter valid Pancard.")
@@ -1602,18 +1600,18 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                             callUpdateAddLeadBasicDetailsAPIApi()
                         }
 
-                        if (addEmploymentDetailsRequest.hashCode() != previousAddEmploymentDetailsRequest!!.hashCode()
+                        if (addEmploymentDetailsRequest.hashCode() != previousAddEmploymentDetailsRequest?.hashCode()
                         ) {
                             callAddEmploymentDetails()
                         }
-                        if (addResidentDetailsRequest.hashCode() != previousAddResidentDetailsRequest!!.hashCode()) {
+                        if (addResidentDetailsRequest.hashCode() != previousAddResidentDetailsRequest?.hashCode()) {
                             callAddResidentDetails()
                         }
 
                         //Step 20 All Data Uploaded
                         if (!TextUtils.isEmpty(customerId) &&
-                            addEmploymentDetailsRequest.hashCode() == previousAddEmploymentDetailsRequest!!.hashCode() &&
-                            addResidentDetailsRequest.hashCode() == previousAddResidentDetailsRequest!!.hashCode()
+                            addEmploymentDetailsRequest.hashCode() == previousAddEmploymentDetailsRequest?.hashCode() &&
+                            addResidentDetailsRequest.hashCode() == previousAddResidentDetailsRequest?.hashCode()
                         ) {
                             checkForNavToSoftOffer()
                         }
@@ -1650,7 +1648,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
 
             if (addLeadRequest.Data?.basicDetails == null) {
-                var basicDetails = BasicDetails()
+                val basicDetails = BasicDetails()
                 addLeadRequest.Data?.basicDetails = basicDetails;
 
             }
@@ -1666,18 +1664,16 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
             etEmailId.setText(email)
 
 
-            if (salutation != null) {
-                salutationAdapter!!.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
-                    if (dataSelectionDTO.displayValue.toString() == salutation) {
-                        dataSelectionDTO.selected = true
-                        salutation = dataSelectionDTO.value!!
-                        addLeadRequest.Data!!.basicDetails!!.Salutation = salutation
-                    } else {
-                        dataSelectionDTO.selected = false
-                    }
+            salutationAdapter?.dataListFilter?.forEachIndexed { index, dataSelectionDTO ->
+                if (dataSelectionDTO.displayValue.toString() == salutation) {
+                    dataSelectionDTO.selected = true
+                    salutation = dataSelectionDTO.value!!
+                    addLeadRequest.Data?.basicDetails?.Salutation = salutation
+                } else {
+                    dataSelectionDTO.selected = false
                 }
-                salutationAdapter!!.notifyDataSetChanged()
             }
+            salutationAdapter?.notifyDataSetChanged()
 
             previousAddLeadRequest = AddLeadRequest(
                     addLeadRequest.UserId,
@@ -1709,39 +1705,39 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
             if (customerDetailsResponse?.data != null) {
                 //set Vehicle details
-                if (customerDetailsResponse.data!!.vehicleDetails != null) {
-                    addLeadRequest.Data!!.addLeadVehicleDetails!!.VehicleNumber =
-                        customerDetailsResponse.data!!.vehicleDetails!!.vehicleNumber
-                    addLeadRequest.Data!!.addLeadVehicleDetails!!.VehicleSellingPrice =
-                        customerDetailsResponse.data!!.vehicleDetails!!.vehicleSellingPrice!!.toInt()
+                if (customerDetailsResponse.data?.vehicleDetails != null) {
+                    addLeadRequest.Data?.addLeadVehicleDetails?.VehicleNumber =
+                        customerDetailsResponse.data?.vehicleDetails?.vehicleNumber
+                    addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice =
+                        customerDetailsResponse.data?.vehicleDetails?.vehicleSellingPrice?.toInt()
                             .toString()
-                    addLeadRequest.Data!!.addLeadVehicleDetails!!.KMs =
-                        customerDetailsResponse.data!!.vehicleDetails!!.kMs
-                    addLeadRequest.Data!!.addLeadVehicleDetails!!.FuelType =
-                        customerDetailsResponse.data!!.vehicleDetails!!.fuelType
-                    addLeadRequest.Data!!.addLeadVehicleDetails!!.Ownership =
-                        customerDetailsResponse.data!!.vehicleDetails!!.ownership
+                    addLeadRequest.Data?.addLeadVehicleDetails?.KMs =
+                        customerDetailsResponse.data?.vehicleDetails?.kMs
+                    addLeadRequest.Data?.addLeadVehicleDetails?.FuelType =
+                        customerDetailsResponse.data?.vehicleDetails?.fuelType
+                    addLeadRequest.Data?.addLeadVehicleDetails?.Ownership =
+                        customerDetailsResponse.data?.vehicleDetails?.ownership
                 }
                 //set basicDetails
-                if (customerDetailsResponse.data!!.basicDetails != null) {
-                    salutationValue = customerDetailsResponse.data!!.basicDetails!!.salutation
-                    firstName = customerDetailsResponse.data!!.basicDetails!!.firstName
-                    lastName = customerDetailsResponse.data!!.basicDetails!!.lastName
-                    email = customerDetailsResponse.data!!.basicDetails!!.email
+                if (customerDetailsResponse.data?.basicDetails != null) {
+                    salutationValue = customerDetailsResponse.data?.basicDetails?.salutation
+                    firstName = customerDetailsResponse.data?.basicDetails?.firstName
+                    lastName = customerDetailsResponse.data?.basicDetails?.lastName
+                    email = customerDetailsResponse.data?.basicDetails?.email
                     preFilledPersonalBasicDetails(salutationValue, firstName, lastName, email)
 
                 }
 
                 //Set Birth Data
-                if (!TextUtils.isEmpty(customerDetailsResponse.data!!.basicDetails!!.birthDate)) {
+                if (!TextUtils.isEmpty(customerDetailsResponse.data?.basicDetails?.birthDate)) {
                     birthDateDisplayValue = stringToDateString(
-                        customerDetailsResponse.data!!.basicDetails!!.birthDate.toString()
+                        customerDetailsResponse.data?.basicDetails?.birthDate.toString()
                             .subSequence(0, 10) as String,
                         DATE_FORMATE_YYYYMMDD,
                         DATE_FORMATE_DDMMYYYY
                     )
                     birthDateValue = stringToDateString(
-                        customerDetailsResponse.data!!.basicDetails!!.birthDate.toString()
+                        customerDetailsResponse.data?.basicDetails?.birthDate.toString()
                             .subSequence(0, 10) as String,
                         DATE_FORMATE_YYYYMMDD,
                         DATE_FORMATE_YYYYMMDD
@@ -1749,12 +1745,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                 }
                 if (birthDateDisplayValue == null) {
                     birthDateDisplayValue = stringToDateString(
-                        customerDetailsResponse.data!!.equifaxFields!!.birthDate!![0],
+                        customerDetailsResponse.data?.equifaxFields?.birthDate!![0],
                         DATE_FORMATE_YYYYMMDD,
                         DATE_FORMATE_DDMMYYYY
                     )
                     birthDateValue = stringToDateString(
-                        customerDetailsResponse.data!!.equifaxFields!!.birthDate!![0],
+                        customerDetailsResponse.data?.equifaxFields?.birthDate!![0],
                         DATE_FORMATE_YYYYMMDD,
                         DATE_FORMATE_YYYYMMDD
                     )
@@ -1763,56 +1759,56 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
                 llBirthDateSection.visibility = View.VISIBLE
                 etBirthDate.setText(birthDateDisplayValue)
-                addEmploymentDetailsRequest.Data!!.personalDetails!!.BirthDate = birthDateValue
+                addEmploymentDetailsRequest.Data?.personalDetails?.BirthDate = birthDateValue
 
                 //Set Employment Details
-                if (customerDetailsResponse.data!!.employmentDetails != null) {
+                if (customerDetailsResponse.data?.employmentDetails != null) {
                     llEmploymentSection.visibility = View.VISIBLE
-                    employmentDetailsAdapter!!.dataListFilter!!.forEachIndexed { index, dataSelectionDTO ->
-                        if (dataSelectionDTO.displayValue.toString() == customerDetailsResponse.data!!.employmentDetails!!.employmentType
+                    employmentDetailsAdapter?.dataListFilter?.forEachIndexed { index, dataSelectionDTO ->
+                        if (dataSelectionDTO.displayValue.toString() == customerDetailsResponse.data?.employmentDetails!!.employmentType
                         ) {
                             dataSelectionDTO.selected = true
                             employmentType =
-                                customerDetailsResponse.data!!.employmentDetails!!.employmentType
-                            addEmploymentDetailsRequest.Data!!.employmentDetails!!.EmploymentType =
+                                customerDetailsResponse.data?.employmentDetails?.employmentType
+                            addEmploymentDetailsRequest.Data?.employmentDetails?.EmploymentType =
                                 dataSelectionDTO.value
                         } else {
                             dataSelectionDTO.selected = false
                         }
                     }
-                    employmentDetailsAdapter!!.notifyDataSetChanged()
+                    employmentDetailsAdapter?.notifyDataSetChanged()
 
 
                     //set Employment other details
                     if (!TextUtils.isEmpty(employmentType)) {
                         if (employmentType.equals("Self Employed")) {
                             //  llWorkExpriance.visibility = View.GONE
-                            if (customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience != null && customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience!!.toInt() > 0) {
-                                etWorkExpriance.setText(customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience!!)
+                            if (customerDetailsResponse.data?.employmentDetails?.totalWorkExperience != null && customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience!!.toInt() > 0) {
+                                etWorkExpriance.setText(customerDetailsResponse.data?.employmentDetails!!.totalWorkExperience!!)
                             }
                             llAccoutDetailsSection.visibility = View.VISIBLE
                             tvBankTitle.text = getString(R.string.primary_bank_account)
                             bankName =
-                                customerDetailsResponse.data!!.employmentDetails!!.primaryAccount
-                            addEmploymentDetailsRequest.Data!!.employmentDetails!!.PrimaryAccount =
+                                customerDetailsResponse.data?.employmentDetails?.primaryAccount
+                            addEmploymentDetailsRequest.Data?.employmentDetails?.PrimaryAccount =
                                 bankName
 
                             cbMoreThanOneYearInCurrentOrganization.isChecked =
-                                customerDetailsResponse.data!!.employmentDetails!!.currentCompanyExpMoreThanOne!!
-                            addEmploymentDetailsRequest.Data!!.employmentDetails!!.CurrentCompanyExpMoreThanOne =
-                                customerDetailsResponse.data!!.employmentDetails!!.currentCompanyExpMoreThanOne!!
+                                customerDetailsResponse.data?.employmentDetails?.currentCompanyExpMoreThanOne!!
+                            addEmploymentDetailsRequest.Data?.employmentDetails?.CurrentCompanyExpMoreThanOne =
+                                customerDetailsResponse.data?.employmentDetails?.currentCompanyExpMoreThanOne!!
 
                             //   isEmploymentDataSaved = true
                             cbMoreThanOneYearInCurrentOrganization.text =
                                 getString(R.string.more_than_one_year_in_current_Business)
                         } else {
                             bankName =
-                                customerDetailsResponse.data!!.employmentDetails!!.salaryAccount
-                            addEmploymentDetailsRequest.Data!!.employmentDetails!!.SalaryAccount =
+                                customerDetailsResponse.data?.employmentDetails?.salaryAccount
+                            addEmploymentDetailsRequest.Data?.employmentDetails?.SalaryAccount =
                                 bankName
                             //  llWorkExpriance.visibility = View.VISIBLE
                             tvBankTitle.text = getString(R.string.salary_bank_account)
-                            if (customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience != null && customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience!!.toInt() > 0) {
+                            if (customerDetailsResponse.data?.employmentDetails?.totalWorkExperience != null && customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience!!.toInt() > 0) {
                                 etWorkExpriance.setText(customerDetailsResponse.data!!.employmentDetails!!.totalWorkExperience!!)
                             }
                             //More than one year in same org
@@ -2104,7 +2100,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
     }
 
-    fun setCityAutoTextAdapter(cityList: ArrayList<String>) {
+    private fun setCityAutoTextAdapter(cityList: ArrayList<String>) {
         customAutoTextViewListAdapter = CustomAutoTextViewListAdapter(
             requireContext(),
             R.layout.v2_auto_text_adapter_layout,
@@ -2549,10 +2545,10 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
             ApiResponse.Status.SUCCESS -> {
                 hideProgressDialog()
                 val response: CityNameListResponse? = mApiResponse.data as CityNameListResponse?
-                if (response?.data != null && response!!.data!!.size > 0) {
+                if (response?.data != null && response.data!!.isNotEmpty()) {
                     var cityList: ArrayList<String> = arrayListOf<String>()
 
-                    response!!.data!!.forEachIndexed { index, city ->
+                    response.data!!.forEachIndexed { index, city ->
                         cityList.add(city)
                     }
                     setCityAutoTextAdapter(cityList)
@@ -2660,12 +2656,12 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
                 if (validateLeadDataResponse?.message.equals("Success")) {
                     validateLeadDataRes = validateLeadDataResponse!!
-                    if (validateLeadDataRes!!.details != null) {
+                    if (validateLeadDataRes.details != null) {
                         preFilledPersonalBasicDetails(
-                            validateLeadDataRes!!.details!!.salutation,
-                            validateLeadDataRes!!.details!!.firstName,
-                            validateLeadDataRes!!.details!!.lastName,
-                            validateLeadDataRes!!.details!!.email
+                            validateLeadDataRes.details?.salutation,
+                            validateLeadDataRes.details?.firstName,
+                            validateLeadDataRes.details?.lastName,
+                            validateLeadDataRes.details?.email
                         )
                     }
                 } else {
@@ -2682,7 +2678,6 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                 showToast("Please enter valid details")
             }
         }
-
     }
 
     private fun onResetJourney(mAPIResponse: ApiResponse) {
@@ -2697,7 +2692,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                     mAPIResponse.data as ResetCustomerJourneyResponse?
 
                 if (dialogConfilctForAddLead != null && dialogConfilctForAddLead!!.isShowing) {
-                    dialogConfilctForAddLead!!.dismiss()
+                    dialogConfilctForAddLead?.dismiss()
                 }
 
                 // showToast(resetJourneyRes?.message.toString())
@@ -2718,17 +2713,17 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
     private fun generateAlertDialog() {
 
         dialogConfilctForAddLead = Dialog(requireContext())
-        dialogConfilctForAddLead!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialogConfilctForAddLead!!.setCancelable(false)
-        dialogConfilctForAddLead!!.setCanceledOnTouchOutside(false)
-        dialogConfilctForAddLead!!.setContentView(R.layout.vtwo_layout_custom_dialog)
+        dialogConfilctForAddLead?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialogConfilctForAddLead?.setCancelable(false)
+        dialogConfilctForAddLead?.setCanceledOnTouchOutside(false)
+        dialogConfilctForAddLead?.setContentView(R.layout.vtwo_layout_custom_dialog)
         val tvAlertDialogText =
-            dialogConfilctForAddLead!!.findViewById(R.id.tvAlertDialogText) as TextView
+            dialogConfilctForAddLead?.findViewById(R.id.tvAlertDialogText) as TextView
         tvAlertDialogText.text = validateLeadDataRes.message
-        val btnNewFlow = dialogConfilctForAddLead!!.findViewById(R.id.btnStartNewFlowV2) as Button
-        val btnOk = dialogConfilctForAddLead!!.findViewById(R.id.btnOk) as Button
+        val btnNewFlow = dialogConfilctForAddLead?.findViewById(R.id.btnStartNewFlowV2) as Button
+        val btnOk = dialogConfilctForAddLead?.findViewById(R.id.btnOk) as Button
         val btnContinueWithOldFlow =
-            dialogConfilctForAddLead!!.findViewById(R.id.btnExistingFlowV2) as Button
+            dialogConfilctForAddLead?.findViewById(R.id.btnExistingFlowV2) as Button
 
 
         if(validateLeadDataRes.details?.status?.equals(ApplicationStatusEnum.Submitted_To_Bank) == true)
@@ -2741,17 +2736,17 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
         }
         btnNewFlow.setOnClickListener {
             resetJourney()
-            dialogConfilctForAddLead!!.dismiss()
+            dialogConfilctForAddLead?.dismiss()
         }
         btnOk.setOnClickListener {
-            dialogConfilctForAddLead!!.dismiss()
+            dialogConfilctForAddLead?.dismiss()
             navigateDashboardTop()
         }
 
         btnContinueWithOldFlow.setOnClickListener {
             customerId=validateLeadDataRes.oldCustomerId!!
             callCustomerDetailsApi(validateLeadDataRes.oldCustomerId!!.toInt())
-            dialogConfilctForAddLead!!.dismiss()
+            dialogConfilctForAddLead?.dismiss()
         }
         if (validateLeadDataRes.oldCustomerId!!.toInt() > 0) {
             btnOk.visibility = View.GONE
@@ -2762,8 +2757,8 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
             btnNewFlow.visibility = View.GONE
             btnContinueWithOldFlow.visibility = View.GONE
         }
-        dialogConfilctForAddLead!!.window!!.setBackgroundDrawableResource(android.R.color.transparent);
-        dialogConfilctForAddLead!!.show()
+        dialogConfilctForAddLead?.window?.setBackgroundDrawableResource(android.R.color.transparent);
+        dialogConfilctForAddLead?.show()
 
     }
 
@@ -2779,7 +2774,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                 hideProgressDialog()
                 val addLeadResponse: AddLeadResponse? = mApiResponse.data as AddLeadResponse?
                 if (addLeadResponse?.mData!! > 0) {
-                    var addEmploymentDetailsId = addLeadResponse?.mData.toString()
+                    var addEmploymentDetailsId = addLeadResponse.mData.toString()
                     isEmploymentDataSaved = true
                     if (llEMISection.visibility == View.GONE) {
                         llEMISection.visibility = View.VISIBLE
@@ -2838,7 +2833,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
             ApiResponse.Status.SUCCESS -> {
 
                 if (dialogConfilctForAddLead != null && dialogConfilctForAddLead!!.isShowing) {
-                    dialogConfilctForAddLead!!.dismiss()
+                    dialogConfilctForAddLead?.dismiss()
                 }
                 val customerResponse: CustomerDetailsResponse? =
                     mApiResponse.data as CustomerDetailsResponse?

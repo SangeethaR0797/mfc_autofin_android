@@ -14,12 +14,12 @@ import v2.view.callBackInterface.itemClickCallBack
 
 class BankFeaturesRecyclerViewAdapter(
     var context: Activity,
-    var dataListValue: List<String>?,
-    itemClick: itemClickCallBack?
+    var dataListValue: List<String>,
+    itemClick: itemClickCallBack
 ) : RecyclerView.Adapter<BankFeaturesRecyclerViewAdapter.MyViewHolder>(), Filterable {
 
     public var dataListFilter: List<String>?
-    private var itemCallBack: itemClickCallBack = itemClick!!
+    private var itemCallBack: itemClickCallBack = itemClick
     private var mContext: Activity = context
 
     init {
@@ -36,7 +36,7 @@ class BankFeaturesRecyclerViewAdapter(
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.tvItem.text = dataListFilter!![position]
+        holder.tvItem.text = dataListFilter?.get(position)
 
 
         holder.llMainLayout.setOnClickListener(View.OnClickListener {
@@ -72,7 +72,7 @@ class BankFeaturesRecyclerViewAdapter(
                     dataListValue as ArrayList<String>
                 } else {
                     val resultList = ArrayList<String>()
-                    for (row in dataListValue!!) {
+                    for (row in dataListValue) {
                         if (row.toString().toLowerCase()
                                 .contains(constraint.toString().toLowerCase())
                         ) {

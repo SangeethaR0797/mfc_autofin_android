@@ -17,12 +17,12 @@ import v2.view.callBackInterface.itemClickCallBack
 
 class BankChargesRecyclerViewAdapter(
     var context: Activity,
-    var dataListValue: List<KeyValueDTO>?,
-    itemClick: itemClickCallBack?
+    var dataListValue: List<KeyValueDTO>,
+    itemClick: itemClickCallBack
 ) : RecyclerView.Adapter<BankChargesRecyclerViewAdapter.MyViewHolder>(), Filterable {
 
     public var dataListFilter: List<KeyValueDTO>?
-    private var itemCallBack: itemClickCallBack = itemClick!!
+    private var itemCallBack: itemClickCallBack = itemClick
     private var mContext: Activity = context
 
     init {
@@ -39,9 +39,9 @@ class BankChargesRecyclerViewAdapter(
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.tvKey.text = dataListFilter!![position].key
-        if (dataListFilter!![position].value != null) {
-            holder.tvValue.text = dataListFilter!![position].value
+        holder.tvKey.text = dataListFilter?.get(position)?.key
+        if (dataListFilter?.get(position)?.value != null) {
+            holder.tvValue.text = dataListFilter?.get(position)?.value
         } else {
             holder.tvValue.text = ""
         }
@@ -87,7 +87,7 @@ class BankChargesRecyclerViewAdapter(
                     dataListValue as ArrayList<KeyValueDTO>
                 } else {
                     val resultList = ArrayList<KeyValueDTO>()
-                    for (row in dataListValue!!) {
+                    for (row in dataListValue) {
                         if (row.key.toString().toLowerCase()
                                 .contains(constraint.toString().toLowerCase()) ||
                             row.key.toString().toLowerCase()

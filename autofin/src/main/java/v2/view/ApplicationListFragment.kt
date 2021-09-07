@@ -429,7 +429,7 @@ class ApplicationListFragment : BaseFragment(), View.OnClickListener {
                             ApplicationListClickCallBack {
                             override fun onItemClick(item: Any?, position: Int) {
                                 val applicationDataItems = item as ApplicationDataItems
-                                navigateApplicationDetailsFragment(applicationDataItems.customerId!!)
+                                applicationDataItems.customerId?.let { navigateApplicationDetailsFragment(it) }
                             }
 
                             override fun onCompleteClick(item: Any?, position: Int) {

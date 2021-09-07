@@ -20,12 +20,12 @@ import v2.view.callBackInterface.ApplicationListClickCallBack
 
 class ApplicationListAdapter(
     var baseFragment: BaseFragment,
-    var dataListValue: List<ApplicationDataItems>?,
-    itemClick: ApplicationListClickCallBack?
+    var dataListValue: List<ApplicationDataItems>,
+    itemClick: ApplicationListClickCallBack
 ) : RecyclerView.Adapter<ApplicationListAdapter.MyViewHolder>(), Filterable {
 
     public var dataListFilter: List<ApplicationDataItems>?
-    private var itemCallBack: ApplicationListClickCallBack = itemClick!!
+    private var itemCallBack: ApplicationListClickCallBack = itemClick
     private var mBaseFragment: BaseFragment = baseFragment
 
     init {
@@ -41,36 +41,35 @@ class ApplicationListAdapter(
         return MyViewHolder(listItem)
     }
 
-    @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.tvStatus.text = dataListFilter!![position].status.toString()
+        holder.tvStatus.text = dataListFilter?.get(position)?.status.toString()
         holder.tvApplicantName.text =
             dataListFilter?.get(position)?.firstName + " " + dataListFilter?.get(position)?.lastName
         holder.tvVehicleDetails.text =
-            dataListFilter!![position].make.toString() + " " + dataListFilter!![position].model.toString()
+            dataListFilter?.get(position)?.make.toString() + " " + dataListFilter?.get(position)?.model.toString()
 
         holder.tvBankIcon.visibility = View.GONE
 
-        if (dataListFilter!![position].caseId != null) {
+        if (dataListFilter?.get(position)?.caseId != null) {
             holder.tvCaseId.visibility = View.VISIBLE
             holder.tvCaseIdCaption.visibility = View.VISIBLE
-            holder.tvCaseId.text = dataListFilter!![position].caseId?.toString()
+            holder.tvCaseId.text = dataListFilter?.get(position)?.caseId?.toString()
         } else {
             holder.tvCaseId.visibility = View.GONE
             holder.tvCaseIdCaption.visibility = View.GONE
         }
 
-        if (dataListFilter!![position].losId != null) {
+        if (dataListFilter?.get(position)?.losId != null) {
             //holder.btnComplete.visibility = View.GONE
             holder.tvLOSId.visibility = View.VISIBLE
             holder.tvLOSIdCaption.visibility = View.VISIBLE
-            holder.tvLOSId.text = dataListFilter!![position].losId?.toString()
-            if(dataListFilter!![position].status==baseFragment.resources.getString(R.string.v2_lead_status_submitted_to_bank)||
-                    dataListFilter!![position].status==ScreenTypeEnum.Disbursed.value||
-                    dataListFilter!![position].status==ScreenTypeEnum.Approved.value||
-                    dataListFilter!![position].status==ApplicationStatusEnum.Rejected.value||
-                    dataListFilter!![position].status==ApplicationStatusEnum.Closed.value)
+            holder.tvLOSId.text = dataListFilter?.get(position)?.losId?.toString()
+            if(dataListFilter?.get(position)?.status==baseFragment.resources.getString(R.string.v2_lead_status_submitted_to_bank)||
+                    dataListFilter?.get(position)?.status==ScreenTypeEnum.Disbursed.value||
+                    dataListFilter?.get(position)?.status==ScreenTypeEnum.Approved.value||
+                    dataListFilter?.get(position)?.status==ApplicationStatusEnum.Rejected.value||
+                    dataListFilter?.get(position)?.status==ApplicationStatusEnum.Closed.value)
             {
                 holder.btnComplete.text =baseFragment.resources.getString(R.string.btn_lbl_view_details)
             }
@@ -81,7 +80,7 @@ class ApplicationListAdapter(
             holder.tvLOSId.visibility = View.GONE
             holder.tvLOSIdCaption.visibility = View.GONE
             holder.btnComplete.visibility = View.VISIBLE
-            if(dataListFilter!![position].status==baseFragment.resources.getString(R.string.v2_lead_status_submitted_to_bank))
+            if(dataListFilter?.get(position)?.status==baseFragment.resources.getString(R.string.v2_lead_status_submitted_to_bank))
             {
                 holder.btnComplete.text =baseFragment.resources.getString(R.string.btn_lbl_view_details)
             }
@@ -90,7 +89,7 @@ class ApplicationListAdapter(
 
 
         }
-        val displayValue = dataListFilter!![position].createdDate?.toString()?.let {
+        val displayValue = dataListFilter?.get(position)?.createdDate?.toString()?.let {
             mBaseFragment.stringToDateString(
                     it,
                 mBaseFragment.DATE_FORMATE_YYYYMMDD,
@@ -110,11 +109,11 @@ class ApplicationListAdapter(
             itemCallBack.onCallClick(dataListFilter?.get(position), position)
         })
         holder.btnComplete.setOnClickListener(View.OnClickListener {
-            if(dataListFilter!![position].status==baseFragment.resources.getString(R.string.v2_lead_status_submitted_to_bank)||
-                    dataListFilter!![position].status==ScreenTypeEnum.Disbursed.value||
-                    dataListFilter!![position].status==ScreenTypeEnum.Approved.value||
-                    dataListFilter!![position].status==ApplicationStatusEnum.Rejected.value||
-                    dataListFilter!![position].status==ApplicationStatusEnum.Closed.value)
+            if(dataListFilter?.get(position)?.status==baseFragment.resources.getString(R.string.v2_lead_status_submitted_to_bank)||
+                    dataListFilter?.get(position)?.status==ScreenTypeEnum.Disbursed.value||
+                    dataListFilter?.get(position)?.status==ScreenTypeEnum.Approved.value||
+                    dataListFilter?.get(position)?.status==ApplicationStatusEnum.Rejected.value||
+                    dataListFilter?.get(position)?.status==ApplicationStatusEnum.Closed.value)
             {
                 itemCallBack.onItemClick(dataListFilter?.get(position), position)
             }else
@@ -122,9 +121,9 @@ class ApplicationListAdapter(
 
         })
 
-        if (dataListFilter?.get(position)!!.bankLogoURL != null) {
+        if (dataListFilter?.get(position)?.bankLogoURL != null) {
             Picasso.get()
-                .load(dataListFilter!![position].bankLogoURL)
+                .load(dataListFilter?.get(position)?.bankLogoURL)
                 .into(holder.tvBankIcon, object : Callback {
                     override fun onSuccess() {
                         holder.tvBankIcon.visibility = View.VISIBLE
@@ -187,7 +186,7 @@ class ApplicationListAdapter(
                     dataListValue as ArrayList<ApplicationDataItems>
                 } else {
                     val resultList = ArrayList<ApplicationDataItems>()
-                    for (row in dataListValue!!) {
+                    for (row in dataListValue) {
                         if (row.customerId.toString().toLowerCase()
                                 .contains(constraint.toString().toLowerCase()) ||
                             row.firstName.toString().toLowerCase()

@@ -483,6 +483,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     }
 
     private fun setNoticeBoardData(list: ArrayList<NoticeData>?) {
+
         val layoutManager = LinearLayoutManager(activity)
         rvNoticeBoard.layoutManager = layoutManager
 
@@ -682,121 +683,120 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     }
 
     //region set Application menu
+    @SuppressLint("SetTextI18n")
     fun setMenuDataAdapter(dashboardDetailsResponse: DashBoardDetailsResponse) {
-        if (dashboardDetailsResponse != null) {
-            llDashBoard.visibility = View.VISIBLE
-            tvTotalCommission.text = "₹" + formatAmount(
-                    dashboardDetailsResponse.data!!.commissionDetails!!.totalCommission.toString()
-            )
-            tvPotentialCommission.text = "₹" + formatAmount(
-                    dashboardDetailsResponse!!.data!!.commissionDetails!!.potentialCommission.toString()
-            )
-            if (dashboardDetailsResponse.data!!.noticeBoard!!.totalCount!! > 0) {
-                llNoticeBoardSection.visibility = View.VISIBLE
-                tvNoticeBoardCount.text =
-                        dashboardDetailsResponse.data!!.noticeBoard!!.totalCount.toString()
-                setNoticeBoardData(dashboardDetailsResponse.data!!.noticeBoard!!.notices as ArrayList<NoticeData>?)
-                if (dashboardDetailsResponse.data!!.noticeBoard!!.totalCount!! > 3) {
-                    llViewAllNotice.visibility = View.VISIBLE
-                } else {
-                    llViewAllNotice.visibility = View.GONE
-                }
+        llDashBoard.visibility = View.VISIBLE
+        tvTotalCommission.text = "₹" + formatAmount(
+                dashboardDetailsResponse.data?.commissionDetails?.totalCommission.toString()
+        )
+        tvPotentialCommission.text = "₹" + formatAmount(
+                dashboardDetailsResponse.data?.commissionDetails?.potentialCommission.toString()
+        )
+        if (dashboardDetailsResponse.data?.noticeBoard?.totalCount!! > 0) {
+            llNoticeBoardSection.visibility = View.VISIBLE
+            tvNoticeBoardCount.text =
+                    dashboardDetailsResponse.data?.noticeBoard?.totalCount.toString()
+            setNoticeBoardData(dashboardDetailsResponse.data?.noticeBoard?.notices as ArrayList<NoticeData>?)
+            if (dashboardDetailsResponse.data?.noticeBoard?.totalCount!! > 3) {
+                llViewAllNotice.visibility = View.VISIBLE
             } else {
-                llNoticeBoardSection.visibility = View.GONE
+                llViewAllNotice.visibility = View.GONE
             }
-            tvNotificationCount.visibility = View.GONE
-            if (dashboardDetailsResponse.data!!.newNotificationCount!! > 0) {
-                tvNotificationCount.visibility = View.VISIBLE
-                if (dashboardDetailsResponse.data!!.newNotificationCount!! > 99) {
-                    tvNotificationCount.text = "99+"
-                } else {
-                    tvNotificationCount.text =
-                            dashboardDetailsResponse.data!!.newNotificationCount!!.toString()
-                }
-            }
-
-
-            val menuList: ArrayList<MenuDTO> = arrayListOf<MenuDTO>()
-            menuList.add(
-                    getMenu(
-                            "Registered",
-                            MenuEnum.Registered.value,
-                            null,
-                            dashboardDetailsResponse.data!!.registered!!,
-                            R.drawable.ic_menu_registered,
-                            R.drawable.v2_menu_dark_blue
-                    )
-            )
-            menuList.add(
-                    getMenu(
-                            "Soft offer",
-                            MenuEnum.Soft_offer.value,
-                            null,
-                            dashboardDetailsResponse.data!!.softOffer!!,
-                            R.drawable.ic_menu_softoffers,
-                            R.drawable.v2_menu_light_blue
-                    )
-            )
-            menuList.add(
-                    getMenu(
-                            "Logged in",
-                            MenuEnum.Logged_In.value,
-                            null,
-                            dashboardDetailsResponse.data!!.loggedIn!!,
-                            R.drawable.ic_logged_in,
-                            R.drawable.v2_menu_light_green
-                    )
-            )
-            menuList.add(
-                    getMenu(
-                            "Approved",
-                            MenuEnum.Approved.value,
-                            formatAmount(dashboardDetailsResponse.data!!.approvedAmount!!.toString()),
-                            dashboardDetailsResponse.data!!.approved!!,
-                            R.drawable.ic_menu_approved,
-                            R.drawable.v2_menu_bright_green
-                    )
-            )
-            menuList.add(
-                    getMenu(
-                            "Disbursed",
-                            MenuEnum.Disbursed.value,
-                            formatAmount(dashboardDetailsResponse.data!!.disbursedAmount!!.toString()),
-                            dashboardDetailsResponse.data!!.disbursed!!,
-                            R.drawable.ic_menu_disbursed,
-                            R.drawable.v2_menu_dark_green
-                    )
-            )
-            menuList.add(
-                    getMenu(
-                            "Add New",
-                            MenuEnum.Add_New.value,
-                            null,
-                            0,
-                            R.drawable.ic_menu_add,
-                            R.drawable.v2_menu_bright_yellow
-                    )
-            )
-
-            if (rvMenu.layoutManager == null) {
-                val layoutManagerStaggeredGridLayoutManager =
-                        StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-                val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
-                rvMenu.addItemDecoration(GridItemDecoration(30, 2))
-                rvMenu.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
-            }
-
-            menuForDashboardAdapter = MenuForDashboardAdapter(
-                    activity as Activity,
-                    menuList,
-                    object : itemClickCallBack {
-                        override fun itemClick(item: Any?, position: Int) {
-                            var m = item as MenuDTO
-                            openNextFragment(m.menuCode!!, m.menuName!!)
-                        }
-                    })
-            rvMenu.adapter = menuForDashboardAdapter
+        } else {
+            llNoticeBoardSection.visibility = View.GONE
         }
+        tvNotificationCount.visibility = View.GONE
+        if (dashboardDetailsResponse.data!!.newNotificationCount!! > 0) {
+            tvNotificationCount.visibility = View.VISIBLE
+            if (dashboardDetailsResponse.data!!.newNotificationCount!! > 99) {
+                tvNotificationCount.text = "99+"
+            } else {
+                tvNotificationCount.text =
+                        dashboardDetailsResponse.data!!.newNotificationCount!!.toString()
+            }
+        }
+
+
+        val menuList: ArrayList<MenuDTO> = arrayListOf<MenuDTO>()
+        menuList.add(
+                getMenu(
+                        "Registered",
+                        MenuEnum.Registered.value,
+                        null,
+                        dashboardDetailsResponse.data!!.registered!!,
+                        R.drawable.ic_menu_registered,
+                        R.drawable.v2_menu_dark_blue
+                )
+        )
+        menuList.add(
+                getMenu(
+                        "Soft offer",
+                        MenuEnum.Soft_offer.value,
+                        null,
+                        dashboardDetailsResponse.data!!.softOffer!!,
+                        R.drawable.ic_menu_softoffers,
+                        R.drawable.v2_menu_light_blue
+                )
+        )
+        menuList.add(
+                getMenu(
+                        "Logged in",
+                        MenuEnum.Logged_In.value,
+                        null,
+                        dashboardDetailsResponse.data!!.loggedIn!!,
+                        R.drawable.ic_logged_in,
+                        R.drawable.v2_menu_light_green
+                )
+        )
+        menuList.add(
+                getMenu(
+                        "Approved",
+                        MenuEnum.Approved.value,
+                        formatAmount(dashboardDetailsResponse.data!!.approvedAmount!!.toString()),
+                        dashboardDetailsResponse.data!!.approved!!,
+                        R.drawable.ic_menu_approved,
+                        R.drawable.v2_menu_bright_green
+                )
+        )
+        menuList.add(
+                getMenu(
+                        "Disbursed",
+                        MenuEnum.Disbursed.value,
+                        formatAmount(dashboardDetailsResponse.data!!.disbursedAmount!!.toString()),
+                        dashboardDetailsResponse.data!!.disbursed!!,
+                        R.drawable.ic_menu_disbursed,
+                        R.drawable.v2_menu_dark_green
+                )
+        )
+        menuList.add(
+                getMenu(
+                        "Add New",
+                        MenuEnum.Add_New.value,
+                        null,
+                        0,
+                        R.drawable.ic_menu_add,
+                        R.drawable.v2_menu_bright_yellow
+                )
+        )
+
+        if (rvMenu.layoutManager == null) {
+            val layoutManagerStaggeredGridLayoutManager =
+                    StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
+            rvMenu.addItemDecoration(GridItemDecoration(30, 2))
+            rvMenu.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+        }
+
+        menuForDashboardAdapter = MenuForDashboardAdapter(
+                activity as Activity,
+                menuList,
+                object : itemClickCallBack {
+                    override fun itemClick(item: Any?, position: Int) {
+                        var m = item as MenuDTO
+                        openNextFragment(m.menuCode!!, m.menuName!!)
+                    }
+                })
+        rvMenu.adapter = menuForDashboardAdapter
     }
 
     fun getMenu(
@@ -919,6 +919,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun onEmiAmountResponse(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
@@ -929,9 +930,9 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
                 val emiResponse: EmiResponse =
                         mApiResponse.data as EmiResponse
-                if (emiResponse != null && emiResponse!!.data != null) {
+                if (emiResponse.data != null) {
                     tvEmiAmount.text = "₹" + formatAmount(
-                            emiResponse!!.data!!.toInt().toString()
+                            emiResponse.data?.toInt().toString()
                     )
                 }
 
@@ -1025,10 +1026,10 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
                 val awsS3Details: AwsS3DetailsResponse =
                         mApiResponse.data as AwsS3DetailsResponse
-                if (awsS3Details != null && awsS3Details!!.data != null) {
-                    CommonStrings.AWS_S3_BUCKETKEY = awsS3Details!!.data!!.accesskey
-                    CommonStrings.AWS_S3_BUCKETNAME = awsS3Details!!.data!!.bucketname
-                    CommonStrings.AWS_S3_BUCKETSECRET = awsS3Details!!.data!!.secretkey
+                if (awsS3Details.data != null) {
+                    CommonStrings.AWS_S3_BUCKETKEY = awsS3Details.data?.accesskey
+                    CommonStrings.AWS_S3_BUCKETNAME = awsS3Details.data?.bucketname
+                    CommonStrings.AWS_S3_BUCKETSECRET = awsS3Details.data?.secretkey
                 }
 
             }
@@ -1048,58 +1049,58 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
     private fun checkForNextScreenAfterCustomerResponse(customerResponse: CustomerDetailsResponse?) {
 
-        if ((customerResponse!!.data!!.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse!!.data!!.subStatus.equals(
+        if ((customerResponse?.data?.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse?.data?.subStatus.equals(
                         ApplicationStatusEnum.Registered.value
                 )) ||
-                (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse!!.data!!.subStatus.equals(
+                (customerResponse?.data?.status.equals(ApplicationStatusEnum.Registered.value) && customerResponse?.data?.subStatus.equals(
                         ApplicationStatusEnum.Employment_Details_Submitted.value
                 )) ||
-                (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse.data!!.subStatus.equals(
+                (customerResponse?.data?.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse?.data?.subStatus.equals(
                         ApplicationStatusEnum.KYC_Done.value
                 )) ||
-                (customerResponse!!.data!!.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse.data!!.subStatus.equals(
+                (customerResponse?.data?.status.equals(ApplicationStatusEnum.KYC_Done.value) && customerResponse?.data?.subStatus.equals(
                         ApplicationStatusEnum.Employment_Details_Submitted.value
                 ))
 
         ) {
-            var addLeadRequest = AddLeadRequest()
-            var vehicleDetails = AddLeadVehicleDetails()
+            val addLeadRequest = AddLeadRequest()
+            val vehicleDetails = AddLeadVehicleDetails()
 
-            vehicleDetails!!.RegistrationYear =
-                    customerResponse.data!!.vehicleDetails!!.registrationYear
-            vehicleDetails!!.Make = customerResponse.data!!.vehicleDetails!!.make
-            vehicleDetails!!.Model = customerResponse.data!!.vehicleDetails!!.model
-            vehicleDetails!!.Variant = customerResponse.data!!.vehicleDetails!!.variant
-            vehicleDetails!!.Ownership = customerResponse.data!!.vehicleDetails!!.ownership
-            vehicleDetails!!.VehicleNumber =
-                    customerResponse.data!!.vehicleDetails!!.vehicleNumber
-            vehicleDetails!!.KMs = customerResponse.data!!.vehicleDetails!!.kMs
-            vehicleDetails!!.FuelType = customerResponse.data!!.vehicleDetails!!.fuelType
+            vehicleDetails.RegistrationYear =
+                    customerResponse?.data?.vehicleDetails?.registrationYear
+            vehicleDetails.Make = customerResponse?.data?.vehicleDetails?.make
+            vehicleDetails.Model = customerResponse?.data?.vehicleDetails?.model
+            vehicleDetails.Variant = customerResponse?.data?.vehicleDetails?.variant
+            vehicleDetails.Ownership = customerResponse?.data?.vehicleDetails?.ownership
+            vehicleDetails.VehicleNumber =
+                    customerResponse?.data?.vehicleDetails?.vehicleNumber
+            vehicleDetails.KMs = customerResponse?.data?.vehicleDetails?.kMs
+            vehicleDetails.FuelType = customerResponse?.data?.vehicleDetails?.fuelType
 
-            var basicDetails = BasicDetails()
+            val basicDetails = BasicDetails()
             basicDetails.FirstName =
-                    customerResponse.data!!.basicDetails!!.firstName
+                    customerResponse?.data?.basicDetails?.firstName
             basicDetails.LastName =
-                    customerResponse.data!!.basicDetails!!.lastName
+                    customerResponse?.data?.basicDetails?.lastName
             basicDetails.Email =
-                    customerResponse.data!!.basicDetails!!.email
+                    customerResponse?.data?.basicDetails?.email
             basicDetails.Salutation =
-                    customerResponse.data!!.basicDetails!!.salutation
+                    customerResponse?.data?.basicDetails?.salutation
             basicDetails.CustomerMobile =
-                    customerResponse.data!!.basicDetails!!.customerMobile
+                    customerResponse?.data?.basicDetails?.customerMobile
 
-            var data = AddLeadData()
+            val data = AddLeadData()
 
-            data!!.addLeadVehicleDetails = vehicleDetails
-            data!!.basicDetails = basicDetails
+            data.addLeadVehicleDetails = vehicleDetails
+            data.basicDetails = basicDetails
             addLeadRequest.Data = data
             navigateToAddLeadFragment(
                     addLeadRequest,
                     selectedCustomerId,
-                    customerResponse.data!!.basicDetails!!.customerMobile
+                    customerResponse?.data?.basicDetails?.customerMobile
             )
         } else {
-            when (customerResponse.data?.status) {
+            when (customerResponse?.data?.status) {
                 getString(R.string.v2_lead_status_kyc_done) -> {
                     navToSoftOffer(
                             customerResponse,
