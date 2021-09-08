@@ -387,6 +387,7 @@
     <string name="calculate_emi">Calculate EMI</string>
     <string name="ok">Ok</string>
     <string name="submitwithotp_lbl">SUBMIT WITH VERIFICATION CODE</string>
+    <string name="vehicle_price_error">"Price for this vehicle cannot be greater than "</string>
 
 
 </resources>

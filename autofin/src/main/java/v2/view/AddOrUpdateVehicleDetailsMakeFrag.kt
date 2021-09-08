@@ -534,6 +534,7 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
     private fun validateVehiclePrice(ibbResponse: IBBPriceResponse?) {
 
         if (ibbResponse?.data != null) {
+            val ibbPrice=getString(R.string.rupees_symbol)+" "+formatAmount(ibbResponse.data.toString())
             if (ibbResponse.data >= unformatAmount(etPrice.text.toString()).toInt()) {
                 addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice = etPrice.text.toString()
                 navigateToAddLeadFragment(addLeadRequest, 0, null)
@@ -541,7 +542,7 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
                 llPrice.setBackgroundResource(R.drawable.v2_error_input_bg)
                 etPrice.setTextColor(resources.getColor(R.color.error_red))
                 tvVehiclePriceErrorMessage.visibility = View.VISIBLE
-                tvVehiclePriceErrorMessage.text = ("Please enter valid Vehicle Price")
+                tvVehiclePriceErrorMessage.text = getString(R.string.vehicle_price_error)+ibbPrice
                 tvVehiclePriceInWords.visibility=View.GONE
             }
         }
