@@ -783,7 +783,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                         StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
                 val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
                 rvMenu.addItemDecoration(GridItemDecoration(30, 2))
-                rvMenu.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+                rvMenu.layoutManager = layoutManagerStaggeredGridLayoutManager
             }
 
             menuForDashboardAdapter = MenuForDashboardAdapter(

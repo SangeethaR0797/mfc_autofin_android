@@ -187,7 +187,6 @@ class StockAPIFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
-
     private fun validateVehiclePrice(ibbResponse: IBBPriceResponse?) {
         if (ibbResponse?.data != null) {
             val ibbPrice=getString(R.string.rupees_symbol)+" "+formatAmount(ibbResponse.data.toString())
