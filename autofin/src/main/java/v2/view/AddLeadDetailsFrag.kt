@@ -405,6 +405,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
 
     private fun initViews(view: View?) {
+
         setKeyBoardShowHideEvent(AddLeadDetailsFrag@ this)
 
         scrollView1 = rootView!!.findViewById(R.id.scrollView1)!!
@@ -1214,25 +1215,25 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                         timerNeftIncome!!.cancel();
 
                     }
-                    if (!unformatAmount(etNetIncome.text.toString()).equals(
-                            addEmploymentDetailsRequest.Data?.employmentDetails?.NetAnualIncome.toString()
-                        ) || TextUtils.isEmpty(etNetIncome.text.toString())
+                    if (unformatAmount(etNetIncome.text.toString()) != addEmploymentDetailsRequest.Data?.employmentDetails?.NetAnualIncome.toString() ||
+                            TextUtils.isEmpty(etNetIncome.text.toString())
                     ) {
                         allowEdit = true
                     }
-                    if (allowEdit == true) {
+
+                    if (allowEdit) {
                         timerNeftIncome = Timer()
                         timerNeftIncome!!.schedule(object : TimerTask() {
                             override fun run() {
 
                                 if (TextUtils.isEmpty(etNetIncome.text)) {
                                     //Set Null Income
-                                    addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome =
+                                    addEmploymentDetailsRequest.Data?.employmentDetails?.NetAnualIncome =
                                         0
                                 } else {
                                     //Set Income
                                     try {
-                                        addEmploymentDetailsRequest.Data!!.employmentDetails!!.NetAnualIncome =
+                                        addEmploymentDetailsRequest.Data?.employmentDetails?.NetAnualIncome =
                                             unformatAmount(etNetIncome.text.toString()).toInt()
                                     } catch (e: Exception) {
 
@@ -1258,7 +1259,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                             }
                         }, 600)
                     } else {
-                        tvNetIncomeInWords.setText("")
+                        tvNetIncomeInWords.text = ""
                     }
                 } catch (e: Exception) {
 
