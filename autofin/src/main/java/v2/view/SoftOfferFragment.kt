@@ -292,7 +292,8 @@ class SoftOfferFragment : BaseFragment(), ActivityBackPressed {
                         )
                     }
                 } else
-                    showToast("Please select Loan Amount Minimum " + loanAmountMinimum + "and Loan Tenure Minimum " + loanTenureMinimum)
+                    showToast("The loan amount cannot be less than 100000 and the the loan tenure should be greater than 1 year")
+                   // showToast("Please select Loan Amount Minimum " + loanAmountMinimum + "and Loan Tenure Minimum " + loanTenureMinimum)
 
             } else {
                 showToast("Please select Loan Amount and Loan Tenure")
@@ -552,7 +553,6 @@ class SoftOfferFragment : BaseFragment(), ActivityBackPressed {
             } else {
                 tvLoanAmountVal.text = resources.getString(R.string.rupees_symbol) + 0
                 skLoanAmount.progress = 100000
-
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

@@ -218,7 +218,7 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
         tvSelectedText.text =
                 "" + addLeadRequest.Data?.addLeadVehicleDetails?.RegistrationYear + "-" + addLeadRequest.Data?.addLeadVehicleDetails?.Make + "-" + addLeadRequest.Data?.addLeadVehicleDetails?.Model + "-" + addLeadRequest.Data?.addLeadVehicleDetails?.Variant
         addEvent()
-        if (addLeadRequest?.Data?.addLeadVehicleDetails?.Ownership == null || addLeadRequest?.Data?.addLeadVehicleDetails?.KMs == null || addLeadRequest?.Data?.addLeadVehicleDetails?.FuelType == null) {
+        if (addLeadRequest.Data?.addLeadVehicleDetails?.Ownership == null || addLeadRequest?.Data?.addLeadVehicleDetails?.KMs == null || addLeadRequest?.Data?.addLeadVehicleDetails?.FuelType == null) {
             llKilometresDriven.visibility = View.GONE
             llFuleType.visibility = View.GONE
             llVehicleNumber.visibility = View.GONE
@@ -250,9 +250,9 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
 
         var timer: Timer? = null
         var allowEdit: Boolean = true
+
         etPrice.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
 
             }
 
@@ -274,10 +274,10 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
 
                     if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice != null) {
                         try {
-                            if (unformatAmount(etPrice.text.toString()) != addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice || TextUtils.isEmpty(
-                                            etPrice.text.toString()
-                                    ) || TextUtils.isEmpty(addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice)
-                            ) {
+                            if (unformatAmount(etPrice.text.toString()) != addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice
+                                    || TextUtils.isEmpty(etPrice.text.toString())
+                                    || TextUtils.isEmpty(addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice))
+                                    {
                                 allowEdit = true
                             }
                         } catch (nEx: NumberFormatException) {
@@ -287,7 +287,6 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
                             Log.i("AddOrUpdate", "afterTextChanged: a")
                             nullException.printStackTrace()
                         }
-
 
                     }
                     if (allowEdit) {
@@ -326,6 +325,7 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
 
             }
         })
+
         etVehicleNumber.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(
                     s: CharSequence, start: Int, before: Int,
@@ -502,12 +502,12 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
 
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {
+                setStaticKMsDrivenData()
             }
             ApiResponse.Status.SUCCESS -> {
                 val masterResponse: MasterResponse? = mApiResponse.data as MasterResponse?
-                setKmsDrivenData(masterResponse!!.data.types)
+                masterResponse?.data?.let { setKmsDrivenData(it?.types) }
                 setLastSelectedData()
-
             }
             ApiResponse.Status.ERROR -> {
 
@@ -549,14 +549,17 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
 
     }
 
-    private fun setKmsDrivenData(types: List<Types>) {
+    private fun setStaticKMsDrivenData()
+    {
         val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
 
-        types.forEachIndexed { index, types ->
-            list.add(DataSelectionDTO(types.displayLabel, null, types.value, false))
-        }
-
-
+        list.add(DataSelectionDTO("0 - 10,000", null, "5000", false))
+        list.add(DataSelectionDTO("10,001 - 25,000", null, "17000", false))
+        list.add(DataSelectionDTO("25,001 - 40,000", null, "33000", false))
+        list.add(DataSelectionDTO("40,001 - 60,000", null, "50000", false))
+        list.add(DataSelectionDTO("60,001 - 80,000", null, "70000", false))
+        list.add(DataSelectionDTO("80,001 - 100,000", null, "90000", false))
+        list.add(DataSelectionDTO("Above 100,000", null, "120000", false))
 
         kmsDrivenAdapter =
                 DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
@@ -568,8 +571,50 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
                                 if (index == position) {
                                     item.selected = true
                                     llFuleType.visibility = View.VISIBLE
+                                    addLeadRequest.Data?.addLeadVehicleDetails?.KMs = item.value
                                     scrollToBottom(llFuleType)
-                                    addLeadRequest?.Data?.addLeadVehicleDetails?.KMs = item.value
+                                } else {
+                                    item.selected = false
+                                }
+                            }
+                        }
+                        kmsDrivenAdapter.notifyDataSetChanged()
+                    }
+                })
+
+
+        val layoutManagerStaggeredGridLayoutManager =
+                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
+
+        rvKilometresDriven.addItemDecoration(GridItemDecoration(25, 2))
+
+        rvKilometresDriven.layoutManager = layoutManagerStaggeredGridLayoutManager
+
+        rvKilometresDriven.adapter = kmsDrivenAdapter
+
+
+
+    }
+    private fun setKmsDrivenData(types: List<Types>) {
+        val list: ArrayList<DataSelectionDTO> = arrayListOf<DataSelectionDTO>()
+
+        types.forEachIndexed { index, types ->
+            list.add(DataSelectionDTO(types.displayLabel, null, types.value, false))
+        }
+
+        kmsDrivenAdapter =
+                DataRecyclerViewAdapter(activity as Activity, list, object : itemClickCallBack {
+                    override fun itemClick(item: Any?, position: Int) {
+
+
+                        kmsDrivenAdapter.dataListFilter?.forEachIndexed { index, item ->
+                            run {
+                                if (index == position) {
+                                    item.selected = true
+                                    llFuleType.visibility = View.VISIBLE
+                                    addLeadRequest.Data?.addLeadVehicleDetails?.KMs = item.value
+                                    scrollToBottom(llFuleType)
                                 } else {
                                     item.selected = false
                                 }

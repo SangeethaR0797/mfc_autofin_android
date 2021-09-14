@@ -104,12 +104,13 @@ class FinalOTPFragment : BaseFragment() {
 
     private fun initView() {
 
-        textViewMobileNumber.text = mobileNum.substring(0, 2) + "******" + mobileNum.substring(7, 9)
+       // textViewMobileNumber.text = mobileNum.substring(0, 2) + "******" + mobileNum.substring(7, 9)
+        textViewMobileNumber.text = mobileNum
         etFinalOTPV2.setText(currentOTP)
     }
 
     private fun initiateTimer()
-    {
+  {
         timer = object : CountDownTimer(60000, 1000) {
 
             @SuppressLint("SetTextI18n")

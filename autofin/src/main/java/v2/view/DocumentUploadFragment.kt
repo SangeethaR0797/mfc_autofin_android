@@ -479,7 +479,6 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         {
             ex.printStackTrace()
         }
-
     }
 
 
