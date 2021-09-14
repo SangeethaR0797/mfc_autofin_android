@@ -287,6 +287,7 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
 
         etPrice.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                allowEdit=true
                 llPrice.setBackgroundResource(R.drawable.vtwo_input_bg)
                 etPrice.setTextColor(resources.getColor(R.color.vtwo_black))
                 tvVehiclePriceErrorMessage.visibility = View.GONE
@@ -303,15 +304,14 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
             override fun afterTextChanged(s: Editable) {
                 try {
                     if (timer != null) {
-                        timer!!.cancel();
+                        timer?.cancel();
                     }
 
                     if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice != null) {
                         try {
                             if (unformatAmount(etPrice.text.toString()) != addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice
                                     || TextUtils.isEmpty(etPrice.text.toString())
-                                    || TextUtils.isEmpty(addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice) ||
-                                    TextUtils.isEmpty(etPrice.text.toString())) {
+                                    || TextUtils.isEmpty(addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice)) {
                                 allowEdit = true
                             }
                         } catch (nEx: NumberFormatException) {
