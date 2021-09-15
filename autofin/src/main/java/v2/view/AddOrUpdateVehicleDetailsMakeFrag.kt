@@ -287,10 +287,6 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
 
         etPrice.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                allowEdit=true
-                llPrice.setBackgroundResource(R.drawable.vtwo_input_bg)
-                etPrice.setTextColor(resources.getColor(R.color.vtwo_black))
-                tvVehiclePriceErrorMessage.visibility = View.GONE
 
             }
 
@@ -298,7 +294,6 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
                     s: CharSequence, start: Int, count: Int,
                     after: Int
             ) {
-
             }
 
             override fun afterTextChanged(s: Editable) {
@@ -306,8 +301,12 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
                     if (timer != null) {
                         timer?.cancel();
                     }
+                    llPrice.setBackgroundResource(R.drawable.vtwo_input_bg)
+                    etPrice.setTextColor(resources.getColor(R.color.vtwo_black))
+                    tvVehiclePriceErrorMessage.visibility = View.GONE
 
-                    if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice != null) {
+                    if (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice != null || (addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice == null
+                                    && !TextUtils.isEmpty(etPrice.text.toString()))) {
                         try {
                             if (unformatAmount(etPrice.text.toString()) != addLeadRequest.Data?.addLeadVehicleDetails?.VehicleSellingPrice
                                     || TextUtils.isEmpty(etPrice.text.toString())
