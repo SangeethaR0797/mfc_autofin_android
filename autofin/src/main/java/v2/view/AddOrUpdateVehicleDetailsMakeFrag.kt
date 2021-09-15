@@ -276,9 +276,8 @@ public class AddOrUpdateVehicleDetailsMakeFrag : BaseFragment(), KeyboardVisibil
                 }
             }
         })
-
-
     }
+
 
     private fun etPriceTextWatcher() {
 

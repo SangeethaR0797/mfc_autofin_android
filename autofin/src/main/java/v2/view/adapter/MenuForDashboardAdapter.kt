@@ -52,7 +52,7 @@ class MenuForDashboardAdapter(
             holder.tvAmount.visibility = View.VISIBLE
             holder.tvAmount.text = "₹" + dataListFilter?.get(position)?.amount
         } else {
-            holder.tvAmount.visibility = View.GONE
+            holder.tvAmount.visibility = View.INVISIBLE
         }
         if (dataListFilter?.get(position)?.menuIcon!! > 0) {
             holder.ivIcon.scaleType = ImageView.ScaleType.FIT_XY
