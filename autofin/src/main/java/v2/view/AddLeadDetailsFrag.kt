@@ -2246,11 +2246,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                         ll_otp_v2.visibility = View.VISIBLE
                         llTAndC.visibility = View.VISIBLE
                         mobileNum = etMobileNumberV2.text.toString()
-                        if (!TextUtils.isEmpty(otpResponse.data)) {
+                       /* if (!TextUtils.isEmpty(otpResponse.data)) {
                             etOTPV2.setText(otpResponse.data)
 
                         }
-
+*/
 
                         if (tvOTPTimerV2.text == getString(R.string.otp_timer_hint)) {
                             enableTimer()
