@@ -1985,6 +1985,7 @@ return freeTextView
 
             } else {
                 val editTextString: String = fieldInputValue.text.toString()
+
                 validateInput(
                         sectionName,
                         fieldData.apiDetails.apiKey,
@@ -2085,36 +2086,73 @@ return freeTextView
                 val regex = Regex(regexResponse)
                 if (regex.matches(editTextVal)) {
                     val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey, freeText)
-                    if (lastItem)
-                        addToCurrentFilledFieldData(
-                                fieldName,
-                                isMandatory,
-                                currentFieldDetails,
-                                true,
-                                sectionName,
-                                linearLayout, cFieldList, isLastSection
-                        )
+                    if(apiKey=="RefMobile")
+                    {
+                        if(editTextVal != customerDetailsResponse.data?.dealerDetails?.dealerMobile &&
+                                editTextVal != customerDetailsResponse.data?.basicDetails?.customerMobile)
+                        {
+                            if (lastItem)
+                                addToCurrentFilledFieldData(
+                                        fieldName,
+                                        isMandatory,
+                                        currentFieldDetails,
+                                        true,
+                                        sectionName,
+                                        linearLayout, cFieldList, isLastSection
+                                )
+                            else
+                                addToCurrentFilledFieldData(
+                                        fieldName,
+                                        isMandatory,
+                                        currentFieldDetails,
+                                        false,
+                                        sectionName,
+                                        linearLayout, cFieldList, isLastSection
+                                )
+
+                        }
+                        else {
+                            showToast("Please enter valid $fieldName")
+                        }
+
+                    }
                     else
-                        addToCurrentFilledFieldData(
-                                fieldName,
-                                isMandatory,
-                                currentFieldDetails,
-                                false,
-                                sectionName,
-                                linearLayout, cFieldList, isLastSection
-                        )
+                    {
+                        if (lastItem)
+                            addToCurrentFilledFieldData(
+                                    fieldName,
+                                    isMandatory,
+                                    currentFieldDetails,
+                                    true,
+                                    sectionName,
+                                    linearLayout, cFieldList, isLastSection
+                            )
+                        else
+                            addToCurrentFilledFieldData(
+                                    fieldName,
+                                    isMandatory,
+                                    currentFieldDetails,
+                                    false,
+                                    sectionName,
+                                    linearLayout, cFieldList, isLastSection
+                            )
+
+                    }
 
                 } else {
                     showToast("Please enter valid $fieldName")
                 }
 
-                if (apiKey == "CompanyPincode") {
+                if(apiKey == "CompanyPincode")
+                {
                     if (!isEditFlow && sectionName != "Reference Details")
-                        scrollToAdditionalFieldsBottom()
-                    else {
-                        scrollToAdditionalFieldsBottom(fieldView)
-                    }
+                    scrollToAdditionalFieldsBottom()
+                else {
+                    scrollToAdditionalFieldsBottom(fieldView)
                 }
+
+                }
+
             } else {
                 val currentFieldDetails = FieldDetails(apiKey, editTextVal, displayKey, freeText)
                 if (lastItem)
