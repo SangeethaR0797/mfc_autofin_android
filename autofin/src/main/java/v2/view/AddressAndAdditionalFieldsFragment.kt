@@ -2143,14 +2143,12 @@ return freeTextView
                     showToast("Please enter valid $fieldName")
                 }
 
-                if(apiKey == "CompanyPincode")
-                {
+                if (apiKey == "CompanyPincode") {
                     if (!isEditFlow && sectionName != "Reference Details")
-                    scrollToAdditionalFieldsBottom()
-                else {
-                    scrollToAdditionalFieldsBottom(fieldView)
-                }
-
+                        scrollToAdditionalFieldsBottom()
+                    else {
+                        scrollToAdditionalFieldsBottom(fieldView)
+                    }
                 }
 
             } else {
