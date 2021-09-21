@@ -1025,10 +1025,10 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
                 val awsS3Details: AwsS3DetailsResponse =
                         mApiResponse.data as AwsS3DetailsResponse
-                if (awsS3Details != null && awsS3Details!!.data != null) {
-                    CommonStrings.AWS_S3_BUCKETKEY = awsS3Details!!.data!!.accesskey
-                    CommonStrings.AWS_S3_BUCKETNAME = awsS3Details!!.data!!.bucketname
-                    CommonStrings.AWS_S3_BUCKETSECRET = awsS3Details!!.data!!.secretkey
+                if (awsS3Details.data != null) {
+                    CommonStrings.AWS_S3_BUCKETKEY = awsS3Details.data?.accesskey
+                    CommonStrings.AWS_S3_BUCKETNAME = awsS3Details.data?.bucketname
+                    CommonStrings.AWS_S3_BUCKETSECRET = awsS3Details.data?.secretkey
                 }
 
             }
