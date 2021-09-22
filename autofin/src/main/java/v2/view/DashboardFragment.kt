@@ -483,7 +483,6 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     }
 
     private fun setNoticeBoardData(list: ArrayList<NoticeData>?) {
-
         val layoutManager = LinearLayoutManager(activity)
         rvNoticeBoard.layoutManager = layoutManager
 
@@ -683,7 +682,6 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
     }
 
     //region set Application menu
-    @SuppressLint("SetTextI18n")
     fun setMenuDataAdapter(dashboardDetailsResponse: DashBoardDetailsResponse) {
         llDashBoard.visibility = View.VISIBLE
         tvTotalCommission.text = "₹" + formatAmount(
@@ -786,6 +784,13 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             rvMenu.addItemDecoration(GridItemDecoration(30, 2))
             rvMenu.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
         }
+            if (rvMenu.layoutManager == null) {
+                val layoutManagerStaggeredGridLayoutManager =
+                        StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
+                rvMenu.addItemDecoration(GridItemDecoration(30, 2))
+                rvMenu.layoutManager = layoutManagerStaggeredGridLayoutManager
+            }
 
         menuForDashboardAdapter = MenuForDashboardAdapter(
                 activity as Activity,
@@ -919,7 +924,6 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
 
     }
 
-    @SuppressLint("SetTextI18n")
     private fun onEmiAmountResponse(mApiResponse: ApiResponse) {
         when (mApiResponse.status) {
             ApiResponse.Status.LOADING -> {

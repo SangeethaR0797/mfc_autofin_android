@@ -104,12 +104,13 @@ class FinalOTPFragment : BaseFragment() {
 
     private fun initView() {
 
-        textViewMobileNumber.text = mobileNum.substring(0, 2) + "******" + mobileNum.substring(7, 9)
-        etFinalOTPV2.setText(currentOTP)
+       // textViewMobileNumber.text = mobileNum.substring(0, 2) + "******" + mobileNum.substring(7, 9)
+        textViewMobileNumber.text = mobileNum
+        //etFinalOTPV2.setText(currentOTP)
     }
 
     private fun initiateTimer()
-    {
+  {
         timer = object : CountDownTimer(60000, 1000) {
 
             @SuppressLint("SetTextI18n")
@@ -155,7 +156,7 @@ class FinalOTPFragment : BaseFragment() {
                         mApiResponse.data as OTPResponse?
                 if (otpRes?.data != null) {
                     currentOTP = otpRes.data.toString()
-                    etFinalOTPV2.setText(currentOTP)
+                    //etFinalOTPV2.setText(currentOTP)
                     initiateTimer()
                 } else {
                     showToast("Something went wrong! Please try again later!")

@@ -56,8 +56,11 @@ public final class AutofinMediaManager {
 
             String path = "";
             //  path = "MFCBusiness" + "/" + year + "/" + month + "/" + day + "/" + UserID + "/" + "original/" + keydata;
-            path = "MFCBusiness" + "/" + UserID + "/" + year + "-" + month + "-" + day + "_" + keydata;
+           // path = "MFCBusiness" + "/" + UserID + "/" + year + "-" + month + "-" + day + "_" + keydata;
+            path =  BUCKETNAME+ "/" + UserID + "/" + year + "-" + month + "-" + day + "_" + keydata;
 
+            /* MFC Business is replaced with Bucket Name(which we get from API) as discussed on the call on 21-09-2021.
+            And this change is done by Sangeetha*/
 
             AWSCredentials awsCredentials = getAWSCredentials(BUCKETKEY, BUCKETSECRET);
 
@@ -91,7 +94,7 @@ public final class AutofinMediaManager {
         clientConfiguration.setMaxErrorRetry(10);
         clientConfiguration.setSocketTimeout(300000);
         clientConfiguration.setMaxConnections(500);
-        clientConfiguration.setProtocol(Protocol.HTTP);
+        clientConfiguration.setProtocol(Protocol.HTTPS);
         return clientConfiguration;
     }
 }

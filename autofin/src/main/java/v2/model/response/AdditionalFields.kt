@@ -36,7 +36,8 @@ data class Fields (
         @SerializedName("showFreeText") var showFreeText : Boolean,
         @SerializedName("showFreeTextWhenValueIs") var showFreeTextWhenValueIs : String,
         @SerializedName("freeTextDetails") var freeTextDetails : FreeTextDetails,
-        @SerializedName("valueNotIn") var valueNotIn : List<String>
+        @SerializedName("valueNotIn") var valueNotIn : List<String>,
+        @SerializedName("caption") var caption : String
 
 
 )

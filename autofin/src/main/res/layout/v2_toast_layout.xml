@@ -6,7 +6,6 @@
     android:background="@drawable/toast_background_corner"
     android:orientation="horizontal"
     android:gravity="center"
-
     android:padding="@dimen/text_size_18dp">
 
     <ImageView
@@ -24,7 +23,7 @@
 
         android:textAppearance="@style/RobotoMedium"
         android:textColor="@color/vtwo_black"
-        android:maxLines="2"
+        android:maxLines="3"
         android:textSize="@dimen/text_size_14dp" />
 
 </LinearLayout>

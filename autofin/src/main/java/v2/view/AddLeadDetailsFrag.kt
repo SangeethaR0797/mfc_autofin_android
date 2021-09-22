@@ -403,6 +403,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
 
 
     private fun initViews(view: View?) {
+
         setKeyBoardShowHideEvent(AddLeadDetailsFrag@ this)
 
         scrollView1 = rootView?.findViewById(R.id.scrollView1)!!
@@ -1212,13 +1213,13 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                         timerNeftIncome?.cancel();
 
                     }
-                    if (!unformatAmount(etNetIncome.text.toString()).equals(
-                            addEmploymentDetailsRequest.Data?.employmentDetails?.NetAnualIncome.toString()
-                        ) || TextUtils.isEmpty(etNetIncome.text.toString())
+                    if (unformatAmount(etNetIncome.text.toString()) != addEmploymentDetailsRequest.Data?.employmentDetails?.NetAnualIncome.toString() ||
+                            TextUtils.isEmpty(etNetIncome.text.toString())
                     ) {
                         allowEdit = true
                     }
-                    if (allowEdit == true) {
+
+                    if (allowEdit) {
                         timerNeftIncome = Timer()
                         timerNeftIncome?.schedule(object : TimerTask() {
                             override fun run() {
@@ -1256,7 +1257,7 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                             }
                         }, 600)
                     } else {
-                        tvNetIncomeInWords.setText("")
+                        tvNetIncomeInWords.text = ""
                     }
                 } catch (e: Exception) {
 
@@ -2241,11 +2242,11 @@ public class AddLeadDetailsFrag : BaseFragment(), View.OnClickListener,
                         ll_otp_v2.visibility = View.VISIBLE
                         llTAndC.visibility = View.VISIBLE
                         mobileNum = etMobileNumberV2.text.toString()
-                        if (!TextUtils.isEmpty(otpResponse.data)) {
+                       /* if (!TextUtils.isEmpty(otpResponse.data)) {
                             etOTPV2.setText(otpResponse.data)
 
                         }
-
+*/
 
                         if (tvOTPTimerV2.text == getString(R.string.otp_timer_hint)) {
                             enableTimer()

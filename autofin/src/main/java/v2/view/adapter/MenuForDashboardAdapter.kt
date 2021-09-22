@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.mfc.autofin.framework.R
 import v2.model.dto.MenuDTO
@@ -51,7 +52,7 @@ class MenuForDashboardAdapter(
             holder.tvAmount.visibility = View.VISIBLE
             holder.tvAmount.text = "₹" + dataListFilter?.get(position)?.amount
         } else {
-            holder.tvAmount.visibility = View.GONE
+            holder.tvAmount.visibility = View.INVISIBLE
         }
         if (dataListFilter?.get(position)?.menuIcon!! > 0) {
             holder.ivIcon.scaleType = ImageView.ScaleType.FIT_XY
@@ -69,7 +70,7 @@ class MenuForDashboardAdapter(
 
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var llMainLayout: LinearLayout
+        var llMainLayout: ConstraintLayout
         var tvCount: TextView
         var tvMenuName: TextView
         var tvAmount: TextView

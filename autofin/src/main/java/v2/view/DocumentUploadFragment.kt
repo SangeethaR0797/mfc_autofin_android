@@ -228,6 +228,8 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
             setFileAttachedText(textViewAttachmentStatus)
 
         imageViewGallery.setOnClickListener(View.OnClickListener {
+            Log.i("TAG", "onSelectedDoc: "+"Gallery clicked Step:1")
+
             currentTextView = textViewAttachmentStatus
             if (isTile1IsGrouped) {
                 showImageSelectionDialog(
@@ -240,6 +242,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                             currentImageKey = tile1APIKey
                             currentImageName = tile1ImageName
                             currentTextView = textViewAttachmentStatus
+                            Log.i("DocumentUploadFragment", "attachDocument: Step:2")
                             attachDocument(IMAGE_GALLERY_CODE)
                         }
                     })
@@ -253,6 +256,8 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         })
 
         imageViewCamera.setOnClickListener(View.OnClickListener {
+            Log.i("TAG", "onSelectedDoc: "+"Camera clicked : Step 1")
+
             if (isTile1IsGrouped) {
                 showImageSelectionDialog(
                     tileData1.groupName,
@@ -264,6 +269,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                             currentImageKey = tile1APIKey
                             currentImageName = tile1ImageName
                             currentTextView = textViewAttachmentStatus
+                            Log.i("DocumentUploadFragment", "attachDocument: Step:3")
                             attachDocument(IMAGE_CAPTURE_CODE)
                         }
                     })
@@ -308,21 +314,24 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                 setFileAttachedText(textViewAttachmentStatus2)
 
             imageViewGallery2.setOnClickListener(View.OnClickListener {
+                Log.i("TAG", "onSelectedDoc: "+"Gallery clicked Step :1")
+
                 if (isTile2IsGrouped) {
                     showImageSelectionDialog(
-                        tileData2.groupName,
-                        tileData2.docs,
-                        object : DocumentSelectionCallBack {
-                            override fun onSelectedDoc(apiKey: String, displayLabel: String) {
-                                tile2APIKey = apiKey
-                                tile2ImageName = displayLabel.trim()
-                                currentImageKey = tile2APIKey
-                                currentImageName = tile2ImageName
-                                currentTextView = textViewAttachmentStatus2
-                                attachDocument(IMAGE_GALLERY_CODE)
+                            tileData2.groupName,
+                            tileData2.docs,
+                            object : DocumentSelectionCallBack {
+                                override fun onSelectedDoc(apiKey: String, displayLabel: String) {
+                                    tile2APIKey = apiKey
+                                    tile2ImageName = displayLabel.trim()
+                                    currentImageKey = tile2APIKey
+                                    currentImageName = tile2ImageName
+                                    currentTextView = textViewAttachmentStatus2
+                                    Log.i("DocumentUploadFragment", "attachDocument: Step:2")
+                                    attachDocument(IMAGE_GALLERY_CODE)
 
-                            }
-                        })
+                                }
+                            })
                 } else {
                     currentImageKey = tileData2.docs[0].apiKey
                     currentImageName = textViewTitle2.text.toString().trim()
@@ -333,17 +342,22 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
             })
             imageViewCamera2.setOnClickListener(View.OnClickListener {
+                Log.i("TAG", "onSelectedDoc: "+"Camera clicked : Step : 1")
+
                 if (isTile2IsGrouped) {
                     showImageSelectionDialog(
                         tileData2.groupName,
                         tileData2.docs,
                         object : DocumentSelectionCallBack {
                             override fun onSelectedDoc(apiKey: String, displayLabel: String) {
+
                                 tile2APIKey = apiKey
                                 tile2ImageName = displayLabel.trim()
                                 currentImageKey = tile2APIKey
                                 currentImageName = tile2ImageName
                                 currentTextView = textViewAttachmentStatus2
+                                Log.i("DocumentUploadFragment", "attachDocument: Step:2")
+
                                 attachDocument(IMAGE_CAPTURE_CODE)
 
                             }
@@ -431,6 +445,7 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
 
     private fun attachDocument(code: Int) {
 
+        Log.i("DocumentUploadFragment", "attachDocument: Step:3")
         if (checkPermissions(requireActivity())) {
 
             if (code == IMAGE_CAPTURE_CODE) {
@@ -439,6 +454,8 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
                 openGallery()
             }
         } else {
+            Log.i("DocumentUploadFragment", "attachDocument: Step:3")
+
             callPermissions()
         }
 
@@ -479,7 +496,6 @@ class DocumentUploadFragment : BaseFragment(), ImageUploadCompleted, Callback<An
         {
             ex.printStackTrace()
         }
-
     }
 
 
