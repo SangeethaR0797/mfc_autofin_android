@@ -236,18 +236,34 @@ class SoftOfferFragment : BaseFragment(), ActivityBackPressed {
                     fromUser: Boolean
                 ) {
 
+
                     val rounded: Int = (progress + 9999) / 10000 * 10000
                     val loanAmountVal = formatAmount(rounded.toString())
 
-                    loanAmount = rounded.toString()
-                    if (rounded <= 10000) {
-                        tvLoanAmountVal.text =
-                            resources.getString(R.string.rupees_symbol) + formatAmount("50000")
-                        loanAmount = "50000"
-                    } else
-                        tvLoanAmountVal.text =
-                            resources.getString(R.string.rupees_symbol) + loanAmountVal
+                    if(progress==loanAmountDefault)
+                    {
+                        if (rounded <= 10000) {
+                            tvLoanAmountVal.text =
+                                    resources.getString(R.string.rupees_symbol) + formatAmount("50000")
+                            loanAmount = "50000"
+                        } else
+                            tvLoanAmountVal.text =
+                                    resources.getString(R.string.rupees_symbol) + loanAmountDefault
 
+                    }
+                    else
+                    {
+                        loanAmount = rounded.toString()
+                        if (rounded <= 10000) {
+                            tvLoanAmountVal.text =
+                                    resources.getString(R.string.rupees_symbol) + formatAmount("50000")
+                            loanAmount = "50000"
+                        } else
+                            tvLoanAmountVal.text =
+                                    resources.getString(R.string.rupees_symbol) + loanAmountVal
+
+
+                    }
 
                 }
 
