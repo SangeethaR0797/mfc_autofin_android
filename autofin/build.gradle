@@ -107,7 +107,7 @@ dependencies {
 
 def libraryGroupId = 'com.mfc.sdc'
 def libraryArtifactId = 'autofin'
-def libraryVersion = '2.1.6'
+def libraryVersion = '2.3.0'
 
 publishing {
     publications {
