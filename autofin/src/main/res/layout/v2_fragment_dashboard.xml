@@ -151,7 +151,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-60dp"
-
                 android:nestedScrollingEnabled="false"
                 android:padding="@dimen/text_size_20dp" />
 
@@ -164,9 +163,8 @@
                 android:layout_marginBottom="@dimen/text_size_16sp"
                 android:background="@drawable/v2_white_bg"
                 android:elevation="@dimen/text_size10dp"
-                android:orientation="vertical"
-
-                >
+                android:visibility="gone"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"

@@ -49,7 +49,6 @@ public class RetroBase {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build();
 
-
     public static RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
 
     private static class TokenInterceptor implements Interceptor {

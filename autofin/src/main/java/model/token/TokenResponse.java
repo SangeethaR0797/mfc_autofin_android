@@ -15,7 +15,7 @@ public class TokenResponse
         private String statusCode;
         @SerializedName("data")
         @Expose
-        private String data;
+        private AutofinTokenData data;
 
         public Boolean getStatus() {
             return status;
@@ -41,11 +41,11 @@ public class TokenResponse
             this.statusCode = statusCode;
         }
 
-        public String getData() {
+        public AutofinTokenData getData() {
             return data;
         }
 
-        public void setData(String data) {
+        public void setData(AutofinTokenData data) {
             this.data = data;
         }
 

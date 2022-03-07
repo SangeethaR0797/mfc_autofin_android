@@ -207,37 +207,37 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
         } else {
             rootView = inflater.inflate(R.layout.v2_fragment_dashboard, container, false)
 
-            llDashBoard = rootView!!.findViewById(R.id.ll_dash_board)
+            llDashBoard = rootView?.findViewById(R.id.ll_dash_board)!!
             llDashBoard.visibility = View.GONE
 
-            ivBack = rootView!!.findViewById(R.id.iv_back)
-            ivNotification = rootView!!.findViewById(R.id.iv_notification)
-            etSearch = rootView!!.findViewById(R.id.et_search)
+            ivBack = rootView?.findViewById(R.id.iv_back)!!
+            ivNotification = rootView?.findViewById(R.id.iv_notification)!!
+            etSearch = rootView?.findViewById(R.id.et_search)!!
             etSearch.isFocusable = false
-            llSearch = rootView!!.findViewById(R.id.ll_search)
-            rvMenu = rootView!!.findViewById(R.id.rv_menu)
+            llSearch = rootView?.findViewById(R.id.ll_search)!!
+            rvMenu = rootView?.findViewById(R.id.rv_menu)!!
 
-            rvNoticeBoard = rootView!!.findViewById(R.id.rv_notice_board)
-            tvNoticeBoardCount = rootView!!.findViewById(R.id.tv_notice_board_count)
-            tvNotificationCount = rootView!!.findViewById(R.id.tv_notification_count)
-            rlNotification = rootView!!.findViewById(R.id.rl_notification)
+            rvNoticeBoard = rootView?.findViewById(R.id.rv_notice_board)!!
+            tvNoticeBoardCount = rootView?.findViewById(R.id.tv_notice_board_count)!!
+            tvNotificationCount = rootView?.findViewById(R.id.tv_notification_count)!!
+            rlNotification = rootView?.findViewById(R.id.rl_notification)!!
             tvNotificationCount.visibility = View.GONE
-            llViewAllNotice = rootView!!.findViewById(R.id.ll_view_all_notice)
-            llNoticeBoardSection = rootView!!.findViewById(R.id.ll_notice_board_section)
+            llViewAllNotice = rootView?.findViewById(R.id.ll_view_all_notice)!!
+            llNoticeBoardSection = rootView?.findViewById(R.id.ll_notice_board_section)!!
 
-            rvCommissionDaysDays = rootView!!.findViewById(R.id.rv_commission_days)
-            tvTotalCommission = rootView!!.findViewById(R.id.tv_total_commission)
-            tvPotentialCommission = rootView!!.findViewById(R.id.tv_potential_commission)
+            rvCommissionDaysDays = rootView?.findViewById(R.id.rv_commission_days)!!
+            tvTotalCommission = rootView?.findViewById(R.id.tv_total_commission)!!
+            tvPotentialCommission = rootView?.findViewById(R.id.tv_potential_commission)!!
 
-            rvBankingPartner = rootView!!.findViewById(R.id.rv_banking_partner)
-            llBankingPartner = rootView!!.findViewById(R.id.ll_banking_partner)
+            rvBankingPartner = rootView?.findViewById(R.id.rv_banking_partner)!!
+            llBankingPartner = rootView?.findViewById(R.id.ll_banking_partner)!!
 
 
-            tvAmount = rootView!!.findViewById(R.id.tv_amount)
-            tvYear = rootView!!.findViewById(R.id.tv_year)
-            tvInterestRate = rootView!!.findViewById(R.id.tv_interest_rate)
-            tvEmiAmount = rootView!!.findViewById(R.id.tv_emi_amount)
-            btnApplyNow = rootView!!.findViewById(R.id.btn_apply_now)
+            tvAmount = rootView?.findViewById(R.id.tv_amount)!!
+            tvYear = rootView?.findViewById(R.id.tv_year)!!
+            tvInterestRate = rootView?.findViewById(R.id.tv_interest_rate)!!
+            tvEmiAmount = rootView?.findViewById(R.id.tv_emi_amount)!!
+            btnApplyNow = rootView?.findViewById(R.id.btn_apply_now)!!
 
             tvAmount.isSingleLine = true
             tvYear.isSingleLine = true
@@ -245,9 +245,9 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
             tvEmiAmount.isSingleLine = true
             btnApplyNow.isSingleLine = true
 
-            skAmount = rootView!!.findViewById(R.id.sk_amount)
-            skYear = rootView!!.findViewById(R.id.sk_year)
-            skInterestRate = rootView!!.findViewById(R.id.sk_interest_rate)
+            skAmount = rootView?.findViewById(R.id.sk_amount)!!
+            skYear = rootView?.findViewById(R.id.sk_year)!!
+            skInterestRate = rootView?.findViewById(R.id.sk_interest_rate)!!
 
 
 
@@ -782,7 +782,7 @@ class DashboardFragment : BaseFragment(), View.OnClickListener, AppTokenChangeIn
                     StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             val layoutManagerGridLayoutManager = GridLayoutManager(activity, 2)
             rvMenu.addItemDecoration(GridItemDecoration(30, 2))
-            rvMenu.setLayoutManager(layoutManagerStaggeredGridLayoutManager)
+            rvMenu.layoutManager = layoutManagerStaggeredGridLayoutManager
         }
             if (rvMenu.layoutManager == null) {
                 val layoutManagerStaggeredGridLayoutManager =

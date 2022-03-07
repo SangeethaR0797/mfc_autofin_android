@@ -67,6 +67,7 @@
             android:maxLines="1"
             android:padding="@dimen/text_size_4dp"
             android:textAllCaps="true"
+            android:visibility="invisible"
             android:textAppearance="@style/RobotoMedium"
             android:textColor="@color/vtwo_black"
             android:textSize="@dimen/text_size10sp"

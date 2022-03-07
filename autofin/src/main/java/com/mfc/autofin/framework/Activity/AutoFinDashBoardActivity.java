@@ -89,10 +89,10 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
     private GetTokenReq getTokenRequest()
     {
         GetTokenReq getTokenReq=new GetTokenReq();
-        getTokenReq.setUserId(mUserId);
-        getTokenReq.setUserType(mUserType);
-        getTokenReq.setRequestFrom("OMS");
-        getTokenReq.setData("GenerateToken");
+        getTokenReq.setUserId("1425");
+        getTokenReq.setUserType("Dealer");
+        getTokenReq.setRequestFrom("Dealer");
+        getTokenReq.setData("Token");
         return getTokenReq;
     }
 
@@ -261,17 +261,18 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
         String strRes = new Gson().toJson(response.body());
         Log.i(TAG, "onResponse: " + strRes);
         if (url.contains(CommonStrings.TOKEN_URL_END)) {
-            TokenResponse tokenRes = new Gson().fromJson(strRes, TokenResponse.class);
             try {
+                TokenResponse tokenRes = new Gson().fromJson(strRes, TokenResponse.class);
+
                 if (tokenRes != null && tokenRes.getStatus()) {
                     if (tokenRes.getData() != null) {
-                        CommonMethods.setValueAgainstKey(AutoFinDashBoardActivity.this, "encrypt_token", tokenRes.getData());
-                        Log.i(TAG, "onResponse: " + tokenRes.getData());
-                        storeToken(tokenRes.getData());
+                        CommonMethods.setValueAgainstKey(AutoFinDashBoardActivity.this, "encrypt_token", tokenRes.getData().getToken());
+                        Log.i(TAG, "onResponse: " + tokenRes.getData().getToken());
+                       CommonStrings.TOKEN_VALUE=tokenRes.getData().getToken();
+                        //storeToken(tokenRes.getData().getToken());
                         SpinnerManager.showSpinner(this);
                         retrofitInterface.getFromWeb(getCustomerDetailsReq(""), Global.customerAPI_BaseURL+CommonStrings.CUSTOMER_DETAILS_URL_END).enqueue(this);
                         retrofitInterface.getFromWeb(getIBBAccessTokenReq(), Global.ibb_base_url+CommonStrings.IBB_ACCESS_TOKEN_URL_END).enqueue(this);
-
                     } else {
                         Toast.makeText(this, "No access token available", Toast.LENGTH_LONG).show();
                     }
@@ -327,6 +328,7 @@ public class AutoFinDashBoardActivity extends AppCompatActivity implements View.
                 }
             } catch (Exception exception) {
                 exception.printStackTrace();
+                Toast.makeText(this, exception.toString(), Toast.LENGTH_SHORT).show();
             }
 
         }
